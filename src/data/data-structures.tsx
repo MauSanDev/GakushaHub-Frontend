@@ -21,3 +21,19 @@ export interface KanjiData {
     meanings: string[];
     __v: number;
 }
+
+export interface RelatedWord {
+    word: string;
+    meaning: string;
+}
+
+export interface WordData {
+    word: string;
+    readings: string[];
+    meanings: string[];
+    part_of_speech: string[];
+    common: boolean;
+    jlpt: number;
+    notes: string[];
+    related_words: RelatedWord[];
+}

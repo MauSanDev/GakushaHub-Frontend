@@ -1,16 +1,23 @@
 import { useState } from 'react';
 import './App.css';
-import { KanjiData } from './data/data-structures';
+import {KanjiData, WordData} from './data/data-structures';
 import SearchBar from './components/SearchBar';
 import SearchButton from './components/SearchButton';
 import KanjiBox from './components/KanjiBox';
+import WordBox from './components/WordBox'; // Nuevo componente para Words
 
 function App() {
     const [tags, setTags] = useState<string[]>([]);
     const [inputValue, setInputValue] = useState('');
-    const [result, setResult] = useState<KanjiData[] | null>(null);
+    const [kanjiResults, setKanjiResults] = useState<KanjiData[] | null>(null); // Resultados para Kanji
+    const [wordResults, setWordResults] = useState<WordData[] | null>(null); // Resultados para Words
     const [error, setError] = useState('');
     const [noResults, setNoResults] = useState<string[]>([]); // Palabras sin resultado
+
+    const isValidJapaneseText = (text: string) => {
+        // Regex para validar que el texto contenga solo caracteres japoneses, números y caracteres especiales
+        return /^[\u3040-\u30FF\u4E00-\u9FFF\uFF66-\uFF9D\u3000-\u303F0-9]+$/.test(text);
+    };
 
     const handleSearch = async () => {
         // Encapsular el último término si no está encapsulado
@@ -19,28 +26,37 @@ function App() {
             setInputValue('');
         }
 
-        const uniqueTags = [...new Set([...tags, inputValue.trim()].filter(tag => tag !== ''))];
+        // Validar entradas no japonesas
+        const invalidTags = tags.filter(tag => !isValidJapaneseText(tag));
+        setNoResults(invalidTags);
 
-        if (uniqueTags.length === 0) return; // Asegúrate de no enviar una solicitud vacía
+        const validTags = tags.filter(tag => isValidJapaneseText(tag));
+
+        // Lista para consultar kanji (1 carácter) y lista completa para words
+        const kanjiList = validTags.filter(tag => tag.length === 1);
+        const wordList = validTags;
+
+        if (wordList.length === 0) return; // Asegúrate de no enviar una solicitud vacía
 
         try {
-            const response = await fetch(`http://localhost:3000/api/kanji?l=${uniqueTags.join(',')}`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-            }
-            const data = await response.json();
+            const kanjiResponse = await fetch(`http://localhost:3000/api/kanji?l=${kanjiList.join(',')}`);
+            const kanjiData = kanjiResponse.ok ? await kanjiResponse.json() : [];
 
-            // Determinar qué términos no tienen resultados
-            const foundKanjis = data.map((item: KanjiData) => item.kanji);
-            const missingTags = uniqueTags.filter(tag => !foundKanjis.includes(tag));
-            setNoResults(missingTags);
+            const wordResponse = await fetch(`http://localhost:3000/api/words?keywords=${wordList.join(',')}`);
+            const wordData = wordResponse.ok ? await wordResponse.json() : [];
 
-            setResult(data); // Asumimos que `data` es un array de objetos kanji
+            const foundKanjis = kanjiData.map((item: KanjiData) => item.kanji);
+            const foundWords = wordData.map((item: WordData) => item.word);
+            const missingTags = validTags.filter(tag => !foundKanjis.includes(tag) && !foundWords.includes(tag));
+            setNoResults([...invalidTags, ...missingTags]);
+
+            setKanjiResults(kanjiData);
+            setWordResults(wordData);
             setError('');
-            setTags(uniqueTags); // Actualiza las etiquetas después de la solicitud
         } catch (err) {
             setError(`Error fetching data: ${err}`);
-            setResult(null);
+            setKanjiResults(null);
+            setWordResults(null);
         }
     };
 
@@ -48,6 +64,8 @@ function App() {
         setTags([]);
         setInputValue('');
         setNoResults([]);
+        setKanjiResults(null);
+        setWordResults(null);
     };
 
     return (
@@ -67,8 +85,11 @@ function App() {
 
             <div className="mt-8 w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-left">
                 {error && <p className="text-red-500 col-span-full">{error}</p>}
-                {result && result.map((kanjiData, index) => (
+                {kanjiResults && kanjiResults.map((kanjiData, index) => (
                     <KanjiBox key={index} result={kanjiData} />
+                ))}
+                {wordResults && wordResults.map((wordData, index) => (
+                    <WordBox key={index} result={wordData} />
                 ))}
             </div>
         </div>
