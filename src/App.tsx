@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar';
 import SearchPage from './pages/SearchPage';
 import KanjiListPage from './pages/KanjiListPage.tsx';
 import UnderDevelopmentPage from './pages/UnderDevelopmentPage';
+import WordListPage from "./pages/WordListPage.tsx";
 
 function App() {
     const [activeSection, setActiveSection] = useState('Search');
@@ -32,7 +33,8 @@ function App() {
                                 />
                             )}
                             {activeSection === 'Kanjis' && <KanjiListPage />}
-                            {(activeSection !== 'Search' && activeSection !== 'Kanjis') && (
+                            {activeSection === 'Words' && <WordListPage />}
+                            {(activeSection !== 'Search' && activeSection !== 'Kanjis' && activeSection !== 'Words') && (
                                 <UnderDevelopmentPage />
                             )}
                         </div>
