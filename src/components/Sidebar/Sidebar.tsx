@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+    setActiveSection: (section: string) => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ setActiveSection }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const menuItems = [
         { label: 'Search', href: '#search' },
         { label: 'Kanjis', href: '#kanjis' },
         { label: 'Words', href: '#words' },
-        { label: 'Grammar', href: '#grammar' }
+        { label: 'Grammatical Structures', href: '#grammar' }
     ];
 
     return (
         <>
             {/* Botón de Menú para Móviles */}
             <button
-                className="lg:hidden fixed top-4 right-4 z-50 p-2 bg-blue-500 text-white rounded"
+                className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-blue-500 text-white rounded"
                 onClick={() => setIsOpen(!isOpen)}
             >
                 ☰
@@ -32,6 +36,10 @@ const Sidebar: React.FC = () => {
                             key={index}
                             href={item.href}
                             className="text-sm font-bold text-gray-600 hover:text-blue-400 py-2 border-b border-gray-300 text-left"
+                            onClick={() => {
+                                setActiveSection(item.label);
+                                setIsOpen(false); // Cierra el menú en modo responsive
+                            }}
                         >
                             {item.label}
                         </a>
