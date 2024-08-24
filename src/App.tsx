@@ -19,7 +19,7 @@ function App() {
                     <CSSTransition
                         key={activeSection}
                         timeout={150}
-                        classNames="fade"
+                        classNames="page-fade"
                     >
                         <div className="flex-1 flex flex-col items-center justify-center h-full w-full">
                             {activeSection === 'Search' ? (

@@ -7,7 +7,6 @@
   display: flex;
 }
 
-/* Clase opcional para uso en componentes específicos */
 .card {
   padding: 2em;
 }
@@ -17,20 +16,36 @@
 }
 
 /* App.css */
-.fade-enter {
+.page-fade-enter {
   opacity: 0;
   transition: opacity 0.1s ease-in;
 }
 
-.fade-enter-active {
+.page-fade-enter-active {
   opacity: 1;
 }
 
-.fade-exit {
+.page-fade-exit {
   opacity: 1;
   transition: opacity 0.1s ease-out;
 }
 
-.fade-exit-active {
+.page-fade-exit-active {
   opacity: 0;
+}
+
+/* App.css */
+.loading-fade-enter {
+  opacity: 0;
+}
+.loading-fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.loading-fade-exit {
+  opacity: 1;
+}
+.loading-fade-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-out;
 }
