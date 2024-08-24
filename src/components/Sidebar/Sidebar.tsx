@@ -14,17 +14,17 @@ const Sidebar: React.FC = () => {
         <>
             {/* Botón de Menú para Móviles */}
             <button
-                className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-blue-500 text-white rounded"
+                className="lg:hidden fixed top-4 right-4 z-50 p-2 bg-blue-500 text-white rounded"
                 onClick={() => setIsOpen(!isOpen)}
             >
                 ☰
             </button>
 
-            {/* Sidebar Flotante */}
+            {/* Sidebar */}
             <div
-                className={`fixed left-0 top-1/2 transform -translate-y-1/2 h-auto bg-white lg:translate-x-0 z-40 ${
+                className={`fixed lg:left-0 lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:w-64 lg:h-auto w-full h-full top-0 left-0 bg-white z-40 transition-transform ${
                     isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-                } lg:w-64 w-64`}
+                }`}
             >
                 <div className="flex flex-col p-4 space-y-4">
                     {menuItems.map((item, index) => (
