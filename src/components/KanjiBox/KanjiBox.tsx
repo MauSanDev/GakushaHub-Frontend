@@ -13,7 +13,10 @@ const KanjiBox: React.FC<KanjiBoxProps> = ({ result }) => {
     };
 
     return (
-        <div className="bg-white p-6 rounded-2xl shadow-lg text-center transform transition-transform duration-300 hover:scale-105 border-2 border-gray-200 hover:border-blue-300 group">
+        <div className="relative bg-white p-6 rounded-2xl shadow-lg text-center transform transition-transform duration-300 hover:scale-105 border-2 border-gray-200 hover:border-blue-300 group">
+            <span className="absolute top-2 right-2 bg-blue-400 text-white text-xs px-2 py-1 rounded-full">
+                漢字
+            </span>
             <h1 className="text-6xl font-bold mb-4 text-blue-400">{result.kanji}</h1>
             <div className="text-gray-400 text-sm mb-2 flex flex-col gap-2">
                 {result.readings.onyomi.length > 0 && (
