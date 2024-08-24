@@ -37,3 +37,20 @@ export interface WordData {
     notes: string[];
     related_words: RelatedWord[];
 }
+
+export interface GrammarExample {
+    _id: string;
+    sentence: string;
+    translation: string;
+}
+
+export interface GrammarStructureData {
+    _id: string;
+    structure: string;
+    hint: string;
+    description: string;
+    examples: GrammarExample[];
+    jlpt: number;
+    frequency: number;
+    example_contexts: string[];
+}

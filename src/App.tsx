@@ -6,6 +6,7 @@ import SearchPage from './pages/SearchPage';
 import KanjiListPage from './pages/KanjiListPage.tsx';
 import UnderDevelopmentPage from './pages/UnderDevelopmentPage';
 import WordListPage from "./pages/WordListPage.tsx";
+import GrammarListPage from "./pages/GrammarListPage.tsx";
 
 function App() {
     const [activeSection, setActiveSection] = useState('Search');
@@ -34,6 +35,7 @@ function App() {
                             )}
                             {activeSection === 'Kanjis' && <KanjiListPage />}
                             {activeSection === 'Words' && <WordListPage />}
+                            {activeSection === 'Grammatical Structures' && <GrammarListPage />}
                             {(activeSection !== 'Search' && activeSection !== 'Kanjis' && activeSection !== 'Words') && (
                                 <UnderDevelopmentPage />
                             )}
