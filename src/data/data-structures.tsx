@@ -16,8 +16,8 @@ export interface KanjiData {
     kanji: string;
     jlpt: number;
     common: boolean;
-    related: Related[];
     notes: string[];
     examples: string[];
+    meanings: string[];
     __v: number;
 }
