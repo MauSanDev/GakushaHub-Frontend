@@ -1,12 +1,19 @@
 import React from 'react';
 import { WordData } from '../../data/data-structures';
+import { useLanguage } from '../../context/LanguageContext';
 
 interface SmallWordBoxProps {
     result: WordData;
 }
 
 const SmallWordBox: React.FC<SmallWordBoxProps> = ({ result }) => {
+    const { language } = useLanguage();
+
     if (!result) return null;
+
+    const meaningToShow = result.meanings.map(meaning =>
+        (meaning[language] ? meaning[language] : meaning['en'])
+    );
 
     return (
         <div
@@ -15,7 +22,7 @@ const SmallWordBox: React.FC<SmallWordBoxProps> = ({ result }) => {
             <div className="flex justify-center gap-2 text-sm text-gray-600">
                 <span>{result.readings[0]}</span>
             </div>
-            <p className="text-xs text-gray-600">{result.meanings[0]}</p>
+            <p className="text-xs text-gray-600">{meaningToShow.slice(0,3).join("; ")}</p>
         </div>
     );
 };

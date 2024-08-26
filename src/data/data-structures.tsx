@@ -17,7 +17,7 @@ export interface KanjiData {
     _id: string;
     kanji: string;
     readings: Reading;
-    meanings: string[]; // Este campo sigue siendo un array de significados
+    meanings: Translation[]; // Este campo sigue siendo un array de significados
     jlpt: number;
     common: boolean;
     notes: string[];
@@ -37,7 +37,7 @@ export interface WordData {
     _id: string;
     word: string;
     readings: string[];
-    meanings: Example[]; // Cambiado para reflejar la nueva estructura de significados
+    meanings: Translation[]; // Cambiado para reflejar la nueva estructura de significados
     part_of_speech: string[];
     common: boolean;
     jlpt: number;

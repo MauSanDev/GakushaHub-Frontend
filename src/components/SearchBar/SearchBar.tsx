@@ -30,9 +30,23 @@ const SearchBar: React.FC<SearchBarProps> = ({
         }
     };
 
+    const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        const pasteText = e.clipboardData.getData('text');
+        const newTags = pasteText
+            .split(',')
+            .map(tag => tag.trim())
+            .filter(tag => tag); // Eliminar entradas vacías
+        if (newTags.length > 0) {
+            setTags([...new Set([...tags, ...newTags])]);
+            setInputValue('');
+        }
+    };
+
     const addTag = () => {
         if (inputValue.trim()) {
-            setTags([...new Set([...tags, inputValue.trim()])]);
+            const newTags = inputValue.split(',').map(tag => tag.trim()).filter(tag => tag);
+            setTags([...new Set([...tags, ...newTags])]);
             setInputValue('');
         }
     };
@@ -57,6 +71,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                     onKeyDown={handleKeyDown}
                     onCompositionStart={() => setIsComposing(true)}
                     onCompositionEnd={() => setIsComposing(false)}
+                    onPaste={handlePaste}
                     placeholder="Enter text and press comma, Enter, or '、'"
                     className="flex-1 min-w-0 focus:outline-none"
                 />
