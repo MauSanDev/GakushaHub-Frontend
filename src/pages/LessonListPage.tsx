@@ -1,35 +1,32 @@
 import { useState, useEffect } from 'react';
-import CourseBox from '../components/CourseBox';
+import LessonBox from '../components/LessonBox';
 import loadingIcon from '../assets/loading-icon.svg';
-import { CourseData } from "../data/data-structures.tsx";
+import { LessonData } from "../data/data-structures.tsx";
 
-interface CourseListPageProps {
-    onCourseClick: (courseId: string) => void; // Recibe la función para manejar el click
-}
-
-const CourseListPage: React.FC<CourseListPageProps> = ({ onCourseClick }) => {
-    const [courses, setCourses] = useState<CourseData[]>([]);
+const LessonListPage: React.FC = () => {
+    const [lessons, setLessons] = useState<LessonData[]>([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [hasMore, setHasMore] = useState(true);
 
-    const fetchCourses = async () => {
+    const fetchLessons = async () => {
         if (loading) return;
 
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:3000/api/courses/paginated?page=${page}&limit=20`);
+            const response = await fetch(`http://localhost:3000/api/lessons/paginated?page=${page}&limit=20`);
             if (!response.ok) {
-                throw new Error('Failed to fetch courses.');
+                throw new Error('Failed to fetch lessons.');
             }
             const data = await response.json();
 
-            setCourses(prevCourses => {
-                const newCourses = data.courses.filter(
-                    (course: CourseData) => !prevCourses.some(prevCourse => prevCourse._id === course._id)
+            setLessons(prevLessons => {
+                // Evita agregar lecciones duplicadas
+                const newLessons = data.lessons.filter(
+                    (lesson: LessonData) => !prevLessons.some(prevLesson => prevLesson._id === lesson._id)
                 );
-                return [...prevCourses, ...newCourses];
+                return [...prevLessons, ...newLessons];
             });
             setHasMore(data.page < data.totalPages);
             setError('');
@@ -41,7 +38,7 @@ const CourseListPage: React.FC<CourseListPageProps> = ({ onCourseClick }) => {
     };
 
     useEffect(() => {
-        fetchCourses();
+        fetchLessons();
     }, [page]);
 
     useEffect(() => {
@@ -66,18 +63,16 @@ const CourseListPage: React.FC<CourseListPageProps> = ({ onCourseClick }) => {
             {error && <p className="text-red-500">{error}</p>}
 
             <div className="mt-8 w-full max-w-4xl flex flex-col gap-6 text-left">
-                {courses.length > 0 ? (
-                    courses.map((course, index) => (
-                        <div key={index} onClick={() => onCourseClick(course._id)}>
-                            <CourseBox course={course} />
-                        </div>
+                {lessons.length > 0 ? (
+                    lessons.map((lesson, index) => (
+                        <LessonBox key={index} lesson={lesson} />
                     ))
                 ) : (
-                    <p className="text-center text-gray-500">No hay cursos disponibles</p>
+                    <p className="text-center text-gray-500">No hay lecciones disponibles</p>
                 )}
             </div>
         </div>
     );
 };
 
-export default CourseListPage;
+export default LessonListPage;

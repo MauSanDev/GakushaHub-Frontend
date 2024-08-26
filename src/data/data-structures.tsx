@@ -81,6 +81,18 @@ export interface CourseData {
     createdAt: string;
 }
 
+export interface LessonData {
+    _id: string;
+    name: string;
+    description: string;
+    kanjiDecks: string[]; // Array con los IDs o los objetos completos de los kanji decks
+    wordDecks: string[]; // Array con los IDs o los objetos completos de los word decks
+    grammarDecks: string[]; // Array con los IDs o los objetos completos de los grammar decks
+    creatorId: string;
+    isPublic: boolean;
+    createdAt: string;
+}
+
 //
 // export interface KanjiDeck extends Deck {}
 // export interface WordDeck extends Deck {}
