@@ -69,14 +69,20 @@ const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ courseId, onBack })
 
     return (
         <div className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-            <div className="flex items-center w-full max-w-4xl mt-8 mb-6">
-                <button onClick={onBack} className="bg-blue-500 text-white p-2 rounded-full shadow hover:bg-blue-600 mr-4">
-                    <FaArrowLeft className="w-5 h-5" />
+            <div className="flex items-center w-full max-w-4xl mt-8 mb-2">
+                <button onClick={onBack}
+                        className="bg-blue-500 text-white p-2 rounded-full shadow hover:bg-blue-600 mr-4">
+                    <FaArrowLeft className="w-5 h-5"/>
                 </button>
                 <h1 className="text-4xl font-bold text-gray-800 capitalize">
                     {course?.name || "Course"}
                 </h1>
             </div>
+
+            <h3 className="text-gray-500 text-left w-full max-w-4xl mb-6 ml-10">
+                {course?.description}
+            </h3>
+            
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left">
                 {lessons.length > 0 ? (
                     lessons.map((lesson) => (
