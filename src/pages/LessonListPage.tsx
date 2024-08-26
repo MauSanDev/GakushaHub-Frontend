@@ -22,7 +22,6 @@ const LessonListPage: React.FC = () => {
             const data = await response.json();
 
             setLessons(prevLessons => {
-                // Evita agregar lecciones duplicadas
                 const newLessons = data.lessons.filter(
                     (lesson: LessonData) => !prevLessons.some(prevLesson => prevLesson._id === lesson._id)
                 );

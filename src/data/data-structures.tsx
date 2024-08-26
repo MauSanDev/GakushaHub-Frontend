@@ -59,17 +59,22 @@ export interface GrammarStructureData {
     __v: number;
 }
 
-// Interfaces para los Decks
-export interface Deck {
+// Generic Interface for Decks
+export interface Deck<T = string> {
     _id: string;
     name: string;
     description: string;
-    elements: string[]; // IDs de los elementos (kanji, word, grammar)
+    elements: T[]; // IDs or objects of the elements (kanji, word, grammar)
     creatorId: string;
     isPublic: boolean;
-    examples: Example[]; // Cambiado para reflejar la nueva estructura de ejemplos
+    examples: Example[];
     createdAt: string;
 }
+
+// Especificaciones para cada tipo de Deck
+export type KanjiDeck = Deck<KanjiData>;
+export type WordDeck = Deck<WordData>;
+export type GrammarDeck = Deck<GrammarStructureData>;
 
 export interface CourseData {
     _id: string;
@@ -85,15 +90,10 @@ export interface LessonData {
     _id: string;
     name: string;
     description: string;
-    kanjiDecks: string[]; // Array con los IDs o los objetos completos de los kanji decks
-    wordDecks: string[]; // Array con los IDs o los objetos completos de los word decks
-    grammarDecks: string[]; // Array con los IDs o los objetos completos de los grammar decks
+    kanjiDecks: KanjiDeck[]; // Array of KanjiDecks (objects)
+    wordDecks: WordDeck[]; // Array of WordDecks (objects)
+    grammarDecks: GrammarDeck[]; // Array of GrammarDecks (objects)
     creatorId: string;
     isPublic: boolean;
     createdAt: string;
 }
-
-//
-// export interface KanjiDeck extends Deck {}
-// export interface WordDeck extends Deck {}
-// export interface GrammarDeck extends Deck {}

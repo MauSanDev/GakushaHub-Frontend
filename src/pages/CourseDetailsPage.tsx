@@ -11,64 +11,58 @@ interface CourseDetailPageProps {
 const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ courseId, onBack }) => {
     const [course, setCourse] = useState<CourseData | null>(null);
     const [lessons, setLessons] = useState<LessonData[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    const fetchCourseDetails = async () => {
-        setLoading(true);
-        try {
-            const response = await fetch(`http://localhost:3000/api/courses/${courseId}`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch course details.');
-            }
-            const data = await response.json();
-            setCourse(data.course);
-            setLessons(data.lessons);
-            setError('');
-        } catch (err) {
-            setError(`Error fetching data: ${err}`);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
+        const fetchCourseDetails = async () => {
+            setLoading(true);
+            setError('');
+
+            try {
+                // Define los parámetros de paginación
+                const page = 1; // Puedes ajustar esto según sea necesario
+                const limit = 10; // Puedes ajustar esto según sea necesario
+
+                const response = await fetch(`http://localhost:3000/api/courses/${courseId}/lessons/paginated?page=${page}&limit=${limit}`);
+                if (!response.ok) {
+                    throw new Error('Error al obtener los datos del curso');
+                }
+
+                const data = await response.json();
+
+                if (data.error) {
+                    setError(data.error);
+                } else {
+                    setCourse(data.course);
+                    setLessons(data.lessons);
+                }
+            } catch {
+                console.log("nop")
+                // setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchCourseDetails();
     }, [courseId]);
 
+    if (loading) {
+        return <img src={loadingIcon} alt="Loading" />;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
     return (
-        <div className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-            {loading && (
-                <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10 transition-opacity duration-500">
-                    <img src={loadingIcon} alt="Loading..." className="w-16 h-16" />
-                </div>
-            )}
-
-            {error && <p className="text-red-500">{error}</p>}
-
-            {course && (
-                <div className="mt-8 w-full max-w-4xl flex flex-col gap-6 text-left">
-                    <h2 className="text-2xl font-bold mb-4 text-blue-500">{course.name}</h2>
-                    <p className="text-gray-700 mb-4">{course.description}</p>
-
-                    {lessons.length > 0 ?
-
-                        (
-                            lessons.map((lesson, index) => (
-                                <LessonBox key={index} lesson={lesson} />
-                            ))
-                        ) : (
-                            <p className="text-center text-gray-500">No hay lecciones disponibles para este curso</p>
-                        )}
-
-                    <button
-                        className="mt-4 text-blue-500 hover:underline"
-                        onClick={onBack}
-                    >
-                        Volver a la lista de cursos
-                    </button>
-                </div>
-            )}
+        <div>
+            <button onClick={onBack}>Back to Courses</button>
+            <h1>{course?.name}</h1>
+            {lessons.map((lesson) => (
+                <LessonBox key={lesson._id} lesson={lesson} />
+            ))}
         </div>
     );
 };
