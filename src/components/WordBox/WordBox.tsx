@@ -18,7 +18,7 @@ const WordBox: React.FC<WordBoxProps> = ({ result }) => {
                 {result.readings.slice(0, 3).join('; ')}
             </h3>
             <h2 className="text-xl text-gray-600 capitalize mb-4">
-                {result.meanings[0]}
+                {result.meanings[0].text}
             </h2>
             <div className="flex justify-center gap-2 flex-wrap">
                 {result.part_of_speech.map((pos: string, index: number) => (
