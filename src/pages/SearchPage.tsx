@@ -83,33 +83,32 @@ const SearchPage: React.FC<SearchPageProps> = ({ tags, setTags, inputValue, setI
             setLoading(false);
         }
     };
-
     const handleSaveDeck = async (courseName: string, lessonName: string, deckName: string) => {
         const kanjiIds = kanjiResults ? kanjiResults.map((kanji) => kanji._id) : [];
         const wordIds = wordResults ? wordResults.map((word) => word._id) : [];
 
-        // Aquí manejamos los requests encolados para evitar race conditions.
-        try {
-            // Primero guardamos el deck de kanjis
-            if (kanjiIds.length > 0) {
-                await fetch('http://localhost:3000/api/course/build', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        courseName,
-                        lessonName,
-                        deckName: `${deckName} - Kanji`,
-                        elements: kanjiIds,
-                        deckType: 'kanji',
-                        //TODO  creatorId: 'master'
-                    }),
-                });
-            }
+        // Creamos la estructura de los decks a enviar
+        const decks = [];
 
-            // Luego guardamos el deck de palabras
-            if (wordIds.length > 0) {
+        if (kanjiIds.length > 0) {
+            decks.push({
+                deckName: `${deckName} - Kanji`,
+                elements: kanjiIds,
+                deckType: 'kanji',
+            });
+        }
+
+        if (wordIds.length > 0) {
+            decks.push({
+                deckName: `${deckName} - Words`,
+                elements: wordIds,
+                deckType: 'word',
+            });
+        }
+
+        // Aquí manejamos el request unificado para evitar múltiples llamadas.
+        try {
+            if (decks.length > 0) {
                 await fetch('http://localhost:3000/api/course/build', {
                     method: 'POST',
                     headers: {
@@ -118,10 +117,8 @@ const SearchPage: React.FC<SearchPageProps> = ({ tags, setTags, inputValue, setI
                     body: JSON.stringify({
                         courseName,
                         lessonName,
-                        deckName: `${deckName} - Words`,
-                        elements: wordIds,
-                        deckType: 'word',
-                        //TODO  creatorId: 'master'
+                        decks,
+                        // TODO: creatorId: 'master'
                     }),
                 });
             }

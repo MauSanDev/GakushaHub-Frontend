@@ -73,7 +73,7 @@ const CourseListPage: React.FC<CourseListPageProps> = ({ onCourseClick }) => {
                         </div>
                     ))
                 ) : (
-                    <p className="text-center text-gray-500">No hay cursos disponibles</p>
+                    <p className="text-center text-gray-500">何もない</p>
                 )}
             </div>
         </div>
