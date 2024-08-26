@@ -4,6 +4,7 @@ import SearchBar from '../components/SearchBar';
 import SearchButton from '../components/SearchButton';
 import KanjiBox from '../components/KanjiBox';
 import WordBox from '../components/WordBox';
+import SaveDeckInput from '../components/SaveDeckInput';
 import loadingIcon from '../assets/loading-icon.svg';
 
 interface SearchPageProps {
@@ -21,9 +22,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ tags, setTags, inputValue, setI
     const [noResults, setNoResults] = useState<string[]>([]);
     const [lastQuery, setLastQuery] = useState<string>(''); // Para evitar búsquedas repetidas
 
-    const isValidJapaneseText = (text: string) => {
-        return /^[\u3040-\u30FF\u4E00-\u9FFF\uFF66-\uFF9D\u3000-\u303F0-9]+$/.test(text);
-    };
+    const isValidJapaneseText = (text: string) => /^[\u3040-\u30FF\u4E00-\u9FFF\uFF66-\uFF9D\u3000-\u303F0-9]+$/.test(text);
 
     const handleSearch = async () => {
         const currentQuery = tags.join(',');
@@ -41,7 +40,6 @@ const SearchPage: React.FC<SearchPageProps> = ({ tags, setTags, inputValue, setI
         setNoResults(invalidTags);
 
         const validTags = tags.filter(tag => isValidJapaneseText(tag));
-
         const kanjiList = validTags.filter(tag => tag.length === 1);
         const wordList = validTags;
 
@@ -74,13 +72,50 @@ const SearchPage: React.FC<SearchPageProps> = ({ tags, setTags, inputValue, setI
         }
     };
 
-    const handleClear = () => {
-        setTags([]);
-        setInputValue('');
-        setNoResults([]);
-        setKanjiResults(null);
-        setWordResults(null);
-        setLastQuery(''); // Resetea la última búsqueda
+    const handleSaveDeck = async (courseName: string, lessonName: string, deckName: string) => {
+        const kanjiIds = kanjiResults ? kanjiResults.map((kanji) => kanji._id) : [];
+        const wordIds = wordResults ? wordResults.map((word) => word._id) : [];
+
+        // Aquí manejamos los requests encolados para evitar race conditions.
+        try {
+            // Primero guardamos el deck de kanjis
+            if (kanjiIds.length > 0) {
+                await fetch('http://localhost:3000/api/course/build', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        courseName,
+                        lessonName,
+                        deckName: `${deckName} - Kanji`,
+                        elements: kanjiIds,
+                        deckType: 'kanji',
+                        //TODO  creatorId: 'master'
+                    }),
+                });
+            }
+
+            // Luego guardamos el deck de palabras
+            if (wordIds.length > 0) {
+                await fetch('http://localhost:3000/api/course/build', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        courseName,
+                        lessonName,
+                        deckName: `${deckName} - Words`,
+                        elements: wordIds,
+                        deckType: 'word',
+                        //TODO  creatorId: 'master'
+                    }),
+                });
+            }
+        } catch (error) {
+            console.error('Error al guardar el deck:', error);
+        }
     };
 
     return (
@@ -93,12 +128,21 @@ const SearchPage: React.FC<SearchPageProps> = ({ tags, setTags, inputValue, setI
                     inputValue={inputValue}
                     setInputValue={setInputValue}
                     noResults={noResults}
-                    handleClear={handleClear}
+                    handleClear={() => {
+                        setTags([]);
+                        setInputValue('');
+                        setNoResults([]);
+                        setKanjiResults(null);
+                        setWordResults(null);
+                        setLastQuery(''); // Resetea la última búsqueda
+                    }}
                 />
-                <SearchButton
-                    onClick={handleSearch}
-                    disabled={loading} // Bloquea el botón mientras está cargando
-                />
+                <SearchButton onClick={handleSearch} disabled={loading} />
+            </div>
+
+            {/* Save Deck Input */}
+            <div className="fixed top-4 right-4">
+                <SaveDeckInput onSave={handleSaveDeck} />
             </div>
 
             {/* Loading Icon */}
