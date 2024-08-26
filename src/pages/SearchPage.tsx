@@ -21,6 +21,8 @@ const SearchPage: React.FC<SearchPageProps> = ({ tags, setTags, inputValue, setI
     const [error, setError] = useState('');
     const [noResults, setNoResults] = useState<string[]>([]);
     const [lastQuery, setLastQuery] = useState<string>(''); // Para evitar búsquedas repetidas
+    const [showSaveInput, setShowSaveInput] = useState(false); // Controla si se muestra SaveDeckInput
+    const [resetSaveComponent, setResetSaveComponent] = useState(false); // Controla el reset de SaveDeckInput
 
     const isValidJapaneseText = (text: string) => /^[\u3040-\u30FF\u4E00-\u9FFF\uFF66-\uFF9D\u3000-\u303F0-9]+$/.test(text);
 
@@ -33,6 +35,10 @@ const SearchPage: React.FC<SearchPageProps> = ({ tags, setTags, inputValue, setI
             setTags([...new Set([...tags, inputValue.trim()])]);
             setInputValue('');
         }
+
+        // Resetea el estado del componente SaveDeckInput
+        setShowSaveInput(false);
+        setResetSaveComponent(true);
 
         setLoading(true);
 
@@ -63,6 +69,12 @@ const SearchPage: React.FC<SearchPageProps> = ({ tags, setTags, inputValue, setI
             setKanjiResults(kanjiData);
             setWordResults(wordData);
             setError('');
+
+            // Solo mostrar SaveDeckInput si hay resultados
+            if (kanjiData.length > 0 || wordData.length > 0) {
+                setShowSaveInput(true);
+                setResetSaveComponent(false); // Evita que se siga reseteando una vez que se muestra
+            }
         } catch (err) {
             setError(`Error fetching data: ${err}`);
             setKanjiResults(null);
@@ -135,15 +147,21 @@ const SearchPage: React.FC<SearchPageProps> = ({ tags, setTags, inputValue, setI
                         setKanjiResults(null);
                         setWordResults(null);
                         setLastQuery(''); // Resetea la última búsqueda
+                        setShowSaveInput(false); // Oculta el SaveDeckInput cuando se limpia la búsqueda
                     }}
                 />
                 <SearchButton onClick={handleSearch} disabled={loading} />
             </div>
 
             {/* Save Deck Input */}
-            <div className="fixed top-4 right-4">
-                <SaveDeckInput onSave={handleSaveDeck} />
-            </div>
+            {showSaveInput && (
+                <div className="fixed top-4 right-4">
+                    <SaveDeckInput
+                        onSave={handleSaveDeck}
+                        key={resetSaveComponent ? 'reset' : 'default'} // Fuerza el reset del componente
+                    />
+                </div>
+            )}
 
             {/* Loading Icon */}
             {loading && (
