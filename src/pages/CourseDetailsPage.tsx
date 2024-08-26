@@ -47,6 +47,14 @@ const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ courseId, onBack })
         fetchCourseDetails();
     }, [courseId]);
 
+    const handleUpdateLesson = (updatedLesson: LessonData) => {
+        setLessons((prevLessons) =>
+            prevLessons.map((lesson) =>
+                lesson._id === updatedLesson._id ? updatedLesson : lesson
+            )
+        );
+    };
+
     if (loading) {
         return (
             <div className="flex justify-center items-center h-full w-full">
@@ -72,7 +80,11 @@ const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ courseId, onBack })
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left">
                 {lessons.length > 0 ? (
                     lessons.map((lesson) => (
-                        <LessonBox key={lesson._id} lesson={lesson} />
+                        <LessonBox
+                            key={lesson._id}
+                            lesson={lesson}
+                            onUpdateLesson={handleUpdateLesson} // Pasamos la función de actualización
+                        />
                     ))
                 ) : (
                     <p className="text-center text-gray-500">No hay lecciones disponibles.</p>
