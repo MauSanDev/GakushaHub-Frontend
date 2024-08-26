@@ -6,6 +6,7 @@ import SearchPage from './pages/SearchPage';
 import KanjiListPage from './pages/KanjiListPage.tsx';
 import UnderDevelopmentPage from './pages/UnderDevelopmentPage';
 import WordListPage from "./pages/WordListPage.tsx";
+import CourseListPage from "./pages/CourseListPage.tsx";
 import GrammarListPage from "./pages/GrammarListPage.tsx";
 import LanguageDropdown from './components/LanguageDropdown';
 import { LanguageProvider } from './context/LanguageContext';
@@ -43,6 +44,7 @@ function App() {
                                 {activeSection === 'Kanjis' && <KanjiListPage />}
                                 {activeSection === 'Words' && <WordListPage />}
                                 {activeSection === 'Grammatical Structures' && <GrammarListPage />}
+                                {activeSection === 'Courses' && <CourseListPage />}
                                 {(activeSection !== 'Search' && activeSection !== 'Kanjis' && activeSection !== 'Words') && (
                                     <UnderDevelopmentPage />
                                 )}

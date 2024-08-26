@@ -70,6 +70,17 @@ export interface Deck {
     examples: Example[]; // Cambiado para reflejar la nueva estructura de ejemplos
     createdAt: string;
 }
+
+export interface CourseData {
+    _id: string;
+    name: string;
+    description: string;
+    lessons: string[]; // Array con los IDs o los objetos completos de las lecciones
+    creatorId: string;
+    isPublic: boolean;
+    createdAt: string;
+}
+
 //
 // export interface KanjiDeck extends Deck {}
 // export interface WordDeck extends Deck {}
