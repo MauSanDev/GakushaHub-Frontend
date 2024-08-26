@@ -73,7 +73,7 @@ const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ courseId, onBack })
                 <button onClick={onBack} className="bg-blue-500 text-white p-2 rounded-full shadow hover:bg-blue-600 mr-4">
                     <FaArrowLeft className="w-5 h-5" />
                 </button>
-                <h1 className="text-4xl font-bold text-gray-800">
+                <h1 className="text-4xl font-bold text-gray-800 capitalize">
                     {course?.name || "Course"}
                 </h1>
             </div>
