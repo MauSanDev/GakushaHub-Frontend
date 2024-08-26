@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { LessonData } from "../../data/data-structures.tsx";
 import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes } from "react-icons/fa";
-import SmallKanjiBox from "../SmallKanjiBox";
-import SmallWordBox from "../SmallWordBox";
+import ViewModeToggle from "../ViewModeToggle";
+import DeckDisplay from "../DeckDisplay";
 
 interface LessonBoxProps {
     lesson: LessonData;
-    onUpdateLesson: (updatedLesson: LessonData) => void; // Función para actualizar la lección
+    onUpdateLesson: (updatedLesson: LessonData) => void;
 }
 
 const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
@@ -15,6 +15,9 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
     const [description, setDescription] = useState(lesson.description);
     const [previousTitle, setPreviousTitle] = useState(title);
     const [previousDescription, setPreviousDescription] = useState(description);
+
+    const [kanjiViewMode, setKanjiViewMode] = useState<"table" | "cards">("cards");
+    const [wordViewMode, setWordViewMode] = useState<"table" | "cards">("cards");
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
     const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value);
@@ -31,22 +34,22 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
         } else {
             try {
                 const response = await fetch(`http://localhost:3000/api/lessons/${lesson._id}`, {
-                    method: 'PUT',
+                    method: "PUT",
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json",
                     },
                     body: JSON.stringify({ name: title, description }),
                 });
 
                 if (!response.ok) {
-                    throw new Error('Error al guardar los cambios.');
+                    throw new Error("Error al guardar los cambios.");
                 }
 
                 const updatedLesson = await response.json();
-                onUpdateLesson(updatedLesson); // Actualizar la lección en el componente padre
+                onUpdateLesson(updatedLesson);
                 setIsEditing(false);
             } catch (error) {
-                console.error('Error al guardar los cambios:', error);
+                console.error("Error al guardar los cambios:", error);
             }
         }
     };
@@ -81,7 +84,6 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
                     <button
                         onClick={enterEditMode}
                         className="bg-blue-500 text-white p-2 rounded shadow hover:bg-blue-600"
-                        style={{ borderRadius: '8px' }} // Estilo más cuadrado
                     >
                         <FaEdit />
                     </button>
@@ -121,42 +123,26 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
             {/* Kanji Decks */}
             {lesson.kanjiDecks.length > 0 && (
                 <div className="w-full">
-                    <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                        <FaBookOpen className="text-blue-400" /> Kanji Decks:
-                    </h4>
-                    <div className="grid grid-cols-6 gap-4 w-full">
-                        {lesson.kanjiDecks.map((deck, index) => (
-                            <div key={`${deck._id}-${index}`} className="col-span-6">
-                                <div className="font-bold text-gray-600 mb-2">{deck.name}</div>
-                                <div className="grid grid-cols-6 gap-2">
-                                    {deck.elements.map((element, elemIndex) => (
-                                        <SmallKanjiBox key={`${element._id}-${elemIndex}`} result={element._id} />
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
+                    <div className="flex justify-between items-center mb-2">
+                        <h4 className="font-semibold text-gray-800 flex items-center gap-2">
+                            <FaBookOpen className="text-blue-400" /> Kanji Decks:
+                        </h4>
+                        <ViewModeToggle currentViewMode={kanjiViewMode} onChangeViewMode={setKanjiViewMode} />
                     </div>
+                    <DeckDisplay deckType="kanji" viewMode={kanjiViewMode} decks={lesson.kanjiDecks} />
                 </div>
             )}
 
             {/* Word Decks */}
             {lesson.wordDecks.length > 0 && (
                 <div className="mt-4 w-full">
-                    <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                        <FaFileAlt className="text-red-400" /> Word Decks:
-                    </h4>
-                    <div className="grid grid-cols-6 gap-4 w-full">
-                        {lesson.wordDecks.map((deck, index) => (
-                            <div key={`${deck._id}-${index}`} className="col-span-6">
-                                <div className="font-bold text-gray-600 mb-2">{deck.name}</div>
-                                <div className="grid grid-cols-6 gap-2">
-                                    {deck.elements.map((element, elemIndex) => (
-                                        <SmallWordBox key={`${element._id}-${elemIndex}`} result={element._id} />
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
+                    <div className="flex justify-between items-center mb-2">
+                        <h4 className="font-semibold text-gray-800 flex items-center gap-2">
+                            <FaFileAlt className="text-red-400" /> Word Decks:
+                        </h4>
+                        <ViewModeToggle currentViewMode={wordViewMode} onChangeViewMode={setWordViewMode} />
                     </div>
+                    <DeckDisplay deckType="word" viewMode={wordViewMode} decks={lesson.wordDecks} />
                 </div>
             )}
 
