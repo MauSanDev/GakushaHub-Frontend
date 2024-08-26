@@ -10,7 +10,6 @@ import CourseListPage from "./pages/CourseListPage.tsx";
 import GrammarListPage from "./pages/GrammarListPage.tsx";
 import LanguageDropdown from './components/LanguageDropdown';
 import { LanguageProvider } from './context/LanguageContext';
-import LessonListPage from "./pages/LessonListPage.tsx";
 import CourseDetailPage from "./pages/CourseDetailsPage.tsx"; // Importa la nueva página de detalles del curso
 
 function App() {
@@ -63,7 +62,6 @@ function App() {
                                 {activeSection === 'CourseDetail' && selectedCourseId && (
                                     <CourseDetailPage courseId={selectedCourseId} onBack={handleBackToCourses} /> // Pasa la función de volver al componente de detalles
                                 )}
-                                {activeSection === 'Lessons' && <LessonListPage />}
                                 {(activeSection !== 'Search' && activeSection !== 'Kanjis' && activeSection !== 'Words') && (
                                     <UnderDevelopmentPage />
                                 )}
