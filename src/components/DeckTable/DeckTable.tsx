@@ -10,7 +10,7 @@ const DeckTable: React.FC<DeckTableProps> = ({ deckType, decks }) => {
     const renderHeader = () => {
         if (deckType === "kanji") {
             return (
-                <tr className="bg-blue-100 text-center text-sm">
+                <tr className="bg-blue-50 text-center text-sm">
                     <th className="px-4 py-2 font-bold">Kanji</th>
                     <th className="px-4 py-2">Onyomi</th>
                     <th className="px-4 py-2">Kunyomi</th>
@@ -22,7 +22,7 @@ const DeckTable: React.FC<DeckTableProps> = ({ deckType, decks }) => {
             );
         } else {
             return (
-                <tr className="bg-blue-100 text-center text-sm">
+                <tr className="bg-blue-50 text-center text-sm">
                     <th className="px-4 py-2 font-bold">Word</th>
                     <th className="px-4 py-2">Readings</th>
                     <th className="px-4 py-2">Meanings</th>
@@ -35,10 +35,12 @@ const DeckTable: React.FC<DeckTableProps> = ({ deckType, decks }) => {
 
     const renderRows = () => {
         return decks.flatMap((deck) =>
-            deck.elements.map((element) => (
+            deck.elements.map((element, index) => (
                 <tr
                     key={element._id}
-                    className="hover:bg-blue-200 transition duration-200"
+                    className={`${
+                        index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                    } hover:bg-blue-50 transition duration-200 text-gray-800 text-left`}
                 >
                     {deckType === "kanji" ? (
                         <>

@@ -51,7 +51,7 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
                 <div key={deck._id} className="mb-6">
                     <div className="flex justify-between items-center mb-2">
                         <div className="font-bold text-gray-600">{deck.name}</div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-0">
                             <button
                                 onClick={() => toggleViewMode(deck._id)}
                                 className={`p-2 rounded-l-md ${
@@ -60,7 +60,7 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
                                         : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                                 }`}
                             >
-                                <FaThLarge />
+                                <FaThLarge/>
                             </button>
                             <button
                                 onClick={() => toggleViewMode(deck._id)}
@@ -70,7 +70,7 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
                                         : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                                 }`}
                             >
-                                <FaTable />
+                                <FaTable/>
                             </button>
                         </div>
                     </div>
