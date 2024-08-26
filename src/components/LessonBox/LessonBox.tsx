@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { LessonData } from "../../data/data-structures.tsx";
 import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes } from "react-icons/fa";
-import ViewModeToggle from "../ViewModeToggle";
 import DeckDisplay from "../DeckDisplay";
 
 interface LessonBoxProps {
@@ -15,9 +14,6 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
     const [description, setDescription] = useState(lesson.description);
     const [previousTitle, setPreviousTitle] = useState(title);
     const [previousDescription, setPreviousDescription] = useState(description);
-
-    const [kanjiViewMode, setKanjiViewMode] = useState<"table" | "cards">("cards");
-    const [wordViewMode, setWordViewMode] = useState<"table" | "cards">("cards");
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
     const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value);
@@ -127,9 +123,8 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
                         <h4 className="font-semibold text-gray-800 flex items-center gap-2">
                             <FaBookOpen className="text-blue-400" /> Kanji Decks:
                         </h4>
-                        <ViewModeToggle currentViewMode={kanjiViewMode} onChangeViewMode={setKanjiViewMode} />
                     </div>
-                    <DeckDisplay deckType="kanji" viewMode={kanjiViewMode} decks={lesson.kanjiDecks} />
+                    <DeckDisplay deckType="kanji" decks={lesson.kanjiDecks} />
                 </div>
             )}
 
@@ -140,9 +135,8 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
                         <h4 className="font-semibold text-gray-800 flex items-center gap-2">
                             <FaFileAlt className="text-red-400" /> Word Decks:
                         </h4>
-                        <ViewModeToggle currentViewMode={wordViewMode} onChangeViewMode={setWordViewMode} />
                     </div>
-                    <DeckDisplay deckType="word" viewMode={wordViewMode} decks={lesson.wordDecks} />
+                    <DeckDisplay deckType="word" decks={lesson.wordDecks} />
                 </div>
             )}
 

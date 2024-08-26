@@ -1,1 +1,0 @@
-export { default } from './KanjiTable.tsx';
