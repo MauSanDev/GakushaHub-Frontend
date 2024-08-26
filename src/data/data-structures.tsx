@@ -4,44 +4,47 @@ export interface Reading {
     others: string[];
 }
 
-export interface Related {
-    writing: string;
-    meaning: string;
-    _id: string;
+export interface Translation {
+    [key: string]: string; // Mapea idiomas (ej. "en", "es") a sus traducciones
+}
+
+export interface Example {
+    text: string;
+    translations: Translation;
 }
 
 export interface KanjiData {
-    readings: Reading;
     _id: string;
     kanji: string;
+    readings: Reading;
+    meanings: string[]; // Este campo sigue siendo un array de significados
     jlpt: number;
     common: boolean;
     notes: string[];
-    examples: string[];
-    meanings: string[];
+    examples: Example[]; // Cambiado para reflejar la nueva estructura de ejemplos
+    strokes: number;
+    unicode: string;
     __v: number;
 }
 
 export interface RelatedWord {
     word: string;
     meaning: string;
+    _id: string;
 }
 
 export interface WordData {
+    _id: string;
     word: string;
     readings: string[];
-    meanings: string[];
+    meanings: Example[]; // Cambiado para reflejar la nueva estructura de significados
     part_of_speech: string[];
     common: boolean;
     jlpt: number;
     notes: string[];
-    related_words: RelatedWord[];
-}
-
-export interface GrammarExample {
-    _id: string;
-    sentence: string;
-    translation: string;
+    related_words: Example[]; // Cambiado para reflejar la nueva estructura de ejemplos
+    examples: Example[]; // Cambiado para reflejar la nueva estructura de ejemplos
+    __v: number;
 }
 
 export interface GrammarStructureData {
@@ -49,8 +52,25 @@ export interface GrammarStructureData {
     structure: string;
     hint: string;
     description: string;
-    examples: GrammarExample[];
+    examples: Example[]; // Cambiado para reflejar la nueva estructura de ejemplos
     jlpt: number;
     frequency: number;
     example_contexts: string[];
+    __v: number;
 }
+
+// Interfaces para los Decks
+export interface Deck {
+    _id: string;
+    name: string;
+    description: string;
+    elements: string[]; // IDs de los elementos (kanji, word, grammar)
+    creatorId: string;
+    isPublic: boolean;
+    examples: Example[]; // Cambiado para reflejar la nueva estructura de ejemplos
+    createdAt: string;
+}
+//
+// export interface KanjiDeck extends Deck {}
+// export interface WordDeck extends Deck {}
+// export interface GrammarDeck extends Deck {}
