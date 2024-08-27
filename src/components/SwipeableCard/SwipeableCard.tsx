@@ -4,9 +4,11 @@ import { useSpring, animated } from "react-spring";
 interface SwipeableCardProps {
     front: string;
     back: string;
+    onApprove: () => void;
+    onReject: () => void;
 }
 
-const SwipeableCard = ({ front, back }: SwipeableCardProps) => {
+const SwipeableCard = ({ front, back, onApprove, onReject }: SwipeableCardProps) => {
     const [showBack, setShowBack] = useState(false);
     const [dragging, setDragging] = useState(false);
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
@@ -75,6 +77,11 @@ const SwipeableCard = ({ front, back }: SwipeableCardProps) => {
 
             if (Math.abs(deltaX) > maxDelta * 0.7) {
                 const direction = deltaX > 0 ? 1 : -1;
+                if (direction > 0) {
+                    onApprove(); // Llama a onApprove si la carta se mueve a la derecha
+                } else {
+                    onReject(); // Llama a onReject si la carta se mueve a la izquierda
+                }
                 // Transicionar hacia la posición final y desvanecer la carta
                 setIsVisible(false);
                 setCurrentPosition({ x: direction * 1000, y: 0 }); // Mover la carta fuera de la pantalla

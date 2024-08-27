@@ -111,13 +111,13 @@ export class KanjiDeck extends Deck<KanjiData> {
                 "readings" in kanjiData &&
                 "meanings" in kanjiData
             ) {
-                const onyomiReadings = kanjiData.readings?.onyomi || [];
-                const kunyomiReadings = kanjiData.readings?.kunyomi || [];
+                const onyomiReadings = kanjiData.readings?.onyomi.join("; ") || "";
+                const kunyomiReadings = kanjiData.readings?.kunyomi.join("; ")  || "";
 
                 return {
                     id: kanjiData._id,
                     front: kanjiData.kanji || "",
-                    back: [...onyomiReadings, ...kunyomiReadings].join("\n") || "", // Join con salto de línea
+                    back: [onyomiReadings + "\n" + kunyomiReadings],
                     readings: [
                         ...onyomiReadings,
                         ...kunyomiReadings,
