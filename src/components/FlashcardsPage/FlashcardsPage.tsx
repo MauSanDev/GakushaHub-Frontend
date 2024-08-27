@@ -59,14 +59,18 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const modalContent = (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="relative bg-white w-11/12 md:w-96 h-96 p-4 rounded-lg shadow-lg flex flex-col items-center">
-                <button onClick={onClose} className="absolute top-2 left-2 text-white bg-blue-500 p-2 rounded-full shadow">
-                    <FaArrowLeft />
+                <button onClick={onClose}
+                        className="absolute top-2 left-2 text-white bg-blue-500 p-2 rounded-full shadow">
+                    <FaArrowLeft/>
                 </button>
+
+                <h1 className="text-4xl font-bold">{deck.name}</h1>
 
                 <div className="relative w-full h-full mt-4">
                     {/* Carta de atrás */}
                     {currentIndex < allCards.length - 1 && (
-                        <div className="absolute top-0 left-0 w-full h-full bg-white border border-gray-300 rounded-lg shadow-lg opacity-50"></div>
+                        <div
+                            className="absolute top-0 left-0 w-full h-full bg-white border border-gray-300 rounded-lg shadow-lg opacity-50"></div>
                     )}
                     {/* Carta actual */}
                     <animated.div
@@ -89,7 +93,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                             className={`absolute inset-0 flex items-center justify-center p-4 backface-hidden ${
                                 flipped ? "" : "hidden"
                             }`}
-                            style={{ transform: "rotateY(180deg)" }}
+                            style={{transform: "rotateY(180deg)"}}
                         >
                             <div className="text-center">
                                 <h1 className="text-2xl font-bold">{currentCard.back}</h1>
@@ -106,10 +110,10 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                 {/* Botones de acciones */}
                 <div className="flex gap-4 mt-6">
                     <button onClick={handleSwipeLeft} className="bg-red-500 text-white p-3 rounded-full shadow">
-                        <FaUndo />
+                        <FaUndo/>
                     </button>
                     <button onClick={handleSwipeRight} className="bg-green-500 text-white p-3 rounded-full shadow">
-                        <FaCheck />
+                        <FaCheck/>
                     </button>
                 </div>
 
@@ -118,7 +122,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                     onClick={toggleReveal}
                     className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow"
                 >
-                    <FaEye />
+                    <FaEye/>
                 </button>
 
                 {/* Contador */}

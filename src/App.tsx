@@ -10,7 +10,7 @@ import CourseListPage from "./pages/CourseListPage.tsx";
 import GrammarListPage from "./pages/GrammarListPage.tsx";
 import LanguageDropdown from './components/LanguageDropdown';
 import { LanguageProvider } from './context/LanguageContext';
-import CourseDetailPage from "./pages/CourseDetailsPage.tsx"; // Importa la nueva página de detalles del curso
+import CourseDetailPage from "./pages/CourseDetailsPage.tsx";
 
 function App() {
     const [activeSection, setActiveSection] = useState('Search');

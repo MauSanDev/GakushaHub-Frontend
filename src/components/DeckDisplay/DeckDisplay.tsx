@@ -64,20 +64,31 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
 
     const handleFlashcardMode = () => {
         const deckInstances = convertDecksToInstances(); // Asegurarse de que son instancias válidas
-        const combinedFlashcards = deckInstances.flatMap((deck: Deck<any>) => deck.convertToFlashcards().elements);
 
-        const flashcardDeck = new FlashcardDeck(
-            "combined", // ID para el deck combinado
-            "Flashcards", // Nombre para el deck
-            "Flashcards de todos los decks seleccionados", // Descripción
-            combinedFlashcards,
-            "creator-id", // Puedes usar un ID genérico o extraerlo si aplicable
-            true,
-            [],
-            new Date().toISOString()
-        );
+        // Si solo hay un deck, simplemente conviértelo a FlashcardDeck
+        if (deckInstances.length === 1) {
+            const flashcardDeck = deckInstances[0].convertToFlashcards();
+            setFlashcardDeck(flashcardDeck);
+        } else {
+            // Si hay más de un deck, combinar los elementos de todos en un solo FlashcardDeck
+            const combinedFlashcards = deckInstances.flatMap((deck: Deck<any>) =>
+                deck.convertToFlashcards().elements
+            );
 
-        setFlashcardDeck(flashcardDeck);
+            const flashcardDeck = new FlashcardDeck(
+                "combined", // ID para el deck combinado
+                "Flashcards", // Nombre para el deck
+                "Flashcards de todos los decks seleccionados", // Descripción
+                combinedFlashcards,
+                "creator-id", // Puedes usar un ID genérico o extraerlo si aplicable
+                true,
+                [],
+                new Date().toISOString()
+            );
+
+            setFlashcardDeck(flashcardDeck);
+        }
+
         setFlashcardsMode(true);
     };
 
