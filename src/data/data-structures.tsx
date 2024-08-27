@@ -98,6 +98,7 @@ export class Deck<T> {
         throw new Error("This method should be overridden in subclasses");
     }
 }
+
 export class KanjiDeck extends Deck<KanjiData> {
     convertToFlashcards(): FlashcardDeck {
         const flashcards: FlashcardData[] = this.elements.map((element) => {
@@ -117,7 +118,7 @@ export class KanjiDeck extends Deck<KanjiData> {
                 return {
                     id: kanjiData._id,
                     front: kanjiData.kanji || "",
-                    back: [onyomiReadings + "\n" + kunyomiReadings],
+                    back: `${kunyomiReadings}\n${onyomiReadings}`,
                     readings: [
                         ...onyomiReadings,
                         ...kunyomiReadings,
@@ -159,12 +160,15 @@ export class WordDeck extends Deck<WordData> {
                 "meanings" in wordData &&
                 "readings" in wordData
             ) {
+                
+                const readings = wordData.readings.join("; ") || "";
+                
                 return {
                     id: wordData._id,
                     front: wordData.word || "",
-                    back: wordData.meanings?.map((meaning) => meaning.translation).join(", ") || "",
+                    back: readings, // Mostrar los readings en el back
                     readings: wordData.readings || [],
-                    meanings: wordData.meanings?.map((meaning) => meaning.translation) || [],
+                    meanings: wordData.meanings?.map((meaning) => meaning.en) || [],
                     type: "word",
                     examples: wordData.examples || [],
                     jlpt: wordData.jlpt,

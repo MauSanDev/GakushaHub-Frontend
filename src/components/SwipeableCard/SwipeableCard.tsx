@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 
 interface SwipeableCardProps {
@@ -18,6 +18,12 @@ const SwipeableCard = ({ front, back, onApprove, onReject }: SwipeableCardProps)
     const [isVisible, setIsVisible] = useState(true);
     const [resetPosition, setResetPosition] = useState(false);
     const [isClick, setIsClick] = useState(true);
+    
+    useEffect(() => {
+        // Cada vez que cambie el front o back, reseteamos la vista a la parte frontal
+        setShowBack(false);
+    }, [front, back]);
+
 
     const springProps = useSpring({
         x: resetPosition ? 0 : currentPosition.x,
