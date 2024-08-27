@@ -10,6 +10,7 @@ const SwipeableCard = ({ front, back }: SwipeableCardProps) => {
     const [dragging, setDragging] = useState(false);
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
     const [currentPosition, setCurrentPosition] = useState({ x: 0, y: 0 });
+    const [rotation, setRotation] = useState(0); // Estado para la rotación
     const [overlayColor, setOverlayColor] = useState("rgba(0, 0, 0, 0)"); // Color de la capa transparente
 
     const handlePointerDown = (event: React.PointerEvent) => {
@@ -28,17 +29,21 @@ const SwipeableCard = ({ front, back }: SwipeableCardProps) => {
 
             if (deltaX > 0) {
                 // Transición hacia verde
-                setOverlayColor(`rgba(0, 255, 0, ${transitionFactor * .5})`);
+                setOverlayColor(`rgba(0, 255, 0, ${transitionFactor * 0.5})`);
             } else if (deltaX < 0) {
                 // Transición hacia rojo
-                setOverlayColor(`rgba(255, 0, 0, ${transitionFactor * .5})`);
+                setOverlayColor(`rgba(255, 0, 0, ${transitionFactor * 0.5})`);
             }
+
+            // Actualizar la rotación en función del deltaX
+            setRotation(deltaX / 20); // Controla la rotación, ajusta este valor para hacerla más o menos pronunciada
         }
     };
 
     const handlePointerUp = () => {
         setDragging(false);
         setCurrentPosition({ x: 0, y: 0 });
+        setRotation(0); // Restaurar la rotación al soltar
         // Restaurar la capa transparente al soltar
         setOverlayColor("rgba(0, 0, 0, 0)");
     };
@@ -53,14 +58,13 @@ const SwipeableCard = ({ front, back }: SwipeableCardProps) => {
         <div
             className="relative w-full h-96 lg:h-[36rem] rounded-xl shadow-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center cursor-pointer select-none"
             style={{
-                transform: `translate(${currentPosition.x}px, ${currentPosition.y}px)`,
+                transform: `translate(${currentPosition.x}px, ${currentPosition.y}px) rotate(${rotation}deg)`, // Aplicar la rotación
             }}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onClick={handleCardClick}
         >
-            {/* Capa transparente que cambia de color */}
             <div
                 className="absolute inset-0 rounded-xl"
                 style={{
