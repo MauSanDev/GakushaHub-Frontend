@@ -21,7 +21,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
 
     const handleReject = () => {
         setShowBack(false);
-        setShowMeanings(false);
+        setShowMeanings(false); // Ocultar los significados cuando se cambia la carta
         setIncorrect((prev) => {
             const newSet = new Set(prev);
             newSet.add(currentIndex);
@@ -32,7 +32,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
 
     const handleAccept = () => {
         setShowBack(false);
-        setShowMeanings(false);
+        setShowMeanings(false); // Ocultar los significados cuando se cambia la carta
         setCorrect((prev) => {
             const newSet = new Set(prev);
             newSet.add(currentIndex);
@@ -45,7 +45,10 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
         if (currentIndex >= allCards.length - 1) {
             handleEndOfDeck();
         } else {
-            setCurrentIndex((prevIndex) => prevIndex + 1);
+            setCurrentIndex((prevIndex) => {
+                setShowMeanings(false); // Ocultar los significados cuando se pasa a la siguiente carta
+                return prevIndex + 1;
+            });
         }
     };
 
@@ -77,6 +80,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
         setCorrect(new Set());
         setIncorrect(new Set());
         setCurrentIndex(0);
+        setShowMeanings(false); // Ocultar los significados al reiniciar el mazo
     };
 
     const toggleCard = () => setShowBack((prev) => !prev);
@@ -132,6 +136,15 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                 >
                     <FaEye/>
                 </button>
+
+                {/* Caja de significados */}
+                {showMeanings && (
+                    <div className="mt-4 w-full bg-gray-100 border border-gray-300 rounded-lg p-4 shadow">
+                        <p className="text-center text-lg text-gray-700 whitespace-pre-line">
+                            {currentCard?.meanings.join("\n")}
+                        </p>
+                    </div>
+                )}
             </div>
         </div>
     );
