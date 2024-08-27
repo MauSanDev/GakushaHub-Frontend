@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { LessonData } from "../../data/data-structures.tsx";
 import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes } from "react-icons/fa";
 import DeckDisplay from "../DeckDisplay";
+import GrammarDeckDisplay from "../GrammarDeckDisplay"; // Importamos el nuevo componente
 
 interface LessonBoxProps {
     lesson: LessonData;
@@ -58,7 +59,6 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-lg mb-6 border border-gray-200 transform transition-transform duration-300 hover:scale-105 hover:border-blue-400 w-full relative">
-
             {/* Botones de edición, guardado y cancelación */}
             <div className="absolute top-4 right-4 flex gap-2">
                 {isEditing ? (
@@ -142,13 +142,11 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
 
             {/* Grammar Decks */}
             {lesson.grammarDecks.length > 0 && (
-                <div className="mt-4">
+                <div className="mt-4 w-full">
                     <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
                         <FaBook className="text-green-400" /> Grammar Decks:
                     </h4>
-                    <div className="ml-4">
-                        <p className="text-gray-500 italic ml-4">Esta sección es específica de gramática.</p>
-                    </div>
+                    <GrammarDeckDisplay decks={lesson.grammarDecks} />
                 </div>
             )}
         </div>
