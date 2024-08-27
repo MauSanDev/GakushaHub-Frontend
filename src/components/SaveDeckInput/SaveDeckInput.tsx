@@ -111,7 +111,12 @@ interface Course {
 }
 
 interface SaveDeckInputProps {
-    onSave: (courseName: string, lessonName: string, deckName: string) => void;
+    onSave: (
+        courseId: string | null,
+        courseName: string,
+        lessonName: string,
+        deckName: string
+    ) => void;
 }
 
 const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ onSave }) => {
@@ -180,7 +185,8 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ onSave }) => {
             }
         }
     }, [lesson, lessons]);
-
+    
+    
     const handleSave = async () => {
         if (!initialSave) {
             setExpanded(true);
@@ -203,8 +209,19 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ onSave }) => {
 
         setError(null);
 
+        // Buscar el curso por nombre
+        const selectedCourse = courses.find((c) => c.name === course);
+
+        // Buscar la lección por nombre dentro del curso, si el curso existe
+
+        // Llamar a la función onSave con los nombres y el ID del curso (si existe)
         if (course && lesson && deck) {
-            await onSave(course.trim(), lesson.trim(), deck.trim());
+            await onSave(
+                selectedCourse?._id || null, // Pasar el ID del curso si existe
+                course.trim(),
+                lesson.trim(),
+                deck.trim()
+            );
             setSaved(true);
         }
     };

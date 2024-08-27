@@ -83,7 +83,12 @@ const SearchPage: React.FC<SearchPageProps> = ({ tags, setTags, inputValue, setI
             setLoading(false);
         }
     };
-    const handleSaveDeck = async (courseName: string, lessonName: string, deckName: string) => {
+    const handleSaveDeck = async (
+        courseId: string | null,
+        courseName: string,
+        lessonName: string,
+        deckName: string
+    ) => {
         const kanjiIds = kanjiResults ? kanjiResults.map((kanji) => kanji._id) : [];
         const wordIds = wordResults ? wordResults.map((word) => word._id) : [];
 
@@ -106,7 +111,6 @@ const SearchPage: React.FC<SearchPageProps> = ({ tags, setTags, inputValue, setI
             });
         }
 
-        // Aquí manejamos el request unificado para evitar múltiples llamadas.
         try {
             if (decks.length > 0) {
                 await fetch('http://localhost:3000/api/course/build', {
@@ -115,6 +119,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ tags, setTags, inputValue, setI
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
+                        courseId,
                         courseName,
                         lessonName,
                         decks,
