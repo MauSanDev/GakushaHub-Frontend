@@ -10,28 +10,76 @@ interface FlashcardsModalProps {
 
 const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [flipped, setFlipped] = useState(false);
+    const [showBack, setShowBack] = useState(false); // Estado para alternar entre front y back
     const [showMeanings, setShowMeanings] = useState(false);
-    const [completed, setCompleted] = useState<Set<number>>(new Set());
+    const [correct, setCorrect] = useState<Set<number>>(new Set());
+    const [incorrect, setIncorrect] = useState<Set<number>>(new Set());
+    const [filteredCards, setFilteredCards] = useState<FlashcardData[]>(deck.elements);
 
-    const allCards: FlashcardData[] = deck.elements;
+    const allCards: FlashcardData[] = filteredCards;
     const currentCard = allCards[currentIndex];
 
     const handleReject = () => {
-        setFlipped(false);
+        setShowBack(false);
         setShowMeanings(false);
+        setIncorrect((prev) => {
+            const newSet = new Set(prev);
+            newSet.add(currentIndex);
+            moveToNextCard(newSet);
+            return newSet;
+        });
     };
 
     const handleAccept = () => {
-        setFlipped(false);
+        setShowBack(false);
         setShowMeanings(false);
-        setCompleted((prev) => new Set(prev).add(currentIndex));
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % allCards.length);
-        
-        allCards.forEach((x) => console.log(x.front))
+        setCorrect((prev) => {
+            const newSet = new Set(prev);
+            newSet.add(currentIndex);
+            moveToNextCard(newSet);
+            return newSet;
+        });
     };
 
-    const toggleFlip = () => setFlipped((prev) => !prev);
+    const moveToNextCard = (updatedSet: Set<number>) => {
+        if (currentIndex >= allCards.length - 1) {
+            handleEndOfDeck();
+        } else {
+            setCurrentIndex((prevIndex) => prevIndex + 1);
+        }
+    };
+
+    const handleEndOfDeck = () => {
+        const retryIncorrect = window.confirm(
+            `Terminaste el mazo. Acertaste ${correct.size} de ${allCards.length}. ¿Quieres repetir las tarjetas incorrectas?`
+        );
+
+        if (retryIncorrect && incorrect.size > 0) {
+            const incorrectCardIndexes = Array.from(incorrect);
+            const incorrectCards = incorrectCardIndexes.map((index) => filteredCards[index]);
+
+            setFilteredCards(incorrectCards);
+            setCorrect(new Set());
+            setIncorrect(new Set());
+            setCurrentIndex(0);
+        } else {
+            const retryAll = window.confirm("¿Quieres repetir todo el mazo?");
+            if (retryAll) {
+                resetDeck(deck.elements);
+            } else {
+                onClose();
+            }
+        }
+    };
+
+    const resetDeck = (cards: FlashcardData[]) => {
+        setFilteredCards(cards);
+        setCorrect(new Set());
+        setIncorrect(new Set());
+        setCurrentIndex(0);
+    };
+
+    const toggleCard = () => setShowBack((prev) => !prev);
 
     const toggleReveal = () => setShowMeanings((prev) => !prev);
 
@@ -42,62 +90,39 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                     onClick={onClose}
                     className="absolute top-2 left-2 text-white bg-blue-500 p-2 rounded-full shadow"
                 >
-                    <FaArrowLeft />
+                    <FaArrowLeft/>
                 </button>
 
                 <h1 className="text-4xl font-bold">{deck.name}</h1>
-
-                <div className="relative w-full h-full mt-4">
-                    {currentIndex < allCards.length - 1 && (
-                        <div className="absolute top-0 left-0 w-full h-full bg-white border border-gray-300 rounded-lg shadow-lg opacity-50"></div>
+                <div className="relative w-full h-full mt-4" onClick={toggleCard}>
+                    {showBack ? (
+                        // Vista del back
+                        <div
+                            className="absolute inset-0 w-full h-full bg-white border border-blue-400 rounded-lg shadow-lg flex flex-col items-center justify-center p-4 overflow-auto cursor-pointer">
+                            <p className="text-center text-3xl font-normal whitespace-pre-line">
+                                {currentCard?.back}
+                            </p>
+                        </div>
+                    ) : (
+                        // Vista del front
+                        <div
+                            className="absolute inset-0 w-full h-full bg-white border border-blue-400 rounded-lg shadow-lg flex items-center justify-center p-4 cursor-pointer">
+                            <p className="text-center text-6xl font-normal">{currentCard?.front}</p>
+                        </div>
                     )}
-
-                    {/* Carta actual */}
-                    <div
-                        className="absolute w-full h-full bg-white border border-blue-400 rounded-lg shadow-lg cursor-pointer"
-                        onClick={toggleFlip}
-                        style={{ transformStyle: "preserve-3d" }}
-                    >
-                        {/* Cara frontal */}
-                        <div
-                            className={`absolute inset-0 flex items-center justify-center p-4 ${
-                                flipped ? "hidden" : ""
-                            }`}
-                            style={{ backfaceVisibility: "hidden" }}
-                        >
-                            <h1 className="text-4xl font-bold">{currentCard.front}</h1>
-                        </div>
-
-                        {/* Cara trasera */}
-                        <div
-                            className={`absolute inset-0 flex items-center justify-center p-4 ${
-                                flipped ? "" : "hidden"
-                            }`}
-                            style={{
-                                transform: "rotateY(180deg)",
-                                backfaceVisibility: "hidden",
-                            }}
-                        >
-                            <div className="text-center">
-                                <h1 className="text-2xl font-bold">{currentCard.back}</h1>
-                                {showMeanings && (
-                                    <p className="mt-4 text-sm text-gray-700">
-                                        {currentCard.meanings.join("; ")}
-                                    </p>
-                                )}
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 {/* Botones de acciones */}
-                <div className="flex gap-4 mt-6">
+                <div className="flex gap-4 mt-6 items-center">
+                    <p className="text-red-500">{incorrect.size}</p>
                     <button onClick={handleReject} className="bg-red-500 text-white p-3 rounded-full shadow">
-                        <FaUndo />
+                        <FaUndo/>
                     </button>
+                    <p className="text-gray-500">{allCards.length - correct.size - incorrect.size}</p>
                     <button onClick={handleAccept} className="bg-green-500 text-white p-3 rounded-full shadow">
-                        <FaCheck />
+                        <FaCheck/>
                     </button>
+                    <p className="text-green-500">{correct.size}</p>
                 </div>
 
                 {/* Botón de revelar significados */}
@@ -105,15 +130,8 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                     onClick={toggleReveal}
                     className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow"
                 >
-                    <FaEye />
+                    <FaEye/>
                 </button>
-
-                {/* Contador */}
-                <div className="mt-4 text-gray-700">
-                    <p>
-                        Correctas: {completed.size} | Repetidas: {allCards.length - completed.size}
-                    </p>
-                </div>
             </div>
         </div>
     );

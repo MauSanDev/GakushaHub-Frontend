@@ -67,11 +67,6 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
 
         if (deckInstances.length === 1) {
             const flashcardDeck = deckInstances[0].convertToFlashcards();
-
-            console.log("Deck a convertir:", deckInstances[0]);
-            console.log("Deck convertido:", flashcardDeck);
-            console.log("Elementos del deck convertido:", flashcardDeck.elements);
-            flashcardDeck.elements.forEach((x) => console.log("Elemento convertido:", x.front));
             setFlashcardDeck(flashcardDeck);
         } else {
             // Si hay más de un deck, combinar los elementos de todos en un solo FlashcardDeck
