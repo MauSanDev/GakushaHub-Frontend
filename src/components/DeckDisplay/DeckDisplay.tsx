@@ -63,11 +63,15 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
     };
 
     const handleFlashcardMode = () => {
-        const deckInstances = convertDecksToInstances(); // Asegurarse de que son instancias válidas
+        const deckInstances = convertDecksToInstances(); // Asegúrate de que son instancias válidas
 
-        // Si solo hay un deck, simplemente conviértelo a FlashcardDeck
         if (deckInstances.length === 1) {
             const flashcardDeck = deckInstances[0].convertToFlashcards();
+
+            console.log("Deck a convertir:", deckInstances[0]);
+            console.log("Deck convertido:", flashcardDeck);
+            console.log("Elementos del deck convertido:", flashcardDeck.elements);
+            flashcardDeck.elements.forEach((x) => console.log("Elemento convertido:", x.front));
             setFlashcardDeck(flashcardDeck);
         } else {
             // Si hay más de un deck, combinar los elementos de todos en un solo FlashcardDeck
@@ -118,7 +122,7 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
         <div className="w-full">
             {flashcardsMode && flashcardDeck && (
                 <FlashcardsModal
-                    deck={flashcardDeck} // Pasar el FlashcardDeck convertido
+                    deck={flashcardDeck}
                     onClose={() => setFlashcardsMode(false)}
                 />
             )}

@@ -98,23 +98,37 @@ export class Deck<T> {
         throw new Error("This method should be overridden in subclasses");
     }
 }
-
 export class KanjiDeck extends Deck<KanjiData> {
     convertToFlashcards(): FlashcardDeck {
-        const flashcards: FlashcardData[] = this.elements.map((kanji) => ({
-            id: kanji._id,
-            front: kanji.kanji,
-            back: kanji.meanings?.map((meaning) => meaning.translation).join(", ") || "", 
-            readings: [
-                ...(kanji.readings?.onyomi || []),
-                ...(kanji.readings?.kunyomi || []),
-                ...(kanji.readings?.others || [])
-            ],
-            meanings: kanji.meanings?.map((meaning) => meaning.translation) || [],
-            type: "kanji",
-            examples: kanji.examples || [],
-            jlpt: kanji.jlpt,
-        }));
+        const flashcards: FlashcardData[] = this.elements.map((element) => {
+            const kanjiData = element._id as unknown as KanjiData;
+
+            if (
+                typeof kanjiData === "object" &&
+                kanjiData !== null &&
+                "_id" in kanjiData &&
+                "kanji" in kanjiData &&
+                "readings" in kanjiData &&
+                "meanings" in kanjiData
+            ) {
+                return {
+                    id: kanjiData._id,
+                    front: kanjiData.kanji || "",
+                    back: kanjiData.meanings?.map((meaning) => meaning.en).join(", ") || "",
+                    readings: [
+                        ...(kanjiData.readings?.onyomi || []),
+                        ...(kanjiData.readings?.kunyomi || []),
+                        ...(kanjiData.readings?.others || []),
+                    ],
+                    meanings: kanjiData.meanings?.map((meaning) => meaning.en) || [],
+                    type: "kanji",
+                    examples: kanjiData.examples || [],
+                    jlpt: kanjiData.jlpt,
+                };
+            } else {
+                throw new Error("Invalid KanjiData format");
+            }
+        });
 
         return new FlashcardDeck(
             this._id,
@@ -131,16 +145,31 @@ export class KanjiDeck extends Deck<KanjiData> {
 
 export class WordDeck extends Deck<WordData> {
     convertToFlashcards(): FlashcardDeck {
-        const flashcards: FlashcardData[] = this.elements.map((word) => ({
-            id: word._id,
-            front: word.word,
-            back: word.meanings?.map((meaning) => meaning.translation).join(", ") || "",
-            readings: word.readings || [],
-            meanings: word.meanings?.map((meaning) => meaning.translation) || [],
-            type: "word",
-            examples: word.examples || [],
-            jlpt: word.jlpt,
-        }));
+        const flashcards: FlashcardData[] = this.elements.map((element) => {
+            const wordData = element._id as unknown as WordData;
+
+            if (
+                typeof wordData === "object" &&
+                wordData !== null &&
+                "_id" in wordData &&
+                "word" in wordData &&
+                "meanings" in wordData &&
+                "readings" in wordData
+            ) {
+                return {
+                    id: wordData._id,
+                    front: wordData.word || "",
+                    back: wordData.meanings?.map((meaning) => meaning.translation).join(", ") || "",
+                    readings: wordData.readings || [],
+                    meanings: wordData.meanings?.map((meaning) => meaning.translation) || [],
+                    type: "word",
+                    examples: wordData.examples || [],
+                    jlpt: wordData.jlpt,
+                };
+            } else {
+                throw new Error("Invalid WordData format");
+            }
+        });
 
         return new FlashcardDeck(
             this._id,
