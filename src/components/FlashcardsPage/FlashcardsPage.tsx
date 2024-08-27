@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { FaArrowLeft, FaEye, FaUndo, FaCheck } from "react-icons/fa";
 import { FlashcardDeck, FlashcardData } from "../../data/data-structures";
+import SwipeableCard from "../SwipeableCard"; // Importamos el componente SwipeableCard
 
 interface FlashcardsModalProps {
     deck: FlashcardDeck;
@@ -10,12 +11,11 @@ interface FlashcardsModalProps {
 
 const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [showBack, setShowBack] = useState(false);
     const [showMeanings, setShowMeanings] = useState(false);
     const [correct, setCorrect] = useState<Set<number>>(new Set());
     const [incorrect, setIncorrect] = useState<Set<number>>(new Set());
     const [filteredCards, setFilteredCards] = useState<FlashcardData[]>(deck.elements);
-    const [isVisible, setIsVisible] = useState(false); // Estado inicial para animar la entrada del modal
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         // Iniciar la animación de entrada al montar el componente
@@ -25,10 +25,8 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const allCards: FlashcardData[] = filteredCards;
     const currentCard = allCards[currentIndex];
 
-    const handleReject = () => {
-        setShowBack(false);
-        setShowMeanings(false);
-        setIncorrect((prev) => {
+    const handleApprove = () => {
+        setCorrect((prev) => {
             const newSet = new Set(prev);
             newSet.add(currentIndex);
             moveToNextCard(newSet);
@@ -36,10 +34,8 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
         });
     };
 
-    const handleAccept = () => {
-        setShowBack(false);
-        setShowMeanings(false);
-        setCorrect((prev) => {
+    const handleReject = () => {
+        setIncorrect((prev) => {
             const newSet = new Set(prev);
             newSet.add(currentIndex);
             moveToNextCard(newSet);
@@ -89,8 +85,6 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
         setShowMeanings(false);
     };
 
-    const toggleCard = () => setShowBack((prev) => !prev);
-
     const toggleReveal = () => setShowMeanings((prev) => !prev);
 
     const closeWithAnimation = () => {
@@ -119,22 +113,13 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                 {/* Título del mazo */}
                 <h1 className="text-4xl font-bold text-white mb-6">{deck.name}</h1>
 
-                {/* Carta en formato más vertical (portrait) */}
-                <div className="relative w-full h-96 lg:h-[36rem] mt-4 rounded-xl shadow-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center cursor-pointer" onClick={toggleCard}>
-                    {showBack ? (
-                        // Vista del back
-                        <div className="w-full h-full flex flex-col items-center justify-center p-4 overflow-auto text-white">
-                            <p className="text-center text-3xl font-normal whitespace-pre-line">
-                                {currentCard?.back}
-                            </p>
-                        </div>
-                    ) : (
-                        // Vista del front
-                        <div className="w-full h-full flex items-center justify-center p-4 text-white">
-                            <p className="text-center text-6xl font-normal">{currentCard?.front}</p>
-                        </div>
-                    )}
-                </div>
+                {/* Componente SwipeableCard */}
+                <SwipeableCard
+                    front={currentCard?.front || ""}
+                    back={currentCard?.back || ""}
+                    onApprove={handleApprove}
+                    onReject={handleReject}
+                />
 
                 {/* Botones de acciones */}
                 <div className="flex gap-4 mt-6 items-center">
@@ -143,7 +128,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                         <FaUndo />
                     </button>
                     <p className="text-gray-400">{allCards.length - correct.size - incorrect.size}</p>
-                    <button onClick={handleAccept} className="bg-green-500 text-white p-3 rounded-full shadow-lg">
+                    <button onClick={handleApprove} className="bg-green-500 text-white p-3 rounded-full shadow-lg">
                         <FaCheck />
                     </button>
                     <p className="text-green-500">{correct.size}</p>
