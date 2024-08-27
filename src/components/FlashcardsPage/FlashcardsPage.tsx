@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { FaArrowLeft, FaEye, FaUndo, FaCheck } from "react-icons/fa";
 import { FlashcardDeck, FlashcardData } from "../../data/data-structures";
@@ -10,18 +10,24 @@ interface FlashcardsModalProps {
 
 const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [showBack, setShowBack] = useState(false); // Estado para alternar entre front y back
+    const [showBack, setShowBack] = useState(false);
     const [showMeanings, setShowMeanings] = useState(false);
     const [correct, setCorrect] = useState<Set<number>>(new Set());
     const [incorrect, setIncorrect] = useState<Set<number>>(new Set());
     const [filteredCards, setFilteredCards] = useState<FlashcardData[]>(deck.elements);
+    const [isVisible, setIsVisible] = useState(false); // Estado inicial para animar la entrada del modal
+
+    useEffect(() => {
+        // Iniciar la animación de entrada al montar el componente
+        setIsVisible(true);
+    }, []);
 
     const allCards: FlashcardData[] = filteredCards;
     const currentCard = allCards[currentIndex];
 
     const handleReject = () => {
         setShowBack(false);
-        setShowMeanings(false); // Ocultar los significados cuando se cambia la carta
+        setShowMeanings(false);
         setIncorrect((prev) => {
             const newSet = new Set(prev);
             newSet.add(currentIndex);
@@ -32,7 +38,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
 
     const handleAccept = () => {
         setShowBack(false);
-        setShowMeanings(false); // Ocultar los significados cuando se cambia la carta
+        setShowMeanings(false);
         setCorrect((prev) => {
             const newSet = new Set(prev);
             newSet.add(currentIndex);
@@ -46,7 +52,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
             handleEndOfDeck();
         } else {
             setCurrentIndex((prevIndex) => {
-                setShowMeanings(false); // Ocultar los significados cuando se pasa a la siguiente carta
+                setShowMeanings(false);
                 return prevIndex + 1;
             });
         }
@@ -70,7 +76,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
             if (retryAll) {
                 resetDeck(deck.elements);
             } else {
-                onClose();
+                closeWithAnimation();
             }
         }
     };
@@ -80,37 +86,51 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
         setCorrect(new Set());
         setIncorrect(new Set());
         setCurrentIndex(0);
-        setShowMeanings(false); // Ocultar los significados al reiniciar el mazo
+        setShowMeanings(false);
     };
 
     const toggleCard = () => setShowBack((prev) => !prev);
 
     const toggleReveal = () => setShowMeanings((prev) => !prev);
 
+    const closeWithAnimation = () => {
+        setIsVisible(false);
+        setTimeout(onClose, 300); // Espera la animación antes de cerrar
+    };
+
     const modalContent = (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="relative bg-white w-11/12 md:w-96 h-96 p-4 rounded-lg shadow-lg flex flex-col items-center">
+        <div
+            className={`fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 transition-all duration-300 transform ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+            }`}
+        >
+            <div
+                className="relative w-11/12 md:w-1/3 lg:w-1/4 h-auto p-4 flex flex-col items-center"
+                style={{ maxHeight: "90vh" }}
+            >
+                {/* Botón de cierre */}
                 <button
-                    onClick={onClose}
-                    className="absolute top-2 left-2 text-white bg-blue-500 p-2 rounded-full shadow"
+                    onClick={closeWithAnimation}
+                    className="absolute top-2 left-2 text-white p-2 rounded-full shadow-lg bg-gray-800 hover:bg-gray-600"
                 >
-                    <FaArrowLeft/>
+                    <FaArrowLeft />
                 </button>
 
-                <h1 className="text-4xl font-bold">{deck.name}</h1>
-                <div className="relative w-full h-full mt-4" onClick={toggleCard}>
+                {/* Título del mazo */}
+                <h1 className="text-4xl font-bold text-white mb-6">{deck.name}</h1>
+
+                {/* Carta en formato más vertical (portrait) */}
+                <div className="relative w-full h-96 lg:h-[36rem] mt-4 rounded-xl shadow-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center cursor-pointer" onClick={toggleCard}>
                     {showBack ? (
                         // Vista del back
-                        <div
-                            className="absolute inset-0 w-full h-full bg-white border border-blue-400 rounded-lg shadow-lg flex flex-col items-center justify-center p-4 overflow-auto cursor-pointer">
+                        <div className="w-full h-full flex flex-col items-center justify-center p-4 overflow-auto text-white">
                             <p className="text-center text-3xl font-normal whitespace-pre-line">
                                 {currentCard?.back}
                             </p>
                         </div>
                     ) : (
                         // Vista del front
-                        <div
-                            className="absolute inset-0 w-full h-full bg-white border border-blue-400 rounded-lg shadow-lg flex items-center justify-center p-4 cursor-pointer">
+                        <div className="w-full h-full flex items-center justify-center p-4 text-white">
                             <p className="text-center text-6xl font-normal">{currentCard?.front}</p>
                         </div>
                     )}
@@ -119,12 +139,12 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                 {/* Botones de acciones */}
                 <div className="flex gap-4 mt-6 items-center">
                     <p className="text-red-500">{incorrect.size}</p>
-                    <button onClick={handleReject} className="bg-red-500 text-white p-3 rounded-full shadow">
-                        <FaUndo/>
+                    <button onClick={handleReject} className="bg-red-500 text-white p-3 rounded-full shadow-lg">
+                        <FaUndo />
                     </button>
-                    <p className="text-gray-500">{allCards.length - correct.size - incorrect.size}</p>
-                    <button onClick={handleAccept} className="bg-green-500 text-white p-3 rounded-full shadow">
-                        <FaCheck/>
+                    <p className="text-gray-400">{allCards.length - correct.size - incorrect.size}</p>
+                    <button onClick={handleAccept} className="bg-green-500 text-white p-3 rounded-full shadow-lg">
+                        <FaCheck />
                     </button>
                     <p className="text-green-500">{correct.size}</p>
                 </div>
@@ -132,19 +152,23 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                 {/* Botón de revelar significados */}
                 <button
                     onClick={toggleReveal}
-                    className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow"
+                    className="mt-4 p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 shadow-lg"
                 >
-                    <FaEye/>
+                    <FaEye />
                 </button>
 
-                {/* Caja de significados */}
-                {showMeanings && (
-                    <div className="mt-4 w-full bg-gray-100 border border-gray-300 rounded-lg p-4 shadow">
-                        <p className="text-center text-lg text-gray-700 whitespace-pre-line">
+                {/* Caja de significados con animación */}
+                <div
+                    className={`transition-all duration-500 ease-in-out transform ${
+                        showMeanings ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
+                    } w-full bg-gray-900 bg-opacity-80 rounded-t-lg p-4 shadow-lg overflow-hidden`}
+                >
+                    {showMeanings && (
+                        <p className="text-center text-lg text-gray-300 whitespace-pre-line">
                             {currentCard?.meanings.join("\n")}
                         </p>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </div>
     );
