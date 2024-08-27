@@ -3,7 +3,7 @@ import { FaTable, FaThLarge, FaPlay, FaChevronRight, FaChevronDown } from "react
 import SmallKanjiBox from "../SmallKanjiBox";
 import SmallWordBox from "../SmallWordBox";
 import DeckTable from "../DeckTable";
-import { KanjiDeck, WordDeck } from "../../data/data-structures";
+import { KanjiDeck, WordDeck, FlashcardDeck, Deck } from "../../data/data-structures";
 import FlashcardsModal from "../FlashcardsPage";
 
 interface DeckDisplayProps<T extends "kanji" | "word"> {
@@ -15,6 +15,7 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
     const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
     const [flashcardsMode, setFlashcardsMode] = useState(false);
     const [expandedDecks, setExpandedDecks] = useState<{ [key: string]: boolean }>({});
+    const [flashcardDeck, setFlashcardDeck] = useState<FlashcardDeck | null>(null);
     const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
     const toggleExpand = (deckId: string) => {
@@ -25,7 +26,6 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
     };
 
     useEffect(() => {
-        // Actualiza la altura del contenido dinámicamente cuando se expande o contrae
         Object.keys(contentRefs.current).forEach((deckId) => {
             const contentElement = contentRefs.current[deckId];
             if (contentElement) {
@@ -35,6 +35,51 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
             }
         });
     }, [expandedDecks, viewMode, decks]);
+
+    const convertDecksToInstances = () => {
+        if (deckType === "kanji") {
+            return decks.map(deck => new KanjiDeck(
+                deck._id,
+                deck.name,
+                deck.description,
+                deck.elements,
+                deck.creatorId,
+                deck.isPublic,
+                deck.examples,
+                deck.createdAt
+            ));
+        } else {
+            return decks.map(deck => new WordDeck(
+                deck._id,
+                deck.name,
+                deck.description,
+                deck.elements,
+                deck.creatorId,
+                deck.isPublic,
+                deck.examples,
+                deck.createdAt
+            ));
+        }
+    };
+
+    const handleFlashcardMode = () => {
+        const deckInstances = convertDecksToInstances(); // Asegurarse de que son instancias válidas
+        const combinedFlashcards = deckInstances.flatMap((deck: Deck<any>) => deck.convertToFlashcards().elements);
+
+        const flashcardDeck = new FlashcardDeck(
+            "combined", // ID para el deck combinado
+            "Flashcards", // Nombre para el deck
+            "Flashcards de todos los decks seleccionados", // Descripción
+            combinedFlashcards,
+            "creator-id", // Puedes usar un ID genérico o extraerlo si aplicable
+            true,
+            [],
+            new Date().toISOString()
+        );
+
+        setFlashcardDeck(flashcardDeck);
+        setFlashcardsMode(true);
+    };
 
     const renderContent = (deckId: string) => {
         if (viewMode === "cards") {
@@ -60,10 +105,9 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
 
     return (
         <div className="w-full">
-            {flashcardsMode && (
+            {flashcardsMode && flashcardDeck && (
                 <FlashcardsModal
-                    deckType={deckType}
-                    decks={decks}
+                    deck={flashcardDeck} // Pasar el FlashcardDeck convertido
                     onClose={() => setFlashcardsMode(false)}
                 />
             )}
@@ -85,7 +129,7 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    setFlashcardsMode(true);
+                                    handleFlashcardMode();
                                 }}
                                 className="p-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600 mr-2"
                             >

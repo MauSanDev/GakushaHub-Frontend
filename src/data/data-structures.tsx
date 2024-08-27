@@ -5,7 +5,7 @@ export interface Reading {
 }
 
 export interface Translation {
-    [key: string]: string; // Mapea idiomas (ej. "en", "es") a sus traducciones
+    [key: string]: string; 
 }
 
 export interface Example {
@@ -17,33 +17,27 @@ export interface KanjiData {
     _id: string;
     kanji: string;
     readings: Reading;
-    meanings: Translation[]; // Este campo sigue siendo un array de significados
+    meanings: Translation[];
     jlpt: number;
     common: boolean;
     notes: string[];
-    examples: Example[]; // Cambiado para reflejar la nueva estructura de ejemplos
+    examples: Example[];
     strokes: number;
     unicode: string;
     __v: number;
-}
-
-export interface RelatedWord {
-    word: string;
-    meaning: string;
-    _id: string;
 }
 
 export interface WordData {
     _id: string;
     word: string;
     readings: string[];
-    meanings: Translation[]; // Cambiado para reflejar la nueva estructura de significados
+    meanings: Translation[];
     part_of_speech: string[];
     common: boolean;
     jlpt: number;
     notes: string[];
-    related_words: Example[]; // Cambiado para reflejar la nueva estructura de ejemplos
-    examples: Example[]; // Cambiado para reflejar la nueva estructura de ejemplos
+    related_words: Example[]; 
+    examples: Example[];
     __v: number;
 }
 
@@ -52,35 +46,165 @@ export interface GrammarStructureData {
     structure: string;
     hint: string;
     description: string;
-    examples: Example[]; // Cambiado para reflejar la nueva estructura de ejemplos
+    examples: Example[];
     jlpt: number;
     frequency: number;
     example_contexts: string[];
     __v: number;
 }
 
-// Generic Interface for Decks
-export interface Deck<T = string> {
+export interface FlashcardData {
+    id: string;
+    front: string;
+    back: string;
+    readings: string[];
+    meanings: string[];
+    type: "kanji" | "word" | "grammar";
+    examples: Example[];
+    jlpt: number;
+}
+
+export class Deck<T> {
     _id: string;
     name: string;
     description: string;
-    elements: T[]; // IDs or objects of the elements (kanji, word, grammar)
+    elements: T[];
     creatorId: string;
     isPublic: boolean;
     examples: Example[];
     createdAt: string;
+
+    constructor(
+        _id: string,
+        name: string,
+        description: string,
+        elements: T[],
+        creatorId: string,
+        isPublic: boolean,
+        examples: Example[],
+        createdAt: string
+    ) {
+        this._id = _id;
+        this.name = name;
+        this.description = description;
+        this.elements = elements;
+        this.creatorId = creatorId;
+        this.isPublic = isPublic;
+        this.examples = examples;
+        this.createdAt = createdAt;
+    }
+
+    convertToFlashcards(): FlashcardDeck {
+        throw new Error("This method should be overridden in subclasses");
+    }
 }
 
-// Especificaciones para cada tipo de Deck
-export type KanjiDeck = Deck<KanjiData>;
-export type WordDeck = Deck<WordData>;
-export type GrammarDeck = Deck<GrammarStructureData>;
+export class KanjiDeck extends Deck<KanjiData> {
+    convertToFlashcards(): FlashcardDeck {
+        const flashcards: FlashcardData[] = this.elements.map((kanji) => ({
+            id: kanji._id,
+            front: kanji.kanji,
+            back: kanji.meanings?.map((meaning) => meaning.translation).join(", ") || "", 
+            readings: [
+                ...(kanji.readings?.onyomi || []),
+                ...(kanji.readings?.kunyomi || []),
+                ...(kanji.readings?.others || [])
+            ],
+            meanings: kanji.meanings?.map((meaning) => meaning.translation) || [],
+            type: "kanji",
+            examples: kanji.examples || [],
+            jlpt: kanji.jlpt,
+        }));
+
+        return new FlashcardDeck(
+            this._id,
+            this.name,
+            this.description,
+            flashcards,
+            this.creatorId,
+            this.isPublic,
+            this.examples || [],
+            this.createdAt
+        );
+    }
+}
+
+export class WordDeck extends Deck<WordData> {
+    convertToFlashcards(): FlashcardDeck {
+        const flashcards: FlashcardData[] = this.elements.map((word) => ({
+            id: word._id,
+            front: word.word,
+            back: word.meanings?.map((meaning) => meaning.translation).join(", ") || "",
+            readings: word.readings || [],
+            meanings: word.meanings?.map((meaning) => meaning.translation) || [],
+            type: "word",
+            examples: word.examples || [],
+            jlpt: word.jlpt,
+        }));
+
+        return new FlashcardDeck(
+            this._id,
+            this.name,
+            this.description,
+            flashcards,
+            this.creatorId,
+            this.isPublic,
+            this.examples || [],
+            this.createdAt
+        );
+    }
+}
+
+export class GrammarDeck extends Deck<GrammarStructureData> {
+    convertToFlashcards(): FlashcardDeck {
+        const flashcards: FlashcardData[] = this.elements.map((grammar) => ({
+            id: grammar._id,
+            front: grammar.structure,
+            back: grammar.description,
+            readings: [],
+            meanings: [grammar.hint],
+            type: "grammar",
+            examples: grammar.examples || [],
+            jlpt: grammar.jlpt,
+        }));
+
+        return new FlashcardDeck(
+            this._id,
+            this.name,
+            this.description,
+            flashcards,
+            this.creatorId,
+            this.isPublic,
+            this.examples || [],
+            this.createdAt
+        );
+    }
+}
+
+export class FlashcardDeck extends Deck<FlashcardData> {
+    constructor(
+        _id: string,
+        name: string,
+        description: string,
+        elements: FlashcardData[],
+        creatorId: string,
+        isPublic: boolean,
+        examples: Example[],
+        createdAt: string
+    ) {
+        super(_id, name, description, elements, creatorId, isPublic, examples, createdAt);
+    }
+
+    convertToFlashcards(): FlashcardDeck {
+        return this;
+    }
+}
 
 export interface CourseData {
     _id: string;
     name: string;
     description: string;
-    lessons: string[]; // Array con los IDs o los objetos completos de las lecciones
+    lessons: string[]; 
     creatorId: string;
     isPublic: boolean;
     createdAt: string;
@@ -90,9 +214,9 @@ export interface LessonData {
     _id: string;
     name: string;
     description: string;
-    kanjiDecks: KanjiDeck[]; // Array of KanjiDecks (objects)
-    wordDecks: WordDeck[]; // Array of WordDecks (objects)
-    grammarDecks: GrammarDeck[]; // Array of GrammarDecks (objects)
+    kanjiDecks: KanjiDeck[];
+    wordDecks: WordDeck[];
+    grammarDecks: GrammarDeck[];
     creatorId: string;
     isPublic: boolean;
     createdAt: string;

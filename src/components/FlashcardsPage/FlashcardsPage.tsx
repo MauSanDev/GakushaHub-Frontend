@@ -3,25 +3,20 @@ import ReactDOM from "react-dom";
 import { useSpring, animated } from "react-spring";
 import { useDrag } from "@use-gesture/react";
 import { FaArrowLeft, FaEye, FaUndo, FaCheck } from "react-icons/fa";
-import { KanjiDeck, WordDeck } from "../../data/data-structures";
+import { FlashcardDeck, FlashcardData } from "../../data/data-structures"; // Importa FlashcardDeck y FlashcardData
 
-interface FlashcardsModalProps<T extends "kanji" | "word"> {
-    deckType: T;
-    decks: T extends "kanji" ? KanjiDeck[] : WordDeck[];
+interface FlashcardsModalProps {
+    deck: FlashcardDeck;
     onClose: () => void;
 }
 
-const FlashcardsModal = <T extends "kanji" | "word">({
-                                                         deckType,
-                                                         decks,
-                                                         onClose,
-                                                     }: FlashcardsModalProps<T>) => {
+const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [flipped, setFlipped] = useState(false);
     const [showMeanings, setShowMeanings] = useState(false);
     const [completed, setCompleted] = useState<Set<number>>(new Set());
 
-    const allCards = decks.flatMap((deck) => deck.elements);
+    const allCards: FlashcardData[] = deck.elements;
     const currentCard = allCards[currentIndex];
 
     const [props, api] = useSpring(() => ({
@@ -88,9 +83,7 @@ const FlashcardsModal = <T extends "kanji" | "word">({
                                 flipped ? "hidden" : ""
                             }`}
                         >
-                            <h1 className="text-4xl font-bold">
-                                {deckType === "kanji" ? currentCard.kanji : currentCard.word}
-                            </h1>
+                            <h1 className="text-4xl font-bold">{currentCard.front}</h1>
                         </div>
                         <div
                             className={`absolute inset-0 flex items-center justify-center p-4 backface-hidden ${
@@ -99,14 +92,10 @@ const FlashcardsModal = <T extends "kanji" | "word">({
                             style={{ transform: "rotateY(180deg)" }}
                         >
                             <div className="text-center">
-                                <h1 className="text-2xl font-bold">
-                                    {deckType === "kanji" ? currentCard.kanji : currentCard.word}
-                                </h1>
+                                <h1 className="text-2xl font-bold">{currentCard.back}</h1>
                                 {showMeanings && (
                                     <p className="mt-4 text-sm text-gray-700">
-                                        {deckType === "kanji"
-                                            ? currentCard.meanings["en"].join("; ")
-                                            : currentCard.meanings["en"]?.join("; ")}
+                                        {currentCard.meanings.join("; ")}
                                     </p>
                                 )}
                             </div>
