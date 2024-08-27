@@ -1,20 +1,21 @@
 import { useState } from "react";
+import ReactDOM from "react-dom";
 import { useSpring, animated } from "react-spring";
 import { useDrag } from "@use-gesture/react";
 import { FaArrowLeft, FaEye, FaUndo, FaCheck } from "react-icons/fa";
 import { KanjiDeck, WordDeck } from "../../data/data-structures";
 
-interface FlashcardsPageProps<T extends "kanji" | "word"> {
+interface FlashcardsModalProps<T extends "kanji" | "word"> {
     deckType: T;
     decks: T extends "kanji" ? KanjiDeck[] : WordDeck[];
     onClose: () => void;
 }
 
-const FlashcardsPage = <T extends "kanji" | "word">({
-                                                        deckType,
-                                                        decks,
-                                                        onClose,
-                                                    }: FlashcardsPageProps<T>) => {
+const FlashcardsModal = <T extends "kanji" | "word">({
+                                                         deckType,
+                                                         decks,
+                                                         onClose,
+                                                     }: FlashcardsModalProps<T>) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [flipped, setFlipped] = useState(false);
     const [showMeanings, setShowMeanings] = useState(false);
@@ -47,7 +48,6 @@ const FlashcardsPage = <T extends "kanji" | "word">({
     const handleSwipeLeft = () => {
         setFlipped(false);
         setShowMeanings(false);
-        // Repetir la carta actual
     };
 
     const handleSwipeRight = () => {
@@ -61,84 +61,88 @@ const FlashcardsPage = <T extends "kanji" | "word">({
 
     const toggleReveal = () => setShowMeanings((prev) => !prev);
 
-    return (
-        <div className="flex flex-col items-center justify-center h-full w-full relative">
-            <button onClick={onClose} className="absolute top-4 left-4 bg-blue-500 text-white p-2 rounded-full shadow">
-                <FaArrowLeft />
-            </button>
+    const modalContent = (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="relative bg-white w-11/12 md:w-96 h-96 p-4 rounded-lg shadow-lg flex flex-col items-center">
+                <button onClick={onClose} className="absolute top-2 left-2 text-white bg-blue-500 p-2 rounded-full shadow">
+                    <FaArrowLeft />
+                </button>
 
-            <div className="relative w-80 h-96">
-                {/* Carta de atrás */}
-                {currentIndex < allCards.length - 1 && (
-                    <div className="absolute top-0 left-0 w-full h-full bg-white border border-gray-300 rounded-lg shadow-lg opacity-50"></div>
-                )}
-                {/* Carta actual */}
-                <animated.div
-                    {...bind()}
-                    style={{
-                        ...props,
-                        transformStyle: "preserve-3d",
-                    }}
-                    className="absolute w-full h-full bg-white border border-blue-400 rounded-lg shadow-lg cursor-pointer"
-                    onClick={toggleFlip}
-                >
-                    <div
-                        className={`absolute inset-0 flex items-center justify-center p-4 backface-hidden ${
-                            flipped ? "hidden" : ""
-                        }`}
+                <div className="relative w-full h-full mt-4">
+                    {/* Carta de atrás */}
+                    {currentIndex < allCards.length - 1 && (
+                        <div className="absolute top-0 left-0 w-full h-full bg-white border border-gray-300 rounded-lg shadow-lg opacity-50"></div>
+                    )}
+                    {/* Carta actual */}
+                    <animated.div
+                        {...bind()}
+                        style={{
+                            ...props,
+                            transformStyle: "preserve-3d",
+                        }}
+                        className="absolute w-full h-full bg-white border border-blue-400 rounded-lg shadow-lg cursor-pointer"
+                        onClick={toggleFlip}
                     >
-                        <h1 className="text-4xl font-bold">
-                            {deckType === "kanji" ? currentCard._id.kanji : currentCard._id.word}
-                        </h1>
-                    </div>
-                    <div
-                        className={`absolute inset-0 flex items-center justify-center p-4 backface-hidden ${
-                            flipped ? "" : "hidden"
-                        }`}
-                        style={{ transform: "rotateY(180deg)" }}
-                    >
-                        <div className="text-center">
-                            <h1 className="text-2xl font-bold">
-                                {deckType === "kanji" ? currentCard._id.kanji : currentCard._id.word}
+                        <div
+                            className={`absolute inset-0 flex items-center justify-center p-4 backface-hidden ${
+                                flipped ? "hidden" : ""
+                            }`}
+                        >
+                            <h1 className="text-4xl font-bold">
+                                {deckType === "kanji" ? currentCard.kanji : currentCard.word}
                             </h1>
-                            {showMeanings && (
-                                <p className="mt-4 text-sm text-gray-700">
-                                    {deckType === "kanji"
-                                        ? currentCard._id.meanings["en"].join("; ")
-                                        : currentCard._id.meanings["en"]?.join("; ")}
-                                </p>
-                            )}
                         </div>
-                    </div>
-                </animated.div>
-            </div>
+                        <div
+                            className={`absolute inset-0 flex items-center justify-center p-4 backface-hidden ${
+                                flipped ? "" : "hidden"
+                            }`}
+                            style={{ transform: "rotateY(180deg)" }}
+                        >
+                            <div className="text-center">
+                                <h1 className="text-2xl font-bold">
+                                    {deckType === "kanji" ? currentCard.kanji : currentCard.word}
+                                </h1>
+                                {showMeanings && (
+                                    <p className="mt-4 text-sm text-gray-700">
+                                        {deckType === "kanji"
+                                            ? currentCard.meanings["en"].join("; ")
+                                            : currentCard.meanings["en"]?.join("; ")}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    </animated.div>
+                </div>
 
-            {/* Botones de acciones */}
-            <div className="flex gap-4 mt-6">
-                <button onClick={handleSwipeLeft} className="bg-red-500 text-white p-3 rounded-full shadow">
-                    <FaUndo />
+                {/* Botones de acciones */}
+                <div className="flex gap-4 mt-6">
+                    <button onClick={handleSwipeLeft} className="bg-red-500 text-white p-3 rounded-full shadow">
+                        <FaUndo />
+                    </button>
+                    <button onClick={handleSwipeRight} className="bg-green-500 text-white p-3 rounded-full shadow">
+                        <FaCheck />
+                    </button>
+                </div>
+
+                {/* Botón de revelar significados */}
+                <button
+                    onClick={toggleReveal}
+                    className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow"
+                >
+                    <FaEye />
                 </button>
-                <button onClick={handleSwipeRight} className="bg-green-500 text-white p-3 rounded-full shadow">
-                    <FaCheck />
-                </button>
-            </div>
 
-            {/* Botón de revelar significados */}
-            <button
-                onClick={toggleReveal}
-                className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 shadow"
-            >
-                <FaEye />
-            </button>
-
-            {/* Contador */}
-            <div className="mt-4 text-gray-700">
-                <p>
-                    Correctas: {completed.size} | Repetidas: {allCards.length - completed.size}
-                </p>
+                {/* Contador */}
+                <div className="mt-4 text-gray-700">
+                    <p>
+                        Correctas: {completed.size} | Repetidas: {allCards.length - completed.size}
+                    </p>
+                </div>
             </div>
         </div>
     );
+
+    return ReactDOM.createPortal(modalContent, document.getElementById("modal-root")!);
 };
 
-export default FlashcardsPage;
+export default FlashcardsModal;

@@ -4,7 +4,7 @@ import SmallKanjiBox from "../SmallKanjiBox";
 import SmallWordBox from "../SmallWordBox";
 import DeckTable from "../DeckTable";
 import { KanjiDeck, WordDeck } from "../../data/data-structures";
-import FlashcardsPage from "../FlashcardsPage";
+import FlashcardsModal from "../FlashcardsPage";
 
 interface DeckDisplayProps<T extends "kanji" | "word"> {
     deckType: T;
@@ -24,16 +24,10 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
     };
 
     const renderContent = (deckId: string) => {
-        if (flashcardsMode) {
-            return (
-                <FlashcardsPage deckType={deckType} decks={decks} onClose={() => setFlashcardsMode(false)} />
-            );
-        }
-
         if (viewMode === "cards") {
             return (
-                <div className="grid grid-cols-6 gap-2">
-                    {decks.find(deck => deck._id === deckId)?.elements.map((element, elemIndex) => (
+                <div className="grid grid-cols-6 gap-2 fixed">
+                    {decks.find((deck) => deck._id === deckId)?.elements.map((element, elemIndex) => (
                         deckType === "kanji" ? (
                             <SmallKanjiBox key={`${element._id}-${elemIndex}`} result={element._id} />
                         ) : (
@@ -43,15 +37,22 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
                 </div>
             );
         } else {
-            return <DeckTable deckType={deckType} decks={decks.filter(deck => deck._id === deckId)} />;
+            return <DeckTable deckType={deckType} decks={decks.filter((deck) => deck._id === deckId)} />;
         }
     };
 
     return (
         <div className="w-full">
+            {flashcardsMode && (
+                <FlashcardsModal
+                    deckType={deckType}
+                    decks={decks}
+                    onClose={() => setFlashcardsMode(false)}
+                />
+            )}
+
             {decks.map((deck, index) => (
                 <div key={`${deck._id}-${index}`} className="mb-6">
-                    {/* Header del deck con el botón de dropdown y título */}
                     <div className="flex justify-between items-center mb-2">
                         <div
                             className="flex items-center gap-2 cursor-pointer"
@@ -71,7 +72,7 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
                                 }}
                                 className="p-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600 mr-2"
                             >
-                                <FaPlay/>
+                                <FaPlay />
                             </button>
                             <button
                                 onClick={(e) => {
@@ -84,7 +85,7 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
                                         : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                                 }`}
                             >
-                                <FaThLarge/>
+                                <FaThLarge />
                             </button>
                             <button
                                 onClick={(e) => {
@@ -97,12 +98,11 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
                                         : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                                 }`}
                             >
-                                <FaTable/>
+                                <FaTable />
                             </button>
                         </div>
                     </div>
 
-                    {/* Contenido del deck que se puede colapsar con animación */}
                     <div
                         className={`overflow-hidden transition-all duration-300 ease-in-out ${
                             expandedDecks[deck._id] ? "max-h-screen" : "max-h-0"
