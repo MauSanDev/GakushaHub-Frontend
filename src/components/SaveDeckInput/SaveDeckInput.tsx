@@ -91,7 +91,6 @@ const DropdownInput: React.FC<DropdownInputProps> = ({
     );
 };
 
-// Definimos las interfaces basadas en la estructura que llega del API
 interface Deck {
     _id: string;
     name: string;
@@ -131,7 +130,6 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ onSave }) => {
     const [showLessonDropdown, setShowLessonDropdown] = useState(false);
     const [showDeckDropdown, setShowDeckDropdown] = useState(false);
 
-    // Función para obtener los cursos desde la API
     const getCourses = async (): Promise<Course[]> => {
         try {
             const response = await fetch('http://localhost:3000/api/courses/paginated?&page=1&limit=10');
@@ -151,7 +149,6 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ onSave }) => {
         fetchCourses();
     }, []);
 
-    // Actualizar las lecciones cuando se selecciona un curso
     useEffect(() => {
         if (course) {
             const selectedCourse = courses.find((c) => c.name === course);
@@ -163,21 +160,19 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ onSave }) => {
         }
     }, [course, courses]);
 
-    // Actualizar los decks cuando se selecciona una lección
     useEffect(() => {
         if (lesson) {
             const selectedLesson = lessons.find((l) => l.name === lesson);
             if (selectedLesson) {
-                // Unir todos los decks y remover las palabras " - Words" y " - Kanji"
                 const allDecks = [
                     ...selectedLesson.kanjiDecks,
                     ...selectedLesson.grammarDecks,
                     ...selectedLesson.wordDecks
                 ]
                     .map((deck) =>
-                        deck.name.replace(/ - (Words|Kanji)$/, '') // Remover las palabras " - Words" y " - Kanji"
+                        deck.name.replace(/ - (Words|Kanji)$/, '')
                     )
-                    .filter((name, index, self) => self.indexOf(name) === index); // Evitar duplicados
+                    .filter((name, index, self) => self.indexOf(name) === index);
 
                 setDecks(allDecks);
             } else {
@@ -214,71 +209,99 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ onSave }) => {
         }
     };
 
+    const getContextMessage = () => {
+        if (course) {
+            const selectedCourse = courses.find((c) => c.name === course);
+            if (!selectedCourse) {
+                return `The Course "${course}" will be created.`;
+            } else if (lesson) {
+                const selectedLesson = selectedCourse.lessons.find((l) => l.name === lesson);
+                if (!selectedLesson) {
+                    return `The Lesosn "${lesson}" will be added to the Course "${course}".`;
+                } else if (deck) {
+                    if (!decks.includes(deck)) {
+                        return `The deck "${deck}" will be added to the Lesson "${lesson}".`;
+                    } else {
+                        return `The content will be added to the existing Deck "${deck}".`;
+                    }
+                }
+            }
+        }
+        return null;
+    };
+
     return (
-        <div className="flex items-center gap-4">
-            <DropdownInput
-                value={course}
-                onChange={setCourse}
-                placeholder="Course"
-                options={courses.map((course) => course.name)}
-                disabled={saved}
-                expanded={expanded}
-                onFocus={() => {
-                    setShowCourseDropdown(true);
-                    setShowLessonDropdown(false);
-                    setShowDeckDropdown(false);
-                }}
-                showDropdown={showCourseDropdown}
-                setShowDropdown={setShowCourseDropdown}
-            />
+        <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+                <DropdownInput
+                    value={course}
+                    onChange={setCourse}
+                    placeholder="Course"
+                    options={courses.map((course) => course.name)}
+                    disabled={saved}
+                    expanded={expanded}
+                    onFocus={() => {
+                        setShowCourseDropdown(true);
+                        setShowLessonDropdown(false);
+                        setShowDeckDropdown(false);
+                    }}
+                    showDropdown={showCourseDropdown}
+                    setShowDropdown={setShowCourseDropdown}
+                />
 
-            <span className={`${expanded ? 'visible' : 'invisible'}`}>/</span>
+                <span className={`${expanded ? 'visible' : 'invisible'}`}>/</span>
 
-            <DropdownInput
-                value={lesson}
-                onChange={setLesson}
-                placeholder="Lesson"
-                options={lessons.map((lesson) => lesson.name)}
-                disabled={saved}
-                expanded={expanded}
-                onFocus={() => {
-                    setShowLessonDropdown(true);
-                    setShowCourseDropdown(false);
-                    setShowDeckDropdown(false);
-                }}
-                showDropdown={showLessonDropdown}
-                setShowDropdown={setShowLessonDropdown}
-            />
+                <DropdownInput
+                    value={lesson}
+                    onChange={setLesson}
+                    placeholder="Lesson"
+                    options={lessons.map((lesson) => lesson.name)}
+                    disabled={saved}
+                    expanded={expanded}
+                    onFocus={() => {
+                        setShowLessonDropdown(true);
+                        setShowCourseDropdown(false);
+                        setShowDeckDropdown(false);
+                    }}
+                    showDropdown={showLessonDropdown}
+                    setShowDropdown={setShowLessonDropdown}
+                />
 
-            <span className={`${expanded ? 'visible' : 'invisible'}`}>/</span>
+                <span className={`${expanded ? 'visible' : 'invisible'}`}>/</span>
 
-            <DropdownInput
-                value={deck}
-                onChange={setDeck}
-                placeholder="Deck"
-                options={decks}
-                disabled={saved}
-                expanded={expanded}
-                onFocus={() => {
-                    setShowDeckDropdown(true);
-                    setShowCourseDropdown(false);
-                    setShowLessonDropdown(false);
-                }}
-                showDropdown={showDeckDropdown}
-                setShowDropdown={setShowDeckDropdown}
-            />
+                <DropdownInput
+                    value={deck}
+                    onChange={setDeck}
+                    placeholder="Deck"
+                    options={decks}
+                    disabled={saved}
+                    expanded={expanded}
+                    onFocus={() => {
+                        setShowDeckDropdown(true);
+                        setShowCourseDropdown(false);
+                        setShowLessonDropdown(false);
+                    }}
+                    showDropdown={showDeckDropdown}
+                    setShowDropdown={setShowDeckDropdown}
+                />
 
-            <button
-                onClick={handleSave}
-                className={`flex items-center justify-center px-4 py-2 rounded ${
-                    saved ? 'bg-green-500 text-white cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'
-                } transition-transform duration-300`}
-                disabled={saved}
-            >
-                {saved ? 'Saved' : <FaSave />}
-            </button>
+                <button
+                    onClick={handleSave}
+                    className={`flex items-center justify-center px-4 py-2 rounded ${
+                        saved ? 'bg-green-500 text-white cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'
+                    } transition-transform duration-300`}
+                    disabled={saved}
+                >
+                    {saved ? 'Saved' : <FaSave />}
+                </button>
+            </div>
 
-            {error && <p className="text-red-500 text-sm absolute mt-10">{error}</p>}
+            {/* Mensaje contextual o de error */}
+            {error ? (
+                <p className="text-red-500 text-sm mt-2">{error}</p>
+            ) : (
+                <p className="text-gray-500 text-xs text-right">{getContextMessage()}</p>
+            )}
         </div>
     );
 };
