@@ -23,14 +23,18 @@ const SettingsTooltip = ({
             {/* Botón de configuración */}
             <button
                 onClick={() => setIsOpen((prev) => !prev)}
-                className="absolute top-2 right-2 text-white p-2 rounded-full shadow-lg bg-gray-800 hover:bg-gray-600"
+                className="text-white p-2 rounded-full shadow-lg bg-gray-800 hover:bg-gray-600"
             >
                 <FaCog />
             </button>
 
             {/* Tooltip */}
             {isOpen && (
-                <div className="absolute top-12 right-0 w-48 bg-gray-900 text-white rounded-lg shadow-lg p-4 z-50">
+                <div
+                    className={`absolute top-12 right-0 w-48 bg-gray-900 text-white rounded-lg shadow-lg p-4 z-50 transition-transform duration-300 ease-in-out transform ${
+                        isOpen ? "scale-100" : "scale-0"
+                    }`}
+                >
                     <button
                         onClick={onReset}
                         className="flex items-center gap-2 w-full py-2 px-4 hover:bg-gray-800 rounded"
@@ -50,7 +54,7 @@ const SettingsTooltip = ({
                         className="flex items-center gap-2 w-full py-2 px-4 hover:bg-gray-800 rounded"
                     >
                         <FaAlignLeft />
-                        Orientation: {isTermFirst ? "Term - Reading" : "Reading - Term"}
+                        Orientation: {isTermFirst ? "Term -> Reading" : "Reading -> Term"}
                     </button>
                 </div>
             )}

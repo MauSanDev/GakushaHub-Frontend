@@ -4,7 +4,7 @@ import { FaArrowLeft, FaEye, FaUndo, FaCheck } from "react-icons/fa";
 import { FlashcardDeck, FlashcardData } from "../../data/data-structures";
 import SwipeableCard from "../SwipeableCard";
 import SummaryModal from "../SummaryModal";
-import SettingsTooltip from "../SettingsTooltip"; // Importamos el nuevo componente
+import SettingsTooltip from "../SettingsTooltip";
 
 interface FlashcardsModalProps {
     deck: FlashcardDeck;
@@ -21,6 +21,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const [showSummary, setShowSummary] = useState(false);
     const [isShuffleEnabled, setIsShuffleEnabled] = useState(false);
     const [isTermFirst, setIsTermFirst] = useState(true); // Controla la orientación del mazo
+    const [feedbackEffect, setFeedbackEffect] = useState(false); // Controla el efecto de flash
 
     useEffect(() => {
         setIsVisible(true); // Iniciar la animación de entrada al montar el componente
@@ -35,11 +36,13 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     }, [isShuffleEnabled]);
 
     const shuffleDeck = () => {
+        setFeedbackEffect(true); // Activa el feedback visual
         const shuffled = [...deck.elements].sort(() => Math.random() - 0.5);
         setFilteredCards(shuffled);
         setCurrentIndex(0);
         setCorrect(new Set());
         setIncorrect(new Set());
+        setTimeout(() => setFeedbackEffect(false), 500); // Desactiva el feedback visual después de 500ms
     };
 
     const allCards: FlashcardData[] = filteredCards;
@@ -75,6 +78,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     };
 
     const handleRetryIncorrect = () => {
+        setFeedbackEffect(true); // Activa el feedback visual
         const incorrectCardIndexes = Array.from(incorrect);
         const incorrectCards = incorrectCardIndexes.map((index) => filteredCards[index]);
 
@@ -83,11 +87,14 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
         setIncorrect(new Set());
         setCurrentIndex(0);
         setShowSummary(false);
+        setTimeout(() => setFeedbackEffect(false), 500); // Desactiva el feedback visual después de 500ms
     };
 
     const handleRetryAll = () => {
+        setFeedbackEffect(true); // Activa el feedback visual
         resetDeck(deck.elements);
         setShowSummary(false);
+        setTimeout(() => setFeedbackEffect(false), 500); // Desactiva el feedback visual después de 500ms
     };
 
     const resetDeck = (cards: FlashcardData[]) => {
@@ -111,6 +118,11 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
 
     const modalContent = (
         <>
+            {/* Efecto de feedback visual */}
+            {feedbackEffect && (
+                <div className="fixed inset-0 bg-white opacity-50 z-40 transition-opacity duration-500"></div>
+            )}
+
             <div
                 className={`fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 transition-all duration-300 transform ${
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
@@ -128,17 +140,26 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                         <FaArrowLeft />
                     </button>
 
+                    <div className="absolute right-0 top-3">
                     {/* Botón de configuración */}
                     <SettingsTooltip
-                        onReset={() => resetDeck(deck.elements)}
+                        onReset={() => {
+                            setFeedbackEffect(true); // Activa el feedback visual
+                            resetDeck(deck.elements);
+                            setTimeout(() => setFeedbackEffect(false), 500); // Desactiva el feedback visual después de 500ms
+                        }}
                         onToggleShuffle={toggleShuffle}
                         isShuffleEnabled={isShuffleEnabled}
                         onToggleOrientation={toggleOrientation}
                         isTermFirst={isTermFirst}
                     />
+                    </div>
+
 
                     {/* Título del mazo */}
-                    <h1 className="text-4xl font-bold text-white mb-6">{deck.name}</h1>
+                    <h1 className="text-4xl font-bold text-white mb-6 flex justify-center items-center">
+                        {deck.name}
+                    </h1>
 
                     {/* Componente SwipeableCard */}
                     <SwipeableCard
