@@ -149,8 +149,8 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                     } w-full bg-gray-900 bg-opacity-80 rounded-t-lg p-4 shadow-lg overflow-hidden`}
                 >
                     {showMeanings && (
-                        <p className="text-center text-lg text-gray-300 whitespace-pre-line">
-                            {currentCard?.meanings.join("\n")}
+                        <p className="text-center text-lg text-gray-300 whitespace-pre-line capitalize">
+                            {currentCard?.meanings.join("; ")}
                         </p>
                     )}
                 </div>
