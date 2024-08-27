@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaTable, FaThLarge, FaPlay, FaChevronRight, FaChevronDown } from "react-icons/fa";
 import SmallKanjiBox from "../SmallKanjiBox";
 import SmallWordBox from "../SmallWordBox";
@@ -15,6 +15,7 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
     const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
     const [flashcardsMode, setFlashcardsMode] = useState(false);
     const [expandedDecks, setExpandedDecks] = useState<{ [key: string]: boolean }>({});
+    const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
     const toggleExpand = (deckId: string) => {
         setExpandedDecks((prevState) => ({
@@ -23,10 +24,22 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
         }));
     };
 
+    useEffect(() => {
+        // Actualiza la altura del contenido dinámicamente cuando se expande o contrae
+        Object.keys(contentRefs.current).forEach((deckId) => {
+            const contentElement = contentRefs.current[deckId];
+            if (contentElement) {
+                contentElement.style.maxHeight = expandedDecks[deckId]
+                    ? `${contentElement.scrollHeight}px`
+                    : "0px";
+            }
+        });
+    }, [expandedDecks, viewMode, decks]);
+
     const renderContent = (deckId: string) => {
         if (viewMode === "cards") {
             return (
-                <div className="grid grid-cols-6 gap-2 fixed">
+                <div className="grid grid-cols-6 gap-2">
                     {decks.find((deck) => deck._id === deckId)?.elements.map((element, elemIndex) => (
                         deckType === "kanji" ? (
                             <SmallKanjiBox key={`${element._id}-${elemIndex}`} result={element._id} />
@@ -37,7 +50,11 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
                 </div>
             );
         } else {
-            return <DeckTable deckType={deckType} decks={decks.filter((deck) => deck._id === deckId)} />;
+            return (
+                <div>
+                    <DeckTable deckType={deckType} decks={decks.filter((deck) => deck._id === deckId)} />
+                </div>
+            );
         }
     };
 
@@ -104,11 +121,13 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
                     </div>
 
                     <div
-                        className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                            expandedDecks[deck._id] ? "max-h-screen" : "max-h-0"
-                        }`}
+                        ref={(el) => (contentRefs.current[deck._id] = el)}
+                        className={`overflow-hidden transition-all duration-500 ease-in-out`}
+                        style={{
+                            maxHeight: expandedDecks[deck._id] ? `${contentRefs.current[deck._id]?.scrollHeight}px` : "0px",
+                        }}
                     >
-                        {expandedDecks[deck._id] && renderContent(deck._id)}
+                        {renderContent(deck._id)}
                     </div>
                 </div>
             ))}
