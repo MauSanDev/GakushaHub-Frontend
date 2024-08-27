@@ -4,6 +4,7 @@ import { FaArrowLeft, FaEye, FaUndo, FaCheck } from "react-icons/fa";
 import { FlashcardDeck, FlashcardData } from "../../data/data-structures";
 import SwipeableCard from "../SwipeableCard";
 import SummaryModal from "../SummaryModal";
+import SettingsTooltip from "../SettingsTooltip"; // Importamos el nuevo componente
 
 interface FlashcardsModalProps {
     deck: FlashcardDeck;
@@ -18,10 +19,28 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const [filteredCards, setFilteredCards] = useState<FlashcardData[]>(deck.elements);
     const [isVisible, setIsVisible] = useState(false);
     const [showSummary, setShowSummary] = useState(false);
+    const [isShuffleEnabled, setIsShuffleEnabled] = useState(false);
+    const [isTermFirst, setIsTermFirst] = useState(true); // Controla la orientación del mazo
 
     useEffect(() => {
         setIsVisible(true); // Iniciar la animación de entrada al montar el componente
     }, []);
+
+    useEffect(() => {
+        if (isShuffleEnabled) {
+            shuffleDeck();
+        } else {
+            resetDeck(deck.elements); // Si se desactiva el shuffle, vuelve al orden original
+        }
+    }, [isShuffleEnabled]);
+
+    const shuffleDeck = () => {
+        const shuffled = [...deck.elements].sort(() => Math.random() - 0.5);
+        setFilteredCards(shuffled);
+        setCurrentIndex(0);
+        setCorrect(new Set());
+        setIncorrect(new Set());
+    };
 
     const allCards: FlashcardData[] = filteredCards;
     const currentCard = allCards[currentIndex];
@@ -86,6 +105,10 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
         setTimeout(onClose, 300); // Espera la animación antes de cerrar
     };
 
+    const toggleShuffle = () => setIsShuffleEnabled((prev) => !prev);
+
+    const toggleOrientation = () => setIsTermFirst((prev) => !prev);
+
     const modalContent = (
         <>
             <div
@@ -105,13 +128,22 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                         <FaArrowLeft />
                     </button>
 
+                    {/* Botón de configuración */}
+                    <SettingsTooltip
+                        onReset={() => resetDeck(deck.elements)}
+                        onToggleShuffle={toggleShuffle}
+                        isShuffleEnabled={isShuffleEnabled}
+                        onToggleOrientation={toggleOrientation}
+                        isTermFirst={isTermFirst}
+                    />
+
                     {/* Título del mazo */}
                     <h1 className="text-4xl font-bold text-white mb-6">{deck.name}</h1>
 
                     {/* Componente SwipeableCard */}
                     <SwipeableCard
-                        front={currentCard?.front || ""}
-                        back={currentCard?.back || ""}
+                        front={isTermFirst ? currentCard?.front || "" : currentCard?.back || ""}
+                        back={isTermFirst ? currentCard?.back || "" : currentCard?.front || ""}
                         onApprove={handleApprove}
                         onReject={handleReject}
                     />
