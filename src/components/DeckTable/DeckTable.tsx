@@ -47,7 +47,7 @@ const DeckTable: React.FC<DeckTableProps> = ({ deckType, decks }) => {
                             <td className="px-4 py-2 font-bold">{element._id.kanji}</td>
                             <td className="px-4 py-2">{element._id.readings.onyomi.join("; ")}</td>
                             <td className="px-4 py-2">{element._id.readings.kunyomi.join("; ")}</td>
-                            <td className="px-4 py-2">{element._id.meanings["en"]?.join("; ") || ""}</td>
+                            <td className="px-4 py-2">{element._id.meanings?.map((meaning) => meaning.en).join("; ") || ""}</td>
                             <td className="px-4 py-2">{element._id.strokes}</td>
                             <td className="px-4 py-2">{element._id.jlpt}</td>
                             <td className="px-4 py-2">{element._id.unicode}</td>
@@ -56,7 +56,7 @@ const DeckTable: React.FC<DeckTableProps> = ({ deckType, decks }) => {
                         <>
                             <td className="px-4 py-2 font-bold">{element._id.word}</td>
                             <td className="px-4 py-2">{element._id.readings.join("; ")}</td>
-                            <td className="px-4 py-2">{element._id.meanings["en"]?.join("; ") || ""}</td>
+                            <td className="px-4 py-2">{element._id.meanings?.map((meaning) => meaning.en).join("; ") || ""}</td>
                             <td className="px-4 py-2">{element._id.part_of_speech.join("; ")}</td>
                             <td className="px-4 py-2">
                                 {element._id.related_words.map((related) => related.word).join(", ")}
