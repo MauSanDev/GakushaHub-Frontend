@@ -11,7 +11,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveSection }) => {
         { label: 'Search', href: '#search' },
         { label: 'Kanjis', href: '#kanjis' },
         { label: 'Words', href: '#words' },
-        { label: 'Grammatical Structures', href: '#grammar' },
+        { label: 'Grammar', href: '#grammar' },
         { label: 'Courses', href: '#courses' },
     ];
 

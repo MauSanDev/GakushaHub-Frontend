@@ -58,7 +58,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
     };
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-lg mb-6 border border-gray-200 transform transition-transform duration-300 hover:scale-105 hover:border-blue-400 w-full relative">
+        <div className="bg-white p-6 rounded-lg shadow-lg mb-6 border border-gray-200 transform transition-transform duration-300 hover:border-blue-400 w-full relative">
             {/* Botones de edición, guardado y cancelación */}
             <div className="absolute top-4 right-4 flex gap-2">
                 {isEditing ? (
