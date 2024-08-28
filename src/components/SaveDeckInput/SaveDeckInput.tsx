@@ -175,7 +175,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ onSave }) => {
                     ...selectedLesson.wordDecks
                 ]
                     .map((deck) =>
-                        deck.name.replace(/ - (Words|Kanji)$/, '')
+                        deck.name.replace(/ - (Words|Kanji|Grammar)$/, '')
                     )
                     .filter((name, index, self) => self.indexOf(name) === index);
 

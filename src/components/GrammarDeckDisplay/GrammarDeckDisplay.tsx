@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { FaChevronRight, FaChevronDown } from "react-icons/fa";
 import SmallGrammarBox from "../SmallGrammarBox";
 import { GrammarDeck } from "../../data/data-structures";
@@ -9,7 +9,6 @@ interface GrammarDeckDisplayProps {
 
 const GrammarDeckDisplay: React.FC<GrammarDeckDisplayProps> = ({ decks }) => {
     const [expandedDecks, setExpandedDecks] = useState<{ [key: string]: boolean }>({});
-    const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
     const toggleExpand = (deckId: string) => {
         setExpandedDecks((prevState) => ({
@@ -17,17 +16,6 @@ const GrammarDeckDisplay: React.FC<GrammarDeckDisplayProps> = ({ decks }) => {
             [deckId]: !prevState[deckId],
         }));
     };
-
-    useEffect(() => {
-        Object.keys(contentRefs.current).forEach((deckId) => {
-            const contentElement = contentRefs.current[deckId];
-            if (contentElement) {
-                contentElement.style.maxHeight = expandedDecks[deckId]
-                    ? `${contentElement.scrollHeight}px`
-                    : "0px";
-            }
-        });
-    }, [expandedDecks, decks]);
 
     return (
         <div className="w-full">
@@ -43,22 +31,18 @@ const GrammarDeckDisplay: React.FC<GrammarDeckDisplayProps> = ({ decks }) => {
                         </div>
                     </div>
 
-                    <div
-                        ref={(el) => (contentRefs.current[deck._id] = el)}
-                        className="overflow-hidden transition-all duration-500 ease-in-out"
-                        style={{
-                            maxHeight: expandedDecks[deck._id] ? `${contentRefs.current[deck._id]?.scrollHeight}px` : "0px",
-                        }}
-                    >
-                        <div className="grid grid-cols-2 gap-4">
-                            {deck.elements.map((grammarElement) => (
-                                <SmallGrammarBox
-                                    key={grammarElement._id}
-                                    result={grammarElement}
-                                />
-                            ))}
+                    {expandedDecks[deck._id] && (
+                        <div className="transition-all duration-500 ease-in-out">
+                            <div className="grid grid-cols-2 gap-4">
+                                {deck.elements.map((grammarElement) => (
+                                    <SmallGrammarBox
+                                        key={grammarElement._id._id}
+                                        result={grammarElement._id}
+                                    />
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             ))}
         </div>

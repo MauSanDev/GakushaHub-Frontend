@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { GrammarStructureData, Example } from '../../data/data-structures';
 import { useLanguage } from '../../context/LanguageContext';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
@@ -9,51 +9,79 @@ interface SmallGrammarBoxProps {
 
 const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
     const { language } = useLanguage();
-    const [isExamplesOpen, setIsExamplesOpen] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const [maxHeight, setMaxHeight] = useState('0px');
+
+    useEffect(() => {
+        if (contentRef.current) {
+            if (isExpanded) {
+                setMaxHeight(`${contentRef.current.scrollHeight}px`);
+            } else {
+                setMaxHeight('0px');
+            }
+        }
+    }, [isExpanded]);
+
+    useEffect(() => {
+        if (isExpanded) {
+            // Reset the maxHeight to 'none' after the transition to allow for dynamic content resizing
+            const timeout = setTimeout(() => setMaxHeight('none'), 500); // 500ms matches the transition duration
+            return () => clearTimeout(timeout);
+        }
+    }, [isExpanded]);
 
     if (!result) return null;
 
     return (
-        <div
-            className="bg-white p-2 rounded-md shadow-sm border border-gray-200 hover:border-blue-300 transition-transform transform hover:scale-105 w-full cursor-pointer relative"
-        >
+        <div className="bg-white p-2 rounded-md shadow-sm border border-gray-200 hover:border-blue-300 w-full cursor-pointer relative">
             {/* JLPT Tag */}
-            <span className="absolute top-2 right-2 bg-blue-400 text-white text-xs px-2 py-1 rounded-full">
+            <span className="absolute top-1 right-1 bg-blue-400 text-white text-xs px-1 py-1 rounded-full">
                 JLPT{result.jlpt}
             </span>
 
-            <h1 className="text-xl font-bold text-blue-400 mb-1">{result.structure}</h1>
-            <p className="text-sm text-gray-600 mb-2">{result.hint}</p>
-
-            {/* Subtítulo "Examples" colapsable */}
-            <div
-                className="flex items-center cursor-pointer text-black font-semibold text-sm mb-2"
-                onClick={(e) => {
-                    e.stopPropagation();
-                    setIsExamplesOpen(!isExamplesOpen);
-                }}
-            >
-                <span className="mr-1">{isExamplesOpen ? <FaChevronDown /> : <FaChevronRight />}</span>
-                <span>Examples</span>
+            {/* Title and Chevron */}
+            <div className="flex items-center" onClick={() => setIsExpanded(!isExpanded)}>
+                <span className="text-xs text-gray-600 mr-2">
+                    {isExpanded ? <FaChevronDown /> : <FaChevronRight />}
+                </span>
+                <h1 className="text-lg font-bold text-blue-400">{result.structure}</h1>
             </div>
+            <span className="text-xs text-gray-600">{result.hint}</span>
 
-            {/* Contenedor de ejemplos colapsable con animación */}
+            {/* Animated Content */}
             <div
-                className={`overflow-hidden transition-max-height duration-500 ease-in-out ${
-                    isExamplesOpen ? 'max-h-[500px]' : 'max-h-0'
-                }`}
+                ref={contentRef}
+                className="overflow-hidden transition-all duration-500 ease-in-out"
+                style={{ maxHeight }}
             >
-                {result.examples.map((example: Example, index) => (
-                    <div key={index} className="mb-2 text-xs">
-                        <span className="text-gray-500 mr-2">例:</span>
-                        <b className="text-gray-900">{example.text}</b>
-                        <p className="text-gray-600">
-                            {example.translations && example.translations[language]
-                                ? example.translations[language]
-                                : example.translations.en}
-                        </p>
-                    </div>
-                ))}
+                {isExpanded && (
+                    <>
+                        {/* Description */}
+                        <p className="text-xs text-gray-600 mt-2 font-bold">Description:</p>
+                        <p className="text-xs text-gray-600 mb-2">{result.description}</p>
+
+                        {/* Examples */}
+                        <p className="text-xs text-gray-600 mb-2 font-bold">Examples:</p>
+                        <div className="text-gray-600">
+                            {result.examples && result.examples.length > 0 ? (
+                                result.examples.map((example: Example, index) => (
+                                    <div key={index} className="mb-2 text-xs pl-2">
+                                        <span className="text-gray-500 mr-2">例:</span>
+                                        <b className="text-gray-700">{example.text}</b>
+                                        <p className="text-gray-500 pl-6">
+                                            {example.translations && example.translations[language]
+                                                ? example.translations[language]
+                                                : example.translations.en}
+                                        </p>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-gray-600">No examples available.</p>
+                            )}
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );
