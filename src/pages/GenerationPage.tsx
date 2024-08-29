@@ -25,13 +25,8 @@ const GenerationPage: React.FC = () => {
 
         try {
             let htmlText = '';
-            if (isDeveloping) {
-                // Modo de desarrollo: Genera un texto de ejemplo
-                htmlText = `
-                    <p><ruby>開発中<rt>かいはつちゅう</rt></ruby>のテキストです。</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    <p>このテキストは実際の生成テキストではありません。</p>
-                `;
+            if (isDeveloping) {// Modo de desarrollo: Genera un texto de ejemplo
+                htmlText = `<p>"<wrd><ruby>愛<rt>あい</rt></ruby></wrd>とは何かについて語ろう。まず、<wrd><ruby>愛<rt>あい</rt></ruby></wrd>とは、<wrd><ruby>人<rt>ひと</rt></ruby></wrd>への<wrd><ruby>深<rt>ふか</rt></ruby>い<wrd><ruby>感情<rt>かんじょう</rt></ruby></wrd>で、<wrd><ruby>親<rt>おや</rt></ruby></wrd>から<wrd><ruby>子<rt>こ</rt></ruby>ども</wrd>への<wrd><ruby>愛<rt>あい</rt></ruby></wrd>、<wrd><ruby>友<rt>とも</rt>だち</ruby></wrd>への<wrd><ruby>愛<rt>あい</rt></ruby></wrd>、そして<wrd><ruby>恋<rt>こい</rt></ruby>人</wrd>への<wrd><ruby>愛<rt>あい</rt></ruby></wrd>など、さまざまな<wrd><ruby>形<rt>かた</rt>ち</ruby></wrd>があります。しかし、<wrd><ruby>愛<rt>あい</rt></ruby></wrd>の<wrd><ruby>本質<rt>ほんしつ</rt></ruby></wrd>はすべての<wrd><ruby>形<rt>かた</rt>ち</ruby></wrd>の中に<wrd><ruby>共通<rt>きょうつう</rt></ruby></wrd>して<wrd><ruby>存在<rt>そんざい</rt></ruby></wrd>し、それは<wrd><ruby>他<rt>ほか</rt></ruby></wrd>の<wrd><ruby>人<rt>ひと</rt></ruby></wrd>を<wrd><ruby>思<rt>おも</rt>いや</ruby></wrd>る<wrd><ruby>心<rt>こころ</rt></ruby></wrd>です。"</wrd></p>`;
             } else {
                 // Modo de producción: Usa el endpoint real
                 const response = await fetch('http://localhost:3000/api/generate', {
@@ -56,11 +51,17 @@ const GenerationPage: React.FC = () => {
 
                 // Convertir markdown a HTML de manera asíncrona
                 htmlText = await marked(data.generatedText);
-
-                // Reemplazo de [[ ]] por etiquetas ruby
-                htmlText = htmlText.replace(/\[\[(.*?)\]\]/g, '<ruby>$1</ruby>');
+                
             }
 
+            // Reemplazo de @{ }@ por etiquetas <ruby> y #{ }# por <rt>
+// Reemplazo de @{ por <ruby>, #{ por <rt>, y }@ por </ruby>, }# por </rt>
+            htmlText = htmlText
+                .replace(/@\{/g, '<ruby>')
+                .replace(/#\{/g, '<rt>')
+                .replace(/\}#/g, '</rt>')
+                .replace(/\}@/g, '</ruby>');
+            
             setGeneratedText(htmlText);
         } catch (err) {
             setError(`Error generating text: ${err}`);
