@@ -14,6 +14,7 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
     const [lineHeight, setLineHeight] = useState(1.8);
     const [showConfig, setShowConfig] = useState(false);
     const [formattedContent, setFormattedContent] = useState('');
+    const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
     const toggleFurigana = () => setShowFurigana(!showFurigana);
 
@@ -24,18 +25,52 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
 
     useEffect(() => {
         const processContent = async () => {
-            // Convierte Markdown a HTML de manera asíncrona
             let htmlText = await marked(content);
 
-            // Agrega clases y ajusta el formato de las etiquetas <wrd>
-            htmlText = htmlText
-                .replace(/<wrd>/g, '<wrd class="hover:bg-blue-100">') // Aplicar clases a las etiquetas <wrd>
+            // Replace <wrd> with <span> and add data attributes for the tooltip
+            htmlText = htmlText.replace(
+                /<wrd>(.*?)<\/wrd>/g,
+                (_, innerText) => {
+                    const [word, reading, meaning] = innerText.split('|');
+                    return `
+                        <span class="relative tooltip-trigger cursor-pointer hover:bg-blue-100 m-0" data-tooltip-word="${word}">
+                            ${word}
+                            <span class="tooltip-content indent-0 absolute left-0 top-full mb-2 p-2 bg-black text-white text-xs rounded opacity-0 transition-opacity duration-300 whitespace-nowrap">
+                                <span>${word} (${reading})</span> </br>
+                                <span>${meaning}</span>
+                            </span>
+                        </span>`;
+                }
+            );
 
             setFormattedContent(htmlText);
         };
 
         processContent();
     }, [content]);
+
+    useEffect(() => {
+        // Handle opening and closing tooltips
+        const triggers = document.querySelectorAll('.tooltip-trigger');
+
+        triggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                // Close other tooltips
+                const allTooltips = document.querySelectorAll('.tooltip-content');
+                allTooltips.forEach(tooltip => {
+                    tooltip.classList.remove('opacity-100');
+                    tooltip.classList.add('opacity-0', 'pointer-events-none');
+                });
+
+                // Open the clicked tooltip
+                const tooltip = trigger.querySelector('.tooltip-content');
+                if (tooltip) {
+                    tooltip.classList.toggle('opacity-0');
+                    tooltip.classList.toggle('opacity-100');
+                }
+            });
+        });
+    }, [formattedContent]);
 
     return (
         <div className="relative p-8 pb-24 bg-white border border-gray-300 rounded-md shadow-lg">
@@ -101,13 +136,9 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
                     fontSize: `${fontSize}px`,
                     letterSpacing: `${letterSpacing}px`,
                     lineHeight: lineHeight,
-                    textIndent: '2em' // Aplica sangría al inicio de cada párrafo
+                    textIndent: '2em'
                 }}
-                dangerouslySetInnerHTML={{
-                    __html: showFurigana
-                        ? formattedContent
-                        : formattedContent.replace(/<rt>.*?<\/rt>/g, '')
-                }}
+                dangerouslySetInnerHTML={{ __html: showFurigana ? formattedContent : formattedContent.replace(/<rt>.*?<\/rt>/g, '') }}
             />
         </div>
     );
