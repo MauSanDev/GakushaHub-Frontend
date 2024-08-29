@@ -13,6 +13,8 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveSection }) => {
         { label: 'Words', href: '#words' },
         { label: 'Grammar', href: '#grammar' },
         { label: 'Courses', href: '#courses' },
+        { label: 'Generate', href: '#generate' },
+        { label: 'Generations', href: '#generations' },
     ];
 
     return (
