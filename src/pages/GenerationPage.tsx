@@ -3,7 +3,7 @@ import { FaPaperPlane } from 'react-icons/fa';
 import loadingIcon from '../assets/loading-icon.svg';
 import TextReader from '../components/TextReader';
 
-const isDeveloping = true; // Cambia a 'false' cuando quieras usar el endpoint real
+const isDeveloping = false; // Cambia a 'false' cuando quieras usar el endpoint real
 
 const GenerationPage: React.FC = () => {
     const [topic, setTopic] = useState('');

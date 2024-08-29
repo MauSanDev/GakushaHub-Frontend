@@ -27,18 +27,20 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
         const processContent = async () => {
             let htmlText = await marked(content);
 
-            // Replace <wrd> with <span> and add data attributes for the tooltip
+            // Reemplazar <wrd> con un span que tenga un manejador onClick
             htmlText = htmlText.replace(
                 /<wrd>(.*?)<\/wrd>/g,
                 (_, innerText) => {
                     const [word, reading, meaning] = innerText.split('|');
                     return `
-                        <span class="relative tooltip-trigger cursor-pointer hover:bg-blue-100 m-0" data-tooltip-word="${word}">
+                        <span
+                            class="relative tooltip-trigger cursor-pointer hover:bg-blue-100 m-0 inline-block indent-0"
+                            style="margin: 0;"
+                            data-word="${word}"
+                            data-reading="${reading}"
+                            data-meaning="${meaning}"
+                        >
                             ${word}
-                            <span class="tooltip-content indent-0 absolute left-0 top-full mb-2 p-2 bg-black text-white text-xs rounded opacity-0 transition-opacity duration-300 whitespace-nowrap">
-                                <span>${word} (${reading})</span> </br>
-                                <span>${meaning}</span>
-                            </span>
                         </span>`;
                 }
             );
@@ -49,26 +51,65 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
         processContent();
     }, [content]);
 
+    const injectTooltip = (event: MouseEvent) => {
+        const word = (event.currentTarget as HTMLElement).getAttribute('data-word');
+        const reading = (event.currentTarget as HTMLElement).getAttribute('data-reading');
+        const meaning = (event.currentTarget as HTMLElement).getAttribute('data-meaning');
+
+        // Eliminar tooltips existentes
+        document.querySelectorAll('.tooltip-content').forEach(tooltip => tooltip.remove());
+
+        if (word && reading && meaning) {
+            // Crear el elemento tooltip
+            const tooltip = document.createElement('span');
+            tooltip.className = 'tooltip-content border-gray-300 border indent-0 absolute left-0 top-full mb-2 p-2 bg-white text-black rounded opacity-0 transition-opacity duration-300 whitespace-nowrap z-50';
+            tooltip.style.opacity = '0';
+            tooltip.style.transition = 'opacity 0.3s';
+            tooltip.innerHTML = `
+                <span class="font-bold text-blue-500 text-m">${word}</span>
+                <span class="text-gray-500 text-xs">(${reading})</span> <br>
+                <span class="text-gray-800 text-xs">${meaning}</span>
+                <button class="absolute top-0 right-0 p-1 text-white bg-red-500 rounded-full">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+
+            // Funcionalidad para cerrar el tooltip
+            tooltip.querySelector('button')?.addEventListener('click', () => {
+                tooltip.style.opacity = '0';
+                setTimeout(() => tooltip.remove(), 300); // Esperar a que termine la animación
+                setActiveTooltip(null);
+            });
+
+            // Añadir el tooltip al span de la palabra
+            (event.currentTarget as HTMLElement).appendChild(tooltip);
+
+            // Activar la animación de fade in
+            setTimeout(() => {
+                tooltip.style.opacity = '1';
+            }, 0);
+
+            setActiveTooltip(word);
+        }
+    };
+
     useEffect(() => {
-        // Handle opening and closing tooltips
         const triggers = document.querySelectorAll('.tooltip-trigger');
 
         triggers.forEach(trigger => {
-            trigger.addEventListener('click', () => {
-                // Close other tooltips
-                const allTooltips = document.querySelectorAll('.tooltip-content');
-                allTooltips.forEach(tooltip => {
-                    tooltip.classList.remove('opacity-100');
-                    tooltip.classList.add('opacity-0', 'pointer-events-none');
-                });
-
-                // Open the clicked tooltip
-                const tooltip = trigger.querySelector('.tooltip-content');
-                if (tooltip) {
-                    tooltip.classList.toggle('opacity-0');
-                    tooltip.classList.toggle('opacity-100');
-                }
+            trigger.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevenir que el manejador de click en el documento cierre el tooltip inmediatamente
+                injectTooltip(event as unknown as MouseEvent);
             });
+        });
+
+        // Cerrar el tooltip al hacer clic fuera
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.tooltip-content').forEach(tooltip => {
+                tooltip.style.opacity = '0';
+                setTimeout(() => tooltip.remove(), 300);
+            });
+            setActiveTooltip(null);
         });
     }, [formattedContent]);
 
@@ -91,7 +132,7 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
                         <FaCog />
                     </button>
                     {showConfig && (
-                        <div className="absolute right-0 mt-2 w-56 p-4 bg-white border border-gray-300 rounded-md shadow-lg">
+                        <div className="absolute right-0 mt-2 w-56 p-4 bg-white border border-gray-300 rounded-md shadow-lg z-50">
                             <div className="flex items-center justify-between">
                                 <label className="text-xs text-gray-700">Text Size</label>
                                 <input
