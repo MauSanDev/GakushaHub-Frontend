@@ -141,7 +141,7 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
     return (
         <div className="whitemax-w-relative p-8 pb-24 bg-white border border-gray-300 rounded-md shadow-lg">
             <h1 className="text-2xl font-bold mb-4">{title}</h1>
-            <div className="absolute top-4 right-4 flex items-center space-x-2">
+            <div className="absolute top-14 right-14 flex items-center space-x-2">
                 <button
                     className={`text-white flex items-center space-x-1 px-2 py-1 rounded ${showFurigana ? 'bg-blue-500' : 'bg-gray-400'}`}
                     onClick={toggleFurigana}
