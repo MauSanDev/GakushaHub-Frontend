@@ -35,6 +35,7 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
         (event: React.ChangeEvent<HTMLInputElement>) => {
             setter(Number(event.target.value));
         };
+    
     useEffect(() => {
         const processContent = async () => {
             try {
@@ -49,7 +50,9 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
                 const formattedText = htmlText.replace(/\[(.*?)\]/g, (match, p1) => {
                     return '<span class="relative tooltip-trigger cursor-pointer hover:bg-yellow-200 m-0 inline-block indent-0" data-word="' + p1.replace(/\((.*?)\|.*?\)/g, '$1') + '" data-reading="yourReading" data-meaning="yourMeaning" >'
                         + p1.replace(/\((.*?)\|(.*?)\)/g, '<ruby>$1<rt>$2</rt></ruby>') + '</span>';
-                });
+                })
+                    .replace(/<h1>/g, '<h1 class="text-2xl font-bold pb-5 text-black align-center">')
+                    .replace(/<h2>/g, '<h2 class="text-m font-bold pb-2 pt-5 text-black align-center">');
                 
                 setFormattedContent(formattedText);
             } catch (error) {

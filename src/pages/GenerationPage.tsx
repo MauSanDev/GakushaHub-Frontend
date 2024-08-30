@@ -67,18 +67,21 @@ const GenerationPage: React.FC = () => {
 
     return (
         <div className="flex flex-col items-center justify-center h-full w-full p-4">
-            {/* Contenedor del texto generado */}
-            <div className="flex-1 p-8 bg-white border border-gray-300 rounded-md overflow-y-auto relative max-w-4xl w-full shadow-lg">
+            <div className="flex-1 p-8 rounded-md overflow-y-auto relative max-w-4xl w-full">
                 {loading && (
                     <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10">
                         <img src={loadingIcon} alt="Loading..." className="w-16 h-16" />
                     </div>
                 )}
-                {generatedText && (
+                {generatedText  ? (
                     <TextReader title="Generated Text" content={generatedText} />
-                )}
-                {error && <p className="text-red-500 text-center">{error}</p>}
-            </div>
+                ) : (<div className="flex items-center justify-center h-full mt-2"><h1
+                    className="text-center text-4xl text-gray-300 font-bold  align-middle space-x-0">何読みたい？</h1></div>)}
+                    {error && <p className="text-red-500 text-center">{error}</p>
+            }
+
+
+        </div>
 
             {/* Zona de input y configuración flotante */}
             <div className="p-3 bg-white border border-gray-200 rounded-md shadow-lg w-full max-w-3xl fixed bottom-0 left-1/2 transform -translate-x-1/2">

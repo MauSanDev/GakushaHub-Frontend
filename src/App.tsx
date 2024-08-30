@@ -11,7 +11,7 @@ import GrammarListPage from "./pages/GrammarListPage.tsx";
 import LanguageDropdown from './components/LanguageDropdown';
 import { LanguageProvider } from './context/LanguageContext';
 import CourseDetailPage from "./pages/CourseDetailsPage.tsx";
-import GeneratedTextsPage from "./pages/GeneratedTextsPage.tsx";
+import GenerationsListPage from "./pages/GenerationsListPage.tsx";
 import GenerationPage from "./pages/GenerationPage.tsx";
 
 function App() {
@@ -58,7 +58,7 @@ function App() {
                                 {activeSection === 'Kanjis' && <KanjiListPage />}
                                 {activeSection === 'Words' && <WordListPage />}
                                 {activeSection === 'Grammar' && <GrammarListPage />}
-                                {activeSection === 'Generations' && <GeneratedTextsPage />}
+                                {activeSection === 'Generations' && <GenerationsListPage />}
                                 {activeSection === 'Generate' && <GenerationPage />}
                                 {activeSection === 'Courses' && (
                                     <CourseListPage onCourseClick={handleCourseClick} /> // Pasa la función de click al componente de cursos
