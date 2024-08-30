@@ -34,10 +34,10 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
                 const filteredContent = data.processedText;
                 const htmlText = await marked(filteredContent);
                 const formattedText = htmlText.replace(/\[(.*?)\]/g, (match, p1) => {
-                    return '<span class="hover:bg-yellow-200 m-0 inline-block indent-0" data-word="yourWord" data-reading="yourReading" data-meaning="yourMeaning" >'
+                    return '<span class="relative tooltip-trigger cursor-pointer hover:bg-yellow-200 m-0 inline-block indent-0" data-word="yourWord" data-reading="yourReading" data-meaning="yourMeaning" >'
                         + p1.replace(/\((.*?)\|(.*?)\)/g, '<ruby>$1<rt>$2</rt></ruby>') + '</span>';
                 });
-
+                
                 setFormattedContent(formattedText);
             } catch (error) {
                 console.error('Error processing conntent:', error);
