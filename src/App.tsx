@@ -13,6 +13,7 @@ import { LanguageProvider } from './context/LanguageContext';
 import CourseDetailPage from "./pages/CourseDetailsPage.tsx";
 import GeneratedTextsPage from "./pages/GeneratedTextsPage.tsx";
 import GenerationPage from "./pages/GenerationPage.tsx";
+import KuromojiViewerPage from "./pages/KuromojiTestPage.tsx";
 
 function App() {
     const [activeSection, setActiveSection] = useState('Search');
@@ -60,6 +61,7 @@ function App() {
                                 {activeSection === 'Grammar' && <GrammarListPage />}
                                 {activeSection === 'Generations' && <GeneratedTextsPage />}
                                 {activeSection === 'Generate' && <GenerationPage />}
+                                {activeSection === 'Kuromoji' && <KuromojiViewerPage />}
                                 {activeSection === 'Courses' && (
                                     <CourseListPage onCourseClick={handleCourseClick} /> // Pasa la función de click al componente de cursos
                                 )}

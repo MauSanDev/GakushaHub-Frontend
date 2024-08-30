@@ -3,7 +3,7 @@ import { FaPaperPlane } from 'react-icons/fa';
 import loadingIcon from '../assets/loading-icon.svg';
 import TextReader from '../components/TextReader';
 
-const isDeveloping = false; // Cambia a 'false' cuando quieras usar el endpoint real
+const isDeveloping = true; // Cambia a 'false' cuando quieras usar el endpoint real
 
 const GenerationPage: React.FC = () => {
     const [topic, setTopic] = useState('');
@@ -26,7 +26,13 @@ const GenerationPage: React.FC = () => {
         try {
             if (isDeveloping) {
                 setGeneratedText(
-                    `<p>"<wrd><ruby>愛<rt>あい</rt></ruby></wrd>とは何かについて語ろう。まず、<wrd><ruby>愛<rt>あい</rt></ruby></wrd>とは、<wrd><ruby>人<rt>ひと</rt></ruby></wrd>への<wrd><ruby>深<rt>ふか</rt></ruby>い<wrd><ruby>感情<rt>かんじょう</rt></ruby></wrd>で、<wrd><ruby>親<rt>おや</rt></ruby></wrd>から<wrd><ruby>子<rt>こ</rt></ruby>ども</wrd>への<wrd><ruby>愛<rt>あい</rt></ruby></wrd>、<wrd><ruby>友<rt>とも</rt>だち</ruby></wrd>への<wrd><ruby>愛<rt>あい</rt></ruby></wrd>、そして<wrd><ruby>恋<rt>こい</rt></ruby>人</wrd>への<wrd><ruby>愛<rt>あい</rt></ruby></wrd>など、さまざまな<wrd><ruby>形<rt>かた</rt>ち</ruby></wrd>があります。しかし、<wrd><ruby>愛<rt>あい</rt></ruby></wrd>の<wrd><ruby>本質<rt>ほんしつ</rt></ruby></wrd>はすべての<wrd><ruby>形<rt>かた</rt>ち</ruby></wrd>の中に<wrd><ruby>共通<rt>きょうつう</rt></ruby></wrd>して<wrd><ruby>存在<rt>そんざい</rt></ruby></wrd>し、それは<wrd><ruby>他<rt>ほか</rt></ruby></wrd>の<wrd><ruby>人<rt>ひと</rt></ruby></wrd>を<wrd><ruby>思<rt>おも</rt>いや</ruby></wrd>る<wrd><ruby>心<rt>こころ</rt></ruby></wrd>です。"</wrd></p>`
+                    `むかしむかし、遠い山のふもとに小さな村がありました。その村には、美しい娘と勇敢な若侍が住んでいました。二人は幼いころからの友人で、お互いに深く愛し合うようになりました。しかし、娘の父親は、彼女を遠い国の裕福な商人に嫁がせようと決めていました。若侍は娘と一緒に生きることを夢見て、毎晩彼女の家に忍び込み、村を逃げ出す計画を立てました。
+
+ある晩、二人はついに村を抜け出そうとしましたが、村の神様はこの禁じられた愛を許しませんでした。山に深い霧をかけ、二人を迷わせたのです。霧の中でさまよい続けた二人は、ついに道を見失い、力尽きてしまいました。
+
+失意の中、娘は決意しました。「私が犠牲になれば、神様は彼を許してくれるかもしれない」。娘は若侍に別れを告げ、神社で祈りを捧げました。すると、不思議なことに霧は消え去り、村は再び平穏を取り戻しました。しかし、娘はそのまま神様に召され、彼女の魂は村を見守る桜の木となりました。
+
+若侍は毎年春になると、その桜の木の下で娘を思い出し、静かに祈りを捧げました。桜の花は村中を美しく染め上げ、村人たちはその木を見るたびに、二人の純粋な愛と犠牲の物語を思い出すのでした。`
                 );
             } else {
                 const response = await fetch('http://localhost:3000/api/generate', {

@@ -9,12 +9,13 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveSection }) => {
 
     const menuItems = [
         { label: 'Search', href: '#search' },
-        { label: 'Kanjis', href: '#kanjis' },
-        { label: 'Words', href: '#words' },
+        // { label: 'Kanjis', href: '#kanjis' },
+        // { label: 'Words', href: '#words' },
         { label: 'Grammar', href: '#grammar' },
         { label: 'Courses', href: '#courses' },
         { label: 'Generate', href: '#generate' },
         { label: 'Generations', href: '#generations' },
+        { label: 'Kuromoji', href: '#kuromoji' },
     ];
 
     return (
