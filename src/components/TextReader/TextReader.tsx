@@ -19,8 +19,18 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
     const [wordCache, setWordCache] = useState<{ [key: string]: WordData }>({});
 
 
-    const toggleFurigana = () => setShowFurigana(!showFurigana);
+    const toggleFurigana = () => {
+        setShowFurigana(!showFurigana);
 
+        const rtElements = document.querySelectorAll('.prose rt');
+        rtElements.forEach(rt => {
+            if (showFurigana) {
+                rt.classList.add('hidden');
+            } else {
+                rt.classList.remove('hidden');
+            }
+        });
+    };
     const handleSliderChange = (setter: React.Dispatch<React.SetStateAction<number>>) =>
         (event: React.ChangeEvent<HTMLInputElement>) => {
             setter(Number(event.target.value));
@@ -204,7 +214,7 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
                     lineHeight: lineHeight,
                     textIndent: '2em'
                 }}
-                dangerouslySetInnerHTML={{ __html: showFurigana ? formattedContent : formattedContent.replace(/<rt>.*?<\/rt>/g, '') }}
+                dangerouslySetInnerHTML={{ __html:  formattedContent }}
             />
         </div>
     );
