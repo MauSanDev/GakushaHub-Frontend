@@ -22,30 +22,27 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
         (event: React.ChangeEvent<HTMLInputElement>) => {
             setter(Number(event.target.value));
         };
-
     useEffect(() => {
         const processContent = async () => {
-            let htmlText = await marked(content);
-
-            // Reemplazar <wrd> con un span que tenga un manejador onClick
-            htmlText = htmlText.replace(
-                /<wrd>(.*?)<\/wrd>/g,
-                (_, innerText) => {
-                    const [word, reading, meaning] = innerText.split('|');
-                    return `
-                        <span
-                            class="relative tooltip-trigger cursor-pointer hover:bg-blue-100 m-0 inline-block indent-0"
-                            style="margin: 0;"
-                            data-word="${word}"
-                            data-reading="${reading}"
-                            data-meaning="${meaning}"
-                        >
-                            ${word}
-                        </span>`;
+            try {
+                const response = await fetch(`http://localhost:3000/api/parse?text=${encodeURIComponent(content)}`);
+                if (!response.ok) {
+                    throw new Error(`Error en la API: ${response.statusText}`);
                 }
-            );
 
-            setFormattedContent(htmlText);
+                const data = await response.json();
+                const filteredContent = data.processedText;
+                const htmlText = await marked(filteredContent);
+                const formattedText = htmlText.replace(/\[(.*?)\]/g, (match, p1) => {
+                    return '<span class="hover:bg-yellow-200 m-0 inline-block indent-0" data-word="yourWord" data-reading="yourReading" data-meaning="yourMeaning" >'
+                        + p1.replace(/\((.*?)\|(.*?)\)/g, '<ruby>$1<rt>$2</rt></ruby>') + '</span>';
+                });
+
+                setFormattedContent(formattedText);
+            } catch (error) {
+                console.error('Error processing conntent:', error);
+                setFormattedContent('Error processing conntent.');
+            }
         };
 
         processContent();

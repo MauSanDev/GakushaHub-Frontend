@@ -15,7 +15,6 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveSection }) => {
         { label: 'Courses', href: '#courses' },
         { label: 'Generate', href: '#generate' },
         { label: 'Generations', href: '#generations' },
-        { label: 'Kuromoji', href: '#kuromoji' },
     ];
 
     return (
