@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaCog, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { marked } from 'marked';
 import { WordData } from '../../data/WordData.ts';
-
+import { useParseJapanese } from '../../hooks/useParseJapanese';
 
 interface TextReaderProps {
     title: string;
@@ -15,10 +14,9 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
     const [letterSpacing, setLetterSpacing] = useState(1);
     const [lineHeight, setLineHeight] = useState(1.8);
     const [showConfig, setShowConfig] = useState(false);
-    const [formattedContent, setFormattedContent] = useState('');
-    const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
     const [wordCache, setWordCache] = useState<{ [key: string]: WordData }>({});
 
+    const { data: formattedContent, error } = useParseJapanese(content);
 
     const toggleFurigana = () => {
         setShowFurigana(!showFurigana);
@@ -32,50 +30,20 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
             }
         });
     };
+
     const handleSliderChange = (setter: React.Dispatch<React.SetStateAction<number>>) =>
         (event: React.ChangeEvent<HTMLInputElement>) => {
             setter(Number(event.target.value));
         };
-    
-    useEffect(() => {
-        const processContent = async () => {
-            try {
-                const response = await fetch(`http://localhost:3000/api/parse?text=${encodeURIComponent(content)}`);
-                if (!response.ok) {
-                    throw new Error(`Error en la API: ${response.statusText}`);
-                }
-
-                const data = await response.json();
-                const filteredContent = data.processedText;
-                const htmlText = await marked(filteredContent);
-                const formattedText = htmlText.replace(/\[(.*?)\]/g, (match, p1) => {
-                    return '<span class="relative tooltip-trigger cursor-pointer hover:bg-yellow-200 m-0 inline-block indent-0" data-word="' + p1.replace(/\((.*?)\|.*?\)/g, '$1') + '" data-reading="yourReading" data-meaning="yourMeaning" >'
-                        + p1.replace(/\((.*?)\|(.*?)\)/g, '<ruby>$1<rt>$2</rt></ruby>') + '</span>';
-                })
-                    .replace(/<h1>/g, '<h1 class="text-2xl font-bold pb-5 text-black align-center">')
-                    .replace(/<h2>/g, '<h2 class="text-m font-bold pb-2 pt-5 text-black align-center">');
-                
-                setFormattedContent(formattedText);
-            } catch (error) {
-                console.error('Error processing conntent:', error);
-                setFormattedContent('Error processing conntent.');
-            }
-        };
-
-        processContent();
-    }, [content]);
 
     const injectTooltip = async (event: Element) => {
         const word = event.getAttribute('data-word') ?? "";
 
-        if (!word)
-        {
+        if (!word) {
             return;
         }
-        
-        if (wordCache[word]) {
 
-            console.log("returning from cache?")
+        if (wordCache[word]) {
             displayTooltip(event, wordCache[word]);
             return;
         }
@@ -87,56 +55,50 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
             }
 
             const wordData = await response.json();
-            
+
             setWordCache((prevCache) => ({
                 ...prevCache,
-                [word]: wordData[0]
+                [word]: wordData[0],
             }));
-            
-            console.log(`added ${word} and ${wordData[0]} to cache`)
-            
+
             displayTooltip(event, wordData[0]);
         } catch (error) {
             console.error('Error fetching word data:', error);
         }
     };
-    
-    const displayTooltip = (event:Element, wordData : WordData) => {
-        
-        if (!wordData)
-        {
-            console.log("no word provided for tooltip")
+
+    const displayTooltip = (event: Element, wordData: WordData) => {
+        if (!wordData) {
             return;
         }
-        
-        document.querySelectorAll('.tooltip-content').forEach(tooltip => tooltip.remove());
+
+        document.querySelectorAll('.tooltip-content').forEach((tooltip) => tooltip.remove());
 
         const tooltip = document.createElement('span');
-        tooltip.className = 'tooltip-content border-gray-300 border indent-0 absolute left-0 top-full mb-2 p-2 bg-white text-black rounded opacity-0 transition-opacity duration-300 whitespace-normal z-50';
+        tooltip.className =
+            'tooltip-content border-gray-300 border indent-0 absolute left-0 top-full mb-2 p-2 bg-white text-black rounded opacity-0 transition-opacity duration-300 whitespace-normal z-50';
         tooltip.style.opacity = '0';
         tooltip.style.transition = 'opacity 0.3s';
-        tooltip.style.width = "300px";
-        tooltip.style.letterSpacing = "1"; 
-        tooltip.style.lineHeight = "1"; 
+        tooltip.style.width = '300px';
+        tooltip.style.letterSpacing = '1';
+        tooltip.style.lineHeight = '1';
         tooltip.innerHTML = `
             <span class="font-bold text-blue-500 text-m">${wordData.word}</span>
-            <span class="text-gray-500 text-xs">(${wordData.readings.join(";")})</span> <br>
-            <span class="text-gray-800 text-xs">${wordData.meanings.map((meaning) => meaning.en).slice(0,3).join("; ")}</span>
+            <span class="text-gray-500 text-xs">(${wordData.readings.join(';')})</span> <br>
+            <span class="text-gray-800 text-xs">${wordData.meanings.map((meaning) => meaning.en).slice(0, 3).join('; ')}</span>
         `;
-        
+
         event.appendChild(tooltip);
 
         setTimeout(() => {
             tooltip.style.opacity = '1';
         }, 0);
-
-        setActiveTooltip(wordData.word);
-    }
+    };
 
     useEffect(() => {
         const triggers = document.querySelectorAll('.tooltip-trigger');
 
-        triggers.forEach(trigger => {
+        triggers.forEach((trigger) => {
             trigger.addEventListener('click', (event) => {
                 event.stopPropagation();
                 injectTooltip(trigger);
@@ -144,11 +106,10 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
         });
 
         document.addEventListener('click', () => {
-            document.querySelectorAll('.tooltip-content').forEach(tooltip => {
+            document.querySelectorAll('.tooltip-content').forEach((tooltip) => {
                 tooltip.style.opacity = '0';
                 setTimeout(() => tooltip.remove(), 300);
             });
-            setActiveTooltip(null);
         });
     }, [formattedContent]);
 
@@ -157,7 +118,9 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
             <h1 className="text-2xl font-bold mb-4">{title}</h1>
             <div className="absolute top-14 right-14 flex items-center space-x-2">
                 <button
-                    className={`text-white flex items-center space-x-1 px-2 py-1 rounded ${showFurigana ? 'bg-blue-500' : 'bg-gray-400'}`}
+                    className={`text-white flex items-center space-x-1 px-2 py-1 rounded ${
+                        showFurigana ? 'bg-blue-500' : 'bg-gray-400'
+                    }`}
                     onClick={toggleFurigana}
                 >
                     {showFurigana ? <FaEye /> : <FaEyeSlash />}
@@ -216,9 +179,9 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
                     fontSize: `${fontSize}px`,
                     letterSpacing: `${letterSpacing}px`,
                     lineHeight: lineHeight,
-                    textIndent: '2em'
+                    textIndent: '2em',
                 }}
-                dangerouslySetInnerHTML={{ __html:  formattedContent }}
+                dangerouslySetInnerHTML={{ __html: error ? 'Error processing content.' : formattedContent ?? '' }}
             />
         </div>
     );
