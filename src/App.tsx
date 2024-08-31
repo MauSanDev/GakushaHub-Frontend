@@ -17,8 +17,6 @@ import GenerationPage from "./pages/GenerationPage.tsx";
 function App() {
     const [activeSection, setActiveSection] = useState('Search');
     const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null); // Nuevo estado para el curso seleccionado
-    const [tags, setTags] = useState<string[]>([]);
-    const [inputValue, setInputValue] = useState('');
 
     const handleCourseClick = (courseId: string) => {
         setSelectedCourseId(courseId); // Establece el ID del curso seleccionado
@@ -47,14 +45,7 @@ function App() {
                             classNames="page-fade"
                         >
                             <div className="flex-1 flex flex-col items-center justify-center h-full w-full">
-                                {activeSection === 'Search' && (
-                                    <SearchPage
-                                        tags={tags}
-                                        setTags={setTags}
-                                        inputValue={inputValue}
-                                        setInputValue={setInputValue}
-                                    />
-                                )}
+                                {activeSection === 'Search' && (<SearchPage/>)}
                                 {activeSection === 'Kanjis' && <KanjiListPage />}
                                 {activeSection === 'Words' && <WordListPage />}
                                 {activeSection === 'Grammar' && <GrammarListPage />}

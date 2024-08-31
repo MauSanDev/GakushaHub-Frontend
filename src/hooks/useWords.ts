@@ -1,10 +1,15 @@
-import { useQuery, useQueryClient } from 'react-query';
-import { ApiClient } from '../services/ApiClient';
-import { WordData } from '../data/WordData';
+import {useQuery, useQueryClient} from 'react-query';
+import {ApiClient} from '../services/ApiClient';
+import {WordData} from '../data/WordData';
 
 const fetchWords = async (keywords: string[]): Promise<WordData[]> => {
     const queryString = keywords.join(',');
-    return ApiClient.get<WordData[]>(`/api/words?keywords=${queryString}`);
+
+    try {
+        return await ApiClient.get<WordData[]>(`/api/words?keywords=${queryString}`);
+    } catch (error: unknown) {
+        throw new Error(`Failed to fetch words: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
 };
 
 export const useWords = (keywords: string[]) => {
