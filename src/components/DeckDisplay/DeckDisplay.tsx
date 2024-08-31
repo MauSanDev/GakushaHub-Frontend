@@ -4,8 +4,8 @@ import SmallKanjiBox from "../SmallKanjiBox";
 import SmallWordBox from "../SmallWordBox";
 import DeckTable from "../DeckTable";
 import { FlashcardDeck } from "../../data/FlashcardData.ts";
-import { WordDeck } from "../../data/WordData.ts";
-import { KanjiDeck } from "../../data/KanjiData.ts";
+import {WordData, WordDeck} from "../../data/WordData.ts";
+import {KanjiData, KanjiDeck} from "../../data/KanjiData.ts";
 import { DeckData } from "../../data/DeckData.ts";
 
 import FlashcardsModal from "../FlashcardsPage";
@@ -101,9 +101,9 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
                 <div className="grid grid-cols-6 gap-2">
                     {decks.find((deck) => deck._id === deckId)?.elements.map((element, elemIndex) => (
                         deckType === "kanji" ? (
-                            <SmallKanjiBox key={`${element._id}-${elemIndex}`} result={element._id} />
+                            <SmallKanjiBox key={`${element._id}-${elemIndex}`} result={element as KanjiData} />
                         ) : (
-                            <SmallWordBox key={`${element._id}-${elemIndex}`} result={element._id} />
+                            <SmallWordBox key={`${element._id}-${elemIndex}`} result={element as WordData} />
                         )
                     ))}
                 </div>

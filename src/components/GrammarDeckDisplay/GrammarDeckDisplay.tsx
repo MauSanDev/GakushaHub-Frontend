@@ -36,8 +36,8 @@ const GrammarDeckDisplay: React.FC<GrammarDeckDisplayProps> = ({ decks }) => {
                             <div className="grid grid-cols-2 gap-4">
                                 {deck.elements.map((grammarElement) => (
                                     <SmallGrammarBox
-                                        key={grammarElement._id._id}
-                                        result={grammarElement._id}
+                                        key={grammarElement._id}
+                                        result={grammarElement}
                                     />
                                 ))}
                             </div>
