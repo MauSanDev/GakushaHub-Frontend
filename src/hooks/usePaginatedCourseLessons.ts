@@ -1,7 +1,13 @@
 import { usePaginatedData } from './usePaginatedData';
-import { LessonData } from '../data/CourseData';
+import { CourseData, LessonData } from '../data/CourseData';
+import {PaginatedData} from "../data/PaginatedData.ts";
 
 export const usePaginatedCourseLessons = (courseId: string, page: number, limit: number) => {
     const endpoint = `/api/course/${courseId}/lessons/paginated`;
-    return usePaginatedData<LessonData>(endpoint, page, limit);
+    return usePaginatedData<PaginatedCourseData<LessonData>>(endpoint, page, limit);
 };
+
+
+export interface PaginatedCourseData<T> extends PaginatedData<T> {
+    course: CourseData;
+}

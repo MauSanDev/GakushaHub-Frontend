@@ -1,13 +1,19 @@
 import { useQuery, UseQueryResult } from 'react-query';
 import { ApiClient } from '../services/ApiClient';
-import { PaginatedData } from '../data/PaginatedData.ts'
+import { PaginatedData } from '../data/PaginatedData.ts';
 
-const fetchPaginatedData = async <T>(endpoint: string, page: number, limit: number): Promise<PaginatedData<T>> => {
-    return ApiClient.get<PaginatedData<T>>(`${endpoint}?page=${page}&limit=${limit}`);
+type InferPaginatedData<T> = T extends PaginatedData<unknown> ? T : PaginatedData<T>;
+
+const fetchPaginatedData = async <T>(endpoint: string, page: number, limit: number): Promise<InferPaginatedData<T>> => {
+    return ApiClient.get<InferPaginatedData<T>>(`${endpoint}?page=${page}&limit=${limit}`);
 };
 
-export const usePaginatedData = <T>(endpoint: string, page: number, limit: number): UseQueryResult<PaginatedData<T>, Error> => {
-    return useQuery<PaginatedData<T>, Error>(
+export const usePaginatedData = <T>(
+    endpoint: string,
+    page: number,
+    limit: number
+): UseQueryResult<InferPaginatedData<T>, Error> => {
+    return useQuery<InferPaginatedData<T>, Error>(
         [endpoint, page, limit],
         () => fetchPaginatedData<T>(endpoint, page, limit),
         {

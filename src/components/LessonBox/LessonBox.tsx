@@ -6,10 +6,9 @@ import GrammarDeckDisplay from "../GrammarDeckDisplay"; // Importamos el nuevo c
 
 interface LessonBoxProps {
     lesson: LessonData;
-    onUpdateLesson: (updatedLesson: LessonData) => void;
 }
 
-const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
+const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(lesson.name || "<Title>");
     const [description, setDescription] = useState(lesson.description);
@@ -25,31 +24,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
         setIsEditing(true);
     };
 
-    const saveChanges = async () => {
-        if (!title.trim()) {
-            setTitle(previousTitle); // Revert to previous title if empty
-        } else {
-            try {
-                const response = await fetch(`http://localhost:3000/api/lessons/${lesson._id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ name: title, description }),
-                });
-
-                if (!response.ok) {
-                    throw new Error("Error al guardar los cambios.");
-                }
-
-                const updatedLesson = await response.json();
-                onUpdateLesson(updatedLesson);
-                setIsEditing(false);
-            } catch (error) {
-                console.error("Error al guardar los cambios:", error);
-            }
-        }
-    };
+    const saveChanges = async () => {};
 
     const cancelChanges = () => {
         setTitle(previousTitle);
