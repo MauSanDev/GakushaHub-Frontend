@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaCog, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useParseJapanese } from '../../hooks/useParseJapanese';
-import Tooltip from '../WordTooltip.tsx';
+import WordTooltip from '../WordTooltip.tsx';
 
 interface TextReaderProps {
     title: string;
@@ -125,7 +125,7 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
                 dangerouslySetInnerHTML={{ __html: error ? 'Error processing content.' : formattedContent ?? '' }}
             />
             {activeTooltip && (
-                <Tooltip word={activeTooltip.word} targetElement={activeTooltip.element} onClose={() => setActiveTooltip(null)} />
+                <WordTooltip word={activeTooltip.word} targetElement={activeTooltip.element} onClose={() => setActiveTooltip(null)} />
             )}
         </div>
     );

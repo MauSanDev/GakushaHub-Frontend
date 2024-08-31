@@ -1,40 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { WordData } from '../data/WordData.ts';
+import React, { useEffect } from 'react';
+import { useWords } from '../hooks/useWords';
 
-interface TooltipProps {
+interface WordTooltipProps {
     word: string;
     targetElement: Element;
     onClose: () => void;
 }
 
-const Tooltip: React.FC<TooltipProps> = ({ word, targetElement, onClose }) => {
-    const [wordData, setWordData] = useState<WordData | null>(null);
+const WordTooltip: React.FC<WordTooltipProps> = ({ word, targetElement, onClose }) => {
+    const { data: wordDataList, isLoading, error } = useWords([word]);
 
     useEffect(() => {
-        const fetchWordData = async () => {
-            try {
-                const response = await fetch(`http://localhost:3000/api/words?keywords=${word}`);
-                if (!response.ok) {
-                    throw new Error(`Error en la API: ${response.statusText}`);
-                }
-                const data = await response.json();
-                setWordData(data[0]);
-            } catch (error) {
-                console.error('Error fetching word data:', error);
-                onClose(); // Close the tooltip on error
-            }
-        };
-
-        fetchWordData();
-
-        return () => {
-            // Clean up when the component is unmounted
-            document.querySelectorAll('.tooltip-content').forEach((tooltip) => tooltip.remove());
-        };
-    }, [word, onClose]);
-
-    useEffect(() => {
-        if (wordData) {
+        if (wordDataList && wordDataList.length > 0) {
+            const wordData = wordDataList[0];
             const tooltip = document.createElement('span');
             tooltip.className =
                 'tooltip-content border-gray-300 border indent-0 absolute left-0 top-full mb-2 p-2 bg-white text-black rounded opacity-0 transition-opacity duration-300 whitespace-normal z-50';
@@ -54,10 +32,25 @@ const Tooltip: React.FC<TooltipProps> = ({ word, targetElement, onClose }) => {
             setTimeout(() => {
                 tooltip.style.opacity = '1';
             }, 0);
+
+            return () => {
+                tooltip.remove();
+            };
         }
-    }, [wordData, targetElement]);
+    }, [wordDataList, targetElement]);
+
+    useEffect(() => {
+        if (error) {
+            console.error('Error fetching word data:', error);
+            onClose();
+        }
+    }, [error, onClose]);
+
+    if (isLoading || !wordDataList || wordDataList.length === 0) {
+        return null;
+    }
 
     return null;
 };
 
-export default Tooltip;
+export default WordTooltip;
