@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaCog, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { WordData } from '../../data/WordData.ts';
 import { useParseJapanese } from '../../hooks/useParseJapanese';
+import Tooltip from '../WordTooltip.tsx';
 
 interface TextReaderProps {
     title: string;
@@ -14,7 +14,7 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
     const [letterSpacing, setLetterSpacing] = useState(1);
     const [lineHeight, setLineHeight] = useState(1.8);
     const [showConfig, setShowConfig] = useState(false);
-    const [wordCache, setWordCache] = useState<{ [key: string]: WordData }>({});
+    const [activeTooltip, setActiveTooltip] = useState<{ word: string; element: Element } | null>(null);
 
     const { data: formattedContent, error } = useParseJapanese(content);
 
@@ -36,80 +36,21 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
             setter(Number(event.target.value));
         };
 
-    const injectTooltip = async (event: Element) => {
-        const word = event.getAttribute('data-word') ?? "";
-
-        if (!word) {
-            return;
-        }
-
-        if (wordCache[word]) {
-            displayTooltip(event, wordCache[word]);
-            return;
-        }
-
-        try {
-            const response = await fetch(`http://localhost:3000/api/words?keywords=${word}`);
-            if (!response.ok) {
-                throw new Error(`Error en la API: ${response.statusText}`);
-            }
-
-            const wordData = await response.json();
-
-            setWordCache((prevCache) => ({
-                ...prevCache,
-                [word]: wordData[0],
-            }));
-
-            displayTooltip(event, wordData[0]);
-        } catch (error) {
-            console.error('Error fetching word data:', error);
-        }
-    };
-
-    const displayTooltip = (event: Element, wordData: WordData) => {
-        if (!wordData) {
-            return;
-        }
-
-        document.querySelectorAll('.tooltip-content').forEach((tooltip) => tooltip.remove());
-
-        const tooltip = document.createElement('span');
-        tooltip.className =
-            'tooltip-content border-gray-300 border indent-0 absolute left-0 top-full mb-2 p-2 bg-white text-black rounded opacity-0 transition-opacity duration-300 whitespace-normal z-50';
-        tooltip.style.opacity = '0';
-        tooltip.style.transition = 'opacity 0.3s';
-        tooltip.style.width = '300px';
-        tooltip.style.letterSpacing = '1';
-        tooltip.style.lineHeight = '1';
-        tooltip.innerHTML = `
-            <span class="font-bold text-blue-500 text-m">${wordData.word}</span>
-            <span class="text-gray-500 text-xs">(${wordData.readings.join(';')})</span> <br>
-            <span class="text-gray-800 text-xs">${wordData.meanings.map((meaning) => meaning.en).slice(0, 3).join('; ')}</span>
-        `;
-
-        event.appendChild(tooltip);
-
-        setTimeout(() => {
-            tooltip.style.opacity = '1';
-        }, 0);
-    };
-
     useEffect(() => {
         const triggers = document.querySelectorAll('.tooltip-trigger');
 
         triggers.forEach((trigger) => {
             trigger.addEventListener('click', (event) => {
                 event.stopPropagation();
-                injectTooltip(trigger);
+                const word = trigger.getAttribute('data-word') ?? '';
+                if (word) {
+                    setActiveTooltip({ word, element: trigger });
+                }
             });
         });
 
         document.addEventListener('click', () => {
-            document.querySelectorAll('.tooltip-content').forEach((tooltip) => {
-                tooltip.style.opacity = '0';
-                setTimeout(() => tooltip.remove(), 300);
-            });
+            setActiveTooltip(null); // Cierra cualquier tooltip activo
         });
     }, [formattedContent]);
 
@@ -183,6 +124,9 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
                 }}
                 dangerouslySetInnerHTML={{ __html: error ? 'Error processing content.' : formattedContent ?? '' }}
             />
+            {activeTooltip && (
+                <Tooltip word={activeTooltip.word} targetElement={activeTooltip.element} onClose={() => setActiveTooltip(null)} />
+            )}
         </div>
     );
 };
