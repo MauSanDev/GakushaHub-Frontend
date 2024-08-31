@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaBookOpen, FaBook, FaFileAlt } from 'react-icons/fa';
-import { CourseData } from '../../data/data-structures';
+import { CourseData } from "../../data/CourseData.ts";
 
 interface CourseBoxProps {
     course: CourseData;

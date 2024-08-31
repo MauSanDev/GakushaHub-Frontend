@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import LessonBox from '../components/LessonBox';
 import loadingIcon from '../assets/loading-icon.svg';
-import { CourseData, LessonData } from "../data/data-structures.tsx";
+import { CourseData, LessonData } from "../data/CourseData.ts";
 import { FaArrowLeft } from "react-icons/fa";
 
 interface CourseDetailPageProps {

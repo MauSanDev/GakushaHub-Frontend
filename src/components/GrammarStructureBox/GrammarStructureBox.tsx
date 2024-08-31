@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { GrammarData, ExampleData } from '../../data/data-structures';
+import { GrammarData } from "../../data/GrammarData.ts";
+import { ExampleData } from "../../data/GeneralTypes.ts";
 import { useLanguage } from '../../context/LanguageContext';
 import { FaCheck, FaChevronRight, FaChevronDown } from 'react-icons/fa';
 
@@ -57,7 +58,7 @@ const GrammarStructureBox: React.FC<GrammarStructureBoxProps> = ({ result, isSel
                     isExamplesOpen ? 'max-h-[1000px]' : 'max-h-0'
                 }`}
             >
-                {result.examples.map((example: Example, index) => (
+                {result.examples.map((example: ExampleData, index) => (
                     <div key={index} className="mt-4">
                         <span className="text-sm text-gray-500 mr-2">例:</span>
                         <b className="text-lg text-gray-900">{example.text}</b>

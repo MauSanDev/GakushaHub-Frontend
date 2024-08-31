@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaCog, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { marked } from 'marked';
-import {WordData} from "../../data/data-structures.tsx";
+import { WordData } from '../../data/WordData.ts';
+
 
 interface TextReaderProps {
     title: string;

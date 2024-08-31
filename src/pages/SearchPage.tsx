@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { KanjiData, WordData } from '../data/data-structures';
+import { KanjiData } from "../data/KanjiData.ts";
+import { WordData } from "../data/WordData.ts";
+
 import SearchBar from '../components/SearchBar';
 import SearchButton from '../components/SearchButton';
 import KanjiBox from '../components/KanjiBox';

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import KanjiBox from '../components/KanjiBox';
 import loadingIcon from '../assets/loading-icon.svg';
-import { KanjiData } from "../data/data-structures.tsx";
+import { KanjiData } from "../data/KanjiData.ts";
 
 const KanjiListPage: React.FC = () => {
     const [kanjiResults, setKanjiResults] = useState<KanjiData[]>([]);

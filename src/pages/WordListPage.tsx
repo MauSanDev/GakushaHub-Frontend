@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import WordBox from '../components/WordBox';
 import loadingIcon from '../assets/loading-icon.svg';
-import { WordData } from "../data/data-structures.tsx";
+import { WordData } from "../data/WordData.ts";
+
 
 const WordListPage: React.FC = () => {
     const [wordResults, setWordResults] = useState<WordData[]>([]);

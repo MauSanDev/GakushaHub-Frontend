@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaChevronRight, FaChevronDown } from "react-icons/fa";
 import SmallGrammarBox from "../SmallGrammarBox";
-import { GrammarDeck } from "../../data/data-structures";
+import { GrammarDeck } from "../../data/GrammarData";
 
 interface GrammarDeckDisplayProps {
     decks: GrammarDeck[];

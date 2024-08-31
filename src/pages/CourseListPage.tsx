@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import CourseBox from '../components/CourseBox';
 import loadingIcon from '../assets/loading-icon.svg';
-import { CourseData } from "../data/data-structures.tsx";
+import { CourseData } from "../data/CourseData.ts";
 
 interface CourseListPageProps {
     onCourseClick: (courseId: string) => void; // Recibe la función para manejar el click

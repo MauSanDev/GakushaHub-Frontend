@@ -1,5 +1,5 @@
-import {ExampleData} from "./general-types.ts";
-import {FlashcardDeck} from "./data-structures.tsx";
+import {ExampleData} from "./GeneralTypes.ts";
+import {FlashcardDeck} from "./FlashcardData.ts";
 
 export class DeckData<T> {
     _id: string;

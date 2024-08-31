@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LessonData } from "../../data/data-structures.tsx";
+import { LessonData } from "../../data/CourseData.ts";
 import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes } from "react-icons/fa";
 import DeckDisplay from "../DeckDisplay";
 import GrammarDeckDisplay from "../GrammarDeckDisplay"; // Importamos el nuevo componente

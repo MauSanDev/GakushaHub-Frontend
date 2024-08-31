@@ -1,5 +1,5 @@
 import {DeckData} from "./DeckData.ts";
-import {ExampleData, TranslationData} from "./general-types.ts";
+import {ExampleData, TranslationData} from "./GeneralTypes.ts";
 import {FlashcardData, FlashcardDeck} from "./FlashcardData.ts";
 
 export interface KanjiData {

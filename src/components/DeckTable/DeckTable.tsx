@@ -1,5 +1,8 @@
 import React from "react";
-import { KanjiDeck, WordDeck } from "../../data/data-structures";
+import { WordDeck } from '../../data/WordData.ts';
+import { KanjiDeck } from '../../data/KanjiData.ts';
+
+
 
 interface DeckTableProps {
     deckType: "kanji" | "word";

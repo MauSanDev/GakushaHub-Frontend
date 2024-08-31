@@ -1,4 +1,4 @@
-import {ExampleData} from "./general-types.ts";
+import {ExampleData} from "./GeneralTypes.ts";
 import {DeckData} from "./DeckData.ts";
 
 export interface FlashcardData {

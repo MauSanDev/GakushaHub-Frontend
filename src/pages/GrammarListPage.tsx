@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import GrammarStructureBox from '../components/GrammarStructureBox';
 import loadingIcon from '../assets/loading-icon.svg';
-import { GrammarData } from "../data/data-structures.tsx";
+import { GrammarData } from "../data/GrammarData.ts";
 import SaveDeckInput from '../components/SaveDeckInput';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 

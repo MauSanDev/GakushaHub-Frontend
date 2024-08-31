@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { GrammarData, ExampleData } from '../../data/data-structures';
+import { GrammarData } from '../../data/GrammarData';
+import { ExampleData } from '../../data/GeneralTypes.ts';
 import { useLanguage } from '../../context/LanguageContext';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 
@@ -65,7 +66,7 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
                         <p className="text-xs text-gray-600 mb-2 font-bold">Examples:</p>
                         <div className="text-gray-600">
                             {result.examples && result.examples.length > 0 ? (
-                                result.examples.map((example: Example, index) => (
+                                result.examples.map((example: ExampleData, index) => (
                                     <div key={index} className="mb-2 text-xs pl-2">
                                         <span className="text-gray-500 mr-2">例:</span>
                                         <b className="text-gray-700">{example.text}</b>

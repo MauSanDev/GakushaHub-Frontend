@@ -1,4 +1,4 @@
-import {ExampleData, TranslationData } from "./general-types.ts";
+import {ExampleData, TranslationData } from "./GeneralTypes.ts";
 import {DeckData} from "./DeckData.ts";
 import {FlashcardData, FlashcardDeck} from "./FlashcardData.ts";
 

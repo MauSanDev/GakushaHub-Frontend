@@ -3,7 +3,11 @@ import { FaTable, FaThLarge, FaPlay, FaChevronRight, FaChevronDown } from "react
 import SmallKanjiBox from "../SmallKanjiBox";
 import SmallWordBox from "../SmallWordBox";
 import DeckTable from "../DeckTable";
-import { KanjiDeck, WordDeck, FlashcardDeck, Deck } from "../../data/data-structures";
+import { FlashcardDeck } from "../../data/FlashcardData.ts";
+import { WordDeck } from "../../data/WordData.ts";
+import { KanjiDeck } from "../../data/KanjiData.ts";
+import { DeckData } from "../../data/DeckData.ts";
+
 import FlashcardsModal from "../FlashcardsPage";
 
 interface DeckDisplayProps<T extends "kanji" | "word"> {
@@ -70,7 +74,7 @@ const DeckDisplay = <T extends "kanji" | "word">({ deckType, decks }: DeckDispla
             setFlashcardDeck(flashcardDeck);
         } else {
             // Si hay más de un deck, combinar los elementos de todos en un solo FlashcardDeck
-            const combinedFlashcards = deckInstances.flatMap((deck: Deck<any>) =>
+            const combinedFlashcards = deckInstances.flatMap((deck: DeckData<any>) =>
                 deck.convertToFlashcards().elements
             );
 

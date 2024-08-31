@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { KanjiData } from '../../data/data-structures';
+import { KanjiData } from '../../data/KanjiData.ts';
 import { useLanguage } from '../../context/LanguageContext';
 
 interface SmallKanjiBoxProps {
