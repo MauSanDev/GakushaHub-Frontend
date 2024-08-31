@@ -3,6 +3,7 @@ import CourseBox from '../components/CourseBox';
 import { CourseData } from "../data/CourseData.ts";
 import { usePaginatedCourse } from "../hooks/usePaginatedCourse.ts";
 import LoadingScreen from "../components/LoadingScreen";
+import {Link} from "react-router-dom";
 
 const CourseListPage: React.FC = () => {
     const [courses, setCourses] = useState<CourseData[]>([]);
@@ -51,13 +52,9 @@ const CourseListPage: React.FC = () => {
             <div className="mt-8 w-full max-w-4xl flex flex-col gap-6 text-left">
                 {courses.length > 0 ? (
                     courses.map((course, index) => (
-                        <div
-                            key={index}
-                            onClick={() => console.log(course._id)}
-                            className="page-fade-enter page-fade-enter-active"
-                        >
+                        <Link key={index} to={`${course._id}`} className="page-fade-enter page-fade-enter-active">
                             <CourseBox course={course} />
-                        </div>
+                        </Link>
                     ))
                 ) : (
                     <p className="text-center text-gray-500">何もない</p>
