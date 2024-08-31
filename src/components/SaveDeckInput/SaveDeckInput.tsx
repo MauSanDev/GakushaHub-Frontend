@@ -72,7 +72,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ onSave }) => {
 
         const courseData = data?.documents.find((c) => c.name === selectedCourse);
 
-        if (courseData && selectedLesson && selectedDeck) {
+        if (selectedCourse && selectedLesson && selectedDeck) {
             onSave(
                 courseData?._id || null,
                 selectedCourse.trim(),

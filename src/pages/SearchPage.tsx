@@ -5,59 +5,17 @@ import loadingIcon from '../assets/loading-icon.svg';
 import KanjiBox from '../components/KanjiBox';
 import WordBox from '../components/WordBox';
 import { useSearchContent } from '../hooks/useSearchContent';
+import { useBuildCourse, parseDecks} from '../hooks/useBuildCourse';
 
 const SearchPage: React.FC = () => {
     const [tagsMap, setTagsMap] = useState<{ [tag: string]: boolean }>({});
-    // const [showSaveInput, setShowSaveInput] = useState(false);
-
     const { kanjiResults, wordResults, loading, error } = useSearchContent(tagsMap);
-    
 
-    const handleSaveDeck = async (
-        courseId: string | null,
-        courseName: string,
-        lessonName: string,
-        deckName: string
-    ) => {
-        const kanjiIds = kanjiResults ? kanjiResults.map((kanji) => kanji._id) : []; //TODO: maybe delete?
-        const wordIds = wordResults ? wordResults.map((word) => word._id) : [];
+    const { mutate: buildCourse, isLoading: isSaving, isError: saveError, isSuccess: saveSuccess } = useBuildCourse();
 
-        const decks = [];
-
-        if (kanjiIds.length > 0) {
-            decks.push({
-                deckName: `${deckName} - Kanji`,
-                elements: kanjiIds,
-                deckType: 'kanji',
-            });
-        }
-
-        if (wordIds.length > 0) {
-            decks.push({
-                deckName: `${deckName} - Words`,
-                elements: wordIds,
-                deckType: 'word',
-            });
-        }
-
-        try {
-            if (decks.length > 0) {
-                await fetch('http://localhost:3000/api/course/build', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        courseId,
-                        courseName,
-                        lessonName,
-                        decks,
-                    }),
-                });
-            }
-        } catch (error) {
-            console.error('Error al guardar el deck:', error);
-        }
+    const handleSaveDeck = (courseId: string | null, courseName: string, lessonName: string, deckName: string,) => {
+        const decks = parseDecks(deckName, kanjiResults, wordResults, [])
+        buildCourse({courseId, courseName, lessonName, deckName, decks});
     };
 
     return (
@@ -71,15 +29,31 @@ const SearchPage: React.FC = () => {
                 />
             </div>
 
-                <div className="fixed top-4 right-4">
-                    <SaveDeckInput
-                        onSave={handleSaveDeck}
-                    />
-                </div>
+            <div className="fixed top-4 right-4">
+                <SaveDeckInput onSave={handleSaveDeck}/>
+            </div>
 
             {loading && (
                 <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10 transition-opacity duration-500">
                     <img src={loadingIcon} alt="Loading..." className="w-16 h-16" />
+                </div>
+            )}
+
+            {isSaving && (
+                <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10 transition-opacity duration-500">
+                    <p>Guardando curso...</p>
+                </div>
+            )}
+
+            {saveError && (
+                <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10 transition-opacity duration-500">
+                    <p className="text-red-500">Error al guardar el curso.</p>
+                </div>
+            )}
+
+            {saveSuccess && (
+                <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10 transition-opacity duration-500">
+                    <p className="text-green-500">Curso guardado con éxito.</p>
                 </div>
             )}
 
