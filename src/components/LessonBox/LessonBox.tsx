@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { LessonData } from "../../data/CourseData.ts";
 import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes } from "react-icons/fa";
-import DeckDisplay from "../DeckDisplay";
-import GrammarDeckDisplay from "../GrammarDeckDisplay";
+import GenericDeckDisplay from "../GenericDeckDisplay";
+import SmallKanjiBox from "../SmallKanjiBox";
+import SmallWordBox from "../SmallWordBox";
+import SmallGrammarBox from "../SmallGrammarBox"; // Asegúrate de que este componente exista
 
 interface LessonBoxProps {
     lesson: LessonData;
@@ -24,7 +26,9 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
         setIsEditing(true);
     };
 
-    const saveChanges = async () => {};
+    const saveChanges = async () => {
+        // TODO: Saving logic for Lesson update
+    };
 
     const cancelChanges = () => {
         setTitle(previousTitle);
@@ -96,7 +100,10 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
                             <FaBookOpen className="text-blue-400" /> Kanji Decks:
                         </h4>
                     </div>
-                    <DeckDisplay deckType="kanji" decks={lesson.kanjiDecks} />
+                    <GenericDeckDisplay
+                        deck={lesson.kanjiDecks[0]}
+                        renderComponent={SmallKanjiBox}
+                    />
                 </div>
             )}
 
@@ -107,7 +114,10 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
                             <FaFileAlt className="text-red-400" /> Word Decks:
                         </h4>
                     </div>
-                    <DeckDisplay deckType="word" decks={lesson.wordDecks} />
+                    <GenericDeckDisplay
+                        deck={lesson.wordDecks[0]}
+                        renderComponent={SmallWordBox}
+                    />
                 </div>
             )}
 
@@ -116,7 +126,10 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
                     <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
                         <FaBook className="text-green-400" /> Grammar Decks:
                     </h4>
-                    <GrammarDeckDisplay decks={lesson.grammarDecks} />
+                    <GenericDeckDisplay
+                        deck={lesson.grammarDecks[0]}
+                        renderComponent={SmallGrammarBox}
+                    />
                 </div>
             )}
         </div>
