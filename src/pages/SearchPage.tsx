@@ -11,6 +11,7 @@ const SearchPage: React.FC = () => {
     // const [showSaveInput, setShowSaveInput] = useState(false);
 
     const { kanjiResults, wordResults, loading, error } = useSearchContent(tagsMap);
+    
 
     const handleSaveDeck = async (
         courseId: string | null,

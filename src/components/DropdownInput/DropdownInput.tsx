@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 
 interface DropdownInputProps {
     value: string;
@@ -6,10 +6,6 @@ interface DropdownInputProps {
     placeholder: string;
     options: string[];
     disabled: boolean;
-    expanded: boolean;
-    onFocus: () => void;
-    showDropdown: boolean;
-    setShowDropdown: (show: boolean) => void;
 }
 
 const DropdownInput: React.FC<DropdownInputProps> = ({
@@ -18,36 +14,26 @@ const DropdownInput: React.FC<DropdownInputProps> = ({
                                                          placeholder,
                                                          options,
                                                          disabled,
-                                                         expanded,
-                                                         onFocus,
-                                                         showDropdown,
-                                                         setShowDropdown
                                                      }) => {
     const [filteredOptions, setFilteredOptions] = useState<string[]>([]);
+    const [showDropdown, setShowDropdown] = useState(false);
 
     useEffect(() => {
-        if (value) {
-            setFilteredOptions(
-                options.filter((option) =>
+        setFilteredOptions(
+            value
+                ? options.filter((option) =>
                     option.toLowerCase().includes(value.toLowerCase())
                 )
-            );
-        } else {
-            setFilteredOptions(options);
-        }
+                : options
+        );
     }, [value, options]);
 
-    // Detectar si el texto del input matchea exactamente con una opción del dropdown
     const isExactMatch = filteredOptions.some(
         (option) => option.toLowerCase() === value.toLowerCase()
     );
 
     return (
-        <div
-            className={`relative transition-all duration-500 ${
-                expanded ? 'flex-grow' : 'w-0'
-            } overflow-visible`}
-        >
+        <div className="relative w-full overflow-visible">
             <input
                 type="text"
                 value={value}
@@ -57,7 +43,6 @@ const DropdownInput: React.FC<DropdownInputProps> = ({
                     }
                 }}
                 onFocus={() => {
-                    onFocus();
                     setShowDropdown(true);
                 }}
                 onBlur={() => {
