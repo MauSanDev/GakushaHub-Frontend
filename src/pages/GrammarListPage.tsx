@@ -1,19 +1,29 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import GrammarStructureBox from '../components/GrammarStructureBox';
 import { GrammarData } from "../data/GrammarData.ts";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { usePaginatedGrammar } from "../hooks/usePaginatedGrammar.ts";
 import LoadingScreen from "../components/LoadingScreen";
+import SaveDeckInput from '../components/SaveDeckInput';
+import {SaveStatus} from "../utils/SaveStatus.ts";
+
 
 const GrammarListPage: React.FC = () => {
     const [allResults, setAllResults] = useState<GrammarData[]>([]);
-    const [selectedGrammar, setSelectedGrammar] = useState<string[]>([]);
+    const [selectedGrammar, setSelectedGrammar] = useState<GrammarData[]>([]);
     const [page, setPage] = useState(1);
     const [selectedJLPTLevels, setSelectedJLPTLevels] = useState<number[]>([5, 4, 3, 2, 1]);
     const [showSelectedOnly, setShowSelectedOnly] = useState(false);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
 
     const { data, isLoading, error } = usePaginatedGrammar(page, 20);
+
+    const isSaving = saveStatus === SaveStatus.Saving
+
+    const onSaveStatusChanged = (status: SaveStatus) => {
+        setSaveStatus(status);
+    };
 
     useEffect(() => {
         if (data) {
@@ -54,9 +64,9 @@ const GrammarListPage: React.FC = () => {
     const toggleSelectedGrammar = (grammar: GrammarData, isSelected: boolean) => {
         setSelectedGrammar(prevSelected => {
             if (isSelected) {
-                return [...prevSelected, grammar._id];
+                return [...prevSelected, grammar];
             } else {
-                return prevSelected.filter(item => item !== grammar._id);
+                return prevSelected.filter(item => item._id !== grammar._id);
             }
         });
     };
@@ -64,7 +74,7 @@ const GrammarListPage: React.FC = () => {
     const contentToShow = () => {
         let toShow = allResults;
         toShow = toShow.filter(x => selectedJLPTLevels.includes(x.jlpt));
-        return showSelectedOnly ? toShow.filter(x => selectedGrammar.includes(x._id)) : toShow;
+        return showSelectedOnly ? toShow.filter(x => selectedGrammar.includes(x)) : toShow;
     }
 
     return (
@@ -95,7 +105,13 @@ const GrammarListPage: React.FC = () => {
                 </button>
             </div>
 
-            <LoadingScreen isLoading={isLoading} />
+            {(selectedGrammar.length > 0 && (
+                <div className="fixed top-4 right-4">
+                    <SaveDeckInput kanjiList={[]} wordList={[]} grammarList={selectedGrammar} onSaveStatusChange={onSaveStatusChanged}/>
+                </div>
+            ))};
+
+            <LoadingScreen isLoading={isLoading || isSaving} />
 
             {error && <p className="text-red-500">{String(error)}</p>}
 
@@ -108,7 +124,7 @@ const GrammarListPage: React.FC = () => {
                         >
                             <GrammarStructureBox
                                 result={grammarData}
-                                isSelected={selectedGrammar.includes(grammarData._id)}
+                                isSelected={selectedGrammar.includes(grammarData)}
                                 onSelect={(selected) => toggleSelectedGrammar(grammarData, selected)}
                             />
                         </div>
