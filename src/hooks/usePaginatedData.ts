@@ -1,16 +1,10 @@
 import { useQuery } from 'react-query';
 import { ApiClient } from '../services/ApiClient';
+import { PaginatedData } from '../data/PaginatedData.ts'
 
-interface PaginatedResponse<T> {
-    page: number;
-    totalPages: number;
-    limit: number;
-    totalDocuments: number;
-    documents: T[];
-}
 
-const fetchPaginatedData = async <T>(endpoint: string, page: number, limit: number): Promise<PaginatedResponse<T>> => {
-    return ApiClient<PaginatedResponse<T>>(`${endpoint}?page=${page}&limit=${limit}`);
+const fetchPaginatedData = async <T>(endpoint: string, page: number, limit: number): Promise<PaginatedData<T>> => {
+    return ApiClient.get<PaginatedData<T>>(`${endpoint}?page=${page}&limit=${limit}`);
 };
 
 export const usePaginatedData = <T>(endpoint: string, page: number, limit: number) => {

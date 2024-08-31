@@ -4,14 +4,13 @@ import { KanjiData } from '../data/KanjiData';
 
 const fetchKanji = async (kanjis: string[]): Promise<KanjiData[]> => {
     const queryString = kanjis.join(',');
-    return ApiClient<KanjiData[]>(`/api/kanji?l=${queryString}`);
+    return ApiClient.get<KanjiData[]>(`/api/kanji?l=${queryString}`);
 };
 
 export const useKanji = (kanjis: string[]) => {
     const queryClient = useQueryClient();
 
     return useQuery(['kanji', kanjis], async () => {
-
         const cachedKanjis: KanjiData[] = [];
         const kanjisToFetch: string[] = [];
 

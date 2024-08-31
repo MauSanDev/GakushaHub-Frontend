@@ -1,5 +1,5 @@
 import {useQuery} from 'react-query';
-import {ApiClient} from '../services/ApiClient';
+import { ApiClient } from '../services/ApiClient';
 import {marked} from 'marked';
 
 interface ParsedTextResult {
@@ -7,7 +7,7 @@ interface ParsedTextResult {
 }
 
 const fetchParsedText = async (text: string): Promise<ParsedTextResult> => {
-    return ApiClient<ParsedTextResult>(`/api/parse?text=${encodeURIComponent(text)}`);
+    return ApiClient.get<ParsedTextResult>(`/api/parse?text=${encodeURIComponent(text)}`);
 };
 
 const parseToHtml = async (processedText: string): Promise<string> => {

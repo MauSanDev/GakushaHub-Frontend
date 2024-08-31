@@ -5,7 +5,13 @@ const apiClient = axios.create({
     timeout: 10000,
 });
 
-export const ApiClient = async <T>(endpoint: string, config?: AxiosRequestConfig): Promise<T> => {
-    const response = await apiClient.get(endpoint, config);
-    return response.data;
+export const ApiClient = {
+    get: async <T>(endpoint: string, config?: AxiosRequestConfig): Promise<T> => {
+        const response = await apiClient.get(endpoint, config);
+        return response.data;
+    },
+    post: async <T>(endpoint: string, data: any, config?: AxiosRequestConfig): Promise<T> => {
+        const response = await apiClient.post(endpoint, data, config);
+        return response.data;
+    },
 };

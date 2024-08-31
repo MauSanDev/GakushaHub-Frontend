@@ -4,7 +4,7 @@ import { WordData } from '../data/WordData';
 
 const fetchWords = async (keywords: string[]): Promise<WordData[]> => {
     const queryString = keywords.join(',');
-    return ApiClient<WordData[]>(`/api/words?keywords=${queryString}`);
+    return ApiClient.get<WordData[]>(`/api/words?keywords=${queryString}`);
 };
 
 export const useWords = (keywords: string[]) => {
