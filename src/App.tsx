@@ -31,7 +31,7 @@ function App() {
                         <Routes location={location}>
                             <Route path="/" element={<Navigate to="/search" replace />} />
                             <Route path="/search" element={<SearchPage />} />
-                            <Route path="/kanjis" element={<KanjiListPage />} />
+                            <Route path="/kanji" element={<KanjiListPage />} />
                             <Route path="/words" element={<WordListPage />} />
                             <Route path="/grammar" element={<GrammarListPage />} />
                             <Route path="/generations" element={<GenerationsListPage />} />

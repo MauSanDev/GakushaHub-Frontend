@@ -6,7 +6,7 @@ const Sidebar: React.FC = () => {
 
     const menuItems = [
         { label: 'Search', path: '/search' },
-        // { label: 'Kanjis', path: '/kanjis' },
+        // { label: 'Kanji', path: '/kanji' },
         // { label: 'Words', path: '/words' },
         { label: 'Grammar', path: '/grammar' },
         { label: 'Courses', path: '/courses' },
