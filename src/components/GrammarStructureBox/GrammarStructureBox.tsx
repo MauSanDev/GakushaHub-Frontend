@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { GrammarData } from "../../data/GrammarData.ts";
 import { ExampleData } from "../../data/GeneralTypes.ts";
 import { useLanguage } from '../../context/LanguageContext';
@@ -13,10 +13,6 @@ interface GrammarStructureBoxProps {
 const GrammarStructureBox: React.FC<GrammarStructureBoxProps> = ({ result, isSelected, onSelect }) => {
     const { language } = useLanguage();
     const [isExamplesOpen, setIsExamplesOpen] = useState(false);
-
-    useEffect(() => {
-        console.log(`Idioma seleccionado: ${language}`);
-    }, [language]);
 
     if (!result) return null;
 
