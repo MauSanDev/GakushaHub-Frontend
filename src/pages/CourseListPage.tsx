@@ -4,7 +4,7 @@ import loadingIcon from '../assets/loading-icon.svg';
 import { CourseData } from "../data/CourseData.ts";
 
 interface CourseListPageProps {
-    onCourseClick: (courseId: string) => void; // Recibe la función para manejar el click
+    onCourseClick: (courseId: string) => void;
 }
 
 const CourseListPage: React.FC<CourseListPageProps> = ({ onCourseClick }) => {

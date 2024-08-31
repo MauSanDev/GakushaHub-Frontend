@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import SearchBar from '../components/SearchBar';
 import SaveDeckInput from '../components/SaveDeckInput';
-import loadingIcon from '../assets/loading-icon.svg';
 import KanjiBox from '../components/KanjiBox';
 import WordBox from '../components/WordBox';
+import LoadingScreen from '../components/LoadingScreen';
 import {useSearchContent} from '../hooks/useSearchContent';
 import {SaveStatus} from "../utils/SaveStatus";
 
@@ -35,11 +35,7 @@ const SearchPage: React.FC = () => {
                 </div>
             )}
 
-            {(loading) && (
-                <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10 transition-opacity duration-500">
-                    <img src={loadingIcon} alt="Loading..." className="w-16 h-16" />
-                </div>
-            )}
+            <LoadingScreen isLoading={loading} />
 
             <div className="mt-8 w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-left transition-opacity duration-500">
                 {error && <p className="text-red-500 col-span-full">{error}</p>}
