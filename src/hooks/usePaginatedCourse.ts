@@ -1,7 +1,8 @@
 import { usePaginatedData } from './usePaginatedData.ts';
+import {CourseData} from "../data/CourseData.ts";
 
 export const usePaginatedCourse = (page: number, limit: number) => {
-    return usePaginatedData<Course>('/api/course/paginated', page, limit);
+    return usePaginatedData<CourseData>('/api/course/paginated', page, limit);
 };
 
 export interface Deck {
@@ -36,10 +37,4 @@ export class Lesson {
             .map((deck) => deck.name.replace(/ - (Words|Kanji|Grammar)$/, ''))
             .filter((name, index, self) => self.indexOf(name) === index);
     }
-}
-
-export interface Course {
-    _id: string;
-    name: string;
-    lessons: Lesson[];
 }
