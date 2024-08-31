@@ -14,7 +14,6 @@ interface CreateCourseParams {
     courseId: string | null;
     courseName: string;
     lessonName: string;
-    deckName: string;
     decks: Deck[];
     // creatorId: string;
 }

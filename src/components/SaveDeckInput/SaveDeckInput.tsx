@@ -1,26 +1,31 @@
-import React, { useState } from 'react';
-import { FaCheck, FaSave } from 'react-icons/fa';
+import React, { useState} from 'react';
+import {FaCheck, FaClock, FaSave} from 'react-icons/fa';
 import { usePaginatedCourse } from "../../hooks/usePaginatedCourse.ts";
 import DropdownInput from "../DropdownInput/DropdownInput.tsx";
+import {parseDecks, useBuildCourse} from "../../hooks/useBuildCourse.ts";
+import {KanjiData} from "../../data/KanjiData.ts";
+import {WordData} from "../../data/WordData.ts";
+import {GrammarData} from "../../data/GrammarData.ts";
+import {SaveStatus} from "../../utils/SaveStatus.ts";
+
 
 interface SaveDeckInputProps {
-    onSave: (
-        courseId: string | null,
-        courseName: string,
-        lessonName: string,
-        deckName: string
-    ) => void;
+    kanjiList: KanjiData[],
+    wordList: WordData[],
+    grammarList: GrammarData[],
+    onSaveStatusChange?: (status: SaveStatus, error?: string) => void;
 }
 
-const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ onSave }) => {
+const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, grammarList, onSaveStatusChange }) => {
     const [selectedCourse, setSelectedCourse] = useState<string>('');
     const [selectedLesson, setSelectedLesson] = useState<string>('');
     const [selectedDeck, setSelectedDeck] = useState<string>('');
-    const [saved, setSaved] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [expanded, setExpanded] = useState(false);
     const { data } = usePaginatedCourse(1, 10);
 
+    const { mutate: buildCourse, isLoading: isSaving, isSuccess: saveSuccess } = useBuildCourse();
+    
     const getAvailableCourses = (): string[] => {
         return data?.documents.map((course) => course.name) ?? [];
     };
@@ -56,30 +61,43 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ onSave }) => {
         }
 
         if (!selectedDeck) {
-            setError('The "Deck" field is required.');
+            const errorMsg = 'The "Deck" field is required.';
+            setError(errorMsg);
+            onSaveStatusChange?.(SaveStatus.Error, errorMsg);
             return;
         }
         if (selectedCourse && !selectedLesson) {
-            setError('If a Course is provided, a Lesson is required.');
+            const errorMsg = 'If a Course is provided, a Lesson is required.';
+            setError(errorMsg);
+            onSaveStatusChange?.(SaveStatus.Error, errorMsg);
             return;
         }
         if (!selectedCourse && selectedLesson) {
-            setError('If a Lesson is provided, a Course is required.');
+            const errorMsg = 'If a Lesson is provided, a Course is required.';
+            setError(errorMsg);
+            onSaveStatusChange?.(SaveStatus.Error, errorMsg);
             return;
         }
 
         setError(null);
+        onSaveStatusChange?.(SaveStatus.Saving);  // Notifica que el guardado ha comenzado
 
         const courseData = data?.documents.find((c) => c.name === selectedCourse);
 
         if (selectedCourse && selectedLesson && selectedDeck) {
-            onSave(
-                courseData?._id || null,
-                selectedCourse.trim(),
-                selectedLesson.trim(),
-                selectedDeck.trim()
-            );
-            setSaved(true);
+            buildCourse({
+                courseId: courseData?._id || null,
+                courseName: selectedCourse.trim(),
+                lessonName: selectedLesson.trim(),
+                decks: parseDecks(selectedDeck.trim(), kanjiList, wordList, grammarList)
+            }, {
+                onSuccess: () => {
+                    onSaveStatusChange?.(SaveStatus.Success);  // Notifica que el guardado fue exitoso
+                },
+                onError: (error) => {
+                    onSaveStatusChange?.(SaveStatus.Error, String(error));  // Notifica que hubo un error durante el guardado
+                }
+            });
         }
     };
 
@@ -123,7 +141,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ onSave }) => {
                         onChange={setSelectedCourse}
                         placeholder="Course"
                         options={getAvailableCourses()}
-                        disabled={saved}
+                        disabled={saveSuccess || isSaving}
                     />
                     
                     <span>/</span>
@@ -132,7 +150,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ onSave }) => {
                         onChange={setSelectedLesson}
                         placeholder="Lesson"
                         options={getAvailableLessons()}
-                        disabled={saved}
+                        disabled={saveSuccess || isSaving}
                     />
 
                     <span>/</span>
@@ -141,18 +159,18 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ onSave }) => {
                         onChange={setSelectedDeck}
                         placeholder="Deck"
                         options={getAvailableDecks()}
-                        disabled={saved}
+                        disabled={saveSuccess || isSaving}
                     />
                 </div>
 
                 <button
                     onClick={handleSave}
                     className={`flex items-center justify-center px-4 py-2 rounded ${
-                        saved ? 'bg-green-500 text-white cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'
+                        saveSuccess ? 'bg-green-500 text-white cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'
                     } transition-transform duration-300`}
-                    disabled={saved}
+                    disabled={saveSuccess || isSaving}
                 >
-                    {saved ? <FaCheck /> : <FaSave />}
+                    {saveSuccess ? <FaCheck /> : isSaving ? <FaClock /> : <FaSave />}
                 </button>
             </div>
 

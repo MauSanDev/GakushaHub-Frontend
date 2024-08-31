@@ -23,6 +23,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onTagsChange, tagsMap: externalTa
 
 
     const onSearch = () => {
+        addTag()
         const currentQuery = Object.keys(tagsMap).join(',');
         if (currentQuery === lastQuery) return;
 

@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import SearchBar from '../components/SearchBar';
 import SaveDeckInput from '../components/SaveDeckInput';
 import loadingIcon from '../assets/loading-icon.svg';
 import KanjiBox from '../components/KanjiBox';
 import WordBox from '../components/WordBox';
-import { useSearchContent } from '../hooks/useSearchContent';
-import { useBuildCourse, parseDecks} from '../hooks/useBuildCourse';
+import {useSearchContent} from '../hooks/useSearchContent';
+import {SaveStatus} from "../utils/SaveStatus";
 
 const SearchPage: React.FC = () => {
     const [tagsMap, setTagsMap] = useState<{ [tag: string]: boolean }>({});
-    const { kanjiResults, wordResults, loading, error } = useSearchContent(tagsMap);
-
-    const { mutate: buildCourse, isLoading: isSaving, isError: saveError, isSuccess: saveSuccess } = useBuildCourse();
-
-    const handleSaveDeck = (courseId: string | null, courseName: string, lessonName: string, deckName: string,) => {
-        const decks = parseDecks(deckName, kanjiResults, wordResults, [])
-        buildCourse({courseId, courseName, lessonName, deckName, decks});
+    const {kanjiResults, wordResults, loading, error } = useSearchContent(tagsMap);
+    const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
+    
+    const onSaveStatusChanged = (status: SaveStatus) => {
+        setSaveStatus(status);
     };
+    
+    const isSaving = saveStatus === SaveStatus.Saving
 
     return (
         <div className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
@@ -25,35 +25,19 @@ const SearchPage: React.FC = () => {
                 <SearchBar
                     onTagsChange={setTagsMap}
                     tagsMap={tagsMap}
-                    interactable={true}
+                    interactable={!isSaving  && !loading}
                 />
             </div>
 
-            <div className="fixed top-4 right-4">
-                <SaveDeckInput onSave={handleSaveDeck}/>
-            </div>
+            {(kanjiResults.length > 0 || wordResults.length > 0) && (
+                <div className="fixed top-4 right-4">
+                    <SaveDeckInput kanjiList={kanjiResults} wordList={wordResults} grammarList={[]} onSaveStatusChange={onSaveStatusChanged}/>
+                </div>
+            )}
 
-            {loading && (
+            {(loading) && (
                 <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10 transition-opacity duration-500">
                     <img src={loadingIcon} alt="Loading..." className="w-16 h-16" />
-                </div>
-            )}
-
-            {isSaving && (
-                <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10 transition-opacity duration-500">
-                    <p>Guardando curso...</p>
-                </div>
-            )}
-
-            {saveError && (
-                <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10 transition-opacity duration-500">
-                    <p className="text-red-500">Error al guardar el curso.</p>
-                </div>
-            )}
-
-            {saveSuccess && (
-                <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10 transition-opacity duration-500">
-                    <p className="text-green-500">Curso guardado con éxito.</p>
                 </div>
             )}
 
