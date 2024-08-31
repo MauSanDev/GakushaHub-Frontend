@@ -20,7 +20,7 @@ const SettingsTooltip = ({
 
     return (
         <div className="relative">
-            {/* Botón de configuración */}
+
             <button
                 onClick={() => setIsOpen((prev) => !prev)}
                 className="text-white p-2 rounded-full shadow-lg bg-gray-800 hover:bg-gray-600"
@@ -28,7 +28,6 @@ const SettingsTooltip = ({
                 <FaCog />
             </button>
 
-            {/* Tooltip */}
             {isOpen && (
                 <div
                     className={`absolute top-12 right-0 w-48 bg-gray-900 text-white rounded-lg shadow-lg p-4 z-50 transition-transform duration-300 ease-in-out transform ${

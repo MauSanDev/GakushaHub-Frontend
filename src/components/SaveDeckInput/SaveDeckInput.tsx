@@ -80,7 +80,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
         }
 
         setError(null);
-        onSaveStatusChange?.(SaveStatus.Saving);  // Notifica que el guardado ha comenzado
+        onSaveStatusChange?.(SaveStatus.Saving);
 
         const courseData = data?.documents.find((c) => c.name === selectedCourse);
 
@@ -92,10 +92,10 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
                 decks: parseDecks(selectedDeck.trim(), kanjiList, wordList, grammarList)
             }, {
                 onSuccess: () => {
-                    onSaveStatusChange?.(SaveStatus.Success);  // Notifica que el guardado fue exitoso
+                    onSaveStatusChange?.(SaveStatus.Success);
                 },
                 onError: (error) => {
-                    onSaveStatusChange?.(SaveStatus.Error, String(error));  // Notifica que hubo un error durante el guardado
+                    onSaveStatusChange?.(SaveStatus.Error, String(error));
                 }
             });
         }

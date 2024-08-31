@@ -16,7 +16,7 @@ const Sidebar: React.FC = () => {
 
     return (
         <>
-            {/* Botón de Menú para Móviles */}
+
             <button
                 className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-blue-500 text-white rounded"
                 onClick={() => setIsOpen(!isOpen)}
@@ -24,7 +24,6 @@ const Sidebar: React.FC = () => {
                 ☰
             </button>
 
-            {/* Sidebar */}
             <div
                 className={`fixed lg:left-0 lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:w-64 lg:h-auto w-full h-full top-0 left-0 bg-white z-40 transition-transform ${
                     isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
@@ -44,7 +43,6 @@ const Sidebar: React.FC = () => {
                 </div>
             </div>
 
-            {/* Background Overlay for Mobile */}
             {isOpen && (
                 <div
                     className="fixed inset-0 bg-black opacity-50 z-30 lg:hidden"

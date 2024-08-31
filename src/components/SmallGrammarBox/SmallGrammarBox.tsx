@@ -26,8 +26,7 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
 
     useEffect(() => {
         if (isExpanded) {
-            // Reset the maxHeight to 'none' after the transition to allow for dynamic content resizing
-            const timeout = setTimeout(() => setMaxHeight('none'), 500); // 500ms matches the transition duration
+            const timeout = setTimeout(() => setMaxHeight('none'), 500);
             return () => clearTimeout(timeout);
         }
     }, [isExpanded]);
@@ -36,12 +35,11 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
 
     return (
         <div className="bg-white p-2 rounded-md shadow-sm border border-gray-200 hover:border-blue-300 w-full cursor-pointer relative">
-            {/* JLPT Tag */}
+
             <span className="absolute top-1 right-1 bg-blue-400 text-white text-xs px-1 py-1 rounded-full">
                 JLPT{result.jlpt}
             </span>
 
-            {/* Title and Chevron */}
             <div className="flex items-center" onClick={() => setIsExpanded(!isExpanded)}>
                 <span className="text-xs text-gray-600 mr-2">
                     {isExpanded ? <FaChevronDown /> : <FaChevronRight />}
@@ -50,7 +48,6 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
             </div>
             <span className="text-xs text-gray-600">{result.hint}</span>
 
-            {/* Animated Content */}
             <div
                 ref={contentRef}
                 className="overflow-hidden transition-all duration-500 ease-in-out"
@@ -58,11 +55,9 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
             >
                 {isExpanded && (
                     <>
-                        {/* Description */}
                         <p className="text-xs text-gray-600 mt-2 font-bold">Description:</p>
                         <p className="text-xs text-gray-600 mb-2">{result.description}</p>
 
-                        {/* Examples */}
                         <p className="text-xs text-gray-600 mb-2 font-bold">Examples:</p>
                         <div className="text-gray-600">
                             {result.examples && result.examples.length > 0 ? (

@@ -1,1 +1,1 @@
-export { default } from './GrammarStructureBox';
+export { default } from './GrammarBox.tsx';

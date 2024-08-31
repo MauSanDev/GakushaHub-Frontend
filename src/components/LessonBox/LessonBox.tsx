@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { LessonData } from "../../data/CourseData.ts";
 import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes } from "react-icons/fa";
 import DeckDisplay from "../DeckDisplay";
-import GrammarDeckDisplay from "../GrammarDeckDisplay"; // Importamos el nuevo componente
+import GrammarDeckDisplay from "../GrammarDeckDisplay";
 
 interface LessonBoxProps {
     lesson: LessonData;
@@ -34,7 +34,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-lg mb-6 border border-gray-200 transform transition-transform duration-300 hover:border-blue-400 w-full relative">
-            {/* Botones de edición, guardado y cancelación */}
+
             <div className="absolute top-4 right-4 flex gap-2">
                 {isEditing ? (
                     <>
@@ -61,7 +61,6 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
                 )}
             </div>
 
-            {/* Título con capitalización automática */}
             {isEditing ? (
                 <input
                     className="text-2xl font-bold text-blue-500 mb-2 w-full p-2 rounded capitalize"
@@ -76,7 +75,6 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
                 </h3>
             )}
 
-            {/* Descripción editable */}
             {isEditing ? (
                 <textarea
                     className="text-gray-700 mb-4 w-full p-2 rounded text-sm"
@@ -91,7 +89,6 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
                 </p>
             )}
 
-            {/* Kanji Decks */}
             {lesson.kanjiDecks.length > 0 && (
                 <div className="w-full">
                     <div className="flex justify-between items-center mb-2">
@@ -103,7 +100,6 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
                 </div>
             )}
 
-            {/* Word Decks */}
             {lesson.wordDecks.length > 0 && (
                 <div className="mt-4 w-full">
                     <div className="flex justify-between items-center mb-2">
@@ -115,7 +111,6 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
                 </div>
             )}
 
-            {/* Grammar Decks */}
             {lesson.grammarDecks.length > 0 && (
                 <div className="mt-4 w-full">
                     <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
