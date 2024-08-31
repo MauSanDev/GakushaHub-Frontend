@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { GrammarStructureData, Example } from '../../data/data-structures';
+import { GrammarData, ExampleData } from '../../data/data-structures';
 import { useLanguage } from '../../context/LanguageContext';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 
 interface SmallGrammarBoxProps {
-    result: GrammarStructureData | null;
+    result: GrammarData | null;
 }
 
 const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {

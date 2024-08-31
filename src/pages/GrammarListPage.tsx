@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import GrammarStructureBox from '../components/GrammarStructureBox';
 import loadingIcon from '../assets/loading-icon.svg';
-import { GrammarStructureData } from "../data/data-structures.tsx";
+import { GrammarData } from "../data/data-structures.tsx";
 import SaveDeckInput from '../components/SaveDeckInput';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const GrammarListPage: React.FC = () => {
-    const [grammarResults, setGrammarResults] = useState<GrammarStructureData[]>([]);
-    const [filteredResults, setFilteredResults] = useState<GrammarStructureData[]>([]);
-    const [selectedGrammar, setSelectedGrammar] = useState<GrammarStructureData[]>([]);
+    const [grammarResults, setGrammarResults] = useState<GrammarData[]>([]);
+    const [filteredResults, setFilteredResults] = useState<GrammarData[]>([]);
+    const [selectedGrammar, setSelectedGrammar] = useState<GrammarData[]>([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -29,7 +29,7 @@ const GrammarListPage: React.FC = () => {
 
             setGrammarResults(prevResults => {
                 const newResults = data.structures.filter(
-                    (structure: GrammarStructureData) => !prevResults.some(prevStructure => prevStructure._id === structure._id)
+                    (structure: GrammarData) => !prevResults.some(prevStructure => prevStructure._id === structure._id)
                 );
                 return [...prevResults, ...newResults];
             });
@@ -79,7 +79,7 @@ const GrammarListPage: React.FC = () => {
         }
     };
 
-    const toggleSelectedGrammar = (grammar: GrammarStructureData, isSelected: boolean) => {
+    const toggleSelectedGrammar = (grammar: GrammarData, isSelected: boolean) => {
         setSelectedGrammar(prevSelected => {
             if (isSelected) {
                 return [...prevSelected, grammar];

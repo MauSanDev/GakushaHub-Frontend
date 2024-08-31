@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { GrammarStructureData, Example } from '../../data/data-structures';
+import { GrammarData, ExampleData } from '../../data/data-structures';
 import { useLanguage } from '../../context/LanguageContext';
 import { FaCheck, FaChevronRight, FaChevronDown } from 'react-icons/fa';
 
 interface GrammarStructureBoxProps {
-    result: GrammarStructureData | null;
+    result: GrammarData | null;
     isSelected: boolean;
     onSelect: (selected: boolean) => void;
 }
