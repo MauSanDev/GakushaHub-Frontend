@@ -4,11 +4,7 @@ import { CourseData } from "../data/CourseData.ts";
 import { usePaginatedCourse } from "../hooks/usePaginatedCourse.ts";
 import LoadingScreen from "../components/LoadingScreen";
 
-interface CourseListPageProps {
-    onCourseClick: (courseId: string) => void;
-}
-
-const CourseListPage: React.FC<CourseListPageProps> = ({ onCourseClick }) => {
+const CourseListPage: React.FC = () => {
     const [courses, setCourses] = useState<CourseData[]>([]);
     const [page, setPage] = useState(1);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -57,7 +53,7 @@ const CourseListPage: React.FC<CourseListPageProps> = ({ onCourseClick }) => {
                     courses.map((course, index) => (
                         <div
                             key={index}
-                            onClick={() => onCourseClick(course._id)}
+                            onClick={() => console.log(course._id)}
                             className="page-fade-enter page-fade-enter-active"
                         >
                             <CourseBox course={course} />

@@ -109,7 +109,7 @@ const GrammarListPage: React.FC = () => {
                 <div className="fixed top-4 right-4">
                     <SaveDeckInput kanjiList={[]} wordList={[]} grammarList={selectedGrammar} onSaveStatusChange={onSaveStatusChanged}/>
                 </div>
-            ))};
+            ))}
 
             <LoadingScreen isLoading={isLoading || isSaving} />
 

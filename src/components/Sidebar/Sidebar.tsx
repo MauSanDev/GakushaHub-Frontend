@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-interface SidebarProps {
-    setActiveSection: (section: string) => void;
-}
-
-const Sidebar: React.FC<SidebarProps> = ({ setActiveSection }) => {
+const Sidebar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const menuItems = [
-        { label: 'Search', href: '#search' },
-        // { label: 'Kanjis', href: '#kanjis' },
-        // { label: 'Words', href: '#words' },
-        { label: 'Grammar', href: '#grammar' },
-        { label: 'Courses', href: '#courses' },
-        { label: 'Generate', href: '#generate' },
-        { label: 'Generations', href: '#generations' },
+        { label: 'Search', path: '/search' },
+        // { label: 'Kanjis', path: '/kanjis' },
+        // { label: 'Words', path: '/words' },
+        { label: 'Grammar', path: '/grammar' },
+        { label: 'Courses', path: '/courses' },
+        { label: 'Generate', path: '/generate' },
+        { label: 'Generations', path: '/generations' },
     ];
 
     return (
@@ -35,17 +32,14 @@ const Sidebar: React.FC<SidebarProps> = ({ setActiveSection }) => {
             >
                 <div className="flex flex-col p-4 space-y-4">
                     {menuItems.map((item, index) => (
-                        <a
+                        <Link
                             key={index}
-                            href={item.href}
+                            to={item.path}
                             className="text-sm font-bold text-gray-600 hover:text-blue-400 py-2 border-b border-gray-300 text-left"
-                            onClick={() => {
-                                setActiveSection(item.label);
-                                setIsOpen(false); // Cierra el menú en modo responsive
-                            }}
+                            onClick={() => setIsOpen(false)} // Cierra el menú en modo responsive
                         >
                             {item.label}
-                        </a>
+                        </Link>
                     ))}
                 </div>
             </div>
