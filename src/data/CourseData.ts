@@ -6,7 +6,7 @@ export interface CourseData {
     _id: string;
     name: string;
     description: string;
-    lessons: string[];
+    lessons: LessonData[];
     creatorId: string;
     isPublic: boolean;
     createdAt: string;

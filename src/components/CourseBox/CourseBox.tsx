@@ -9,20 +9,13 @@ interface CourseBoxProps {
 const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
     return (
         <div className="relative bg-white p-6 rounded-lg shadow-md mb-6 text-left border-2 border-gray-200 transform transition-transform duration-300 hover:scale-105 hover:border-blue-300">
-            {/* Título del curso */}
             <h1 className="text-3xl font-bold mb-4 text-blue-500">{course.name}</h1>
-            {/* Descripción del curso */}
             <p className="text-gray-700 mb-6">{course.description}</p>
 
-            {/* Índice de lecciones */}
             {course.lessons.map((lesson) => (
                 <div key={lesson._id} className="mb-6">
-                    {/* Título de la lección */}
                     <h2 className="text-2xl font-semibold text-gray-800 mb-2">{lesson.name}</h2>
-
-                    {/* Contenedor de los decks */}
                     <div className="grid grid-cols-3 gap-4 ml-9">
-                        {/* Kanji Decks */}
                         {lesson.kanjiDecks.length > 0 && (
                             <div>
                                 <div className="flex items-center gap-2 text-blue-400">
@@ -37,7 +30,6 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
                             </div>
                         )}
 
-                        {/* Word Decks */}
                         {lesson.wordDecks.length > 0 && (
                             <div>
                                 <div className="flex items-center gap-2 text-red-400">
@@ -52,7 +44,6 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
                             </div>
                         )}
 
-                        {/* Grammar Decks */}
                         {lesson.grammarDecks.length > 0 && (
                             <div>
                                 <div className="flex items-center gap-2 text-green-400">
