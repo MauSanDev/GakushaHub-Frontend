@@ -11,6 +11,7 @@ import { LanguageProvider } from './context/LanguageContext';
 import CourseDetailPage from "./pages/CourseDetailsPage.tsx";
 import GenerationsListPage from "./pages/GenerationsListPage.tsx";
 import GenerationPage from "./pages/GenerationPage.tsx";
+import TextDisplayPage from "./pages/TextDisplayPage.tsx";
 
 function App() {
     const location = useLocation();
@@ -38,6 +39,7 @@ function App() {
                             <Route path="/generate" element={<GenerationPage />} />
                             <Route path="/courses" element={<CourseListPage />} />
                             <Route path="/courses/:courseId" element={<CourseDetailPage />} />
+                            <Route path="/generation/:elementId" element={<TextDisplayPage />} />
                             <Route path="*" element={<UnderDevelopmentPage />} />
                         </Routes>
                     </div>

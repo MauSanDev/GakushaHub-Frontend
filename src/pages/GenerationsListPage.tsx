@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import TextReader from '../components/TextReader';
+import { Link } from 'react-router-dom';
+import SimpleTextReader from '../components/SimpleTextReader';
 import loadingIcon from '../assets/loading-icon.svg';
-import { usePaginatedGenerations } from '../hooks/usePaginatedGenerations.ts';
-import {GeneratedData} from "../data/GenerationData.ts";
+import { usePaginatedGenerations } from '../hooks/usePaginatedGenerations';
+import { GeneratedData } from "../data/GenerationData";
 
 const GenerationsListPage: React.FC = () => {
     const [generatedTexts, setGeneratedTexts] = useState<GeneratedData[]>([]);
@@ -15,7 +16,11 @@ const GenerationsListPage: React.FC = () => {
 
     useEffect(() => {
         if (data) {
-            setGeneratedTexts(prevTexts => [...prevTexts, ...data.documents]);
+            // Evitar duplicados basados en _id o cualquier identificador único
+            const newTexts = data.documents.filter(newText =>
+                !generatedTexts.some(existingText => existingText._id === newText._id)
+            );
+            setGeneratedTexts(prevTexts => [...prevTexts, ...newTexts]);
         }
     }, [data]);
 
@@ -53,12 +58,17 @@ const GenerationsListPage: React.FC = () => {
 
             <div className="mt-4 w-full max-w-4xl flex flex-col gap-4 text-left">
                 {generatedTexts.length > 0 ? (
-                    generatedTexts.map((generatedText, index) => (
+                    generatedTexts.map((generatedText) => (
                         <div
-                            key={index}
+                            key={generatedText._id}
                             className="page-fade-enter page-fade-enter-active"
                         >
-                            <TextReader title={`Generated Text ${index + 1}`} content={generatedText.generatedText} />
+                            <Link key={generatedText._id} to={`/generation/${generatedText._id}`} className="page-fade-enter page-fade-enter-active">
+
+                            <SimpleTextReader
+                                data={generatedText}
+                            />
+                            </Link>
                         </div>
                     ))
                 ) : (

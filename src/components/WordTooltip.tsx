@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useWords } from '../hooks/useWords';
-import LoadingScreen from '../components/LoadingScreen';
 
 interface WordTooltipProps {
     word: string;
@@ -48,7 +47,6 @@ const WordTooltip: React.FC<WordTooltipProps> = ({ word, targetElement, onClose 
 
     return (
         <>
-            <LoadingScreen isLoading={isLoading} />
             {isLoading || !wordDataList || wordDataList.length === 0 ? null : (
                 <span
                     className="tooltip-content border-gray-300 border indent-0 absolute left-0 top-full mb-2 p-2 bg-white text-black rounded opacity-0 transition-opacity duration-300 whitespace-normal z-50"
