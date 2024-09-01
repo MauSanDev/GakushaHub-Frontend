@@ -6,10 +6,9 @@ import WordTooltip from '../WordTooltip.tsx';
 interface TextReaderProps {
     title: string;
     content: string;
-    parse?: boolean; // Añadido para soportar el parámetro 'parse'
 }
 
-const TextReader: React.FC<TextReaderProps> = ({ title, content, parse = true }) => { // Valor por defecto: true
+const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
     const [showFurigana, setShowFurigana] = useState(true);
     const [fontSize, setFontSize] = useState(18);
     const [letterSpacing, setLetterSpacing] = useState(1);
@@ -17,8 +16,7 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content, parse = true })
     const [showConfig, setShowConfig] = useState(false);
     const [activeTooltip, setActiveTooltip] = useState<{ word: string; element: Element } | null>(null);
 
-    // Solo usar `useParseJapanese` si `parse` es true
-    const { data: formattedContent, error } = parse ? useParseJapanese(content) : { data: content, error: null };
+    const { data: formattedContent, error } = useParseJapanese(content);
 
     const toggleFurigana = () => {
         setShowFurigana(!showFurigana);
