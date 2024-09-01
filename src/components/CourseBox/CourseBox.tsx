@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaBookOpen, FaBook, FaFileAlt } from 'react-icons/fa';
 import { CourseData } from "../../data/CourseData.ts";
+import DeleteButton from '../DeleteButton';
 
 interface CourseBoxProps {
     course: CourseData;
@@ -9,6 +10,14 @@ interface CourseBoxProps {
 const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
     return (
         <div className="relative bg-white p-6 rounded-lg shadow-md mb-6 text-left border-2 border-gray-200 transform transition-transform duration-300 hover:scale-105 hover:border-blue-300">
+            <div className="absolute top-2 right-2">
+                <DeleteButton
+                    elementId={course._id}
+                    elementType="course"
+                    deleteRelations={true}
+                    redirectTo="/courses"
+                />
+            </div>
             <h1 className="text-3xl font-bold mb-4 text-blue-500">{course.name}</h1>
             <p className="text-gray-700 mb-6">{course.description}</p>
 
