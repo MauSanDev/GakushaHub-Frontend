@@ -77,7 +77,7 @@ const GenericDeckDisplay = <T,>({
                     onClick={toggleExpand}
                 >
                     <button className="text-gray-600 hover:text-gray-800">
-                        {expanded ? <FaChevronDown /> : <FaChevronRight />}
+                        {expanded ? <FaChevronDown size={12} /> : <FaChevronRight size={12} />}
                     </button>
                     <div className="font-bold text-gray-600">{deck.name}</div>
                     <span className="text-sm text-gray-500">({deck.elements.length} elements)</span>
@@ -91,39 +91,38 @@ const GenericDeckDisplay = <T,>({
                             }}
                             className="p-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600"
                         >
-                            <FaPlay />
+                            <FaPlay size={12} />
                         </button>
-                    )}
-                    {TableComponent && (
-                        <>
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setViewMode("cards");
-                                }}
-                                className={`p-2 rounded-l-md ${
-                                    viewMode === "cards"
-                                        ? "bg-blue-500 text-white"
-                                        : "bg-gray-200 text-gray-600 hover:bg-gray-300"
-                                }`}
-                            >
-                                <FaThLarge />
-                            </button>
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setViewMode("table");
-                                }}
-                                className={`p-2 rounded-r-md ${
-                                    viewMode === "table"
-                                        ? "bg-blue-500 text-white"
-                                        : "bg-gray-200 text-gray-600 hover:bg-gray-300"
-                                }`}
-                            >
-                                <FaTable />
-                            </button>
-                        </>
-                    )}
+                    )}{TableComponent && (
+                    <div className="flex">
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setViewMode("cards");
+                            }}
+                            className={`p-2 rounded-l-md ${
+                                viewMode === "cards"
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                            }`}
+                        >
+                            <FaThLarge size={12} />
+                        </button>
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setViewMode("table");
+                            }}
+                            className={`p-2 rounded-r-md ${
+                                viewMode === "table"
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                            }`}
+                        >
+                            <FaTable size={12} />
+                        </button>
+                    </div>
+                )}
                     <DeleteButton
                         elementId={deck._id}
                         elementType={elementType} // Usamos elementType recibido como prop

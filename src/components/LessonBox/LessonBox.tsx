@@ -10,6 +10,7 @@ import WordDeckTable from "../Tables/WordDeckTable";
 import { KanjiDeck } from "../../data/KanjiData.ts";
 import { WordDeck } from "../../data/WordData.ts";
 import { GrammarDeck } from "../../data/GrammarData.ts";
+import DeleteButton from '../DeleteButton'; // Asegúrate de usar la ruta correcta
 
 interface LessonBoxProps {
     lesson: LessonData;
@@ -70,12 +71,19 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                         </button>
                     </>
                 ) : (
-                    <button
-                        onClick={enterEditMode}
-                        className="bg-blue-500 text-white p-2 rounded shadow hover:bg-blue-600"
-                    >
-                        <FaEdit />
-                    </button>
+                    <>
+                        <button
+                            onClick={enterEditMode}
+                            className="bg-blue-500 text-white p-2 rounded shadow hover:bg-blue-600"
+                        >
+                            <FaEdit />
+                        </button>
+                        <DeleteButton
+                            elementId={lesson._id}
+                            elementType="lesson"
+                            redirectTo="/lessons"
+                        />
+                    </>
                 )}
             </div>
 
