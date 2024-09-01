@@ -8,15 +8,25 @@ import { GeneratedData } from "../data/GenerationData";
 const GenerationsListPage: React.FC = () => {
     const [generatedTexts, setGeneratedTexts] = useState<GeneratedData[]>([]);
     const [page, setPage] = useState(1);
+    const [resetPage, setResetPage] = useState(false);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data, isLoading, error } = usePaginatedGenerations(page, 20);
 
     const hasMore = data ? page < (data.totalPages ?? 1) : false;
 
+    // Resetear el estado cuando la página se vuelve a montar
     useEffect(() => {
-        if (data) {
-            // Evitar duplicados basados en _id o cualquier identificador único
+        setGeneratedTexts([]);
+        setPage(1);
+        setResetPage(true);
+    }, []);
+
+    useEffect(() => {
+        if (data && resetPage) {
+            setGeneratedTexts(data.documents);
+            setResetPage(false);
+        } else if (data && !resetPage) {
             const newTexts = data.documents.filter(newText =>
                 !generatedTexts.some(existingText => existingText._id === newText._id)
             );
@@ -64,15 +74,14 @@ const GenerationsListPage: React.FC = () => {
                             className="page-fade-enter page-fade-enter-active"
                         >
                             <Link key={generatedText._id} to={`/generation/${generatedText._id}`} className="page-fade-enter page-fade-enter-active">
-
-                            <SimpleTextReader
-                                data={generatedText}
-                            />
+                                <SimpleTextReader
+                                    data={generatedText}
+                                />
                             </Link>
                         </div>
                     ))
                 ) : (
-                    <p className="text-center text-gray-500">No generated texts available</p>
+                    !isLoading && <p className="text-center text-gray-500">No generated texts available</p>
                 )}
             </div>
         </div>
