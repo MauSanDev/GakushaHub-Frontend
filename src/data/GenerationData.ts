@@ -1,5 +1,4 @@
 import {DeckData} from "./DeckData.ts";
-import {GrammarData} from "./GrammarData.ts";
 
 export interface GeneratedData {
     _id: string, 

@@ -5,14 +5,14 @@ import GenericDeckDisplay from "../GenericDeckDisplay";
 import SmallKanjiBox from "../SmallKanjiBox";
 import SmallWordBox from "../SmallWordBox";
 import SmallGrammarBox from "../SmallGrammarBox";
-import SimpleReadingBox from "../SimpleReadingBox"; // Importa el nuevo componente para Readings
+import SimpleReadingBox from "../SimpleReadingBox";
 import KanjiDeckTable from "../Tables/KanjiDeckTable";
 import WordDeckTable from "../Tables/WordDeckTable";
 import { KanjiDeck } from "../../data/KanjiData.ts";
 import { WordDeck } from "../../data/WordData.ts";
 import { GrammarDeck } from "../../data/GrammarData.ts";
-import {GeneratedData, GenerationDeck} from "../../data/GenerationData.ts"; // Importa los tipos de datos de GenerationData
-import DeleteButton from '../DeleteButton'; // Asegúrate de usar la ruta correcta
+import { GenerationDeck } from "../../data/GenerationData.ts";
+import DeleteButton from '../DeleteButton';
 
 interface LessonBoxProps {
     lesson: LessonData;

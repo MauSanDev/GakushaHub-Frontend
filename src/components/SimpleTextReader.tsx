@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaBookOpen, FaFileAlt, FaBook } from 'react-icons/fa';
 import DeleteButton from './DeleteButton';
 import { GeneratedData } from "../data/GenerationData.ts";
 
