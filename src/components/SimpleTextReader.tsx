@@ -24,7 +24,8 @@ const SimpleTextReader: React.FC<SimpleTextPreviewProps> = ({ data, deleteRelati
             <p className="text-sm text-gray-500 mb-2">
                 Created At: {new Date(data.createdAt).toLocaleDateString()}
             </p>
-            <h1 className="text-2xl font-bold mb-2">{data.topic}</h1>
+            <h1 className="text-2xl font-bold mb-2">{data.title}</h1>
+            <h2 className="text-m font-bold mb-2">{data.topic}</h2>
 
             <div className="flex gap-2 mb-4">
                 <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded-full">

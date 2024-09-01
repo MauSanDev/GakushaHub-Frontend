@@ -16,7 +16,7 @@ const TextDisplayPage: React.FC = () => {
                     <LoadingScreen isLoading={isLoading} />
                 )}
                 {data ? (
-                    <TextReader title={data.topic} content={data.generatedText} />
+                    <TextReader title={data.title} content={data.text} />
                 ) : (
                     <div className="flex items-center justify-center h-full mt-2">
                         <h1 className="text-center text-4xl text-gray-300 font-bold align-middle space-x-0">

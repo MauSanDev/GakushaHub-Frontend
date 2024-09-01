@@ -1,6 +1,9 @@
 export interface GeneratedData {
     _id: string, 
+    title: string,
+    text: string,
     topic: string,
+    keywords: [string],
     style: string,
     length: number,
     jlptLevel: number,
@@ -9,6 +12,5 @@ export interface GeneratedData {
         words: [string],
         kanji: [string]
     },
-    generatedText: string,
     createdAt: string
 }
