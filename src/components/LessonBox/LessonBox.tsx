@@ -4,13 +4,16 @@ import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes } from "react-ic
 import GenericDeckDisplay from "../GenericDeckDisplay";
 import SmallKanjiBox from "../SmallKanjiBox";
 import SmallWordBox from "../SmallWordBox";
-import SmallGrammarBox from "../SmallGrammarBox"; // Asegúrate de que este componente exista
+import SmallGrammarBox from "../SmallGrammarBox";
 
 interface LessonBoxProps {
     lesson: LessonData;
+    showKanji: boolean;
+    showWord: boolean;
+    showGrammar: boolean;
 }
 
-const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
+const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, showGrammar }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(lesson.name || "<Title>");
     const [description, setDescription] = useState(lesson.description);
@@ -93,7 +96,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
                 </p>
             )}
 
-            {lesson.kanjiDecks.length > 0 && (
+            {showKanji && lesson.kanjiDecks.length > 0 && (
                 <div className="w-full">
                     <div className="flex justify-between items-center mb-2">
                         <h4 className="font-semibold text-gray-800 flex items-center gap-2">
@@ -107,7 +110,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
                 </div>
             )}
 
-            {lesson.wordDecks.length > 0 && (
+            {showWord && lesson.wordDecks.length > 0 && (
                 <div className="mt-4 w-full">
                     <div className="flex justify-between items-center mb-2">
                         <h4 className="font-semibold text-gray-800 flex items-center gap-2">
@@ -121,7 +124,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson }) => {
                 </div>
             )}
 
-            {lesson.grammarDecks.length > 0 && (
+            {showGrammar && lesson.grammarDecks.length > 0 && (
                 <div className="mt-4 w-full">
                     <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
                         <FaBook className="text-green-400" /> Grammar Decks:
