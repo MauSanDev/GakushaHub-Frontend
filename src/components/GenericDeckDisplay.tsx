@@ -11,7 +11,7 @@ interface GenericDeckDisplayProps<T> {
     TableComponent?: ComponentType<{ deck: DeckData<T> }>;
     columns?: number;
     enableFlashcards?: boolean;
-    elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation'; // Añadimos el elementType como prop
+    elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation' | 'kanjiDeck' | 'grammarDeck' | 'wordDeck';
 }
 
 const GenericDeckDisplay = <T,>({

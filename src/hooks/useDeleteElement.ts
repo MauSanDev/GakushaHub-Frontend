@@ -3,7 +3,7 @@ import { ApiClient } from '../services/ApiClient';
 
 interface DeleteElementParams {
     elementId: string;
-    elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation';
+    elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation' | 'kanjiDeck' | 'grammarDeck' | 'wordDeck';
     deleteRelations?: boolean;
 }
 
@@ -26,7 +26,7 @@ export const useDeleteElement = () => {
 
     return useMutation(deleteElement, {
         onSuccess: () => {
-            queryClient.invalidateQueries('parsedText'); // TODO: Modify
+            queryClient.invalidateQueries('parsedText'); // TODO: Modify this as necessary
         },
         onError: (error: Error) => {
             console.error('Error deleting element:', error.message);

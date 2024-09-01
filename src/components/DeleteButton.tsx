@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 interface DeleteButtonProps {
     elementId: string;
-    elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation';
+    elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation' | 'kanjiDeck' | 'grammarDeck' | 'wordDeck';
     deleteRelations?: boolean;
     redirectTo?: string; // Ruta opcional para redirigir después de la eliminación
 }

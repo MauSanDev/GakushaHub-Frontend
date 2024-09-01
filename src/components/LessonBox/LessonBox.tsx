@@ -130,7 +130,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                                 deck={lesson.kanjiDecks[0] as KanjiDeck}
                                 renderComponent={SmallKanjiBox}
                                 TableComponent={KanjiDeckTable}
-                                elementType={"kanji"}
+                                elementType={"kanjiDeck"}
                             />
                         </div>
                     )}
@@ -146,7 +146,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                                 deck={lesson.wordDecks[0] as WordDeck}
                                 renderComponent={SmallWordBox}
                                 TableComponent={WordDeckTable}
-                                elementType={"word"}
+                                elementType={"wordDeck"}
                             />
                         </div>
                     )}
@@ -161,7 +161,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                                 renderComponent={SmallGrammarBox}
                                 columns={2}
                                 enableFlashcards={false}
-                                elementType={"grammar"}
+                                elementType={"grammarDeck"}
                             />
                         </div>
                     )}
