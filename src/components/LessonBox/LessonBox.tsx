@@ -5,6 +5,11 @@ import GenericDeckDisplay from "../GenericDeckDisplay";
 import SmallKanjiBox from "../SmallKanjiBox";
 import SmallWordBox from "../SmallWordBox";
 import SmallGrammarBox from "../SmallGrammarBox";
+import KanjiDeckTable from "../Tables/KanjiDeckTable";
+import WordDeckTable from "../Tables/WordDeckTable";
+import { KanjiDeck } from "../../data/KanjiData.ts";
+import { WordDeck } from "../../data/WordData.ts";
+import { GrammarDeck } from "../../data/GrammarData.ts";
 
 interface LessonBoxProps {
     lesson: LessonData;
@@ -114,8 +119,9 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                                 </h4>
                             </div>
                             <GenericDeckDisplay
-                                deck={lesson.kanjiDecks[0]}
+                                deck={lesson.kanjiDecks[0] as KanjiDeck}
                                 renderComponent={SmallKanjiBox}
+                                TableComponent={KanjiDeckTable}
                             />
                         </div>
                     )}
@@ -128,8 +134,9 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                                 </h4>
                             </div>
                             <GenericDeckDisplay
-                                deck={lesson.wordDecks[0]}
+                                deck={lesson.wordDecks[0] as WordDeck}
                                 renderComponent={SmallWordBox}
+                                TableComponent={WordDeckTable}
                             />
                         </div>
                     )}
@@ -140,8 +147,9 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                                 <FaBook className="text-green-400" /> Grammar Decks:
                             </h4>
                             <GenericDeckDisplay
-                                deck={lesson.grammarDecks[0]}
+                                deck={lesson.grammarDecks[0] as GrammarDeck}
                                 renderComponent={SmallGrammarBox}
+                                TableComponent={WordDeckTable} // Aquí deberías agregar un componente de tabla para GrammarDeck
                             />
                         </div>
                     )}

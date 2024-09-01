@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, ComponentType } from "react";
 import { FaTable, FaThLarge, FaPlay, FaChevronRight, FaChevronDown } from "react-icons/fa";
-// import DeckTable from "./DeckTable";
 import FlashcardsModal from "./FlashcardsPage";
 import { DeckData } from "../data/DeckData.ts";
 import { FlashcardDeck } from "../data/FlashcardData.ts";
@@ -8,9 +7,10 @@ import { FlashcardDeck } from "../data/FlashcardData.ts";
 interface GenericDeckDisplayProps<T> {
     deck: DeckData<T>;
     renderComponent: ComponentType<{ result: T }>;
+    TableComponent: ComponentType<{ deck: DeckData<T> }>;
 }
 
-const GenericDeckDisplay = <T,>({ deck, renderComponent: RenderComponent }: GenericDeckDisplayProps<T>) => {
+const GenericDeckDisplay = <T,>({ deck, renderComponent: RenderComponent, TableComponent }: GenericDeckDisplayProps<T>) => {
     const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
     const [flashcardsMode, setFlashcardsMode] = useState(false);
     const [expanded, setExpanded] = useState(false);
@@ -23,12 +23,16 @@ const GenericDeckDisplay = <T,>({ deck, renderComponent: RenderComponent }: Gene
 
     useEffect(() => {
         if (contentRef.current) {
-            contentRef.current.style.maxHeight = expanded ? `${contentRef.current.scrollHeight}px` : "0px";
+            if (expanded) {
+                contentRef.current.style.maxHeight = `${contentRef.current.scrollHeight}px`;
+            } else {
+                contentRef.current.style.maxHeight = "0px";
+            }
         }
-    }, [expanded]);
+    }, [expanded, viewMode]);
 
     const handleFlashcardMode = () => {
-        const flashcardDeck = deck.convertToFlashcards()
+        const flashcardDeck = deck.convertToFlashcards();
         setFlashcardDeck(flashcardDeck);
         setFlashcardsMode(true);
     };
@@ -43,11 +47,7 @@ const GenericDeckDisplay = <T,>({ deck, renderComponent: RenderComponent }: Gene
                 </div>
             );
         } else {
-            return (
-                <div>
-                    {/*<DeckTable deckType={deck.name} decks={[deck]} />*/}
-                </div>
-            );
+            return <TableComponent deck={deck} />;
         }
     };
 
@@ -72,15 +72,15 @@ const GenericDeckDisplay = <T,>({ deck, renderComponent: RenderComponent }: Gene
                     <span className="text-sm text-gray-500">({deck.elements.length} elements)</span>
                 </div>
                 <div className="flex gap-0">
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleFlashcardMode();
-                            }}
-                            className="p-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600 mr-2"
-                        >
-                            <FaPlay />
-                        </button>
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleFlashcardMode();
+                        }}
+                        className="p-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600 mr-2"
+                    >
+                        <FaPlay />
+                    </button>
                     <button
                         onClick={(e) => {
                             e.stopPropagation();
@@ -112,10 +112,8 @@ const GenericDeckDisplay = <T,>({ deck, renderComponent: RenderComponent }: Gene
 
             <div
                 ref={contentRef}
-                className={`overflow-hidden transition-all duration-500 ease-in-out`}
-                style={{
-                    maxHeight: expanded ? `${contentRef.current?.scrollHeight}px` : "0px",
-                }}
+                className={`overflow-hidden transition-max-height duration-500 ease-in-out`}
+                style={{ maxHeight: expanded ? `${contentRef.current?.scrollHeight}px` : "0px" }}
             >
                 {renderContent()}
             </div>
