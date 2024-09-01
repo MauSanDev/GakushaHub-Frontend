@@ -19,4 +19,4 @@ export interface GeneratedData {
 }
 
 
-export class GenerationDeck extends DeckData<GrammarData> {}
+export class GenerationDeck extends DeckData<GeneratedData> {}

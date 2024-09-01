@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import LessonBox from '../components/LessonBox';
 import { CourseData, LessonData } from "../data/CourseData.ts";
-import { FaArrowLeft, FaSearch, FaBookOpen, FaFileAlt, FaBook } from "react-icons/fa";
+import { FaArrowLeft, FaSearch, FaBookOpen, FaFileAlt, FaBook, FaBookReader } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { usePaginatedCourseLessons } from '../hooks/usePaginatedCourseLessons';
 import LoadingScreen from "../components/LoadingScreen";
@@ -15,6 +15,7 @@ const CourseDetailPage: React.FC = () => {
     const [showKanji, setShowKanji] = useState(true);
     const [showWord, setShowWord] = useState(true);
     const [showGrammar, setShowGrammar] = useState(true);
+    const [showReadings, setShowReadings] = useState(true); // Nuevo estado para Readings
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data, isLoading, error } = usePaginatedCourseLessons(courseId || '', page, 10);
@@ -63,24 +64,27 @@ const CourseDetailPage: React.FC = () => {
         setSearchTerm(e.target.value);
     };
 
-    const handleToggle = (toggleType: 'kanji' | 'word' | 'grammar') => {
-        let toggles = { kanji: showKanji, word: showWord, grammar: showGrammar };
+    const handleToggle = (toggleType: 'kanji' | 'word' | 'grammar' | 'readings') => { // Añadido readings al toggleType
+        let toggles = { kanji: showKanji, word: showWord, grammar: showGrammar, readings: showReadings };
 
         // Actualizar el estado del toggle correspondiente
         if (toggleType === 'kanji') toggles.kanji = !showKanji;
         if (toggleType === 'word') toggles.word = !showWord;
         if (toggleType === 'grammar') toggles.grammar = !showGrammar;
+        if (toggleType === 'readings') toggles.readings = !showReadings;
 
-        // Si los tres toggles están desactivados después de este cambio, activar los tres
-        if (!toggles.kanji && !toggles.word && !toggles.grammar) {
+        // Si todos los toggles están desactivados después de este cambio, activar todos
+        if (!toggles.kanji && !toggles.word && !toggles.grammar && !toggles.readings) {
             setShowKanji(true);
             setShowWord(true);
             setShowGrammar(true);
+            setShowReadings(true);
         } else {
             // Aplicar los cambios normales
             setShowKanji(toggles.kanji);
             setShowWord(toggles.word);
             setShowGrammar(toggles.grammar);
+            setShowReadings(toggles.readings);
         }
     };
 
@@ -88,14 +92,16 @@ const CourseDetailPage: React.FC = () => {
         (
             (showKanji && lesson.kanjiDecks.length > 0) ||
             (showWord && lesson.wordDecks.length > 0) ||
-            (showGrammar && lesson.grammarDecks.length > 0)
+            (showGrammar && lesson.grammarDecks.length > 0) ||
+            (showReadings && lesson.readingDecks.length > 0) // Añadido para filtrar por readings
         ) &&
         (
             lesson.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             lesson.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
             lesson.kanjiDecks.some(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
             lesson.wordDecks.some(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-            lesson.grammarDecks.some(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase()))
+            lesson.grammarDecks.some(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            lesson.readingDecks.some(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase())) // Añadido para filtrar por readings
         )
     );
 
@@ -158,6 +164,13 @@ const CourseDetailPage: React.FC = () => {
                         >
                             <FaBook className={`text-sm ${showGrammar ? 'text-white' : 'text-green-500'}`} />
                         </button>
+                        <button
+                            onClick={() => handleToggle('readings')} // Añadir el botón de toggle para readings
+                            className={`p-1 rounded transition-colors duration-300 ${showReadings ? 'bg-purple-500 text-white hover:bg-purple-600' : 'bg-gray-200 text-purple-500 hover:bg-gray-300'}`}
+                            title="Reading Decks"
+                        >
+                            <FaBookReader className={`text-sm ${showReadings ? 'text-white' : 'text-purple-500'}`} />
+                        </button>
                     </div>
 
                     <DeleteButton
@@ -182,6 +195,7 @@ const CourseDetailPage: React.FC = () => {
                             showKanji={showKanji}
                             showWord={showWord}
                             showGrammar={showGrammar}
+                            showReadings={showReadings} // Pasar showReadings a LessonBox
                         />
                     ))
                 ) : (

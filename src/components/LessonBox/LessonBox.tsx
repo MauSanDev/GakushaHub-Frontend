@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { LessonData } from "../../data/CourseData.ts";
-import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes } from "react-icons/fa";
+import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes, FaBookReader } from "react-icons/fa"; // FaBookReader para Readings
 import GenericDeckDisplay from "../GenericDeckDisplay";
 import SmallKanjiBox from "../SmallKanjiBox";
 import SmallWordBox from "../SmallWordBox";
 import SmallGrammarBox from "../SmallGrammarBox";
+import SimpleReadingBox from "../SimpleReadingBox"; // Importa el nuevo componente para Readings
 import KanjiDeckTable from "../Tables/KanjiDeckTable";
 import WordDeckTable from "../Tables/WordDeckTable";
 import { KanjiDeck } from "../../data/KanjiData.ts";
 import { WordDeck } from "../../data/WordData.ts";
 import { GrammarDeck } from "../../data/GrammarData.ts";
+import {GeneratedData, GenerationDeck} from "../../data/GenerationData.ts"; // Importa los tipos de datos de GenerationData
 import DeleteButton from '../DeleteButton'; // Asegúrate de usar la ruta correcta
 
 interface LessonBoxProps {
@@ -17,9 +19,10 @@ interface LessonBoxProps {
     showKanji: boolean;
     showWord: boolean;
     showGrammar: boolean;
+    showReadings: boolean;
 }
 
-const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, showGrammar }) => {
+const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, showGrammar, showReadings }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(lesson.name || "<Title>");
     const [description, setDescription] = useState(lesson.description);
@@ -48,7 +51,8 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
     const noContentToShow = !(
         (showKanji && lesson.kanjiDecks.length > 0) ||
         (showWord && lesson.wordDecks.length > 0) ||
-        (showGrammar && lesson.grammarDecks.length > 0)
+        (showGrammar && lesson.grammarDecks.length > 0) ||
+        (showReadings && lesson.readingDecks.length > 0)
     );
 
     return (
@@ -162,6 +166,20 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                                 columns={2}
                                 enableFlashcards={false}
                                 elementType={"grammarDeck"}
+                            />
+                        </div>
+                    )}
+
+                    {showReadings && lesson.readingDecks.length > 0 && ( // Nueva sección para readings
+                        <div className="mt-4 w-full">
+                            <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                <FaBookReader className="text-purple-400" /> Reading Decks:
+                            </h4>
+                            <GenericDeckDisplay
+                                deck={lesson.readingDecks[0] as GenerationDeck}
+                                renderComponent={SimpleReadingBox}
+                                enableFlashcards={false}
+                                elementType={"generation"}
                             />
                         </div>
                     )}
