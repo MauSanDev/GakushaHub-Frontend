@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, ComponentType } from "react";
-import { FaTable, FaThLarge, FaPlay, FaChevronRight, FaChevronDown } from "react-icons/fa";
+import { FaTable, FaThLarge, FaPlay, FaChevronRight, FaChevronDown, FaTrashAlt } from "react-icons/fa";
 import FlashcardsModal from "./FlashcardsPage";
 import { DeckData } from "../data/DeckData.ts";
 import { FlashcardDeck } from "../data/FlashcardData.ts";
@@ -7,10 +7,20 @@ import { FlashcardDeck } from "../data/FlashcardData.ts";
 interface GenericDeckDisplayProps<T> {
     deck: DeckData<T>;
     renderComponent: ComponentType<{ result: T }>;
-    TableComponent: ComponentType<{ deck: DeckData<T> }>;
+    TableComponent?: ComponentType<{ deck: DeckData<T> }>;
+    columns?: number;
+    enableFlashcards?: boolean;
+    onDelete?: () => void;
 }
 
-const GenericDeckDisplay = <T,>({ deck, renderComponent: RenderComponent, TableComponent }: GenericDeckDisplayProps<T>) => {
+const GenericDeckDisplay = <T,>({
+                                    deck,
+                                    renderComponent: RenderComponent,
+                                    TableComponent,
+                                    columns = 6,
+                                    enableFlashcards = true,
+                                    onDelete,
+                                }: GenericDeckDisplayProps<T>) => {
     const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
     const [flashcardsMode, setFlashcardsMode] = useState(false);
     const [expanded, setExpanded] = useState(false);
@@ -40,13 +50,13 @@ const GenericDeckDisplay = <T,>({ deck, renderComponent: RenderComponent, TableC
     const renderContent = () => {
         if (viewMode === "cards") {
             return (
-                <div className="grid grid-cols-6 gap-2">
+                <div className={`grid grid-cols-${columns} gap-2`}>
                     {deck.elements.map((element, elemIndex) => (
                         <RenderComponent key={`${deck._id}-${elemIndex}`} result={element} />
                     ))}
                 </div>
             );
-        } else {
+        } else if (TableComponent) {
             return <TableComponent deck={deck} />;
         }
     };
@@ -71,42 +81,59 @@ const GenericDeckDisplay = <T,>({ deck, renderComponent: RenderComponent, TableC
                     <div className="font-bold text-gray-600">{deck.name}</div>
                     <span className="text-sm text-gray-500">({deck.elements.length} elements)</span>
                 </div>
-                <div className="flex gap-0">
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            handleFlashcardMode();
-                        }}
-                        className="p-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600 mr-2"
-                    >
-                        <FaPlay />
-                    </button>
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setViewMode("cards");
-                        }}
-                        className={`p-2 rounded-l-md ${
-                            viewMode === "cards"
-                                ? "bg-blue-500 text-white"
-                                : "bg-gray-200 text-gray-600 hover:bg-gray-300"
-                        }`}
-                    >
-                        <FaThLarge />
-                    </button>
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setViewMode("table");
-                        }}
-                        className={`p-2 rounded-r-md ${
-                            viewMode === "table"
-                                ? "bg-blue-500 text-white"
-                                : "bg-gray-200 text-gray-600 hover:bg-gray-300"
-                        }`}
-                    >
-                        <FaTable />
-                    </button>
+                <div className="flex gap-2">
+                    {enableFlashcards && (
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleFlashcardMode();
+                            }}
+                            className="p-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600"
+                        >
+                            <FaPlay />
+                        </button>
+                    )}
+                    {TableComponent && (
+                        <>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setViewMode("cards");
+                                }}
+                                className={`p-2 rounded-l-md ${
+                                    viewMode === "cards"
+                                        ? "bg-blue-500 text-white"
+                                        : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                                }`}
+                            >
+                                <FaThLarge />
+                            </button>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setViewMode("table");
+                                }}
+                                className={`p-2 rounded-r-md ${
+                                    viewMode === "table"
+                                        ? "bg-blue-500 text-white"
+                                        : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                                }`}
+                            >
+                                <FaTable />
+                            </button>
+                        </>
+                    )}
+                    {onDelete && (
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onDelete();
+                            }}
+                            className="p-2 bg-red-500 text-white rounded shadow hover:bg-red-600"
+                        >
+                            <FaTrashAlt />
+                        </button>
+                    )}
                 </div>
             </div>
 

@@ -149,7 +149,8 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                             <GenericDeckDisplay
                                 deck={lesson.grammarDecks[0] as GrammarDeck}
                                 renderComponent={SmallGrammarBox}
-                                TableComponent={WordDeckTable} // Aquí deberías agregar un componente de tabla para GrammarDeck
+                                columns={2}
+                                enableFlashcards={false}
                             />
                         </div>
                     )}
