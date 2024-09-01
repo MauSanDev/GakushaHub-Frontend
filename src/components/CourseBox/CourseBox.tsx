@@ -15,7 +15,6 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
                     elementId={course._id}
                     elementType="course"
                     deleteRelations={true}
-                    redirectTo="/courses"
                 />
             </div>
             <h1 className="text-3xl font-bold mb-4 text-blue-500">{course.name}</h1>

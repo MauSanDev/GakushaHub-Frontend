@@ -3,7 +3,7 @@ import CourseBox from '../components/CourseBox';
 import { CourseData } from "../data/CourseData.ts";
 import { usePaginatedCourse } from "../hooks/usePaginatedCourse.ts";
 import LoadingScreen from "../components/LoadingScreen";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const CourseListPage: React.FC = () => {
     const [courses, setCourses] = useState<CourseData[]>([]);
@@ -15,8 +15,13 @@ const CourseListPage: React.FC = () => {
     const hasMore = data ? page < (data.totalPages ?? 1) : false;
 
     useEffect(() => {
-        if (data) { 
-            setCourses(prevCourses => [...prevCourses, ...data.documents]);
+        if (data) {
+            setCourses(prevCourses => {
+                const newCourses = data.documents.filter(newCourse =>
+                    !prevCourses.some(course => course._id === newCourse._id)
+                );
+                return [...prevCourses, ...newCourses];
+            });
         }
     }, [data]);
 
@@ -44,7 +49,7 @@ const CourseListPage: React.FC = () => {
 
     return (
         <div ref={scrollContainerRef} className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-            
+
             <LoadingScreen isLoading={isLoading} />
 
             {error && <p className="text-red-500">{String(error)}</p>}
