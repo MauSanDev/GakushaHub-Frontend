@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect, ComponentType } from "react";
-import { FaTable, FaThLarge, FaPlay, FaChevronRight, FaChevronDown, FaTrashAlt } from "react-icons/fa";
+import { FaTable, FaThLarge, FaPlay, FaChevronRight, FaChevronDown } from "react-icons/fa";
 import FlashcardsModal from "./FlashcardsPage";
 import { DeckData } from "../data/DeckData.ts";
 import { FlashcardDeck } from "../data/FlashcardData.ts";
+import DeleteButton from "./DeleteButton"; // Importamos el botón de eliminación
 
 interface GenericDeckDisplayProps<T> {
     deck: DeckData<T>;
@@ -10,7 +11,7 @@ interface GenericDeckDisplayProps<T> {
     TableComponent?: ComponentType<{ deck: DeckData<T> }>;
     columns?: number;
     enableFlashcards?: boolean;
-    onDelete?: () => void;
+    elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation'; // Añadimos el elementType como prop
 }
 
 const GenericDeckDisplay = <T,>({
@@ -19,7 +20,7 @@ const GenericDeckDisplay = <T,>({
                                     TableComponent,
                                     columns = 6,
                                     enableFlashcards = true,
-                                    onDelete,
+                                    elementType, // Recibimos elementType como prop
                                 }: GenericDeckDisplayProps<T>) => {
     const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
     const [flashcardsMode, setFlashcardsMode] = useState(false);
@@ -123,17 +124,10 @@ const GenericDeckDisplay = <T,>({
                             </button>
                         </>
                     )}
-                    {onDelete && (
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onDelete();
-                            }}
-                            className="p-2 bg-red-500 text-white rounded shadow hover:bg-red-600"
-                        >
-                            <FaTrashAlt />
-                        </button>
-                    )}
+                    <DeleteButton
+                        elementId={deck._id}
+                        elementType={elementType} // Usamos elementType recibido como prop
+                    />
                 </div>
             </div>
 
