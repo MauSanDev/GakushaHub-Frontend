@@ -7,16 +7,18 @@ import {KanjiData} from "../../data/KanjiData.ts";
 import {WordData} from "../../data/WordData.ts";
 import {GrammarData} from "../../data/GrammarData.ts";
 import {SaveStatus} from "../../utils/SaveStatus.ts";
+import {GeneratedData} from "../../data/GenerationData.ts";
 
 
 interface SaveDeckInputProps {
     kanjiList: KanjiData[],
     wordList: WordData[],
     grammarList: GrammarData[],
+    readingList: GeneratedData[],
     onSaveStatusChange?: (status: SaveStatus, error?: string) => void;
 }
 
-const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, grammarList, onSaveStatusChange }) => {
+const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, grammarList, readingList, onSaveStatusChange }) => {
     const [selectedCourse, setSelectedCourse] = useState<string>('');
     const [selectedLesson, setSelectedLesson] = useState<string>('');
     const [selectedDeck, setSelectedDeck] = useState<string>('');
@@ -44,13 +46,14 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
         if (!lesson) return [];
 
         const decks = [
-            ...lesson.kanjiDecks,
-            ...lesson.grammarDecks,
-            ...lesson.wordDecks
+            ...lesson.kanjiDecks || [],
+            ...lesson.grammarDecks || [],
+            ...lesson.wordDecks || [],
+            ...lesson.readingDecks || []
         ];
 
         return decks
-            .map((deck) => deck.name.replace(/ - (Words|Kanji|Grammar)$/, ''))
+            .map((deck) => deck.name.replace(/ - (Words|Kanji|Grammar|Reading)$/, ''))
             .filter((name, index, self) => self.indexOf(name) === index);
     };
 
@@ -89,7 +92,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
                 courseId: courseData?._id || null,
                 courseName: selectedCourse.trim(),
                 lessonName: selectedLesson.trim(),
-                decks: parseDecks(selectedDeck.trim(), kanjiList, wordList, grammarList)
+                decks: parseDecks(selectedDeck.trim(), kanjiList, wordList, grammarList, readingList)
             }, {
                 onSuccess: () => {
                     onSaveStatusChange?.(SaveStatus.Success);

@@ -1,3 +1,6 @@
+import {DeckData} from "./DeckData.ts";
+import {GrammarData} from "./GrammarData.ts";
+
 export interface GeneratedData {
     _id: string, 
     title: string,
@@ -14,3 +17,6 @@ export interface GeneratedData {
     },
     createdAt: string
 }
+
+
+export class GenerationDeck extends DeckData<GrammarData> {}

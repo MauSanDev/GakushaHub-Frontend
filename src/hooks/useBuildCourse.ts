@@ -3,11 +3,12 @@ import { ApiClient } from '../services/ApiClient';
 import { KanjiData } from "../data/KanjiData.ts";
 import { WordData} from "../data/WordData.ts";
 import { GrammarData} from "../data/GrammarData.ts";
+import { GeneratedData } from "../data/GenerationData.ts";
 
 export interface Deck {
     deckName: string;
     elements: string[];
-    deckType: 'kanji' | 'word' | 'grammar';
+    deckType: 'kanji' | 'word' | 'grammar' | 'reading';
 }
 
 interface CreateCourseParams {
@@ -27,7 +28,7 @@ const createCourse = async (params: CreateCourseParams): Promise<void> => {
     });
 };
 
-export const parseDecks = (deckName : string, kanjiData: KanjiData[], wordData : WordData[], grammarData : GrammarData[]) =>
+export const parseDecks = (deckName : string, kanjiData: KanjiData[], wordData : WordData[], grammarData : GrammarData[], readingData : GeneratedData[]) =>
 {
     const decks : Deck[] = []
     
@@ -52,6 +53,14 @@ export const parseDecks = (deckName : string, kanjiData: KanjiData[], wordData :
             deckName: `${deckName} - Grammar`,
             elements: grammarData.map((x) => x._id),
             deckType: 'grammar',
+        });
+    }
+    
+    if (readingData.length > 0) {
+        decks.push({
+            deckName: `${deckName} - Reading`,
+            elements: readingData.map((x) => x._id),
+            deckType: 'reading',
         });
     }
     

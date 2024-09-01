@@ -31,7 +31,7 @@ const SearchPage: React.FC = () => {
 
             {(kanjiResults.length > 0 || wordResults.length > 0) && (
                 <div className="fixed top-4 right-4">
-                    <SaveDeckInput kanjiList={kanjiResults} wordList={wordResults} grammarList={[]} onSaveStatusChange={onSaveStatusChanged}/>
+                    <SaveDeckInput kanjiList={kanjiResults} wordList={wordResults} grammarList={[]} readingList={[]} onSaveStatusChange={onSaveStatusChanged}/>
                 </div>
             )}
 

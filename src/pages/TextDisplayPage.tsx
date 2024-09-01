@@ -2,15 +2,24 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import TextReader from '../components/TextReader';
 import { useFetchElementById } from '../hooks/useFetchElement.ts';
-import { GeneratedData} from "../data/GenerationData.ts";
+import { GeneratedData } from "../data/GenerationData.ts";
 import LoadingScreen from "../components/LoadingScreen";
+import SaveDeckInput from '../components/SaveDeckInput';
 
 const TextDisplayPage: React.FC = () => {
     const { elementId } = useParams<{ elementId: string }>();
     const { data, isLoading, error } = useFetchElementById<GeneratedData>({ id: elementId || '', elementType: 'generation' });
 
     return (
-        <div className="flex flex-col items-center justify-center h-full w-full p-4">
+        <div className="relative flex flex-col items-center justify-center h-full w-full p-4">
+            <div className="absolute top-4 right-4 z-10">
+                <SaveDeckInput
+                    kanjiList={[]}  // Aquí pasarías la lista de kanjis
+                    wordList={[]}   // Aquí pasarías la lista de palabras
+                    grammarList={[]}  // Aquí pasarías la lista de gramática
+                    readingList={[data]}  // Aquí pasarías la lista de lecturas, en este caso solo un elemento
+                />
+            </div>
             <div className="flex-1 p-8 rounded-md overflow-y-auto relative max-w-4xl w-full">
                 {isLoading && (
                     <LoadingScreen isLoading={isLoading} />
