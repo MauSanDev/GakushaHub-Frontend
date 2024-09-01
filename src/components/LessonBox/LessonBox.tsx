@@ -39,6 +39,12 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
         setIsEditing(false);
     };
 
+    const noContentToShow = !(
+        (showKanji && lesson.kanjiDecks.length > 0) ||
+        (showWord && lesson.wordDecks.length > 0) ||
+        (showGrammar && lesson.grammarDecks.length > 0)
+    );
+
     return (
         <div className="bg-white p-6 rounded-lg shadow-lg mb-6 border border-gray-200 transform transition-transform duration-300 hover:border-blue-400 w-full relative">
 
@@ -96,44 +102,50 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                 </p>
             )}
 
-            {showKanji && lesson.kanjiDecks.length > 0 && (
-                <div className="w-full">
-                    <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-semibold text-gray-800 flex items-center gap-2">
-                            <FaBookOpen className="text-blue-400" /> Kanji Decks:
-                        </h4>
-                    </div>
-                    <GenericDeckDisplay
-                        deck={lesson.kanjiDecks[0]}
-                        renderComponent={SmallKanjiBox}
-                    />
-                </div>
-            )}
+            {noContentToShow ? (
+                <p className="text-gray-500 text-center mt-4">表示するものはありません</p>
+            ) : (
+                <>
+                    {showKanji && lesson.kanjiDecks.length > 0 && (
+                        <div className="w-full">
+                            <div className="flex justify-between items-center mb-2">
+                                <h4 className="font-semibold text-gray-800 flex items-center gap-2">
+                                    <FaBookOpen className="text-blue-400" /> Kanji Decks:
+                                </h4>
+                            </div>
+                            <GenericDeckDisplay
+                                deck={lesson.kanjiDecks[0]}
+                                renderComponent={SmallKanjiBox}
+                            />
+                        </div>
+                    )}
 
-            {showWord && lesson.wordDecks.length > 0 && (
-                <div className="mt-4 w-full">
-                    <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-semibold text-gray-800 flex items-center gap-2">
-                            <FaFileAlt className="text-red-400" /> Word Decks:
-                        </h4>
-                    </div>
-                    <GenericDeckDisplay
-                        deck={lesson.wordDecks[0]}
-                        renderComponent={SmallWordBox}
-                    />
-                </div>
-            )}
+                    {showWord && lesson.wordDecks.length > 0 && (
+                        <div className="mt-4 w-full">
+                            <div className="flex justify-between items-center mb-2">
+                                <h4 className="font-semibold text-gray-800 flex items-center gap-2">
+                                    <FaFileAlt className="text-red-400" /> Word Decks:
+                                </h4>
+                            </div>
+                            <GenericDeckDisplay
+                                deck={lesson.wordDecks[0]}
+                                renderComponent={SmallWordBox}
+                            />
+                        </div>
+                    )}
 
-            {showGrammar && lesson.grammarDecks.length > 0 && (
-                <div className="mt-4 w-full">
-                    <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                        <FaBook className="text-green-400" /> Grammar Decks:
-                    </h4>
-                    <GenericDeckDisplay
-                        deck={lesson.grammarDecks[0]}
-                        renderComponent={SmallGrammarBox}
-                    />
-                </div>
+                    {showGrammar && lesson.grammarDecks.length > 0 && (
+                        <div className="mt-4 w-full">
+                            <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                <FaBook className="text-green-400" /> Grammar Decks:
+                            </h4>
+                            <GenericDeckDisplay
+                                deck={lesson.grammarDecks[0]}
+                                renderComponent={SmallGrammarBox}
+                            />
+                        </div>
+                    )}
+                </>
             )}
         </div>
     );

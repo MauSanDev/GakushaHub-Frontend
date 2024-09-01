@@ -22,8 +22,18 @@ const CourseDetailPage: React.FC = () => {
     const course = data?.course as CourseData | null;
 
     useEffect(() => {
+        // Reiniciar el estado de allLessons cuando se monta el componente
+        setAllLessons([]);
+    }, [courseId]);
+
+    useEffect(() => {
         if (data) {
-            setAllLessons((prev) => [...prev, ...data.documents]);
+            // Filtrar las lecciones para evitar duplicados basados en el _id
+            const uniqueLessons = data.documents.filter(
+                (newLesson) => !allLessons.some((lesson) => lesson._id === newLesson._id)
+            );
+            // Actualizar el estado solo con los elementos únicos
+            setAllLessons((prev) => [...prev, ...uniqueLessons]);
         }
     }, [data]);
 
