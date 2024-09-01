@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { FaPaperPlane } from 'react-icons/fa';
 import loadingIcon from '../assets/loading-icon.svg';
-import TextReader from '../components/TextReader';
 import { useGenerateText, GenerateTextResponse } from '../hooks/useGenerateText';
+import DeckSelectionInput from '../components/DeckSelectionInput';
+import { KanjiData } from '../data/KanjiData';
+import { WordData } from '../data/WordData';
+import { GrammarData } from '../data/GrammarData';
 
 const GenerationPage: React.FC = () => {
     const [topic, setTopic] = useState('');
@@ -11,12 +14,18 @@ const GenerationPage: React.FC = () => {
     const [jlptLevel, setJlptLevel] = useState(5);
     const [error, setError] = useState('');
     const [generatedText, setGeneratedText] = useState('');
+    const [isDeckSelectionComplete, setIsDeckSelectionComplete] = useState(false);
 
     const { mutate: generateText, isLoading } = useGenerateText();
 
+    // Dummy data for kanji, word, and grammar lists (replace with actual data)
+    const kanjiList: KanjiData[] = [];
+    const wordList: WordData[] = [];
+    const grammarList: GrammarData[] = [];
+
     const handleGenerate = () => {
-        if (!topic || !style || length < 150 || length > 800) {
-            setError('Topic, Style, and Length (between 150 and 800) are required.');
+        if (!topic || !style || length < 150 || length > 800 || !isDeckSelectionComplete) {
+            setError('All fields are required, and Length must be between 150 and 800.');
             return;
         }
 
@@ -34,29 +43,33 @@ const GenerationPage: React.FC = () => {
         );
     };
 
-    const isGenerateEnabled = topic.trim() !== '' && style.trim() !== '' && length >= 150 && length <= 800;
+    const isGenerateEnabled = topic.trim() !== '' && style.trim() !== '' && length >= 150 && length <= 800 && isDeckSelectionComplete;
 
     return (
-        <div className="flex flex-col items-center justify-center h-full w-full p-4">
-            <div className="flex-1 p-8 rounded-md overflow-y-auto relative max-w-4xl w-full">
-                {isLoading && (
-                    <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10">
-                        <img src={loadingIcon} alt="Loading..." className="w-16 h-16" />
-                    </div>
-                )}
-                {generatedText ? (
-                    <TextReader title="Generated Text" content={generatedText} />
-                ) : (
-                    <div className="flex items-center justify-center h-full mt-2">
-                        <h1 className="text-center text-4xl text-gray-300 font-bold align-middle space-x-0">何読みたい？</h1>
-                    </div>
-                )}
-                {error && <p className="text-red-500 text-center">{error}</p>}
-            </div>
+        <div className="flex items-center justify-center h-screen w-screen p-4 relative">
+            {isLoading && (
+                <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10">
+                    <img src={loadingIcon} alt="Loading..." className="w-16 h-16" />
+                </div>
+            )}
 
+            <div
 
-            <div className="p-3 bg-white border border-gray-200 rounded-md shadow-lg w-full max-w-3xl fixed bottom-0 left-1/2 transform -translate-x-1/2">
-                <div className="flex flex-wrap gap-3">
+                className="p-3 bg-white border border-gray-200 rounded-md shadow-lg w-full max-w-3xl absolute">
+                <div className="flex flex-col items-center justify-center mb-4">
+                    <h1 className="text-center text-4xl text-gray-500 font-bold mb-2">何読みたいの？</h1>
+                    {error && <p className="text-red-500 text-center mb-2">{error}</p>}
+                </div>
+
+                <DeckSelectionInput
+                    kanjiList={kanjiList}
+                    wordList={wordList}
+                    grammarList={grammarList}
+                    onSaveTriggered={false} 
+                    onSelectionComplete={setIsDeckSelectionComplete}
+                />
+
+                <div className="flex flex-wrap gap-3 mb-3 mt-4">
                     <div className="flex flex-col sm:flex-1">
                         <span className="text-gray-500 text-[10px]">Style</span>
                         <input
@@ -101,7 +114,7 @@ const GenerationPage: React.FC = () => {
                         </select>
                     </div>
                 </div>
-                <div className="flex flex-wrap gap-3 mt-3">
+                <div className="flex flex-wrap gap-3">
                     <div className="flex flex-col sm:flex-1">
                         <textarea
                             id="topic"
