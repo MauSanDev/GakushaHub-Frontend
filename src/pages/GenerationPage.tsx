@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { FaPaperPlane } from 'react-icons/fa';
-import loadingIcon from '../assets/loading-icon.svg';
-import { useGenerateText, GenerateTextResponse } from '../hooks/useGenerateText';
+import React, { useState, useEffect } from 'react';
+import { FaPaperPlane, FaCheckSquare, FaSquare } from 'react-icons/fa';
+import LoadingScreen from '../components/LoadingScreen';
+import { useGenerateText } from '../hooks/useGenerateText';
 import DeckSelectionInput from '../components/DeckSelectionInput';
-import { KanjiData } from '../data/KanjiData';
-import { WordData } from '../data/WordData';
-import { GrammarData } from '../data/GrammarData';
+import { GeneratedData } from "../data/GenerationData.ts";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const GenerationPage: React.FC = () => {
     const [topic, setTopic] = useState('');
@@ -13,59 +12,62 @@ const GenerationPage: React.FC = () => {
     const [length, setLength] = useState(150);
     const [jlptLevel, setJlptLevel] = useState(5);
     const [error, setError] = useState('');
-    const [generatedText, setGeneratedText] = useState('');
+    const [generatedText, setGeneratedText] = useState<GeneratedData>();
+    const [isPublic, setIsPublic] = useState(true); 
     const [isDeckSelectionComplete, setIsDeckSelectionComplete] = useState(false);
+    const [onSaveTriggered, setOnSaveTriggered] = useState(false);
 
     const { mutate: generateText, isLoading } = useGenerateText();
-
-    // Dummy data for kanji, word, and grammar lists (replace with actual data)
-    const kanjiList: KanjiData[] = [];
-    const wordList: WordData[] = [];
-    const grammarList: GrammarData[] = [];
-
+    const navigate = useNavigate();
+    const location = useLocation();
     const handleGenerate = () => {
-        if (!topic || !style || length < 150 || length > 800 || !isDeckSelectionComplete) {
+        if (!topic || !style || length > 800 || !isDeckSelectionComplete) {
             setError('All fields are required, and Length must be between 150 and 800.');
             return;
         }
 
-        generateText(
-            { topic, style, length, jlptLevel },
-            {
-                onSuccess: (data: GenerateTextResponse) => {
-                    setGeneratedText(data.generatedText);
-                    setError('');
-                },
-                onError: (error: unknown) => {
-                    setError(`Error generating text: ${error instanceof Error ? error.message : 'Unknown error'}`);
-                },
-            }
-        );
+        if (!isLoading) {
+            generateText(
+                { topic, style, length, jlptLevel, isPublic },
+                {
+                    onSuccess: (data: GeneratedData) => {
+                        console.log(data);
+                        setGeneratedText(data);
+                        setError('');
+                        setOnSaveTriggered(true);
+                    },
+                    onError: (error: unknown) => {
+                        setError(`Error generating text: ${error instanceof Error ? error.message : 'Unknown error'}`);
+                    },
+                }
+            );
+        }
     };
 
-    const isGenerateEnabled = topic.trim() !== '' && style.trim() !== '' && length >= 150 && length <= 800 && isDeckSelectionComplete;
+    useEffect(() => {
+        if (onSaveTriggered && generatedText) {
+            navigate(`/generation/${generatedText._id}`, { state: { from: location } });
+        }
+    }, [onSaveTriggered, generatedText, navigate, location]);
+
+    const isGenerateEnabled = topic.trim() !== '' && style.trim() !== '' && length <= 800 && isDeckSelectionComplete;
 
     return (
         <div className="flex items-center justify-center h-screen w-screen p-4 relative">
-            {isLoading && (
-                <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10">
-                    <img src={loadingIcon} alt="Loading..." className="w-16 h-16" />
-                </div>
-            )}
+            <LoadingScreen isLoading={isLoading} />
 
-            <div
-
-                className="p-3 bg-white w-full max-w-3xl absolute">
+            <div className="p-3 bg-white w-full max-w-3xl absolute">
                 <div className="flex flex-col items-center justify-center mb-4">
                     <h1 className="text-center text-4xl text-black font-bold mb-2">何読みたいの？</h1>
                     {error && <p className="text-red-500 text-center mb-2">{error}</p>}
                 </div>
 
                 <DeckSelectionInput
-                    kanjiList={kanjiList}
-                    wordList={wordList}
-                    grammarList={grammarList}
-                    onSaveTriggered={false} 
+                    kanjiList={[]}
+                    wordList={[]}
+                    grammarList={[]}
+                    readingList={[generatedText]}
+                    onSaveTriggered={onSaveTriggered}
                     onSelectionComplete={setIsDeckSelectionComplete}
                 />
 
@@ -145,6 +147,21 @@ const GenerationPage: React.FC = () => {
                             Generate
                         </button>
                     </div>
+                </div>
+
+                {/* Checkbox para hacer público o privado */}
+                <div className="flex items-center mb-4 mt-4">
+                    <button
+                        onClick={() => setIsPublic(!isPublic)}
+                        className="flex items-center space-x-2"
+                    >
+                        {isPublic ? (
+                            <FaCheckSquare className="text-blue-600" size={24} />
+                        ) : (
+                            <FaSquare className="text-gray-400" size={24} />
+                        )}
+                        <span className="text-sm text-gray-500">Make it public (Other users will be able to read it)</span>
+                    </button>
                 </div>
             </div>
         </div>

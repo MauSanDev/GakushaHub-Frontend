@@ -5,14 +5,15 @@ export interface GeneratedData {
     title: string,
     text: string,
     topic: string,
-    keywords: [string],
+    keywords: string[],
     style: string,
     length: number,
     jlptLevel: number,
+    isPublic: boolean,
     prioritization: {
-        grammar: [string],
-        words: [string],
-        kanji: [string]
+        grammar: string[],
+        words: string[],
+        kanji: string[]
     },
     createdAt: string
 }

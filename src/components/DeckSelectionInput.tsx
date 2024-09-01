@@ -6,17 +6,19 @@ import { KanjiData } from "../data/KanjiData.ts";
 import { WordData } from "../data/WordData.ts";
 import { GrammarData } from "../data/GrammarData.ts";
 import { SaveStatus } from "../utils/SaveStatus.ts";
+import { GeneratedData } from "../data/GenerationData.ts";
 
 interface DeckSelectionInputProps {
     kanjiList: KanjiData[],
     wordList: WordData[],
     grammarList: GrammarData[],
+    readingList: GeneratedData[],
     onSaveStatusChange?: (status: SaveStatus, error?: string) => void;
-    onSaveTriggered: boolean; // Prop to trigger the save action
-    onSelectionComplete: (isComplete: boolean) => void; // Notificación cuando los 3 valores están completos
+    onSaveTriggered: boolean;
+    onSelectionComplete: (isComplete: boolean) => void;
 }
 
-const DeckSelectionInput: React.FC<DeckSelectionInputProps> = ({ kanjiList, wordList, grammarList, onSaveStatusChange, onSaveTriggered, onSelectionComplete }) => {
+const DeckSelectionInput: React.FC<DeckSelectionInputProps> = ({ kanjiList, wordList, grammarList, readingList, onSaveStatusChange, onSaveTriggered, onSelectionComplete }) => {
     const [selectedCourse, setSelectedCourse] = useState<string>('');
     const [selectedLesson, setSelectedLesson] = useState<string>('');
     const [selectedDeck, setSelectedDeck] = useState<string>('');
@@ -93,13 +95,15 @@ const DeckSelectionInput: React.FC<DeckSelectionInputProps> = ({ kanjiList, word
                 courseId: courseData?._id || null,
                 courseName: selectedCourse.trim(),
                 lessonName: selectedLesson.trim(),
-                decks: parseDecks(selectedDeck.trim(), kanjiList, wordList, grammarList)
+                decks: parseDecks(selectedDeck.trim(), kanjiList, wordList, grammarList, readingList)
             }, {
                 onSuccess: () => {
                     onSaveStatusChange?.(SaveStatus.Success);
+                    console.log('Save successful'); // Console log al final
                 },
                 onError: (error) => {
                     onSaveStatusChange?.(SaveStatus.Error, String(error));
+                    console.log('Save failed'); // Console log en caso de error
                 }
             });
         }
@@ -132,16 +136,13 @@ const DeckSelectionInput: React.FC<DeckSelectionInputProps> = ({ kanjiList, word
 
     return (
         <div className="gap-2">
-
             <p className="text-gray-500 text-xs text-center inline pl-3">Save to: </p>
-
             {error ? (
                 <p className="text-red-500 text-xs text-ri inline">{error}</p>
             ) : (
                 <p className="text-gray-500 text-xs text-left inline">{getContextMessage()}</p>
             )}
             <div className="relative w-full justify-end border border-gray-300 rounded">
-
                 <div className="flex items-center gap-2 max-w-full overflow-visible transition-transform duration-500">
                     <DropdownInput
                         value={selectedCourse}
@@ -150,7 +151,6 @@ const DeckSelectionInput: React.FC<DeckSelectionInputProps> = ({ kanjiList, word
                         options={getAvailableCourses()}
                         disabled={saveSuccess || isSaving}
                     />
-
                     <span>/</span>
                     <DropdownInput
                         value={selectedLesson}
@@ -159,7 +159,6 @@ const DeckSelectionInput: React.FC<DeckSelectionInputProps> = ({ kanjiList, word
                         options={getAvailableLessons()}
                         disabled={saveSuccess || isSaving}
                     />
-
                     <span>/</span>
                     <DropdownInput
                         value={selectedDeck}
