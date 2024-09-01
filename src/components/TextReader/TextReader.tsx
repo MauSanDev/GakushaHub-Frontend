@@ -50,7 +50,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
         });
 
         document.addEventListener('click', () => {
-            setActiveTooltip(null); // Cierra cualquier tooltip activo
+            setActiveTooltip(null);
         });
     }, [formattedContent]);
 
