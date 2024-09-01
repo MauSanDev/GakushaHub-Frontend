@@ -55,9 +55,9 @@ const GenerationPage: React.FC = () => {
 
             <div
 
-                className="p-3 bg-white border border-gray-200 rounded-md shadow-lg w-full max-w-3xl absolute">
+                className="p-3 bg-white w-full max-w-3xl absolute">
                 <div className="flex flex-col items-center justify-center mb-4">
-                    <h1 className="text-center text-4xl text-gray-500 font-bold mb-2">何読みたいの？</h1>
+                    <h1 className="text-center text-4xl text-black font-bold mb-2">何読みたいの？</h1>
                     {error && <p className="text-red-500 text-center mb-2">{error}</p>}
                 </div>
 

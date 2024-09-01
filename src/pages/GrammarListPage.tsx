@@ -107,7 +107,7 @@ const GrammarListPage: React.FC = () => {
 
             {(selectedGrammar.length > 0 && (
                 <div className="fixed top-4 right-4">
-                    <SaveDeckInput kanjiList={[]} wordList={[]} grammarList={selectedGrammar} onSaveStatusChange={onSaveStatusChanged}/>
+                    <SaveDeckInput kanjiList={[]} wordList={[]} grammarList={selectedGrammar} readingList={[]} onSaveStatusChange={onSaveStatusChanged}/>
                 </div>
             ))}
 

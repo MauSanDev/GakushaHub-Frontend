@@ -48,14 +48,7 @@ const TextDisplayPage: React.FC = () => {
                         <div className="relative">
                             <TextReader data={data} />
                         </div>
-
                         
-
-                        <footer className="mt-8 pt-8 border-t border-gray-200 text-center">
-                            <p className="text-gray-400 text-xs">
-                                Footer content here
-                            </p>
-                        </footer>
                     </>
                 ) : (
                     <div className="flex items-center justify-center h-full mt-2">
