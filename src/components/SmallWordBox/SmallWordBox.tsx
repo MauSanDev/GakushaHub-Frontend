@@ -1,5 +1,5 @@
 import React from 'react';
-import { WordData } from '../../data/data-structures';
+import { WordData } from '../../data/WordData.ts';
 import { useLanguage } from '../../context/LanguageContext';
 
 interface SmallWordBoxProps {

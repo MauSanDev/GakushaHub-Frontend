@@ -1,101 +1,210 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import LessonBox from '../components/LessonBox';
-import loadingIcon from '../assets/loading-icon.svg';
-import { CourseData, LessonData } from "../data/data-structures.tsx";
-import { FaArrowLeft } from "react-icons/fa";
+import { CourseData, LessonData } from "../data/CourseData.ts";
+import { FaArrowLeft, FaSearch, FaBookOpen, FaFileAlt, FaBook, FaBookReader } from "react-icons/fa";
+import { Link, useParams } from "react-router-dom";
+import { usePaginatedCourseLessons } from '../hooks/usePaginatedCourseLessons';
+import LoadingScreen from "../components/LoadingScreen";
+import DeleteButton from '../components/DeleteButton';
 
-interface CourseDetailPageProps {
-    courseId: string;
-    onBack: () => void; // Recibe la función para volver a la lista de cursos
-}
+const CourseDetailPage: React.FC = () => {
+    const { courseId } = useParams<{ courseId: string }>();
+    const [page, setPage] = useState(1);
+    const [allLessons, setAllLessons] = useState<LessonData[]>([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [showKanji, setShowKanji] = useState(true);
+    const [showWord, setShowWord] = useState(true);
+    const [showGrammar, setShowGrammar] = useState(true);
+    const [showReadings, setShowReadings] = useState(true); // Nuevo estado para Readings
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ courseId, onBack }) => {
-    const [course, setCourse] = useState<CourseData | null>(null);
-    const [lessons, setLessons] = useState<LessonData[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
+    const { data, isLoading, error } = usePaginatedCourseLessons(courseId || '', page, 10);
+
+    const course = data?.course as CourseData | null;
 
     useEffect(() => {
-        const fetchCourseDetails = async () => {
-            setLoading(true);
-            setError('');
+        // Reiniciar el estado de allLessons cuando se monta el componente
+        setAllLessons([]);
+    }, [courseId]);
 
-            try {
-                const page = 1;
-                const limit = 10;
+    useEffect(() => {
+        if (data) {
+            // Filtrar las lecciones para evitar duplicados basados en el _id
+            const uniqueLessons = data.documents.filter(
+                (newLesson) => !allLessons.some((lesson) => lesson._id === newLesson._id)
+            );
+            // Actualizar el estado solo con los elementos únicos
+            setAllLessons((prev) => [...prev, ...uniqueLessons]);
+        }
+    }, [data]);
 
-                const response = await fetch(`http://localhost:3000/api/courses/${courseId}/lessons/paginated?page=${page}&limit=${limit}`);
-                if (!response.ok) {
-                    throw new Error('Error al obtener los datos del curso');
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollContainer = scrollContainerRef.current;
+            if (scrollContainer) {
+                const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+                if (scrollTop + clientHeight >= scrollHeight - 100 && !isLoading && page < (data?.totalPages ?? 1)) {
+                    setPage((prevPage) => prevPage + 1);
                 }
-
-                const data = await response.json();
-
-                if (data.error) {
-                    setError(data.error);
-                } else {
-                    setCourse(data.course);
-                    setLessons(data.lessons);
-                }
-            } catch (error) {
-                setError('Error al cargar los datos.');
-            } finally {
-                setLoading(false);
             }
         };
 
-        fetchCourseDetails();
-    }, [courseId]);
+        const scrollContainer = scrollContainerRef.current;
+        if (scrollContainer) {
+            scrollContainer.addEventListener('scroll', handleScroll);
+        }
+        return () => {
+            if (scrollContainer) {
+                scrollContainer.removeEventListener('scroll', handleScroll);
+            }
+        };
+    }, [isLoading, page, data]);
 
-    const handleUpdateLesson = (updatedLesson: LessonData) => {
-        setLessons((prevLessons) =>
-            prevLessons.map((lesson) =>
-                lesson._id === updatedLesson._id ? updatedLesson : lesson
-            )
-        );
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value);
     };
 
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center h-full w-full">
-                <img src={loadingIcon} alt="Loading" className="w-16 h-16 animate-spin" />
-            </div>
-        );
+    const handleToggle = (toggleType: 'kanji' | 'word' | 'grammar' | 'readings') => { // Añadido readings al toggleType
+        let toggles = { kanji: showKanji, word: showWord, grammar: showGrammar, readings: showReadings };
+
+        // Actualizar el estado del toggle correspondiente
+        if (toggleType === 'kanji') toggles.kanji = !showKanji;
+        if (toggleType === 'word') toggles.word = !showWord;
+        if (toggleType === 'grammar') toggles.grammar = !showGrammar;
+        if (toggleType === 'readings') toggles.readings = !showReadings;
+
+        // Si todos los toggles están desactivados después de este cambio, activar todos
+        if (!toggles.kanji && !toggles.word && !toggles.grammar && !toggles.readings) {
+            setShowKanji(true);
+            setShowWord(true);
+            setShowGrammar(true);
+            setShowReadings(true);
+        } else {
+            // Aplicar los cambios normales
+            setShowKanji(toggles.kanji);
+            setShowWord(toggles.word);
+            setShowGrammar(toggles.grammar);
+            setShowReadings(toggles.readings);
+        }
+    };
+
+    const filteredLessons = allLessons.filter(lesson =>
+        (
+            (showKanji && lesson.kanjiDecks.length > 0) ||
+            (showWord && lesson.wordDecks.length > 0) ||
+            (showGrammar && lesson.grammarDecks.length > 0) ||
+            (showReadings && lesson.readingDecks.length > 0) // Añadido para filtrar por readings
+        ) &&
+        (
+            lesson.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            lesson.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            lesson.kanjiDecks.some(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            lesson.wordDecks.some(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            lesson.grammarDecks.some(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+            lesson.readingDecks.some(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase())) // Añadido para filtrar por readings
+        )
+    );
+
+    if (isLoading && page === 1) {
+        return (<LoadingScreen isLoading={isLoading} />);
     }
 
     if (error) {
-        return <div className="text-red-500 text-center">{error}</div>;
+        return <div className="text-red-500 text-center">{String(error)}</div>;
     }
 
     return (
-        <div className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-            <div className="flex items-center w-full max-w-4xl mt-8 mb-2">
-                <button onClick={onBack}
-                        className="bg-blue-500 text-white p-2 rounded-full shadow hover:bg-blue-600 mr-4">
-                    <FaArrowLeft className="w-5 h-5"/>
-                </button>
-                <h1 className="text-4xl font-bold text-gray-800 capitalize">
-                    {course?.name || "Course"}
-                </h1>
+        <div ref={scrollContainerRef} className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
+            <div className="flex items-center justify-between w-full max-w-4xl mt-8 mb-2">
+                <div className="flex items-center">
+                    <Link
+                        to="/courses"
+                        className="bg-blue-500 text-white p-2 rounded-full shadow hover:bg-blue-600 mr-4"
+                    >
+                        <FaArrowLeft className="w-5 h-5" />
+                    </Link>
+                    <h1 className="text-3xl font-bold text-gray-800 capitalize">
+                        {course?.name || "Course"}
+                    </h1>
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <div className="relative">
+                        <FaSearch className="absolute left-2 top-2 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Search Lessons"
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                            className="pl-8 pr-2 py-1.5 border rounded text-sm"
+                        />
+                    </div>
+                    <div className="relative flex items-center gap-1.5 p-1.5 border border-gray-300 rounded-lg">
+                        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white px-1 text-xs text-gray-600">
+                            Toggle
+                        </div>
+                        <button
+                            onClick={() => handleToggle('kanji')}
+                            className={`p-1 rounded transition-colors duration-300 ${showKanji ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-200 text-blue-500 hover:bg-gray-300'}`}
+                            title="Kanji Decks"
+                        >
+                            <FaBookOpen className={`text-sm ${showKanji ? 'text-white' : 'text-blue-500'}`} />
+                        </button>
+                        <button
+                            onClick={() => handleToggle('word')}
+                            className={`p-1 rounded transition-colors duration-300 ${showWord ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-gray-200 text-red-500 hover:bg-gray-300'}`}
+                            title="Word Decks"
+                        >
+                            <FaFileAlt className={`text-sm ${showWord ? 'text-white' : 'text-red-500'}`} />
+                        </button>
+                        <button
+                            onClick={() => handleToggle('grammar')}
+                            className={`p-1 rounded transition-colors duration-300 ${showGrammar ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-gray-200 text-green-500 hover:bg-gray-300'}`}
+                            title="Grammar Decks"
+                        >
+                            <FaBook className={`text-sm ${showGrammar ? 'text-white' : 'text-green-500'}`} />
+                        </button>
+                        <button
+                            onClick={() => handleToggle('readings')} // Añadir el botón de toggle para readings
+                            className={`p-1 rounded transition-colors duration-300 ${showReadings ? 'bg-purple-500 text-white hover:bg-purple-600' : 'bg-gray-200 text-purple-500 hover:bg-gray-300'}`}
+                            title="Reading Decks"
+                        >
+                            <FaBookReader className={`text-sm ${showReadings ? 'text-white' : 'text-purple-500'}`} />
+                        </button>
+                    </div>
+
+                    <DeleteButton
+                        elementId={courseId || ''}
+                        elementType="course"
+                        deleteRelations={true}
+                        redirectTo="/courses"
+                    />
+                </div>
             </div>
 
             <h3 className="text-gray-500 text-left w-full max-w-4xl mb-6 ml-10">
                 {course?.description}
             </h3>
-            
+
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left">
-                {lessons.length > 0 ? (
-                    lessons.map((lesson) => (
+                {filteredLessons.length > 0 ? (
+                    filteredLessons.map((lesson) => (
                         <LessonBox
                             key={lesson._id}
                             lesson={lesson}
-                            onUpdateLesson={handleUpdateLesson} // Pasamos la función de actualización
+                            showKanji={showKanji}
+                            showWord={showWord}
+                            showGrammar={showGrammar}
+                            showReadings={showReadings} // Pasar showReadings a LessonBox
                         />
                     ))
                 ) : (
-                    <p className="text-center text-gray-500">No hay lecciones disponibles.</p>
+                    <p className="text-center text-gray-500">何もない</p>
                 )}
             </div>
+
+            {isLoading && page > 1 &&
+                <LoadingScreen isLoading={isLoading}/>} {/* Loading spinner for subsequent pages */}
         </div>
     );
 };

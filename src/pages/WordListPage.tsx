@@ -1,62 +1,55 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import WordBox from '../components/WordBox';
-import loadingIcon from '../assets/loading-icon.svg';
-import { WordData } from "../data/data-structures.tsx";
+import { WordData } from "../data/WordData.ts";
+import { usePaginatedWords } from "../hooks/usePaginatedWords.ts";
+import LoadingScreen from "../components/LoadingScreen";
 
 const WordListPage: React.FC = () => {
     const [wordResults, setWordResults] = useState<WordData[]>([]);
     const [filteredResults, setFilteredResults] = useState<WordData[]>([]);
     const [page, setPage] = useState(1);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [hasMore, setHasMore] = useState(true);
-    const [searchQuery, setSearchQuery] = useState(''); // Para almacenar el valor de búsqueda
+    const [searchQuery, setSearchQuery] = useState('');
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    const fetchWords = async () => {
-        if (loading) return;
+    const { data, isLoading, error } = usePaginatedWords(page, 20);
 
-        setLoading(true);
-        try {
-            const response = await fetch(`http://localhost:3000/api/words/paginated?page=${page}&limit=20`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch word data.');
-            }
-            const data = await response.json();
-
-            setWordResults(prevResults => {
+    useEffect(() => {
+        if (data) {
+            setWordResults(prev => {
                 // Evita agregar palabras duplicadas
-                const newResults = data.words.filter(
-                    word => !prevResults.some(prevWord => prevWord.word === word.word)
+                const newResults = data.documents.filter(
+                    word => !prev.some(prevWord => prevWord.word === word.word)
                 );
-                return [...prevResults, ...newResults];
+                return [...prev, ...newResults];
             });
-            setHasMore(data.page < data.totalPages);
-            setError('');
-        } catch (err) {
-            setError(`Error fetching data: ${err}`);
-        } finally {
-            setLoading(false);
         }
-    };
+    }, [data]);
 
     useEffect(() => {
-        fetchWords();
-    }, [page]);
+        const handleScroll = () => {
+            const scrollContainer = scrollContainerRef.current;
+            if (scrollContainer) {
+                const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
+                if (scrollTop + clientHeight >= scrollHeight - 100 && !isLoading && page < (data?.totalPages ?? 1)) {
+                    setPage(prevPage => prevPage + 1);
+                }
+            }
+        };
 
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [hasMore]);
+        const scrollContainer = scrollContainerRef.current;
+        if (scrollContainer) {
+            scrollContainer.addEventListener('scroll', handleScroll);
+        }
+        return () => {
+            if (scrollContainer) {
+                scrollContainer.removeEventListener('scroll', handleScroll);
+            }
+        };
+    }, [isLoading, page, data]);
 
     useEffect(() => {
         filterResults();
     }, [searchQuery, wordResults]);
-
-    const handleScroll = () => {
-        if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 100 && hasMore) {
-            setPage(prevPage => prevPage + 1);
-        }
-    };
 
     const filterResults = () => {
         if (!searchQuery.trim()) {
@@ -72,7 +65,7 @@ const WordListPage: React.FC = () => {
     };
 
     return (
-        <div className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
+        <div ref={scrollContainerRef} className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
             <div className="text-center w-full max-w-md mt-20">
                 <input
                     type="text"
@@ -83,13 +76,9 @@ const WordListPage: React.FC = () => {
                 />
             </div>
 
-            {loading && (
-                <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10 transition-opacity duration-500">
-                    <img src={loadingIcon} alt="Loading..." className="w-16 h-16" />
-                </div>
-            )}
+            <LoadingScreen isLoading={isLoading} />
 
-            {error && <p className="text-red-500">{error}</p>}
+            {error && <p className="text-red-500">{error.message}</p>}
 
             <div className="mt-8 w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-left transition-opacity duration-500">
                 {filteredResults.length > 0 ? (

@@ -1,15 +1,28 @@
 import React, { useState } from "react";
-import { LessonData } from "../../data/data-structures.tsx";
-import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes } from "react-icons/fa";
-import DeckDisplay from "../DeckDisplay";
-import GrammarDeckDisplay from "../GrammarDeckDisplay"; // Importamos el nuevo componente
+import { LessonData } from "../../data/CourseData.ts";
+import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes, FaBookReader } from "react-icons/fa"; // FaBookReader para Readings
+import GenericDeckDisplay from "../GenericDeckDisplay";
+import SmallKanjiBox from "../SmallKanjiBox";
+import SmallWordBox from "../SmallWordBox";
+import SmallGrammarBox from "../SmallGrammarBox";
+import SimpleReadingBox from "../SimpleReadingBox";
+import KanjiDeckTable from "../Tables/KanjiDeckTable";
+import WordDeckTable from "../Tables/WordDeckTable";
+import { KanjiDeck } from "../../data/KanjiData.ts";
+import { WordDeck } from "../../data/WordData.ts";
+import { GrammarDeck } from "../../data/GrammarData.ts";
+import { GenerationDeck } from "../../data/GenerationData.ts";
+import DeleteButton from '../DeleteButton';
 
 interface LessonBoxProps {
     lesson: LessonData;
-    onUpdateLesson: (updatedLesson: LessonData) => void;
+    showKanji: boolean;
+    showWord: boolean;
+    showGrammar: boolean;
+    showReadings: boolean;
 }
 
-const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
+const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, showGrammar, showReadings }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(lesson.name || "<Title>");
     const [description, setDescription] = useState(lesson.description);
@@ -26,29 +39,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
     };
 
     const saveChanges = async () => {
-        if (!title.trim()) {
-            setTitle(previousTitle); // Revert to previous title if empty
-        } else {
-            try {
-                const response = await fetch(`http://localhost:3000/api/lessons/${lesson._id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ name: title, description }),
-                });
-
-                if (!response.ok) {
-                    throw new Error("Error al guardar los cambios.");
-                }
-
-                const updatedLesson = await response.json();
-                onUpdateLesson(updatedLesson);
-                setIsEditing(false);
-            } catch (error) {
-                console.error("Error al guardar los cambios:", error);
-            }
-        }
+        // TODO: Saving logic for Lesson update
     };
 
     const cancelChanges = () => {
@@ -57,9 +48,16 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
         setIsEditing(false);
     };
 
+    const noContentToShow = !(
+        (showKanji && lesson.kanjiDecks.length > 0) ||
+        (showWord && lesson.wordDecks.length > 0) ||
+        (showGrammar && lesson.grammarDecks.length > 0) ||
+        (showReadings && lesson.readingDecks.length > 0)
+    );
+
     return (
         <div className="bg-white p-6 rounded-lg shadow-lg mb-6 border border-gray-200 transform transition-transform duration-300 hover:border-blue-400 w-full relative">
-            {/* Botones de edición, guardado y cancelación */}
+
             <div className="absolute top-4 right-4 flex gap-2">
                 {isEditing ? (
                     <>
@@ -77,16 +75,22 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
                         </button>
                     </>
                 ) : (
-                    <button
-                        onClick={enterEditMode}
-                        className="bg-blue-500 text-white p-2 rounded shadow hover:bg-blue-600"
-                    >
-                        <FaEdit />
-                    </button>
+                    <>
+                        <button
+                            onClick={enterEditMode}
+                            className="bg-blue-500 text-white p-2 rounded shadow hover:bg-blue-600"
+                        >
+                            <FaEdit />
+                        </button>
+                        <DeleteButton
+                            elementId={lesson._id}
+                            elementType="lesson"
+                            redirectTo="/lessons"
+                        />
+                    </>
                 )}
             </div>
 
-            {/* Título con capitalización automática */}
             {isEditing ? (
                 <input
                     className="text-2xl font-bold text-blue-500 mb-2 w-full p-2 rounded capitalize"
@@ -101,7 +105,6 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
                 </h3>
             )}
 
-            {/* Descripción editable */}
             {isEditing ? (
                 <textarea
                     className="text-gray-700 mb-4 w-full p-2 rounded text-sm"
@@ -116,38 +119,71 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, onUpdateLesson }) => {
                 </p>
             )}
 
-            {/* Kanji Decks */}
-            {lesson.kanjiDecks.length > 0 && (
-                <div className="w-full">
-                    <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-semibold text-gray-800 flex items-center gap-2">
-                            <FaBookOpen className="text-blue-400" /> Kanji Decks:
-                        </h4>
-                    </div>
-                    <DeckDisplay deckType="kanji" decks={lesson.kanjiDecks} />
-                </div>
-            )}
+            {noContentToShow ? (
+                <p className="text-gray-500 text-center mt-4">表示するものはありません</p>
+            ) : (
+                <>
+                    {showKanji && lesson.kanjiDecks.length > 0 && (
+                        <div className="w-full">
+                            <div className="flex justify-between items-center mb-2">
+                                <h4 className="font-semibold text-gray-800 flex items-center gap-2">
+                                    <FaBookOpen className="text-blue-400" /> Kanji Decks:
+                                </h4>
+                            </div>
+                            <GenericDeckDisplay
+                                deck={lesson.kanjiDecks[0] as KanjiDeck}
+                                renderComponent={SmallKanjiBox}
+                                TableComponent={KanjiDeckTable}
+                                elementType={"kanjiDeck"}
+                            />
+                        </div>
+                    )}
 
-            {/* Word Decks */}
-            {lesson.wordDecks.length > 0 && (
-                <div className="mt-4 w-full">
-                    <div className="flex justify-between items-center mb-2">
-                        <h4 className="font-semibold text-gray-800 flex items-center gap-2">
-                            <FaFileAlt className="text-red-400" /> Word Decks:
-                        </h4>
-                    </div>
-                    <DeckDisplay deckType="word" decks={lesson.wordDecks} />
-                </div>
-            )}
+                    {showWord && lesson.wordDecks.length > 0 && (
+                        <div className="mt-4 w-full">
+                            <div className="flex justify-between items-center mb-2">
+                                <h4 className="font-semibold text-gray-800 flex items-center gap-2">
+                                    <FaFileAlt className="text-red-400" /> Word Decks:
+                                </h4>
+                            </div>
+                            <GenericDeckDisplay
+                                deck={lesson.wordDecks[0] as WordDeck}
+                                renderComponent={SmallWordBox}
+                                TableComponent={WordDeckTable}
+                                elementType={"wordDeck"}
+                            />
+                        </div>
+                    )}
 
-            {/* Grammar Decks */}
-            {lesson.grammarDecks.length > 0 && (
-                <div className="mt-4 w-full">
-                    <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
-                        <FaBook className="text-green-400" /> Grammar Decks:
-                    </h4>
-                    <GrammarDeckDisplay decks={lesson.grammarDecks} />
-                </div>
+                    {showGrammar && lesson.grammarDecks.length > 0 && (
+                        <div className="mt-4 w-full">
+                            <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                <FaBook className="text-green-400" /> Grammar Decks:
+                            </h4>
+                            <GenericDeckDisplay
+                                deck={lesson.grammarDecks[0] as GrammarDeck}
+                                renderComponent={SmallGrammarBox}
+                                columns={2}
+                                enableFlashcards={false}
+                                elementType={"grammarDeck"}
+                            />
+                        </div>
+                    )}
+
+                    {showReadings && lesson.readingDecks.length > 0 && ( // Nueva sección para readings
+                        <div className="mt-4 w-full">
+                            <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                                <FaBookReader className="text-purple-400" /> Reading Decks:
+                            </h4>
+                            <GenericDeckDisplay
+                                deck={lesson.readingDecks[0] as GenerationDeck}
+                                renderComponent={SimpleReadingBox}
+                                enableFlashcards={false}
+                                elementType={"generation"}
+                            />
+                        </div>
+                    )}
+                </>
             )}
         </div>
     );

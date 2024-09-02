@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import './App.css';
-import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import { Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import SearchPage from './pages/SearchPage';
 import KanjiListPage from './pages/KanjiListPage.tsx';
@@ -13,65 +11,38 @@ import { LanguageProvider } from './context/LanguageContext';
 import CourseDetailPage from "./pages/CourseDetailsPage.tsx";
 import GenerationsListPage from "./pages/GenerationsListPage.tsx";
 import GenerationPage from "./pages/GenerationPage.tsx";
+import TextDisplayPage from "./pages/TextDisplayPage.tsx";
 
 function App() {
-    const [activeSection, setActiveSection] = useState('Search');
-    const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null); // Nuevo estado para el curso seleccionado
-    const [tags, setTags] = useState<string[]>([]);
-    const [inputValue, setInputValue] = useState('');
-
-    const handleCourseClick = (courseId: string) => {
-        setSelectedCourseId(courseId); // Establece el ID del curso seleccionado
-        setActiveSection('CourseDetail'); // Cambia la vista a la página de detalles del curso
-    };
-
-    const handleBackToCourses = () => {
-        setSelectedCourseId(null); // Resetea el ID del curso seleccionado
-        setActiveSection('Courses'); // Cambia de nuevo a la lista de cursos
-    };
+    const location = useLocation();
 
     return (
         <LanguageProvider>
             <div className="flex h-screen w-full">
-                <Sidebar setActiveSection={setActiveSection} />
+                <Sidebar />
 
                 <div className="fixed top-2 left-2 z-50">
                     <LanguageDropdown />
                 </div>
 
                 <div className="flex-1 flex flex-col items-center justify-center relative">
-                    <SwitchTransition mode="out-in">
-                        <CSSTransition
-                            key={activeSection}
-                            timeout={150}
-                            classNames="page-fade"
-                        >
-                            <div className="flex-1 flex flex-col items-center justify-center h-full w-full">
-                                {activeSection === 'Search' && (
-                                    <SearchPage
-                                        tags={tags}
-                                        setTags={setTags}
-                                        inputValue={inputValue}
-                                        setInputValue={setInputValue}
-                                    />
-                                )}
-                                {activeSection === 'Kanjis' && <KanjiListPage />}
-                                {activeSection === 'Words' && <WordListPage />}
-                                {activeSection === 'Grammar' && <GrammarListPage />}
-                                {activeSection === 'Generations' && <GenerationsListPage />}
-                                {activeSection === 'Generate' && <GenerationPage />}
-                                {activeSection === 'Courses' && (
-                                    <CourseListPage onCourseClick={handleCourseClick} /> // Pasa la función de click al componente de cursos
-                                )}
-                                {activeSection === 'CourseDetail' && selectedCourseId && (
-                                    <CourseDetailPage courseId={selectedCourseId} onBack={handleBackToCourses} /> // Pasa la función de volver al componente de detalles
-                                )}
-                                {(activeSection !== 'Search' && activeSection !== 'Kanjis' && activeSection !== 'Words') && (
-                                    <UnderDevelopmentPage />
-                                )}
-                            </div>
-                        </CSSTransition>
-                    </SwitchTransition>
+                    <div
+                        className={`absolute inset-0 w-full h-full transition-opacity duration-500 ease-in-out`}
+                    >
+                        <Routes location={location}>
+                            <Route path="/" element={<Navigate to="/search" replace />} />
+                            <Route path="/search" element={<SearchPage />} />
+                            <Route path="/kanji" element={<KanjiListPage />} />
+                            <Route path="/words" element={<WordListPage />} />
+                            <Route path="/grammar" element={<GrammarListPage />} />
+                            <Route path="/generations" element={<GenerationsListPage />} />
+                            <Route path="/generate" element={<GenerationPage />} />
+                            <Route path="/courses" element={<CourseListPage />} />
+                            <Route path="/courses/:courseId" element={<CourseDetailPage />} />
+                            <Route path="/generation/:elementId" element={<TextDisplayPage />} />
+                            <Route path="*" element={<UnderDevelopmentPage />} />
+                        </Routes>
+                    </div>
                 </div>
             </div>
         </LanguageProvider>

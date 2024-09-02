@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { FaCog, FaEye, FaEyeSlash } from 'react-icons/fa';
-import { marked } from 'marked';
-import {WordData} from "../../data/data-structures.tsx";
+import { useParseJapanese } from '../../hooks/useParseJapanese';
+import WordTooltip from '../WordTooltip.tsx';
+import {GeneratedData} from "../../data/GenerationData.ts";
 
 interface TextReaderProps {
-    title: string;
-    content: string;
+    data: GeneratedData
 }
 
-const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
+const TextReader: React.FC<TextReaderProps> = ({ data }) => {
     const [showFurigana, setShowFurigana] = useState(true);
     const [fontSize, setFontSize] = useState(18);
     const [letterSpacing, setLetterSpacing] = useState(1);
     const [lineHeight, setLineHeight] = useState(1.8);
     const [showConfig, setShowConfig] = useState(false);
-    const [formattedContent, setFormattedContent] = useState('');
-    const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
-    const [wordCache, setWordCache] = useState<{ [key: string]: WordData }>({});
+    const [activeTooltip, setActiveTooltip] = useState<{ word: string; element: Element } | null>(null);
 
+    const { data: formattedContent, error } = useParseJapanese(data.text);
 
     const toggleFurigana = () => {
         setShowFurigana(!showFurigana);
@@ -31,135 +30,41 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
             }
         });
     };
+
     const handleSliderChange = (setter: React.Dispatch<React.SetStateAction<number>>) =>
         (event: React.ChangeEvent<HTMLInputElement>) => {
             setter(Number(event.target.value));
         };
-    
-    useEffect(() => {
-        const processContent = async () => {
-            try {
-                const response = await fetch(`http://localhost:3000/api/parse?text=${encodeURIComponent(content)}`);
-                if (!response.ok) {
-                    throw new Error(`Error en la API: ${response.statusText}`);
-                }
-
-                const data = await response.json();
-                const filteredContent = data.processedText;
-                const htmlText = await marked(filteredContent);
-                const formattedText = htmlText.replace(/\[(.*?)\]/g, (match, p1) => {
-                    return '<span class="relative tooltip-trigger cursor-pointer hover:bg-yellow-200 m-0 inline-block indent-0" data-word="' + p1.replace(/\((.*?)\|.*?\)/g, '$1') + '" data-reading="yourReading" data-meaning="yourMeaning" >'
-                        + p1.replace(/\((.*?)\|(.*?)\)/g, '<ruby>$1<rt>$2</rt></ruby>') + '</span>';
-                })
-                    .replace(/<h1>/g, '<h1 class="text-2xl font-bold pb-5 text-black align-center">')
-                    .replace(/<h2>/g, '<h2 class="text-m font-bold pb-2 pt-5 text-black align-center">');
-                
-                setFormattedContent(formattedText);
-            } catch (error) {
-                console.error('Error processing conntent:', error);
-                setFormattedContent('Error processing conntent.');
-            }
-        };
-
-        processContent();
-    }, [content]);
-
-    const injectTooltip = async (event: Element) => {
-        const word = event.getAttribute('data-word') ?? "";
-
-        if (!word)
-        {
-            return;
-        }
-        
-        if (wordCache[word]) {
-
-            console.log("returning from cache?")
-            displayTooltip(event, wordCache[word]);
-            return;
-        }
-
-        try {
-            const response = await fetch(`http://localhost:3000/api/words?keywords=${word}`);
-            if (!response.ok) {
-                throw new Error(`Error en la API: ${response.statusText}`);
-            }
-
-            const wordData = await response.json();
-            
-            setWordCache((prevCache) => ({
-                ...prevCache,
-                [word]: wordData[0]
-            }));
-            
-            console.log(`added ${word} and ${wordData[0]} to cache`)
-            
-            displayTooltip(event, wordData[0]);
-        } catch (error) {
-            console.error('Error fetching word data:', error);
-        }
-    };
-    
-    const displayTooltip = (event:Element, wordData : WordData) => {
-        
-        if (!wordData)
-        {
-            console.log("no word provided for tooltip")
-            return;
-        }
-        
-        document.querySelectorAll('.tooltip-content').forEach(tooltip => tooltip.remove());
-
-        const tooltip = document.createElement('span');
-        tooltip.className = 'tooltip-content border-gray-300 border indent-0 absolute left-0 top-full mb-2 p-2 bg-white text-black rounded opacity-0 transition-opacity duration-300 whitespace-normal z-50';
-        tooltip.style.opacity = '0';
-        tooltip.style.transition = 'opacity 0.3s';
-        tooltip.style.width = "300px";
-        tooltip.style.letterSpacing = "1"; 
-        tooltip.style.lineHeight = "1"; 
-        tooltip.innerHTML = `
-            <span class="font-bold text-blue-500 text-m">${wordData.word}</span>
-            <span class="text-gray-500 text-xs">(${wordData.readings.join(";")})</span> <br>
-            <span class="text-gray-800 text-xs">${wordData.meanings.map((meaning) => meaning.en).slice(0,3).join("; ")}</span>
-        `;
-        
-        event.appendChild(tooltip);
-
-        setTimeout(() => {
-            tooltip.style.opacity = '1';
-        }, 0);
-
-        setActiveTooltip(wordData.word);
-    }
 
     useEffect(() => {
         const triggers = document.querySelectorAll('.tooltip-trigger');
 
-        triggers.forEach(trigger => {
+        triggers.forEach((trigger) => {
             trigger.addEventListener('click', (event) => {
                 event.stopPropagation();
-                injectTooltip(trigger);
+                const word = trigger.getAttribute('data-word') ?? '';
+                if (word) {
+                    setActiveTooltip({ word, element: trigger });
+                }
             });
         });
 
         document.addEventListener('click', () => {
-            document.querySelectorAll('.tooltip-content').forEach(tooltip => {
-                tooltip.style.opacity = '0';
-                setTimeout(() => tooltip.remove(), 300);
-            });
             setActiveTooltip(null);
         });
     }, [formattedContent]);
 
     return (
-        <div className="whitemax-w-relative p-8 pb-24 bg-white border border-gray-300 rounded-md shadow-lg">
-            <h1 className="text-2xl font-bold mb-4">{title}</h1>
-            <div className="absolute top-14 right-14 flex items-center space-x-2">
+        <div className="whitemax-w-relative p-8 pb-10 bg-white border border-gray-300 rounded-md shadow-lg">
+            <h1 className="text-2xl font-bold mb-4 mt-8 text-center">{data.title}</h1>
+            <div className="absolute top-4 right-14 flex items-center space-x-2">
                 <button
-                    className={`text-white flex items-center space-x-1 px-2 py-1 rounded ${showFurigana ? 'bg-blue-500' : 'bg-gray-400'}`}
+                    className={`text-white flex items-center space-x-1 px-2 py-1 rounded ${
+                        showFurigana ? 'bg-blue-500' : 'bg-gray-400'
+                    }`}
                     onClick={toggleFurigana}
                 >
-                    {showFurigana ? <FaEye /> : <FaEyeSlash />}
+                    {showFurigana ? <FaEye/> : <FaEyeSlash/>}
                     <span className="text-xs">ふりがな</span>
                 </button>
                 <div className="relative">
@@ -167,10 +72,11 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
                         className="text-white bg-blue-500 hover:bg-blue-600 p-1 rounded"
                         onClick={() => setShowConfig(!showConfig)}
                     >
-                        <FaCog />
+                        <FaCog/>
                     </button>
                     {showConfig && (
-                        <div className="absolute right-0 mt-2 w-56 p-4 bg-white border border-gray-300 rounded-md shadow-lg z-50">
+                        <div
+                            className="absolute right-0 mt-2 w-56 p-4 bg-white border border-gray-300 rounded-md shadow-lg z-50">
                             <div className="flex items-center justify-between">
                                 <label className="text-xs text-gray-700">Text Size</label>
                                 <input
@@ -215,10 +121,50 @@ const TextReader: React.FC<TextReaderProps> = ({ title, content }) => {
                     fontSize: `${fontSize}px`,
                     letterSpacing: `${letterSpacing}px`,
                     lineHeight: lineHeight,
-                    textIndent: '2em'
+                    textIndent: '2em',
                 }}
-                dangerouslySetInnerHTML={{ __html:  formattedContent }}
+                dangerouslySetInnerHTML={{__html: error ? 'Error processing content.' : formattedContent ?? ''}}
             />
+            {activeTooltip && (
+                <WordTooltip word={activeTooltip.word} targetElement={activeTooltip.element}
+                             onClose={() => setActiveTooltip(null)}/>
+            )}
+
+            <div className="mt-60 border-t border-gray-200 pt-4">
+
+                <p className="text-xs text-gray-500">
+                    Created At: {new Date(data.createdAt).toLocaleDateString()}
+                </p>
+                <h2 className="text-sm text-gray-600 italic mb-4">Topic: "{data.topic}"</h2>
+
+                <div className="flex items-center gap-2 flex-wrap">
+                                <span
+                                    className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full">
+                                    Style: {data.style}
+                                </span>
+                    <span
+                        className="inline-block bg-green-100 text-green-800 text-xs font-semibold px-2 py-0.5 rounded-full">
+                                    Length: {data.length} chars
+                                </span>
+                    <span
+                        className="inline-block bg-red-100 text-red-800 text-xs font-semibold px-2 py-0.5 rounded-full">
+                                    JLPT: N{data.jlptLevel}
+                                </span>
+                    <div className="flex items-center gap-2">
+                        <span className="text-gray-400 text-xs">Tags:</span>
+                        <div className="flex flex-wrap gap-1">
+                            {data.keywords && data.keywords.length > 0 && data.keywords.map((keyword, index) => (
+                                <div
+                                    key={index}
+                                    className="inline-block bg-purple-100 text-purple-800 text-xs font-semibold px-2 py-0.5 rounded-full"
+                                >
+                                    {keyword}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { FaArrowLeft, FaEye, FaUndo, FaCheck } from "react-icons/fa";
-import { FlashcardDeck, FlashcardData } from "../../data/data-structures";
+import { FlashcardDeck, FlashcardData } from "../../data/FlashcardData.ts";
 import SwipeableCard from "../SwipeableCard";
 import SummaryModal from "../SummaryModal";
 import SettingsTooltip from "../SettingsTooltip";

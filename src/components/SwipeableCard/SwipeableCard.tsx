@@ -33,32 +33,31 @@ const SwipeableCard = ({ front, back, onApprove, onReject }: SwipeableCardProps)
         config: {
             tension: 200,
             friction: 20,
-            duration: resetPosition ? 200 : undefined, // Duración rápida solo en el reset
+            duration: resetPosition ? 200 : undefined,
         },
-        immediate: resetPosition, // Evitar transición de posición si estamos en la fase de reseteo
+        immediate: resetPosition,
         onRest: () => {
             if (!isVisible) {
-                // Al finalizar la animación de salida, resetea la posición sin animación
                 setResetPosition(true);
                 setCurrentPosition({ x: 0, y: 0 });
                 setRotation(0);
                 setOverlayColor("rgba(0, 0, 0, 0)");
                 setIsVisible(true); // Inicia el fade in
-                setTimeout(() => setResetPosition(false), 0); // Retirar el flag para permitir animaciones futuras
+                setTimeout(() => setResetPosition(false), 0); 
             }
         },
     });
 
     const handlePointerDown = (event: React.PointerEvent) => {
         setDragging(true);
-        setIsClick(true); // Asume inicialmente que es un clic hasta que haya suficiente drag
+        setIsClick(true); 
         setDragStart({ x: event.clientX, y: event.clientY });
     };
 
     const handlePointerMove = (event: React.PointerEvent) => {
         if (dragging) {
             const deltaX = event.clientX - dragStart.x;
-            if (Math.abs(deltaX) > 5) { // Si se ha arrastrado lo suficiente, no es un clic
+            if (Math.abs(deltaX) > 5) {
                 setIsClick(false);
             }
             setCurrentPosition({ x: deltaX, y: 0 });
@@ -84,15 +83,13 @@ const SwipeableCard = ({ front, back, onApprove, onReject }: SwipeableCardProps)
             if (Math.abs(deltaX) > maxDelta * 0.7) {
                 const direction = deltaX > 0 ? 1 : -1;
                 if (direction > 0) {
-                    onApprove(); // Llama a onApprove si la carta se mueve a la derecha
+                    onApprove();
                 } else {
-                    onReject(); // Llama a onReject si la carta se mueve a la izquierda
+                    onReject(); 
                 }
-                // Transicionar hacia la posición final y desvanecer la carta
                 setIsVisible(false);
-                setCurrentPosition({ x: direction * 1000, y: 0 }); // Mover la carta fuera de la pantalla
+                setCurrentPosition({ x: direction * 1000, y: 0 });
             } else {
-                // Resetear la carta a la posición original si no se supera el umbral
                 setCurrentPosition({ x: 0, y: 0 });
                 setRotation(0);
                 setOverlayColor("rgba(0, 0, 0, 0)");
@@ -115,14 +112,13 @@ const SwipeableCard = ({ front, back, onApprove, onReject }: SwipeableCardProps)
                 x: springProps.x,
                 y: springProps.y,
                 opacity: springProps.opacity,
-                perspective: "1000px", // Esto añade un efecto 3D
+                perspective: "1000px", 
             }}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onClick={handleCardClick}
         >
-            {/* Capa transparente que cambia de color */}
             <div
                 className="absolute inset-0 rounded-xl"
                 style={{
@@ -137,7 +133,6 @@ const SwipeableCard = ({ front, back, onApprove, onReject }: SwipeableCardProps)
                         transform: showBack ? "rotateY(180deg)" : "rotateY(0deg)",
                     }}
                 >
-                    {/* Customización del front */}
                     <p className="text-center text-8xl font-normal">
                         {front}
                     </p>

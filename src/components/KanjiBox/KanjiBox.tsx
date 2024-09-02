@@ -1,5 +1,5 @@
 import React from 'react';
-import { KanjiData } from '../../data/data-structures';
+import { KanjiData } from "../../data/KanjiData.ts";
 import { useLanguage } from '../../context/LanguageContext';
 
 interface KanjiBoxProps {
@@ -15,7 +15,6 @@ const KanjiBox: React.FC<KanjiBoxProps> = ({ result }) => {
         return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
     };
 
-    // Obtener la traducción de los significados según el idioma seleccionado o usar "en" por defecto
     const meanings = result.meanings.map(meaning =>
         meaning[language] ? meaning[language] : meaning['en']
     );

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaChevronRight, FaChevronDown } from "react-icons/fa";
 import SmallGrammarBox from "../SmallGrammarBox";
-import { GrammarDeck } from "../../data/data-structures";
+import { GrammarDeck } from "../../data/GrammarData";
 
 interface GrammarDeckDisplayProps {
     decks: GrammarDeck[];
@@ -36,8 +36,8 @@ const GrammarDeckDisplay: React.FC<GrammarDeckDisplayProps> = ({ decks }) => {
                             <div className="grid grid-cols-2 gap-4">
                                 {deck.elements.map((grammarElement) => (
                                     <SmallGrammarBox
-                                        key={grammarElement._id._id}
-                                        result={grammarElement._id}
+                                        key={grammarElement._id}
+                                        result={grammarElement}
                                     />
                                 ))}
                             </div>
