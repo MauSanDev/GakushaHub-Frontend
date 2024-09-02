@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 import { FaSpinner } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const ForgotPasswordScreen: React.FC = () => {
+    const { resetPassword } = useAuth();
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -12,9 +13,8 @@ const ForgotPasswordScreen: React.FC = () => {
         e.preventDefault();
         setLoading(true);
 
-        const auth = getAuth();
         try {
-            await sendPasswordResetEmail(auth, email);
+            await resetPassword(email);
             setSuccess(true);
         } catch (error) {
             console.error(error);
