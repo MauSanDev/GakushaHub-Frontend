@@ -9,7 +9,8 @@ import CourseDetailPage from "./pages/CourseDetailsPage.tsx";
 import GenerationsListPage from "./pages/GenerationsListPage.tsx";
 import GenerationPage from "./pages/GenerationPage.tsx";
 import TextDisplayPage from "./pages/TextDisplayPage.tsx";
-import LoginScreen from "./pages/login/LoginScreen.tsx";
+import SignInPage from "./pages/login/SignInPage.tsx";
+import SignUpPage from "./pages/login/SignUpPage.tsx";
 import NotificationScreen from "./pages/login/NotificationScreen.tsx";
 import ForgotPasswordScreen from "./pages/login/ForgotPasswordScreen.tsx";
 import PasswordResetScreen from "./pages/login/PasswordResetScreen.tsx";
@@ -19,6 +20,7 @@ import {LanguageProvider} from "./context/LanguageContext.tsx";
 import LanguageDropdown from "./components/LanguageDropdown";
 
 function App() {
+    
     return (
         <LanguageProvider>
 
@@ -28,7 +30,8 @@ function App() {
             
             <Routes>
                 <Route element={<FullScreenLayout/>}>
-                    <Route path="/login" element={<LoginScreen/>}/>
+                    <Route path="/signin" element={<SignInPage/>}/>
+                    <Route path="/signup" element={<SignUpPage/>}/>
                     <Route path="/forgot-password" element={<ForgotPasswordScreen/>}/>
                     <Route path="/reset" element={<PasswordResetScreen/>}/>
                     <Route path="/notif" element={<NotificationScreen message={'confirmed'}/>}/>
