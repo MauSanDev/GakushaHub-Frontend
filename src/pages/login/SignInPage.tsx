@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword, AuthErrorCodes } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
+import { useAuth } from '../../context/AuthContext';
 
 const SignInPage: React.FC = () => {
+    const { signIn } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
@@ -16,27 +16,22 @@ const SignInPage: React.FC = () => {
         setError(null);
         setLoading(true);
 
-        const auth = getAuth();
-
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            await signIn(email, password);
             navigate('/dashboard');
         } catch (error: any) {
             const code = error.code?.trim();
             switch (code) {
-                case AuthErrorCodes.INVALID_LOGIN_CREDENTIALS:
-                    setError('The credentials you entered are not valid.');
-                    break;
-                case AuthErrorCodes.INVALID_EMAIL:
+                case 'auth/invalid-email':
                     setError('The email address you entered is not valid.');
                     break;
-                case AuthErrorCodes.USER_DISABLED:
+                case 'auth/user-disabled':
                     setError('This account has been disabled.');
                     break;
-                case AuthErrorCodes.USER_DELETED:
+                case 'auth/user-not-found':
                     setError('No account found with this email address.');
                     break;
-                case AuthErrorCodes.INVALID_PASSWORD:
+                case 'auth/wrong-password':
                     setError('The password you entered is incorrect.');
                     break;
                 default:

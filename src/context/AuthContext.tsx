@@ -1,12 +1,13 @@
 // authContext.tsx
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getAuth, onAuthStateChanged, signOut, User, createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut, User, createUserWithEmailAndPassword, updateProfile, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
 
 interface AuthContextType {
     user: User | null;
     loading: boolean;
     signUp: (email: string, password: string, name: string) => Promise<void>;
+    signIn: (email: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
 }
 
@@ -39,6 +40,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(user);
     };
 
+    const signIn = async (email: string, password: string) => {
+        const auth = getAuth();
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        setUser(userCredential.user);
+    };
+
     const logout = async () => {
         const auth = getAuth();
         await signOut(auth);
@@ -46,7 +53,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, signUp, logout }}>
+        <AuthContext.Provider value={{ user, loading, signUp, signIn, logout }}>
             {!loading && children}
         </AuthContext.Provider>
     );
