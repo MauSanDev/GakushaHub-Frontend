@@ -34,7 +34,8 @@ function App() {
                     <Route path="/signup" element={<SignUpPage/>}/>
                     <Route path="/forgot-password" element={<ForgotPasswordScreen/>}/>
                     <Route path="/reset" element={<PasswordResetScreen/>}/>
-                    <Route path="/notif" element={<NotificationScreen message={'confirmed'}/>}/>
+                    <Route path="/signinsuccess" element={<NotificationScreen message={'Sign in success. Please validate your account pressing the link you received in your email.'}/>}/>
+                    <Route path="/accountvalidated" element={<NotificationScreen message={'Account validated successfully. Login to start using the service.'}/>}/>
                 </Route>
 
                 <Route element={<MainLayout/>}>
