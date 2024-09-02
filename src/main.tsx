@@ -5,6 +5,7 @@ import App from './App.tsx';
 import './index.css';
 import { app } from './firebaseConfig';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import {AuthProvider} from "./context/AuthContext.tsx";
 
 app;
 
@@ -13,9 +14,11 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <QueryClientProvider client={queryClient}>
-            <Router>
-                <App />
-            </Router>
+            <AuthProvider>
+                <Router>
+                    <App />
+                </Router>
+            </AuthProvider>
         </QueryClientProvider>
     </StrictMode>,
 );

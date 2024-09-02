@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, updateProfile, sendEmailVerification, AuthErrorCodes } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash, FaCheck, FaTimes, FaSpinner } from 'react-icons/fa';
+import { useAuth } from '../../context/AuthContext';
 
 const SignUpPage: React.FC = () => {
+    const { user } = useAuth(); 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
