@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword, updateProfile, sendEmailVerification, AuthErrorCodes } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash, FaCheck, FaTimes, FaSpinner } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
 
 const SignUpPage: React.FC = () => {
-    const { user } = useAuth(); 
+    const { signUp } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -28,34 +27,12 @@ const SignUpPage: React.FC = () => {
 
         setLoading(true);
 
-        const auth = getAuth();
-
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-            if (user && name) {
-                await updateProfile(user, { displayName: name });
-            }
-            if (user) {
-                await sendEmailVerification(user);
-            }
+            await signUp(email, password, name);
             navigate('/signinsuccess');
         } catch (error: any) {
-            const code = error.code?.trim();
-            switch (code) {
-                case AuthErrorCodes.INVALID_EMAIL:
-                    setError('The email address you entered is not valid.');
-                    break;
-                case AuthErrorCodes.EMAIL_EXISTS:
-                    setError('The email address is already in use. Please use another email.');
-                    break;
-                case AuthErrorCodes.WEAK_PASSWORD:
-                    setError('The password is too weak. Please use a stronger password.');
-                    break;
-                default:
-                    setError('An unexpected error occurred. Please try again later.');
-                    break;
-            }
+            // Manejo de errores según sea necesario
+            setError(error.message || 'An unexpected error occurred.');
         } finally {
             setLoading(false);
         }
