@@ -40,12 +40,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             await sendEmailVerification(user);
 
             const token = await user.getIdToken();
+            localStorage.setItem('authToken', token); // Guardar el token aquí
+
             const data = await ApiClient.post<UserData, { name: string; email: string; country: string }>(
                 'api/auth/register',
-                { name, email, country },
-                {
-                    headers: { Authorization: `Bearer ${token}` }
-                }
+                { name, email, country }
             );
             setUserData(data);
         }
@@ -60,10 +59,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         if (user) {
             const token = await user.getIdToken();
-            localStorage.setItem('authToken', token); // Save token
-            const data = await ApiClient.post<UserData, {}>('api/auth/login', {}, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            localStorage.setItem('authToken', token); // Guardar el token aquí
+
+            const data = await ApiClient.post<UserData, {}>('api/auth/login', {});
             setUserData(data);
         }
 

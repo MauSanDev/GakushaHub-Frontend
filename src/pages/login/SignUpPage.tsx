@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash, FaCheck, FaTimes, FaSpinner } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
-import signinImg from "../../assets/page-img.jpg";
+import signInImg from "../../assets/page-img.jpg";
 import {countryList} from '../../utils/countryList.ts';
 
 const SignUpPage: React.FC = () => {
@@ -205,7 +205,7 @@ const SignUpPage: React.FC = () => {
             <div className="hidden lg:flex lg:flex-1 lg:justify-center lg:items-center pr-40">
                 <img
                     className="object-contain"
-                    src={signinImg}
+                    src={signInImg}
                     alt="Your Illustration"
                 />
             </div>

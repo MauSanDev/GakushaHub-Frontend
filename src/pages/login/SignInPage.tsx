@@ -19,7 +19,7 @@ const SignInPage: React.FC = () => {
 
         try {
             await signIn(email, password);
-            navigate('/dashboard');
+            navigate('/');
         } catch (error: any) {
             const code = error.code?.trim();
             switch (code) {
