@@ -25,7 +25,6 @@ const SummaryModal = ({
             <div className="bg-gray-900 p-6 rounded-lg shadow-lg text-white w-11/12 md:w-1/2 lg:w-1/3 transition-transform duration-500 transform scale-105 hover:scale-110 ease-in-out">
                 <h2 className="text-3xl font-bold mb-4 text-center">Deck Completed!</h2>
                 <div className="flex justify-center mb-6">
-                    {/* Circle progress bar */}
                     <div className="relative">
                         <svg className="w-28 h-28">
                             <circle

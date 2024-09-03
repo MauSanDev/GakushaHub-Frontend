@@ -1,4 +1,4 @@
-import {useState, useEffect, useRef} from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaArrowLeft, FaEye, FaUndo, FaCheck } from "react-icons/fa";
 import SwipeableCard from "../SwipeableCard";
 import SummaryModal from "../SummaryModal";
@@ -22,7 +22,8 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const [isVisible, setIsVisible] = useState(false);
     const [showSummary, setShowSummary] = useState(false);
     const [isShuffleEnabled, setIsShuffleEnabled] = useState(false);
-    const [isTermFirst, setIsTermFirst] = useState(true); // Controla la orientación del mazo
+    const [isTermFirst, setIsTermFirst] = useState(true);
+    const [isProcessing, setIsProcessing] = useState(false);
     const cardRef = useRef<any>(null);
 
     useEffect(() => {
@@ -43,11 +44,16 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     }, [isShuffleEnabled]);
 
     useEffect(() => {
+    }, [filteredCards]);
+
+    useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === "ArrowRight") {
-                cardRef.current.approve()
-            } else if (event.key === "ArrowLeft") {
-                cardRef.current.reject()
+            if (!isProcessing) {
+                if (event.key === "ArrowRight") {
+                    cardRef.current.approve();
+                } else if (event.key === "ArrowLeft") {
+                    cardRef.current.reject();
+                }
             }
         };
 
@@ -56,7 +62,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
         };
-    }, [filteredCards, currentIndex]);
+    }, [filteredCards, currentIndex, isProcessing]);
 
     const shuffleDeck = () => {
         const shuffled = [...filteredCards].sort(() => Math.random() - 0.5);
@@ -69,21 +75,35 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const currentCard = filteredCards[currentIndex];
 
     const handleApprove = () => {
-        setCorrect((prev) => {
-            const newSet = new Set(prev);
-            newSet.add(currentIndex);
-            moveToNextCard();
-            return newSet;
-        });
+        if (!isProcessing) {
+            setIsProcessing(true);
+            setCorrect((prev) => {
+                const newSet = new Set(prev);
+                newSet.add(currentIndex);
+                moveToNextCard();
+                return newSet;
+            });
+
+            setTimeout(() => {
+                setIsProcessing(false);
+            }, 500);
+        }
     };
 
     const handleReject = () => {
-        setIncorrect((prev) => {
-            const newSet = new Set(prev);
-            newSet.add(currentIndex);
-            moveToNextCard();
-            return newSet;
-        });
+        if (!isProcessing) {
+            setIsProcessing(true);
+            setIncorrect((prev) => {
+                const newSet = new Set(prev);
+                newSet.add(currentIndex);
+                moveToNextCard();
+                return newSet;
+            });
+
+            setTimeout(() => {
+                setIsProcessing(false);
+            }, 500);
+        }
     };
 
     const moveToNextCard = () => {
@@ -100,6 +120,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const handleRetryIncorrect = () => {
         const incorrectCardIndexes = Array.from(incorrect);
         const incorrectCards = incorrectCardIndexes.map((index) => filteredCards[index]);
+
         setFilteredCards(incorrectCards);
         setCorrect(new Set());
         setIncorrect(new Set());
@@ -133,7 +154,6 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                     className="relative w-11/12 md:w-1/3 lg:w-1/4 h-auto p-4 flex flex-col items-center"
                     style={{ maxHeight: "90vh" }}
                 >
-                    {/* Botón de cierre */}
                     <button
                         onClick={onClose}
                         className="absolute top-2 left-2 text-white p-2 rounded-full shadow-lg bg-gray-800 hover:bg-gray-600"
@@ -142,11 +162,8 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                     </button>
 
                     <div className="absolute right-0 top-3">
-                        {/* Botón de configuración */}
                         <SettingsTooltip
-                            onReset={() => {
-                                resetDeck(allCards);
-                            }}
+                            onReset={() => {resetDeck(allCards);}}
                             onToggleShuffle={toggleShuffle}
                             isShuffleEnabled={isShuffleEnabled}
                             onToggleOrientation={toggleOrientation}
@@ -154,7 +171,6 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                         />
                     </div>
 
-                    {/* Título del mazo */}
                     <h1 className="text-4xl font-bold text-white mb-6 flex justify-center items-center">
                         {deck.name}
                     </h1>
@@ -170,15 +186,17 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                     <div className="flex gap-6 mt-6 items-center w-full justify-center">
                         <p className="text-red-500 text-xl">{incorrect.size}</p>
                         <button
-                            onClick={() => cardRef.current.reject()}
+                            onClick={() => !isProcessing && cardRef.current.reject()}
                             className="bg-red-500 text-white p-5 rounded-full shadow-lg transform transition-transform duration-150 ease-in-out hover:scale-110 active:scale-90 hover:bg-red-400 active:bg-red-700 text-2xl"
+                            disabled={isProcessing}
                         >
                             <FaUndo />
                         </button>
                         <p className="text-gray-400 text-xl">{filteredCards.length - correct.size - incorrect.size}</p>
                         <button
-                            onClick={() => cardRef.current.approve()}
+                            onClick={() => !isProcessing && cardRef.current.approve()}
                             className="bg-green-500 text-white p-5 rounded-full shadow-lg transform transition-transform duration-150 ease-in-out hover:scale-110 active:scale-90 hover:bg-green-400 active:bg-green-700 text-2xl"
+                            disabled={isProcessing}
                         >
                             <FaCheck />
                         </button>
@@ -192,7 +210,6 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                         <FaEye />
                     </button>
 
-                    {/* Caja de significados con animación */}
                     <div
                         className={`transition-all duration-500 ease-in-out transform ${
                             showMeanings ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
@@ -206,7 +223,6 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                     </div>
                 </div>
 
-                {/* Modal de Resumen */}
                 {showSummary && (
                     <SummaryModal
                         correctCount={correct.size}
