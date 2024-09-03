@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { LessonData } from "../../data/CourseData.ts";
-import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes, FaBookReader, FaRobot } from "react-icons/fa";
+import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes, FaBookReader } from "react-icons/fa";
 import GenericDeckDisplay from "../GenericDeckDisplay";
 import SmallKanjiBox from "../SmallKanjiBox";
 import SmallWordBox from "../SmallWordBox";
@@ -13,7 +13,7 @@ import { WordDeck } from "../../data/WordData.ts";
 import { GrammarDeck } from "../../data/GrammarData.ts";
 import { GenerationDeck } from "../../data/GenerationData.ts";
 import DeleteButton from '../DeleteButton';
-import GenerationButton from "../Modals/GenerationButton.tsx"; // Asegúrate de importar el OverlayModal
+import GenerationButton from "../Modals/GenerationButton.tsx";
 
 interface LessonBoxProps {
     lesson: LessonData;
@@ -60,7 +60,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
         <div className="bg-white p-6 rounded-lg shadow-lg mb-6 border border-gray-200 transform transition-transform duration-300 hover:border-blue-400 w-full relative">
             <div className="absolute top-4 right-4 flex gap-2">
 
-                <GenerationButton />
+                <GenerationButton decks={[...lesson.kanjiDecks, ...lesson.grammarDecks, ...lesson.wordDecks]} />
                 {isEditing ? (
                     <>
                         <button
@@ -133,12 +133,15 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                                     <FaBookOpen className="text-blue-400" /> Kanji Decks:
                                 </h4>
                             </div>
-                            <GenericDeckDisplay
-                                deck={lesson.kanjiDecks[0] as KanjiDeck}
-                                renderComponent={SmallKanjiBox}
-                                TableComponent={KanjiDeckTable}
-                                elementType={"kanjiDeck"}
-                            />
+
+                            {lesson.kanjiDecks.map((element) => (
+                                <GenericDeckDisplay
+                                    deck={element as KanjiDeck}
+                                    renderComponent={SmallKanjiBox}
+                                    TableComponent={KanjiDeckTable}
+                                    elementType={"kanjiDeck"}
+                                />
+                            ))}
                         </div>
                     )}
 
@@ -149,12 +152,15 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                                     <FaFileAlt className="text-red-400" /> Word Decks:
                                 </h4>
                             </div>
-                            <GenericDeckDisplay
-                                deck={lesson.wordDecks[0] as WordDeck}
-                                renderComponent={SmallWordBox}
-                                TableComponent={WordDeckTable}
-                                elementType={"wordDeck"}
-                            />
+
+                            {lesson.wordDecks.map((element) => (
+                                <GenericDeckDisplay
+                                    deck={element as WordDeck}
+                                    renderComponent={SmallWordBox}
+                                    TableComponent={WordDeckTable}
+                                    elementType={"wordDeck"}
+                                />
+                            ))}
                         </div>
                     )}
 
@@ -163,13 +169,16 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                             <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
                                 <FaBook className="text-green-400" /> Grammar Decks:
                             </h4>
-                            <GenericDeckDisplay
-                                deck={lesson.grammarDecks[0] as GrammarDeck}
-                                renderComponent={SmallGrammarBox}
-                                columns={2}
-                                enableFlashcards={false}
-                                elementType={"grammarDeck"}
-                            />
+
+                            {lesson.grammarDecks.map((element) => (
+                                <GenericDeckDisplay
+                                    deck={element as GrammarDeck}
+                                    renderComponent={SmallGrammarBox}
+                                    columns={2}
+                                    enableFlashcards={false}
+                                    elementType={"grammarDeck"}
+                                />
+                            ))}
                         </div>
                     )}
 

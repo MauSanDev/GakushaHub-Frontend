@@ -4,6 +4,7 @@ import FlashcardsModal from "./FlashcardsPage";
 import { DeckData } from "../data/DeckData.ts";
 import { FlashcardDeck } from "../data/FlashcardData.ts";
 import DeleteButton from "./DeleteButton";
+import GenerationButton from "./Modals/GenerationButton.tsx";
 
 interface GenericDeckDisplayProps<T> {
     deck: DeckData<T>;
@@ -123,6 +124,8 @@ const GenericDeckDisplay = <T,>({
                         </button>
                     </div>
                 )}
+                    <GenerationButton decks={[deck]}/>
+                    
                     <DeleteButton
                         creatorId={deck.creatorId}
                         elementId={deck._id}

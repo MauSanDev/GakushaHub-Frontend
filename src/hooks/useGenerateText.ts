@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 import { ApiClient } from '../services/ApiClient';
 import { GeneratedData } from "../data/GenerationData";
-import { useAuth } from '../context/AuthContext';  // Importa useAuth
+import { useAuth } from '../context/AuthContext';
 
 interface GenerateTextParams {
     topic: string;

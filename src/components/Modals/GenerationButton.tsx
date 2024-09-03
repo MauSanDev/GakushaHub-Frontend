@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { FaRobot } from 'react-icons/fa';
 import NewGenerationPage from "./NewGenerationPage.tsx";
+import {DeckType} from "./NewGenerationPage.tsx";
 
-const GenerationButton: React.FC = () => {
+interface GenerationButtonProps {
+    decks?: DeckType[];
+}
+
+const GenerationButton: React.FC<GenerationButtonProps> = ({ decks }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleOpenModal = () => {
@@ -23,7 +28,7 @@ const GenerationButton: React.FC = () => {
                 <span>Generate</span>
             </button>
 
-            <NewGenerationPage isVisible={isModalVisible} onClose={handleCloseModal} />
+            <NewGenerationPage isVisible={isModalVisible} onClose={handleCloseModal} decks={decks} />
         </>
     );
 };
