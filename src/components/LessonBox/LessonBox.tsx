@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { LessonData } from "../../data/CourseData.ts";
-import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes, FaBookReader } from "react-icons/fa"; // FaBookReader para Readings
+import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes, FaBookReader, FaRobot } from "react-icons/fa";
 import GenericDeckDisplay from "../GenericDeckDisplay";
 import SmallKanjiBox from "../SmallKanjiBox";
 import SmallWordBox from "../SmallWordBox";
@@ -13,6 +13,7 @@ import { WordDeck } from "../../data/WordData.ts";
 import { GrammarDeck } from "../../data/GrammarData.ts";
 import { GenerationDeck } from "../../data/GenerationData.ts";
 import DeleteButton from '../DeleteButton';
+import GenerationButton from "../Modals/GenerationButton.tsx"; // Asegúrate de importar el OverlayModal
 
 interface LessonBoxProps {
     lesson: LessonData;
@@ -57,8 +58,9 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
 
     return (
         <div className="bg-white p-6 rounded-lg shadow-lg mb-6 border border-gray-200 transform transition-transform duration-300 hover:border-blue-400 w-full relative">
-
             <div className="absolute top-4 right-4 flex gap-2">
+
+                <GenerationButton />
                 {isEditing ? (
                     <>
                         <button
@@ -171,7 +173,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                         </div>
                     )}
 
-                    {showReadings && lesson.readingDecks.length > 0 && ( // Nueva sección para readings
+                    {showReadings && lesson.readingDecks.length > 0 && (
                         <div className="mt-4 w-full">
                             <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
                                 <FaBookReader className="text-purple-400" /> Reading Decks:
@@ -186,6 +188,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                     )}
                 </>
             )}
+            
         </div>
     );
 };
