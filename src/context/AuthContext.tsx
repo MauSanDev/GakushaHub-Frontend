@@ -7,7 +7,7 @@ interface AuthContextType {
     user: User | null;
     userData: UserData | null;
     loading: boolean;
-    signUp: (email: string, password: string, name: string) => Promise<void>;
+    signUp: (email: string, password: string, name: string, country: string) => Promise<void>;
     signIn: (email: string, password: string) => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
     logout: () => Promise<void>;
@@ -30,7 +30,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return () => unsubscribe();
     }, []);
 
-    const signUp = async (email: string, password: string, name: string) => {
+    const signUp = async (email: string, password: string, name: string, country: string) => {
         const auth = getAuth();
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const token = await user.getIdToken();
             const data = await ApiClient.post<UserData, { name: string; email: string; country: string }>(
                 'api/auth/register',
-                { name, email, country: '' }, // Adjust the country if needed
+                { name, email, country },
                 {
                     headers: { Authorization: `Bearer ${token}` }
                 }
