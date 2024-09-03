@@ -5,18 +5,19 @@ import { useNavigate } from 'react-router-dom';
 import {useAuth} from "../context/AuthContext.tsx";
 
 interface DeleteButtonProps {
+    creatorId: string
     elementId: string;
     elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation' | 'kanjiDeck' | 'grammarDeck' | 'wordDeck';
     deleteRelations?: boolean;
     redirectTo?: string;
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({ elementId, elementType, deleteRelations = false, redirectTo }) => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({ creatorId, elementId, elementType, deleteRelations = false, redirectTo }) => {
     const mutation = useDeleteElement();
     const navigate = useNavigate();
-    const { user } = useAuth();
+    const { user, userData } = useAuth();
     
-    if (!user) return ;
+    if (!user || userData?._id != creatorId) return ;
 
     const handleDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();

@@ -83,6 +83,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                             <FaEdit />
                         </button>
                         <DeleteButton
+                            creatorId={lesson.creatorId}
                             elementId={lesson._id}
                             elementType="lesson"
                             redirectTo="/lessons"

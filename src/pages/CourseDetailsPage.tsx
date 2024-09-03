@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import LessonBox from '../components/LessonBox';
 import { CourseData, LessonData } from "../data/CourseData.ts";
-import { FaArrowLeft, FaSearch, FaBookOpen, FaFileAlt, FaBook, FaBookReader } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import {FaArrowLeft, FaSearch, FaBookOpen, FaFileAlt, FaBook, FaBookReader, FaCog, FaToggleOn, FaToggleOff, FaLink, FaBookmark} from "react-icons/fa";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import { usePaginatedCourseLessons } from '../hooks/usePaginatedCourseLessons';
 import LoadingScreen from "../components/LoadingScreen";
 import DeleteButton from '../components/DeleteButton';
+import {useAuth} from "../context/AuthContext.tsx";
 
 const CourseDetailPage: React.FC = () => {
     const { courseId } = useParams<{ courseId: string }>();
@@ -17,13 +18,33 @@ const CourseDetailPage: React.FC = () => {
     const [showGrammar, setShowGrammar] = useState(true);
     const [showReadings, setShowReadings] = useState(true); // Nuevo estado para Readings
     const scrollContainerRef = useRef<HTMLDivElement>(null);
-
+    const [showConfig, setShowConfig] = useState(false);
+    const [isPublic, setIsPublic] = useState(false);
+    const [isFollowing, setIsFollowing] = useState(false);
+    const [isOwner, setIsOwner] = useState(false);
     const { data, isLoading, error } = usePaginatedCourseLessons(courseId || '', page, 10);
+    const { userData } = useAuth();
+    const navigate = useNavigate();
 
     const course = data?.course as CourseData | null;
+    
+    
+    useEffect(() => {
+        // if (!userData || userData._id !== course?.creatorId) {
+        //     navigate('/');
+        // }
+    }, [userData, course, navigate]);
+
+
+    const toggleFollow = () => {
+        setIsFollowing(!isFollowing);
+    };
+    
+    useEffect(() => {
+        setIsOwner(userData?._id == data?.course.creatorId )
+    }, [courseId, data]);
 
     useEffect(() => {
-        // Reiniciar el estado de allLessons cuando se monta el componente
         setAllLessons([]);
     }, [courseId]);
 
@@ -60,27 +81,30 @@ const CourseDetailPage: React.FC = () => {
         };
     }, [isLoading, page, data]);
 
+    
+
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
     };
+    
+    const handleToggleChange = () => {
+        setIsPublic(!isPublic);
+    };
 
-    const handleToggle = (toggleType: 'kanji' | 'word' | 'grammar' | 'readings') => { // Añadido readings al toggleType
+    const handleToggle = (toggleType: 'kanji' | 'word' | 'grammar' | 'readings') => {
         let toggles = { kanji: showKanji, word: showWord, grammar: showGrammar, readings: showReadings };
 
-        // Actualizar el estado del toggle correspondiente
         if (toggleType === 'kanji') toggles.kanji = !showKanji;
         if (toggleType === 'word') toggles.word = !showWord;
         if (toggleType === 'grammar') toggles.grammar = !showGrammar;
         if (toggleType === 'readings') toggles.readings = !showReadings;
 
-        // Si todos los toggles están desactivados después de este cambio, activar todos
         if (!toggles.kanji && !toggles.word && !toggles.grammar && !toggles.readings) {
             setShowKanji(true);
             setShowWord(true);
             setShowGrammar(true);
             setShowReadings(true);
         } else {
-            // Aplicar los cambios normales
             setShowKanji(toggles.kanji);
             setShowWord(toggles.word);
             setShowGrammar(toggles.grammar);
@@ -93,7 +117,7 @@ const CourseDetailPage: React.FC = () => {
             (showKanji && lesson.kanjiDecks.length > 0) ||
             (showWord && lesson.wordDecks.length > 0) ||
             (showGrammar && lesson.grammarDecks.length > 0) ||
-            (showReadings && lesson.readingDecks.length > 0) // Añadido para filtrar por readings
+            (showReadings && lesson.readingDecks.length > 0)
         ) &&
         (
             lesson.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -101,7 +125,7 @@ const CourseDetailPage: React.FC = () => {
             lesson.kanjiDecks.some(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
             lesson.wordDecks.some(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
             lesson.grammarDecks.some(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-            lesson.readingDecks.some(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase())) // Añadido para filtrar por readings
+            lesson.readingDecks.some(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase()))
         )
     );
 
@@ -121,16 +145,34 @@ const CourseDetailPage: React.FC = () => {
                         to="/courses"
                         className="bg-blue-500 text-white p-2 rounded-full shadow hover:bg-blue-600 mr-4"
                     >
-                        <FaArrowLeft className="w-5 h-5" />
+                        <FaArrowLeft className="w-5 h-5"/>
                     </Link>
-                    <h1 className="text-3xl font-bold text-gray-800 capitalize">
+                    <h1 className="text-3xl font-bold text-gray-800 capitalize mr-4">
                         {course?.name || "Course"}
                     </h1>
+                    
+                    {!isOwner ? (
+                    <button
+                        onClick={toggleFollow}
+                        className={`flex px-3 items-center p-1 rounded-full shadow transition-colors duration-300 ${
+                            isFollowing ? 'bg-red-500 text-white font-bold' : 'bg-gray-200 text-gray-500'
+                        }`}
+                    >
+                        <FaBookmark
+                            className={`w-3 h-3 mr-1 text-xs ${
+                                isFollowing ? 'text-white' : 'text-gray-500'
+                            }`}
+                        />
+                        <span className="text-xs">
+                                {isFollowing ? 'Following' : 'Follow'}
+                            </span>
+                    </button>
+                ) : ("")}
                 </div>
 
                 <div className="flex items-center gap-4">
                     <div className="relative">
-                        <FaSearch className="absolute left-2 top-2 text-gray-400" />
+                        <FaSearch className="absolute left-2 top-2 text-gray-400"/>
                         <input
                             type="text"
                             placeholder="Search Lessons"
@@ -140,7 +182,8 @@ const CourseDetailPage: React.FC = () => {
                         />
                     </div>
                     <div className="relative flex items-center gap-1.5 p-1.5 border border-gray-300 rounded-lg">
-                        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white px-1 text-xs text-gray-600">
+                        <div
+                            className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white px-1 text-xs text-gray-600">
                             Toggle
                         </div>
                         <button
@@ -148,37 +191,99 @@ const CourseDetailPage: React.FC = () => {
                             className={`p-1 rounded transition-colors duration-300 ${showKanji ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-200 text-blue-500 hover:bg-gray-300'}`}
                             title="Kanji Decks"
                         >
-                            <FaBookOpen className={`text-sm ${showKanji ? 'text-white' : 'text-blue-500'}`} />
+                            <FaBookOpen className={`text-sm ${showKanji ? 'text-white' : 'text-blue-500'}`}/>
                         </button>
                         <button
                             onClick={() => handleToggle('word')}
                             className={`p-1 rounded transition-colors duration-300 ${showWord ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-gray-200 text-red-500 hover:bg-gray-300'}`}
                             title="Word Decks"
                         >
-                            <FaFileAlt className={`text-sm ${showWord ? 'text-white' : 'text-red-500'}`} />
+                            <FaFileAlt className={`text-sm ${showWord ? 'text-white' : 'text-red-500'}`}/>
                         </button>
                         <button
                             onClick={() => handleToggle('grammar')}
                             className={`p-1 rounded transition-colors duration-300 ${showGrammar ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-gray-200 text-green-500 hover:bg-gray-300'}`}
                             title="Grammar Decks"
                         >
-                            <FaBook className={`text-sm ${showGrammar ? 'text-white' : 'text-green-500'}`} />
+                            <FaBook className={`text-sm ${showGrammar ? 'text-white' : 'text-green-500'}`}/>
                         </button>
                         <button
                             onClick={() => handleToggle('readings')} // Añadir el botón de toggle para readings
                             className={`p-1 rounded transition-colors duration-300 ${showReadings ? 'bg-purple-500 text-white hover:bg-purple-600' : 'bg-gray-200 text-purple-500 hover:bg-gray-300'}`}
                             title="Reading Decks"
                         >
-                            <FaBookReader className={`text-sm ${showReadings ? 'text-white' : 'text-purple-500'}`} />
+                            <FaBookReader className={`text-sm ${showReadings ? 'text-white' : 'text-purple-500'}`}/>
                         </button>
                     </div>
 
-                    <DeleteButton
-                        elementId={courseId || ''}
-                        elementType="course"
-                        deleteRelations={true}
-                        redirectTo="/courses"
-                    />
+                    <div className="relative">
+                        <button
+                            className="text-white bg-blue-500 hover:bg-blue-600 p-1 rounded"
+                            onClick={() => setShowConfig(!showConfig)}
+                        >
+                            <FaCog/>
+                        </button>
+                        {showConfig && (
+                            <div className="absolute right-0 w-56 p-4 bg-white border border-gray-300 rounded-md shadow-lg z-50">
+
+                                {isOwner ? (
+                                    <div>
+                                    <div className="flex items-center justify-between">
+                                        <label className="text-xs text-gray-700">Delete Course</label>
+                                        <DeleteButton
+                                            creatorId={course?.creatorId || ''}
+                                            elementId={courseId || ''}
+                                            elementType="course"
+                                            deleteRelations={true}
+                                            redirectTo="/courses"
+                                        />
+                                    </div>
+    
+                                    <div className="flex items-center justify-between mt-2">
+                                        <label className="text-xs text-gray-700">Is Public</label>
+                                        <div className="relative inline-block w-10 select-none">
+                                            <input
+                                                type="checkbox"
+                                                id="toggle"
+                                                checked={isPublic}
+                                                onChange={handleToggleChange}
+                                                className="toggle-checkbox sr-only"
+                                            />
+                                            <label
+                                                htmlFor="toggle"
+                                                className={`block overflow-hidden h-6 rounded-full cursor-pointer`}
+                                            >
+                                                {isPublic ? (
+                                                    <FaToggleOn
+                                                        className="text-green-500 text-2xl absolute inset-0 m-auto"/>
+                                                ) : (
+                                                    <FaToggleOff
+                                                        className="text-gray-500 text-2xl absolute inset-0 m-auto"/>
+                                                )}
+                                            </label>
+    
+                                        </div>
+                                    </div>
+                                    </div>
+                                ) : ("")}
+                                
+                                {isPublic && (
+                                    <div className="flex items-center justify-between mt-2">
+                                        <button
+                                            onClick={() => {
+                                                navigator.clipboard.writeText(window.location.href);
+                                            }}
+                                            className="text-xs text-blue-500 flex items-center transition-transform duration-200 transform active:scale-95"
+                                        >
+                                            <FaLink className="mr-1"/>
+                                            Copy Course Link
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+
+                        )}
+                    </div>
                 </div>
             </div>
 

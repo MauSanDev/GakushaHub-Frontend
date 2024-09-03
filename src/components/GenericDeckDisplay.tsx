@@ -3,7 +3,7 @@ import { FaTable, FaThLarge, FaPlay, FaChevronRight, FaChevronDown } from "react
 import FlashcardsModal from "./FlashcardsPage";
 import { DeckData } from "../data/DeckData.ts";
 import { FlashcardDeck } from "../data/FlashcardData.ts";
-import DeleteButton from "./DeleteButton"; // Importamos el botón de eliminación
+import DeleteButton from "./DeleteButton";
 
 interface GenericDeckDisplayProps<T> {
     deck: DeckData<T>;
@@ -124,6 +124,7 @@ const GenericDeckDisplay = <T,>({
                     </div>
                 )}
                     <DeleteButton
+                        creatorId={deck.creatorId}
                         elementId={deck._id}
                         elementType={elementType} // Usamos elementType recibido como prop
                     />

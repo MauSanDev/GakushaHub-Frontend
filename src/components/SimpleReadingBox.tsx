@@ -14,6 +14,7 @@ const SimpleReadingBox: React.FC<SimpleReadingBoxProps> = ({ result, deleteRelat
         <div className="relative p-4 bg-white border border-gray-300 rounded-md shadow-md hover:border-blue-300">
             <div className="absolute top-2 right-2">
                 <DeleteButton
+                    creatorId={result.creatorId}
                     elementId={result._id}
                     elementType={'generation'}
                     deleteRelations={deleteRelations}

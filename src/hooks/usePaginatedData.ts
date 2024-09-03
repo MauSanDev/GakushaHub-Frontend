@@ -12,9 +12,6 @@ const fetchPaginatedData = async <T>(endpoint: string, page: number, limit: numb
 export const usePaginatedData = <T>(endpoint: string, page: number, limit: number):
 UseQueryResult<InferPaginatedData<T>, Error> => {
     const { userData} = useAuth();
-    
-
-    console.log(userData)
     if (!userData || !userData._id)
     {
         throw new Error("Pagination data not available");

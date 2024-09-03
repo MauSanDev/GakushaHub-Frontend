@@ -15,6 +15,7 @@ export interface GeneratedData {
         words: string[],
         kanji: string[]
     },
+    creatorId: string;
     createdAt: string
 }
 

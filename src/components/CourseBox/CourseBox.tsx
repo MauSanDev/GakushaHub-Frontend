@@ -12,6 +12,7 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
         <div className="relative bg-white p-6 rounded-lg shadow-md mb-6 text-left border-2 border-gray-200 transform transition-transform duration-300 hover:scale-105 hover:border-blue-300">
             <div className="absolute top-2 right-2">
                 <DeleteButton
+                    creatorId={course.creatorId}
                     elementId={course._id}
                     elementType="course"
                     deleteRelations={true}
