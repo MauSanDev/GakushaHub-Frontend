@@ -103,7 +103,7 @@ const SwipeableCard = ({ front, back, onApprove, onReject }: SwipeableCardProps)
             setShowBack((prev) => !prev);
         }
     };
-
+    
     return (
         <animated.div
             className="relative w-full h-96 lg:h-[36rem] rounded-xl shadow-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center cursor-pointer select-none"

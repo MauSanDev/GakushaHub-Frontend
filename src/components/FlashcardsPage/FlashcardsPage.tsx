@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
 import { FaArrowLeft, FaEye, FaUndo, FaCheck } from "react-icons/fa";
-import { FlashcardDeck, FlashcardData } from "../../data/FlashcardData.ts";
 import SwipeableCard from "../SwipeableCard";
 import SummaryModal from "../SummaryModal";
 import SettingsTooltip from "../SettingsTooltip";
+import {convertToFlashcardDeck, FlashcardData} from "../../data/FlashcardData.ts";
+import {DeckType} from "../../data/DeckData.ts";
+import ReactDOM from "react-dom";
 
 interface FlashcardsModalProps {
-    deck: FlashcardDeck;
+    deck: DeckType;
     onClose: () => void;
 }
 
@@ -16,37 +17,47 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const [showMeanings, setShowMeanings] = useState(false);
     const [correct, setCorrect] = useState<Set<number>>(new Set());
     const [incorrect, setIncorrect] = useState<Set<number>>(new Set());
-    const [filteredCards, setFilteredCards] = useState<FlashcardData[]>(deck.elements);
+    const [allCards, setAllCards] = useState<FlashcardData[]>([]);
+    const [filteredCards, setFilteredCards] = useState<FlashcardData[]>([]);
     const [isVisible, setIsVisible] = useState(false);
     const [showSummary, setShowSummary] = useState(false);
     const [isShuffleEnabled, setIsShuffleEnabled] = useState(false);
     const [isTermFirst, setIsTermFirst] = useState(true); // Controla la orientación del mazo
-    const [feedbackEffect, setFeedbackEffect] = useState(false); // Controla el efecto de flash
 
     useEffect(() => {
-        setIsVisible(true); // Iniciar la animación de entrada al montar el componente
-    }, []);
+        const flashcardDeck = convertToFlashcardDeck(deck);
+        console.log("by deck")
+
+        setFilteredCards(flashcardDeck.elements);
+        setAllCards(flashcardDeck.elements);
+        setIsVisible(true);
+    }, [deck]);
 
     useEffect(() => {
+        if (allCards.length === 0) return;
+        
         if (isShuffleEnabled) {
             shuffleDeck();
         } else {
-            resetDeck(deck.elements); // Si se desactiva el shuffle, vuelve al orden original
+            console.log("is shuffled enabled")
+            resetDeck(allCards);
         }
     }, [isShuffleEnabled]);
 
+    useEffect(() => {
+        console.log("filteredCards updated:", filteredCards);
+    }, [filteredCards]);
+
     const shuffleDeck = () => {
-        setFeedbackEffect(true); // Activa el feedback visual
-        const shuffled = [...deck.elements].sort(() => Math.random() - 0.5);
+        const shuffled = [...filteredCards].sort(() => Math.random() - 0.5);
+        console.log("shuffled")
         setFilteredCards(shuffled);
         setCurrentIndex(0);
         setCorrect(new Set());
         setIncorrect(new Set());
-        setTimeout(() => setFeedbackEffect(false), 500); // Desactiva el feedback visual después de 500ms
     };
 
-    const allCards: FlashcardData[] = filteredCards;
-    const currentCard = allCards[currentIndex];
+    const currentCard = filteredCards[currentIndex];
 
     const handleApprove = () => {
         setCorrect((prev) => {
@@ -67,8 +78,10 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     };
 
     const moveToNextCard = () => {
-        if (currentIndex >= allCards.length - 1) {
-            setShowSummary(true); // Mostrar el modal de resumen cuando termine el mazo
+
+        console.log(filteredCards)
+        if (currentIndex >= filteredCards.length - 1) {
+            setShowSummary(true);
         } else {
             setCurrentIndex((prevIndex) => {
                 setShowMeanings(false);
@@ -78,26 +91,27 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     };
 
     const handleRetryIncorrect = () => {
-        setFeedbackEffect(true); // Activa el feedback visual
         const incorrectCardIndexes = Array.from(incorrect);
         const incorrectCards = incorrectCardIndexes.map((index) => filteredCards[index]);
 
+        console.log("incorrect");
         setFilteredCards(incorrectCards);
         setCorrect(new Set());
         setIncorrect(new Set());
         setCurrentIndex(0);
         setShowSummary(false);
-        setTimeout(() => setFeedbackEffect(false), 500); // Desactiva el feedback visual después de 500ms
     };
 
     const handleRetryAll = () => {
-        setFeedbackEffect(true); // Activa el feedback visual
-        resetDeck(deck.elements);
+        console.log("handling retry");
+
+        resetDeck(allCards);
         setShowSummary(false);
-        setTimeout(() => setFeedbackEffect(false), 500); // Desactiva el feedback visual después de 500ms
     };
 
     const resetDeck = (cards: FlashcardData[]) => {
+        console.error("reset")
+
         setFilteredCards(cards);
         setCorrect(new Set());
         setIncorrect(new Set());
@@ -118,20 +132,9 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
 
     const modalContent = (
         <>
-            {/* Efecto de feedback visual */}
-            {feedbackEffect && (
-                <div className="fixed inset-0 bg-white opacity-50 z-40 transition-opacity duration-500"></div>
-            )}
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
 
-            <div
-                className={`fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 transition-all duration-300 transform ${
-                    isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-                }`}
-            >
-                <div
-                    className="relative w-11/12 md:w-1/3 lg:w-1/4 h-auto p-4 flex flex-col items-center"
-                    style={{ maxHeight: "90vh" }}
-                >
+                <div className="relative w-11/12 md:w-1/3 lg:w-1/4 h-auto p-4 flex flex-col items-center" style={{ maxHeight: "90vh" }}>
                     {/* Botón de cierre */}
                     <button
                         onClick={closeWithAnimation}
@@ -141,27 +144,24 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                     </button>
 
                     <div className="absolute right-0 top-3">
-                    {/* Botón de configuración */}
-                    <SettingsTooltip
-                        onReset={() => {
-                            setFeedbackEffect(true); // Activa el feedback visual
-                            resetDeck(deck.elements);
-                            setTimeout(() => setFeedbackEffect(false), 500); // Desactiva el feedback visual después de 500ms
-                        }}
-                        onToggleShuffle={toggleShuffle}
-                        isShuffleEnabled={isShuffleEnabled}
-                        onToggleOrientation={toggleOrientation}
-                        isTermFirst={isTermFirst}
-                    />
+                        {/* Botón de configuración */}
+                        <SettingsTooltip
+                            onReset={() => {
+                                console.log("reset from tooltip")
+                                resetDeck(allCards);
+                            }}
+                            onToggleShuffle={toggleShuffle}
+                            isShuffleEnabled={isShuffleEnabled}
+                            onToggleOrientation={toggleOrientation}
+                            isTermFirst={isTermFirst}
+                        />
                     </div>
-
 
                     {/* Título del mazo */}
                     <h1 className="text-4xl font-bold text-white mb-6 flex justify-center items-center">
                         {deck.name}
                     </h1>
 
-                    {/* Componente SwipeableCard */}
                     <SwipeableCard
                         front={isTermFirst ? currentCard?.front || "" : currentCard?.back || ""}
                         back={isTermFirst ? currentCard?.back || "" : currentCard?.front || ""}
@@ -175,7 +175,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                         <button onClick={handleReject} className="bg-red-500 text-white p-3 rounded-full shadow-lg">
                             <FaUndo />
                         </button>
-                        <p className="text-gray-400">{allCards.length - correct.size - incorrect.size}</p>
+                        <p className="text-gray-400">{filteredCards.length - correct.size - incorrect.size}</p>
                         <button onClick={handleApprove} className="bg-green-500 text-white p-3 rounded-full shadow-lg">
                             <FaCheck />
                         </button>
@@ -203,26 +203,27 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                         )}
                     </div>
                 </div>
-            </div>
 
-            {/* Modal de Resumen */}
-            {showSummary && (
-                <SummaryModal
-                    correctCount={correct.size}
-                    incorrectCount={incorrect.size}
-                    totalCards={allCards.length}
-                    onRetryIncorrect={handleRetryIncorrect}
-                    onRetryAll={handleRetryAll}
-                    onClose={() => {
-                        setShowSummary(false); // Cerrar el SummaryModal
-                        closeWithAnimation(); // Cerrar el FlashcardsModal
-                    }}
-                />
-            )}
+                {/* Modal de Resumen */}
+                {showSummary && (
+                    <SummaryModal
+                        correctCount={correct.size}
+                        incorrectCount={incorrect.size}
+                        totalCards={filteredCards.length}
+                        onRetryIncorrect={handleRetryIncorrect}
+                        onRetryAll={handleRetryAll}
+                        onClose={() => {
+                            setShowSummary(false); // Cerrar el SummaryModal
+                            closeWithAnimation(); // Cerrar el FlashcardsModal
+                        }}
+                    />
+                )}
+            </div>
         </>
     );
 
     return ReactDOM.createPortal(modalContent, document.getElementById("modal-root")!);
+
 };
 
 export default FlashcardsModal;

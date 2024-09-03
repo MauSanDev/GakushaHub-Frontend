@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaRobot } from 'react-icons/fa';
 import NewGenerationPage from "./NewGenerationPage.tsx";
-import {DeckType} from "./NewGenerationPage.tsx";
+import {DeckType} from "../../data/DeckData.ts";
 
 interface GenerationButtonProps {
     decks?: DeckType[];

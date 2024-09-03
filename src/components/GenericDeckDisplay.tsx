@@ -8,7 +8,6 @@ import {
 } from "react-icons/fa";
 import FlashcardsModal from "./FlashcardsPage";
 import { DeckData } from "../data/DeckData.ts";
-import { FlashcardDeck } from "../data/FlashcardData.ts";
 import DeleteButton from "./DeleteButton";
 import GenerationButton from "./Modals/GenerationButton.tsx";
 import {CourseData, LessonData} from "../data/CourseData.ts";
@@ -39,7 +38,6 @@ const GenericDeckDisplay = <T,>({
     const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
     const [flashcardsMode, setFlashcardsMode] = useState(false);
     const [expanded, setExpanded] = useState(false);
-    const [flashcardDeck, setFlashcardDeck] = useState<FlashcardDeck | null>(null);
     const contentRef = useRef<HTMLDivElement | null>(null);
 
     const toggleExpand = () => {
@@ -57,8 +55,6 @@ const GenericDeckDisplay = <T,>({
     }, [expanded, viewMode]);
 
     const handleFlashcardMode = () => {
-        const flashcardDeck = deck.convertToFlashcards();
-        setFlashcardDeck(flashcardDeck);
         setFlashcardsMode(true);
     };
 
@@ -78,9 +74,9 @@ const GenericDeckDisplay = <T,>({
 
     return (
         <div className="w-full mb-0 pl-3">
-            {flashcardsMode && flashcardDeck && (
+            {flashcardsMode && (
                 <FlashcardsModal
-                    deck={flashcardDeck}
+                    deck={deck}
                     onClose={() => setFlashcardsMode(false)}
                 />
             )}

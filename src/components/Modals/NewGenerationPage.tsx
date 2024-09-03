@@ -10,8 +10,7 @@ import {WordDeck} from "../../data/WordData.ts";
 import {GrammarDeck} from "../../data/GrammarData.ts";
 import ConfigDropdown from "../ConfigDropdown.tsx";
 import {useBuildCourse} from "../../hooks/useBuildCourse.ts";
-
-export type DeckType = KanjiDeck | WordDeck | GrammarDeck;
+import {DeckType, isGrammarDeck, isKanjiDeck, isWordDeck} from "../../data/DeckData.ts";
 
 interface NewGenerationPageProps {
     courseId?: string,
@@ -42,18 +41,6 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
     const kanjiDecks = decks?.filter((deck): deck is KanjiDeck => isKanjiDeck(deck));
     const wordDecks = decks?.filter((deck): deck is WordDeck => isWordDeck(deck));
     const grammarDecks = decks?.filter((deck): deck is GrammarDeck => isGrammarDeck(deck));
-
-    function isKanjiDeck(deck: DeckType): deck is KanjiDeck {
-        return (deck as KanjiDeck).elements[0]?.kanji !== undefined;
-    }
-
-    function isWordDeck(deck: DeckType): deck is WordDeck {
-        return (deck as WordDeck).elements[0]?.word !== undefined;
-    }
-
-    function isGrammarDeck(deck: DeckType): deck is GrammarDeck {
-        return (deck as GrammarDeck).elements[0]?.structure !== undefined;
-    }
 
     function getPrioritizedKanji() {
         const allDecks = kanjiDecks;
