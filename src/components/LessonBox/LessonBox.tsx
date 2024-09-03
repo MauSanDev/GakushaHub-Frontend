@@ -206,6 +206,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                                 elementType={"generation"}
                                 lessonData={lesson}
                                 courseData={owner}
+                                enableGeneration={false}
                             />
                         </div>
                     )}

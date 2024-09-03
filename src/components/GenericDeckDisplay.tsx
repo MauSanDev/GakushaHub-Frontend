@@ -1,5 +1,11 @@
 import { useState, useRef, useEffect, ComponentType } from "react";
-import { FaTable, FaThLarge, FaPlay, FaChevronRight, FaChevronDown } from "react-icons/fa";
+import {
+    FaTable,
+    FaThLarge,
+    FaChevronRight,
+    FaChevronDown,
+    FaPlayCircle,
+} from "react-icons/fa";
 import FlashcardsModal from "./FlashcardsPage";
 import { DeckData } from "../data/DeckData.ts";
 import { FlashcardDeck } from "../data/FlashcardData.ts";
@@ -15,12 +21,14 @@ interface GenericDeckDisplayProps<T> {
     TableComponent?: ComponentType<{ deck: DeckData<T> }>;
     columns?: number;
     enableFlashcards?: boolean;
+    enableGeneration?: boolean;
     elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation' | 'kanjiDeck' | 'grammarDeck' | 'wordDeck';
 }
 
 const GenericDeckDisplay = <T,>({
-    courseData,
-    lessonData,
+                                    enableGeneration,
+                                    courseData,
+                                    lessonData,
                                     deck,
                                     renderComponent: RenderComponent,
                                     TableComponent,
@@ -69,7 +77,7 @@ const GenericDeckDisplay = <T,>({
     };
 
     return (
-        <div className="w-full mb-6">
+        <div className="w-full mb-0 pl-3">
             {flashcardsMode && flashcardDeck && (
                 <FlashcardsModal
                     deck={flashcardDeck}
@@ -77,7 +85,7 @@ const GenericDeckDisplay = <T,>({
                 />
             )}
 
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex justify-between items-center mb-2 bg-gray-100 p-1 rounded">
                 <div
                     className="flex items-center gap-2 cursor-pointer"
                     onClick={toggleExpand}
@@ -89,6 +97,22 @@ const GenericDeckDisplay = <T,>({
                     <span className="text-sm text-gray-500">({deck.elements.length} elements)</span>
                 </div>
                 <div className="flex gap-2">
+
+                    <DeleteButton
+                        creatorId={deck.creatorId}
+                        elementId={deck._id}
+                        elementType={elementType}
+                    />
+                    
+                    {enableGeneration ?? (
+                        <GenerationButton
+                            decks={[deck]}
+                            courseId={courseData._id}
+                            lessonName={lessonData.name}
+                            courseName={courseData.name}
+                        />
+                    )}
+
                     {enableFlashcards && (
                         <button
                             onClick={(e) => {
@@ -97,7 +121,7 @@ const GenericDeckDisplay = <T,>({
                             }}
                             className="p-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600"
                         >
-                            <FaPlay size={12} />
+                            <FaPlayCircle size={12} />
                         </button>
                     )}{TableComponent && (
                     <div className="flex">
@@ -129,18 +153,6 @@ const GenericDeckDisplay = <T,>({
                         </button>
                     </div>
                 )}
-                    <GenerationButton
-                        decks={[deck]}
-                        courseId={courseData._id}
-                        lessonName={lessonData.name}
-                        courseName={courseData.name}
-                    />
-                    
-                    <DeleteButton
-                        creatorId={deck.creatorId}
-                        elementId={deck._id}
-                        elementType={elementType} // Usamos elementType recibido como prop
-                    />
                 </div>
             </div>
 
