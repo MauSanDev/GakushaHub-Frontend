@@ -21,7 +21,7 @@ const UserMenu: React.FC = () => {
     };
 
     return (
-        <div className="fixed top-0 right-0 p-4 flex items-center space-x-4 z-50">
+        <div className="fixed top-0 p-4 flex items-center space-x-4 z-50">
             {user ? (
                 <>
                     <span className="text-gray-800 font-bold text-sm">

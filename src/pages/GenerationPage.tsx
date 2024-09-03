@@ -18,6 +18,7 @@ const GenerationPage: React.FC = () => {
     const [onSaveTriggered, setOnSaveTriggered] = useState(false);
 
     const { mutate: generateText, isLoading } = useGenerateText();
+    
     const navigate = useNavigate();
     const location = useLocation();
     const handleGenerate = () => {
@@ -66,7 +67,7 @@ const GenerationPage: React.FC = () => {
                     kanjiList={[]}
                     wordList={[]}
                     grammarList={[]}
-                    readingList={[generatedText]}
+                    readingList={generatedText ? [generatedText] : []}
                     onSaveTriggered={onSaveTriggered}
                     onSelectionComplete={setIsDeckSelectionComplete}
                 />

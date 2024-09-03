@@ -1,6 +1,7 @@
 import { useMutation } from 'react-query';
 import { ApiClient } from '../services/ApiClient';
-import {GeneratedData} from "../data/GenerationData.ts";
+import { GeneratedData } from "../data/GenerationData";
+import { useAuth } from '../context/AuthContext';  // Importa useAuth
 
 interface GenerateTextParams {
     topic: string;
@@ -12,7 +13,8 @@ interface GenerateTextParams {
 
 const isDeveloping = false; // FOR DEBUGGING!
 
-const generateText = async (params: GenerateTextParams): Promise<GeneratedData> => {
+const generateText = async (params: GenerateTextParams, creatorId: string): Promise<GeneratedData> => {
+
     if (isDeveloping) {
         return {
             _id: 'generated-id',
@@ -23,7 +25,7 @@ const generateText = async (params: GenerateTextParams): Promise<GeneratedData> 
             style: params.style,
             length: params.length,
             jlptLevel: params.jlptLevel,
-            isPublic:true,
+            isPublic: true,
             prioritization: {
                 grammar: ['grammar1', 'grammar2'],
                 words: ['word1', 'word2'],
@@ -32,10 +34,17 @@ const generateText = async (params: GenerateTextParams): Promise<GeneratedData> 
             createdAt: new Date().toISOString()
         };
     } else {
-        return ApiClient.post<GeneratedData>('/api/generation', params);
+        return ApiClient.post<GeneratedData>('/api/generation', { ...params, creatorId });
     }
 };
 
 export const useGenerateText = () => {
-    return useMutation(generateText);
+    const { userData } = useAuth();  // Usa el hook useAuth para obtener userData
+
+    return useMutation((params: GenerateTextParams) => {
+        if (!userData || !userData._id) {
+            throw new Error("User data not available");
+        }
+        return generateText(params, userData._id); // Pasa el userData._id como creatorId
+    });
 };

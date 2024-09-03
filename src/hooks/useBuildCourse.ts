@@ -4,6 +4,7 @@ import { KanjiData } from "../data/KanjiData.ts";
 import { WordData} from "../data/WordData.ts";
 import { GrammarData} from "../data/GrammarData.ts";
 import { GeneratedData } from "../data/GenerationData.ts";
+import {useAuth} from "../context/AuthContext.tsx";
 
 export interface Deck {
     deckName: string;
@@ -16,16 +17,11 @@ interface CreateCourseParams {
     courseName: string;
     lessonName: string;
     decks: Deck[];
-    // creatorId: string;
 }
 
 
-const createCourse = async (params: CreateCourseParams): Promise<void> => {
-    await ApiClient.post<void>('/api/course/build', params, {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+const createCourse = async (params: CreateCourseParams, creatorId: string): Promise<void> => {
+    await ApiClient.post<void>('/api/course/build', { ...params, creatorId });
 };
 
 export const parseDecks = (deckName : string, kanjiData: KanjiData[], wordData : WordData[], grammarData : GrammarData[], readingData : GeneratedData[]) =>
@@ -68,7 +64,14 @@ export const parseDecks = (deckName : string, kanjiData: KanjiData[], wordData :
 }
 
 export const useBuildCourse = () => {
+    const { userData } = useAuth(); 
+    
     return useMutation((params: CreateCourseParams) => {
-        return createCourse(params);
+
+        if (!userData || !userData._id) {
+            throw new Error("User data not available");
+        }
+        
+        return createCourse(params, userData._id);
     });
 };
