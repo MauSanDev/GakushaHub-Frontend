@@ -18,6 +18,7 @@ import MainLayout from "./layouts/MainLayout.tsx";
 import FullScreenLayout from "./layouts/FullScreenLayout.tsx";
 import {LanguageProvider} from "./context/LanguageContext.tsx";
 import LanguageDropdown from "./components/LanguageDropdown";
+import PrivateRoute from "./layouts/PrivateLayout.tsx";
 
 function App() {
     
@@ -45,12 +46,17 @@ function App() {
                     <Route path="/words" element={<WordListPage/>}/>
                     <Route path="/grammar" element={<GrammarListPage/>}/>
                     <Route path="/generations" element={<GenerationsListPage/>}/>
-                    <Route path="/generate" element={<GenerationPage/>}/>
-                    <Route path="/courses" element={<CourseListPage/>}/>
-                    <Route path="/courses/:courseId" element={<CourseDetailPage/>}/>
                     <Route path="/generation/:elementId" element={<TextDisplayPage/>}/>
                     <Route path="*" element={<UnderDevelopmentPage/>}/>
                 </Route>
+
+                <Route element={<PrivateRoute/>}>
+                    <Route path="/generate" element={<GenerationPage/>}/>
+                    <Route path="/courses" element={<CourseListPage/>}/>
+                    <Route path="/courses/:courseId" element={<CourseDetailPage/>}/>
+                </Route>
+                
+                
             </Routes>
         </LanguageProvider>
     );

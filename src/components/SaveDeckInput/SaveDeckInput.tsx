@@ -8,6 +8,7 @@ import {WordData} from "../../data/WordData.ts";
 import {GrammarData} from "../../data/GrammarData.ts";
 import {SaveStatus} from "../../utils/SaveStatus.ts";
 import {GeneratedData} from "../../data/GenerationData.ts";
+import {useAuth} from "../../context/AuthContext.tsx";
 
 
 interface SaveDeckInputProps {
@@ -25,7 +26,10 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
     const [error, setError] = useState<string | null>(null);
     const [expanded, setExpanded] = useState(false);
     const { data } = usePaginatedCourse(1, 10);
+    const { user } = useAuth();
 
+    if (!user) return ;
+    
     const { mutate: buildCourse, isLoading: isSaving, isSuccess: saveSuccess } = useBuildCourse();
     
     const getAvailableCourses = (): string[] => {

@@ -2,17 +2,21 @@ import React from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { useDeleteElement } from '../hooks/useDeleteElement';
 import { useNavigate } from 'react-router-dom';
+import {useAuth} from "../context/AuthContext.tsx";
 
 interface DeleteButtonProps {
     elementId: string;
     elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation' | 'kanjiDeck' | 'grammarDeck' | 'wordDeck';
     deleteRelations?: boolean;
-    redirectTo?: string; // Ruta opcional para redirigir después de la eliminación
+    redirectTo?: string;
 }
 
 const DeleteButton: React.FC<DeleteButtonProps> = ({ elementId, elementType, deleteRelations = false, redirectTo }) => {
     const mutation = useDeleteElement();
     const navigate = useNavigate();
+    const { user } = useAuth();
+    
+    if (!user) return ;
 
     const handleDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();

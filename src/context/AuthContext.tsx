@@ -1,10 +1,11 @@
-// authContext.tsx
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged, signOut, User, createUserWithEmailAndPassword, updateProfile, sendEmailVerification, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { ApiClient } from '../services/ApiClient';
+import { UserData } from '../data/UserData';
 
 interface AuthContextType {
     user: User | null;
+    userData: UserData | null;
     loading: boolean;
     signUp: (email: string, password: string, name: string) => Promise<void>;
     signIn: (email: string, password: string) => Promise<void>;
@@ -16,6 +17,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [userData, setUserData] = useState<UserData | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -36,6 +38,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (user) {
             await updateProfile(user, { displayName: name });
             await sendEmailVerification(user);
+
+            const token = await user.getIdToken();
+            const data = await ApiClient.post<UserData, { name: string; email: string; country: string }>(
+                'api/auth/register',
+                { name, email, country: '' }, // Adjust the country if needed
+                {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            );
+            setUserData(data);
         }
 
         setUser(user);
@@ -44,7 +56,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const signIn = async (email: string, password: string) => {
         const auth = getAuth();
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        setUser(userCredential.user);
+        const user = userCredential.user;
+
+        if (user) {
+            const token = await user.getIdToken();
+            localStorage.setItem('authToken', token); // Save token
+            const data = await ApiClient.post<UserData, {}>('api/auth/login', {}, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setUserData(data);
+        }
+
+        setUser(user);
     };
 
     const resetPassword = async (email: string) => {
@@ -56,10 +79,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const auth = getAuth();
         await signOut(auth);
         setUser(null);
+        setUserData(null);
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, signUp, signIn, resetPassword, logout }}>
+        <AuthContext.Provider value={{ user, userData, loading, signUp, signIn, resetPassword, logout }}>
             {!loading && children}
         </AuthContext.Provider>
     );

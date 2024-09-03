@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
+import signinImg from '../../assets/page-img.jpg'
 
 const SignInPage: React.FC = () => {
     const { signIn } = useAuth();
@@ -93,10 +94,10 @@ const SignInPage: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className="hidden lg:flex lg:flex-1 lg:justify-center lg:items-center">
+            <div className="hidden lg:flex lg:flex-1 lg:justify-center lg:items-center pr-40">
                 <img
-                    className="w-96 h-96 object-contain"
-                    src="your-image-url-here"
+                    className="object-contain"
+                    src={signinImg}
                     alt="Your Illustration"
                 />
             </div>

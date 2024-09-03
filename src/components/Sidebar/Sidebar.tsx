@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import {useAuth} from "../../context/AuthContext.tsx";
 
 const Sidebar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { user } = useAuth();
+
 
     const menuItems = [
-        { label: 'Search', path: '/search' },
+        { label: 'Search', path: '/search'},
         // { label: 'Kanji', path: '/kanji' },
         // { label: 'Words', path: '/words' },
         { label: 'Grammar', path: '/grammar' },
-        { label: 'Courses', path: '/courses' },
-        { label: 'Generate', path: '/generate' },
         { label: 'Generations', path: '/generations' },
+        { label: 'Courses', path: '/courses', requiresAuth: true },
+        { label: 'Generate', path: '/generate', requiresAuth: true },
     ];
 
     return (
@@ -30,8 +33,9 @@ const Sidebar: React.FC = () => {
                 }`}
             >
                 <div className="flex flex-col p-4 space-y-4">
-                    {menuItems.map((item, index) => (
-                        <Link
+                    {menuItems.map((item, index) =>
+                        (!item.requiresAuth || user) && (
+                            <Link
                             key={index}
                             to={item.path}
                             className="text-sm font-bold text-gray-600 hover:text-blue-400 py-2 border-b border-gray-300 text-left"

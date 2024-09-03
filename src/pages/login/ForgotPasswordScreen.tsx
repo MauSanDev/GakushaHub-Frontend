@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaSpinner } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import signinImg from "../../assets/page-img.jpg";
 
 const ForgotPasswordScreen: React.FC = () => {
     const { resetPassword } = useAuth();
@@ -55,16 +56,16 @@ const ForgotPasswordScreen: React.FC = () => {
                         )}
                     </form>
                     <div className="text-center text-sm text-gray-600">
-                        <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+                        <Link to="/signin" className="font-medium text-indigo-600 hover:text-indigo-500">
                             Back to Sign In
                         </Link>
                     </div>
                 </div>
             </div>
-            <div className="hidden lg:flex lg:flex-1 lg:justify-center lg:items-center">
+            <div className="hidden lg:flex lg:flex-1 lg:justify-center lg:items-center pr-40">
                 <img
-                    className="w-96 h-96 object-contain"
-                    src="your-image-url-here"
+                    className="object-contain"
+                    src={signinImg}
                     alt="Your Illustration"
                 />
             </div>
