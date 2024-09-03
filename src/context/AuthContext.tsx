@@ -1,5 +1,15 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getAuth, onAuthStateChanged, signOut, User, createUserWithEmailAndPassword, updateProfile, sendEmailVerification, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut,
+    User,
+    createUserWithEmailAndPassword,
+    updateProfile,
+    sendEmailVerification,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail
+} from 'firebase/auth';
 import { ApiClient } from '../services/ApiClient';
 import { UserData } from '../data/UserData';
 
@@ -28,14 +38,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             setUser(user);
             if (user) {
-                // Intenta obtener el userData si no está cargado
-                if (!userData) {
-                    const token = await user.getIdToken();
-                    localStorage.setItem('authToken', token);
+                await handleTokenRefresh(user); // Manejo de refresh de token
 
+                if (!userData) {
                     const data = await ApiClient.post<UserData, {}>('api/auth/login', {});
                     setUserData(data);
-                    localStorage.setItem('userData', JSON.stringify(data)); // Guarda en localStorage
+                    localStorage.setItem('userData', JSON.stringify(data));
                 }
             }
             setLoading(false);
@@ -43,6 +51,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         return () => unsubscribe();
     }, [userData]);
+
+    const handleTokenRefresh = async (user: User) => {
+        try {
+            const token = await user.getIdToken(true); // true forza el refresco del token
+            localStorage.setItem('authToken', token);
+        } catch (error) {
+            console.error('Error refreshing token:', error);
+            // Manejo de errores, como redirigir al usuario a la página de login
+        }
+    };
 
     const signUp = async (email: string, password: string, name: string, country: string) => {
         const auth = getAuth();
@@ -53,15 +71,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             await updateProfile(user, { displayName: name });
             await sendEmailVerification(user);
 
-            const token = await user.getIdToken();
-            localStorage.setItem('authToken', token);
+            await handleTokenRefresh(user);
 
             const data = await ApiClient.post<UserData, { name: string; email: string; country: string }>(
                 'api/auth/register',
                 { name, email, country }
             );
             setUserData(data);
-            localStorage.setItem('userData', JSON.stringify(data)); // Guarda en localStorage
+            localStorage.setItem('userData', JSON.stringify(data));
         }
 
         setUser(user);
@@ -73,12 +90,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const user = userCredential.user;
 
         if (user) {
-            const token = await user.getIdToken();
-            localStorage.setItem('authToken', token);
+            await handleTokenRefresh(user);
 
             const data = await ApiClient.post<UserData, {}>('api/auth/login', {});
             setUserData(data);
-            localStorage.setItem('userData', JSON.stringify(data)); // Guarda en localStorage
+            localStorage.setItem('userData', JSON.stringify(data));
         }
 
         setUser(user);
