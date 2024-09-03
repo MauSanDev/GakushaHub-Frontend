@@ -131,25 +131,23 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
             )}
 
             <div className="mt-60 border-t border-gray-200 pt-4">
-
                 <p className="text-xs text-gray-500">
                     Created At: {new Date(data.createdAt).toLocaleDateString()}
                 </p>
                 <h2 className="text-sm text-gray-600 italic mb-4">Topic: "{data.topic}"</h2>
 
                 <div className="flex items-center gap-2 flex-wrap">
-                                <span
-                                    className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full">
-                                    Style: {data.style}
-                                </span>
+        <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full">
+            Style: {data.style}
+        </span>
                     <span
                         className="inline-block bg-green-100 text-green-800 text-xs font-semibold px-2 py-0.5 rounded-full">
-                                    Length: {data.length} chars
-                                </span>
+            Length: {data.length} chars
+        </span>
                     <span
                         className="inline-block bg-red-100 text-red-800 text-xs font-semibold px-2 py-0.5 rounded-full">
-                                    JLPT: N{data.jlptLevel}
-                                </span>
+            JLPT: N{data.jlptLevel}
+        </span>
                     <div className="flex items-center gap-2">
                         <span className="text-gray-400 text-xs">Tags:</span>
                         <div className="flex flex-wrap gap-1">
@@ -164,6 +162,56 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                         </div>
                     </div>
                 </div>
+
+                {data.prioritization && (
+                    <div className="mt-4 border rounded p-2">
+                        {data.prioritization.grammar && data.prioritization.grammar.length > 0 && (
+                            <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-gray-400 text-xs">Grammar:</span>
+                                <div className="flex flex-wrap gap-1">
+                                    {data.prioritization.grammar.map((grammarItem, index) => (
+                                        <div
+                                            key={index}
+                                            className="inline-block bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded-full"
+                                        >
+                                            {grammarItem}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        {data.prioritization.words && data.prioritization.words.length > 0 && (
+                            <div className="flex items-center gap-2 flex-wrap mt-2">
+                                <span className="text-gray-400 text-xs">Words:</span>
+                                <div className="flex flex-wrap gap-1">
+                                    {data.prioritization.words.map((wordItem, index) => (
+                                        <div
+                                            key={index}
+                                            className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full"
+                                        >
+                                            {wordItem}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        {data.prioritization.kanji && data.prioritization.kanji.length > 0 && (
+                            <div className="flex items-center gap-2 flex-wrap mt-2">
+                                <span className="text-gray-400 text-xs">Kanji:</span>
+                                <div className="flex flex-wrap gap-1">
+                                    {data.prioritization.kanji.map((kanjiItem, index) => (
+                                        <div
+                                            key={index}
+                                            className="inline-block bg-red-100 text-red-800 text-xs font-semibold px-2 py-0.5 rounded-full"
+                                        >
+                                            {kanjiItem}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );
