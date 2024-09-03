@@ -5,9 +5,13 @@ import {DeckType} from "./NewGenerationPage.tsx";
 
 interface GenerationButtonProps {
     decks?: DeckType[];
+    courseId: string;
+    courseName: string;
+    lessonName: string;
+    deckName?: string;
 }
 
-const GenerationButton: React.FC<GenerationButtonProps> = ({ decks }) => {
+const GenerationButton: React.FC<GenerationButtonProps> = ({ decks, deckName, lessonName, courseName, courseId }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleOpenModal = () => {
@@ -28,7 +32,7 @@ const GenerationButton: React.FC<GenerationButtonProps> = ({ decks }) => {
                 <span>Generate</span>
             </button>
 
-            <NewGenerationPage isVisible={isModalVisible} onClose={handleCloseModal} decks={decks} />
+            <NewGenerationPage isVisible={isModalVisible} onClose={handleCloseModal} decks={decks} deckName={deckName ?? "Generated"} lessonName={lessonName} courseName={courseName} courseId={courseId} />
         </>
     );
 };

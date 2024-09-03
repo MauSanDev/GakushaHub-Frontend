@@ -5,8 +5,11 @@ import { DeckData } from "../data/DeckData.ts";
 import { FlashcardDeck } from "../data/FlashcardData.ts";
 import DeleteButton from "./DeleteButton";
 import GenerationButton from "./Modals/GenerationButton.tsx";
+import {CourseData, LessonData} from "../data/CourseData.ts";
 
 interface GenericDeckDisplayProps<T> {
+    courseData: CourseData,
+    lessonData: LessonData
     deck: DeckData<T>;
     renderComponent: ComponentType<{ result: T }>;
     TableComponent?: ComponentType<{ deck: DeckData<T> }>;
@@ -16,6 +19,8 @@ interface GenericDeckDisplayProps<T> {
 }
 
 const GenericDeckDisplay = <T,>({
+    courseData,
+    lessonData,
                                     deck,
                                     renderComponent: RenderComponent,
                                     TableComponent,
@@ -124,7 +129,12 @@ const GenericDeckDisplay = <T,>({
                         </button>
                     </div>
                 )}
-                    <GenerationButton decks={[deck]}/>
+                    <GenerationButton
+                        decks={[deck]}
+                        courseId={courseData._id}
+                        lessonName={lessonData.name}
+                        courseName={courseData.name}
+                    />
                     
                     <DeleteButton
                         creatorId={deck.creatorId}

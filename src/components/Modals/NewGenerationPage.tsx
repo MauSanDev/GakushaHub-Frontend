@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {FaPaperPlane, FaCheckSquare, FaSquare, FaBookOpen, FaFileAlt, FaBook, FaInfo} from 'react-icons/fa';
+import {FaPaperPlane, FaCheckSquare, FaSquare, FaBookOpen, FaFileAlt, FaBook, FaQuestion} from 'react-icons/fa';
 import LoadingScreen from '../LoadingScreen';
 import { useGenerateText } from '../../hooks/useGenerateText';
 import { GeneratedData } from "../../data/GenerationData.ts";
@@ -9,16 +9,21 @@ import {KanjiDeck} from "../../data/KanjiData.ts";
 import {WordDeck} from "../../data/WordData.ts";
 import {GrammarDeck} from "../../data/GrammarData.ts";
 import ConfigDropdown from "../ConfigDropdown.tsx";
+import {useBuildCourse} from "../../hooks/useBuildCourse.ts";
 
 export type DeckType = KanjiDeck | WordDeck | GrammarDeck;
 
 interface NewGenerationPageProps {
+    courseId?: string,
+    courseName?: string,
+    lessonName?: string,
+    deckName?: string, 
     decks?: DeckType[];
     isVisible: boolean;
     onClose: () => void;
 }
 
-const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, isVisible, onClose }) => {
+const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName, courseId, lessonName, deckName, isVisible, onClose }) => {
     const [topic, setTopic] = useState('');
     const [style, setStyle] = useState('');
     const [length, setLength] = useState(150);
@@ -27,6 +32,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, isVisible,
     const [generatedText, setGeneratedText] = useState<GeneratedData>();
     const [isPublic, setIsPublic] = useState(true);
     const [onSaveTriggered, setOnSaveTriggered] = useState(false);
+    const { mutate: buildCourse } = useBuildCourse();
 
     const { mutate: generateText, isLoading } = useGenerateText();
 
@@ -98,10 +104,23 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, isVisible,
                 { topic, style, length, jlptLevel, isPublic, prioritization: { words: getPrioritizedWords() ?? [], kanji: getPrioritizedKanji() ?? [], grammar: getPrioritizedGrammar() ?? []}},
                 {
                     onSuccess: (data: GeneratedData) => {
-                        console.log(data);
                         setGeneratedText(data);
                         setError('');
-                        setOnSaveTriggered(true);
+                        
+                        if ((courseId || courseName) && lessonName && decks)
+                        {
+                            buildCourse(
+                                {courseId: courseId ?? '', courseName: courseName ?? 'Course', lessonName: lessonName ?? 'Lesson', decks: [ { deckName: deckName ?? 'Deck', elements: [ data._id ], deckType: 'reading'}]},
+                                {
+                                    onSuccess: () => {
+                                        setOnSaveTriggered(true)
+                                    }
+                                });
+                        }
+                        else
+                        {
+                            setOnSaveTriggered(true)
+                        }
                     },
                     onError: (error: unknown) => {
                         setError(`Error generating text: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -133,7 +152,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, isVisible,
 
                             <div className={"absolute right-0"}>
                             <ConfigDropdown
-                                icon={<FaInfo/>}
+                                icon={<FaQuestion/>}
                                 items={[
                                     <p className="text-xs text-gray-600 font-bold">
                                         Tips:

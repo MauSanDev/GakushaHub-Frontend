@@ -7,7 +7,6 @@ import CourseListPage from "./pages/CourseListPage.tsx";
 import GrammarListPage from "./pages/GrammarListPage.tsx";
 import CourseDetailPage from "./pages/CourseDetailsPage.tsx";
 import GenerationsListPage from "./pages/GenerationsListPage.tsx";
-import GenerationPage from "./pages/GenerationPage.tsx";
 import TextDisplayPage from "./pages/TextDisplayPage.tsx";
 import SignInPage from "./pages/login/SignInPage.tsx";
 import SignUpPage from "./pages/login/SignUpPage.tsx";
@@ -19,6 +18,7 @@ import FullScreenLayout from "./layouts/FullScreenLayout.tsx";
 import {LanguageProvider} from "./context/LanguageContext.tsx";
 import LanguageDropdown from "./components/LanguageDropdown";
 import PrivateRoute from "./layouts/PrivateLayout.tsx";
+import FakeGenerationPage from "./components/Modals/GenerationPage.tsx";
 
 function App() {
     
@@ -51,7 +51,7 @@ function App() {
                 </Route>
 
                 <Route element={<PrivateRoute/>}>
-                    <Route path="/generate" element={<GenerationPage/>}/>
+                    <Route path="/generate" element={<FakeGenerationPage/>}/>
                     <Route path="/courses" element={<CourseListPage/>}/>
                     <Route path="/courses/:courseId" element={<CourseDetailPage/>}/>
                 </Route>

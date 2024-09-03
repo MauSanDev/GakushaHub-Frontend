@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { LessonData } from "../../data/CourseData.ts";
+import {CourseData, LessonData} from "../../data/CourseData.ts";
 import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes, FaBookReader } from "react-icons/fa";
 import GenericDeckDisplay from "../GenericDeckDisplay";
 import SmallKanjiBox from "../SmallKanjiBox";
@@ -16,6 +16,7 @@ import DeleteButton from '../DeleteButton';
 import GenerationButton from "../Modals/GenerationButton.tsx";
 
 interface LessonBoxProps {
+    owner: CourseData;
     lesson: LessonData;
     showKanji: boolean;
     showWord: boolean;
@@ -23,7 +24,7 @@ interface LessonBoxProps {
     showReadings: boolean;
 }
 
-const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, showGrammar, showReadings }) => {
+const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWord, showGrammar, showReadings }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(lesson.name || "<Title>");
     const [description, setDescription] = useState(lesson.description);
@@ -60,7 +61,12 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
         <div className="bg-white p-6 rounded-lg shadow-lg mb-6 border border-gray-200 transform transition-transform duration-300 hover:border-blue-400 w-full relative">
             <div className="absolute top-4 right-4 flex gap-2">
 
-                <GenerationButton decks={[...lesson.kanjiDecks, ...lesson.grammarDecks, ...lesson.wordDecks]} />
+                <GenerationButton 
+                    decks={[...lesson.kanjiDecks, ...lesson.grammarDecks, ...lesson.wordDecks]}
+                    courseId={owner._id}
+                    lessonName={lesson.name}
+                    courseName={owner.name}
+                />
                 {isEditing ? (
                     <>
                         <button
@@ -140,6 +146,8 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                                     renderComponent={SmallKanjiBox}
                                     TableComponent={KanjiDeckTable}
                                     elementType={"kanjiDeck"}
+                                    lessonData={lesson}
+                                    courseData={owner}
                                 />
                             ))}
                         </div>
@@ -159,6 +167,8 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                                     renderComponent={SmallWordBox}
                                     TableComponent={WordDeckTable}
                                     elementType={"wordDeck"}
+                                    lessonData={lesson}
+                                    courseData={owner}
                                 />
                             ))}
                         </div>
@@ -177,6 +187,8 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                                     columns={2}
                                     enableFlashcards={false}
                                     elementType={"grammarDeck"}
+                                    lessonData={lesson}
+                                    courseData={owner}
                                 />
                             ))}
                         </div>
@@ -192,6 +204,8 @@ const LessonBox: React.FC<LessonBoxProps> = ({ lesson, showKanji, showWord, show
                                 renderComponent={SimpleReadingBox}
                                 enableFlashcards={false}
                                 elementType={"generation"}
+                                lessonData={lesson}
+                                courseData={owner}
                             />
                         </div>
                     )}

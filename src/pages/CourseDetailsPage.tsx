@@ -26,7 +26,7 @@ const CourseDetailPage: React.FC = () => {
     const { userData } = useAuth();
     const navigate = useNavigate();
 
-    const course = data?.course as CourseData | null;
+    const course = data?.course as CourseData;
     
     
     useEffect(() => {
@@ -300,7 +300,8 @@ const CourseDetailPage: React.FC = () => {
                             showKanji={showKanji}
                             showWord={showWord}
                             showGrammar={showGrammar}
-                            showReadings={showReadings} // Pasar showReadings a LessonBox
+                            showReadings={showReadings}
+                            owner={course}
                         />
                     ))
                 ) : (
