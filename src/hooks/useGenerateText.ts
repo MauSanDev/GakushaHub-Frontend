@@ -9,6 +9,11 @@ interface GenerateTextParams {
     length: number;
     jlptLevel: number;
     isPublic: boolean;
+    prioritization: {
+        grammar: string[],
+        words: string[],
+        kanji: string[]
+    },
 }
 
 const isDeveloping = false; // FOR DEBUGGING!
@@ -26,10 +31,11 @@ const generateText = async (params: GenerateTextParams, creatorId: string): Prom
             length: params.length,
             jlptLevel: params.jlptLevel,
             isPublic: true,
+            creatorId: creatorId,
             prioritization: {
-                grammar: ['grammar1', 'grammar2'],
-                words: ['word1', 'word2'],
-                kanji: ['kanji1', 'kanji2']
+                grammar: params.prioritization.grammar,
+                words: params.prioritization.words,
+                kanji: params.prioritization.kanji
             },
             createdAt: new Date().toISOString()
         };

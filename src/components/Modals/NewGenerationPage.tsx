@@ -49,6 +49,44 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, isVisible,
         return (deck as GrammarDeck).elements[0]?.structure !== undefined;
     }
 
+    function getPrioritizedKanji() {
+        const allDecks = kanjiDecks;
+        if (!allDecks) return
+        const allKanji = allDecks.flatMap((x) => x.elements);
+        const random = getRandomElements(allKanji, 50)
+        
+        return random.map((result) => result.kanji)
+    }
+    
+    function getPrioritizedWords() {
+        const allDecks = wordDecks;
+        if (!allDecks) return
+        const allKanji = allDecks.flatMap((x) => x.elements);
+        const random = getRandomElements(allKanji, 25)
+        
+        return random.map((result) => result.word)
+    }
+    
+    function getPrioritizedGrammar() {
+        const allDecks = grammarDecks;
+        if (!allDecks) return
+        const allKanji = allDecks.flatMap((x) => x.elements);
+        const random = getRandomElements(allKanji, 10)
+        
+        return random.map((result) => result.structure)
+    }
+
+    function getRandomElements<T>(arr: T[], num: number): T[] {
+        const shuffled = arr.slice();
+
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+
+        return shuffled.slice(0, num);
+    }
+    
     const handleGenerate = () => {
         if (!topic || !style || length > 800) {
             setError('All fields are required, and Length must be between 150 and 800.');
@@ -57,7 +95,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, isVisible,
 
         if (!isLoading) {
             generateText(
-                { topic, style, length, jlptLevel, isPublic },
+                { topic, style, length, jlptLevel, isPublic, prioritization: { words: getPrioritizedWords() ?? [], kanji: getPrioritizedKanji() ?? [], grammar: getPrioritizedGrammar() ?? []}},
                 {
                     onSuccess: (data: GeneratedData) => {
                         console.log(data);
