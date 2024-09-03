@@ -121,26 +121,22 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
 
     const toggleReveal = () => setShowMeanings((prev) => !prev);
 
-    const closeWithAnimation = () => {
-        setIsVisible(false);
-        setTimeout(onClose, 300); // Espera la animación antes de cerrar
-    };
-
     const toggleShuffle = () => setIsShuffleEnabled((prev) => !prev);
 
     const toggleOrientation = () => setIsTermFirst((prev) => !prev);
 
     const modalContent = (
         <>
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
 
-                <div className="relative w-11/12 md:w-1/3 lg:w-1/4 h-auto p-4 flex flex-col items-center" style={{ maxHeight: "90vh" }}>
+                <div className="relative w-11/12 md:w-1/3 lg:w-1/4 h-auto p-4 flex flex-col items-center"
+                     style={{maxHeight: "90vh"}}>
                     {/* Botón de cierre */}
                     <button
-                        onClick={closeWithAnimation}
+                        onClick={onClose}
                         className="absolute top-2 left-2 text-white p-2 rounded-full shadow-lg bg-gray-800 hover:bg-gray-600"
                     >
-                        <FaArrowLeft />
+                        <FaArrowLeft/>
                     </button>
 
                     <div className="absolute right-0 top-3">
@@ -168,26 +164,29 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                         onApprove={handleApprove}
                         onReject={handleReject}
                     />
-
-                    {/* Botones de acciones */}
-                    <div className="flex gap-4 mt-6 items-center">
-                        <p className="text-red-500">{incorrect.size}</p>
-                        <button onClick={handleReject} className="bg-red-500 text-white p-3 rounded-full shadow-lg">
-                            <FaUndo />
+                    <div className="flex gap-6 mt-6 items-center w-full justify-center">
+                        <p className="text-red-500 text-xl">{incorrect.size}</p>
+                        <button
+                            onClick={handleReject}
+                            className="bg-red-500 text-white p-5 rounded-full shadow-lg transform transition-transform duration-150 ease-in-out hover:scale-110 active:scale-90 hover:bg-red-400 active:bg-red-700 text-2xl"
+                        >
+                            <FaUndo/>
                         </button>
-                        <p className="text-gray-400">{filteredCards.length - correct.size - incorrect.size}</p>
-                        <button onClick={handleApprove} className="bg-green-500 text-white p-3 rounded-full shadow-lg">
-                            <FaCheck />
+                        <p className="text-gray-400 text-xl">{filteredCards.length - correct.size - incorrect.size}</p>
+                        <button
+                            onClick={handleApprove}
+                            className="bg-green-500 text-white p-5 rounded-full shadow-lg transform transition-transform duration-150 ease-in-out hover:scale-110 active:scale-90 hover:bg-green-400 active:bg-green-700 text-2xl"
+                        >
+                            <FaCheck/>
                         </button>
-                        <p className="text-green-500">{correct.size}</p>
+                        <p className="text-green-500 text-xl">{correct.size}</p>
                     </div>
 
-                    {/* Botón de revelar significados */}
                     <button
                         onClick={toggleReveal}
-                        className="mt-4 p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 shadow-lg"
+                        className="mt-4 p-4 bg-blue-500 text-white rounded-full hover:bg-blue-600 active:bg-blue-700 shadow-lg transform transition-transform duration-150 ease-in-out hover:scale-110 active:scale-90 text-2xl"
                     >
-                        <FaEye />
+                        <FaEye/>
                     </button>
 
                     {/* Caja de significados con animación */}
@@ -213,8 +212,8 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                         onRetryIncorrect={handleRetryIncorrect}
                         onRetryAll={handleRetryAll}
                         onClose={() => {
-                            setShowSummary(false); // Cerrar el SummaryModal
-                            closeWithAnimation(); // Cerrar el FlashcardsModal
+                            setShowSummary(false);
+                            onClose();
                         }}
                     />
                 )}
