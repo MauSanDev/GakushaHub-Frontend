@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect, useRef} from "react";
 import { FaArrowLeft, FaEye, FaUndo, FaCheck } from "react-icons/fa";
 import SwipeableCard from "../SwipeableCard";
 import SummaryModal from "../SummaryModal";
 import SettingsTooltip from "../SettingsTooltip";
-import {convertToFlashcardDeck, FlashcardData} from "../../data/FlashcardData.ts";
-import {DeckType} from "../../data/DeckData.ts";
+import { convertToFlashcardDeck, FlashcardData } from "../../data/FlashcardData.ts";
+import { DeckType } from "../../data/DeckData.ts";
 import ReactDOM from "react-dom";
 
 interface FlashcardsModalProps {
@@ -23,11 +23,10 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const [showSummary, setShowSummary] = useState(false);
     const [isShuffleEnabled, setIsShuffleEnabled] = useState(false);
     const [isTermFirst, setIsTermFirst] = useState(true); // Controla la orientación del mazo
+    const cardRef = useRef<any>(null);
 
     useEffect(() => {
         const flashcardDeck = convertToFlashcardDeck(deck);
-        console.log("by deck")
-
         setFilteredCards(flashcardDeck.elements);
         setAllCards(flashcardDeck.elements);
         setIsVisible(true);
@@ -35,22 +34,32 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
 
     useEffect(() => {
         if (allCards.length === 0) return;
-        
+
         if (isShuffleEnabled) {
             shuffleDeck();
         } else {
-            console.log("is shuffled enabled")
             resetDeck(allCards);
         }
     }, [isShuffleEnabled]);
 
     useEffect(() => {
-        console.log("filteredCards updated:", filteredCards);
-    }, [filteredCards]);
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "ArrowRight") {
+                cardRef.current.approve()
+            } else if (event.key === "ArrowLeft") {
+                cardRef.current.reject()
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [filteredCards, currentIndex]);
 
     const shuffleDeck = () => {
         const shuffled = [...filteredCards].sort(() => Math.random() - 0.5);
-        console.log("shuffled")
         setFilteredCards(shuffled);
         setCurrentIndex(0);
         setCorrect(new Set());
@@ -78,8 +87,6 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     };
 
     const moveToNextCard = () => {
-
-        console.log(filteredCards)
         if (currentIndex >= filteredCards.length - 1) {
             setShowSummary(true);
         } else {
@@ -93,8 +100,6 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const handleRetryIncorrect = () => {
         const incorrectCardIndexes = Array.from(incorrect);
         const incorrectCards = incorrectCardIndexes.map((index) => filteredCards[index]);
-
-        console.log("incorrect");
         setFilteredCards(incorrectCards);
         setCorrect(new Set());
         setIncorrect(new Set());
@@ -103,15 +108,11 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     };
 
     const handleRetryAll = () => {
-        console.log("handling retry");
-
         resetDeck(allCards);
         setShowSummary(false);
     };
 
     const resetDeck = (cards: FlashcardData[]) => {
-        console.error("reset")
-
         setFilteredCards(cards);
         setCorrect(new Set());
         setIncorrect(new Set());
@@ -128,22 +129,22 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const modalContent = (
         <>
             <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-
-                <div className="relative w-11/12 md:w-1/3 lg:w-1/4 h-auto p-4 flex flex-col items-center"
-                     style={{maxHeight: "90vh"}}>
+                <div
+                    className="relative w-11/12 md:w-1/3 lg:w-1/4 h-auto p-4 flex flex-col items-center"
+                    style={{ maxHeight: "90vh" }}
+                >
                     {/* Botón de cierre */}
                     <button
                         onClick={onClose}
                         className="absolute top-2 left-2 text-white p-2 rounded-full shadow-lg bg-gray-800 hover:bg-gray-600"
                     >
-                        <FaArrowLeft/>
+                        <FaArrowLeft />
                     </button>
 
                     <div className="absolute right-0 top-3">
                         {/* Botón de configuración */}
                         <SettingsTooltip
                             onReset={() => {
-                                console.log("reset from tooltip")
                                 resetDeck(allCards);
                             }}
                             onToggleShuffle={toggleShuffle}
@@ -159,25 +160,27 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                     </h1>
 
                     <SwipeableCard
+                        ref={cardRef}
                         front={isTermFirst ? currentCard?.front || "" : currentCard?.back || ""}
                         back={isTermFirst ? currentCard?.back || "" : currentCard?.front || ""}
                         onApprove={handleApprove}
                         onReject={handleReject}
                     />
+
                     <div className="flex gap-6 mt-6 items-center w-full justify-center">
                         <p className="text-red-500 text-xl">{incorrect.size}</p>
                         <button
-                            onClick={handleReject}
+                            onClick={() => cardRef.current.reject()}
                             className="bg-red-500 text-white p-5 rounded-full shadow-lg transform transition-transform duration-150 ease-in-out hover:scale-110 active:scale-90 hover:bg-red-400 active:bg-red-700 text-2xl"
                         >
-                            <FaUndo/>
+                            <FaUndo />
                         </button>
                         <p className="text-gray-400 text-xl">{filteredCards.length - correct.size - incorrect.size}</p>
                         <button
-                            onClick={handleApprove}
+                            onClick={() => cardRef.current.approve()}
                             className="bg-green-500 text-white p-5 rounded-full shadow-lg transform transition-transform duration-150 ease-in-out hover:scale-110 active:scale-90 hover:bg-green-400 active:bg-green-700 text-2xl"
                         >
-                            <FaCheck/>
+                            <FaCheck />
                         </button>
                         <p className="text-green-500 text-xl">{correct.size}</p>
                     </div>
@@ -186,7 +189,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                         onClick={toggleReveal}
                         className="mt-4 p-4 bg-blue-500 text-white rounded-full hover:bg-blue-600 active:bg-blue-700 shadow-lg transform transition-transform duration-150 ease-in-out hover:scale-110 active:scale-90 text-2xl"
                     >
-                        <FaEye/>
+                        <FaEye />
                     </button>
 
                     {/* Caja de significados con animación */}
@@ -222,7 +225,6 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     );
 
     return ReactDOM.createPortal(modalContent, document.getElementById("modal-root")!);
-
 };
 
 export default FlashcardsModal;
