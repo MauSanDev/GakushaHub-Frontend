@@ -268,24 +268,24 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                     </div>
 
                     {decks && decks.length > 0 && (
-                        <div className="w-full border-gray-200 rounded border p-3 max-h-64 overflow-y-auto">
-                            <h1 className={"font-bold border-b mb-5"}>Priority</h1>
+                        <div className="w-full border-gray-200 rounded border p-3 max-h-64 overflow-y-auto  dark:border-gray-700 pb-8">
+                            <h1 className={"font-bold border-b mb-5 dark:text-white dark:border-gray-700"}>Priority</h1>
                             {kanjiDecks && kanjiDecks.length > 0 && (
                             <div className="w-full">
                                 <div className="flex justify-between items-center mb-2 ">
                                     <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                        <FaBookOpen className="text-blue-400 dark:text-white" /> Kanji Decks:
+                                        <FaBookOpen className="text-blue-400" /> Kanji Decks:
                                     </h4>
                                 </div>
                                 
                                 {kanjiDecks.map((deck: KanjiDeck) => (
                                     <div key={deck._id} className="mb-4">
-                                        <h1 className="text-l font-semibold pl-5">{deck.name}</h1>
+                                        <h1 className="text-xs pl-5 dark:text-gray-300">{deck.name}</h1>
                                         <div className="flex flex-wrap gap-2 pl-5">
                                             {deck.elements.map((element) => (
                                                 <span
                                                     key={element.kanji}
-                                                    className="p-2 rounded border border-gray-300 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
+                                                    className="p-2 rounded border border-gray-300 dark:border-blue-400 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
                                                 >
                                                 {element.kanji}
                                             </span>
@@ -298,7 +298,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                         )}
                         
                         {wordDecks && wordDecks.length > 0 && (
-                            <div className="w-full mt-4 border-t pt-5">
+                            <div className="w-full mt-4 border-t  dark:border-gray-700 pt-5">
                                 <div className="flex justify-between items-center mb-2">
                                     <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
                                         <FaFileAlt className="text-red-400" /> Word Decks:
@@ -307,12 +307,12 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
     
                                 {wordDecks.map((deck: WordDeck) => (
                                     <div key={deck._id}>
-                                        <h1 className="text-l font-semibold pl-5">{deck.name}</h1>
+                                        <h1 className="text-xs pl-5 dark:text-gray-300">{deck.name}</h1>
                                         <div className="flex flex-wrap gap-2 pl-5">
                                             {deck.elements.map((element) => (
                                                 <span
                                                     key={element.word}
-                                                    className="p-2 rounded border border-gray-300 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
+                                                    className="p-2 rounded border border-gray-300 dark:border-red-400 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
                                                 >
                                                 {element.word}
                                             </span>
@@ -325,7 +325,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                         )}
     
                         {grammarDecks && grammarDecks.length > 0 && (
-                            <div className="w-full pt-5 mt-5 border-t">
+                            <div className="w-full pt-5 mt-5 border-t dark:border-gray-700">
                                 <div className="flex justify-between items-center mb-2">
                                     <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
                                         <FaBook className="text-green-400"/> Grammar Decks:
@@ -334,12 +334,12 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
     
                                 {grammarDecks.map((deck: GrammarDeck) => (
                                     <div key={deck._id}>
-                                        <h1 className="text-l font-semibold pl-5">{deck.name}</h1>
+                                        <h1 className="text-xs pl-5 dark:text-gray-300">{deck.name}</h1>
                                         <div className="flex flex-wrap gap-2 pl-5">
                                             {deck.elements.map((element) => (
                                                 <span
                                                     key={element.structure}
-                                                    className="p-2 rounded border border-gray-300 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
+                                                    className="p-2 rounded border border-gray-300 dark:border-green-400 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
                                                 >
                                                 {element.structure}
                                             </span>

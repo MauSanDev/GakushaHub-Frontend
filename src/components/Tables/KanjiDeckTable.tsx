@@ -7,8 +7,8 @@ interface KanjiDeckTableProps {
 
 const KanjiDeckTable: React.FC<KanjiDeckTableProps> = ({ deck }) => {
     return (
-        <div className="overflow-x-auto">
-            <table className="min-w-full bg-white dark:bg-black text-xs">
+        <div className="overflow-x-auto mb-5">
+            <table className="min-w-full bg-white dark:bg-black text-xs dark:border dark:border-gray-800">
                 <thead>
                 <tr className="bg-blue-50 dark:bg-gray-950 text-center text-sm dark:text-gray-300">
                     <th className="px-4 py-2 font-bold">Kanji</th>
