@@ -30,7 +30,6 @@ export const usePaginatedData = <T>(endpoint: string, page: number, limit: numbe
     );
 
     const resetQueries = () => {
-        // Resetea todas las queries relacionadas con el endpoint
         queryClient.invalidateQueries(endpoint);
     };
 

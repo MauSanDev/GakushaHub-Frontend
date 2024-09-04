@@ -2,7 +2,9 @@ import { usePaginatedData } from './usePaginatedData.ts';
 import {CourseData} from "../data/CourseData.ts";
 
 export const usePaginatedCourse = (page: number, limit: number) => {
-    return usePaginatedData<CourseData>('/api/course/paginated', page, limit);
+    const { data, error, resetQueries, ...rest } =  usePaginatedData<CourseData>('/api/course/paginated', page, limit);
+
+    return { data, error, resetQueries, ...rest };
 };
 
 export interface Deck {

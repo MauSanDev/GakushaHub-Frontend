@@ -27,10 +27,10 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
     const [expanded, setExpanded] = useState(false);
     const { data } = usePaginatedCourse(1, 10);
     const { user } = useAuth();
-
-    if (!user) return ;
     
     const { mutate: buildCourse, isLoading: isSaving, isSuccess: saveSuccess } = useBuildCourse();
+
+    if (!user) return ;
     
     const getAvailableCourses = (): string[] => {
         return data?.documents.map((course) => course.name) ?? [];
