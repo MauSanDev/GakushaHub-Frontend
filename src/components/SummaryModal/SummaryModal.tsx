@@ -64,7 +64,7 @@ const SummaryModal = ({
                     {incorrectCount > 0 && (
                         <button
                             onClick={onRetryIncorrect}
-                            className="bg-blue-500 dark:bg-gray-700 hover:bg-blue-600 dark:hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full flex items-center gap-2 transform transition-transform duration-150 ease-in-out hover:scale-105 active:scale-95"
+                            className="bg-blue-500 dark:bg-gray-700 hover:bg-blue-600 dark:hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full flex items-center gap-2 transform transition-transform duration-150 ease-in-out lg:hover:scale-105 active:scale-95"
                         >
                             <FaRedo />
                             Retry Incorrect
@@ -72,7 +72,7 @@ const SummaryModal = ({
                     )}
                     <button
                         onClick={onRetryAll}
-                        className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full flex items-center gap-2 transform transition-transform duration-150 ease-in-out hover:scale-105 active:scale-95"
+                        className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full flex items-center gap-2 transform transition-transform duration-150 ease-in-out lg:hover:scale-105 active:scale-95"
                     >
                         <FaRedo />
                         Retry All
@@ -81,7 +81,7 @@ const SummaryModal = ({
                         onClick={() => {
                             onClose(); // Cerrar el modal de resumen y también el FlashcardsModal
                         }}
-                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full flex items-center gap-2 transform transition-transform duration-150 ease-in-out hover:scale-105 active:scale-95"
+                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full flex items-center gap-2 transform transition-transform duration-150 ease-in-out lg:hover:scale-105 active:scale-95"
                     >
                         <FaTimes />
                         Close

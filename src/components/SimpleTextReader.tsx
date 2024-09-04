@@ -10,10 +10,9 @@ interface SimpleTextPreviewProps {
 
 const SimpleTextReader: React.FC<SimpleTextPreviewProps> = ({ data, deleteRelations }) => {
     
-    console.log(data)
     return (
         <div
-            className="relative p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 hover:scale-105 bg-white dark:bg-gray-900 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800">
+            className="relative p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 lg:hover:scale-105 bg-white dark:bg-gray-900 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800">
             <div className="absolute top-2 right-2">
                 <DeleteButton
                     creatorId={data.creatorId?._id ?? ''}

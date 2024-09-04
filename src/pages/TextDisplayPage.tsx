@@ -13,8 +13,8 @@ const TextDisplayPage: React.FC = () => {
     const location = useLocation();
 
     return (
-        <div className="relative flex flex-col items-center justify-center h-full w-full p-4">
-            <div className="flex-1 p-8 rounded-md overflow-y-auto relative max-w-4xl w-full">
+        <div className="relative flex flex-col items-center justify-center h-full w-full">
+            <div className="flex-1 rounded-md overflow-y-auto relative max-w-4xl w-full">
                 {isLoading && (
                     <LoadingScreen isLoading={isLoading} />
                 )}

@@ -11,7 +11,7 @@ const PrivateRoute: React.FC = () => {
         return <Navigate to="/signin" replace />;
     }
     return (
-        <div className="flex h-screen w-full">
+        <div className="flex h-screen w-full px-4 overflow-visible">
             <UserMenu/>
             <Sidebar/>
             <div className="flex-1 flex flex-col items-center justify-center">
