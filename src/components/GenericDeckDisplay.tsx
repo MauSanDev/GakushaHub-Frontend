@@ -10,11 +10,11 @@ import FlashcardsModal from "./FlashcardsPage";
 import { DeckData } from "../data/DeckData.ts";
 import DeleteButton from "./DeleteButton";
 import GenerationButton from "./Modals/GenerationButton.tsx";
-import {CourseData, LessonData} from "../data/CourseData.ts";
+import { CourseData, LessonData } from "../data/CourseData.ts";
 
 interface GenericDeckDisplayProps<T> {
-    courseData: CourseData,
-    lessonData: LessonData
+    courseData: CourseData;
+    lessonData: LessonData;
     deck: DeckData<T>;
     renderComponent: ComponentType<{ result: T }>;
     TableComponent?: ComponentType<{ deck: DeckData<T> }>;
@@ -31,9 +31,9 @@ const GenericDeckDisplay = <T,>({
                                     deck,
                                     renderComponent: RenderComponent,
                                     TableComponent,
-                                    columns = 6,
+                                    columns = 6, // Default columns for larger screens
                                     enableFlashcards = true,
-                                    elementType, // Recibimos elementType como prop
+                                    elementType,
                                 }: GenericDeckDisplayProps<T>) => {
     const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
     const [flashcardsMode, setFlashcardsMode] = useState(false);
@@ -61,7 +61,7 @@ const GenericDeckDisplay = <T,>({
     const renderContent = () => {
         if (viewMode === "cards") {
             return (
-                <div className={`grid grid-cols-${columns} gap-2`}>
+                <div className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-${columns} gap-2`}>
                     {deck.elements.map((element, elemIndex) => (
                         <RenderComponent key={`${deck._id}-${elemIndex}`} result={element} />
                     ))}
@@ -81,26 +81,26 @@ const GenericDeckDisplay = <T,>({
                 />
             )}
 
-            <div className="flex justify-between items-center mb-2 bg-gray-100 dark:bg-gray-900 p-1 rounded">
-                <div
-                    className="flex items-center gap-2 cursor-pointer"
-                    onClick={toggleExpand}
-                >
-                    <button className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:text-gray-200">
+            {/* Header with title and buttons */}
+            <div className="flex justify-between items-center mb-2 bg-gray-100 dark:bg-gray-900 p-2 rounded flex-wrap">
+                {/* Title and expansion toggle */}
+                <div className="flex items-center gap-2 cursor-pointer" onClick={toggleExpand}>
+                    <button className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200">
                         {expanded ? <FaChevronDown size={12} /> : <FaChevronRight size={12} />}
                     </button>
                     <div className="font-bold text-gray-600 dark:text-gray-300">{deck.name}</div>
                     <span className="text-sm text-gray-500">({deck.elements.length} elements)</span>
                 </div>
-                <div className="flex gap-2">
 
+                {/* Buttons */}
+                <div className="flex gap-2 items-center flex-wrap mt-2 sm:mt-0">
                     <DeleteButton
                         creatorId={deck.creatorId}
                         elementId={deck._id}
                         elementType={elementType}
                     />
-                    
-                    {enableGeneration ?? (
+
+                    {enableGeneration && (
                         <GenerationButton
                             decks={[deck]}
                             courseId={courseData._id}
@@ -119,42 +119,45 @@ const GenericDeckDisplay = <T,>({
                         >
                             <FaPlayCircle size={12} />
                         </button>
-                    )}{TableComponent && (
-                    <div className="flex">
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setViewMode("cards");
-                            }}
-                            className={`p-2 rounded-l-md ${
-                                viewMode === "cards"
-                                    ? "bg-blue-500 dark:bg-gray-700 text-white"
-                                    : "bg-gray-200 dark:bg-gray-950 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
-                            }`}
-                        >
-                            <FaThLarge size={12} />
-                        </button>
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setViewMode("table");
-                            }}
-                            className={`p-2 rounded-r-md ${
-                                viewMode === "table"
-                                    ? "bg-blue-500 dark:bg-gray-700 text-white"
-                                    : "bg-gray-200 dark:bg-gray-950 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
-                            }`}
-                        >
-                            <FaTable size={12} />
-                        </button>
-                    </div>
-                )}
+                    )}
+
+                    {TableComponent && (
+                        <div className="flex">
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setViewMode("cards");
+                                }}
+                                className={`p-2 rounded-l-md ${
+                                    viewMode === "cards"
+                                        ? "bg-blue-500 dark:bg-gray-700 text-white"
+                                        : "bg-gray-200 dark:bg-gray-950 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
+                                }`}
+                            >
+                                <FaThLarge size={12} />
+                            </button>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setViewMode("table");
+                                }}
+                                className={`p-2 rounded-r-md ${
+                                    viewMode === "table"
+                                        ? "bg-blue-500 dark:bg-gray-700 text-white"
+                                        : "bg-gray-200 dark:bg-gray-950 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
+                                }`}
+                            >
+                                <FaTable size={12} />
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
 
+            {/* Content (cards or table) */}
             <div
                 ref={contentRef}
-                className={`overflow-hidden transition-max-height duration-500 ease-in-out`}
+                className="overflow-scroll transition-max-height duration-500 ease-in-out"
                 style={{ maxHeight: expanded ? `${contentRef.current?.scrollHeight}px` : "0px" }}
             >
                 {renderContent()}

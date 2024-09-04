@@ -21,7 +21,7 @@ const Sidebar: React.FC = () => {
         <>
 
             <button
-                className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-blue-500 dark:bg-gray-700 text-white rounded"
+                className="lg:hidden fixed top-4 right-4 z-50 p-2 bg-white dark:bg-black dark:text-white rounded text-3xl"
                 onClick={() => setIsOpen(!isOpen)}
             >
                 ☰

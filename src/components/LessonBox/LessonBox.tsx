@@ -143,6 +143,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                             {lesson.kanjiDecks.map((element) => (
                                 <GenericDeckDisplay
                                     deck={element as KanjiDeck}
+                                    columns={4}
                                     renderComponent={SmallKanjiBox}
                                     TableComponent={KanjiDeckTable}
                                     elementType={"kanjiDeck"}

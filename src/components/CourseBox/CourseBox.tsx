@@ -38,7 +38,7 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
                         {lesson.kanjiDecks.length > 0 && (
                             <span className="flex items-center gap-1">
                                 <FaBookOpen className="text-blue-400" />
-                                <span className="font-semibold text-gray-800 dark:text-gray-200">Kanji:</span> {lesson.kanjiDecks.length} elements
+                                <span className="font-semibold text-gray-800 dark:text-gray-200">Kanji:</span> {lesson.kanjiDecks.length} Deck
                             </span>
                         )}
 
