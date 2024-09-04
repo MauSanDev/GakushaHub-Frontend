@@ -2,6 +2,7 @@ import { useMutation } from 'react-query';
 import { ApiClient } from '../services/ApiClient';
 import { GeneratedData } from "../data/GenerationData";
 import { useAuth } from '../context/AuthContext';
+import { usePaginatedGenerations } from "./usePaginatedGenerations.ts";
 
 interface GenerateTextParams {
     topic: string;
@@ -45,12 +46,20 @@ const generateText = async (params: GenerateTextParams, creatorId: string): Prom
 };
 
 export const useGenerateText = () => {
-    const { userData } = useAuth();  // Usa el hook useAuth para obtener userData
+    const { userData } = useAuth();
+    const { resetQueries } = usePaginatedGenerations(1, 10); // Aquí puedes usar la primera página por defecto
 
     return useMutation((params: GenerateTextParams) => {
         if (!userData || !userData._id) {
             throw new Error("User data not available");
         }
-        return generateText(params, userData._id); // Pasa el userData._id como creatorId
+        return generateText(params, userData._id);
+    }, {
+        onSuccess: () => {
+            resetQueries();
+        },
+        onError: (error) => {
+            console.error("Error generating text:", error);
+        }
     });
 };
