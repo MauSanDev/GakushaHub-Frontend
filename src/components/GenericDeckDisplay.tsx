@@ -73,7 +73,7 @@ const GenericDeckDisplay = <T,>({
     };
 
     return (
-        <div className="w-full mb-0 pl-3">
+        <div className="w-full pl-3">
             {flashcardsMode && (
                 <FlashcardsModal
                     deck={deck}
@@ -82,7 +82,7 @@ const GenericDeckDisplay = <T,>({
             )}
 
             {/* Header with title and buttons */}
-            <div className="flex justify-between items-center mb-2 bg-gray-100 dark:bg-gray-900 p-2 rounded flex-wrap">
+            <div className="flex justify-between items-center bg-gray-100 dark:bg-gray-900 p-0.5 rounded flex-wrap">
                 {/* Title and expansion toggle */}
                 <div className="flex items-center gap-2 cursor-pointer" onClick={toggleExpand}>
                     <button className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200">
@@ -93,13 +93,13 @@ const GenericDeckDisplay = <T,>({
                 </div>
 
                 {/* Buttons */}
-                <div className="flex gap-2 items-center flex-wrap mt-2 sm:mt-0">
+                <div className="flex gap-0.5 items-center flex-wrap mt-2 sm:mt-0">
                     <DeleteButton
                         creatorId={deck.creatorId}
                         elementId={deck._id}
                         elementType={elementType}
                     />
-
+                    
                     {enableGeneration && (
                         <GenerationButton
                             decks={[deck]}

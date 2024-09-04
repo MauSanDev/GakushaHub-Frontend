@@ -151,7 +151,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
                         disabled={saveSuccess || isSaving}
                     />
                     
-                    <span>/</span>
+                    <span className={"dark:text-white"}>/</span>
                     <DropdownInput
                         value={selectedLesson}
                         onChange={setSelectedLesson}
@@ -160,7 +160,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
                         disabled={saveSuccess || isSaving}
                     />
 
-                    <span>/</span>
+                    <span className={"dark:text-white"}>/</span>
                     <DropdownInput
                         value={selectedDeck}
                         onChange={setSelectedDeck}

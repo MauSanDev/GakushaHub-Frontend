@@ -149,6 +149,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                                     elementType={"kanjiDeck"}
                                     lessonData={lesson}
                                     courseData={owner}
+                                    enableGeneration={true}
                                 />
                             ))}
                         </div>
@@ -167,6 +168,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                                     deck={element as WordDeck}
                                     renderComponent={SmallWordBox}
                                     TableComponent={WordDeckTable}
+                                    enableGeneration={true}
                                     elementType={"wordDeck"}
                                     lessonData={lesson}
                                     courseData={owner}
@@ -190,6 +192,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                                     elementType={"grammarDeck"}
                                     lessonData={lesson}
                                     courseData={owner}
+                                    enableGeneration={true}
                                 />
                             ))}
                         </div>

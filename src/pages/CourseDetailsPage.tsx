@@ -173,7 +173,7 @@ const CourseDetailPage: React.FC = () => {
                     {!isOwner && (
                         <button
                             onClick={toggleFollow}
-                            className={`flex px-3 items-center p-1 rounded-full shadow transition-colors duration-300 ${
+                            className={`flex text-xs px-3 items-center p-1 rounded-full shadow transition-colors duration-300 ${
                                 isFollowing ? 'bg-red-500 text-white font-bold' : 'bg-gray-200 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
                             }`}
                         >
@@ -193,41 +193,44 @@ const CourseDetailPage: React.FC = () => {
                             className="pl-8 pr-2 py-1.5 border rounded text-sm dark:bg-gray-900 dark:text-white dark:border-gray-700 w-full sm:w-auto"
                         />
                     </div>
-                    {/* Toggle Buttons */}
-                    <div
-                        className="relative flex items-center gap-1.5 p-1.5 border border-gray-300 dark:border-gray-700 rounded-lg">
-                        <div
-                            className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white dark:bg-black px-1 text-xs text-gray-600 dark:text-gray-500">
-                            Toggle
+                    {/* Contenedor para el texto "Toggle View" y los botones */}
+                    <div className="relative lg:w-full mb-2">
+                        {/* Label - "Toggle View" */}
+                        <div className="lg:w-full text-center -mb-2">
+                            <span className="text-xs text-gray-400 dark:text-gray-500  bg-white dark:bg-black p-1">Toggle</span>
                         </div>
-                        <button
-                            onClick={() => handleToggle('kanji')}
-                            className={`p-1 rounded transition-colors duration-300 ${showKanji ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-200 dark:bg-gray-800 text-blue-400 hover:bg-gray-300'}`}
-                            title="Kanji Decks"
-                        >
-                            <FaBookOpen className={`text-sm ${showKanji ? 'text-white' : 'text-blue-400'}`}/>
-                        </button>
-                        <button
-                            onClick={() => handleToggle('word')}
-                            className={`p-1 rounded transition-colors duration-300 ${showWord ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-gray-200 dark:bg-gray-800 text-red-500 hover:bg-gray-300'}`}
-                            title="Word Decks"
-                        >
-                            <FaFileAlt className={`text-sm ${showWord ? 'text-white' : 'text-red-500'}`}/>
-                        </button>
-                        <button
-                            onClick={() => handleToggle('grammar')}
-                            className={`p-1 rounded transition-colors duration-300 ${showGrammar ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-gray-200 dark:bg-gray-800 text-green-500 hover:bg-gray-300'}`}
-                            title="Grammar Decks"
-                        >
-                            <FaBook className={`text-sm ${showGrammar ? 'text-white' : 'text-green-500'}`}/>
-                        </button>
-                        <button
-                            onClick={() => handleToggle('readings')}
-                            className={`p-1 rounded transition-colors duration-300 ${showReadings ? 'bg-purple-500 text-white hover:bg-purple-600' : 'bg-gray-200 dark:bg-gray-800 text-purple-500 hover:bg-gray-300'}`}
-                            title="Reading Decks"
-                        >
-                            <FaBookReader className={`text-sm ${showReadings ? 'text-white' : 'text-purple-500'}`}/>
-                        </button>
+
+                        {/* Toggle Buttons */}
+                        <div className="flex items-center gap-1.5 p-1.5 border border-gray-300 dark:border-gray-700 rounded-lg">
+                            <button
+                                onClick={() => handleToggle('kanji')}
+                                className={`p-1 rounded transition-colors duration-300 ${showKanji ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-200 dark:bg-gray-800 text-blue-400 hover:bg-gray-300'}`}
+                                title="Kanji Decks"
+                            >
+                                <FaBookOpen className={`text-sm ${showKanji ? 'text-white' : 'text-blue-400'}`} />
+                            </button>
+                            <button
+                                onClick={() => handleToggle('word')}
+                                className={`p-1 rounded transition-colors duration-300 ${showWord ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-gray-200 dark:bg-gray-800 text-red-500 hover:bg-gray-300'}`}
+                                title="Word Decks"
+                            >
+                                <FaFileAlt className={`text-sm ${showWord ? 'text-white' : 'text-red-500'}`} />
+                            </button>
+                            <button
+                                onClick={() => handleToggle('grammar')}
+                                className={`p-1 rounded transition-colors duration-300 ${showGrammar ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-gray-200 dark:bg-gray-800 text-green-500 hover:bg-gray-300'}`}
+                                title="Grammar Decks"
+                            >
+                                <FaBook className={`text-sm ${showGrammar ? 'text-white' : 'text-green-500'}`} />
+                            </button>
+                            <button
+                                onClick={() => handleToggle('readings')}
+                                className={`p-1 rounded transition-colors duration-300 ${showReadings ? 'bg-purple-500 text-white hover:bg-purple-600' : 'bg-gray-200 dark:bg-gray-800 text-purple-500 hover:bg-gray-300'}`}
+                                title="Reading Decks"
+                            >
+                                <FaBookReader className={`text-sm ${showReadings ? 'text-white' : 'text-purple-500'}`} />
+                            </button>
+                        </div>
                     </div>
 
                     {/* Settings Button */}

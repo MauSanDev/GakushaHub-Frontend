@@ -16,7 +16,6 @@ import PasswordResetScreen from "./pages/login/PasswordResetScreen.tsx";
 import MainLayout from "./layouts/MainLayout.tsx";
 import FullScreenLayout from "./layouts/FullScreenLayout.tsx";
 import {LanguageProvider} from "./context/LanguageContext.tsx";
-import LanguageDropdown from "./components/LanguageDropdown";
 import PrivateRoute from "./layouts/PrivateLayout.tsx";
 import FakeGenerationPage from "./components/Modals/GenerationPage.tsx";
 

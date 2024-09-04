@@ -45,7 +45,7 @@ const SignInPage: React.FC = () => {
     };
 
     return (
-        <div className="flex h-screen w-full">
+        <div className="flex h-screen w-full dark:bg-black">
             <div className="flex flex-1 justify-center items-center">
                 <div className="w-full max-w-md p-8 space-y-8">
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -88,7 +88,7 @@ const SignInPage: React.FC = () => {
                     </form>
                     <div className="text-center text-sm text-gray-600 dark:text-gray-300">
                         Don't have an account?{' '}
-                        <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
+                        <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-white">
                             Sign Up
                         </Link>
                     </div>

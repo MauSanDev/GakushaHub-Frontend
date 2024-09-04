@@ -26,7 +26,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
     const [topic, setTopic] = useState('');
     const [style, setStyle] = useState('');
     const [length, setLength] = useState(150);
-    const [jlptLevel, setJlptLevel] = useState(5);
+    const [jlptLevel, setJlptLevel] = useState(0);
     const [error, setError] = useState('');
     const [generatedText, setGeneratedText] = useState<GeneratedData>();
     const [isPublic, setIsPublic] = useState(true);
@@ -123,7 +123,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
         }
     }, [onSaveTriggered, generatedText, navigate, location]);
 
-    const isGenerateEnabled = topic.trim() !== '' && style.trim() !== '' && length <= 800;
+    const isGenerateEnabled = topic.trim() !== '' && style.trim() !== '' && length <= 800 && jlptLevel > 0;
 
     return (
         <OverlayModal isVisible={isVisible} onClose={onClose}>
@@ -138,33 +138,37 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                             <h1 className="text-center text-3xl text-black dark:text-white font-bold mb-2">何読みたいの？</h1>
 
                             <div className={"absolute right-0"}>
-                            <ConfigDropdown
-                                icon={<FaQuestion/>}
-                                items={[
-                                    <p className="text-xs text-gray-600 dark:text-gray-300 font-bold">
-                                        Tips:
-                                    </p>,
-                                    <p className="text-xs text-gray-600 dark:text-gray-300">
-                                        - Be specific. Give context of what you want.
-                                    </p>,
-                                    <p className="text-xs text-gray-600 dark:text-gray-300">
-                                        - If the decks are too big, not all elements will be used.
-                                    </p>,
-                                    <p className="text-xs text-gray-600 dark:text-gray-300">
-                                        - The model prioritizes the selected Decks. If you ask for a topic not related
-                                        to the Words and Kanjis, it is possible that the text doesn't match with your
-                                        topic.
-                                    </p>,
-                                    <p className="text-xs text-gray-600 dark:text-gray-300">
-                                        - Consider the size. Not all the deck's content will be available if the text is
-                                        too short.
-                                    </p>,
-                                    <p className="text-xs text-gray-600 dark:text-gray-300">
-                                        - Consider your level. If you scale up the JLPT level, advanced Words and Kanji
-                                        will also appear in the text.
-                                    </p>,
-                                ]}
-                            />
+                                <ConfigDropdown
+                                    icon={<FaQuestion/>}
+                                    items={[
+                                        <p className="text-xs text-gray-600 dark:text-gray-300 font-bold">
+                                            Tips:
+                                        </p>,
+                                        <p className="text-xs text-gray-600 dark:text-gray-300">
+                                            - Be specific. Give context of what you want.
+                                        </p>,
+                                        <p className="text-xs text-gray-600 dark:text-gray-300">
+                                            - If the decks are too big, not all elements will be used.
+                                        </p>,
+                                        <p className="text-xs text-gray-600 dark:text-gray-300">
+                                            - The model prioritizes the selected Decks. If you ask for a topic not
+                                            related
+                                            to the Words and Kanjis, it is possible that the text doesn't match with
+                                            your
+                                            topic.
+                                        </p>,
+                                        <p className="text-xs text-gray-600 dark:text-gray-300">
+                                            - Consider the size. Not all the deck's content will be available if the
+                                            text is
+                                            too short.
+                                        </p>,
+                                        <p className="text-xs text-gray-600 dark:text-gray-300">
+                                            - Consider your level. If you scale up the JLPT level, advanced Words and
+                                            Kanji
+                                            will also appear in the text.
+                                        </p>,
+                                    ]}
+                                />
                             </div>
                         </div>
 
@@ -176,7 +180,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                     </div>
 
                     <div className="flex flex-wrap gap-3 mb-3 mt-4">
-                        <div className="flex flex-col sm:flex-1">
+                        <div className="flex flex-col w-full sm:flex-1">
                             <span className="text-gray-500 text-[10px]">Style</span>
                             <input
                                 id="style"
@@ -189,7 +193,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                                 disabled={isLoading}
                             />
                         </div>
-                        <div className="flex flex-col sm:w-1/6">
+                        <div className="flex flex-col w-full sm:w-1/6">
                             <span className="text-gray-500 text-[10px]">Length</span>
                             <input
                                 id="length"
@@ -203,15 +207,17 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                                 disabled={isLoading}
                             />
                         </div>
-                        <div className="flex flex-col sm:w-1/4">
+                        <div className="flex flex-col w-full sm:w-1/4">
                             <span className="text-gray-500 text-[10px]">Level</span>
                             <select
                                 id="jlptLevel"
-                                value={jlptLevel}
-                                onChange={(e) => setJlptLevel(Number(e.target.value))}
+                                value={jlptLevel ?? ""}
+                                onChange={(e) => setJlptLevel(e.target.value ? Number(e.target.value) : null)}
                                 className={`p-1.5 text-sm border rounded w-full ${jlptLevel ? 'border-blue-500' : ''}`}
                                 disabled={isLoading}
                             >
+                                <option value="">Select your level</option>
+                                {/* Opción nula */}
                                 {[5, 4, 3, 2, 1].map((level) => (
                                     <option key={level} value={level}>
                                         JLPT {level}
@@ -220,26 +226,27 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                             </select>
                         </div>
                     </div>
+
                     <div className="flex flex-wrap gap-3">
-                        <div className="flex flex-col sm:flex-1">
-                            <textarea
-                                id="topic"
-                                placeholder="Enter the topic (max 140 characters)"
-                                value={topic}
-                                onChange={(e) => setTopic(e.target.value)}
-                                maxLength={140}
-                                className={`p-1.5 text-sm border rounded w-full h-8 resize-none ${topic ? 'border-blue-500' : ''}`}
-                                disabled={isLoading}
-                                rows={1}
-                                style={{ height: 'auto' }}
-                                onInput={(e) => {
-                                    const textarea = e.target as HTMLTextAreaElement;
-                                    textarea.style.height = 'auto';
-                                    textarea.style.height = `${Math.min(textarea.scrollHeight, 80)}px`;
-                                }}
-                            />
+                        <div className="flex flex-col w-full sm:flex-1">
+        <textarea
+            id="topic"
+            placeholder="Enter the topic (max 140 characters)"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+            maxLength={140}
+            className={`p-1.5 text-sm border rounded w-full h-8 resize-none ${topic ? 'border-blue-500' : ''}`}
+            disabled={isLoading}
+            rows={1}
+            style={{height: 'auto'}}
+            onInput={(e) => {
+                const textarea = e.target as HTMLTextAreaElement;
+                textarea.style.height = 'auto';
+                textarea.style.height = `${Math.min(textarea.scrollHeight, 80)}px`;
+            }}
+        />
                         </div>
-                        <div className="flex sm:w-1/4 justify-end">
+                        <div className="flex w-full sm:w-1/4 justify-end">
                             <button
                                 onClick={handleGenerate}
                                 className={`p-1.5 bg-blue-500 dark:bg-gray-700 text-white rounded hover:bg-blue-600 dark:hover:bg-gray-600 transition flex items-center justify-center w-full text-sm ${
@@ -247,7 +254,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                                 }`}
                                 disabled={isLoading || !isGenerateEnabled}
                             >
-                                <FaPaperPlane className="mr-1.5" />
+                                <FaPaperPlane className="mr-1.5"/>
                                 Generate
                             </button>
                         </div>
@@ -259,98 +266,100 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                             className="flex items-center space-x-2"
                         >
                             {isPublic ? (
-                                <FaCheckSquare className="text-blue-600" size={24} />
+                                <FaCheckSquare className="text-blue-600" size={24}/>
                             ) : (
-                                <FaSquare className="text-gray-400" size={24} />
+                                <FaSquare className="text-gray-400" size={24}/>
                             )}
-                            <span className="text-sm text-gray-500">Make it public (Other users will be able to read it)</span>
+                            <span
+                                className="text-sm text-gray-500">Make it public (Other users will be able to read it)</span>
                         </button>
                     </div>
 
                     {decks && decks.length > 0 && (
-                        <div className="w-full border-gray-200 rounded border p-3 max-h-64 overflow-y-auto  dark:border-gray-700 pb-8">
+                        <div
+                            className="w-full border-gray-200 rounded border p-3 max-h-64 overflow-y-auto  dark:border-gray-700 pb-8">
                             <h1 className={"font-bold border-b mb-5 dark:text-white dark:border-gray-700"}>Priority</h1>
                             {kanjiDecks && kanjiDecks.length > 0 && (
-                            <div className="w-full">
-                                <div className="flex justify-between items-center mb-2 ">
-                                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                        <FaBookOpen className="text-blue-400" /> Kanji Decks:
-                                    </h4>
-                                </div>
-                                
-                                {kanjiDecks.map((deck: KanjiDeck) => (
-                                    <div key={deck._id} className="mb-4">
-                                        <h1 className="text-xs pl-5 dark:text-gray-300">{deck.name}</h1>
-                                        <div className="flex flex-wrap gap-2 pl-5">
-                                            {deck.elements.map((element) => (
-                                                <span
-                                                    key={element.kanji}
-                                                    className="p-2 rounded border border-gray-300 dark:border-blue-400 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
-                                                >
+                                <div className="w-full">
+                                    <div className="flex justify-between items-center mb-2 ">
+                                        <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
+                                            <FaBookOpen className="text-blue-400"/> Kanji Decks:
+                                        </h4>
+                                    </div>
+
+                                    {kanjiDecks.map((deck: KanjiDeck) => (
+                                        <div key={deck._id} className="mb-4">
+                                            <h1 className="text-xs pl-5 dark:text-gray-300">{deck.name}</h1>
+                                            <div className="flex flex-wrap gap-2 pl-5">
+                                                {deck.elements.map((element) => (
+                                                    <span
+                                                        key={element.kanji}
+                                                        className="p-2 rounded border border-gray-300 dark:border-blue-400 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
+                                                    >
                                                 {element.kanji}
                                             </span>
-                                            ))}
+                                                ))}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-                                
-                            </div>
-                        )}
-                        
-                        {wordDecks && wordDecks.length > 0 && (
-                            <div className="w-full mt-4 border-t  dark:border-gray-700 pt-5">
-                                <div className="flex justify-between items-center mb-2">
-                                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                        <FaFileAlt className="text-red-400" /> Word Decks:
-                                    </h4>
+                                    ))}
+
                                 </div>
-    
-                                {wordDecks.map((deck: WordDeck) => (
-                                    <div key={deck._id}>
-                                        <h1 className="text-xs pl-5 dark:text-gray-300">{deck.name}</h1>
-                                        <div className="flex flex-wrap gap-2 pl-5">
-                                            {deck.elements.map((element) => (
-                                                <span
-                                                    key={element.word}
-                                                    className="p-2 rounded border border-gray-300 dark:border-red-400 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
-                                                >
+                            )}
+
+                            {wordDecks && wordDecks.length > 0 && (
+                                <div className="w-full mt-4 border-t  dark:border-gray-700 pt-5">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
+                                            <FaFileAlt className="text-red-400"/> Word Decks:
+                                        </h4>
+                                    </div>
+
+                                    {wordDecks.map((deck: WordDeck) => (
+                                        <div key={deck._id}>
+                                            <h1 className="text-xs pl-5 dark:text-gray-300">{deck.name}</h1>
+                                            <div className="flex flex-wrap gap-2 pl-5">
+                                                {deck.elements.map((element) => (
+                                                    <span
+                                                        key={element.word}
+                                                        className="p-2 rounded border border-gray-300 dark:border-red-400 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
+                                                    >
                                                 {element.word}
                                             </span>
-                                            ))}
+                                                ))}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-    
-                            </div>
-                        )}
-    
-                        {grammarDecks && grammarDecks.length > 0 && (
-                            <div className="w-full pt-5 mt-5 border-t dark:border-gray-700">
-                                <div className="flex justify-between items-center mb-2">
-                                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                        <FaBook className="text-green-400"/> Grammar Decks:
-                                    </h4>
+                                    ))}
+
                                 </div>
-    
-                                {grammarDecks.map((deck: GrammarDeck) => (
-                                    <div key={deck._id}>
-                                        <h1 className="text-xs pl-5 dark:text-gray-300">{deck.name}</h1>
-                                        <div className="flex flex-wrap gap-2 pl-5">
-                                            {deck.elements.map((element) => (
-                                                <span
-                                                    key={element.structure}
-                                                    className="p-2 rounded border border-gray-300 dark:border-green-400 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
-                                                >
+                            )}
+
+                            {grammarDecks && grammarDecks.length > 0 && (
+                                <div className="w-full pt-5 mt-5 border-t dark:border-gray-700">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
+                                            <FaBook className="text-green-400"/> Grammar Decks:
+                                        </h4>
+                                    </div>
+
+                                    {grammarDecks.map((deck: GrammarDeck) => (
+                                        <div key={deck._id}>
+                                            <h1 className="text-xs pl-5 dark:text-gray-300">{deck.name}</h1>
+                                            <div className="flex flex-wrap gap-2 pl-5">
+                                                {deck.elements.map((element) => (
+                                                    <span
+                                                        key={element.structure}
+                                                        className="p-2 rounded border border-gray-300 dark:border-green-400 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
+                                                    >
                                                 {element.structure}
                                             </span>
-                                            ))}
+                                                ))}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-    
-                            </div>
-                        )}
-                    </div>
+                                    ))}
+
+                                </div>
+                            )}
+                        </div>
                     )}
                 </div>
             </div>

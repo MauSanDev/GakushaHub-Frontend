@@ -25,7 +25,7 @@ const LanguageDropdown: React.FC = () => {
         <select
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
-            className="px-2 py-1 -ml-5 w-full bg-white dark:bg-black border-none text-gray-800 font-bold text-sm hover:text-blue-400 dark:text-white dark:hover:bg-gray-800 rounded focus:outline-none"
+            className="px-2 py-1 -ml-5 w-full bg-white dark:bg-black border-none text-gray-800 font-bold text-sm hover:text-white hover:bg-black dark:text-white dark:hover:bg-gray-800 rounded focus:outline-none"
         >
             {languages.map((lang) => (
                 <option key={lang.code} value={lang.code}>

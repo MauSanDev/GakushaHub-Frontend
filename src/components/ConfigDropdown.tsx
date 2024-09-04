@@ -18,7 +18,7 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({items, icon,}) => {
                 {icon ?? <FaCog />}
             </button>
             {showConfig && (
-                <div className="absolute right-0 w-56 p-4 bg-white dark:bg-black border border-gray-300 rounded-md shadow-lg z-50">
+                <div className="absolute right-0 w-56 p-4 bg-white dark:bg-gray-950 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg z-50">
                     <div>
                         {items.map((item, index) => (
                             <div key={index} className="flex items-center justify-between mt-2">

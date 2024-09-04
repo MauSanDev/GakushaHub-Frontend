@@ -28,8 +28,7 @@ const GenerationButton: React.FC<GenerationButtonProps> = ({ decks, deckName, le
                 onClick={handleOpenModal}
                 className="bg-blue-300 text-xs text-white p-2 rounded shadow hover:bg-blue-400 dark:bg-gray-950 hover:dark:bg-gray-800 flex items-center"
             >
-                <FaRobot className="mr-2" />
-                <span>Generate</span>
+                <FaRobot />
             </button>
 
             <NewGenerationPage isVisible={isModalVisible} onClose={handleCloseModal} decks={decks} deckName={deckName ?? "Generated"} lessonName={lessonName} courseName={courseName} courseId={courseId} />

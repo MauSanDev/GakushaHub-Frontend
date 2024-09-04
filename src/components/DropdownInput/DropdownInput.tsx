@@ -50,7 +50,7 @@ const DropdownInput: React.FC<DropdownInputProps> = ({
                 }}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
-                className={`focus:outline-none w-full text-sm p-2 placeholder-gray-500 ${
+                className={`focus:outline-none w-full text-sm p-2 placeholder-gray-500 dark:bg-black dark:text-white${
                     isExactMatch ? 'text-blue-400 dark:text-white' : ''
                 }`}
                 disabled={disabled}

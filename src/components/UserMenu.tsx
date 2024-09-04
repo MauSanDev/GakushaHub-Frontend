@@ -61,7 +61,7 @@ const UserMenu: React.FC = () => {
     }, [isDarkMode]);
 
     return (
-        <div className="fixed top-0 left-0 p-4 z-50 ">
+        <div className="lg:fixed lg:top-0 lg:left-0 lg:p-4 z-50 ">
             <div ref={menuRef} className="relative">
                 {user ? (
                     <>
@@ -73,10 +73,10 @@ const UserMenu: React.FC = () => {
                             {user.displayName || user.email}
                         </button>
                         {isMenuOpen && (
-                            <div className="absolute left-0 mt-1 w-48 bg-white dark:bg-black z-50 pl-3">
+                            <div className="lg:absolute transition-all left-0 mt-1 w-48 z-50 pl-3">
                                 <button
                                     onClick={handleLogout}
-                                    className="block w-full text-left px-2 py-1 text-sm font-bold text-gray-800 dark:text-gray-200 hover:bg-gray-800 rounded"
+                                    className="block w-full text-left px-2 py-1 text-sm font-bold text-gray-800 dark:text-gray-200 hover:bg-gray-800 hover:text-white rounded"
                                 >
                                     <FaSignOutAlt className="inline-block mr-2" />
                                     Logout
