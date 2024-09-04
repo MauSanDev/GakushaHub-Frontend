@@ -1,7 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import LessonBox from '../components/LessonBox';
 import { CourseData, LessonData } from "../data/CourseData.ts";
-import {FaArrowLeft, FaSearch, FaBookOpen, FaFileAlt, FaBook, FaBookReader, FaCog, FaToggleOn, FaToggleOff, FaLink, FaBookmark} from "react-icons/fa";
+import {
+    FaArrowLeft,
+    FaSearch,
+    FaBookOpen,
+    FaFileAlt,
+    FaBook,
+    FaBookReader,
+    FaCog,
+    FaToggleOn,
+    FaToggleOff,
+    FaLink,
+    FaBookmark,
+    FaCrown
+} from "react-icons/fa";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import { usePaginatedCourseLessons } from '../hooks/usePaginatedCourseLessons';
 import LoadingScreen from "../components/LoadingScreen";
@@ -41,7 +54,7 @@ const CourseDetailPage: React.FC = () => {
     };
     
     useEffect(() => {
-        setIsOwner(userData?._id == data?.course.creatorId )
+        setIsOwner(userData?._id == data?.course.creatorId._id )
     }, [courseId, data]);
 
     useEffect(() => {
@@ -50,11 +63,9 @@ const CourseDetailPage: React.FC = () => {
 
     useEffect(() => {
         if (data) {
-            // Filtrar las lecciones para evitar duplicados basados en el _id
             const uniqueLessons = data.documents.filter(
                 (newLesson) => !allLessons.some((lesson) => lesson._id === newLesson._id)
             );
-            // Actualizar el estado solo con los elementos únicos
             setAllLessons((prev) => [...prev, ...uniqueLessons]);
         }
     }, [data]);
@@ -138,7 +149,8 @@ const CourseDetailPage: React.FC = () => {
     }
 
     return (
-        <div ref={scrollContainerRef} className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
+        <div ref={scrollContainerRef}
+             className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
             <div className="flex items-center justify-between w-full max-w-4xl mt-8 mb-2">
                 <div className="flex items-center">
                     <Link
@@ -150,24 +162,24 @@ const CourseDetailPage: React.FC = () => {
                     <h1 className="text-3xl font-bold text-gray-800 capitalize mr-4">
                         {course?.name || "Course"}
                     </h1>
-                    
+
                     {!isOwner ? (
-                    <button
-                        onClick={toggleFollow}
-                        className={`flex px-3 items-center p-1 rounded-full shadow transition-colors duration-300 ${
-                            isFollowing ? 'bg-red-500 text-white font-bold' : 'bg-gray-200 text-gray-500'
-                        }`}
-                    >
-                        <FaBookmark
-                            className={`w-3 h-3 mr-1 text-xs ${
-                                isFollowing ? 'text-white' : 'text-gray-500'
+                        <button
+                            onClick={toggleFollow}
+                            className={`flex px-3 items-center p-1 rounded-full shadow transition-colors duration-300 ${
+                                isFollowing ? 'bg-red-500 text-white font-bold' : 'bg-gray-200 text-gray-500'
                             }`}
-                        />
-                        <span className="text-xs">
+                        >
+                            <FaBookmark
+                                className={`w-3 h-3 mr-1 text-xs ${
+                                    isFollowing ? 'text-white' : 'text-gray-500'
+                                }`}
+                            />
+                            <span className="text-xs">
                                 {isFollowing ? 'Following' : 'Follow'}
                             </span>
-                    </button>
-                ) : ("")}
+                        </button>
+                    ) : ("")}
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -224,49 +236,50 @@ const CourseDetailPage: React.FC = () => {
                             <FaCog/>
                         </button>
                         {showConfig && (
-                            <div className="absolute right-0 w-56 p-4 bg-white border border-gray-300 rounded-md shadow-lg z-50">
+                            <div
+                                className="absolute right-0 w-56 p-4 bg-white border border-gray-300 rounded-md shadow-lg z-50">
 
                                 {isOwner ? (
                                     <div>
-                                    <div className="flex items-center justify-between">
-                                        <label className="text-xs text-gray-700">Delete Course</label>
-                                        <DeleteButton
-                                            creatorId={course?.creatorId || ''}
-                                            elementId={courseId || ''}
-                                            elementType="course"
-                                            deleteRelations={true}
-                                            redirectTo="/courses"
-                                        />
-                                    </div>
-    
-                                    <div className="flex items-center justify-between mt-2">
-                                        <label className="text-xs text-gray-700">Is Public</label>
-                                        <div className="relative inline-block w-10 select-none">
-                                            <input
-                                                type="checkbox"
-                                                id="toggle"
-                                                checked={isPublic}
-                                                onChange={handleToggleChange}
-                                                className="toggle-checkbox sr-only"
+                                        <div className="flex items-center justify-between">
+                                            <label className="text-xs text-gray-700">Delete Course</label>
+                                            <DeleteButton
+                                                creatorId={course?.creatorId._id || ''}
+                                                elementId={courseId || ''}
+                                                elementType="course"
+                                                deleteRelations={true}
+                                                redirectTo="/courses"
                                             />
-                                            <label
-                                                htmlFor="toggle"
-                                                className={`block overflow-hidden h-6 rounded-full cursor-pointer`}
-                                            >
-                                                {isPublic ? (
-                                                    <FaToggleOn
-                                                        className="text-green-500 text-2xl absolute inset-0 m-auto"/>
-                                                ) : (
-                                                    <FaToggleOff
-                                                        className="text-gray-500 text-2xl absolute inset-0 m-auto"/>
-                                                )}
-                                            </label>
-    
+                                        </div>
+
+                                        <div className="flex items-center justify-between mt-2">
+                                            <label className="text-xs text-gray-700">Is Public</label>
+                                            <div className="relative inline-block w-10 select-none">
+                                                <input
+                                                    type="checkbox"
+                                                    id="toggle"
+                                                    checked={isPublic}
+                                                    onChange={handleToggleChange}
+                                                    className="toggle-checkbox sr-only"
+                                                />
+                                                <label
+                                                    htmlFor="toggle"
+                                                    className={`block overflow-hidden h-6 rounded-full cursor-pointer`}
+                                                >
+                                                    {isPublic ? (
+                                                        <FaToggleOn
+                                                            className="text-green-500 text-2xl absolute inset-0 m-auto"/>
+                                                    ) : (
+                                                        <FaToggleOff
+                                                            className="text-gray-500 text-2xl absolute inset-0 m-auto"/>
+                                                    )}
+                                                </label>
+
+                                            </div>
                                         </div>
                                     </div>
-                                    </div>
                                 ) : ("")}
-                                
+
                                 {isPublic && (
                                     <div className="flex items-center justify-between mt-2">
                                         <button
@@ -287,11 +300,17 @@ const CourseDetailPage: React.FC = () => {
                 </div>
             </div>
 
-            <h3 className="text-gray-500 text-left w-full max-w-4xl mb-6 ml-10">
+            
+            <h3 className="text-gray-500 text-left w-full max-w-4xl ml-10">
                 {course?.description}
             </h3>
 
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left">
+                <p className="inline-flex text-left text-xs text-gray-500  gap-2">
+                    <FaCrown/>
+                    Created by {course.creatorId?.name ?? "???"} - {new Date(course.createdAt).toLocaleDateString()}
+                </p>
+                
                 {filteredLessons.length > 0 ? (
                     filteredLessons.map((lesson) => (
                         <LessonBox

@@ -25,30 +25,30 @@ interface LessonBoxProps {
 }
 
 const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWord, showGrammar, showReadings }) => {
-    const [isEditing, setIsEditing] = useState(false);
+    // const [isEditing, setIsEditing] = useState(false);
     const [title, setTitle] = useState(lesson.name || "<Title>");
     const [description, setDescription] = useState(lesson.description);
-    const [previousTitle, setPreviousTitle] = useState(title);
-    const [previousDescription, setPreviousDescription] = useState(description);
+    // const [previousTitle, setPreviousTitle] = useState(title);
+    // const [previousDescription, setPreviousDescription] = useState(description);
 
-    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
-    const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value);
+    // const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
+    // const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value);
 
-    const enterEditMode = () => {
-        setPreviousTitle(title);
-        setPreviousDescription(description);
-        setIsEditing(true);
-    };
-
-    const saveChanges = async () => {
-        // TODO: Saving logic for Lesson update
-    };
-
-    const cancelChanges = () => {
-        setTitle(previousTitle);
-        setDescription(previousDescription);
-        setIsEditing(false);
-    };
+    // const enterEditMode = () => {
+    //     setPreviousTitle(title);
+    //     setPreviousDescription(description);
+    //     setIsEditing(true);
+    // };
+    //
+    // const saveChanges = async () => {
+    //     // TODO: Saving logic for Lesson update
+    // };
+    //
+    // const cancelChanges = () => {
+    //     setTitle(previousTitle);
+    //     setDescription(previousDescription);
+    //     setIsEditing(false);
+    // };
 
     const noContentToShow = !(
         (showKanji && lesson.kanjiDecks.length > 0) ||
@@ -90,43 +90,43 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                 {/*        >*/}
                 {/*            <FaEdit />*/}
                 {/*        </button>*/}
-                {/*        <DeleteButton*/}
-                {/*            creatorId={lesson.creatorId}*/}
-                {/*            elementId={lesson._id}*/}
-                {/*            elementType="lesson"*/}
-                {/*            redirectTo="/lessons"*/}
-                {/*        />*/}
+                        <DeleteButton
+                            creatorId={lesson.creatorId._id}
+                            elementId={lesson._id}
+                            elementType="lesson"
+                            redirectTo="/lessons"
+                        />
                 {/*    </>*/}
                 {/*)}*/}
             </div>
 
-            {isEditing ? (
-                <input
-                    className="text-2xl font-bold text-blue-500 mb-2 w-full p-2 rounded capitalize"
-                    value={title}
-                    onChange={handleTitleChange}
-                    placeholder={"Title is required!"}
-                    autoFocus
-                />
-            ) : (
+            {/*{isEditing ? (*/}
+            {/*    <input*/}
+            {/*        className="text-2xl font-bold text-blue-500 mb-2 w-full p-2 rounded capitalize"*/}
+            {/*        value={title}*/}
+            {/*        onChange={handleTitleChange}*/}
+            {/*        placeholder={"Title is required!"}*/}
+            {/*        autoFocus*/}
+            {/*    />*/}
+            {/*) : (*/}
                 <h3 className="text-2xl font-bold text-blue-500 mb-2 capitalize">
                     {title}
                 </h3>
-            )}
+            {/*)}*/}
 
-            {isEditing ? (
-                <textarea
-                    className="text-gray-700 mb-4 w-full p-2 rounded text-sm"
-                    value={description}
-                    onChange={handleDescriptionChange}
-                    placeholder={"Tap here to add a description..."}
-                    autoFocus
-                />
-            ) : (
+            {/*{isEditing ? (*/}
+            {/*    <textarea*/}
+            {/*        className="text-gray-700 mb-4 w-full p-2 rounded text-sm"*/}
+            {/*        value={description}*/}
+            {/*        onChange={handleDescriptionChange}*/}
+            {/*        placeholder={"Tap here to add a description..."}*/}
+            {/*        autoFocus*/}
+            {/*    />*/}
+            {/*) : (*/}
                 <p className="text-gray-700 mb-4 cursor-pointer text-sm">
                     {description}
                 </p>
-            )}
+            {/*)}*/}
 
             {noContentToShow ? (
                 <p className="text-gray-500 text-center mt-4">表示するものはありません</p>

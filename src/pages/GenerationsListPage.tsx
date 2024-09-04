@@ -15,7 +15,6 @@ const GenerationsListPage: React.FC = () => {
 
     const hasMore = data ? page < (data.totalPages ?? 1) : false;
 
-    // Resetear el estado cuando la página se vuelve a montar
     useEffect(() => {
         setGeneratedTexts([]);
         setPage(1);

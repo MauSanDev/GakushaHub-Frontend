@@ -1,5 +1,6 @@
 import React from 'react';
 import { WordData } from "../../data/WordData.ts";
+import {useLanguage} from "../../context/LanguageContext.tsx";
 
 
 interface WordBoxProps {
@@ -7,8 +8,14 @@ interface WordBoxProps {
 }
 
 const WordBox: React.FC<WordBoxProps> = ({ result }) => {
+    const { language } = useLanguage();
+
     if (!result) return null;
 
+    const meaningToShow = result.meanings.map(meaning =>
+        (meaning[language] ? meaning[language] : meaning['en'])
+    );
+    
     return (
         <div className="relative bg-white p-6 rounded-2xl shadow-lg text-center transform transition-transform duration-300 hover:scale-105 border-2 border-gray-200 hover:border-blue-300">
             <span className="absolute top-2 right-2 bg-blue-400 text-white text-xs px-2 py-1 rounded-full">
@@ -19,7 +26,7 @@ const WordBox: React.FC<WordBoxProps> = ({ result }) => {
                 {result.readings.slice(0, 3).join('; ')}
             </h3>
             <h2 className="text-xl text-gray-600 capitalize mb-4">
-                {result.meanings[0].text}
+                {meaningToShow.slice(0, 3).join("; ")}
             </h2>
             <div className="flex justify-center gap-2 flex-wrap">
                 {result.part_of_speech.map((pos: string, index: number) => (
