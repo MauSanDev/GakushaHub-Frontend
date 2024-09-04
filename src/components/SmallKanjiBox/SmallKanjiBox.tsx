@@ -28,7 +28,7 @@ const SmallKanjiBox: React.FC<SmallKanjiBoxProps> = ({ result }) => {
             onMouseLeave={toggleReadings}
             onClick={toggleReadings}
         >
-            <h1 className="text-2xl font-bold text-blue-400">{result.kanji}</h1>
+            <h1 className="text-2xl font-bold text-blue-400 dark:text-white">{result.kanji}</h1>
             {result.readings.onyomi.length > 0 && (
             <p className="text-xs text-gray-600 dark:text-gray-300">
                 音: {onyomiToShow.join("; ")}

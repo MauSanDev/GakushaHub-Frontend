@@ -130,12 +130,12 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
             <div className="flex items-center justify-center p-4 relative">
                 <LoadingScreen isLoading={isLoading} />
 
-                <div className="p-3 bg-white dark:bg-black w-full">
+                <div className="p-3 bg-white dark:bg-gray-900 w-full">
                     <div className="flex flex-col items-center justify-center mb-4">
 
                         <div className="flex items-center justify-center mb-4">
 
-                            <h1 className="text-center text-3xl text-black font-bold mb-2">何読みたいの？</h1>
+                            <h1 className="text-center text-3xl text-black dark:text-white font-bold mb-2">何読みたいの？</h1>
 
                             <div className={"absolute right-0"}>
                             <ConfigDropdown
@@ -274,7 +274,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                             <div className="w-full">
                                 <div className="flex justify-between items-center mb-2 ">
                                     <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                        <FaBookOpen className="text-blue-400" /> Kanji Decks:
+                                        <FaBookOpen className="text-blue-400 dark:text-white" /> Kanji Decks:
                                     </h4>
                                 </div>
                                 
@@ -285,7 +285,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                                             {deck.elements.map((element) => (
                                                 <span
                                                     key={element.kanji}
-                                                    className="p-2 rounded border border-gray-300 text-gray-700 font-bold text-xs hover:text-blue-500 hover:border-blue-500 transition-colors duration-300"
+                                                    className="p-2 rounded border border-gray-300 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
                                                 >
                                                 {element.kanji}
                                             </span>
@@ -312,7 +312,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                                             {deck.elements.map((element) => (
                                                 <span
                                                     key={element.word}
-                                                    className="p-2 rounded border border-gray-300 text-gray-700 font-bold text-xs hover:text-blue-500 hover:border-blue-500 transition-colors duration-300"
+                                                    className="p-2 rounded border border-gray-300 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
                                                 >
                                                 {element.word}
                                             </span>
@@ -339,7 +339,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                                             {deck.elements.map((element) => (
                                                 <span
                                                     key={element.structure}
-                                                    className="p-2 rounded border border-gray-300 text-gray-700 font-bold text-xs hover:text-blue-500 hover:border-blue-500 transition-colors duration-300"
+                                                    className="p-2 rounded border border-gray-300 text-gray-700 font-bold text-xs hover:text-blue-400 dark:text-white hover:border-blue-500 transition-colors duration-300"
                                                 >
                                                 {element.structure}
                                             </span>

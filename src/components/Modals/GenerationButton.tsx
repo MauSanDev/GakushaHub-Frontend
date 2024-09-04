@@ -26,7 +26,7 @@ const GenerationButton: React.FC<GenerationButtonProps> = ({ decks, deckName, le
         <>
             <button
                 onClick={handleOpenModal}
-                className="bg-blue-300 text-xs text-white p-2 rounded shadow hover:bg-blue-400 flex items-center"
+                className="bg-blue-300 text-xs text-white p-2 rounded shadow hover:bg-blue-400 dark:bg-gray-700 flex items-center"
             >
                 <FaRobot className="mr-2" />
                 <span>Generate</span>

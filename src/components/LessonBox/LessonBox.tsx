@@ -102,14 +102,14 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
 
             {/*{isEditing ? (*/}
             {/*    <input*/}
-            {/*        className="text-2xl font-bold text-blue-500 mb-2 w-full p-2 rounded capitalize"*/}
+            {/*        className="text-2xl font-bold text-blue-400 dark:text-white mb-2 w-full p-2 rounded capitalize"*/}
             {/*        value={title}*/}
             {/*        onChange={handleTitleChange}*/}
             {/*        placeholder={"Title is required!"}*/}
             {/*        autoFocus*/}
             {/*    />*/}
             {/*) : (*/}
-                <h3 className="text-2xl font-bold text-blue-500 mb-2 capitalize">
+                <h3 className="text-2xl font-bold text-blue-400 dark:text-white mb-2 capitalize">
                     {title}
                 </h3>
             {/*)}*/}
@@ -136,7 +136,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                         <div className="w-full">
                             <div className="flex justify-between items-center mb-2">
                                 <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                    <FaBookOpen className="text-blue-400" /> Kanji Decks:
+                                    <FaBookOpen className="text-blue-400 dark:text-white" /> Kanji Decks:
                                 </h4>
                             </div>
 

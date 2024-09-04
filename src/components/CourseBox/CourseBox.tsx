@@ -10,7 +10,7 @@ interface CourseBoxProps {
 const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
     return (
         <div
-            className="relative bg-white dark:bg-black p-6 rounded-lg shadow-md text-left border-2 border-gray-200 transform transition-transform duration-300 hover:scale-105 hover:border-blue-300">
+            className="relative bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md text-left border-2 border-gray-200 dark:border-gray-800 transform transition-transform duration-300 hover:scale-105 hover:border-blue-300 hover:dark:border-gray-700">
             <div className="absolute top-2 right-2">
                 <DeleteButton
                     creatorId={course.creatorId._id}
@@ -19,7 +19,7 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
                     deleteRelations={true}
                 />
             </div>
-            <h1 className="text-3xl font-bold text-blue-500 capitalize">{course.name}
+            <h1 className="text-3xl font-bold text-blue-400 dark:text-white capitalize">{course.name}
             </h1>
 
             <p className="inline-flex text-left text-xs text-gray-500 mb-2 gap-2">
@@ -37,7 +37,7 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
                     <div className="grid grid-cols-3 gap-4 ml-9">
                         {lesson.kanjiDecks.length > 0 && (
                             <div>
-                                <div className="flex items-center gap-2 text-blue-400">
+                                <div className="flex items-center gap-2 text-blue-400 dark:text-white">
                                     <FaBookOpen/>
                                     <span className="font-semibold text-gray-800 dark:text-gray-200">Kanji Decks:</span>
                                 </div>

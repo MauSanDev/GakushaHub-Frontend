@@ -36,7 +36,7 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
     return (
         <div className="bg-white dark:bg-black p-2 rounded-md shadow-sm border border-gray-200 hover:border-blue-300 w-full cursor-pointer relative">
 
-            <span className="absolute top-1 right-1 bg-blue-400 text-white text-xs px-1 py-1 rounded-full">
+            <span className="absolute top-1 right-1 bg-blue-400 dark:bg-gray-700 text-white text-xs px-1 py-1 rounded-full">
                 JLPT{result.jlpt}
             </span>
 
@@ -44,7 +44,7 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
                 <span className="text-xs text-gray-600 dark:text-gray-300 mr-2">
                     {isExpanded ? <FaChevronDown /> : <FaChevronRight />}
                 </span>
-                <h1 className="text-lg font-bold text-blue-400">{result.structure}</h1>
+                <h1 className="text-lg font-bold text-blue-400 dark:text-white">{result.structure}</h1>
             </div>
             <span className="text-xs text-gray-600 dark:text-gray-300">{result.hint}</span>
 

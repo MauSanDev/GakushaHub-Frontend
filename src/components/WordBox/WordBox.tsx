@@ -17,11 +17,11 @@ const WordBox: React.FC<WordBoxProps> = ({ result }) => {
     );
     
     return (
-        <div className="relative bg-white dark:bg-black p-6 rounded-2xl shadow-lg text-center transform transition-transform duration-300 hover:scale-105 border-2 border-gray-200 hover:border-blue-300">
-            <span className="absolute top-2 right-2 bg-blue-400 text-white text-xs px-2 py-1 rounded-full">
+        <div className="relative p-6 rounded-2xl shadow-lg text-center transform transition-transform duration-300 hover:scale-105 border-2  bg-white dark:bg-gray-900 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800">
+            <span className="absolute top-2 right-2 bg-blue-400 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded-full">
                 言葉
             </span>
-            <h1 className="text-4xl font-bold mb-4 text-blue-400">{result.word}</h1>
+            <h1 className="text-4xl font-bold mb-4 text-blue-400 dark:text-white dark:text-gray-300">{result.word}</h1>
             <h3 className="text-2xl mb-2 text-gray-600 dark:text-gray-300 dark:text-gray-200">
                 {result.readings.slice(0, 3).join('; ')}
             </h3>

@@ -67,7 +67,7 @@ const UserMenu: React.FC = () => {
                     <>
                         <button
                             onClick={toggleMenu}
-                            className="p-2 bg-white dark:bg-black text-gray-800 dark:text-gray-200 font-bold text-sm hover:text-blue-500 focus:outline-none"
+                            className="p-2 bg-white dark:bg-black text-gray-800 dark:text-gray-200 font-bold text-sm hover:text-blue-400 dark:text-white focus:outline-none"
                         >
                             <FaUser className="inline-block mr-2" />
                             {user.displayName || user.email}
@@ -110,7 +110,7 @@ const UserMenu: React.FC = () => {
                         <LanguageDropdown />
                         <button
                             onClick={handleSignIn}
-                            className=" border-l p-2 pl-4 bg-white dark:bg-black text-gray-800 dark:text-gray-200 font-bold text-sm hover:text-blue-500 focus:outline-none"
+                            className=" border-l p-2 pl-4 bg-white dark:bg-black text-gray-800 dark:text-gray-200 font-bold text-sm hover:text-blue-400 dark:text-white focus:outline-none"
                         >
                             Log In
                         </button>

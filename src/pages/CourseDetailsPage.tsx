@@ -200,10 +200,10 @@ const CourseDetailPage: React.FC = () => {
                         </div>
                         <button
                             onClick={() => handleToggle('kanji')}
-                            className={`p-1 rounded transition-colors duration-300 ${showKanji ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-200 text-blue-500 hover:bg-gray-300'}`}
+                            className={`p-1 rounded transition-colors duration-300 ${showKanji ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-200 text-blue-400 dark:text-white hover:bg-gray-300'}`}
                             title="Kanji Decks"
                         >
-                            <FaBookOpen className={`text-sm ${showKanji ? 'text-white' : 'text-blue-500'}`}/>
+                            <FaBookOpen className={`text-sm ${showKanji ? 'text-white' : 'text-blue-400 dark:text-white'}`}/>
                         </button>
                         <button
                             onClick={() => handleToggle('word')}
@@ -286,7 +286,7 @@ const CourseDetailPage: React.FC = () => {
                                             onClick={() => {
                                                 navigator.clipboard.writeText(window.location.href);
                                             }}
-                                            className="text-xs text-blue-500 flex items-center transition-transform duration-200 transform active:scale-95"
+                                            className="text-xs text-blue-400 dark:text-white flex items-center transition-transform duration-200 transform active:scale-95"
                                         >
                                             <FaLink className="mr-1"/>
                                             Copy Course Link

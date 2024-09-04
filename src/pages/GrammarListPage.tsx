@@ -85,10 +85,10 @@ const GrammarListPage: React.FC = () => {
                     <button
                         key={level}
                         onClick={() => toggleJLPTLevel(level)}
-                        className={`border rounded-full px-4 py-2 transition-all duration-300 transform hover:scale-105 hover:shadow-md flex items-center gap-2 ${
+                        className={`border dark:border-gray-600 rounded-full px-4 py-2 transition-all duration-300 transform hover:scale-105 hover:shadow-md flex items-center gap-2 ${
                             selectedJLPTLevels.includes(level)
-                                ? 'bg-blue-500 text-white'
-                                : 'bg-gray-200 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white'
+                                ? 'bg-blue-500 dark:bg-gray-700 text-white'
+                                : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 dark:hover:bg-gray-900 hover:text-white'
                         }`}
                     >
                         JLPT{level}
@@ -96,22 +96,25 @@ const GrammarListPage: React.FC = () => {
                 ))}
                 <button
                     onClick={() => setShowSelectedOnly(!showSelectedOnly)}
-                    className={` text-xs border rounded-full px-4 py-2 transition-all duration-300 transform hover:scale-105 hover:shadow-md flex items-center gap-2 ${
-                        showSelectedOnly ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white'
+                    className={`whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-4 text-justify py-2 transition-all duration-300 transform hover:scale-105 hover:shadow-md flex items-center gap-2 ${
+                        showSelectedOnly
+                            ? 'bg-blue-500 dark:bg-green-900 text-white'
+                            : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white'
                     }`}
                 >
-                    {showSelectedOnly ? <FaEyeSlash /> : <FaEye />}
-                    {showSelectedOnly ? 'All' : 'Selected'}
+                    {showSelectedOnly ? <FaEyeSlash/> : <FaEye/>}
+                    {showSelectedOnly ? 'Show All' : 'Show Selected'}
                 </button>
             </div>
 
             {(selectedGrammar.length > 0 && (
                 <div className="fixed top-4 right-4">
-                    <SaveDeckInput kanjiList={[]} wordList={[]} grammarList={selectedGrammar} readingList={[]} onSaveStatusChange={onSaveStatusChanged}/>
+                    <SaveDeckInput kanjiList={[]} wordList={[]} grammarList={selectedGrammar} readingList={[]}
+                                   onSaveStatusChange={onSaveStatusChanged}/>
                 </div>
             ))}
 
-            <LoadingScreen isLoading={isLoading || isSaving} />
+            <LoadingScreen isLoading={isLoading || isSaving}/>
 
             {error && <p className="text-red-500">{String(error)}</p>}
 

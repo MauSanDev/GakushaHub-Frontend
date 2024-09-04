@@ -21,7 +21,7 @@ const SearchPage: React.FC = () => {
     return (
         <div className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
             <div className="text-center w-full max-w-md mt-40">
-                <h1 className="text-3xl font-bold mb-4">Let's 探します</h1>
+                <h1 className="text-3xl font-bold mb-4 text-black dark:text-white">Let's 探します</h1>
                 <SearchBar
                     onTagsChange={setTagsMap}
                     tagsMap={tagsMap}
