@@ -155,7 +155,7 @@ const CourseDetailPage: React.FC = () => {
                 <div className="flex items-center">
                     <Link
                         to="/courses"
-                        className="bg-blue-500 text-white p-2 rounded-full shadow hover:bg-blue-600 mr-4"
+                        className="bg-blue-500 dark:bg-gray-700 text-white p-2 rounded-full shadow hover:bg-blue-600 dark:hover:bg-gray-600 dark:hover:bg-gray-600 mr-4"
                     >
                         <FaArrowLeft className="w-5 h-5"/>
                     </Link>
@@ -167,7 +167,7 @@ const CourseDetailPage: React.FC = () => {
                         <button
                             onClick={toggleFollow}
                             className={`flex px-3 items-center p-1 rounded-full shadow transition-colors duration-300 ${
-                                isFollowing ? 'bg-red-500 text-white font-bold' : 'bg-gray-200 text-gray-500'
+                                isFollowing ? 'bg-red-500 text-white font-bold' : 'bg-gray-200 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
                             }`}
                         >
                             <FaBookmark
@@ -190,38 +190,38 @@ const CourseDetailPage: React.FC = () => {
                             placeholder="Search Lessons"
                             value={searchTerm}
                             onChange={handleSearchChange}
-                            className="pl-8 pr-2 py-1.5 border rounded text-sm"
+                            className="pl-8 pr-2 py-1.5 border rounded text-sm dark:bg-gray-900 dark:text-white dark:border-gray-700"
                         />
                     </div>
-                    <div className="relative flex items-center gap-1.5 p-1.5 border border-gray-300 rounded-lg">
+                    <div className="relative flex items-center gap-1.5 p-1.5 border border-gray-300  dark:border-gray-700 rounded-lg">
                         <div
-                            className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white dark:bg-black px-1 text-xs text-gray-600 dark:text-gray-300">
+                            className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white dark:bg-black px-1 text-xs text-gray-600 dark:text-gray-500">
                             Toggle
                         </div>
                         <button
                             onClick={() => handleToggle('kanji')}
-                            className={`p-1 rounded transition-colors duration-300 ${showKanji ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-200 text-blue-400 dark:text-white hover:bg-gray-300'}`}
+                            className={`p-1 rounded transition-colors duration-300 ${showKanji ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-200 dark:bg-gray-800 text-blue-400 hover:bg-gray-300'}`}
                             title="Kanji Decks"
                         >
-                            <FaBookOpen className={`text-sm ${showKanji ? 'text-white' : 'text-blue-400 dark:text-white'}`}/>
+                            <FaBookOpen className={`text-sm ${showKanji ? 'text-white' : 'text-blue-400'}`}/>
                         </button>
                         <button
                             onClick={() => handleToggle('word')}
-                            className={`p-1 rounded transition-colors duration-300 ${showWord ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-gray-200 text-red-500 hover:bg-gray-300'}`}
+                            className={`p-1 rounded transition-colors duration-300 ${showWord ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-gray-200 dark:bg-gray-800 text-red-500 hover:bg-gray-300'}`}
                             title="Word Decks"
                         >
                             <FaFileAlt className={`text-sm ${showWord ? 'text-white' : 'text-red-500'}`}/>
                         </button>
                         <button
                             onClick={() => handleToggle('grammar')}
-                            className={`p-1 rounded transition-colors duration-300 ${showGrammar ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-gray-200 text-green-500 hover:bg-gray-300'}`}
+                            className={`p-1 rounded transition-colors duration-300 ${showGrammar ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-gray-200 dark:bg-gray-800 text-green-500 hover:bg-gray-300'}`}
                             title="Grammar Decks"
                         >
                             <FaBook className={`text-sm ${showGrammar ? 'text-white' : 'text-green-500'}`}/>
                         </button>
                         <button
                             onClick={() => handleToggle('readings')} // Añadir el botón de toggle para readings
-                            className={`p-1 rounded transition-colors duration-300 ${showReadings ? 'bg-purple-500 text-white hover:bg-purple-600' : 'bg-gray-200 text-purple-500 hover:bg-gray-300'}`}
+                            className={`p-1 rounded transition-colors duration-300 ${showReadings ? 'bg-purple-500 text-white hover:bg-purple-600' : 'bg-gray-200 dark:bg-gray-800 text-purple-500 hover:bg-gray-300'}`}
                             title="Reading Decks"
                         >
                             <FaBookReader className={`text-sm ${showReadings ? 'text-white' : 'text-purple-500'}`}/>
@@ -230,14 +230,14 @@ const CourseDetailPage: React.FC = () => {
 
                     <div className="relative">
                         <button
-                            className="text-white bg-blue-500 hover:bg-blue-600 p-1 rounded"
+                            className="text-white bg-blue-500 dark:bg-gray-700 hover:bg-blue-600 dark:hover:bg-gray-600 p-1 rounded"
                             onClick={() => setShowConfig(!showConfig)}
                         >
                             <FaCog/>
                         </button>
                         {showConfig && (
                             <div
-                                className="absolute right-0 w-56 p-4 bg-white dark:bg-black border border-gray-300 rounded-md shadow-lg z-50">
+                                className="absolute right-0 w-56 p-4 bg-white dark:bg-black border border-gray-300 dark:border-gray-700 rounded-md shadow-lg z-50">
 
                                 {isOwner ? (
                                     <div>

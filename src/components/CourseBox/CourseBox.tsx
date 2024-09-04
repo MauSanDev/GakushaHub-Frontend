@@ -37,7 +37,7 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
                     <div className="grid grid-cols-3 gap-4 ml-9">
                         {lesson.kanjiDecks.length > 0 && (
                             <div>
-                                <div className="flex items-center gap-2 text-blue-400 dark:text-white">
+                                <div className="flex items-center gap-2 text-blue-400">
                                     <FaBookOpen/>
                                     <span className="font-semibold text-gray-800 dark:text-gray-200">Kanji Decks:</span>
                                 </div>

@@ -242,7 +242,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                         <div className="flex sm:w-1/4 justify-end">
                             <button
                                 onClick={handleGenerate}
-                                className={`p-1.5 bg-blue-500 text-white rounded hover:bg-blue-600 transition flex items-center justify-center w-full text-sm ${
+                                className={`p-1.5 bg-blue-500 dark:bg-gray-700 text-white rounded hover:bg-blue-600 dark:hover:bg-gray-600 transition flex items-center justify-center w-full text-sm ${
                                     !isGenerateEnabled ? 'opacity-50 cursor-not-allowed' : ''
                                 }`}
                                 disabled={isLoading || !isGenerateEnabled}

@@ -57,7 +57,7 @@ const DropdownInput: React.FC<DropdownInputProps> = ({
                 style={{ border: 'none' }}
             />
             {showDropdown && filteredOptions.length > 0 && (
-                <ul className="absolute w-full bg-blue-500 text-white rounded shadow-lg max-h-40 overflow-y-auto z-10 mt-1 text-sm">
+                <ul className="absolute w-full bg-blue-500 dark:bg-gray-700 text-white rounded shadow-lg max-h-40 overflow-y-auto z-10 mt-1 text-sm">
                     {filteredOptions.map((option, index) => (
                         <li
                             key={index}
@@ -65,7 +65,7 @@ const DropdownInput: React.FC<DropdownInputProps> = ({
                                 onChange(option);
                                 setShowDropdown(false);
                             }}
-                            className="cursor-pointer hover:bg-blue-600 p-2"
+                            className="cursor-pointer hover:bg-blue-600 dark:hover:bg-gray-600 p-2"
                         >
                             {option}
                         </li>

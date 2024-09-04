@@ -87,7 +87,7 @@ const GrammarListPage: React.FC = () => {
                         onClick={() => toggleJLPTLevel(level)}
                         className={`border dark:border-gray-600 rounded-full px-4 py-2 transition-all duration-300 transform hover:scale-105 hover:shadow-md flex items-center gap-2 ${
                             selectedJLPTLevels.includes(level)
-                                ? 'bg-blue-500 dark:bg-gray-700 text-white'
+                                ? 'bg-blue-500 dark:bg-gray-700 dark:bg-gray-700 text-white'
                                 : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 dark:hover:bg-gray-900 hover:text-white'
                         }`}
                     >
@@ -98,7 +98,7 @@ const GrammarListPage: React.FC = () => {
                     onClick={() => setShowSelectedOnly(!showSelectedOnly)}
                     className={`whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-4 text-justify py-2 transition-all duration-300 transform hover:scale-105 hover:shadow-md flex items-center gap-2 ${
                         showSelectedOnly
-                            ? 'bg-blue-500 dark:bg-green-900 text-white'
+                            ? 'bg-blue-500 dark:bg-gray-700 dark:bg-green-900 text-white'
                             : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white'
                     }`}
                 >

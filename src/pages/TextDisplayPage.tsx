@@ -39,7 +39,7 @@ const TextDisplayPage: React.FC = () => {
                                         window.location.href = '/';
                                     }
                                 }}
-                                className="bg-blue-500 text-white p-2 rounded-full shadow hover:bg-blue-600 mr-4"
+                                className="bg-blue-500 dark:bg-gray-700 text-white p-2 rounded-full shadow hover:bg-blue-600 dark:hover:bg-gray-600 mr-4"
                             >
                                 <FaArrowLeft className="w-5 h-5"/>
                             </button>

@@ -13,7 +13,7 @@ const fetchParsedText = async (text: string): Promise<ParsedTextResult> => {
 const parseToHtml = async (processedText: string): Promise<string> => {
     const htmlText = await marked(processedText);
     return htmlText.replace(/\[(.*?)\]/g, (_, p1) => {
-        return '<span class="relative tooltip-trigger cursor-pointer hover:bg-yellow-200 m-0 inline-block indent-0" data-word="' + p1.replace(/\((.*?)\|.*?\)/g, '$1') + '" >'
+        return '<span class="relative tooltip-trigger cursor-pointer hover:bg-yellow-200 hover:dark:bg-blue-900 m-0 inline-block indent-0" data-word="' + p1.replace(/\((.*?)\|.*?\)/g, '$1') + '" >'
             + p1.replace(/\((.*?)\|(.*?)\)/g, '<ruby>$1<rt>$2</rt></ruby>') + '</span>';
     })
         .replace(/<h1>/g, '<h1 class="text-2xl font-bold pb-5 text-black dark:text-white align-center">')

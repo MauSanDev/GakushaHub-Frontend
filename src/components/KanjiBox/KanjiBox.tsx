@@ -33,7 +33,7 @@ const KanjiBox: React.FC<KanjiBoxProps> = ({ result }) => {
                         {result.readings.kunyomi.map((reading, index) => (
                             <span
                                 key={index}
-                                className="bg-gray-200 text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 group-hover:bg-gray-300 group-hover:text-gray-600 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap"
+                                className="bg-gray-200 dark:bg-gray-800 text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 group-hover:bg-gray-300 group-hover:dark:bg-gray-700 group-hover:text-gray-600 group-hover:dark:text-gray-100 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap"
                             >
                     <span className="group-hover:hidden">
                         {truncatedText(reading, 10)}
@@ -51,7 +51,7 @@ const KanjiBox: React.FC<KanjiBoxProps> = ({ result }) => {
                         {result.readings.onyomi.map((reading, index) => (
                             <span
                                 key={index}
-                                className="bg-gray-200 text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 group-hover:bg-gray-300 group-hover:text-gray-600 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap"
+                                className="bg-gray-200 dark:bg-gray-800 text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 group-hover:bg-gray-300 group-hover:dark:bg-gray-700 group-hover:text-gray-600 group-hover:dark:text-gray-100 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap"
                             >
                     <span className="group-hover:hidden">
                         {truncatedText(reading, 10)}

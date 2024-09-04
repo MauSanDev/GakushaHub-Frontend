@@ -43,7 +43,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ creatorId, elementId, eleme
         <button
             onClick={handleDelete}
             disabled={mutation.isLoading}
-            className="flex items-center gap-1 text-gray-700 bg-gray-300 hover:text-white hover:bg-red-500 px-2 py-2 rounded transition-colors duration-200 text-sm"
+            className="flex items-center gap-1 text-gray-700 bg-gray-300 dark:text-gray-300 dark:bg-gray-950 hover:text-white hover:bg-red-500 dark:hover:bg-red-500 px-2 py-2 rounded transition-colors duration-200 text-sm"
         >
             <FaTrash size={12} className="text-inherit transition-colors duration-75" />
         </button>

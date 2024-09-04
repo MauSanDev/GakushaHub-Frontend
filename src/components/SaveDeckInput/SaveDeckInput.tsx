@@ -173,7 +173,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
                 <button
                     onClick={handleSave}
                     className={`flex items-center justify-center px-4 py-2 rounded ${
-                        saveSuccess ? 'bg-green-500 text-white cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'
+                        saveSuccess ? 'bg-green-500 text-white cursor-not-allowed' : 'bg-blue-500 dark:bg-gray-700 text-white hover:bg-blue-600 dark:hover:bg-gray-600'
                     } transition-transform duration-300`}
                     disabled={saveSuccess || isSaving}
                 >

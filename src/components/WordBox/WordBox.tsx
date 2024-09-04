@@ -21,8 +21,8 @@ const WordBox: React.FC<WordBoxProps> = ({ result }) => {
             <span className="absolute top-2 right-2 bg-blue-400 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded-full">
                 言葉
             </span>
-            <h1 className="text-4xl font-bold mb-4 text-blue-400 dark:text-white dark:text-gray-300">{result.word}</h1>
-            <h3 className="text-2xl mb-2 text-gray-600 dark:text-gray-300 dark:text-gray-200">
+            <h1 className="text-4xl font-bold mb-4 text-blue-400 dark:text-gray-300">{result.word}</h1>
+            <h3 className="text-2xl mb-2 text-gray-600 dark:text-gray-200">
                 {result.readings.slice(0, 3).join('; ')}
             </h3>
             <h2 className="text-xl text-gray-600 dark:text-gray-300 capitalize mb-4">
@@ -30,7 +30,7 @@ const WordBox: React.FC<WordBoxProps> = ({ result }) => {
             </h2>
             <div className="flex justify-center gap-2 flex-wrap">
                 {result.part_of_speech.map((pos: string, index: number) => (
-                    <span key={index} className="bg-gray-200 text-gray-600 dark:text-gray-300 rounded-full px-2 py-1 text-xs">
+                    <span key={index} className="bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-1 text-xs">
                         {pos}
                     </span>
                 ))}

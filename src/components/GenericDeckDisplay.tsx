@@ -81,7 +81,7 @@ const GenericDeckDisplay = <T,>({
                 />
             )}
 
-            <div className="flex justify-between items-center mb-2 bg-gray-100 p-1 rounded">
+            <div className="flex justify-between items-center mb-2 bg-gray-100 dark:bg-gray-900 p-1 rounded">
                 <div
                     className="flex items-center gap-2 cursor-pointer"
                     onClick={toggleExpand}
@@ -115,7 +115,7 @@ const GenericDeckDisplay = <T,>({
                                 e.stopPropagation();
                                 handleFlashcardMode();
                             }}
-                            className="p-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600"
+                            className="p-2 bg-blue-500 dark:bg-gray-950 text-white rounded shadow hover:bg-blue-600 dark:hover:bg-gray-800"
                         >
                             <FaPlayCircle size={12} />
                         </button>
@@ -128,8 +128,8 @@ const GenericDeckDisplay = <T,>({
                             }}
                             className={`p-2 rounded-l-md ${
                                 viewMode === "cards"
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-gray-200 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
+                                    ? "bg-blue-500 dark:bg-gray-700 text-white"
+                                    : "bg-gray-200 dark:bg-gray-950 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
                             }`}
                         >
                             <FaThLarge size={12} />
@@ -141,8 +141,8 @@ const GenericDeckDisplay = <T,>({
                             }}
                             className={`p-2 rounded-r-md ${
                                 viewMode === "table"
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-gray-200 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
+                                    ? "bg-blue-500 dark:bg-gray-700 text-white"
+                                    : "bg-gray-200 dark:bg-gray-950 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
                             }`}
                         >
                             <FaTable size={12} />

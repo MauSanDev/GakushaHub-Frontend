@@ -55,12 +55,12 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
     }, [formattedContent]);
 
     return (
-        <div className="whitemax-w-relative p-8 pb-10 bg-white dark:bg-black border border-gray-300 rounded-md shadow-lg">
-            <h1 className="text-2xl font-bold mb-4 mt-8 text-center">{data.title}</h1>
+        <div className="relative p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
+            <h1 className="text-2xl font-bold mb-4 mt-8 text-center dark:text-white">{data.title}</h1>
             <div className="absolute top-4 right-14 flex items-center space-x-2">
                 <button
                     className={`text-white flex items-center space-x-1 px-2 py-1 rounded ${
-                        showFurigana ? 'bg-blue-500' : 'bg-gray-400'
+                        showFurigana ? 'bg-blue-500 dark:bg-gray-700' : 'bg-gray-400 dark:bg-gray-800'
                     }`}
                     onClick={toggleFurigana}
                 >
@@ -69,16 +69,16 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                 </button>
                 <div className="relative">
                     <button
-                        className="text-white bg-blue-500 hover:bg-blue-600 p-1 rounded"
+                        className="text-white bg-blue-500 dark:bg-gray-700 hover:bg-blue-600 dark:hover:bg-gray-600 p-1 rounded"
                         onClick={() => setShowConfig(!showConfig)}
                     >
                         <FaCog/>
                     </button>
                     {showConfig && (
                         <div
-                            className="absolute right-0 mt-2 w-56 p-4 bg-white dark:bg-black border border-gray-300 rounded-md shadow-lg z-50">
+                            className="absolute right-0 mt-2 w-56 p-4 bg-white dark:bg-black border border-gray-300 dark:border-gray-800 rounded-md shadow-lg z-50">
                             <div className="flex items-center justify-between">
-                                <label className="text-xs text-gray-700">Text Size</label>
+                                <label className="text-xs text-gray-700 dark:text-gray-400">Text Size</label>
                                 <input
                                     type="range"
                                     min="10"
@@ -89,7 +89,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                                 />
                             </div>
                             <div className="flex items-center justify-between mt-2">
-                                <label className="text-xs text-gray-700">Letter Spacing</label>
+                                <label className="text-xs text-gray-700 dark:text-gray-400">Letter Spacing</label>
                                 <input
                                     type="range"
                                     min="0"
@@ -100,7 +100,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                                 />
                             </div>
                             <div className="flex items-center justify-between mt-2">
-                                <label className="text-xs text-gray-700">Line Height</label>
+                                <label className="text-xs text-gray-700 dark:text-gray-400">Line Height</label>
                                 <input
                                     type="range"
                                     min="1"
@@ -116,7 +116,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                 </div>
             </div>
             <div
-                className="prose mt-4 p-2"
+                className="prose mt-4 p-2 dark:text-white"
                 style={{
                     fontSize: `${fontSize}px`,
                     letterSpacing: `${letterSpacing}px`,
@@ -130,22 +130,22 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                              onClose={() => setActiveTooltip(null)}/>
             )}
 
-            <div className="mt-60 border-t border-gray-200 pt-4">
+            <div className="mt-60 border-t border-gray-200  dark:border-gray-800 pt-4">
                 <p className="text-xs text-gray-500 mb-2">
                     Created by {data.creatorId?.name ?? "???"} - {new Date(data.createdAt).toLocaleDateString()}
                 </p>
                 <h2 className="text-sm text-gray-600 dark:text-gray-300 italic mb-4">Topic: "{data.topic}"</h2>
 
                 <div className="flex items-center gap-2 flex-wrap">
-        <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full">
+        <span className="inline-block bg-blue-100 dark:bg-blue-900 dark:bg-opacity-50 text-blue-800 dark:text-blue-400 text-xs font-semibold px-2 py-0.5 rounded-full">
             Style: {data.style}
         </span>
                     <span
-                        className="inline-block bg-green-100 text-green-800 text-xs font-semibold px-2 py-0.5 rounded-full">
+                        className="inline-block bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-500 dark:bg-opacity-50 text-xs font-semibold px-2 py-0.5 rounded-full">
             Length: {data.length} chars
         </span>
                     <span
-                        className="inline-block bg-red-100 text-red-800 text-xs font-semibold px-2 py-0.5 rounded-full">
+                        className="inline-block bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 dark:bg-opacity-50 text-xs font-semibold px-2 py-0.5 rounded-full">
             JLPT: N{data.jlptLevel}
         </span>
                     <div className="flex items-center gap-2">
@@ -154,7 +154,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                             {data.keywords && data.keywords.length > 0 && data.keywords.map((keyword, index) => (
                                 <div
                                     key={index}
-                                    className="inline-block bg-purple-100 text-purple-800 text-xs font-semibold px-2 py-0.5 rounded-full"
+                                    className="inline-block bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300 dark:bg-opacity-50  text-xs font-semibold px-2 py-0.5 rounded-full"
                                 >
                                     {keyword}
                                 </div>
@@ -164,7 +164,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                 </div>
 
                 {data.prioritization && (
-                    <div className="mt-4 border rounded p-2">
+                    <div className="mt-4 border dark:border-gray-800 rounded p-2">
                         {data.prioritization.grammar && data.prioritization.grammar.length > 0 && (
                             <div className="flex items-center gap-2 flex-wrap">
                                 <span className="text-gray-400 text-xs">Grammar:</span>
@@ -172,7 +172,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                                     {data.prioritization.grammar.map((grammarItem, index) => (
                                         <div
                                             key={index}
-                                            className="inline-block bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded-full"
+                                            className="inline-block bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300 dark:bg-opacity-50 text-xs font-semibold px-2 py-0.5 rounded-full"
                                         >
                                             {grammarItem}
                                         </div>
@@ -187,7 +187,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                                     {data.prioritization.words.map((wordItem, index) => (
                                         <div
                                             key={index}
-                                            className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full"
+                                            className="inline-block bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 dark:bg-opacity-50 text-xs font-semibold px-2 py-0.5 rounded-full"
                                         >
                                             {wordItem}
                                         </div>
@@ -202,7 +202,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                                     {data.prioritization.kanji.map((kanjiItem, index) => (
                                         <div
                                             key={index}
-                                            className="inline-block bg-red-100 text-red-800 text-xs font-semibold px-2 py-0.5 rounded-full"
+                                            className="inline-block bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300 dark:bg-opacity-50 text-xs font-semibold px-2 py-0.5 rounded-full"
                                         >
                                             {kanjiItem}
                                         </div>

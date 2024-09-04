@@ -23,7 +23,7 @@ const SmallKanjiBox: React.FC<SmallKanjiBoxProps> = ({ result }) => {
     
     return (
         <div
-            className="bg-white dark:bg-black p-2 rounded-md shadow-sm text-center border border-gray-200 hover:border-blue-300 w-full cursor-pointer"
+            className="p-2 rounded-md shadow-sm text-center border  bg-white dark:bg-gray-950 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800 w-full cursor-pointer"
             onMouseEnter={toggleReadings}
             onMouseLeave={toggleReadings}
             onClick={toggleReadings}

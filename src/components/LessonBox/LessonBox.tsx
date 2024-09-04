@@ -58,10 +58,10 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
     );
 
     return (
-        <div className="bg-white dark:bg-black p-6 rounded-lg shadow-lg mb-6 border border-gray-200 transform transition-transform duration-300 hover:border-blue-400 w-full relative">
+        <div className="relative p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800">
             <div className="absolute top-4 right-4 flex gap-2">
 
-                <GenerationButton 
+                <GenerationButton
                     decks={[...lesson.kanjiDecks, ...lesson.grammarDecks, ...lesson.wordDecks]}
                     courseId={owner._id}
                     lessonName={lesson.name}
@@ -86,7 +86,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                 {/*    <>*/}
                 {/*        <button*/}
                 {/*            onClick={enterEditMode}*/}
-                {/*            className="bg-blue-500 text-white p-2 rounded shadow hover:bg-blue-600"*/}
+                {/*            className="bg-blue-500 dark:bg-gray-700 text-white p-2 rounded shadow hover:bg-blue-600 dark:hover:bg-gray-600"*/}
                 {/*        >*/}
                 {/*            <FaEdit />*/}
                 {/*        </button>*/}
@@ -136,7 +136,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                         <div className="w-full">
                             <div className="flex justify-between items-center mb-2">
                                 <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                    <FaBookOpen className="text-blue-400 dark:text-white" /> Kanji Decks:
+                                    <FaBookOpen className="text-blue-400" /> Kanji Decks:
                                 </h4>
                             </div>
 

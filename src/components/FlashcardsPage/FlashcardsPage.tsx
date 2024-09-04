@@ -205,7 +205,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
 
                     <button
                         onClick={toggleReveal}
-                        className="mt-4 p-4 bg-blue-500 text-white rounded-full hover:bg-blue-600 active:bg-blue-700 shadow-lg transform transition-transform duration-150 ease-in-out hover:scale-110 active:scale-90 text-2xl"
+                        className="mt-4 p-4 bg-blue-500 dark:bg-gray-700 text-white rounded-full hover:bg-blue-600 dark:hover:bg-gray-600 active:bg-blue-700 shadow-lg transform transition-transform duration-150 ease-in-out hover:scale-110 active:scale-90 text-2xl"
                     >
                         <FaEye />
                     </button>

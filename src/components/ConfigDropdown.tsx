@@ -12,7 +12,7 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({items, icon,}) => {
     return (
         <div className="relative">
             <button
-                className="text-white bg-blue-500 hover:bg-blue-600 p-1 rounded"
+                className="text-white bg-blue-500 dark:bg-gray-700 hover:bg-blue-600 dark:hover:bg-gray-600 p-1 rounded"
                 onClick={() => setShowConfig(!showConfig)}
             >
                 {icon ?? <FaCog />}
