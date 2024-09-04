@@ -151,38 +151,38 @@ const CourseDetailPage: React.FC = () => {
     return (
         <div ref={scrollContainerRef}
              className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-            <div className="flex items-center justify-between w-full max-w-4xl mt-8 mb-2">
-                <div className="flex items-center">
+            <div
+                className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 mb-2 px-4">
+                <div className="flex items-center mb-4 sm:mb-0">
                     <Link
                         to="/courses"
-                        className="bg-blue-500 dark:bg-gray-700 text-white p-2 rounded-full shadow hover:bg-blue-600 dark:hover:bg-gray-600 dark:hover:bg-gray-600 mr-4"
+                        className="bg-blue-500 dark:bg-gray-700 text-white p-2 rounded-full shadow hover:bg-blue-600 dark:hover:bg-gray-600 mr-4"
                     >
                         <FaArrowLeft className="w-5 h-5"/>
                     </Link>
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize mr-4">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
                         {course?.name || "Course"}
                     </h1>
+                </div>
 
-                    {!isOwner ? (
+                {/* Flex container for all action buttons in one row */}
+                <div className="flex items-center gap-4 overflow-x-auto w-full sm:w-auto">
+
+
+                    {/* Follow Button */}
+                    {!isOwner && (
                         <button
                             onClick={toggleFollow}
                             className={`flex px-3 items-center p-1 rounded-full shadow transition-colors duration-300 ${
                                 isFollowing ? 'bg-red-500 text-white font-bold' : 'bg-gray-200 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
                             }`}
                         >
-                            <FaBookmark
-                                className={`w-3 h-3 mr-1 text-xs ${
-                                    isFollowing ? 'text-white' : 'text-gray-500'
-                                }`}
-                            />
-                            <span className="text-xs">
-                                {isFollowing ? 'Following' : 'Follow'}
-                            </span>
+                            <FaBookmark className={`mr-1 ${isFollowing ? 'text-white' : 'text-gray-500'}`}/>
+                            {isFollowing ? 'Following' : 'Follow'}
                         </button>
-                    ) : ("")}
-                </div>
+                    )}
 
-                <div className="flex items-center gap-4">
+                    {/* Search Bar */}
                     <div className="relative">
                         <FaSearch className="absolute left-2 top-2 text-gray-400"/>
                         <input
@@ -190,10 +190,12 @@ const CourseDetailPage: React.FC = () => {
                             placeholder="Search Lessons"
                             value={searchTerm}
                             onChange={handleSearchChange}
-                            className="pl-8 pr-2 py-1.5 border rounded text-sm dark:bg-gray-900 dark:text-white dark:border-gray-700"
+                            className="pl-8 pr-2 py-1.5 border rounded text-sm dark:bg-gray-900 dark:text-white dark:border-gray-700 w-full sm:w-auto"
                         />
                     </div>
-                    <div className="relative flex items-center gap-1.5 p-1.5 border border-gray-300  dark:border-gray-700 rounded-lg">
+                    {/* Toggle Buttons */}
+                    <div
+                        className="relative flex items-center gap-1.5 p-1.5 border border-gray-300 dark:border-gray-700 rounded-lg">
                         <div
                             className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white dark:bg-black px-1 text-xs text-gray-600 dark:text-gray-500">
                             Toggle
@@ -220,7 +222,7 @@ const CourseDetailPage: React.FC = () => {
                             <FaBook className={`text-sm ${showGrammar ? 'text-white' : 'text-green-500'}`}/>
                         </button>
                         <button
-                            onClick={() => handleToggle('readings')} // Añadir el botón de toggle para readings
+                            onClick={() => handleToggle('readings')}
                             className={`p-1 rounded transition-colors duration-300 ${showReadings ? 'bg-purple-500 text-white hover:bg-purple-600' : 'bg-gray-200 dark:bg-gray-800 text-purple-500 hover:bg-gray-300'}`}
                             title="Reading Decks"
                         >
@@ -228,6 +230,7 @@ const CourseDetailPage: React.FC = () => {
                         </button>
                     </div>
 
+                    {/* Settings Button */}
                     <div className="relative">
                         <button
                             className="text-white bg-blue-500 dark:bg-gray-700 hover:bg-blue-600 dark:hover:bg-gray-600 p-1 rounded"
@@ -237,8 +240,8 @@ const CourseDetailPage: React.FC = () => {
                         </button>
                         {showConfig && (
                             <div
-                                className="absolute right-0 w-56 p-4 bg-white dark:bg-black border border-gray-300 dark:border-gray-700 rounded-md shadow-lg z-50">
-
+                                className="absolute right-0 w-56 p-4 bg-white dark:bg-black border border-gray-300 dark:border-gray-700 rounded-md shadow-lg z-50"
+                            >
                                 {isOwner ? (
                                     <div>
                                         <div className="flex items-center justify-between">
@@ -274,7 +277,6 @@ const CourseDetailPage: React.FC = () => {
                                                             className="text-gray-500 text-2xl absolute inset-0 m-auto"/>
                                                     )}
                                                 </label>
-
                                             </div>
                                         </div>
                                     </div>
@@ -294,13 +296,12 @@ const CourseDetailPage: React.FC = () => {
                                     </div>
                                 )}
                             </div>
-
                         )}
                     </div>
                 </div>
             </div>
 
-            
+
             <h3 className="text-gray-500 text-left w-full max-w-4xl ml-10">
                 {course?.description}
             </h3>
@@ -310,7 +311,7 @@ const CourseDetailPage: React.FC = () => {
                     <FaCrown/>
                     Created by {course.creatorId?.name ?? "???"} - {new Date(course.createdAt).toLocaleDateString()}
                 </p>
-                
+
                 {filteredLessons.length > 0 ? (
                     filteredLessons.map((lesson) => (
                         <LessonBox
