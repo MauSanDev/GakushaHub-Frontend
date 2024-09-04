@@ -67,37 +67,37 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                     lessonName={lesson.name}
                     courseName={owner.name}
                 />
-                {isEditing ? (
-                    <>
-                        <button
-                            onClick={saveChanges}
-                            className="bg-green-500 text-white p-2 rounded shadow hover:bg-green-600"
-                        >
-                            <FaSave />
-                        </button>
-                        <button
-                            onClick={cancelChanges}
-                            className="bg-red-500 text-white p-2 rounded shadow hover:bg-red-600"
-                        >
-                            <FaTimes />
-                        </button>
-                    </>
-                ) : (
-                    <>
-                        <button
-                            onClick={enterEditMode}
-                            className="bg-blue-500 text-white p-2 rounded shadow hover:bg-blue-600"
-                        >
-                            <FaEdit />
-                        </button>
-                        <DeleteButton
-                            creatorId={lesson.creatorId}
-                            elementId={lesson._id}
-                            elementType="lesson"
-                            redirectTo="/lessons"
-                        />
-                    </>
-                )}
+                {/*{isEditing ? (*/}
+                {/*    <>*/}
+                {/*        <button*/}
+                {/*            onClick={saveChanges}*/}
+                {/*            className="bg-green-500 text-white p-2 rounded shadow hover:bg-green-600"*/}
+                {/*        >*/}
+                {/*            <FaSave />*/}
+                {/*        </button>*/}
+                {/*        <button*/}
+                {/*            onClick={cancelChanges}*/}
+                {/*            className="bg-red-500 text-white p-2 rounded shadow hover:bg-red-600"*/}
+                {/*        >*/}
+                {/*            <FaTimes />*/}
+                {/*        </button>*/}
+                {/*    </>*/}
+                {/*) : (*/}
+                {/*    <>*/}
+                {/*        <button*/}
+                {/*            onClick={enterEditMode}*/}
+                {/*            className="bg-blue-500 text-white p-2 rounded shadow hover:bg-blue-600"*/}
+                {/*        >*/}
+                {/*            <FaEdit />*/}
+                {/*        </button>*/}
+                {/*        <DeleteButton*/}
+                {/*            creatorId={lesson.creatorId}*/}
+                {/*            elementId={lesson._id}*/}
+                {/*            elementType="lesson"*/}
+                {/*            redirectTo="/lessons"*/}
+                {/*        />*/}
+                {/*    </>*/}
+                {/*)}*/}
             </div>
 
             {isEditing ? (
