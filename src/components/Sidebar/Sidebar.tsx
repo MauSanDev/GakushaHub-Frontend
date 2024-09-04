@@ -29,7 +29,7 @@ const Sidebar: React.FC = () => {
 
             <div
                 className={`fixed lg:left-0 lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:w-64 lg:h-auto w-full h-full top-0 left-0 z-40 transition-transform ${
-                    isOpen ? 'translate-x-0 bg-white ' : '-translate-x-full lg:translate-x-0'
+                    isOpen ? 'translate-x-0 bg-white dark:bg-black ' : '-translate-x-full lg:translate-x-0'
                 }`}
             >
                 <div className="flex flex-col p-4 space-y-4">

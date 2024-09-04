@@ -130,7 +130,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
             <div className="flex items-center justify-center p-4 relative">
                 <LoadingScreen isLoading={isLoading} />
 
-                <div className="p-3 bg-white w-full">
+                <div className="p-3 bg-white dark:bg-black w-full">
                     <div className="flex flex-col items-center justify-center mb-4">
 
                         <div className="flex items-center justify-center mb-4">

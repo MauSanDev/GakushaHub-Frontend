@@ -10,7 +10,7 @@ interface CourseBoxProps {
 const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
     return (
         <div
-            className="relative bg-white p-6 rounded-lg shadow-md text-left border-2 border-gray-200 transform transition-transform duration-300 hover:scale-105 hover:border-blue-300">
+            className="relative bg-white dark:bg-black p-6 rounded-lg shadow-md text-left border-2 border-gray-200 transform transition-transform duration-300 hover:scale-105 hover:border-blue-300">
             <div className="absolute top-2 right-2">
                 <DeleteButton
                     creatorId={course.creatorId._id}

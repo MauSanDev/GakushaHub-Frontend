@@ -195,7 +195,7 @@ const CourseDetailPage: React.FC = () => {
                     </div>
                     <div className="relative flex items-center gap-1.5 p-1.5 border border-gray-300 rounded-lg">
                         <div
-                            className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white px-1 text-xs text-gray-600">
+                            className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white dark:bg-black px-1 text-xs text-gray-600">
                             Toggle
                         </div>
                         <button
@@ -237,7 +237,7 @@ const CourseDetailPage: React.FC = () => {
                         </button>
                         {showConfig && (
                             <div
-                                className="absolute right-0 w-56 p-4 bg-white border border-gray-300 rounded-md shadow-lg z-50">
+                                className="absolute right-0 w-56 p-4 bg-white dark:bg-black border border-gray-300 rounded-md shadow-lg z-50">
 
                                 {isOwner ? (
                                     <div>

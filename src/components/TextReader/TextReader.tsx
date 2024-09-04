@@ -55,7 +55,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
     }, [formattedContent]);
 
     return (
-        <div className="whitemax-w-relative p-8 pb-10 bg-white border border-gray-300 rounded-md shadow-lg">
+        <div className="whitemax-w-relative p-8 pb-10 bg-white dark:bg-black border border-gray-300 rounded-md shadow-lg">
             <h1 className="text-2xl font-bold mb-4 mt-8 text-center">{data.title}</h1>
             <div className="absolute top-4 right-14 flex items-center space-x-2">
                 <button
@@ -76,7 +76,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                     </button>
                     {showConfig && (
                         <div
-                            className="absolute right-0 mt-2 w-56 p-4 bg-white border border-gray-300 rounded-md shadow-lg z-50">
+                            className="absolute right-0 mt-2 w-56 p-4 bg-white dark:bg-black border border-gray-300 rounded-md shadow-lg z-50">
                             <div className="flex items-center justify-between">
                                 <label className="text-xs text-gray-700">Text Size</label>
                                 <input

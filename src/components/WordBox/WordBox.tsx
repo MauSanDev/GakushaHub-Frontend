@@ -17,7 +17,7 @@ const WordBox: React.FC<WordBoxProps> = ({ result }) => {
     );
     
     return (
-        <div className="relative bg-white p-6 rounded-2xl shadow-lg text-center transform transition-transform duration-300 hover:scale-105 border-2 border-gray-200 hover:border-blue-300">
+        <div className="relative bg-white dark:bg-black p-6 rounded-2xl shadow-lg text-center transform transition-transform duration-300 hover:scale-105 border-2 border-gray-200 hover:border-blue-300">
             <span className="absolute top-2 right-2 bg-blue-400 text-white text-xs px-2 py-1 rounded-full">
                 言葉
             </span>

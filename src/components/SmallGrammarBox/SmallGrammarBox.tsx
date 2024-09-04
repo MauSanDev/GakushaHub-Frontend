@@ -34,7 +34,7 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
     if (!result) return null;
 
     return (
-        <div className="bg-white p-2 rounded-md shadow-sm border border-gray-200 hover:border-blue-300 w-full cursor-pointer relative">
+        <div className="bg-white dark:bg-black p-2 rounded-md shadow-sm border border-gray-200 hover:border-blue-300 w-full cursor-pointer relative">
 
             <span className="absolute top-1 right-1 bg-blue-400 text-white text-xs px-1 py-1 rounded-full">
                 JLPT{result.jlpt}

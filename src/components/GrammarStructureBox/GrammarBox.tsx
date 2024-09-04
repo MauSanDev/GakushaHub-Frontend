@@ -17,7 +17,7 @@ const GrammarBox: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect })
     if (!result) return null;
 
     return (
-        <div className="relative bg-white p-6 rounded-lg shadow-md text-left border-2 border-gray-200 transform transition-transform duration-300 hover:scale-105 hover:border-blue-300">
+        <div className="relative bg-white dark:bg-black p-6 rounded-lg shadow-md text-left border-2 border-gray-200 transform transition-transform duration-300 hover:scale-105 hover:border-blue-300">
 
             <span className="absolute top-2 right-12 bg-blue-400 text-white text-xs px-2 py-1 rounded-full">
                 JLPT{result.jlpt}

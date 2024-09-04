@@ -58,7 +58,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
     );
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-lg mb-6 border border-gray-200 transform transition-transform duration-300 hover:border-blue-400 w-full relative">
+        <div className="bg-white dark:bg-black p-6 rounded-lg shadow-lg mb-6 border border-gray-200 transform transition-transform duration-300 hover:border-blue-400 w-full relative">
             <div className="absolute top-4 right-4 flex gap-2">
 
                 <GenerationButton 

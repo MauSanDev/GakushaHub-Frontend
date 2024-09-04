@@ -8,7 +8,7 @@ interface KanjiDeckTableProps {
 const KanjiDeckTable: React.FC<KanjiDeckTableProps> = ({ deck }) => {
     return (
         <div className="overflow-x-auto">
-            <table className="min-w-full bg-white text-xs">
+            <table className="min-w-full bg-white dark:bg-black text-xs">
                 <thead>
                 <tr className="bg-blue-50 text-center text-sm">
                     <th className="px-4 py-2 font-bold">Kanji</th>
@@ -25,7 +25,7 @@ const KanjiDeckTable: React.FC<KanjiDeckTableProps> = ({ deck }) => {
                     <tr
                         key={element._id}
                         className={`${
-                            index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                            index % 2 === 0 ? "bg-gray-50" : "bg-white dark:bg-black"
                         } hover:bg-blue-50 transition duration-200 text-gray-800 text-left`}
                     >
                         <td className="px-4 py-2 font-bold">{element.kanji}</td>

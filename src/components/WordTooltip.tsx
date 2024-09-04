@@ -13,7 +13,7 @@ const WordTooltip: React.FC<WordTooltipProps> = ({ word, targetElement, onClose 
     useEffect(() => {
         const tooltip = document.createElement('span');
         tooltip.className =
-            'tooltip-content border-gray-300 border indent-0 absolute left-0 top-full mb-2 p-2 bg-white text-black rounded transition-opacity duration-300 whitespace-normal z-50';
+            'tooltip-content border-gray-300 border indent-0 absolute left-0 top-full mb-2 p-2 bg-white dark:bg-black text-black rounded transition-opacity duration-300 whitespace-normal z-50';
         tooltip.style.width = '300px';
         tooltip.style.letterSpacing = '1';
         tooltip.style.lineHeight = '1';

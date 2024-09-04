@@ -12,7 +12,7 @@ const SimpleTextReader: React.FC<SimpleTextPreviewProps> = ({ data, deleteRelati
     
     console.log(data)
     return (
-        <div className="relative p-6 bg-white border-gray-300 rounded-md shadow-lg hover:border-blue-300 border-2">
+        <div className="relative p-6 bg-white dark:bg-black border-gray-300 rounded-md shadow-lg hover:border-blue-300 border-2">
             <div className="absolute top-2 right-2">
                 <DeleteButton
                     creatorId={data.creatorId?._id ?? ''}
