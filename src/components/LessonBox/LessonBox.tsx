@@ -135,7 +135,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                     {showKanji && lesson.kanjiDecks.length > 0 && (
                         <div className="w-full">
                             <div className="flex justify-between items-center mb-2">
-                                <h4 className="font-semibold text-gray-800 flex items-center gap-2">
+                                <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
                                     <FaBookOpen className="text-blue-400" /> Kanji Decks:
                                 </h4>
                             </div>
@@ -156,7 +156,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                     {showWord && lesson.wordDecks.length > 0 && (
                         <div className="mt-4 w-full">
                             <div className="flex justify-between items-center mb-2">
-                                <h4 className="font-semibold text-gray-800 flex items-center gap-2">
+                                <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
                                     <FaFileAlt className="text-red-400" /> Word Decks:
                                 </h4>
                             </div>
@@ -176,7 +176,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
 
                     {showGrammar && lesson.grammarDecks.length > 0 && (
                         <div className="mt-4 w-full">
-                            <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                            <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2 flex items-center gap-2">
                                 <FaBook className="text-green-400" /> Grammar Decks:
                             </h4>
 
@@ -196,7 +196,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
 
                     {showReadings && lesson.readingDecks.length > 0 && (
                         <div className="mt-4 w-full">
-                            <h4 className="font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                            <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2 flex items-center gap-2">
                                 <FaBookReader className="text-purple-400" /> Reading Decks:
                             </h4>
                             <GenericDeckDisplay

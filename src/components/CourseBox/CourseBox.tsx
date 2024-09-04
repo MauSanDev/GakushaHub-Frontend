@@ -32,16 +32,16 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
 
                     <div className="flex items-center max-w-full capitalize">
                         <FaChevronRight/>
-                        <h2 className="text-2xl font-semibold text-gray-800 mb-2">{lesson.name}</h2>
+                        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-2">{lesson.name}</h2>
                     </div>
                     <div className="grid grid-cols-3 gap-4 ml-9">
                         {lesson.kanjiDecks.length > 0 && (
                             <div>
                                 <div className="flex items-center gap-2 text-blue-400">
                                     <FaBookOpen/>
-                                    <span className="font-semibold text-gray-800">Kanji Decks:</span>
+                                    <span className="font-semibold text-gray-800 dark:text-gray-200">Kanji Decks:</span>
                                 </div>
-                                <ul className="ml-6 list-disc list-inside text-gray-600">
+                                <ul className="ml-6 list-disc list-inside text-gray-600 dark:text-gray-300">
                                     {lesson.kanjiDecks.map((deck) => (
                                         <li key={deck._id}>{deck.name}</li>
                                     ))}
@@ -53,9 +53,9 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
                             <div>
                                 <div className="flex items-center gap-2 text-red-400">
                                     <FaFileAlt/>
-                                    <span className="font-semibold text-gray-800">Word Decks:</span>
+                                    <span className="font-semibold text-gray-800 dark:text-gray-200">Word Decks:</span>
                                 </div>
-                                <ul className="ml-6 list-disc list-inside text-gray-600">
+                                <ul className="ml-6 list-disc list-inside text-gray-600 dark:text-gray-300">
                                     {lesson.wordDecks.map((deck) => (
                                         <li key={deck._id}>{deck.name}</li>
                                     ))}
@@ -67,9 +67,9 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
                             <div>
                                 <div className="flex items-center gap-2 text-green-400">
                                     <FaBook/>
-                                    <span className="font-semibold text-gray-800">Grammar Decks:</span>
+                                    <span className="font-semibold text-gray-800 dark:text-gray-200">Grammar Decks:</span>
                                 </div>
-                                <ul className="ml-6 list-disc list-inside text-gray-600">
+                                <ul className="ml-6 list-disc list-inside text-gray-600 dark:text-gray-300">
                                     {lesson.grammarDecks.map((deck) => (
                                         <li key={deck._id}>{deck.name}</li>
                                     ))}

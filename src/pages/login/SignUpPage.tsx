@@ -191,7 +191,7 @@ const SignUpPage: React.FC = () => {
                         </button>
                         {error && <p className="text-red-500 text-center mt-4">{error}</p>}
                     </form>
-                    <div className="text-center text-sm text-gray-600">
+                    <div className="text-center text-sm text-gray-600 dark:text-gray-300">
                         Already have an account?{' '}
                         <button
                             onClick={() => navigate('/signin')}

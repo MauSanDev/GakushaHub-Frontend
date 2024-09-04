@@ -24,7 +24,7 @@ const WordDeckTable: React.FC<WordDeckTableProps> = ({ deck }) => {
                         key={element._id}
                         className={`${
                             index % 2 === 0 ? "bg-gray-50" : "bg-white dark:bg-black"
-                        } hover:bg-blue-50 transition duration-200 text-gray-800 text-left`}
+                        } hover:bg-blue-50 transition duration-200 text-gray-800 dark:text-gray-200 text-left`}
                     >
                         <td className="px-4 py-2 font-bold">{element.word}</td>
                         <td className="px-4 py-2">{element.readings.join("; ")}</td>

@@ -28,7 +28,7 @@ const SummaryModal = ({
                     <div className="relative">
                         <svg className="w-28 h-28">
                             <circle
-                                className="text-gray-600"
+                                className="text-gray-600 dark:text-gray-300"
                                 strokeWidth="5"
                                 stroke="currentColor"
                                 fill="transparent"

@@ -41,12 +41,12 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
             </span>
 
             <div className="flex items-center" onClick={() => setIsExpanded(!isExpanded)}>
-                <span className="text-xs text-gray-600 mr-2">
+                <span className="text-xs text-gray-600 dark:text-gray-300 mr-2">
                     {isExpanded ? <FaChevronDown /> : <FaChevronRight />}
                 </span>
                 <h1 className="text-lg font-bold text-blue-400">{result.structure}</h1>
             </div>
-            <span className="text-xs text-gray-600">{result.hint}</span>
+            <span className="text-xs text-gray-600 dark:text-gray-300">{result.hint}</span>
 
             <div
                 ref={contentRef}
@@ -55,17 +55,17 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
             >
                 {isExpanded && (
                     <>
-                        <p className="text-xs text-gray-600 mt-2 font-bold">Description:</p>
-                        <p className="text-xs text-gray-600 mb-2">{result.description}</p>
+                        <p className="text-xs text-gray-600 dark:text-gray-300 mt-2 font-bold">Description:</p>
+                        <p className="text-xs text-gray-600 dark:text-gray-300 mb-2">{result.description}</p>
 
-                        <p className="text-xs text-gray-600 mb-2 font-bold">Examples:</p>
-                        <div className="text-gray-600">
+                        <p className="text-xs text-gray-600 dark:text-gray-300 mb-2 font-bold">Examples:</p>
+                        <div className="text-gray-600 dark:text-gray-300">
                             {result.examples && result.examples.length > 0 ? (
                                 result.examples.map((example: ExampleData, index) => (
                                     <div key={index} className="mb-2 text-xs pl-2">
-                                        <span className="text-gray-500 mr-2">例:</span>
-                                        <b className="text-gray-700">{example.text}</b>
-                                        <p className="text-gray-500 pl-6">
+                                        <span className="text-gray-600 dark:text-gray-300 mr-2">例:</span>
+                                        <b className="text-gray-600 dark:text-gray-300">{example.text}</b>
+                                        <p className="text-gray-600 dark:text-gray-300 pl-6">
                                             {example.translations && example.translations[language]
                                                 ? example.translations[language]
                                                 : example.translations.en}
@@ -73,7 +73,7 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
                                     </div>
                                 ))
                             ) : (
-                                <p className="text-gray-600">No examples available.</p>
+                                <p className="text-gray-600 dark:text-gray-300">No examples available.</p>
                             )}
                         </div>
                     </>

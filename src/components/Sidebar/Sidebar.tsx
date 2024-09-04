@@ -38,7 +38,7 @@ const Sidebar: React.FC = () => {
                             <Link
                             key={index}
                             to={item.path}
-                            className="text-sm font-bold text-gray-600 hover:text-blue-400 py-2 border-b border-gray-300 text-left"
+                            className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-blue-400 py-2 border-b border-gray-300 text-left"
                             onClick={() => setIsOpen(false)} // Cierra el menú en modo responsive
                         >
                             {item.label}

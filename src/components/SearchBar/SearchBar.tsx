@@ -112,7 +112,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onTagsChange, tagsMap: externalTa
             </div>
             <button
                 onClick={onClear}
-                className="absolute right-2 text-gray-400 hover:text-gray-600 focus:outline-none"
+                className="absolute right-2 text-gray-400 hover:text-gray-600 dark:text-gray-300 focus:outline-none"
             >
                 ×
             </button>

@@ -30,18 +30,18 @@ const SmallKanjiBox: React.FC<SmallKanjiBoxProps> = ({ result }) => {
         >
             <h1 className="text-2xl font-bold text-blue-400">{result.kanji}</h1>
             {result.readings.onyomi.length > 0 && (
-            <p className="text-xs text-gray-600">
+            <p className="text-xs text-gray-600 dark:text-gray-300">
                 音: {onyomiToShow.join("; ")}
             </p>
             )}
 
             {result.readings.kunyomi.length > 0 && (
 
-                <p className="text-xs text-gray-600">
+                <p className="text-xs text-gray-600 dark:text-gray-300">
                 訓: {kunyomiToShow.join("; ")}
             </p>
             )}
-            <p className="text-xs text-gray-600">{meaningToShow.slice(0, 3).join("; ")}</p>
+            <p className="text-xs text-gray-600 dark:text-gray-300">{meaningToShow.slice(0, 3).join("; ")}</p>
         </div>
     );
 };

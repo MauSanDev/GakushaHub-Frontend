@@ -28,7 +28,7 @@ const WordTooltip: React.FC<WordTooltipProps> = ({ word, targetElement, onClose 
             tooltip.innerHTML = `
                 <span class="font-bold text-blue-500 text-m">${wordData.word}</span>
                 <span class="text-gray-500 text-xs">(${wordData.readings.join(';')})</span> <br>
-                <span class="text-gray-800 text-xs">${wordData.meanings.map((meaning) => meaning.en).slice(0, 3).join('; ')}</span>
+                <span class="text-gray-800 dark:text-gray-200 text-xs">${wordData.meanings.map((meaning) => meaning.en).slice(0, 3).join('; ')}</span>
             `;
             tooltip.style.opacity = '1';
         }

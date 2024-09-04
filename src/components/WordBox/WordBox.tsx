@@ -22,15 +22,15 @@ const WordBox: React.FC<WordBoxProps> = ({ result }) => {
                 言葉
             </span>
             <h1 className="text-4xl font-bold mb-4 text-blue-400">{result.word}</h1>
-            <h3 className="text-2xl mb-2 text-gray-600">
+            <h3 className="text-2xl mb-2 text-gray-600 dark:text-gray-300 dark:text-gray-200">
                 {result.readings.slice(0, 3).join('; ')}
             </h3>
-            <h2 className="text-xl text-gray-600 capitalize mb-4">
+            <h2 className="text-xl text-gray-600 dark:text-gray-300 capitalize mb-4">
                 {meaningToShow.slice(0, 3).join("; ")}
             </h2>
             <div className="flex justify-center gap-2 flex-wrap">
                 {result.part_of_speech.map((pos: string, index: number) => (
-                    <span key={index} className="bg-gray-200 text-gray-600 rounded-full px-2 py-1 text-xs">
+                    <span key={index} className="bg-gray-200 text-gray-600 dark:text-gray-300 rounded-full px-2 py-1 text-xs">
                         {pos}
                     </span>
                 ))}

@@ -38,7 +38,7 @@ const PasswordResetScreen: React.FC = () => {
                             Restablecer Contraseña
                         </button>
                     </form>
-                    <div className="text-center text-sm text-gray-600">
+                    <div className="text-center text-sm text-gray-600 dark:text-gray-300">
                         <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
                             Volver a Iniciar Sesión
                         </Link>

@@ -86,7 +86,7 @@ const SignInPage: React.FC = () => {
                         </button>
                         {error && <p className="text-red-500 text-center mt-4">{error}</p>}
                     </form>
-                    <div className="text-center text-sm text-gray-600">
+                    <div className="text-center text-sm text-gray-600 dark:text-gray-300">
                         Don't have an account?{' '}
                         <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
                             Sign Up

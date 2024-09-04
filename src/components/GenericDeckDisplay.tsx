@@ -86,10 +86,10 @@ const GenericDeckDisplay = <T,>({
                     className="flex items-center gap-2 cursor-pointer"
                     onClick={toggleExpand}
                 >
-                    <button className="text-gray-600 hover:text-gray-800">
+                    <button className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:text-gray-200">
                         {expanded ? <FaChevronDown size={12} /> : <FaChevronRight size={12} />}
                     </button>
-                    <div className="font-bold text-gray-600">{deck.name}</div>
+                    <div className="font-bold text-gray-600 dark:text-gray-300">{deck.name}</div>
                     <span className="text-sm text-gray-500">({deck.elements.length} elements)</span>
                 </div>
                 <div className="flex gap-2">
@@ -129,7 +129,7 @@ const GenericDeckDisplay = <T,>({
                             className={`p-2 rounded-l-md ${
                                 viewMode === "cards"
                                     ? "bg-blue-500 text-white"
-                                    : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                                    : "bg-gray-200 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
                             }`}
                         >
                             <FaThLarge size={12} />
@@ -142,7 +142,7 @@ const GenericDeckDisplay = <T,>({
                             className={`p-2 rounded-r-md ${
                                 viewMode === "table"
                                     ? "bg-blue-500 text-white"
-                                    : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+                                    : "bg-gray-200 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
                             }`}
                         >
                             <FaTable size={12} />

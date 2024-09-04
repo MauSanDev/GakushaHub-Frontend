@@ -88,7 +88,7 @@ const GrammarListPage: React.FC = () => {
                         className={`border rounded-full px-4 py-2 transition-all duration-300 transform hover:scale-105 hover:shadow-md flex items-center gap-2 ${
                             selectedJLPTLevels.includes(level)
                                 ? 'bg-blue-500 text-white'
-                                : 'bg-gray-200 text-gray-600 hover:bg-blue-300 hover:text-white'
+                                : 'bg-gray-200 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white'
                         }`}
                     >
                         JLPT{level}
@@ -97,7 +97,7 @@ const GrammarListPage: React.FC = () => {
                 <button
                     onClick={() => setShowSelectedOnly(!showSelectedOnly)}
                     className={` text-xs border rounded-full px-4 py-2 transition-all duration-300 transform hover:scale-105 hover:shadow-md flex items-center gap-2 ${
-                        showSelectedOnly ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600 hover:bg-blue-300 hover:text-white'
+                        showSelectedOnly ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white'
                     }`}
                 >
                     {showSelectedOnly ? <FaEyeSlash /> : <FaEye />}

@@ -134,7 +134,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                 <p className="text-xs text-gray-500 mb-2">
                     Created by {data.creatorId?.name ?? "???"} - {new Date(data.createdAt).toLocaleDateString()}
                 </p>
-                <h2 className="text-sm text-gray-600 italic mb-4">Topic: "{data.topic}"</h2>
+                <h2 className="text-sm text-gray-600 dark:text-gray-300 italic mb-4">Topic: "{data.topic}"</h2>
 
                 <div className="flex items-center gap-2 flex-wrap">
         <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded-full">

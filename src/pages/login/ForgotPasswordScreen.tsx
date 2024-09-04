@@ -55,7 +55,7 @@ const ForgotPasswordScreen: React.FC = () => {
                             </p>
                         )}
                     </form>
-                    <div className="text-center text-sm text-gray-600">
+                    <div className="text-center text-sm text-gray-600 dark:text-gray-300">
                         <Link to="/signin" className="font-medium text-indigo-600 hover:text-indigo-500">
                             Back to Sign In
                         </Link>

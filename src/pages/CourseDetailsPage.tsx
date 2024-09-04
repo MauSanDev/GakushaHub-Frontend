@@ -159,7 +159,7 @@ const CourseDetailPage: React.FC = () => {
                     >
                         <FaArrowLeft className="w-5 h-5"/>
                     </Link>
-                    <h1 className="text-3xl font-bold text-gray-800 capitalize mr-4">
+                    <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize mr-4">
                         {course?.name || "Course"}
                     </h1>
 
@@ -195,7 +195,7 @@ const CourseDetailPage: React.FC = () => {
                     </div>
                     <div className="relative flex items-center gap-1.5 p-1.5 border border-gray-300 rounded-lg">
                         <div
-                            className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white dark:bg-black px-1 text-xs text-gray-600">
+                            className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-white dark:bg-black px-1 text-xs text-gray-600 dark:text-gray-300">
                             Toggle
                         </div>
                         <button

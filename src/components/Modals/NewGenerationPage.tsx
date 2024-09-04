@@ -141,25 +141,25 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                             <ConfigDropdown
                                 icon={<FaQuestion/>}
                                 items={[
-                                    <p className="text-xs text-gray-600 font-bold">
+                                    <p className="text-xs text-gray-600 dark:text-gray-300 font-bold">
                                         Tips:
                                     </p>,
-                                    <p className="text-xs text-gray-600">
+                                    <p className="text-xs text-gray-600 dark:text-gray-300">
                                         - Be specific. Give context of what you want.
                                     </p>,
-                                    <p className="text-xs text-gray-600">
+                                    <p className="text-xs text-gray-600 dark:text-gray-300">
                                         - If the decks are too big, not all elements will be used.
                                     </p>,
-                                    <p className="text-xs text-gray-600">
+                                    <p className="text-xs text-gray-600 dark:text-gray-300">
                                         - The model prioritizes the selected Decks. If you ask for a topic not related
                                         to the Words and Kanjis, it is possible that the text doesn't match with your
                                         topic.
                                     </p>,
-                                    <p className="text-xs text-gray-600">
+                                    <p className="text-xs text-gray-600 dark:text-gray-300">
                                         - Consider the size. Not all the deck's content will be available if the text is
                                         too short.
                                     </p>,
-                                    <p className="text-xs text-gray-600">
+                                    <p className="text-xs text-gray-600 dark:text-gray-300">
                                         - Consider your level. If you scale up the JLPT level, advanced Words and Kanji
                                         will also appear in the text.
                                     </p>,
@@ -169,7 +169,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                         </div>
 
                         {error && <p className="text-red-500 text-center mb-2">{error}</p>}
-                        <p className="text-gray-600 text-sm">
+                        <p className="text-gray-600 dark:text-gray-300 text-sm">
                             Generate topics based on your proficiency and selected content.
                             The text will be saved in the Reading section of the selected lesson.
                         </p>
@@ -273,7 +273,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                             {kanjiDecks && kanjiDecks.length > 0 && (
                             <div className="w-full">
                                 <div className="flex justify-between items-center mb-2 ">
-                                    <h4 className="font-semibold text-gray-800 flex items-center gap-2">
+                                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
                                         <FaBookOpen className="text-blue-400" /> Kanji Decks:
                                     </h4>
                                 </div>
@@ -300,7 +300,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                         {wordDecks && wordDecks.length > 0 && (
                             <div className="w-full mt-4 border-t pt-5">
                                 <div className="flex justify-between items-center mb-2">
-                                    <h4 className="font-semibold text-gray-800 flex items-center gap-2">
+                                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
                                         <FaFileAlt className="text-red-400" /> Word Decks:
                                     </h4>
                                 </div>
@@ -327,7 +327,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                         {grammarDecks && grammarDecks.length > 0 && (
                             <div className="w-full pt-5 mt-5 border-t">
                                 <div className="flex justify-between items-center mb-2">
-                                    <h4 className="font-semibold text-gray-800 flex items-center gap-2">
+                                    <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
                                         <FaBook className="text-green-400"/> Grammar Decks:
                                     </h4>
                                 </div>
