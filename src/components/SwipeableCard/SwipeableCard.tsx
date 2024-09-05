@@ -139,7 +139,7 @@ const SwipeableCard = forwardRef(({ front, back, onApprove, onReject }: Swipeabl
 
     return (
         <animated.div
-            className="relative w-full h-96 lg:h-[36rem] rounded-xl shadow-xl bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center cursor-pointer select-none"
+            className="relative w-full h-96 lg:h-[36rem] rounded-xl shadow-xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center cursor-pointer select-none"
             style={{
                 transform: springProps.transform,
                 x: springProps.x,

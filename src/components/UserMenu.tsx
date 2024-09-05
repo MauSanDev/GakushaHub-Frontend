@@ -42,7 +42,7 @@ const UserMenu: React.FC = () => {
     }, []);
 
     return (
-        <div className="lg:fixed lg:top-0 lg:left-0 lg:p-4 z-50 ">
+        <div className="lg:fixed lg:top-0 lg:left-0 lg:p-4 z-50">
             <div ref={menuRef} className="relative">
                 {user ? (
                     <>
@@ -66,7 +66,6 @@ const UserMenu: React.FC = () => {
                                 <div className="px-4 py-2 inline">
                                     <LanguageDropdown />
                                 </div>
-                                {/* DarkModeToggle Component */}
                                 <div className="px-2 py-2">
                                     <DarkModeToggle />
                                 </div>
@@ -74,20 +73,28 @@ const UserMenu: React.FC = () => {
                         )}
                     </>
                 ) : (
-                    <div className="flex items-center space-x-2">
-                        <LanguageDropdown />
-                        <button
-                            onClick={handleSignIn}
-                            className="border-l p-2 pl-4 bg-white dark:bg-black text-gray-800 font-bold text-sm hover:text-blue-400 dark:text-white focus:outline-none"
-                        >
-                            Log In
-                        </button>
-                        <button
-                            onClick={handleSignUp}
-                            className="p-2 bg-blue-500 dark:bg-gray-700 text-white font-bold text-sm hover:bg-blue-700 rounded focus:outline-none"
-                        >
-                            Sign Up
-                        </button>
+                    <div className="p-2 flex flex-col lg:flex-row justify-evenly lg:fixed lg:top-0 lg:left-0 lg:w-auto lg:z-50 lg:bg-transparent space-y-2 lg:space-y-0 lg:space-x-4 w-full">
+
+                        <div className="flex space-x-2">
+                            <button
+                                onClick={handleSignIn}
+                                className="px-4 py-2 bg-white dark:bg-black text-gray-800 font-bold text-sm hover:text-blue-400 dark:text-white dark:hover:bg-gray-800 transition-all focus:outline-none rounded"
+                            >
+                                Log In
+                            </button>
+                            <button
+                                onClick={handleSignUp}
+                                className="px-4 py-2 bg-blue-500 dark:bg-gray-700 text-white font-bold text-sm hover:bg-blue-700 dark:hover:bg-gray-500 transition-all rounded focus:outline-none"
+                            >
+                                Sign Up
+                            </button>
+                        </div>
+
+                        {/* Dropdown y DarkModeToggle */}
+                        <div className="flex flex-col lg:flex-row items-start lg:items-center space-y-2 lg:space-y-0 lg:space-x-4 ">
+                            <DarkModeToggle />
+                            <LanguageDropdown />
+                        </div>
                     </div>
                 )}
             </div>

@@ -31,14 +31,14 @@ const DarkModeToggle: React.FC = () => {
     }, [isDarkMode]);
 
     return (
-        <div className="flex items-center dark:text-white">
+        <div className="flex items-center dark:text-gray-500 hover:dark:text-white text-gray-300 hover:text-blue-500 transition-all dark:group-hover:text-white dark:group-hover[bg-white] ">
             <FaSun />
             <div
                 onClick={toggleDarkMode}
-                className={`relative inline-block w-10 h-6 cursor-pointer rounded-full dark:border-gray-700 border py-3 pr-3 bg-black ml-2 mr-2`}
+                className={`relative inline-block w-10 h-6 cursor-pointer rounded-full dark:border-gray-700 hover:dark:border-gray-500 border py-3 pr-3 bg-gray-300 dark:bg-black hover:bg-blue-500 ml-2 mr-2`}
             >
                 <span
-                    className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform ${
+                    className={`absolute left-1 top-1 w-4 h-4 bg-white dark:bg-gray-500 hover:dark:bg-white rounded-full transition-all ${
                         isDarkMode ? 'transform translate-x-4' : ''
                     }`}
                 ></span>
