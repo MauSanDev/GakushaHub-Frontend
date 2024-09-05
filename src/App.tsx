@@ -18,8 +18,14 @@ import FullScreenLayout from "./layouts/FullScreenLayout.tsx";
 import {LanguageProvider} from "./context/LanguageContext.tsx";
 import PrivateRoute from "./layouts/PrivateLayout.tsx";
 import FakeGenerationPage from "./components/Modals/GenerationPage.tsx";
+import { useEffect } from 'react';
+import {applyDarkMode} from "./components/DarkModeToggle.tsx";
 
 function App() {
+    useEffect(() => {
+        applyDarkMode();
+    }, []); 
+    
     
     return (
         <LanguageProvider>

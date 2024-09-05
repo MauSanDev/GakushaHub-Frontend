@@ -1,24 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FaSignOutAlt, FaUser, FaMoon, FaSun } from 'react-icons/fa';
+import { FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import LanguageDropdown from './LanguageDropdown';
+import DarkModeToggle from './DarkModeToggle';
 
 const UserMenu: React.FC = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
-
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useState(() => {
-        const savedMode = localStorage.getItem('darkMode');
-        return savedMode ? JSON.parse(savedMode) : false;
-    });
-
     const menuRef = useRef<HTMLDivElement>(null);
 
     const handleLogout = async () => {
         await logout();
-        navigate('/'); // Redirigir a la página principal
+        navigate('/');
     };
 
     const handleSignIn = () => {
@@ -33,10 +28,6 @@ const UserMenu: React.FC = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
-    const toggleDarkMode = () => {
-        setIsDarkMode(!isDarkMode);
-    };
-
     const handleClickOutside = (event: MouseEvent) => {
         if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
             setIsMenuOpen(false);
@@ -49,16 +40,6 @@ const UserMenu: React.FC = () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-
-    // Toggle dark mode logic
-    useEffect(() => {
-        if (isDarkMode) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
-        localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
-    }, [isDarkMode]);
 
     return (
         <div className="lg:fixed lg:top-0 lg:left-0 lg:p-4 z-50 ">
@@ -83,21 +64,11 @@ const UserMenu: React.FC = () => {
                                 </button>
                                 <div className="border-t border-gray-200 dark:border-gray-700 mt-2"></div>
                                 <div className="px-4 py-2 inline">
-                                    <LanguageDropdown /> {/* Uso de LanguageDropdown */}
+                                    <LanguageDropdown />
                                 </div>
-                                <div className="px-2 gap-2 py-2 flex items-center  dark:text-white">
-                                    <FaSun/>
-                                    <div
-                                        onClick={toggleDarkMode}
-                                        className={`relative inline-block w-10 h-6 cursor-pointer rounded-full dark:border-gray-700 border py-3 pr-3 bg-black`}
-                                    >
-                                        <span
-                                            className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform ${
-                                                isDarkMode ? 'transform translate-x-4' : ''
-                                            }`}
-                                        ></span>
-                                    </div>
-                                    <FaMoon />
+                                {/* DarkModeToggle Component */}
+                                <div className="px-2 py-2">
+                                    <DarkModeToggle />
                                 </div>
                             </div>
                         )}
@@ -107,7 +78,7 @@ const UserMenu: React.FC = () => {
                         <LanguageDropdown />
                         <button
                             onClick={handleSignIn}
-                            className=" border-l p-2 pl-4 bg-white dark:bg-black text-gray-800 font-bold text-sm hover:text-blue-400 dark:text-white focus:outline-none"
+                            className="border-l p-2 pl-4 bg-white dark:bg-black text-gray-800 font-bold text-sm hover:text-blue-400 dark:text-white focus:outline-none"
                         >
                             Log In
                         </button>

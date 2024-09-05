@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
-import signinImg from '../../assets/page-img.jpg'
+import lightBg from '../../assets/bg-light-mode.jpg';
+import darkBg from '../../assets/bg-dark-mode.jpg';
 
 const SignInPage: React.FC = () => {
     const { signIn } = useAuth();
@@ -45,10 +46,20 @@ const SignInPage: React.FC = () => {
     };
 
     return (
-        <div className="flex h-screen w-full dark:bg-black">
-            <div className="flex flex-1 justify-center items-center">
-                <div className="w-full max-w-md p-8 space-y-8">
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <div
+            className="relative flex h-screen w-full bg-black"
+        >
+            <div
+                className="absolute flex h-screen w-full opacity-50 bg-cover"
+                style={{backgroundImage: `url(${lightBg})`,}}
+                data-dark-bg={darkBg}
+            />
+            <div className="absolute inset-0 z-0 bg-cover bg-center dark:bg-none "></div>
+
+            {/* Main Container */}
+            <div className="relative z-10 flex flex-1 justify-center items-center">
+                <div className="bg-white dark:bg-gray-900 dark:text-white w-full max-w-md p-8 space-y-8 shadow-lg rounded-lg">
+                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
                         Sign In
                     </h2>
                     <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -93,13 +104,6 @@ const SignInPage: React.FC = () => {
                         </Link>
                     </div>
                 </div>
-            </div>
-            <div className="hidden lg:flex lg:flex-1 lg:justify-center lg:items-center pr-40">
-                <img
-                    className="object-contain"
-                    src={signinImg}
-                    alt="Your Illustration"
-                />
             </div>
         </div>
     );
