@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
-import lightBg from '../../assets/bg-light-mode.jpg';
-import darkBg from '../../assets/bg-dark-mode.jpg';
+import AuthLayout from './AuthLayout.tsx'; // Importa el AuthLayout
 
 const SignInPage: React.FC = () => {
     const { signIn } = useAuth();
@@ -46,66 +45,50 @@ const SignInPage: React.FC = () => {
     };
 
     return (
-        <div
-            className="relative flex h-screen w-full bg-black"
-        >
-            <div
-                className="absolute flex h-screen w-full opacity-50 bg-cover"
-                style={{backgroundImage: `url(${lightBg})`,}}
-                data-dark-bg={darkBg}
-            />
-            <div className="absolute inset-0 z-0 bg-cover bg-center dark:bg-none "></div>
-
-            {/* Main Container */}
-            <div className="relative z-10 flex flex-1 justify-center items-center">
-                <div className="bg-white dark:bg-gray-900 dark:text-white w-full max-w-md p-8 space-y-8 shadow-lg rounded-lg">
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-                        Sign In
-                    </h2>
-                    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                        <input
-                            name="email"
-                            type="email"
-                            required
-                            disabled={loading}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <input
-                            name="password"
-                            type="password"
-                            required
-                            disabled={loading}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                        <div className="flex items-center justify-between">
-                            <Link to="/forgot-password" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                                Forgot your password?
-                            </Link>
-                        </div>
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            {loading ? <FaSpinner className="animate-spin" /> : 'Sign In'}
-                        </button>
-                        {error && <p className="text-red-500 text-center mt-4">{error}</p>}
-                    </form>
-                    <div className="text-center text-sm text-gray-600 dark:text-gray-300">
-                        Don't have an account?{' '}
-                        <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-white">
-                            Sign Up
-                        </Link>
-                    </div>
+        <AuthLayout>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">Sign In</h2>
+            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                <input
+                    name="email"
+                    type="email"
+                    required
+                    disabled={loading}
+                    className="w-full text-black px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <input
+                    name="password"
+                    type="password"
+                    required
+                    disabled={loading}
+                    className="w-full text-black px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <div className="flex items-center justify-between">
+                    <Link to="/forgot-password" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                        Forgot your password?
+                    </Link>
                 </div>
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full flex text-black justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    {loading ? <FaSpinner className="animate-spin" /> : 'Sign In'}
+                </button>
+                {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+            </form>
+            <div className="text-center text-sm text-gray-600 dark:text-gray-300">
+                Don't have an account?{' '}
+                <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-white">
+                    Sign Up
+                </Link>
             </div>
-        </div>
+        </AuthLayout>
     );
 };
 
