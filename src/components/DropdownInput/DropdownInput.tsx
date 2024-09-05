@@ -33,7 +33,7 @@ const DropdownInput: React.FC<DropdownInputProps> = ({
     );
 
     return (
-        <div className="relative w-full overflow-visible">
+        <div className="relative w-full overflow-visible sm:w-auto">
             <input
                 type="text"
                 value={value}
@@ -51,7 +51,7 @@ const DropdownInput: React.FC<DropdownInputProps> = ({
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
                 className={`focus:outline-none w-full text-sm p-2 placeholder-gray-500 dark:bg-black dark:text-white${
-                    isExactMatch ? 'text-blue-400 dark:text-white' : ''
+                    isExactMatch ? 'text-blue-400 dark:text-blue-400' : ''
                 }`}
                 disabled={disabled}
                 style={{ border: 'none' }}

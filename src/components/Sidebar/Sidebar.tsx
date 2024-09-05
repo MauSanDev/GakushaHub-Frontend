@@ -19,7 +19,7 @@ const Sidebar: React.FC = () => {
         <>
             {/* Botón para abrir el sidebar en responsive */}
             <button
-                className="lg:hidden fixed top-4 right-4 z-50 p-2 bg-white dark:bg-black dark:text-white rounded text-3xl"
+                className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white dark:bg-black dark:text-white rounded text-3xl"
                 onClick={() => setIsOpen(!isOpen)}
             >
                 ☰
@@ -27,17 +27,12 @@ const Sidebar: React.FC = () => {
 
             {/* Sidebar */}
             <div
-                className={`fixed lg:left-0 lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:w-64 lg:h-auto w-full h-full top-0 left-0 z-40 transition-transform ${
+                className={`pt-24 fixed lg:left-0 lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:w-64 lg:h-auto w-full h-full top-0 left-0 z-40 transition-transform ${
                     isOpen ? 'translate-x-0 bg-white dark:bg-black ' : '-translate-x-full lg:translate-x-0'
                 }`}
             >
                 <div className="flex flex-col p-4 space-y-4">
 
-                    {/* Mostrar UserMenu en responsive dentro del Sidebar */}
-                    <div className="lg:hidden">
-                        <UserMenu />
-                    </div>
-                    
                     {menuItems.map((item, index) =>
                             (!item.requiresAuth || user) && (
                                 <Link
@@ -50,6 +45,11 @@ const Sidebar: React.FC = () => {
                                 </Link>
                             )
                     )}
+
+                    {/* Mostrar UserMenu en responsive dentro del Sidebar */}
+                    <div className="lg:hidden">
+                        <UserMenu />
+                    </div>
 
                 </div>
             </div>
