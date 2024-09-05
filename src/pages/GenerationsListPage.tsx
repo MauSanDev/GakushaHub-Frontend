@@ -15,7 +15,6 @@ const GenerationsListPage: React.FC = () => {
 
     const hasMore = data ? page < (data.totalPages ?? 1) : false;
 
-    // Resetear el estado cuando la página se vuelve a montar
     useEffect(() => {
         setGeneratedTexts([]);
         setPage(1);
@@ -59,7 +58,7 @@ const GenerationsListPage: React.FC = () => {
     return (
         <div ref={scrollContainerRef} className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
             {isLoading && (
-                <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-80 z-10 transition-opacity duration-500">
+                <div className="absolute inset-0 flex justify-center items-center bg-white dark:bg-black bg-opacity-80 z-10 transition-opacity duration-500">
                     <img src={loadingIcon} alt="Loading..." className="w-16 h-16" />
                 </div>
             )}

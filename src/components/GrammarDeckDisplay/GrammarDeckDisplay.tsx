@@ -23,10 +23,10 @@ const GrammarDeckDisplay: React.FC<GrammarDeckDisplayProps> = ({ decks }) => {
                 <div key={`${deck._id}-${index}`} className="mb-6">
                     <div className="flex justify-between items-center mb-2 cursor-pointer" onClick={() => toggleExpand(deck._id)}>
                         <div className="flex items-center gap-2">
-                            <button className="text-gray-600 hover:text-gray-800">
+                            <button className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:text-gray-200">
                                 {expandedDecks[deck._id] ? <FaChevronDown /> : <FaChevronRight />}
                             </button>
-                            <div className="font-bold text-gray-600">{deck.name}</div>
+                            <div className="font-bold text-gray-600 dark:text-gray-300">{deck.name}</div>
                             <span className="text-sm text-gray-500">({deck.elements.length} elements)</span>
                         </div>
                     </div>

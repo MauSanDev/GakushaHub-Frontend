@@ -8,6 +8,7 @@ import {WordData} from "../../data/WordData.ts";
 import {GrammarData} from "../../data/GrammarData.ts";
 import {SaveStatus} from "../../utils/SaveStatus.ts";
 import {GeneratedData} from "../../data/GenerationData.ts";
+import {useAuth} from "../../context/AuthContext.tsx";
 
 
 interface SaveDeckInputProps {
@@ -25,8 +26,11 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
     const [error, setError] = useState<string | null>(null);
     const [expanded, setExpanded] = useState(false);
     const { data } = usePaginatedCourse(1, 10);
-
+    const { user } = useAuth();
+    
     const { mutate: buildCourse, isLoading: isSaving, isSuccess: saveSuccess } = useBuildCourse();
+
+    if (!user) return ;
     
     const getAvailableCourses = (): string[] => {
         return data?.documents.map((course) => course.name) ?? [];
@@ -147,7 +151,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
                         disabled={saveSuccess || isSaving}
                     />
                     
-                    <span>/</span>
+                    <span className={"dark:text-white"}>/</span>
                     <DropdownInput
                         value={selectedLesson}
                         onChange={setSelectedLesson}
@@ -156,7 +160,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
                         disabled={saveSuccess || isSaving}
                     />
 
-                    <span>/</span>
+                    <span className={"dark:text-white"}>/</span>
                     <DropdownInput
                         value={selectedDeck}
                         onChange={setSelectedDeck}
@@ -169,7 +173,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
                 <button
                     onClick={handleSave}
                     className={`flex items-center justify-center px-4 py-2 rounded ${
-                        saveSuccess ? 'bg-green-500 text-white cursor-not-allowed' : 'bg-blue-500 text-white hover:bg-blue-600'
+                        saveSuccess ? 'bg-green-500 text-white cursor-not-allowed' : 'bg-blue-500 dark:bg-gray-700 text-white hover:bg-blue-600 dark:hover:bg-gray-600'
                     } transition-transform duration-300`}
                     disabled={saveSuccess || isSaving}
                 >

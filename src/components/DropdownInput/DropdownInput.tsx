@@ -33,7 +33,7 @@ const DropdownInput: React.FC<DropdownInputProps> = ({
     );
 
     return (
-        <div className="relative w-full overflow-visible">
+        <div className="relative w-full overflow-visible sm:w-auto">
             <input
                 type="text"
                 value={value}
@@ -50,14 +50,14 @@ const DropdownInput: React.FC<DropdownInputProps> = ({
                 }}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
-                className={`focus:outline-none w-full text-sm p-2 placeholder-gray-500 ${
-                    isExactMatch ? 'text-blue-500' : ''
+                className={`focus:outline-none w-full text-sm p-2 placeholder-gray-500 dark:bg-black dark:text-white${
+                    isExactMatch ? 'text-blue-400 dark:text-blue-400' : ''
                 }`}
                 disabled={disabled}
                 style={{ border: 'none' }}
             />
             {showDropdown && filteredOptions.length > 0 && (
-                <ul className="absolute w-full bg-blue-500 text-white rounded shadow-lg max-h-40 overflow-y-auto z-10 mt-1 text-sm">
+                <ul className="absolute w-full bg-blue-500 dark:bg-gray-700 text-white rounded shadow-lg max-h-40 overflow-y-auto z-10 mt-1 text-sm">
                     {filteredOptions.map((option, index) => (
                         <li
                             key={index}
@@ -65,7 +65,7 @@ const DropdownInput: React.FC<DropdownInputProps> = ({
                                 onChange(option);
                                 setShowDropdown(false);
                             }}
-                            className="cursor-pointer hover:bg-blue-600 p-2"
+                            className="cursor-pointer hover:bg-blue-600 dark:hover:bg-gray-600 p-2"
                         >
                             {option}
                         </li>

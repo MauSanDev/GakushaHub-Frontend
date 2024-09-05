@@ -87,12 +87,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ onTagsChange, tagsMap: externalTa
 
     return (
         <div className="p-2 mb-4 w-full gap-2 relative">
-        <div className="border border-gray-300 rounded p-2 mb-4 w-full flex items-center gap-2 relative">
-            <div className="flex flex-wrap gap-2 flex-1">
+        <div className="border border-gray-300 bg-white rounded p-2 mb-4 w-full flex items-center gap-2 relative">
+            <div className="flex flex-wrap gap-1 flex-1">
                 {Object.entries(tagsMap).map(([tag, isValid], index) => (
                     <div
                         key={index}
-                        className={`${isValid ? 'bg-blue-500' : 'bg-red-500'} text-white rounded px-2 py-1`}
+                        className={`${isValid ? 'bg-blue-500 dark:bg-blue-700' : 'bg-red-500'} text-white rounded px-2 py-1`}
                     >
                         {tag}
                     </div>
@@ -112,14 +112,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ onTagsChange, tagsMap: externalTa
             </div>
             <button
                 onClick={onClear}
-                className="absolute right-2 text-gray-400 hover:text-gray-600 focus:outline-none"
+                className="absolute right-2 text-gray-400 hover:text-gray-600 dark:text-gray-300 focus:outline-none"
             >
                 ×
             </button>
         </div>
 
             <button
-                className={`bg-blue-500 text-white rounded p-2 w-full hover:bg-blue-600`}
+                className={`bg-blue-500 dark:bg-gray-700 text-white rounded p-2 w-full hover:bg-blue-600 dark:hover:bg-gray-600`}
                 onClick={onSearch}
                 disabled={!interactable}
             >

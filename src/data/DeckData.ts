@@ -1,5 +1,7 @@
 import {ExampleData} from "./GeneralTypes.ts";
-import {FlashcardDeck} from "./FlashcardData.ts";
+import {KanjiDeck} from "./KanjiData.ts";
+import {WordDeck} from "./WordData.ts";
+import {GrammarDeck} from "./GrammarData.ts";
 
 export class DeckData<T> {
     _id: string;
@@ -30,8 +32,20 @@ export class DeckData<T> {
         this.examples = examples;
         this.createdAt = createdAt;
     }
-
-    convertToFlashcards(): FlashcardDeck {
-        throw new Error("This method should be overridden in subclasses");
-    }
 }
+
+
+
+export function isKanjiDeck(deck: DeckType): deck is KanjiDeck {
+    return (deck as KanjiDeck).elements[0]?.kanji !== undefined;
+}
+
+export function isWordDeck(deck: DeckType): deck is WordDeck {
+    return (deck as WordDeck).elements[0]?.word !== undefined;
+}
+
+export function isGrammarDeck(deck: DeckType): deck is GrammarDeck {
+    return (deck as GrammarDeck).elements[0]?.structure !== undefined;
+}
+
+export type DeckType = KanjiDeck | WordDeck | GrammarDeck;

@@ -5,6 +5,18 @@ const apiClient = axios.create({
     timeout: 10000,
 });
 
+// Add a request interceptor to include the token in all requests
+apiClient.interceptors.request.use((config) => {
+    const token = localStorage.getItem('authToken'); // Or however you store the token
+    if (token) {
+        config.headers["Content-Type"] = "application/json";
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+}, (error) => {
+    return Promise.reject(error);
+});
+
 export const ApiClient = {
     get: async <T>(endpoint: string, config?: AxiosRequestConfig): Promise<T> => {
         try {

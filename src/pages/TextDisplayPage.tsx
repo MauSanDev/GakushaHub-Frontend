@@ -13,8 +13,8 @@ const TextDisplayPage: React.FC = () => {
     const location = useLocation();
 
     return (
-        <div className="relative flex flex-col items-center justify-center h-full w-full p-4">
-            <div className="flex-1 p-8 rounded-md overflow-y-auto relative max-w-4xl w-full">
+        <div className="relative flex flex-col items-center justify-center h-full w-full">
+            <div className="flex-1 rounded-md overflow-y-auto relative max-w-4xl w-full">
                 {isLoading && (
                     <LoadingScreen isLoading={isLoading} />
                 )}
@@ -39,7 +39,7 @@ const TextDisplayPage: React.FC = () => {
                                         window.location.href = '/';
                                     }
                                 }}
-                                className="bg-blue-500 text-white p-2 rounded-full shadow hover:bg-blue-600 mr-4"
+                                className="bg-blue-500 dark:bg-gray-700 text-white p-2 rounded-full shadow hover:bg-blue-600 dark:hover:bg-gray-600 mr-4"
                             >
                                 <FaArrowLeft className="w-5 h-5"/>
                             </button>
