@@ -8,7 +8,7 @@ const GenerationButton: React.FC = () => {
     const navigate = useNavigate()
 
     const handleCloseModal = () => {
-        navigate("/")
+        navigate(-1)
         setIsModalVisible(false);
     };
 

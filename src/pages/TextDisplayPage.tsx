@@ -1,16 +1,18 @@
 import React from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import TextReader from '../components/TextReader';
 import { useFetchElementById } from '../hooks/useFetchElement.ts';
 import { GeneratedData } from "../data/GenerationData.ts";
 import LoadingScreen from "../components/LoadingScreen";
 import SaveDeckInput from '../components/SaveDeckInput';
 import { FaArrowLeft } from 'react-icons/fa';
+import {useAuth} from "../context/AuthContext.tsx";
 
 const TextDisplayPage: React.FC = () => {
     const { elementId } = useParams<{ elementId: string }>();
     const { data, isLoading, error } = useFetchElementById<GeneratedData>({ id: elementId || '', elementType: 'generation' });
-    const location = useLocation();
+    const navigate = useNavigate();
+    const { userData } = useAuth()
 
     return (
         <div className="relative flex flex-col items-center justify-center h-full w-full">
@@ -21,24 +23,16 @@ const TextDisplayPage: React.FC = () => {
                 {data ? (
                     <>
 
-                        <div className="absolute top-0 right-0 flex gap-2">
+                    {userData && (<div className="absolute top-0 right-0 flex gap-2">
                             <SaveDeckInput
-                                kanjiList={[]}  // Aquí pasarías la lista de kanjis
-                                wordList={[]}   // Aquí pasarías la lista de palabras
-                                grammarList={[]}  // Aquí pasarías la lista de gramática
-                                readingList={[data]}  // Aquí pasarías la lista de lecturas, en este caso solo un elemento
-                            />
-                        </div>
+                                kanjiList={[]} 
+                                wordList={[]}
+                                grammarList={[]}
+                                readingList={[data]} />
+                        </div>)}
                         <div className="flex items-center justify-between mb-4">
                             <button
-                                onClick={() => {
-                                    if (location.state?.from) {
-                                        window.history.back();
-                                    } else {
-                                        // Si no hay una página anterior en el historial, redirige a una ruta específica, por ejemplo, la página de inicio
-                                        window.location.href = '/';
-                                    }
-                                }}
+                                onClick={() => {navigate(-1)}}
                                 className="bg-blue-500 dark:bg-gray-700 text-white p-2 rounded-full shadow hover:bg-blue-600 dark:hover:bg-gray-600 mr-4"
                             >
                                 <FaArrowLeft className="w-5 h-5"/>

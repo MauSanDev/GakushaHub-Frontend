@@ -6,6 +6,7 @@ import { usePaginatedGrammar } from "../hooks/usePaginatedGrammar.ts";
 import LoadingScreen from "../components/LoadingScreen";
 import SaveDeckInput from '../components/SaveDeckInput';
 import {SaveStatus} from "../utils/SaveStatus.ts";
+import {useAuth} from "../context/AuthContext.tsx";
 
 
 const GrammarListPage: React.FC = () => {
@@ -16,6 +17,7 @@ const GrammarListPage: React.FC = () => {
     const [showSelectedOnly, setShowSelectedOnly] = useState(false);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
+    const { userData } = useAuth();
 
     const { data, isLoading, error } = usePaginatedGrammar(page, 20);
 
@@ -108,7 +110,7 @@ const GrammarListPage: React.FC = () => {
                 </button>
             </div>
 
-            {(selectedGrammar.length > 0 && (
+            {userData && (selectedGrammar.length > 0 && (
                 <div className="fixed top-4 right-4">
                     <SaveDeckInput kanjiList={[]} wordList={[]} grammarList={selectedGrammar} readingList={[]}
                                    onSaveStatusChange={onSaveStatusChanged}/>

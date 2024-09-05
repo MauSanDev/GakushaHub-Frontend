@@ -212,7 +212,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                             <select
                                 id="jlptLevel"
                                 value={jlptLevel ?? ""}
-                                onChange={(e) => setJlptLevel(e.target.value ? Number(e.target.value) : null)}
+                                onChange={(e) => setJlptLevel(e.target.value ? Number(e.target.value) : 0)}
                                 className={`p-1.5 text-sm border rounded w-full ${jlptLevel ? 'border-blue-500' : ''}`}
                                 disabled={isLoading}
                             >

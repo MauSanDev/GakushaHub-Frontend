@@ -6,12 +6,16 @@ import WordBox from '../components/WordBox';
 import LoadingScreen from '../components/LoadingScreen';
 import {useSearchContent} from '../hooks/useSearchContent';
 import {SaveStatus} from "../utils/SaveStatus";
+import {useAuth} from "../context/AuthContext.tsx";
 
 const SearchPage: React.FC = () => {
     const [tagsMap, setTagsMap] = useState<{ [tag: string]: boolean }>({});
     const {kanjiResults, wordResults, loading, error } = useSearchContent(tagsMap);
     const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
-    
+    const { userData } = useAuth();
+
+
+
     const onSaveStatusChanged = (status: SaveStatus) => {
         setSaveStatus(status);
     };
@@ -29,7 +33,7 @@ const SearchPage: React.FC = () => {
                 />
             </div>
 
-            {(kanjiResults.length > 0 || wordResults.length > 0) && (
+            {userData && (kanjiResults.length > 0 || wordResults.length > 0) && (
                 <div className="fixed top-4 right-4">
                     <SaveDeckInput kanjiList={kanjiResults} wordList={wordResults} grammarList={[]} readingList={[]} onSaveStatusChange={onSaveStatusChanged}/>
                 </div>
