@@ -17,7 +17,10 @@ const GrammarBox: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect })
     if (!result) return null;
 
     return (
-        <div className="relative p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 lg:hover:scale-105 bg-white dark:bg-gray-900 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800">
+        <div className={"relative p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 lg:hover:scale-105 bg-white dark:bg-gray-900 " +
+            `${isSelected ? 'dark:border-green-800 dark:hover:border-green-600 border-green-500 hover:border-green-300' : 'border-gray-200 dark:border-gray-800 hover:border-blue-300 hover:dark:border-gray-700'}`}
+
+             onClick={() => onSelect(!isSelected)}>
 
             <span className="absolute top-2 right-12 bg-blue-400 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded-full">
                 JLPT{result.jlpt}
@@ -27,7 +30,6 @@ const GrammarBox: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect })
                 className={`absolute top-2 right-2 w-6 h-6 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 ${
                     isSelected ? 'bg-green-500 text-white' : 'bg-gray-300 dark:bg-gray-700'
                 }`}
-                onClick={() => onSelect(!isSelected)}
             >
                 {isSelected && <FaCheck />}
             </div>
