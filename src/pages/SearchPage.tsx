@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchBar from '../components/SearchBar';
 import SaveDeckInput from '../components/SaveDeckInput';
 import KanjiBox from '../components/KanjiBox';
@@ -25,6 +25,20 @@ const SearchPage: React.FC = () => {
     };
 
     const isSaving = saveStatus === SaveStatus.Saving;
+
+    // useEffect para seleccionar todos los kanjis por defecto cuando cambian los resultados
+    useEffect(() => {
+        if (kanjiResults) {
+            setSelectedKanji(kanjiResults); // Selecciona todos los kanjis por defecto
+        }
+    }, [kanjiResults]);
+
+    // useEffect para seleccionar todas las palabras por defecto cuando cambian los resultados
+    useEffect(() => {
+        if (wordResults) {
+            setSelectedWords(wordResults); // Selecciona todas las palabras por defecto
+        }
+    }, [wordResults]);
 
     const toggleSelectedKanji = (kanjiData: KanjiData, isSelected: boolean) => {
         setSelectedKanji(prevSelected =>
