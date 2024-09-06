@@ -1,13 +1,14 @@
 import React from 'react';
 import { WordData } from "../../data/WordData.ts";
-import {useLanguage} from "../../context/LanguageContext.tsx";
-
+import { useLanguage } from "../../context/LanguageContext.tsx";
 
 interface WordBoxProps {
     result: WordData;
+    isSelected: boolean;
+    onSelect: (isSelected: boolean) => void;
 }
 
-const WordBox: React.FC<WordBoxProps> = ({ result }) => {
+const WordBox: React.FC<WordBoxProps> = ({ result, isSelected, onSelect }) => {
     const { language } = useLanguage();
 
     if (!result) return null;
@@ -15,9 +16,14 @@ const WordBox: React.FC<WordBoxProps> = ({ result }) => {
     const meaningToShow = result.meanings.map(meaning =>
         (meaning[language] ? meaning[language] : meaning['en'])
     );
-    
+
     return (
-        <div className="relative p-6 rounded-2xl shadow-lg text-center transform transition-transform duration-300 lg:hover:scale-105 border-2  bg-white dark:bg-gray-900 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800">
+        <div
+            className={`relative p-6 rounded-2xl shadow-lg text-center transform transition-transform duration-300 lg:hover:scale-105 border-2 ${
+                isSelected ? 'border-blue-500' : 'border-gray-200'
+            } bg-white dark:bg-gray-900 hover:border-blue-300 hover:dark:border-gray-700`}
+            onClick={() => onSelect(!isSelected)}
+        >
             <span className="absolute top-2 right-2 bg-blue-400 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded-full">
                 言葉
             </span>
