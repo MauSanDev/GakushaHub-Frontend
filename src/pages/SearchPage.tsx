@@ -9,6 +9,7 @@ import { SaveStatus } from "../utils/SaveStatus";
 import { useAuth } from "../context/AuthContext.tsx";
 import { KanjiData } from "../data/KanjiData";
 import { WordData } from "../data/WordData";
+import { FaEye, FaEyeSlash, FaCheckSquare, FaSquare, FaTrashAlt } from 'react-icons/fa';
 
 const SearchPage: React.FC = () => {
     const [tagsMap, setTagsMap] = useState<{ [tag: string]: boolean }>({});
@@ -16,9 +17,9 @@ const SearchPage: React.FC = () => {
     const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
     const { userData } = useAuth();
 
-    // Estado para los kanjis y palabras seleccionados, con los tipos correctos
     const [selectedKanji, setSelectedKanji] = useState<KanjiData[]>([]);
     const [selectedWords, setSelectedWords] = useState<WordData[]>([]);
+    const [showSelectedOnly, setShowSelectedOnly] = useState(false); // Para alternar entre mostrar todos o solo los seleccionados
 
     const onSaveStatusChanged = (status: SaveStatus) => {
         setSaveStatus(status);
@@ -26,14 +27,12 @@ const SearchPage: React.FC = () => {
 
     const isSaving = saveStatus === SaveStatus.Saving;
 
-    // useEffect para seleccionar todos los kanjis por defecto cuando cambian los resultados
     useEffect(() => {
         if (kanjiResults) {
-            setSelectedKanji(kanjiResults); // Selecciona todos los kanjis por defecto
+            setSelectedKanji(kanjiResults);
         }
     }, [kanjiResults]);
 
-    // useEffect para seleccionar todas las palabras por defecto cuando cambian los resultados
     useEffect(() => {
         if (wordResults) {
             setSelectedWords(wordResults); // Selecciona todas las palabras por defecto
@@ -52,6 +51,41 @@ const SearchPage: React.FC = () => {
         );
     };
 
+    // Función para determinar el contenido que se debe mostrar
+    const contentToShow = () => {
+        if (showSelectedOnly) {
+            return {
+                kanjis: selectedKanji,
+                words: selectedWords
+            };
+        }
+        return {
+            kanjis: kanjiResults || [],
+            words: wordResults || []
+        };
+    };
+
+    const { kanjis, words } = contentToShow();
+
+    // Función para seleccionar todos los kanjis y palabras
+    const selectAll = () => {
+        setSelectedKanji(kanjiResults || []);
+        setSelectedWords(wordResults || []);
+    };
+
+    // Función para deseleccionar todos los kanjis y palabras
+    const deselectAll = () => {
+        setSelectedKanji([]);
+        setSelectedWords([]);
+    };
+
+    // Función para limpiar la búsqueda y los resultados
+    const clearSearch = () => {
+        setTagsMap({});
+        setSelectedKanji([]);
+        setSelectedWords([]);
+    };
+
     return (
         <div className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
             <div className="text-center w-full max-w-md mt-40">
@@ -62,6 +96,50 @@ const SearchPage: React.FC = () => {
                     interactable={!isSaving && !loading}
                 />
             </div>
+
+            {(kanjiResults.length > 0 || wordResults.length > 0) && (
+                <div className="mt-4 w-full max-w-4xl gap-2 flex justify-center items-center px-2">
+                    <span className="text-sm text-gray-700 dark:text-gray-500">
+                        Selected: {selectedKanji.length} Kanji - {selectedWords.length} Words
+                    </span>
+
+                    <button
+                        onClick={() => setShowSelectedOnly(!showSelectedOnly)}
+                        className={`whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 ${
+                            showSelectedOnly
+                                ? 'bg-blue-500 dark:bg-green-900 text-white'
+                                : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white'
+                        }`}
+                    >
+                        {showSelectedOnly ? <FaEyeSlash /> : <FaEye />}
+                        {showSelectedOnly ? 'Show All' : 'Show Selection'}
+                    </button>
+
+                    <button
+                        onClick={selectAll}
+                        className="whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white"
+                    >
+                        <FaCheckSquare />
+                        Select All
+                    </button>
+
+                    <button
+                        onClick={deselectAll}
+                        className="whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white"
+                    >
+                        <FaSquare />
+                        Deselect All
+                    </button>
+
+                    <button
+                        onClick={clearSearch}
+                        className="whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 bg-gray-400 dark:bg-gray-900 text-white hover:bg-red-900 dark:hover:bg-red-600"
+                    >
+                        <FaTrashAlt />
+                        Clear Search
+                    </button>
+                </div>
+            )}
 
             {userData && (selectedKanji.length > 0 || selectedWords.length > 0) && (
                 <div className="fixed top-4 right-4">
@@ -79,7 +157,7 @@ const SearchPage: React.FC = () => {
 
             <div className="mt-8 w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-left transition-opacity duration-500">
                 {error && <p className="text-red-500 col-span-full">{error}</p>}
-                {kanjiResults && kanjiResults.map((kanjiData, index) => (
+                {kanjis.map((kanjiData, index) => (
                     <KanjiBox
                         key={index}
                         result={kanjiData}
@@ -87,7 +165,7 @@ const SearchPage: React.FC = () => {
                         onSelect={(selected) => toggleSelectedKanji(kanjiData, selected)}
                     />
                 ))}
-                {wordResults && wordResults.map((wordData, index) => (
+                {words.map((wordData, index) => (
                     <WordBox
                         key={index}
                         result={wordData}
