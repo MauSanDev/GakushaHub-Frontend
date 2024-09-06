@@ -18,7 +18,7 @@ const GrammarListPage: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState(''); // Nuevo estado para el input de búsqueda
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
-    const { userData } = useAuth();
+    const { isAuthenticated } = useAuth();
 
     const { data, isLoading, error } = usePaginatedGrammar(page, 20);
 
@@ -101,7 +101,7 @@ const GrammarListPage: React.FC = () => {
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Buscar gramática..."
+                    placeholder="Search Grammar..."
                     className="flex-1 min-w-[200px] border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300"
                 />
 
@@ -134,7 +134,7 @@ const GrammarListPage: React.FC = () => {
                 </div>
             </div>
 
-            {userData && (selectedGrammar.length > 0 && (
+            {isAuthenticated && (selectedGrammar.length > 0 && (
                 <div className="fixed top-4 right-4">
                     <SaveDeckInput kanjiList={[]} wordList={[]} grammarList={selectedGrammar} readingList={[]}
                                    onSaveStatusChange={onSaveStatusChanged}/>

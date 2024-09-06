@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FaSignOutAlt, FaUser } from 'react-icons/fa';
+import { FaSignOutAlt, FaUser, FaEnvelope, FaRedoAlt } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import LanguageDropdown from './LanguageDropdown';
 import DarkModeToggle from './DarkModeToggle';
 
 const UserMenu: React.FC = () => {
-    const { user, logout } = useAuth();
+    const { user, logout, isEmailVerified, resendEmailVerification } = useAuth();
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -53,6 +53,19 @@ const UserMenu: React.FC = () => {
                             <FaUser className="inline-block mr-2" />
                             {user.displayName || user.email}
                         </button>
+                        {!isEmailVerified && (
+                            <div className="text-red-500 text-sm mt-2 flex items-center">
+                                <FaEnvelope className="mr-2" />
+                                Please validate your account!
+                                <button
+                                    onClick={resendEmailVerification}
+                                    className="ml-4 text-blue-500 hover:text-blue-700 flex items-center"
+                                >
+                                    <FaRedoAlt className="mr-1" />
+                                    Resend email
+                                </button>
+                            </div>
+                        )}
                         {isMenuOpen && (
                             <div className="lg:absolute transition-all left-0 mt-1 w-48 z-50 pl-3">
                                 <button
@@ -78,7 +91,9 @@ const UserMenu: React.FC = () => {
                         <div className="flex space-x-2">
                             <button
                                 onClick={handleSignIn}
-                                className="px-4 py-2 bg-white dark:bg-black text-gray-800 font-bold text-sm hover:text-blue-400 dark:text-white dark:hover:bg-gray-800 transition-all focus:outline-none rounded"
+                                className="px-4 py-2
+
+ bg-white dark:bg-black text-gray-800 font-bold text-sm hover:text-blue-400 dark:text-white dark:hover:bg-gray-800 transition-all focus:outline-none rounded"
                             >
                                 Log In
                             </button>

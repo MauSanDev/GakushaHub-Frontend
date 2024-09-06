@@ -12,7 +12,7 @@ const TextDisplayPage: React.FC = () => {
     const { elementId } = useParams<{ elementId: string }>();
     const { data, isLoading, error } = useFetchElementById<GeneratedData>({ id: elementId || '', elementType: 'generation' });
     const navigate = useNavigate();
-    const { userData } = useAuth()
+    const { isAuthenticated } = useAuth()
 
     return (
         <div className="relative flex flex-col items-center justify-center h-full w-full">
@@ -23,7 +23,7 @@ const TextDisplayPage: React.FC = () => {
                 {data ? (
                     <>
 
-                    {userData && (<div className="absolute top-0 right-0 flex gap-2">
+                    {isAuthenticated && (<div className="absolute top-0 right-0 flex gap-2">
                             <SaveDeckInput
                                 kanjiList={[]} 
                                 wordList={[]}

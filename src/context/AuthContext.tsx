@@ -17,10 +17,13 @@ interface AuthContextType {
     user: User | null;
     userData: UserData | null;
     loading: boolean;
+    isAuthenticated: boolean;
+    isEmailVerified: boolean;
     signUp: (email: string, password: string, name: string, country: string) => Promise<void>;
     signIn: (email: string, password: string) => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
     logout: () => Promise<void>;
+    resendEmailVerification: () => Promise<void>;  // Nueva función para reenviar el email de verificación
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -32,20 +35,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return storedUserData ? JSON.parse(storedUserData) : null;
     });
     const [loading, setLoading] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isEmailVerified, setIsEmailVerified] = useState(false);
 
     useEffect(() => {
         const auth = getAuth();
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             setUser(user);
-            if (user) {
-                await handleTokenRefresh(user); // Manejo de refresh de token
 
-                if (!userData) {
+            if (user) {
+                await handleTokenRefresh(user);
+
+                const emailVerified = user.emailVerified;
+                setIsAuthenticated(!!user && emailVerified);
+                setIsEmailVerified(emailVerified);
+
+                if (!userData && emailVerified) {
                     const data = await ApiClient.post<UserData, {}>('api/auth/login', {});
                     setUserData(data);
                     localStorage.setItem('userData', JSON.stringify(data));
                 }
+            } else {
+                setIsAuthenticated(false);
+                setIsEmailVerified(false);
             }
+
             setLoading(false);
         });
 
@@ -54,11 +68,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const handleTokenRefresh = async (user: User) => {
         try {
-            const token = await user.getIdToken(true); // true forza el refresco del token
+            const token = await user.getIdToken(true);
             localStorage.setItem('authToken', token);
         } catch (error) {
             console.error('Error refreshing token:', error);
-            // Manejo de errores, como redirigir al usuario a la página de login
         }
     };
 
@@ -110,12 +123,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         await signOut(auth);
         setUser(null);
         setUserData(null);
+        setIsAuthenticated(false);
+        setIsEmailVerified(false);
         localStorage.removeItem('userData');
         localStorage.removeItem('authToken');
     };
 
+    // Función para reenviar el correo de verificación
+    const resendEmailVerification = async () => {
+        if (user) {
+            await sendEmailVerification(user);
+            alert('Verification email sent. Please check your inbox.');
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, userData, loading, signUp, signIn, resetPassword, logout }}>
+        <AuthContext.Provider value={{ user, userData, loading, isAuthenticated, isEmailVerified, signUp, signIn, resetPassword, logout, resendEmailVerification }}>
             {!loading && children}
         </AuthContext.Provider>
     );

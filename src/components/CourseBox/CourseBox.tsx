@@ -35,32 +35,32 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
                     </div>
 
                     {/* Responsive: Display as a single line on larger screens and as a list on smaller screens */}
-                    <div className="ml-9 flex flex-col sm:flex-row sm:flex-wrap sm:items-center sm:gap-2 text-gray-600 dark:text-gray-300">
+                    <div className="ml-9 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-6 text-gray-600 dark:text-gray-300">
                         {lesson.kanjiDecks.length > 0 && (
                             <span className="flex items-center gap-1">
                                 <FaBookOpen className="text-blue-400" />
-                                <span className="font-semibold text-gray-800 dark:text-gray-200">Kanji:</span> {lesson.kanjiDecks.length} Deck
+                                <span className="font-semibold text-gray-800 dark:text-gray-200">Kanji:</span> {lesson.kanjiDecks.length} Decks
                             </span>
                         )}
 
                         {lesson.wordDecks.length > 0 && (
                             <span className="flex items-center gap-1">
                                 <FaFileAlt className="text-red-400" />
-                                <span className="font-semibold text-gray-800 dark:text-gray-200">Words:</span> {lesson.wordDecks.length} Deck
+                                <span className="font-semibold text-gray-800 dark:text-gray-200">Words:</span> {lesson.wordDecks.length} Decks
                             </span>
                         )}
 
                         {lesson.grammarDecks.length > 0 && (
                             <span className="flex items-center gap-1">
                                 <FaBook className="text-green-400" />
-                                <span className="font-semibold text-gray-800 dark:text-gray-200">Grammar:</span> {lesson.grammarDecks.length} Deck
+                                <span className="font-semibold text-gray-800 dark:text-gray-200">Grammar:</span> {lesson.grammarDecks.length} Decks
                             </span>
                         )}
 
                         {lesson.readingDecks?.length > 0 && (
                             <span className="flex items-center gap-1">
                                 <FaEye className="text-yellow-400" />
-                                <span className="font-semibold text-gray-800 dark:text-gray-200">Readings:</span> {lesson.readingDecks.length} Deck
+                                <span className="font-semibold text-gray-800 dark:text-gray-200">Readings:</span> {lesson.readingDecks.length} Decks
                             </span>
                         )}
                     </div>

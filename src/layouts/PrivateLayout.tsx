@@ -4,9 +4,9 @@ import { useAuth } from '../context/AuthContext';
 import Sidebar from "../components/Sidebar";
 
 const PrivateRoute: React.FC = () => {
-    const { user } = useAuth();
+    const {  isAuthenticated } = useAuth();
 
-    if (!user) {
+    if (!isAuthenticated) {
         return <Navigate to="/signin" replace />;
     }
     return (

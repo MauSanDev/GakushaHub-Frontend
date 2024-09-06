@@ -15,7 +15,7 @@ const SearchPage: React.FC = () => {
     const [tagsMap, setTagsMap] = useState<{ [tag: string]: boolean }>({});
     const { kanjiResults, wordResults, loading, error } = useSearchContent(tagsMap);
     const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
-    const { userData } = useAuth();
+    const { isAuthenticated } = useAuth();
 
     const [selectedKanji, setSelectedKanji] = useState<KanjiData[]>([]);
     const [selectedWords, setSelectedWords] = useState<WordData[]>([]);
@@ -141,7 +141,7 @@ const SearchPage: React.FC = () => {
                 </div>
             )}
 
-            {userData && (selectedKanji.length > 0 || selectedWords.length > 0) && (
+            {isAuthenticated && (selectedKanji.length > 0 || selectedWords.length > 0) && (
                 <div className="fixed top-4 right-4">
                     <SaveDeckInput
                         kanjiList={selectedKanji}

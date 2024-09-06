@@ -5,7 +5,7 @@ import UserMenu from '../UserMenu'; // Importa el UserMenu
 
 const Sidebar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { user } = useAuth();
+    const { isAuthenticated } = useAuth();
 
     const menuItems = [
         { label: 'Search', path: '/search' },
@@ -34,7 +34,7 @@ const Sidebar: React.FC = () => {
                 <div className="flex flex-col p-4 space-y-4">
 
                     {menuItems.map((item, index) =>
-                            (!item.requiresAuth || user) && (
+                            (!item.requiresAuth || isAuthenticated) && (
                                 <Link
                                     key={index}
                                     to={item.path}
