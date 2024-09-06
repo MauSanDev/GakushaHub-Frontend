@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import {CourseData, LessonData} from "../../data/CourseData.ts";
-import { FaBookOpen, FaBook, FaFileAlt, FaEdit, FaSave, FaTimes, FaBookReader } from "react-icons/fa";
+import { CourseData, LessonData } from "../../data/CourseData.ts";
+import {
+    FaBookOpen,
+    FaBook,
+    FaFileAlt,
+    FaBookReader,
+    FaTable,
+    FaThLarge,
+} from "react-icons/fa";
 import GenericDeckDisplay from "../GenericDeckDisplay";
 import SmallKanjiBox from "../SmallKanjiBox";
 import SmallWordBox from "../SmallWordBox";
@@ -12,7 +19,7 @@ import { KanjiDeck } from "../../data/KanjiData.ts";
 import { WordDeck } from "../../data/WordData.ts";
 import { GrammarDeck } from "../../data/GrammarData.ts";
 import { GenerationDeck } from "../../data/GenerationData.ts";
-import DeleteButton from '../DeleteButton';
+import DeleteButton from "../DeleteButton";
 import GenerationButton from "../Modals/GenerationButton.tsx";
 
 interface LessonBoxProps {
@@ -24,31 +31,15 @@ interface LessonBoxProps {
     showReadings: boolean;
 }
 
-const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWord, showGrammar, showReadings }) => {
-    // const [isEditing, setIsEditing] = useState(false);
-    const [title, setTitle] = useState(lesson.name || "<Title>");
-    const [description, setDescription] = useState(lesson.description);
-    // const [previousTitle, setPreviousTitle] = useState(title);
-    // const [previousDescription, setPreviousDescription] = useState(description);
-
-    // const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
-    // const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value);
-
-    // const enterEditMode = () => {
-    //     setPreviousTitle(title);
-    //     setPreviousDescription(description);
-    //     setIsEditing(true);
-    // };
-    //
-    // const saveChanges = async () => {
-    //     // TODO: Saving logic for Lesson update
-    // };
-    //
-    // const cancelChanges = () => {
-    //     setTitle(previousTitle);
-    //     setDescription(previousDescription);
-    //     setIsEditing(false);
-    // };
+const LessonBox: React.FC<LessonBoxProps> = ({
+                                                 owner,
+                                                 lesson,
+                                                 showKanji,
+                                                 showWord,
+                                                 showGrammar,
+                                                 showReadings,
+                                             }) => {
+    const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
 
     const noContentToShow = !(
         (showKanji && lesson.kanjiDecks.length > 0) ||
@@ -59,74 +50,54 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
 
     return (
         <div className="relative p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800">
-            <div className="absolute top-4 right-4 flex gap-2">
+            <div className="absolute top-4 right-4 flex gap-2 flex-wrap items-center">
 
+                <DeleteButton
+                    creatorId={lesson.creatorId._id}
+                    elementId={lesson._id}
+                    elementType="lesson"
+                    redirectTo="/lessons"
+                />
+                
                 <GenerationButton
                     decks={[...lesson.kanjiDecks, ...lesson.grammarDecks, ...lesson.wordDecks]}
                     courseId={owner._id}
                     lessonName={lesson.name}
                     courseName={owner.name}
                 />
-                {/*{isEditing ? (*/}
-                {/*    <>*/}
-                {/*        <button*/}
-                {/*            onClick={saveChanges}*/}
-                {/*            className="bg-green-500 text-white p-2 rounded shadow hover:bg-green-600"*/}
-                {/*        >*/}
-                {/*            <FaSave />*/}
-                {/*        </button>*/}
-                {/*        <button*/}
-                {/*            onClick={cancelChanges}*/}
-                {/*            className="bg-red-500 text-white p-2 rounded shadow hover:bg-red-600"*/}
-                {/*        >*/}
-                {/*            <FaTimes />*/}
-                {/*        </button>*/}
-                {/*    </>*/}
-                {/*) : (*/}
-                {/*    <>*/}
-                {/*        <button*/}
-                {/*            onClick={enterEditMode}*/}
-                {/*            className="bg-blue-500 dark:bg-gray-700 text-white p-2 rounded shadow hover:bg-blue-600 dark:hover:bg-gray-600"*/}
-                {/*        >*/}
-                {/*            <FaEdit />*/}
-                {/*        </button>*/}
-                        <DeleteButton
-                            creatorId={lesson.creatorId._id}
-                            elementId={lesson._id}
-                            elementType="lesson"
-                            redirectTo="/lessons"
-                        />
-                {/*    </>*/}
-                {/*)}*/}
+                
+                <div className="flex">
+                    <button
+                        onClick={() => setViewMode("cards")}
+                        className={`p-2 rounded-l-md ${
+                            viewMode === "cards"
+                                ? "bg-blue-500 dark:bg-gray-700 text-white"
+                                : "bg-gray-200 dark:bg-gray-950 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
+                        }`}
+                    >
+                        <FaThLarge size={12} />
+                    </button>
+                    <button
+                        onClick={() => setViewMode("table")}
+                        className={`p-2 rounded-r-md ${
+                            viewMode === "table"
+                                ? "bg-blue-500 dark:bg-gray-700 text-white"
+                                : "bg-gray-200 dark:bg-gray-950 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
+                        }`}
+                    >
+                        <FaTable size={12} />
+                    </button>
+                </div>
+
             </div>
 
-            {/*{isEditing ? (*/}
-            {/*    <input*/}
-            {/*        className="text-2xl font-bold text-blue-400 dark:text-white mb-2 w-full p-2 rounded capitalize"*/}
-            {/*        value={title}*/}
-            {/*        onChange={handleTitleChange}*/}
-            {/*        placeholder={"Title is required!"}*/}
-            {/*        autoFocus*/}
-            {/*    />*/}
-            {/*) : (*/}
-                <h3 className="text-2xl font-bold text-blue-400 dark:text-white mb-2 capitalize">
-                    {title}
-                </h3>
-            {/*)}*/}
+            <h3 className="text-2xl font-bold text-blue-400 dark:text-white mb-2 capitalize">
+                {lesson.name}
+            </h3>
 
-            {/*{isEditing ? (*/}
-            {/*    <textarea*/}
-            {/*        className="text-gray-700 mb-4 w-full p-2 rounded text-sm"*/}
-            {/*        value={description}*/}
-            {/*        onChange={handleDescriptionChange}*/}
-            {/*        placeholder={"Tap here to add a description..."}*/}
-            {/*        autoFocus*/}
-            {/*    />*/}
-            {/*) : (*/}
-                <p className="text-gray-700 mb-4 cursor-pointer text-sm">
-                    {description}
-                </p>
-            {/*)}*/}
+            <p className="text-gray-700 mb-4 text-sm">
+                {lesson.description}
+            </p>
 
             {noContentToShow ? (
                 <p className="text-gray-500 text-center mt-4">表示するものはありません</p>
@@ -134,22 +105,23 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                 <>
                     {showKanji && lesson.kanjiDecks.length > 0 && (
                         <div className="w-full">
-                            <div className="flex justify-between items-center mb-2">
-                                <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                    <FaBookOpen className="text-blue-400" /> Kanji Decks:
-                                </h4>
-                            </div>
+                            <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
+                                <FaBookOpen className="text-blue-400" /> Kanji Decks:
+                            </h4>
 
                             {lesson.kanjiDecks.map((element) => (
                                 <GenericDeckDisplay
+                                    key={element._id}
                                     deck={element as KanjiDeck}
-                                    columns={4}
                                     renderComponent={SmallKanjiBox}
                                     TableComponent={KanjiDeckTable}
                                     elementType={"kanjiDeck"}
                                     lessonData={lesson}
                                     courseData={owner}
                                     enableGeneration={true}
+                                    viewMode={viewMode}
+                                    columns={6}
+                                    mobileColumns={2}
                                 />
                             ))}
                         </div>
@@ -157,14 +129,13 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
 
                     {showWord && lesson.wordDecks.length > 0 && (
                         <div className="mt-4 w-full">
-                            <div className="flex justify-between items-center mb-2">
-                                <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                    <FaFileAlt className="text-red-400" /> Word Decks:
-                                </h4>
-                            </div>
+                            <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
+                                <FaFileAlt className="text-red-400" /> Word Decks:
+                            </h4>
 
                             {lesson.wordDecks.map((element) => (
                                 <GenericDeckDisplay
+                                    key={element._id}
                                     deck={element as WordDeck}
                                     renderComponent={SmallWordBox}
                                     TableComponent={WordDeckTable}
@@ -172,6 +143,9 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                                     elementType={"wordDeck"}
                                     lessonData={lesson}
                                     courseData={owner}
+                                    viewMode={viewMode}
+                                    columns={6}
+                                    mobileColumns={2}
                                 />
                             ))}
                         </div>
@@ -185,6 +159,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
 
                             {lesson.grammarDecks.map((element) => (
                                 <GenericDeckDisplay
+                                    key={element._id}
                                     deck={element as GrammarDeck}
                                     renderComponent={SmallGrammarBox}
                                     columns={2}
@@ -193,6 +168,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                                     lessonData={lesson}
                                     courseData={owner}
                                     enableGeneration={true}
+                                    viewMode={viewMode}
                                 />
                             ))}
                         </div>
@@ -208,15 +184,16 @@ const LessonBox: React.FC<LessonBoxProps> = ({ owner, lesson, showKanji, showWor
                                 renderComponent={SimpleReadingBox}
                                 enableFlashcards={false}
                                 elementType={"generation"}
+                                columns={1}
                                 lessonData={lesson}
                                 courseData={owner}
                                 enableGeneration={false}
+                                viewMode={viewMode}
                             />
                         </div>
                     )}
                 </>
             )}
-            
         </div>
     );
 };

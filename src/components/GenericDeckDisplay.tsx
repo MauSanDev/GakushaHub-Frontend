@@ -1,7 +1,5 @@
 import { useState, useRef, useEffect, ComponentType } from "react";
 import {
-    FaTable,
-    FaThLarge,
     FaChevronRight,
     FaChevronDown,
     FaPlayCircle,
@@ -19,9 +17,11 @@ interface GenericDeckDisplayProps<T> {
     renderComponent: ComponentType<{ result: T }>;
     TableComponent?: ComponentType<{ deck: DeckData<T> }>;
     columns?: number;
+    mobileColumns?: number;
     enableFlashcards?: boolean;
     enableGeneration?: boolean;
     elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation' | 'kanjiDeck' | 'grammarDeck' | 'wordDeck';
+    viewMode: "table" | "cards";
 }
 
 const GenericDeckDisplay = <T,>({
@@ -31,14 +31,28 @@ const GenericDeckDisplay = <T,>({
                                     deck,
                                     renderComponent: RenderComponent,
                                     TableComponent,
-                                    columns = 6, // Default columns for larger screens
+                                    columns = 6,
+                                    mobileColumns = 1,
                                     enableFlashcards = true,
                                     elementType,
+                                    viewMode,
                                 }: GenericDeckDisplayProps<T>) => {
-    const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
     const [flashcardsMode, setFlashcardsMode] = useState(false);
     const [expanded, setExpanded] = useState(false);
+    const [isMobile, setIsMobile] = useState(false); // Estado para detectar mobile
     const contentRef = useRef<HTMLDivElement | null>(null);
+
+    // Detectar si es mobile y actualizar el estado
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 640); // Cambia a true si el ancho es menor a 640px
+        };
+
+        handleResize(); // Chequeo inicial
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const toggleExpand = () => {
         setExpanded((prev) => !prev);
@@ -46,11 +60,9 @@ const GenericDeckDisplay = <T,>({
 
     useEffect(() => {
         if (contentRef.current) {
-            if (expanded) {
-                contentRef.current.style.maxHeight = `${contentRef.current.scrollHeight}px`;
-            } else {
-                contentRef.current.style.maxHeight = "0px";
-            }
+            contentRef.current.style.maxHeight = expanded
+                ? `${contentRef.current.scrollHeight}px`
+                : "0px";
         }
     }, [expanded, viewMode]);
 
@@ -59,15 +71,15 @@ const GenericDeckDisplay = <T,>({
     };
 
     const renderContent = () => {
-        if (viewMode === "cards") {
+        if (viewMode === "cards" || !TableComponent) {
             return (
-                <div className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-${columns} gap-2`}>
+                <div className={`grid gap-2`} style={{gridTemplateColumns: `repeat(${isMobile ? mobileColumns : columns}, minmax(0, 1fr))`}}>
                     {deck.elements.map((element, elemIndex) => (
                         <RenderComponent key={`${deck._id}-${elemIndex}`} result={element} />
                     ))}
                 </div>
             );
-        } else if (TableComponent) {
+        } else if (viewMode === "table" && TableComponent) {
             return <TableComponent deck={deck} />;
         }
     };
@@ -81,9 +93,7 @@ const GenericDeckDisplay = <T,>({
                 />
             )}
 
-            {/* Header with title and buttons */}
             <div className="flex justify-between items-center bg-gray-100 dark:bg-gray-900 p-0.5 rounded flex-wrap">
-                {/* Title and expansion toggle */}
                 <div className="flex items-center gap-2 cursor-pointer" onClick={toggleExpand}>
                     <button className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200">
                         {expanded ? <FaChevronDown size={12} /> : <FaChevronRight size={12} />}
@@ -92,14 +102,13 @@ const GenericDeckDisplay = <T,>({
                     <span className="text-sm text-gray-500">({deck.elements.length} elements)</span>
                 </div>
 
-                {/* Buttons */}
                 <div className="flex gap-0.5 items-center flex-wrap mt-2 sm:mt-0">
                     <DeleteButton
                         creatorId={deck.creatorId}
                         elementId={deck._id}
                         elementType={elementType}
                     />
-                    
+
                     {enableGeneration && (
                         <GenerationButton
                             decks={[deck]}
@@ -120,44 +129,12 @@ const GenericDeckDisplay = <T,>({
                             <FaPlayCircle size={12} />
                         </button>
                     )}
-
-                    {TableComponent && (
-                        <div className="flex">
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setViewMode("cards");
-                                }}
-                                className={`p-2 rounded-l-md ${
-                                    viewMode === "cards"
-                                        ? "bg-blue-500 dark:bg-gray-700 text-white"
-                                        : "bg-gray-200 dark:bg-gray-950 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
-                                }`}
-                            >
-                                <FaThLarge size={12} />
-                            </button>
-                            <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setViewMode("table");
-                                }}
-                                className={`p-2 rounded-r-md ${
-                                    viewMode === "table"
-                                        ? "bg-blue-500 dark:bg-gray-700 text-white"
-                                        : "bg-gray-200 dark:bg-gray-950 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
-                                }`}
-                            >
-                                <FaTable size={12} />
-                            </button>
-                        </div>
-                    )}
                 </div>
             </div>
 
-            {/* Content (cards or table) */}
             <div
                 ref={contentRef}
-                className="overflow-scroll transition-max-height duration-500 ease-in-out"
+                className="overflow-hidden transition-max-height duration-500 ease-in-out"
                 style={{ maxHeight: expanded ? `${contentRef.current?.scrollHeight}px` : "0px" }}
             >
                 {renderContent()}
