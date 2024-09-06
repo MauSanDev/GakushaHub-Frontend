@@ -15,13 +15,14 @@ const GrammarListPage: React.FC = () => {
     const [page, setPage] = useState(1);
     const [selectedJLPTLevels, setSelectedJLPTLevels] = useState<number[]>([5, 4, 3, 2, 1]);
     const [showSelectedOnly, setShowSelectedOnly] = useState(false);
+    const [searchTerm, setSearchTerm] = useState(''); // Nuevo estado para el input de búsqueda
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
     const { userData } = useAuth();
 
     const { data, isLoading, error } = usePaginatedGrammar(page, 20);
 
-    const isSaving = saveStatus === SaveStatus.Saving
+    const isSaving = saveStatus === SaveStatus.Saving;
 
     const onSaveStatusChanged = (status: SaveStatus) => {
         setSaveStatus(status);
@@ -76,38 +77,61 @@ const GrammarListPage: React.FC = () => {
     const contentToShow = () => {
         let toShow = allResults;
         toShow = toShow.filter(x => selectedJLPTLevels.includes(x.jlpt));
+
+        // Nuevo filtro para la búsqueda
+        if (searchTerm) {
+            const lowercasedTerm = searchTerm.toLowerCase();
+            toShow = toShow.filter(x =>
+                x.structure.toLowerCase().includes(lowercasedTerm) ||
+                x.hint?.toLowerCase().includes(lowercasedTerm) ||
+                x.description.toLowerCase().includes(lowercasedTerm) ||
+                x.example_contexts.some(keyword => keyword.toLowerCase().includes(lowercasedTerm))
+            );
+        }
+
         return showSelectedOnly ? toShow.filter(x => selectedGrammar.includes(x)) : toShow;
-    }
+    };
 
     return (
         <div ref={scrollContainerRef}
              className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-            {/* Botones de filtrado JLPT */}
-            <div className="flex flex-wrap justify-center w-full max-w-md mt-16 gap-4 sm:gap-2 md:gap-4">
-                {[5, 4, 3, 2, 1].map(level => (
-                    <button
-                        key={level}
-                        onClick={() => toggleJLPTLevel(level)}
-                        className={`border dark:border-gray-600 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 ${
-                            selectedJLPTLevels.includes(level)
-                                ? 'bg-blue-500 dark:bg-gray-700 dark:bg-gray-700 text-white'
-                                : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 dark:hover:bg-gray-900 hover:text-white'
-                        }`}
-                    >
-                        JLPT{level}
-                    </button>
-                ))}
+
+            <div className="mt-4 w-full max-w-4xl flex flex-wrap gap-4 text-left px-14 lg:px-0 justify-between">
+                <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Buscar gramática..."
+                    className="flex-1 min-w-[200px] border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300"
+                />
+
                 <button
                     onClick={() => setShowSelectedOnly(!showSelectedOnly)}
                     className={`whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 ${
                         showSelectedOnly
-                            ? 'bg-blue-500 dark:bg-gray-700 dark:bg-green-900 text-white'
+                            ? 'bg-blue-500 dark:bg-green-900 text-white'
                             : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white'
                     }`}
                 >
                     {showSelectedOnly ? <FaEyeSlash/> : <FaEye/>}
                     {showSelectedOnly ? 'Show All' : 'Show Selected'}
                 </button>
+
+                <div className="flex flex-wrap justify-center">
+                    {[5, 4, 3, 2, 1].map(level => (
+                        <button
+                            key={level}
+                            onClick={() => toggleJLPTLevel(level)}
+                            className={`border dark:border-gray-600 rounded-full px-3 mx-1 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 ${
+                                selectedJLPTLevels.includes(level)
+                                    ? 'bg-blue-500 dark:bg-gray-700 text-white'
+                                    : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 dark:hover:bg-gray-900 hover:text-white'
+                            }`}
+                        >
+                            JLPT{level}
+                        </button>
+                    ))}
+                </div>
             </div>
 
             {userData && (selectedGrammar.length > 0 && (
