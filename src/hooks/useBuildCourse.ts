@@ -38,7 +38,7 @@ export const parseDecks = (deckName : string, kanjiData: KanjiData[], wordData :
     
     if (kanjiData.length > 0) {
         decks.push({
-            deckName: `${deckName} - Kanji`,
+            deckName: `${deckName}`,
             elements: kanjiData.map((x) => x._id),
             deckType: 'kanji',
         });
@@ -46,7 +46,7 @@ export const parseDecks = (deckName : string, kanjiData: KanjiData[], wordData :
     
     if (wordData.length > 0) {
         decks.push({
-            deckName: `${deckName} - Words`,
+            deckName: `${deckName}`,
             elements: wordData.map((x) => x._id),
             deckType: 'word',
         });
@@ -54,7 +54,7 @@ export const parseDecks = (deckName : string, kanjiData: KanjiData[], wordData :
     
     if (grammarData.length > 0) {
         decks.push({
-            deckName: `${deckName} - Grammar`,
+            deckName: `${deckName}`,
             elements: grammarData.map((x) => x._id),
             deckType: 'grammar',
         });
@@ -62,7 +62,7 @@ export const parseDecks = (deckName : string, kanjiData: KanjiData[], wordData :
     
     if (readingData.length > 0) {
         decks.push({
-            deckName: `${deckName} - Reading`,
+            deckName: `${deckName}`,
             elements: readingData.map((x) => x._id),
             deckType: 'reading',
         });
