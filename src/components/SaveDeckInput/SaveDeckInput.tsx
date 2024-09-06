@@ -1,21 +1,21 @@
-import React, { useState} from 'react';
-import {FaCheck, FaClock, FaSave} from 'react-icons/fa';
+import React, { useState } from 'react';
+import { FaCheck, FaClock, FaSave } from 'react-icons/fa';
 import { usePaginatedCourse } from "../../hooks/usePaginatedCourse.ts";
 import DropdownInput from "../DropdownInput/DropdownInput.tsx";
-import {parseDecks, useBuildCourse} from "../../hooks/useBuildCourse.ts";
-import {KanjiData} from "../../data/KanjiData.ts";
-import {WordData} from "../../data/WordData.ts";
-import {GrammarData} from "../../data/GrammarData.ts";
-import {SaveStatus} from "../../utils/SaveStatus.ts";
-import {GeneratedData} from "../../data/GenerationData.ts";
-import {useAuth} from "../../context/AuthContext.tsx";
-
+import { parseDecks, useBuildCourse } from "../../hooks/useBuildCourse.ts";
+import { KanjiData } from "../../data/KanjiData.ts";
+import { WordData } from "../../data/WordData.ts";
+import { GrammarData } from "../../data/GrammarData.ts";
+import { SaveStatus } from "../../utils/SaveStatus.ts";
+import { GeneratedData } from "../../data/GenerationData.ts";
+import { useAuth } from "../../context/AuthContext.tsx";
+import ConfigDropdown from "../ConfigDropdown.tsx";
 
 interface SaveDeckInputProps {
-    kanjiList: KanjiData[],
-    wordList: WordData[],
-    grammarList: GrammarData[],
-    readingList: GeneratedData[],
+    kanjiList: KanjiData[];
+    wordList: WordData[];
+    grammarList: GrammarData[];
+    readingList: GeneratedData[];
     onSaveStatusChange?: (status: SaveStatus, error?: string) => void;
 }
 
@@ -24,14 +24,13 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
     const [selectedLesson, setSelectedLesson] = useState<string>('');
     const [selectedDeck, setSelectedDeck] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
-    const [expanded, setExpanded] = useState(false);
     const { data } = usePaginatedCourse(1, 10);
     const { userData } = useAuth();
-    
+
     const { mutate: buildCourse, isLoading: isSaving, isSuccess: saveSuccess } = useBuildCourse();
 
-    if (!userData) return ;
-    
+    if (!userData) return;
+
     const getAvailableCourses = (): string[] => {
         return data?.documents.map((course) => course.name) ?? [];
     };
@@ -50,10 +49,10 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
         if (!lesson) return [];
 
         const decks = [
-            ...lesson.kanjiDecks || [],
-            ...lesson.grammarDecks || [],
-            ...lesson.wordDecks || [],
-            ...lesson.readingDecks || []
+            ...(lesson.kanjiDecks || []),
+            ...(lesson.grammarDecks || []),
+            ...(lesson.wordDecks || []),
+            ...(lesson.readingDecks || []),
         ];
 
         return decks
@@ -62,11 +61,6 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
     };
 
     const handleSave = async () => {
-        if (!expanded) {
-            setExpanded(true);
-            return;
-        }
-
         if (!selectedDeck) {
             const errorMsg = 'The "Deck" field is required.';
             setError(errorMsg);
@@ -92,19 +86,22 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
         const courseData = data?.documents.find((c) => c.name === selectedCourse);
 
         if (selectedCourse && selectedLesson && selectedDeck) {
-            buildCourse({
-                courseId: courseData?._id || null,
-                courseName: selectedCourse.trim(),
-                lessonName: selectedLesson.trim(),
-                decks: parseDecks(selectedDeck.trim(), kanjiList, wordList, grammarList, readingList)
-            }, {
-                onSuccess: () => {
-                    onSaveStatusChange?.(SaveStatus.Success);
+            buildCourse(
+                {
+                    courseId: courseData?._id || null,
+                    courseName: selectedCourse.trim(),
+                    lessonName: selectedLesson.trim(),
+                    decks: parseDecks(selectedDeck.trim(), kanjiList, wordList, grammarList, readingList),
                 },
-                onError: (error) => {
-                    onSaveStatusChange?.(SaveStatus.Error, String(error));
+                {
+                    onSuccess: () => {
+                        onSaveStatusChange?.(SaveStatus.Success);
+                    },
+                    onError: (error) => {
+                        onSaveStatusChange?.(SaveStatus.Error, String(error));
+                    },
                 }
-            });
+            );
         }
     };
 
@@ -135,57 +132,52 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
 
     return (
         <div className="flex flex-col gap-2">
-            <div className="relative w-full flex justify-end">
 
-                <div
-                    className={`flex items-center gap-2 transition-[max-width] duration-500 ${
-                        expanded ? 'max-w-full overflow-visible' : 'max-w-0 overflow-hidden'
-                    }`}
-                    style={{ transitionProperty: 'max-width, transform' }}
-                >
+            {/* ConfigDropdown Component */}
+            <ConfigDropdown
+                items={[
                     <DropdownInput
                         value={selectedCourse}
                         onChange={setSelectedCourse}
                         placeholder="Course"
                         options={getAvailableCourses()}
                         disabled={saveSuccess || isSaving}
-                    />
-                    
-                    <span className={"dark:text-white"}>/</span>
+                    />,
                     <DropdownInput
                         value={selectedLesson}
                         onChange={setSelectedLesson}
                         placeholder="Lesson"
                         options={getAvailableLessons()}
                         disabled={saveSuccess || isSaving}
-                    />
-
-                    <span className={"dark:text-white"}>/</span>
+                    />,
                     <DropdownInput
                         value={selectedDeck}
                         onChange={setSelectedDeck}
                         placeholder="Deck"
                         options={getAvailableDecks()}
                         disabled={saveSuccess || isSaving}
-                    />
-                </div>
-
-                <button
-                    onClick={handleSave}
-                    className={`flex items-center justify-center px-4 py-2 rounded ${
-                        saveSuccess ? 'bg-green-500 text-white cursor-not-allowed' : 'bg-blue-500 dark:bg-gray-700 text-white hover:bg-blue-600 dark:hover:bg-gray-600'
-                    } transition-transform duration-300`}
-                    disabled={saveSuccess || isSaving}
-                >
-                    {saveSuccess ? <FaCheck /> : isSaving ? <FaClock /> : <FaSave />}
-                </button>
-            </div>
-
-            {error ? (
-                <p className="text-red-500 text-xs text-right">{error}</p>
-            ) : (
-                <p className="text-gray-500 text-xs text-right">{getContextMessage()}</p>
-            )}
+                    />,
+                    error ? (
+                        <p className="text-red-500 text-xs text-right">{error}</p>
+                    ) : (
+                        <p className="text-gray-500 text-xs text-right">{getContextMessage()}</p>
+                    ),
+                    /* Save Button moved inside the dropdown */
+                    <button
+                        onClick={handleSave}
+                        className={`w-full flex items-center justify-center px-4 py-2 mt-2 rounded ${
+                            saveSuccess
+                                ? 'bg-green-500 text-white cursor-not-allowed'
+                                : 'bg-blue-500 dark:bg-gray-700 text-white hover:bg-blue-600 dark:hover:bg-gray-600'
+                        } transition-transform duration-300`}
+                        disabled={saveSuccess || isSaving}
+                    >
+                        {saveSuccess ? <FaCheck /> : isSaving ? <FaClock /> : <FaSave />}
+                    </button>
+                ]}
+                icon={<FaSave />} 
+                buttonSize="text-xl"
+            />
         </div>
     );
 };

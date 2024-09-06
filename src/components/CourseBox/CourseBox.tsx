@@ -9,7 +9,7 @@ interface CourseBoxProps {
 
 const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
     return (
-        <div className="relative bg-white dark:bg-gray-900 px-6 pt-6 rounded-lg shadow-md text-left border-2 border-gray-200 dark:border-gray-800 transform transition-transform duration-300 lg:hover:scale-105 hover:border-blue-300 hover:dark:border-gray-700">
+        <div className="relative pb-6 bg-white dark:bg-gray-900 px-6 pt-6 rounded-lg shadow-md text-left border-2 border-gray-200 dark:border-gray-800 transform transition-transform duration-300 lg:hover:scale-105 hover:border-blue-300 hover:dark:border-gray-700">
             <div className="absolute top-2 right-2">
                 <DeleteButton
                     creatorId={course.creatorId._id}
@@ -26,8 +26,9 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
             </p>
             <p className="text-gray-700 mb-3">{course.description}</p>
 
+            
             {course.lessons.map((lesson) => (
-                <div key={lesson._id} className="mb-4 indent-5 dark:bg-gray-950 rounded py-2 border dark:border-gray-800">
+                <div key={lesson._id} className="mb-1 indent-5 dark:bg-gray-950 rounded py-2 border dark:border-gray-800">
                     <div className="flex items-center max-w-full capitalize">
                         <FaChevronRight />
                         <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">{lesson.name}</h2>
