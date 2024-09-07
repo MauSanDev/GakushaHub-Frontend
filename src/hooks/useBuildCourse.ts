@@ -6,8 +6,10 @@ import { GrammarData} from "../data/GrammarData.ts";
 import { GeneratedData } from "../data/GenerationData.ts";
 import {useAuth} from "../context/AuthContext.tsx";
 import {usePaginatedCourse} from "./usePaginatedCourse.ts";
-import {getCourseLessonsEndpoint} from "./usePaginatedCourseLessons.ts";
 import {CourseData} from "../data/CourseData.ts";
+import {MY_COURSES_ENDPOINT} from "./coursesHooks/useOwnerCourses.ts";
+import {GET_COURSE_BY_ID_ENDPOINT} from "./coursesHooks/useCourseById.ts";
+import {GET_LESSON_BY_ID_ENDPOINT} from "./coursesHooks/useLessonById.ts";
 
 export interface Deck {
     deckName: string;
@@ -85,11 +87,13 @@ export const useBuildCourse = () => {
         return await createCourse(params, userData._id);
     }, {
         onSuccess: (course) => {
-            resetCourses(); 
-            const lessonsEndpoint = getCourseLessonsEndpoint(course.course._id);
-            if (lessonsEndpoint) {
-                queryClient.invalidateQueries(lessonsEndpoint);
-            }
+            resetCourses();
+                queryClient.invalidateQueries(GET_COURSE_BY_ID_ENDPOINT + course.course._id);
+                queryClient.invalidateQueries(MY_COURSES_ENDPOINT);
+                
+                course.course.lessons.forEach((lesson) => {
+                    queryClient.invalidateQueries(GET_LESSON_BY_ID_ENDPOINT + lesson._id);
+                })
         },
         onError: (error) => {
             console.error("Error creating course:", error);
