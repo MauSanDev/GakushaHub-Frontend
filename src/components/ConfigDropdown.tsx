@@ -17,6 +17,19 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({ items, icon, buttonSize
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) && !buttonRef.current?.contains(event.target as Node)) {
+                setShowConfig(false); // Cierra el dropdown si se hace clic fuera
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    useEffect(() => {
         if (showConfig && buttonRef.current && dropdownRef.current) {
             const buttonRect = buttonRef.current.getBoundingClientRect();
             const dropdownRect = dropdownRef.current.getBoundingClientRect();
@@ -58,7 +71,7 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({ items, icon, buttonSize
                 left: `${position.left}px`,
                 zIndex: 9999,
             }}
-            className="w-56 p-4 bg-white dark:bg-gray-950 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg"
+            className="max-w-xs w-auto p-4 bg-white dark:bg-gray-950 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg"
         >
             <div>
                 {items.map((item, index) => (
