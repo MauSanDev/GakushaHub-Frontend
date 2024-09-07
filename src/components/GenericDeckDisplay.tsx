@@ -80,7 +80,9 @@ const GenericDeckDisplay = <T,>({
                 </div>
             );
         } else if (viewMode === "table" && TableComponent) {
-            return <TableComponent deck={deck} />;
+            return (<div className={`grid columns-1 gap-2`}>
+                    <TableComponent deck={deck} />;
+                </div>)
         }
     };
 
