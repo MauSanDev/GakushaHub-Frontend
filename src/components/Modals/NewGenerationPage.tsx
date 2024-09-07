@@ -25,7 +25,6 @@ interface NewGenerationPageProps {
 const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName, courseId, lessonName, deckName, isVisible, onClose }) => {
     const [topic, setTopic] = useState('');
     const [style, setStyle] = useState('');
-    const [length, setLength] = useState(150);
     const [jlptLevel, setJlptLevel] = useState(0);
     const [error, setError] = useState('');
     const [generatedText, setGeneratedText] = useState<GeneratedData>();
@@ -82,14 +81,14 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
     }
     
     const handleGenerate = () => {
-        if (!topic || !style || length > 800) {
-            setError('All fields are required, and Length must be between 150 and 800.');
+        if (!topic || !style) {
+            setError('All fields are required.');
             return;
         }
 
         if (!isLoading) {
             generateText(
-                { topic, style, length, jlptLevel, isPublic: true, isAnonymous, prioritization: { words: getPrioritizedWords() ?? [], kanji: getPrioritizedKanji() ?? [], grammar: getPrioritizedGrammar() ?? []}},
+                { topic, style, length: 800, jlptLevel, isPublic: true, isAnonymous, prioritization: { words: getPrioritizedWords() ?? [], kanji: getPrioritizedKanji() ?? [], grammar: getPrioritizedGrammar() ?? []}},
                 {
                     onSuccess: (data: GeneratedData) => {
                         setGeneratedText(data);
@@ -124,7 +123,23 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
         }
     }, [onSaveTriggered, generatedText, navigate, location]);
 
-    const isGenerateEnabled = topic.trim() !== '' && style.trim() !== '' && length <= 800 && jlptLevel > 0;
+    const isGenerateEnabled = topic.trim() !== '' && style.trim() !== '' && jlptLevel > 0;
+
+    const writingStyles = [
+        { kanji: "記事", english: "Article" },
+        { kanji: "物語", english: "Story" },
+        { kanji: "昔話", english: "Traditional Tale" },
+        { kanji: "日記", english: "Diary" },
+        { kanji: "対話", english: "Dialogue" },
+        { kanji: "エッセイ", english: "Essay" },
+        { kanji: "詩", english: "Poetry" },
+        { kanji: "レビュー", english: "Review" },
+        { kanji: "手紙", english: "Letter" },
+        { kanji: "小説", english: "Novel" },
+        { kanji: "マンガ", english: "Manga" },
+        { kanji: "広告", english: "Advertisement" },
+        { kanji: "俳句", english: "Haiku" },
+    ];
 
     return (
         <OverlayModal isVisible={isVisible} onClose={onClose}>
@@ -182,34 +197,22 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
 
                     <div className="flex flex-wrap gap-3 mb-3 mt-4">
                         <div className="flex flex-col w-full sm:flex-1">
-                            <span className="text-gray-500 text-[10px]">Style</span>
-                            <input
+                            <select
                                 id="style"
-                                type="text"
-                                placeholder="Style (max 40 characters)"
                                 value={style}
                                 onChange={(e) => setStyle(e.target.value)}
-                                maxLength={40}
                                 className={`p-1.5 text-sm border rounded w-full ${style ? 'border-blue-500' : ''}`}
                                 disabled={isLoading}
-                            />
-                        </div>
-                        <div className="flex flex-col w-full sm:w-1/6">
-                            <span className="text-gray-500 text-[10px]">Length</span>
-                            <input
-                                id="length"
-                                type="number"
-                                placeholder="Length (150-800)"
-                                value={length}
-                                onChange={(e) => setLength(Math.min(800, Number(e.target.value)))}
-                                min={150}
-                                max={800}
-                                className={`p-1.5 text-sm border rounded w-full ${length >= 150 && length <= 800 ? 'border-blue-500' : ''}`}
-                                disabled={isLoading}
-                            />
+                            >
+                                <option value="">Select Style</option>
+                                {writingStyles.map((style, index) => (
+                                    <option key={index} value={`${style.kanji} - ${style.english}`}>
+                                        {`${style.kanji} - ${style.english}`}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
                         <div className="flex flex-col w-full sm:w-1/4">
-                            <span className="text-gray-500 text-[10px]">Level</span>
                             <select
                                 id="jlptLevel"
                                 value={jlptLevel ?? ""}

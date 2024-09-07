@@ -26,7 +26,7 @@ const SimpleTextReader: React.FC<SimpleTextPreviewProps> = ({ data, deleteRelati
 
             <p className="inline-flex text-xs text-gray-500 mb-2 gap-2">
                 <FaCrown/>
-                Created by {data.creatorId?.name ?? "???"} - {new Date(data.createdAt).toLocaleDateString()}
+                Created by  {data.isAnonymous || !data.creatorId?.name ? "Anonymous" : data.creatorId?.name}  - {new Date(data.createdAt).toLocaleDateString()}
             </p>
             <h2 className="text-xs text-gray-600 dark:text-gray-300 mb-2">Topic: "{data.topic}"</h2>
 

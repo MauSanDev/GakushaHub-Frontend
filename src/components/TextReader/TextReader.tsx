@@ -132,7 +132,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
 
             <div className="mt-60 border-t border-gray-200  dark:border-gray-800 pt-4">
                 <p className="text-xs text-gray-500 mb-2">
-                    Created by {data.creatorId?.name ?? "???"} - {new Date(data.createdAt).toLocaleDateString()}
+                    Created by {data.isAnonymous || !data.creatorId?.name ? "Anonymous" : data.creatorId?.name} - {new Date(data.createdAt).toLocaleDateString()}
                 </p>
                 <h2 className="text-sm text-gray-600 dark:text-gray-300 italic mb-4">Topic: "{data.topic}"</h2>
 

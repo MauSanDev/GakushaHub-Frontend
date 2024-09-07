@@ -11,6 +11,7 @@ export interface GeneratedData {
     length: number,
     jlptLevel: number,
     isPublic: boolean,
+    isAnonymous: boolean,
     prioritization: {
         grammar: string[],
         words: string[],

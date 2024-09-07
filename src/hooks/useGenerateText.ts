@@ -33,7 +33,8 @@ const generateText = async (params: GenerateTextParams, creatorId: string): Prom
             length: params.length,
             jlptLevel: params.jlptLevel,
             isPublic: true,
-            creatorId: creatorId,
+            isAnonymous: false,
+            creatorId: { _id: 'creatorId', name: 'creatorId', uid: creatorId, country: 'demo', email: 'demo@demo.com', createdAt: Date.now(), lastLogin: Date.now()},
             prioritization: {
                 grammar: params.prioritization.grammar,
                 words: params.prioritization.words,
@@ -42,7 +43,7 @@ const generateText = async (params: GenerateTextParams, creatorId: string): Prom
             createdAt: new Date().toISOString()
         };
     } else {
-        return ApiClient.post<GeneratedData>('/api/generation', { ...params, creatorId });
+        return ApiClient.post<GeneratedData, {}>('/api/generation', { ...params, creatorId });
     }
 };
 
