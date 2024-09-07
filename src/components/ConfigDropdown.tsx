@@ -16,11 +16,10 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({ items, icon, buttonSize
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-    // Cerrar el dropdown cuando se hace clic fuera del componente
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) && !buttonRef.current?.contains(event.target as Node)) {
-                setShowConfig(false); // Cierra el dropdown si se hace clic fuera
+                setShowConfig(false);
             }
         };
 
@@ -30,11 +29,11 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({ items, icon, buttonSize
         };
     }, []);
 
-    // Cerrar el dropdown cuando se detecta scroll
+    
     useEffect(() => {
         const handleScroll = () => {
             if (showConfig) {
-                setShowConfig(false); // Cerrar el dropdown al hacer scroll
+                setShowConfig(false); 
             }
         };
 
@@ -49,9 +48,9 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({ items, icon, buttonSize
             const buttonRect = buttonRef.current.getBoundingClientRect();
             const dropdownRect = dropdownRef.current.getBoundingClientRect();
 
-            // Verificar si el dropdown se sale de la pantalla (hacia abajo)
+            
             if (buttonRect.bottom + dropdownRect.height > window.innerHeight) {
-                setOpenDirection('up'); // Si no hay espacio hacia abajo, abrir hacia arriba
+                setOpenDirection('up'); 
                 setPosition({
                     top: buttonRect.top + window.scrollY - dropdownRect.height,
                     left: buttonRect.left + window.scrollX,
@@ -59,20 +58,20 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({ items, icon, buttonSize
             } else {
                 setOpenDirection('down');
                 setPosition({
-                    top: buttonRect.bottom + window.scrollY, // Abre hacia abajo por defecto
+                    top: buttonRect.bottom + window.scrollY, 
                     left: buttonRect.left + window.scrollX,
                 });
             }
 
-            // Verificar si el dropdown se sale de la pantalla (hacia la derecha)
+            
             if (buttonRect.left + dropdownRect.width > window.innerWidth) {
-                setAlign('left'); // Si no hay espacio a la derecha, alinear a la izquierda
+                setAlign('left'); 
                 setPosition((prev) => ({
                     ...prev,
                     left: buttonRect.right + window.scrollX - dropdownRect.width,
                 }));
             } else {
-                setAlign('right'); // Por defecto, alinear a la derecha
+                setAlign('right'); 
             }
         }
     }, [showConfig]);
