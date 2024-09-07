@@ -17,7 +17,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ creatorId, elementId, eleme
     const navigate = useNavigate();
     const { user, userData } = useAuth();
     
-    if (!user || userData?._id != creatorId) return ;
+    if (!user || (creatorId && userData?._id != creatorId)) return ;
 
     const handleDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();

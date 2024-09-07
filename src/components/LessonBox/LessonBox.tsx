@@ -49,8 +49,8 @@ const LessonBox: React.FC<LessonBoxProps> = ({
     );
 
     return (
-        <div className="relative p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800">
-            <div className="absolute top-4 right-4 flex gap-2 flex-wrap items-center">
+        <div className="relative p-6 pb-26 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800">
+            <div className="absolute top-4 right-4 flex gap-0.5 flex-wrap items-center">
 
                 <DeleteButton
                     creatorId={lesson.creatorId._id}

@@ -280,14 +280,11 @@ const CourseDetailPage: React.FC = () => {
                         </div>
                     </div>
 
-                    {(isOwner || isPublic) ?? (<div className="relative">
-
+                    {(isOwner || isPublic) && (<div className="relative">
                         <ConfigDropdown
                             icon={<FaCog/>}
                             items={dropdownItems}
                         />
-
-                        
                     </div>)}
                 </div>
             </div>
