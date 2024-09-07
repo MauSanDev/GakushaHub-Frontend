@@ -37,25 +37,25 @@ const CourseDetailPage: React.FC = () => {
     const { userData } = useAuth();
     const navigate = useNavigate();
 
-    // Actualiza el estado cuando el curso está cargado
+    
     useEffect(() => {
         if (course && userData) {
             setIsOwner(course.creatorId._id === userData._id);
             setIsPublic(course.isPublic || false);
 
-            // Si no hay lessonId en la URL, selecciona la primera lección del curso
+            
             if (!lessonId && course.lessons.length > 0) {
                 const firstLessonId = course.lessons[0]._id;
                 setSelectedLesson(firstLessonId);
-                navigate(`/courses/${courseId}/${firstLessonId}`); // Actualiza la URL
+                navigate(`/courses/${courseId}/${firstLessonId}`); 
             }
         }
     }, [course, userData, lessonId, courseId, navigate]);
 
-    // Hacer el fetch de la lección si `selectedLesson` cambia
+    
     useEffect(() => {
         if (selectedLesson) {
-            fetchLesson(); // Traer la lección seleccionada
+            fetchLesson(); 
         }
     }, [selectedLesson, fetchLesson]);
 
@@ -173,13 +173,12 @@ const CourseDetailPage: React.FC = () => {
                     </h1>
                 </div>
             </div>
-            <div
-                className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center justify-between w-full max-w-4xl mb-2 px-4">
-                <div className="flex items-center gap-4 overflow-x-auto w-full sm:w-auto flex-grow"><p
-                    className="inline-flex items-center text-left text-xs text-gray-500 w-full sm:w-auto flex-grow">
-                    <FaCrown className="mr-1"/>
-                    Created by {course.creatorId?.name ?? "???"} - {new Date(course.createdAt).toLocaleDateString()}
-                </p>
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center justify-between w-full max-w-4xl mb-2 px-4">
+                <div className="flex items-center gap-4 overflow-x-auto w-full sm:w-auto flex-grow">
+                    <p className="inline-flex items-center text-left text-xs text-gray-500 w-full flex-grow">
+                        <FaCrown className="mr-1"/>
+                        Created by {course.creatorId?.name ?? "???"} - {new Date(course.createdAt).toLocaleDateString()}
+                    </p>
 
                     {!isOwner && (
                         <button
@@ -194,16 +193,16 @@ const CourseDetailPage: React.FC = () => {
                     )}
                 </div>
 
-                <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto mt-4 sm:mt-0 lg:pl-3">
+                <div className="flex items-center gap-2 overflow-x-auto w-auto mt-4 sm:mt-0 lg:pl-3">
                     <div className="relative">
                         <select
                             value={selectedLesson || ''}
                             onChange={handleLessonChange}
-                            className="pl-2 pr-2 py-1.5 border rounded text-sm dark:bg-gray-900 dark:text-white dark:border-gray-700 w-full lg:w-[200px] truncate  flex-grow"
+                            className="pl-2 pr-2 py-1.5 border rounded text-sm dark:bg-gray-900 dark:text-white dark:border-gray-700 w-[180px] lg:w-[220px] truncate  flex-grow"
                         >
                             {course?.lessons.map(lesson => (
                                 <option key={lesson._id} value={lesson._id} className="truncate">
-                                    {lesson.name}
+                                    Lesson: {lesson.name}
                                 </option>
                             ))}
                         </select>
