@@ -10,6 +10,8 @@ import { GeneratedData } from "../../data/GenerationData.ts";
 import { useAuth } from "../../context/AuthContext.tsx";
 import ConfigDropdown from "../ConfigDropdown.tsx";
 import {useOwnerCourses} from "../../hooks/coursesHooks/useOwnerCourses.ts";
+import { createPortal } from 'react-dom';
+
 
 interface SaveDeckInputProps {
     kanjiList: KanjiData[];
@@ -144,12 +146,12 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
         return `The content will be added to the existing Deck "${selectedDeck}".`;
     };
 
-    return (
-        <div className="flex flex-col gap-2">
-
-            {/* ConfigDropdown Component */}
+    const dropdownContent = (
+        <div className="absolute top-0 right-0 z-50 flex flex-col gap-2 shadow-lg p-4 rounded-md">
             <ConfigDropdown
+                baseColor={"dark:bg-blue-700 dark:hover:bg-blue-500"}
                 items={[
+                    <h1 className={"text-gray-500 text-xs"}>Save into collection:</h1>,
                     <DropdownInput
                         value={selectedCourse}
                         onChange={setSelectedCourse}
@@ -176,13 +178,12 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
                     ) : (
                         <p className="text-gray-500 text-xs text-right">{getContextMessage()}</p>
                     ),
-                    /* Save Button moved inside the dropdown */
                     <button
                         onClick={handleSave}
                         className={`w-full flex items-center justify-center px-4 py-2 mt-2 rounded ${
                             saveSuccess
                                 ? 'bg-green-500 text-white cursor-not-allowed'
-                                : 'bg-blue-500 dark:bg-gray-700 text-white hover:bg-blue-600 dark:hover:bg-gray-600'
+                                : 'bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600 dark:hover:bg-blue-600'
                         } transition-transform duration-300`}
                         disabled={saveSuccess || isSaving}
                     >
@@ -193,6 +194,11 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
                 buttonSize="text-xl"
             />
         </div>
+    );
+
+    return createPortal(
+        dropdownContent,
+        document.getElementById("modal-root")! // Elige dónde quieres que aparezca en el DOM
     );
 };
 

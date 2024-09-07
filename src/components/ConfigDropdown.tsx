@@ -6,9 +6,17 @@ interface ConfigDropdownProps {
     items: React.ReactNode[];
     icon?: React.ReactNode;
     buttonSize?: string;
+    baseColor?: string;
+    hoverColor?: string; 
 }
 
-const ConfigDropdown: React.FC<ConfigDropdownProps> = ({ items, icon, buttonSize = 'text-lg' }) => {
+const ConfigDropdown: React.FC<ConfigDropdownProps> = ({
+                                                           items,
+                                                           icon,
+                                                           buttonSize = 'text-lg',
+                                                           baseColor = 'bg-blue-500 dark:bg-gray-700',  
+                                                           hoverColor = 'hover:bg-blue-600 dark:hover:bg-gray-600', 
+                                                       }) => {
     const [showConfig, setShowConfig] = useState(false);
     const [position, setPosition] = useState({ top: 0, left: 0 });
     const [openDirection, setOpenDirection] = useState<'down' | 'up'>('down');
@@ -29,11 +37,10 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({ items, icon, buttonSize
         };
     }, []);
 
-    
     useEffect(() => {
         const handleScroll = () => {
             if (showConfig) {
-                setShowConfig(false); 
+                setShowConfig(false);
             }
         };
 
@@ -48,9 +55,8 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({ items, icon, buttonSize
             const buttonRect = buttonRef.current.getBoundingClientRect();
             const dropdownRect = dropdownRef.current.getBoundingClientRect();
 
-            
             if (buttonRect.bottom + dropdownRect.height > window.innerHeight) {
-                setOpenDirection('up'); 
+                setOpenDirection('up');
                 setPosition({
                     top: buttonRect.top + window.scrollY - dropdownRect.height,
                     left: buttonRect.left + window.scrollX,
@@ -58,20 +64,19 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({ items, icon, buttonSize
             } else {
                 setOpenDirection('down');
                 setPosition({
-                    top: buttonRect.bottom + window.scrollY, 
+                    top: buttonRect.bottom + window.scrollY,
                     left: buttonRect.left + window.scrollX,
                 });
             }
 
-            
             if (buttonRect.left + dropdownRect.width > window.innerWidth) {
-                setAlign('left'); 
+                setAlign('left');
                 setPosition((prev) => ({
                     ...prev,
                     left: buttonRect.right + window.scrollX - dropdownRect.width,
                 }));
             } else {
-                setAlign('right'); 
+                setAlign('right');
             }
         }
     }, [showConfig]);
@@ -101,7 +106,7 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({ items, icon, buttonSize
         <div>
             <button
                 ref={buttonRef}
-                className={`text-white bg-blue-500 dark:bg-gray-700 hover:bg-blue-600 dark:hover:bg-gray-600 p-2 rounded ${buttonSize}`}
+                className={`text-white ${baseColor} ${hoverColor} p-2 rounded ${buttonSize}`}
                 onClick={() => setShowConfig(!showConfig)}
             >
                 {icon ?? <FaCog />}
