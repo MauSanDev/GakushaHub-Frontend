@@ -17,6 +17,10 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
 
     // Generar la lista de items para el ConfigDropdown
     const dropdownItems = [
+        <div className="flex justify-between items-center">
+            <h1 className="text-lg font-bold text-blue-400 dark:text-white">{result.structure}</h1>
+        </div>,
+        <span className="text-xs text-gray-600 dark:text-gray-300">{result.hint}</span>,
         <div key="description">
             <p className="text-xs text-gray-600 dark:text-gray-300 mt-2 font-bold">Description:</p>
             <p className="text-xs text-gray-600 dark:text-gray-300 mb-2">{result.description}</p>
@@ -44,7 +48,8 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
     ];
 
     return (
-        <div className="bp-2 rounded-md shadow-sm border px-4 py-2 bg-white dark:bg-gray-950 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800 w-full relative">
+        <div
+            className="bp-2 rounded-md shadow-sm border px-4 py-2 bg-white dark:bg-gray-950 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800 w-full relative">
             <div className="flex justify-between items-center">
                 <h1 className="text-lg font-bold text-blue-400 dark:text-white">{result.structure}</h1>
                 <div className="flex items-center space-x-2">

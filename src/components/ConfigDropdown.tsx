@@ -16,6 +16,7 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({ items, icon, buttonSize
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
+    // Cerrar el dropdown cuando se hace clic fuera del componente
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) && !buttonRef.current?.contains(event.target as Node)) {
@@ -28,6 +29,20 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({ items, icon, buttonSize
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+    // Cerrar el dropdown cuando se detecta scroll
+    useEffect(() => {
+        const handleScroll = () => {
+            if (showConfig) {
+                setShowConfig(false); // Cerrar el dropdown al hacer scroll
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [showConfig]);
 
     useEffect(() => {
         if (showConfig && buttonRef.current && dropdownRef.current) {
