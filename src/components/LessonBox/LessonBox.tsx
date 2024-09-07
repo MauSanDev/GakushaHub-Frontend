@@ -91,7 +91,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({
 
             </div>
 
-            <h3 className="text-2xl font-bold text-blue-400 dark:text-white mb-2 capitalize">
+            <h3 className="lg:text-2xl text-xl font-bold text-blue-400 dark:text-white mb-2 capitalize pt-8">
                 {lesson.name}
             </h3>
 

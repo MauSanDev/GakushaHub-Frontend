@@ -136,15 +136,15 @@ const CourseDetailPage: React.FC = () => {
         <div ref={scrollContainerRef}
              className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
             <div
-                className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 mb-2 px-4">
-                <div className="flex items-center mb-4 sm:mb-0">
+                className="lg:pl-0 pl-12 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 mb-2 px-4">
+                <div className="flex items-start mb-4 sm:mb-0">
                     <Link
                         to="/courses"
                         className="bg-blue-500 dark:bg-gray-700 text-white p-2 rounded-full shadow hover:bg-blue-600 dark:hover:bg-gray-600 mr-4"
                     >
                         <FaArrowLeft className="w-5 h-5"/>
                     </Link>
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
+                    <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
                         {course?.name || "Course"}
                     </h1>
                 </div>
