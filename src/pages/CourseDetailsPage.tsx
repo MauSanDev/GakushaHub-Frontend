@@ -12,13 +12,14 @@ import {
     FaToggleOff,
     FaLink,
     FaBookmark,
-    FaCrown
+    FaCrown,
 } from "react-icons/fa";
 import {Link, useNavigate, useParams} from "react-router-dom";
 import { usePaginatedCourseLessons } from '../hooks/usePaginatedCourseLessons';
 import LoadingScreen from "../components/LoadingScreen";
 import DeleteButton from '../components/DeleteButton';
 import {useAuth} from "../context/AuthContext.tsx";
+import ConfigDropdown from "../components/ConfigDropdown.tsx";
 
 const CourseDetailPage: React.FC = () => {
     const { courseId } = useParams<{ courseId: string }>();
@@ -132,6 +133,61 @@ const CourseDetailPage: React.FC = () => {
         return <div className="text-red-500 text-center">{String(error)}</div>;
     }
 
+    const dropdownItems = [
+        isOwner && (
+            <div className="flex items-center justify-between">
+                <label className="text-xs text-gray-500">Delete Course</label>
+                <DeleteButton
+                    creatorId={course?.creatorId._id || ''}
+                    elementId={courseId || ''}
+                    elementType="course"
+                    deleteRelations={true}
+                    redirectTo="/courses"
+                />
+            </div>
+        ),
+        isOwner && (
+            <div className="flex items-center justify-between mt-2">
+                <label className="text-xs text-gray-500">Is Public</label>
+                <div className="relative inline-block w-10 select-none">
+                    <input
+                        type="checkbox"
+                        id="toggle"
+                        checked={isPublic}
+                        onChange={handleToggleChange}
+                        className="toggle-checkbox sr-only"
+                    />
+                    <label
+                        htmlFor="toggle"
+                        className={`block overflow-hidden h-6 rounded-full cursor-pointer`}
+                    >
+                        {isPublic ? (
+                            <FaToggleOn
+                                className="text-green-500 text-2xl absolute inset-0 m-auto"/>
+                        ) : (
+                            <FaToggleOff
+                                className="text-gray-500 text-2xl absolute inset-0 m-auto"/>
+                        )}
+                    </label>
+                </div>
+            </div>
+        ),
+        isPublic && (
+            <div className="flex items-center justify-between mt-2">
+                <button
+                    onClick={() => {
+                        navigator.clipboard.writeText(window.location.href);
+                    }}
+                    className="text-xs text-blue-400 dark:text-white flex items-center transition-transform duration-200 transform active:scale-95"
+                >
+                    <FaLink className="mr-1"/>
+                    Copy Course Link
+                </button>
+            </div>
+        )
+    ];
+
+
     return (
         <div ref={scrollContainerRef}
              className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
@@ -224,73 +280,15 @@ const CourseDetailPage: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="relative">
-                        <button
-                            className="text-white bg-blue-500 dark:bg-gray-700 hover:bg-blue-600 dark:hover:bg-gray-600 p-1 rounded gap-6"
-                            onClick={() => setShowConfig(!showConfig)}
-                        >
-                            <FaCog/>
-                        </button>
-                        {showConfig && (
-                            <div
-                                className="absolute right-0 w-56 p-4 bg-white dark:bg-black border border-gray-300 dark:border-gray-700 rounded-md shadow-lg z-50"
-                            >
-                                {isOwner ? (
-                                    <div>
-                                        <div className="flex items-center justify-between">
-                                            <label className="text-xs text-gray-700">Delete Course</label>
-                                            <DeleteButton
-                                                creatorId={course?.creatorId._id || ''}
-                                                elementId={courseId || ''}
-                                                elementType="course"
-                                                deleteRelations={true}
-                                                redirectTo="/courses"
-                                            />
-                                        </div>
+                    {(isOwner || isPublic) ?? (<div className="relative">
 
-                                        <div className="flex items-center justify-between mt-2">
-                                            <label className="text-xs text-gray-700">Is Public</label>
-                                            <div className="relative inline-block w-10 select-none">
-                                                <input
-                                                    type="checkbox"
-                                                    id="toggle"
-                                                    checked={isPublic}
-                                                    onChange={handleToggleChange}
-                                                    className="toggle-checkbox sr-only"
-                                                />
-                                                <label
-                                                    htmlFor="toggle"
-                                                    className={`block overflow-hidden h-6 rounded-full cursor-pointer`}
-                                                >
-                                                    {isPublic ? (
-                                                        <FaToggleOn
-                                                            className="text-green-500 text-2xl absolute inset-0 m-auto"/>
-                                                    ) : (
-                                                        <FaToggleOff
-                                                            className="text-gray-500 text-2xl absolute inset-0 m-auto"/>
-                                                    )}
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ) : ("")}
+                        <ConfigDropdown
+                            icon={<FaCog/>}
+                            items={dropdownItems}
+                        />
 
-                                {isPublic && (
-                                    <div className="flex items-center justify-between mt-2">
-                                        <button
-                                            onClick={() => {
-                                                navigator.clipboard.writeText(window.location.href);
-                                            }}
-                                            className="text-xs text-blue-400 dark:text-white flex items-center transition-transform duration-200 transform active:scale-95"
-                                        >
-                                            <FaLink className="mr-1"/>
-                                            Copy Course Link
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        )}
-                    </div>
+                        
+                    </div>)}
                 </div>
             </div>
 
