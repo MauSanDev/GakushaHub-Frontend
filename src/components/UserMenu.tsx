@@ -42,7 +42,7 @@ const UserMenu: React.FC = () => {
     }, []);
 
     return (
-        <div className="lg:fixed lg:top-0 lg:left-0 lg:p-4 z-50">
+        <div className="lg:fixed lg:top-0 lg:left-0 lg:p-1 z-50">
             <div ref={menuRef} className="relative">
                 {user ? (
                     <>

@@ -17,7 +17,6 @@ const Sidebar: React.FC = () => {
 
     return (
         <>
-            {/* Botón para abrir el sidebar en responsive */}
             <button
                 className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white dark:bg-black dark:text-white rounded text-3xl"
                 onClick={() => setIsOpen(!isOpen)}
@@ -27,7 +26,7 @@ const Sidebar: React.FC = () => {
 
             {/* Sidebar */}
             <div
-                className={`pt-24 fixed lg:left-0 lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:w-64 lg:h-auto w-full h-full top-0 left-0 z-40 transition-transform ${
+                className={`pt-24 fixed lg:left-0 lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:w-32 hover:lg:w-64 lg:h-auto w-full h-full top-0 left-0 z-40 transition-all ${
                     isOpen ? 'translate-x-0 bg-white dark:bg-black ' : '-translate-x-full lg:translate-x-0'
                 }`}
             >
@@ -38,7 +37,7 @@ const Sidebar: React.FC = () => {
                                 <Link
                                     key={index}
                                     to={item.path}
-                                    className="text-sm font-bold text-gray-600 dark:text-gray-300 hover:text-blue-400 hover:dark:text-white py-2 border-b border-gray-300 dark:border-gray-700 text-left"
+                                    className="text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-blue-400 hover:dark:text-white py-2 border-b border-gray-300 dark:border-gray-700 text-left hover:pl-2 transition-all"
                                     onClick={() => setIsOpen(false)} // Cierra el menú en responsive
                                 >
                                     {item.label}
