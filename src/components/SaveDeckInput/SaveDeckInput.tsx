@@ -19,6 +19,8 @@ interface SaveDeckInputProps {
     onSaveStatusChange?: (status: SaveStatus, error?: string) => void;
 }
 
+const MAX_INPUT_LENGTH = 12;
+
 const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, grammarList, readingList, onSaveStatusChange }) => {
     const [selectedCourse, setSelectedCourse] = useState<string>('');
     const [selectedLesson, setSelectedLesson] = useState<string>('');
@@ -30,6 +32,10 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
     const { mutate: buildCourse, isLoading: isSaving, isSuccess: saveSuccess } = useBuildCourse();
 
     if (!userData) return;
+
+    const validateInputLength = (input: string): boolean => {
+        return input.length <= MAX_INPUT_LENGTH;
+    };
 
     const getAvailableCourses = (): string[] => {
         return data?.documents.map((course) => course.name) ?? [];
@@ -61,6 +67,14 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
     };
 
     const handleSave = async () => {
+        // Verificar si los inputs exceden la longitud máxima
+        if (!validateInputLength(selectedCourse) || !validateInputLength(selectedLesson) || !validateInputLength(selectedDeck)) {
+            const errorMsg = `One or more fields exceed the maximum character limit of ${MAX_INPUT_LENGTH}.`;
+            setError(errorMsg);
+            onSaveStatusChange?.(SaveStatus.Error, errorMsg);
+            return;
+        }
+
         if (!selectedDeck) {
             const errorMsg = 'The "Deck" field is required.';
             setError(errorMsg);
@@ -175,7 +189,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
                         {saveSuccess ? <FaCheck /> : isSaving ? <FaClock /> : <FaSave />}
                     </button>
                 ]}
-                icon={<FaSave />} 
+                icon={<FaSave />}
                 buttonSize="text-xl"
             />
         </div>
