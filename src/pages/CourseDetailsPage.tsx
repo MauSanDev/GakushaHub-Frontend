@@ -299,7 +299,7 @@ const CourseDetailPage: React.FC = () => {
                 {course?.description}
             </h3>
 
-            <div className="w-full max-w-4xl flex flex-col gap-6 text-left">
+            <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
 
                 {selectedLesson ? (
                     <LessonBox

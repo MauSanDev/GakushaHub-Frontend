@@ -65,7 +65,7 @@ const GenerationsListPage: React.FC = () => {
 
             {error && <p className="text-red-500">{String(error)}</p>}
 
-            <div className="mt-4 w-full max-w-4xl flex flex-col gap-4 text-left">
+            <div className="mt-4 w-full max-w-4xl flex flex-col gap-4 text-left pb-24">
                 {generatedTexts.length > 0 ? (
                     generatedTexts.map((generatedText) => (
                         <div

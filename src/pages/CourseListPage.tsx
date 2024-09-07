@@ -54,7 +54,7 @@ const CourseListPage: React.FC = () => {
 
             {error && <p className="text-red-500">{String(error)}</p>}
 
-            <div className="mt-8 w-full max-w-4xl flex flex-col gap-6 text-left">
+            <div className="mt-8 w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
                 {courses.length > 0 ? (
                     courses.map((course, index) => (
                         <Link key={index} to={`${course._id}`} className="page-fade-enter page-fade-enter-active">

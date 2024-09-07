@@ -161,7 +161,7 @@ const SearchPage: React.FC = () => {
 
             <LoadingScreen isLoading={loading} />
 
-            <div className="mt-8 w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-left transition-opacity duration-500">
+            <div className="mt-8 w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-left transition-opacity duration-500 pb-24">
                 {error && <p className="text-red-500 col-span-full">{error}</p>}
                 {kanjis.map((kanjiData, index) => (
                     <KanjiBox
