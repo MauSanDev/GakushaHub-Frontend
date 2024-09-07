@@ -93,17 +93,20 @@ const GenericDeckDisplay = <T,>({
                 />
             )}
 
-            <div className="flex justify-between items-center bg-gray-100 dark:bg-gray-900 p-0.5 rounded flex-wrap">
+            <div className="flex justify-between items-center bg-gray-100 dark:bg-gray-900 p-0.5 rounded">
                 <div className="flex items-center gap-2 cursor-pointer" onClick={toggleExpand}>
                     <button className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200">
-                        {expanded ? <FaChevronDown size={12} /> : <FaChevronRight size={12} />}
+                        {expanded ? <FaChevronDown size={12}/> : <FaChevronRight size={12}/>}
                     </button>
-                    <div className="font-bold text-gray-600 dark:text-gray-300">{deck.name}</div>
-                    <span className="text-sm text-gray-500">({deck.elements.length} elements)</span>
+                    <div
+                        className="font-bold text-gray-600 dark:text-gray-300 truncate flex-grow lg:max-w-xl max-w-32">
+                        {deck.name}
+                    </div>
+                    <span className="text-sm text-gray-500">({deck.elements.length} cards)</span>
                 </div>
 
                 <div className="flex gap-0.5 items-center flex-wrap mt-2 sm:mt-0">
-                    <DeleteButton
+                <DeleteButton
                         creatorId={deck.creatorId}
                         elementId={deck._id}
                         elementType={elementType}
@@ -126,7 +129,7 @@ const GenericDeckDisplay = <T,>({
                             }}
                             className="p-2 bg-blue-500 dark:bg-gray-950 text-white rounded shadow hover:bg-blue-600 dark:hover:bg-gray-800"
                         >
-                            <FaPlayCircle size={12} />
+                            <FaPlayCircle size={12}/>
                         </button>
                     )}
                 </div>
@@ -135,7 +138,7 @@ const GenericDeckDisplay = <T,>({
             <div
                 ref={contentRef}
                 className="overflow-hidden transition-max-height duration-500 ease-in-out"
-                style={{ maxHeight: expanded ? `${contentRef.current?.scrollHeight}px` : "0px" }}
+                style={{maxHeight: expanded ? `${contentRef.current?.scrollHeight}px` : "0px"}}
             >
                 {renderContent()}
             </div>
