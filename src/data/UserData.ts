@@ -6,5 +6,6 @@ export interface UserData {
     country: string;
     createdAt: Date;
     lastLogin: Date;
+    followedCourses: string[];
     __v: number;
 }

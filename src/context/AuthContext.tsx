@@ -23,7 +23,8 @@ interface AuthContextType {
     signIn: (email: string, password: string) => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
     logout: () => Promise<void>;
-    resendEmailVerification: () => Promise<void>;  // Nueva función para reenviar el email de verificación
+    resendEmailVerification: () => Promise<void>;
+    updateUserData: (updatedFields: Partial<UserData>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -137,8 +138,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const updateUserData = (updatedFields: Partial<UserData>) => {
+        if (!userData) {
+            console.error("No user data available to update");
+            return;
+        }
+
+        const updatedUserData = { ...userData, ...updatedFields };
+        setUserData(updatedUserData);
+        localStorage.setItem('userData', JSON.stringify(updatedUserData));
+    };
+
     return (
-        <AuthContext.Provider value={{ user, userData, loading, isAuthenticated, isEmailVerified, signUp, signIn, resetPassword, logout, resendEmailVerification }}>
+        <AuthContext.Provider value={{ user, userData, loading, isAuthenticated, isEmailVerified, signUp, signIn, resetPassword, logout, resendEmailVerification, updateUserData }}>
             {!loading && children}
         </AuthContext.Provider>
     );

@@ -10,7 +10,6 @@ import {
     FaToggleOn,
     FaToggleOff,
     FaLink,
-    FaBookmark,
     FaCrown,
 } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -20,7 +19,9 @@ import LoadingScreen from "../components/LoadingScreen";
 import DeleteButton from '../components/DeleteButton';
 import { useAuth } from "../context/AuthContext.tsx";
 import ConfigDropdown from "../components/ConfigDropdown.tsx";
-import { useUpdateCourse } from '../hooks/updateHooks/useUpdateCourse.ts'; // Importa el hook para actualizar curso
+import { useUpdateCourse } from '../hooks/updateHooks/useUpdateCourse.ts';
+import FollowButton from '../components/FollowButton';
+
 
 const CourseDetailPage: React.FC = () => {
     const { courseId, lessonId } = useParams<{ courseId: string; lessonId?: string }>();
@@ -32,7 +33,6 @@ const CourseDetailPage: React.FC = () => {
     const [showGrammar, setShowGrammar] = useState(true);
     const [showReadings, setShowReadings] = useState(true);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const [isFollowing, setIsFollowing] = useState(false);
     const [isOwner, setIsOwner] = useState(false);
     const [isPublic, setIsPublic] = useState(false);
     const [isPublicInitial, setIsPublicInitial] = useState(false); // Para comparar el estado inicial
@@ -66,11 +66,6 @@ const CourseDetailPage: React.FC = () => {
         setSelectedLesson(lessonId);
         navigate(`/courses/${courseId}/${lessonId}`);
     };
-
-    const toggleFollow = () => {
-        setIsFollowing(!isFollowing);
-    };
-
     const handleToggleChange = () => {
         const newIsPublic = !isPublic;
         setIsPublic(newIsPublic);
@@ -189,15 +184,7 @@ const CourseDetailPage: React.FC = () => {
                     </p>
 
                     {!isOwner && (
-                        <button
-                            onClick={toggleFollow}
-                            className={`flex text-xs px-3 items-center p-1 rounded-full shadow transition-colors duration-300 ${
-                                isFollowing ? 'bg-red-500 text-white font-bold' : 'bg-gray-200 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
-                            }`}
-                        >
-                            <FaBookmark className={`mr-1 ${isFollowing ? 'text-white' : 'text-gray-500'}`}/>
-                            {isFollowing ? 'Following' : 'Follow'}
-                        </button>
+                        <FollowButton courseId={courseId || ''} />
                     )}
                 </div>
 

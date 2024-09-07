@@ -5,19 +5,22 @@ import LoadingScreen from "../components/LoadingScreen";
 import { Link } from "react-router-dom";
 import { useOwnerCourses } from "../hooks/coursesHooks/useOwnerCourses.ts";
 import { usePublicCourses } from "../hooks/coursesHooks/usePublicCourses.ts";
+import { useFollowedCourses } from "../hooks/coursesHooks/useFollowedCourses.ts"; // Hook para Followed Courses
 
 const CourseListPage: React.FC = () => {
     const [courses, setCourses] = useState<CourseData[]>([]);
     const [page, setPage] = useState(1);
-    const [currentView, setCurrentView] = useState<'owner' | 'public'>('owner');
+    const [currentView, setCurrentView] = useState<'owner' | 'public' | 'followed'>('owner');
     const scrollContainerRef = useRef<HTMLDivElement>(null);
-    
+
     const { data: ownerData, isLoading: ownerLoading, error: ownerError } = useOwnerCourses(page, 99);
     const { data: publicData, isLoading: publicLoading, error: publicError } = usePublicCourses(page, 20);
-    
-    const data = currentView === 'owner' ? ownerData : publicData;
-    const isLoading = currentView === 'owner' ? ownerLoading : publicLoading;
-    const error = currentView === 'owner' ? ownerError : publicError;
+    const { data: followedData, isLoading: followedLoading, error: followedError } = useFollowedCourses(page, 20); // Hook de Followed Courses
+
+    // Determinar qué datos mostrar según la vista actual
+    const data = currentView === 'owner' ? ownerData : currentView === 'public' ? publicData : followedData;
+    const isLoading = currentView === 'owner' ? ownerLoading : currentView === 'public' ? publicLoading : followedLoading;
+    const error = currentView === 'owner' ? ownerError : currentView === 'public' ? publicError : followedError;
 
     const hasMore = data ? page < (data.totalPages ?? 1) : false;
 
@@ -54,11 +57,10 @@ const CourseListPage: React.FC = () => {
         };
     }, [hasMore]);
 
-    
-    const handleViewChange = (view: 'owner' | 'public') => {
-        setCourses([]); 
-        setPage(1); 
-        setCurrentView(view); 
+    const handleViewChange = (view: 'owner' | 'public' | 'followed') => {
+        setCourses([]);
+        setPage(1);
+        setCurrentView(view);
     };
 
     return (
@@ -89,6 +91,11 @@ const CourseListPage: React.FC = () => {
                     onClick={() => handleViewChange('public')}
                     className={`px-4 py-2 rounded-lg ${currentView === 'public' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-800'}`}>
                     Public Courses
+                </button>
+                <button
+                    onClick={() => handleViewChange('followed')}
+                    className={`px-4 py-2 rounded-lg ${currentView === 'followed' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-800'}`}>
+                    Followed Courses
                 </button>
             </div>
 

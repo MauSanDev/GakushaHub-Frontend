@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import { ApiClient } from '../../services/ApiClient';
 
 
@@ -15,13 +15,13 @@ const updateDocument = async <T>({ collection, documentId, updateData }: UpdateD
 
 
 export const useUpdateDocument = <T>() => {
-    const queryClient = useQueryClient();
+    // const queryClient = useQueryClient();
 
     return useMutation(updateDocument<T>, {
-        onSuccess: (data, variables) => {
-            
-            queryClient.invalidateQueries([variables.collection, variables.documentId]);
-        },
+        // onSuccess: (data, variables) => {
+        //    
+        //     queryClient.invalidateQueries([variables.collection, variables.documentId]);
+        // },
         onError: (error) => {
             console.error("Error updating document:", error);
         },
