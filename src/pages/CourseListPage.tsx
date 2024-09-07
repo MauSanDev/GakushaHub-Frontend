@@ -3,14 +3,21 @@ import CourseBox from '../components/CourseBox';
 import { CourseData } from "../data/CourseData.ts";
 import LoadingScreen from "../components/LoadingScreen";
 import { Link } from "react-router-dom";
-import {useOwnerCourses} from "../hooks/coursesHooks/useOwnerCourses.ts";
+import { useOwnerCourses } from "../hooks/coursesHooks/useOwnerCourses.ts";
+import { usePublicCourses } from "../hooks/coursesHooks/usePublicCourses.ts";
 
 const CourseListPage: React.FC = () => {
     const [courses, setCourses] = useState<CourseData[]>([]);
     const [page, setPage] = useState(1);
+    const [currentView, setCurrentView] = useState<'owner' | 'public'>('owner');
     const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-    const { data, isLoading, error } = useOwnerCourses(page, 99);
+    
+    const { data: ownerData, isLoading: ownerLoading, error: ownerError } = useOwnerCourses(page, 99);
+    const { data: publicData, isLoading: publicLoading, error: publicError } = usePublicCourses(page, 20);
+    
+    const data = currentView === 'owner' ? ownerData : publicData;
+    const isLoading = currentView === 'owner' ? ownerLoading : publicLoading;
+    const error = currentView === 'owner' ? ownerError : publicError;
 
     const hasMore = data ? page < (data.totalPages ?? 1) : false;
 
@@ -47,6 +54,13 @@ const CourseListPage: React.FC = () => {
         };
     }, [hasMore]);
 
+    
+    const handleViewChange = (view: 'owner' | 'public') => {
+        setCourses([]); 
+        setPage(1); 
+        setCurrentView(view); 
+    };
+
     return (
         <div ref={scrollContainerRef}
              className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
@@ -55,7 +69,6 @@ const CourseListPage: React.FC = () => {
 
             {error && <p className="text-red-500">{String(error)}</p>}
 
-
             <div
                 className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
                 <div className="flex items-start mb-4 sm:mb-0">
@@ -63,6 +76,20 @@ const CourseListPage: React.FC = () => {
                         勉強しましょう
                     </h1>
                 </div>
+            </div>
+
+            {/* Botones para cambiar de vista */}
+            <div className="flex justify-center gap-4 mb-4">
+                <button
+                    onClick={() => handleViewChange('owner')}
+                    className={`px-4 py-2 rounded-lg ${currentView === 'owner' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-800'}`}>
+                    My Courses
+                </button>
+                <button
+                    onClick={() => handleViewChange('public')}
+                    className={`px-4 py-2 rounded-lg ${currentView === 'public' ? 'bg-blue-500 text-white' : 'bg-gray-200 dark:bg-gray-800'}`}>
+                    Public Courses
+                </button>
             </div>
 
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">

@@ -12,10 +12,10 @@ export const useLessonById = (lessonId: string) => {
             return data;
         },
         {
-            enabled: !!lessonId, // Solo ejecuta la consulta si lessonId está presente
-            refetchOnWindowFocus: false, // No hacer refetch cuando cambia el foco de la ventana
-            refetchOnMount: false, // No hace refetch automáticamente al montar el componente
-            refetchOnReconnect: true, // Refetch cuando hay reconexión de la red
+            enabled: !!lessonId, 
+            refetchOnWindowFocus: false, 
+            refetchOnMount: false, 
+            refetchOnReconnect: true, 
         }
     );
 };

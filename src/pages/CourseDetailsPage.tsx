@@ -20,6 +20,7 @@ import LoadingScreen from "../components/LoadingScreen";
 import DeleteButton from '../components/DeleteButton';
 import { useAuth } from "../context/AuthContext.tsx";
 import ConfigDropdown from "../components/ConfigDropdown.tsx";
+import { useUpdateCourse } from '../hooks/updateHooks/useUpdateCourse.ts'; // Importa el hook para actualizar curso
 
 const CourseDetailPage: React.FC = () => {
     const { courseId, lessonId } = useParams<{ courseId: string; lessonId?: string }>();
@@ -34,28 +35,29 @@ const CourseDetailPage: React.FC = () => {
     const [isFollowing, setIsFollowing] = useState(false);
     const [isOwner, setIsOwner] = useState(false);
     const [isPublic, setIsPublic] = useState(false);
+    const [isPublicInitial, setIsPublicInitial] = useState(false); // Para comparar el estado inicial
     const { userData } = useAuth();
     const navigate = useNavigate();
 
-    
+    const updateCourse = useUpdateCourse(courseId || ''); // Hook para actualizar el curso
+
     useEffect(() => {
         if (course && userData) {
             setIsOwner(course.creatorId._id === userData._id);
             setIsPublic(course.isPublic || false);
+            setIsPublicInitial(course.isPublic || false); // Almacena el valor inicial de isPublic
 
-            
             if (!lessonId && course.lessons.length > 0) {
                 const firstLessonId = course.lessons[0]._id;
                 setSelectedLesson(firstLessonId);
-                navigate(`/courses/${courseId}/${firstLessonId}`); 
+                navigate(`/courses/${courseId}/${firstLessonId}`);
             }
         }
     }, [course, userData, lessonId, courseId, navigate]);
 
-    
     useEffect(() => {
         if (selectedLesson) {
-            fetchLesson(); 
+            fetchLesson();
         }
     }, [selectedLesson, fetchLesson]);
 
@@ -70,7 +72,13 @@ const CourseDetailPage: React.FC = () => {
     };
 
     const handleToggleChange = () => {
-        setIsPublic(!isPublic);
+        const newIsPublic = !isPublic;
+        setIsPublic(newIsPublic);
+
+        // Solo envía la actualización si el valor cambió
+        if (newIsPublic !== isPublicInitial) {
+            updateCourse({ isPublic: newIsPublic });
+        }
     };
 
     const handleToggle = (toggleType: 'kanji' | 'word' | 'grammar' | 'readings') => {
@@ -255,7 +263,6 @@ const CourseDetailPage: React.FC = () => {
                     </div>)}
                 </div>
             </div>
-
 
             <h3 className="text-gray-500 text-left w-full max-w-4xl ml-10">
                 {course?.description}
