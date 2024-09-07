@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { FaCheck, FaClock, FaSave } from 'react-icons/fa';
-import { usePaginatedCourse } from "../../hooks/usePaginatedCourse.ts";
 import DropdownInput from "../DropdownInput/DropdownInput.tsx";
 import { parseDecks, useBuildCourse } from "../../hooks/useBuildCourse.ts";
 import { KanjiData } from "../../data/KanjiData.ts";
@@ -10,6 +9,7 @@ import { SaveStatus } from "../../utils/SaveStatus.ts";
 import { GeneratedData } from "../../data/GenerationData.ts";
 import { useAuth } from "../../context/AuthContext.tsx";
 import ConfigDropdown from "../ConfigDropdown.tsx";
+import {useOwnerCourses} from "../../hooks/coursesHooks/useOwnerCourses.ts";
 
 interface SaveDeckInputProps {
     kanjiList: KanjiData[];
@@ -26,7 +26,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
     const [selectedLesson, setSelectedLesson] = useState<string>('');
     const [selectedDeck, setSelectedDeck] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
-    const { data } = usePaginatedCourse(1, 10);
+    const { data } = useOwnerCourses(1, 99);
     const { userData } = useAuth();
 
     const { mutate: buildCourse, isLoading: isSaving, isSuccess: saveSuccess } = useBuildCourse();

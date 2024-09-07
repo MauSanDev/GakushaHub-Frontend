@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CourseBox from '../components/CourseBox';
 import { CourseData } from "../data/CourseData.ts";
-import { usePaginatedCourse } from "../hooks/usePaginatedCourse.ts";
 import LoadingScreen from "../components/LoadingScreen";
 import { Link } from "react-router-dom";
+import {useOwnerCourses} from "../hooks/coursesHooks/useOwnerCourses.ts";
 
 const CourseListPage: React.FC = () => {
     const [courses, setCourses] = useState<CourseData[]>([]);
     const [page, setPage] = useState(1);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    const { data, isLoading, error } = usePaginatedCourse(page, 20);
+    const { data, isLoading, error } = useOwnerCourses(page, 99);
 
     const hasMore = data ? page < (data.totalPages ?? 1) : false;
 

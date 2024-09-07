@@ -26,7 +26,7 @@ const OverlayModal: React.FC<OverlayModalProps> = ({ isVisible, onClose, childre
     if (!isVisible) return null;
 
     const modalContent = (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 px-6 my-8">
+        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 px-6 py-8">
             <div className="relative bg-white dark:bg-gray-900 p-4 lg:m-0 rounded shadow-lg w-full max-w-3xl max-h-full overflow-y-auto">
                 <button
                     className="sticky top-0 right-0 mr-2 text-gray-500 hover:text-gray-700 z-10"

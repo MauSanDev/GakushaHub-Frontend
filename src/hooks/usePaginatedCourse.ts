@@ -33,16 +33,4 @@ export class Lesson {
         this.grammarDecks = grammarDecks;
         this.wordDecks = wordDecks;
     }
-    
-    getAllDecks(): string[] {
-        const decks = [
-            ...this.kanjiDecks,
-            ...this.grammarDecks,
-            ...this.wordDecks
-        ];
-    
-        return decks
-            .map((deck) => deck.name.replace(/ - (Words|Kanji|Grammar)$/, ''))
-            .filter((name, index, self) => self.indexOf(name) === index);
-    }
 }

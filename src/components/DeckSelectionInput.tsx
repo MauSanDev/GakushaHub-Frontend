@@ -23,7 +23,7 @@ const DeckSelectionInput: React.FC<DeckSelectionInputProps> = ({ kanjiList, word
     const [selectedLesson, setSelectedLesson] = useState<string>('');
     const [selectedDeck, setSelectedDeck] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
-    const { data } = usePaginatedCourse(1, 10);
+    const { data } = usePaginatedCourse(1, 99);
 
     const { mutate: buildCourse, isLoading: isSaving, isSuccess: saveSuccess } = useBuildCourse();
 
