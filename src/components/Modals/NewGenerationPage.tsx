@@ -29,7 +29,8 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
     const [jlptLevel, setJlptLevel] = useState(0);
     const [error, setError] = useState('');
     const [generatedText, setGeneratedText] = useState<GeneratedData>();
-    const [isPublic, setIsPublic] = useState(true);
+    // const [isPublic, setIsPublic] = useState(true);
+    const [isAnonymous, setIsAnonymous] = useState(true);
     const [onSaveTriggered, setOnSaveTriggered] = useState(false);
     const { mutate: buildCourse } = useBuildCourse();
 
@@ -88,7 +89,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
 
         if (!isLoading) {
             generateText(
-                { topic, style, length, jlptLevel, isPublic, prioritization: { words: getPrioritizedWords() ?? [], kanji: getPrioritizedKanji() ?? [], grammar: getPrioritizedGrammar() ?? []}},
+                { topic, style, length, jlptLevel, isPublic: true, isAnonymous, prioritization: { words: getPrioritizedWords() ?? [], kanji: getPrioritizedKanji() ?? [], grammar: getPrioritizedGrammar() ?? []}},
                 {
                     onSuccess: (data: GeneratedData) => {
                         setGeneratedText(data);
@@ -262,18 +263,32 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
 
                     <div className="flex items-center mb-4 mt-4">
                         <button
-                            onClick={() => setIsPublic(!isPublic)}
+                            onClick={() => setIsAnonymous(!isAnonymous)}
                             className="flex items-center space-x-2"
                         >
-                            {isPublic ? (
+                            {isAnonymous ? (
                                 <FaCheckSquare className="text-blue-600" size={24}/>
                             ) : (
                                 <FaSquare className="text-gray-400" size={24}/>
                             )}
                             <span
-                                className="text-sm text-gray-500">Make it public (Other users will be able to read it)</span>
+                                className="text-sm text-gray-500">Make it Anonymous (Other users won't know who created this.)</span>
                         </button>
                     </div>
+                    {/*<div className="flex items-center mb-4 mt-4">*/}
+                    {/*    <button*/}
+                    {/*        onClick={() => setIsPublic(!isPublic)}*/}
+                    {/*        className="flex items-center space-x-2"*/}
+                    {/*    >*/}
+                    {/*        {isPublic ? (*/}
+                    {/*            <FaCheckSquare className="text-blue-600" size={24}/>*/}
+                    {/*        ) : (*/}
+                    {/*            <FaSquare className="text-gray-400" size={24}/>*/}
+                    {/*        )}*/}
+                    {/*        <span*/}
+                    {/*            className="text-sm text-gray-500">Make it public (Other users will be able to read it)</span>*/}
+                    {/*    </button>*/}
+                    {/*</div>*/}
 
                     {decks && decks.length > 0 && (
                         <div

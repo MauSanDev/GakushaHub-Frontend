@@ -10,6 +10,7 @@ interface GenerateTextParams {
     length: number;
     jlptLevel: number;
     isPublic: boolean;
+    isAnonymous: boolean;
     prioritization: {
         grammar: string[],
         words: string[],
