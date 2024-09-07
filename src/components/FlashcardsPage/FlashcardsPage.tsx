@@ -27,6 +27,18 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     const cardRef = useRef<any>(null);
 
     useEffect(() => {
+        if (isVisible) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isVisible]);
+
+    useEffect(() => {
         const flashcardDeck = convertToFlashcardDeck(deck);
         setFilteredCards(flashcardDeck.elements);
         setAllCards(flashcardDeck.elements);

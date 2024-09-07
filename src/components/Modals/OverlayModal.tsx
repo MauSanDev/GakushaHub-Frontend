@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 interface OverlayModalProps {
@@ -8,6 +8,21 @@ interface OverlayModalProps {
 }
 
 const OverlayModal: React.FC<OverlayModalProps> = ({ isVisible, onClose, children }) => {
+    useEffect(() => {
+        if (isVisible) {
+            // Añadir la clase que bloquea el scroll al abrir el modal
+            document.body.style.overflow = 'hidden';
+        } else {
+            // Remover la clase al cerrar el modal
+            document.body.style.overflow = 'auto';
+        }
+
+        // Cleanup para restaurar el estado original cuando el modal se cierra
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isVisible]);
+
     if (!isVisible) return null;
 
     const modalContent = (

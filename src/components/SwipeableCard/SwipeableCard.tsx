@@ -91,7 +91,7 @@ const SwipeableCard = forwardRef(({ front, back, onApprove, onReject }: Swipeabl
 
     const handlePointerUp = () => {
         if (dragging) {
-            const maxDelta = 300;
+            const maxDelta = 100;
             const deltaX = currentPosition.x;
 
             if (Math.abs(deltaX) > maxDelta * 0.7) {
