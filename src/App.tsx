@@ -55,6 +55,7 @@ function App() {
                     <Route path="/generate" element={<FakeGenerationPage/>}/>
                     <Route path="/courses" element={<CourseListPage/>}/>
                     <Route path="/courses/:courseId" element={<CourseDetailPage/>}/>
+                    <Route path="/courses/:courseId/:lessonId" element={<CourseDetailPage/>}/>
                 </Route>
                 
                 

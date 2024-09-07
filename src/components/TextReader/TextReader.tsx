@@ -55,7 +55,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
     }, [formattedContent]);
 
     return (
-        <div className="relative p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
+        <div className="relative lg:p-6 mb-24 pb-10 p-2 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
             <h1 className="text-2xl font-bold mb-4 mt-8 text-center dark:text-white">{data.title}</h1>
             <div className="absolute top-4 right-14 flex items-center space-x-2">
                 <button
@@ -142,10 +142,6 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
         </span>
                     <span
                         className="inline-block bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-500 dark:bg-opacity-50 text-xs font-semibold px-2 py-0.5 rounded-full">
-            Length: {data.length} chars
-        </span>
-                    <span
-                        className="inline-block bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 dark:bg-opacity-50 text-xs font-semibold px-2 py-0.5 rounded-full">
             JLPT: N{data.jlptLevel}
         </span>
                     <div className="flex items-center gap-2">

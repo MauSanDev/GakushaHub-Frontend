@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import LessonBox from '../components/LessonBox';
-import { CourseData, LessonData } from "../data/CourseData.ts";
 import {
     FaArrowLeft,
     FaBookOpen,
@@ -14,98 +13,68 @@ import {
     FaBookmark,
     FaCrown,
 } from "react-icons/fa";
-import {Link, useNavigate, useParams} from "react-router-dom";
-import { usePaginatedCourseLessons } from '../hooks/usePaginatedCourseLessons';
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useCourseById } from '../hooks/coursesHooks/useCourseById';
+import { useLessonById } from '../hooks/coursesHooks/useLessonById';
 import LoadingScreen from "../components/LoadingScreen";
 import DeleteButton from '../components/DeleteButton';
-import {useAuth} from "../context/AuthContext.tsx";
+import { useAuth } from "../context/AuthContext.tsx";
 import ConfigDropdown from "../components/ConfigDropdown.tsx";
 
 const CourseDetailPage: React.FC = () => {
-    const { courseId } = useParams<{ courseId: string }>();
-    const [page, setPage] = useState(1);
-    const [allLessons, setAllLessons] = useState<LessonData[]>([]);
+    const { courseId, lessonId } = useParams<{ courseId: string; lessonId?: string }>();
+    const [selectedLesson, setSelectedLesson] = useState<string | null>(lessonId || null);
+    const { data: course, error: courseError, isLoading: courseLoading } = useCourseById(courseId || '');
+    const { data: lesson, error: lessonError, isLoading: lessonLoading, refetch: fetchLesson } = useLessonById(selectedLesson || '');
     const [showKanji, setShowKanji] = useState(true);
     const [showWord, setShowWord] = useState(true);
     const [showGrammar, setShowGrammar] = useState(true);
-    const [showReadings, setShowReadings] = useState(true); // Nuevo estado para Readings
+    const [showReadings, setShowReadings] = useState(true);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const [showConfig, setShowConfig] = useState(false);
-    const [isPublic, setIsPublic] = useState(false);
     const [isFollowing, setIsFollowing] = useState(false);
     const [isOwner, setIsOwner] = useState(false);
-    const { data, isLoading, error } = usePaginatedCourseLessons(courseId || '', page, 10);
+    const [isPublic, setIsPublic] = useState(false);
     const { userData } = useAuth();
     const navigate = useNavigate();
-    const [selectedLesson, setSelectedLesson] = useState<LessonData>();
 
-    const course = data?.course as CourseData;
-    
-    
+    // Actualiza el estado cuando el curso está cargado
     useEffect(() => {
-        // if (!userData || userData._id !== course?.creatorId) {
-        //     navigate('/');
-        // }
-    }, [userData, course, navigate]);
+        if (course && userData) {
+            setIsOwner(course.creatorId._id === userData._id);
+            setIsPublic(course.isPublic || false);
 
+            // Si no hay lessonId en la URL, selecciona la primera lección del curso
+            if (!lessonId && course.lessons.length > 0) {
+                const firstLessonId = course.lessons[0]._id;
+                setSelectedLesson(firstLessonId);
+                navigate(`/courses/${courseId}/${firstLessonId}`); // Actualiza la URL
+            }
+        }
+    }, [course, userData, lessonId, courseId, navigate]);
+
+    // Hacer el fetch de la lección si `selectedLesson` cambia
+    useEffect(() => {
+        if (selectedLesson) {
+            fetchLesson(); // Traer la lección seleccionada
+        }
+    }, [selectedLesson, fetchLesson]);
 
     const handleLessonChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedLesson(allLessons.find((x) => x._id === e.target.value));
+        const lessonId = e.target.value;
+        setSelectedLesson(lessonId);
+        navigate(`/courses/${courseId}/${lessonId}`);
     };
-    
+
     const toggleFollow = () => {
         setIsFollowing(!isFollowing);
     };
-    
-    useEffect(() => {
-        setIsOwner(userData?._id == data?.course.creatorId._id )
-    }, [courseId, data]);
 
-    
-    useEffect(() => {
-        setAllLessons([]);
-    }, [courseId]);
-
-    useEffect(() => {
-        if (data) {
-            const uniqueLessons = data.documents.filter(
-                (newLesson) => !allLessons.some((lesson) => lesson._id === newLesson._id)
-            );
-            const newLessons = [...allLessons, ...uniqueLessons];
-            setAllLessons(newLessons);
-            setSelectedLesson(newLessons[0])
-        }
-    }, [data]);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrollContainer = scrollContainerRef.current;
-            if (scrollContainer) {
-                const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
-                if (scrollTop + clientHeight >= scrollHeight - 100 && !isLoading && page < (data?.totalPages ?? 1)) {
-                    setPage((prevPage) => prevPage + 1);
-                }
-            }
-        };
-
-        const scrollContainer = scrollContainerRef.current;
-        if (scrollContainer) {
-            scrollContainer.addEventListener('scroll', handleScroll);
-        }
-        return () => {
-            if (scrollContainer) {
-                scrollContainer.removeEventListener('scroll', handleScroll);
-            }
-        };
-    }, [isLoading, page, data]);
-    
-    
     const handleToggleChange = () => {
         setIsPublic(!isPublic);
     };
 
     const handleToggle = (toggleType: 'kanji' | 'word' | 'grammar' | 'readings') => {
-        let toggles = { kanji: showKanji, word: showWord, grammar: showGrammar, readings: showReadings };
+        const toggles = { kanji: showKanji, word: showWord, grammar: showGrammar, readings: showReadings };
 
         if (toggleType === 'kanji') toggles.kanji = !showKanji;
         if (toggleType === 'word') toggles.word = !showWord;
@@ -125,12 +94,12 @@ const CourseDetailPage: React.FC = () => {
         }
     };
 
-    if (isLoading && page === 1) {
-        return (<LoadingScreen isLoading={isLoading} />);
+    if (courseLoading) {
+        return <LoadingScreen isLoading={courseLoading} />;
     }
 
-    if (error) {
-        return <div className="text-red-500 text-center">{String(error)}</div>;
+    if (courseError) {
+        return <div className="text-red-500 text-center">{String(courseError)}</div>;
     }
 
     const dropdownItems = [
@@ -187,7 +156,6 @@ const CourseDetailPage: React.FC = () => {
         )
     ];
 
-
     return (
         <div ref={scrollContainerRef}
              className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
@@ -229,11 +197,11 @@ const CourseDetailPage: React.FC = () => {
                 <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto mt-4 sm:mt-0 lg:pl-3">
                     <div className="relative">
                         <select
-                            value={selectedLesson?._id}
+                            value={selectedLesson || ''}
                             onChange={handleLessonChange}
                             className="pl-2 pr-2 py-1.5 border rounded text-sm dark:bg-gray-900 dark:text-white dark:border-gray-700 w-full lg:w-[200px] truncate  flex-grow"
                         >
-                            {allLessons.map(lesson => (
+                            {course?.lessons.map(lesson => (
                                 <option key={lesson._id} value={lesson._id} className="truncate">
                                     {lesson.name}
                                 </option>
@@ -295,11 +263,10 @@ const CourseDetailPage: React.FC = () => {
             </h3>
 
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
-
-                {selectedLesson ? (
+                {lesson ? (
                     <LessonBox
-                        key={selectedLesson._id}
-                        lesson={selectedLesson}
+                        key={lesson._id}
+                        lesson={lesson}
                         showKanji={showKanji}
                         showWord={showWord}
                         showGrammar={showGrammar}
@@ -311,8 +278,7 @@ const CourseDetailPage: React.FC = () => {
                 )}
             </div>
 
-            {isLoading && page > 1 &&
-                <LoadingScreen isLoading={isLoading}/>}
+            {lessonLoading && <LoadingScreen isLoading={lessonLoading}/>}
         </div>
     );
 };

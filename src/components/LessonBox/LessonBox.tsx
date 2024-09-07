@@ -56,7 +56,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({
                     creatorId={lesson.creatorId._id}
                     elementId={lesson._id}
                     elementType="lesson"
-                    redirectTo="/lessons"
+                    redirectTo={`/courses/${owner._id}`}
                 />
                 
                 <GenerationButton

@@ -31,10 +31,6 @@ const SimpleReadingBox: React.FC<SimpleReadingBoxProps> = ({ result, deleteRelat
             Style: {result.style}
         </span>
                     <span
-                        className="inline-block bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-500 dark:bg-opacity-50 text-xs font-semibold px-2 py-0.5 rounded-full">
-            Length: {result.length} chars
-        </span>
-                    <span
                         className="inline-block bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 dark:bg-opacity-50 text-xs font-semibold px-2 py-0.5 rounded-full">
             JLPT: N{result.jlptLevel}
         </span>

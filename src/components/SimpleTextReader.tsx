@@ -37,10 +37,6 @@ const SimpleTextReader: React.FC<SimpleTextPreviewProps> = ({ data, deleteRelati
         </span>
                 <span
                     className="inline-block bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-500 dark:bg-opacity-50 text-xs font-semibold px-2 py-0.5 rounded-full">
-            Length: {data.length} chars
-        </span>
-                <span
-                    className="inline-block bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300 dark:bg-opacity-50 text-xs font-semibold px-2 py-0.5 rounded-full">
             JLPT: N{data.jlptLevel}
         </span>
                 <div className="flex items-center gap-2">

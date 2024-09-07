@@ -15,7 +15,6 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
 
     if (!result) return null;
 
-    // Generar la lista de items para el ConfigDropdown
     const dropdownItems = [
         <div className="flex justify-between items-center">
             <h1 className="text-lg font-bold text-blue-400 dark:text-white">{result.structure}</h1>
