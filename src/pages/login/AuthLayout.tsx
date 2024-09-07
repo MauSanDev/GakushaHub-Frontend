@@ -33,8 +33,8 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
                 </Link>
             </div>
 
-            <div className="relative z-10 flex flex-1 justify-center items-center">
-                <div className="bg-white dark:bg-gray-900 dark:text-white w-full max-w-md p-8 space-y-8 shadow-lg rounded-lg">
+            <div className="relative z-10 flex flex-1 justify-center items-center p-4">
+                <div className="bg-white dark:bg-gray-900 dark:text-white w-full max-w-md p-6 space-y-8 shadow-lg rounded-lg">
                     {children}
                     <div className="flex gap-6 items-center px-4 mb-4">
                         <LanguageDropdown />
