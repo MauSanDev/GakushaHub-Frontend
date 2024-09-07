@@ -96,7 +96,16 @@ const GrammarListPage: React.FC = () => {
         <div ref={scrollContainerRef}
              className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
 
-            <div className="mt-20 w-full lg:max-w-4xl flex flex-wrap gap-2 text-left px-14 lg:px-0 justify-center">
+            <div
+                className="lg:pl-0 pl-20 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
+                <div className="flex items-start mb-4 sm:mb-0">
+                    <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
+                        文法
+                    </h1>
+                </div>
+            </div>
+            
+            <div className=" w-full lg:max-w-4xl flex flex-wrap gap-2 text-left px-14 lg:px-0 justify-center">
                 <input
                     type="text"
                     value={searchTerm}
