@@ -15,7 +15,7 @@ const TextDisplayPage: React.FC = () => {
     const { isAuthenticated } = useAuth()
 
     return (
-        <div className="relative flex flex-col items-center justify-center h-full w-full">
+        <div className="relative flex flex-col items-center justify-center h-full w-full pt-3">
             <div className="flex-1 rounded-md overflow-y-auto relative max-w-4xl w-full">
                 {isLoading && (
                     <LoadingScreen isLoading={isLoading} />
@@ -30,7 +30,8 @@ const TextDisplayPage: React.FC = () => {
                                 grammarList={[]}
                                 readingList={[data]} />
                         </div>)}
-                        <div className="flex items-center justify-between mb-4">
+                        
+                        <div className="flex items-center justify-between mb-4 lg:pl-0 pl-16 ">
                             <button
                                 onClick={() => {navigate(-1)}}
                                 className="bg-blue-500 dark:bg-gray-700 text-white p-2 rounded-full shadow hover:bg-blue-600 dark:hover:bg-gray-600 mr-4"

@@ -48,17 +48,28 @@ const CourseListPage: React.FC = () => {
     }, [hasMore]);
 
     return (
-        <div ref={scrollContainerRef} className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
+        <div ref={scrollContainerRef}
+             className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
 
-            <LoadingScreen isLoading={isLoading} />
+            <LoadingScreen isLoading={isLoading}/>
 
             {error && <p className="text-red-500">{String(error)}</p>}
 
-            <div className="mt-8 w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
+
+            <div
+                className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
+                <div className="flex items-start mb-4 sm:mb-0">
+                    <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
+                        勉強しましょう
+                    </h1>
+                </div>
+            </div>
+
+            <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
                 {courses.length > 0 ? (
                     courses.map((course, index) => (
                         <Link key={index} to={`${course._id}`} className="page-fade-enter page-fade-enter-active">
-                            <CourseBox course={course} />
+                            <CourseBox course={course}/>
                         </Link>
                     ))
                 ) : (
