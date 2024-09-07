@@ -96,33 +96,21 @@ const GrammarListPage: React.FC = () => {
         <div ref={scrollContainerRef}
              className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
 
-            <div className="mt-4 w-full max-w-4xl flex flex-wrap gap-4 text-left px-14 lg:px-0 justify-between">
+            <div className="mt-20 w-full lg:max-w-4xl flex flex-wrap gap-2 text-left px-14 lg:px-0 justify-center">
                 <input
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     placeholder="Search Grammar..."
-                    className="flex-1 min-w-[200px] border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300"
+                    className="flex-1 min-w-[200px] w-full border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300"
                 />
 
-                <button
-                    onClick={() => setShowSelectedOnly(!showSelectedOnly)}
-                    className={`whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 ${
-                        showSelectedOnly
-                            ? 'bg-blue-500 dark:bg-green-900 text-white'
-                            : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white'
-                    }`}
-                >
-                    {showSelectedOnly ? <FaEyeSlash/> : <FaEye/>}
-                    {showSelectedOnly ? 'Show All' : 'Show Selected'}
-                </button>
-
-                <div className="flex flex-wrap justify-center">
+                <div className="flex justify-center gap-0.5 pb-2">
                     {[5, 4, 3, 2, 1].map(level => (
                         <button
                             key={level}
                             onClick={() => toggleJLPTLevel(level)}
-                            className={`border dark:border-gray-600 rounded-full px-3 mx-1 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 ${
+                            className={`border dark:border-gray-600 rounded-full px-2 py-2 lg:text-sm text-xs transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center ${
                                 selectedJLPTLevels.includes(level)
                                     ? 'bg-blue-500 dark:bg-gray-700 text-white'
                                     : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 dark:hover:bg-gray-900 hover:text-white'
@@ -132,6 +120,19 @@ const GrammarListPage: React.FC = () => {
                         </button>
                     ))}
                 </div>
+
+
+                <button
+                    onClick={() => setShowSelectedOnly(!showSelectedOnly)}
+                    className={`whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-1 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 ${
+                        showSelectedOnly
+                            ? 'bg-blue-500 dark:bg-green-900 text-white'
+                            : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white'
+                    }`}
+                >
+                    {showSelectedOnly ? <FaEyeSlash/> : <FaEye/>}
+                    {showSelectedOnly ? 'Show All' : 'Show Selected'}
+                </button>
             </div>
 
             {isAuthenticated && (selectedGrammar.length > 0 && (
