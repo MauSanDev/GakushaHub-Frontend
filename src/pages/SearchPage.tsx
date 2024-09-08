@@ -19,7 +19,16 @@ const SearchPage: React.FC = () => {
 
     const [selectedKanji, setSelectedKanji] = useState<KanjiData[]>([]);
     const [selectedWords, setSelectedWords] = useState<WordData[]>([]);
-    const [showSelectedOnly, setShowSelectedOnly] = useState(false); // Para alternar entre mostrar todos o solo los seleccionados
+    const [showSelectedOnly, setShowSelectedOnly] = useState(false);
+    const [showDeselectTooltip, setShowDeselectTooltip] = useState(false);
+    const [showSelectedTooltip, setShowSelectTooltip] = useState(false);
+
+    const toggleDeselectTooltip = () => {
+        setShowDeselectTooltip(!showDeselectTooltip);
+    };
+    const toggleSelectedTooltip = () => {
+        setShowSelectTooltip(!showSelectedTooltip);
+    };
 
     const onSaveStatusChanged = (status: SaveStatus) => {
         setSaveStatus(status);
@@ -35,7 +44,7 @@ const SearchPage: React.FC = () => {
 
     useEffect(() => {
         if (wordResults) {
-            setSelectedWords(wordResults); // Selecciona todas las palabras por defecto
+            setSelectedWords(wordResults); 
         }
     }, [wordResults]);
 
@@ -51,7 +60,7 @@ const SearchPage: React.FC = () => {
         );
     };
 
-    // Función para determinar el contenido que se debe mostrar
+    
     const contentToShow = () => {
         if (showSelectedOnly) {
             return {
@@ -67,19 +76,19 @@ const SearchPage: React.FC = () => {
 
     const { kanjis, words } = contentToShow();
 
-    // Función para seleccionar todos los kanjis y palabras
+    
     const selectAll = () => {
         setSelectedKanji(kanjiResults || []);
         setSelectedWords(wordResults || []);
     };
 
-    // Función para deseleccionar todos los kanjis y palabras
+    
     const deselectAll = () => {
         setSelectedKanji([]);
         setSelectedWords([]);
     };
 
-    // Función para limpiar la búsqueda y los resultados
+    
     const clearSearch = () => {
         setTagsMap({});
         setSelectedKanji([]);
@@ -97,13 +106,14 @@ const SearchPage: React.FC = () => {
                 />
             </div>
 
+
             {(kanjiResults.length > 0 || wordResults.length > 0) && (
                 <div className="mt-4 w-full max-w-4xl gap-2 flex flex-wrap justify-center items-center px-2">
                     {/* Primera línea: Selected y Show Selected */}
                     <div className="w-full flex justify-center items-center gap-2">
-                        <span className="text-sm text-gray-700 dark:text-gray-500">
-                            Selected: {selectedKanji.length} Kanji - {selectedWords.length} Words
-                        </span>
+                <span className="text-sm text-gray-700 dark:text-gray-500">
+                    Selected: {selectedKanji.length} Kanji - {selectedWords.length} Words
+                </span>
 
                         <button
                             onClick={() => setShowSelectedOnly(!showSelectedOnly)}
@@ -119,28 +129,99 @@ const SearchPage: React.FC = () => {
                     </div>
 
                     {/* Segunda línea: Select All, Deselect All, Clear Search */}
-                    <div className="w-full flex justify-center items-center gap-2">
-                        <button
-                            onClick={selectAll}
-                            className="whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white"
-                        >
-                            <FaCheckSquare />
-                            Select All
-                        </button>
+                    <div className="flex justify-center items-center gap-2 relative">
 
-                        <button
-                            onClick={deselectAll}
-                            className="whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white"
-                        >
-                            <FaSquare />
-                            Deselect All
-                        </button>
+                        <div className="w-full flex justify-center items-center gap-2 relative">
+                            <button
+                                onClick={toggleSelectedTooltip}
+                                className="whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white"
+                            >
+                                <FaCheckSquare/>
+                                Select All
+                            </button>
+
+                            {showSelectedTooltip && (
+                                <div
+                                    className="absolute z-50 top-full mt bg-white dark:bg-gray-800 border dark:border-gray-700 rounded shadow-lg">
+                                    <button
+                                        onClick={() => {
+                                            setSelectedKanji(kanjiResults);
+                                            setShowDeselectTooltip(false)
+                                        }}
+                                        className="block px-4 py-1 w-full text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                                    >
+                                        Kanji
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setSelectedWords(wordResults);
+                                            setShowDeselectTooltip(false)
+                                        }}
+                                        className="block px-4 py-1 w-full text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                                    >
+                                        Words
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            selectAll();
+                                            setShowDeselectTooltip(false)
+                                        }}
+                                        className="block px-4 py-1 w-full text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                                    >
+                                        All
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="w-full flex justify-center items-center gap-2 relative">
+                            <button
+                                onClick={toggleDeselectTooltip}
+                                className="whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white"
+                            >
+                                <FaSquare/>
+                                Deselect All
+                            </button>
+
+                            {showDeselectTooltip && (
+                                <div
+                                    className="absolute z-50 top-full mt bg-white dark:bg-gray-800 border dark:border-gray-700 rounded shadow-lg">
+                                    <button
+                                        onClick={() => {
+                                            setSelectedKanji([]);
+                                            setShowDeselectTooltip(false)
+                                        }}
+                                        className="block px-4 py-1 w-full text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                                    >
+                                        Kanji
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setSelectedWords([]);
+                                            setShowDeselectTooltip(false)
+                                        }}
+                                        className="block px-4 py-1 w-full text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                                    >
+                                        Words
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            deselectAll();
+                                            setShowDeselectTooltip(false)
+                                        }}
+                                        className="block px-4 py-1 w-full text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                                    >
+                                        All
+                                    </button>
+                                </div>
+                            )}
+                        </div>
 
                         <button
                             onClick={clearSearch}
                             className="whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 bg-gray-400 dark:bg-gray-900 text-white hover:bg-red-900 dark:hover:bg-red-600"
                         >
-                            <FaTrashAlt />
+                            <FaTrashAlt/>
                             Clear Search
                         </button>
                     </div>
@@ -159,9 +240,10 @@ const SearchPage: React.FC = () => {
                 </div>
             )}
 
-            <LoadingScreen isLoading={loading} />
+            <LoadingScreen isLoading={loading}/>
 
-            <div className="mt-8 w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-left transition-opacity duration-500 pb-24">
+            <div
+                className="mt-8 w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-left transition-opacity duration-500 pb-24">
                 {error && <p className="text-red-500 col-span-full">{error}</p>}
                 {kanjis.map((kanjiData, index) => (
                     <KanjiBox
