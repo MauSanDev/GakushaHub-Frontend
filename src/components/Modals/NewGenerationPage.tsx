@@ -28,8 +28,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
     const [jlptLevel, setJlptLevel] = useState(0);
     const [error, setError] = useState('');
     const [generatedText, setGeneratedText] = useState<GeneratedData>();
-    // const [isPublic, setIsPublic] = useState(true);
-    const [isAnonymous, setIsAnonymous] = useState(true);
+    const [isAnonymous, setIsAnonymous] = useState(false);
     const [onSaveTriggered, setOnSaveTriggered] = useState(false);
     const { mutate: buildCourse } = useBuildCourse();
 
@@ -88,7 +87,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
 
         if (!isLoading) {
             generateText(
-                { topic, style, length: 800, jlptLevel, isPublic: true, isAnonymous, prioritization: { words: getPrioritizedWords() ?? [], kanji: getPrioritizedKanji() ?? [], grammar: getPrioritizedGrammar() ?? []}},
+                { topic, style, length: 800, jlptLevel, isPublic: true, isAnonymous: isAnonymous ?? false, prioritization: { words: getPrioritizedWords() ?? [], kanji: getPrioritizedKanji() ?? [], grammar: getPrioritizedGrammar() ?? []}},
                 {
                     onSuccess: (data: GeneratedData) => {
                         setGeneratedText(data);

@@ -180,17 +180,21 @@ const LessonBox: React.FC<LessonBoxProps> = ({
                                 <FaEye className="text-yellow-400"/>
                                 Reading Decks:
                             </h4>
-                            <GenericDeckDisplay
-                                deck={lesson.readingDecks[0] as GenerationDeck}
-                                renderComponent={SimpleReadingBox}
-                                enableFlashcards={false}
-                                elementType={"generation"}
-                                columns={1}
-                                lessonData={lesson}
-                                courseData={owner}
-                                enableGeneration={false}
-                                viewMode={viewMode}
-                            />
+
+                            {lesson.readingDecks.map((element) => (
+                                <GenericDeckDisplay
+                                    key={element._id}
+                                    deck={element as GenerationDeck}
+                                    renderComponent={SimpleReadingBox}
+                                    columns={1}
+                                    enableFlashcards={false}
+                                    elementType={"generation"}
+                                    lessonData={lesson}
+                                    courseData={owner}
+                                    enableGeneration={true}
+                                    viewMode={viewMode}
+                                />
+                            ))}
                         </div>
                     )}
                 </>

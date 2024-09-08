@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 const apiClient = axios.create({
     baseURL: import.meta.env.VITE_API_BACKEND_URI,
-    timeout: 10000,
+    timeout: 30000,
 });
 
 apiClient.interceptors.request.use((config) => {

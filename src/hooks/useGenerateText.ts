@@ -49,7 +49,7 @@ const generateText = async (params: GenerateTextParams, creatorId: string): Prom
 
 export const useGenerateText = () => {
     const { userData } = useAuth();
-    const { resetQueries } = usePaginatedGenerations(1, 10); // Aquí puedes usar la primera página por defecto
+    const { resetQueries } = usePaginatedGenerations(1, 10);
 
     return useMutation((params: GenerateTextParams) => {
         if (!userData || !userData._id) {

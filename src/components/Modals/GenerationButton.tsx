@@ -31,7 +31,7 @@ const GenerationButton: React.FC<GenerationButtonProps> = ({ decks, deckName, le
                 <FaRobot />
             </button>
 
-            <NewGenerationPage isVisible={isModalVisible} onClose={handleCloseModal} decks={decks} deckName={deckName ?? "Generated"} lessonName={lessonName} courseName={courseName} courseId={courseId} />
+            <NewGenerationPage isVisible={isModalVisible} onClose={handleCloseModal} decks={decks} deckName={deckName ?? "読書"} lessonName={lessonName} courseName={courseName} courseId={courseId} />
         </>
     );
 };
