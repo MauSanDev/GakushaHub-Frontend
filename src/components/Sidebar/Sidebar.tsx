@@ -10,8 +10,8 @@ const Sidebar: React.FC = () => {
     const menuItems = [
         { label: 'Search', path: '/search' },
         { label: 'Grammar', path: '/grammar' },
-        { label: 'Generations', path: '/generations' },
         { label: 'Courses', path: '/courses', requiresAuth: true },
+        { label: 'Texts', path: '/generations' },
         { label: 'Generate', path: '/generate', requiresAuth: true },
     ];
 
