@@ -35,17 +35,24 @@ const CourseDetailPage: React.FC = () => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [isOwner, setIsOwner] = useState(false);
     const [isPublic, setIsPublic] = useState(false);
-    const [isPublicInitial, setIsPublicInitial] = useState(false); // Para comparar el estado inicial
+    const [isPublicInitial, setIsPublicInitial] = useState(false); 
     const { userData } = useAuth();
     const navigate = useNavigate();
 
-    const updateCourse = useUpdateCourse(courseId || ''); // Hook para actualizar el curso
+    const updateCourse = useUpdateCourse(courseId || ''); 
 
     useEffect(() => {
         if (course && userData) {
+            
+            if(!course.isPublic && !userData.followedCourses.includes(course._id))
+            {
+                navigate(`/courses`);
+                return;
+            }
+            
             setIsOwner(course.creatorId._id === userData._id);
             setIsPublic(course.isPublic || false);
-            setIsPublicInitial(course.isPublic || false); // Almacena el valor inicial de isPublic
+            setIsPublicInitial(course.isPublic || false); 
 
             if (!lessonId && course.lessons.length > 0) {
                 const firstLessonId = course.lessons[0]._id;
@@ -70,7 +77,7 @@ const CourseDetailPage: React.FC = () => {
         const newIsPublic = !isPublic;
         setIsPublic(newIsPublic);
 
-        // Solo envía la actualización si el valor cambió
+        
         if (newIsPublic !== isPublicInitial) {
             updateCourse({ isPublic: newIsPublic });
         }
