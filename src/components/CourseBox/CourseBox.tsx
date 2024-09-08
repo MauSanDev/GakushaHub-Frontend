@@ -54,23 +54,33 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
                             <span className="flex items-center gap-1">
                                 <FaBookOpen className="text-blue-400"/>
                                 <span
-                                    className="font-semibold text-gray-800 dark:text-gray-200">Kanji:</span> {lesson.kanjiDecks.length} Decks
-                            </span>
+                                    className="font-semibold text-gray-800 dark:text-gray-200">Kanji:
+                                    <span className={"text-xs color font-normal text-gray-500"}> ({lesson.kanjiDecks.length} Decks)</span>
+                                </span> 
+                        </span>
                         )}
 
                         {lesson.wordDecks.length > 0 && (
                             <span className="flex items-center gap-1">
                                 <FaFileAlt className="text-red-400"/>
                                 <span
-                                    className="font-semibold text-gray-800 dark:text-gray-200">Words:</span> {lesson.wordDecks.length} Decks
-                            </span>
+                                    className="font-semibold text-gray-800 dark:text-gray-200">Words:
+                                    <span
+                                        className={"text-xs color font-normal text-gray-500"}> ({lesson.wordDecks.length} Decks)
+                                    </span>
+                                </span>     
+                            </span>     
                         )}
 
                         {lesson.grammarDecks.length > 0 && (
                             <span className="flex items-center gap-1">
                                 <FaBook className="text-green-400"/>
                                 <span
-                                    className="font-semibold text-gray-800 dark:text-gray-200">Grammar:</span> {lesson.grammarDecks.length} Decks
+                                    className="font-semibold text-gray-800 dark:text-gray-200">Grammar:
+                                    <span
+                                        className={"text-xs color font-normal text-gray-500"}> ({lesson.grammarDecks.length} Decks)
+                                    </span>
+                                </span>     
                             </span>
                         )}
 

@@ -10,7 +10,7 @@ import {
     FaToggleOn,
     FaToggleOff,
     FaLink,
-    FaCrown,
+    FaCrown, FaEye,
 } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCourseById } from '../hooks/coursesHooks/useCourseById';
@@ -241,10 +241,10 @@ const CourseDetailPage: React.FC = () => {
                             </button>
                             <button
                                 onClick={() => handleToggle('readings')}
-                                className={`p-1 rounded transition-colors duration-300 ${showReadings ? 'bg-purple-500 text-white hover:bg-purple-600' : 'bg-gray-200 dark:bg-gray-800 text-purple-500 hover:bg-gray-300'}`}
+                                className={`p-1 rounded transition-colors duration-300 ${showReadings ? 'bg-yellow-500 text-white hover:bg-yellow-600' : 'bg-gray-200 dark:bg-gray-800 text-yellow-400 hover:bg-gray-300'}`}
                                 title="Reading Decks"
                             >
-                                <FaBookReader className={`text-sm ${showReadings ? 'text-white' : 'text-purple-500'}`}/>
+                                <FaEye className={`text-sm ${showReadings ? 'text-white' : 'text-yellow-400'}`}/>
                             </button>
                         </div>
                     </div>

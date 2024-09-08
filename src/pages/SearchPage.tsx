@@ -101,9 +101,9 @@ const SearchPage: React.FC = () => {
                 <div className="mt-4 w-full max-w-4xl gap-2 flex flex-wrap justify-center items-center px-2">
                     {/* Primera línea: Selected y Show Selected */}
                     <div className="w-full flex justify-center items-center gap-2">
-            <span className="text-sm text-gray-700 dark:text-gray-500">
-                Selected: {selectedKanji.length} Kanji - {selectedWords.length} Words
-            </span>
+                        <span className="text-sm text-gray-700 dark:text-gray-500">
+                            Selected: {selectedKanji.length} Kanji - {selectedWords.length} Words
+                        </span>
 
                         <button
                             onClick={() => setShowSelectedOnly(!showSelectedOnly)}

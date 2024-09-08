@@ -6,7 +6,7 @@ import {
     FaFileAlt,
     FaBookReader,
     FaTable,
-    FaThLarge,
+    FaThLarge, FaEye,
 } from "react-icons/fa";
 import GenericDeckDisplay from "../GenericDeckDisplay";
 import SmallKanjiBox from "../SmallKanjiBox";
@@ -177,7 +177,8 @@ const LessonBox: React.FC<LessonBoxProps> = ({
                     {showReadings && lesson.readingDecks.length > 0 && (
                         <div className="mt-4 w-full">
                             <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2 flex items-center gap-2">
-                                <FaBookReader className="text-purple-400" /> Reading Decks:
+                                <FaEye className="text-yellow-400"/>
+                                Reading Decks:
                             </h4>
                             <GenericDeckDisplay
                                 deck={lesson.readingDecks[0] as GenerationDeck}
