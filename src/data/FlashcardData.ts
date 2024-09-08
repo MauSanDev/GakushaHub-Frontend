@@ -41,7 +41,7 @@ export function convertToFlashcardDeck(deck: DeckType): FlashcardDeck {
         flashcards = deck.elements.map((element: KanjiData) => ({
             id: element._id,
             front: element.kanji || "",
-            back: `${element.readings?.kunyomi.join("; ") || ""}\n${element.readings?.onyomi.join("; ") || ""}`,
+            back: `${element.readings?.kunyomi.join(";") || ""}\n${element.readings?.onyomi.join(";") || ""}`,
             readings: [
                 ...element.readings?.onyomi || [],
                 ...element.readings?.kunyomi || [],

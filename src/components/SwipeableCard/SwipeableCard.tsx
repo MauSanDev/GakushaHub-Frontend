@@ -174,7 +174,7 @@ const SwipeableCard = forwardRef(({ front, back, onApprove, onReject }: Swipeabl
                         transform: showBack ? "rotateY(180deg)" : "rotateY(-180deg)",
                     }}
                 >
-                    <p className="text-center text-6xl font-normal">{back}</p>
+                    <p className="text-center lg:text-5xl text-3xl font-normal whitespace-break-spaces break-words text-[clamp(1rem, 5vw, 4rem)]">{back}</p>
                 </div>
             </div>
         </animated.div>

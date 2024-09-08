@@ -65,6 +65,9 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                     cardRef.current.approve();
                 } else if (event.key === "ArrowLeft") {
                     cardRef.current.reject();
+                } else if (event.key === "r")
+                {
+                    toggleReveal()
                 }
             }
         };
