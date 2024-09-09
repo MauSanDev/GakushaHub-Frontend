@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import { GrammarData } from "../data/GrammarData.ts";
-import { FaPlus, FaTrash } from 'react-icons/fa';
+import { FaPlus, FaTrash, FaCheckCircle } from 'react-icons/fa';
+import { useCreateGrammar } from '../hooks/useCreateGrammar'; 
 
-interface GrammarCreateBoxProps {
-    onSave: (grammar: GrammarData) => void;
-}
-
-const GrammarCreateBox: React.FC<GrammarCreateBoxProps> = ({ onSave }) => {
+const GrammarCreateBox: React.FC = () => {
     const [structure, setStructure] = useState('');
     const [hint, setHint] = useState('');
     const [description, setDescription] = useState('');
     const [examples, setExamples] = useState<{ text: string; translation: string }[]>([{ text: '', translation: '' }]);
     const [jlpt, setJLPT] = useState(5);
     const [exampleContexts, setExampleContexts] = useState<string[]>(['']);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
+    const createGrammarMutation = useCreateGrammar(); 
 
     const handleAddExampleField = () => {
         setExamples([...examples, { text: '', translation: '' }]);
@@ -48,8 +47,7 @@ const GrammarCreateBox: React.FC<GrammarCreateBoxProps> = ({ onSave }) => {
         const filteredExamples = examples.filter(example => example.text && example.translation);
         const filteredContexts = exampleContexts.filter(context => context);
 
-        const newGrammar: GrammarData = {
-            _id: String(Math.random()), // Temporary id
+        const newGrammar = {
             structure,
             hint,
             description,
@@ -58,52 +56,69 @@ const GrammarCreateBox: React.FC<GrammarCreateBoxProps> = ({ onSave }) => {
                 translations: { en: example.translation }
             })),
             jlpt,
+            frequency: 1, 
             example_contexts: filteredContexts,
         };
-        onSave(newGrammar);
+
+        createGrammarMutation.mutate(newGrammar, {
+            onSuccess: () => {
+                
+                setStructure('');
+                setHint('');
+                setDescription('');
+                setExamples([{ text: '', translation: '' }]);
+                setJLPT(5);
+                setExampleContexts(['']);
+                setIsSubmitted(true);
+
+                
+                setTimeout(() => setIsSubmitted(false), 3000);
+            },
+        });
     };
 
     return (
-        <div className={"relative p-6 w- rounded-lg max-w-2xl w-full shadow-md text-left border-2 border-gray-500 transform transition-transform duration-300 bg-white dark:bg-gray-900 "}>
+        <div className="relative p-6 w-full rounded-lg max-w-2xl shadow-lg bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 transform transition-transform duration-300">
+            <h2 className="text-xl font-bold mb-4 text-gray-700 dark:text-gray-300">Create Grammar Structure</h2>
 
             <div className="mb-4">
-                <label className="block text-gray-700 dark:text-gray-300 text-xs">Structure</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Structure</label>
                 <input
                     type="text"
                     value={structure}
                     onChange={(e) => setStructure(e.target.value)}
-                    className="w-full border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-700"
+                    className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 dark:bg-gray-800 dark:text-gray-200 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter grammar structure"
                 />
             </div>
 
             <div className="mb-4">
-                <label className="block text-gray-700 dark:text-gray-300 text-xs">Hint</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Hint</label>
                 <input
                     type="text"
                     value={hint}
                     onChange={(e) => setHint(e.target.value)}
-                    className="w-full border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
+                    className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 dark:bg-gray-800 dark:text-gray-200 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter hint"
                 />
             </div>
 
             <div className="mb-4">
-                <label className="block text-gray-700 dark:text-gray-300 text-xs">Description</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
                 <textarea
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
+                    className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 dark:bg-gray-800 dark:text-gray-200 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter description"
                 />
             </div>
 
             <div className="mb-4">
-                <label className="block text-gray-700 dark:text-gray-300 text-xs">JLPT Level</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">JLPT Level</label>
                 <select
                     value={jlpt}
                     onChange={(e) => setJLPT(Number(e.target.value))}
-                    className="w-full border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
+                    className="w-full border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 dark:bg-gray-800 dark:text-gray-200 focus:ring-blue-500 focus:border-blue-500"
                 >
                     {[5, 4, 3, 2, 1].map(level => (
                         <option key={level} value={level}>
@@ -113,54 +128,51 @@ const GrammarCreateBox: React.FC<GrammarCreateBoxProps> = ({ onSave }) => {
                 </select>
             </div>
 
-            <div className="flex items-center cursor-pointer text-black dark:text-white mb-4 text-xs">
-                <span>Examples</span>
-
-                <button
-                    onClick={handleAddExampleField}
-                    className="mt-2 bg-blue-500 dark:bg-gray-700 text-white rounded text-xs p-1 flex items-center"
-                >
-                    <FaPlus/>
-                </button>
-            </div>
-
             <div className="mb-4">
+                <div className="flex justify-between items-center mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Examples</label>
+                    <button
+                        onClick={handleAddExampleField}
+                        className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-1 flex items-center"
+                    >
+                        <FaPlus className="mr-1" />
+                    </button>
+                </div>
+
                 {examples.map((example, index) => (
                     <div key={index} className="flex mb-2 space-x-2 items-center">
                         <input
                             type="text"
                             value={example.text}
-                                onChange={(e) => handleExampleChange(index, 'text', e.target.value)}
-                                placeholder="Example"
-                                className="flex-1 border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
-                            />
-                            <input
-                                type="text"
-                                value={example.translation}
-                                onChange={(e) => handleExampleChange(index, 'translation', e.target.value)}
-                                placeholder="Translation"
-                                className="flex-1 border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
-                            />
-                            <button
-                                onClick={() => handleRemoveExampleField(index)}
-                                className="text-white bg-red-500 rounded p-1 text-xs"
-                            >
-                                <FaTrash />
-                            </button>
-                        </div>
-                    ))}
-                </div>
+                            onChange={(e) => handleExampleChange(index, 'text', e.target.value)}
+                            placeholder="Example"
+                            className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 dark:bg-gray-800 dark:text-gray-200"
+                        />
+                        <input
+                            type="text"
+                            value={example.translation}
+                            onChange={(e) => handleExampleChange(index, 'translation', e.target.value)}
+                            placeholder="Translation"
+                            className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 dark:bg-gray-800 dark:text-gray-200"
+                        />
+                        <button
+                            onClick={() => handleRemoveExampleField(index)}
+                            className="text-white bg-red-500 hover:bg-red-600 rounded-lg p-1"
+                        >
+                            <FaTrash />
+                        </button>
+                    </div>
+                ))}
+            </div>
 
             <div className="mb-4">
-                
-                <div className="flex items-center cursor-pointer text-black dark:text-white mb-4 text-xs">
-                    <span>Contexts</span>
-
+                <div className="flex justify-between items-center mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Contexts</label>
                     <button
                         onClick={handleAddContextField}
-                        className="mt-2 bg-blue-500 dark:bg-gray-700 text-white rounded text-xs p-1 flex items-center"
+                        className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg p-1 flex items-center"
                     >
-                        <FaPlus/>
+                        <FaPlus className="mr-1" />
                     </button>
                 </div>
 
@@ -171,21 +183,31 @@ const GrammarCreateBox: React.FC<GrammarCreateBoxProps> = ({ onSave }) => {
                             value={context}
                             onChange={(e) => handleContextChange(index, e.target.value)}
                             placeholder="Context"
-                            className="flex-1 border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
+                            className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 dark:bg-gray-800 dark:text-gray-200"
                         />
                         <button
-                            onClick={() => handleRemoveExampleField(index)}
-                            className="text-white bg-red-500 rounded p-1 text-xs"
+                            onClick={() => handleRemoveContextField(index)}
+                            className="text-white bg-red-500 hover:bg-red-600 rounded-lg p-1"
                         >
-                            <FaTrash/>
+                            <FaTrash />
                         </button>
                     </div>
                 ))}
             </div>
 
-            <button onClick={handleSave} className="bg-green-500 text-white rounded w-full text-center px-4 py-2">
+            <button
+                onClick={handleSave}
+                className="bg-green-500 hover:bg-green-600 text-white rounded-lg w-full py-2 font-semibold"
+            >
                 Save Grammar
             </button>
+
+            {isSubmitted && (
+                <div className="mt-4 flex items-center justify-center text-green-500">
+                    <FaCheckCircle className="mr-2" />
+                    <span>Grammar structure saved successfully!</span>
+                </div>
+            )}
         </div>
     );
 };
