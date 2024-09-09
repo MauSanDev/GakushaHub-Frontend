@@ -20,6 +20,7 @@ import PrivateRoute from "./layouts/PrivateLayout.tsx";
 import FakeGenerationPage from "./components/Modals/GenerationPage.tsx";
 import { useEffect } from 'react';
 import {applyDarkMode} from "./components/DarkModeToggle.tsx";
+import GrammarCreatePage from "./pages/GrammarCreatePage.tsx";
 
 function App() {
     useEffect(() => {
@@ -52,6 +53,7 @@ function App() {
                 </Route>
 
                 <Route element={<PrivateRoute/>}>
+                    <Route path="/addGrammar" element={<GrammarCreatePage/>}/>
                     <Route path="/generate" element={<FakeGenerationPage/>}/>
                     <Route path="/courses" element={<CourseListPage/>}/>
                     <Route path="/courses/:courseId" element={<CourseDetailPage/>}/>

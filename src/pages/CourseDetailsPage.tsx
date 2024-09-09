@@ -5,7 +5,6 @@ import {
     FaBookOpen,
     FaFileAlt,
     FaBook,
-    FaBookReader,
     FaCog,
     FaToggleOn,
     FaToggleOff,
@@ -44,7 +43,7 @@ const CourseDetailPage: React.FC = () => {
     useEffect(() => {
         if (course && userData) {
             
-            if(!course.isPublic && !userData.followedCourses.includes(course._id))
+            if(userData._id != course.creatorId._id && !course.isPublic && !userData.followedCourses.includes(course._id))
             {
                 navigate(`/courses`);
                 return;

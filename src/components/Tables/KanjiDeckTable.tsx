@@ -27,7 +27,7 @@ const KanjiDeckTable: React.FC<KanjiDeckTableProps> = ({ deck }) => {
                                 index % 2 === 0 ? "bg-gray-50 dark:bg-gray-900" : "bg-white dark:bg-gray-800"
                             } hover:bg-blue-50 dark:hover:bg-gray-700 transition duration-200 text-gray-800 dark:text-gray-200 text-left`}
                         >
-                            <td className="px-4 py-2 font-bold">{element.kanji}</td>
+                            <td className="px-4 py-2 text-2xl">{element.kanji}</td>
                             <td className="px-4 py-2 break-words whitespace-nowrap">{element.readings.onyomi.join("; ")}</td>
                             <td className="px-4 py-2 ">{element.readings.kunyomi.join("; ")}</td>
                             <td className="px-4 py-2 ">
