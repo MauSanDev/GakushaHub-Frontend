@@ -26,7 +26,7 @@ const CourseDetailPage: React.FC = () => {
     const { courseId, lessonId } = useParams<{ courseId: string; lessonId?: string }>();
     const [selectedLesson, setSelectedLesson] = useState<string | null>(lessonId || null);
     const { data: course, error: courseError, isLoading: courseLoading } = useCourseById(courseId || '');
-    const { data: lesson, error: lessonError, isLoading: lessonLoading, refetch: fetchLesson } = useLessonById(selectedLesson || '');
+    const { data: lesson, isLoading: lessonLoading, refetch: fetchLesson } = useLessonById(selectedLesson || '');
     const [showKanji, setShowKanji] = useState(true);
     const [showWord, setShowWord] = useState(true);
     const [showGrammar, setShowGrammar] = useState(true);
@@ -34,24 +34,24 @@ const CourseDetailPage: React.FC = () => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [isOwner, setIsOwner] = useState(false);
     const [isPublic, setIsPublic] = useState(false);
-    const [isPublicInitial, setIsPublicInitial] = useState(false); 
+    const [isPublicInitial, setIsPublicInitial] = useState(false);
     const { userData } = useAuth();
     const navigate = useNavigate();
 
-    const updateCourse = useUpdateCourse(courseId || ''); 
+    const updateCourse = useUpdateCourse(courseId || '');
 
     useEffect(() => {
         if (course && userData) {
-            
+
             if(userData._id != course.creatorId._id && !course.isPublic && !userData.followedCourses.includes(course._id))
             {
                 navigate(`/courses`);
                 return;
             }
-            
+
             setIsOwner(course.creatorId._id === userData._id);
             setIsPublic(course.isPublic || false);
-            setIsPublicInitial(course.isPublic || false); 
+            setIsPublicInitial(course.isPublic || false);
 
             if (!lessonId && course.lessons.length > 0) {
                 const firstLessonId = course.lessons[0]._id;
@@ -76,7 +76,7 @@ const CourseDetailPage: React.FC = () => {
         const newIsPublic = !isPublic;
         setIsPublic(newIsPublic);
 
-        
+
         if (newIsPublic !== isPublicInitial) {
             updateCourse({ isPublic: newIsPublic });
         }
@@ -109,6 +109,10 @@ const CourseDetailPage: React.FC = () => {
 
     if (courseError) {
         return <div className="text-red-500 text-center">{String(courseError)}</div>;
+    }
+
+    if (!course) {
+        return <div>No course found</div>;
     }
 
     const dropdownItems = [
