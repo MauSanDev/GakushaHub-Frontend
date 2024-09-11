@@ -4,7 +4,6 @@ import {
     FaBookOpen,
     FaBook,
     FaFileAlt,
-    FaBookReader,
     FaTable,
     FaThLarge, FaEye,
 } from "react-icons/fa";

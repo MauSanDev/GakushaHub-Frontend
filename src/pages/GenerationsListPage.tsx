@@ -4,7 +4,6 @@ import SimpleTextReader from '../components/SimpleTextReader';
 import loadingIcon from '../assets/loading-icon.svg';
 import { usePaginatedGenerations } from '../hooks/usePaginatedGenerations';
 import { GeneratedData } from "../data/GenerationData";
-import {FaArrowLeft} from "react-icons/fa";
 
 const GenerationsListPage: React.FC = () => {
     const [generatedTexts, setGeneratedTexts] = useState<GeneratedData[]>([]);

@@ -18,33 +18,8 @@ interface GenerateTextParams {
     },
 }
 
-const isDeveloping = false; // FOR DEBUGGING!
-
 const generateText = async (params: GenerateTextParams, creatorId: string): Promise<GeneratedData> => {
-
-    if (isDeveloping) {
-        return {
-            _id: 'generated-id',
-            title: 'Generated Title',
-            text: 'This is a generated text.',
-            topic: params.topic,
-            keywords: ['keyword1', 'keyword2'],
-            style: params.style,
-            length: params.length,
-            jlptLevel: params.jlptLevel,
-            isPublic: true,
-            isAnonymous: false,
-            creatorId: { _id: 'creatorId', name: 'creatorId', uid: creatorId, country: 'demo', email: 'demo@demo.com', createdAt: Date.now(), lastLogin: Date.now()},
-            prioritization: {
-                grammar: params.prioritization.grammar,
-                words: params.prioritization.words,
-                kanji: params.prioritization.kanji
-            },
-            createdAt: new Date().toISOString()
-        };
-    } else {
-        return ApiClient.post<GeneratedData, {}>('/api/generation', { ...params, creatorId });
-    }
+    return ApiClient.post<GeneratedData, {}>('/api/generation', { ...params, creatorId });
 };
 
 export const useGenerateText = () => {

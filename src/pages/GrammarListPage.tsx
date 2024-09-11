@@ -15,7 +15,7 @@ const GrammarListPage: React.FC = () => {
     const [page, setPage] = useState(1);
     const [selectedJLPTLevels, setSelectedJLPTLevels] = useState<number[]>([5, 4, 3, 2, 1]);
     const [showSelectedOnly, setShowSelectedOnly] = useState(false);
-    const [searchTerm, setSearchTerm] = useState(''); // Nuevo estado para el input de búsqueda
+    const [searchTerm, setSearchTerm] = useState(''); 
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
     const { isAuthenticated } = useAuth();
@@ -78,7 +78,6 @@ const GrammarListPage: React.FC = () => {
         let toShow = allResults;
         toShow = toShow.filter(x => selectedJLPTLevels.includes(x.jlpt));
 
-        // Nuevo filtro para la búsqueda
         if (searchTerm) {
             const lowercasedTerm = searchTerm.toLowerCase();
             toShow = toShow.filter(x =>

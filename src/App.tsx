@@ -1,8 +1,6 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
 import SearchPage from './pages/SearchPage';
-import KanjiListPage from './pages/KanjiListPage.tsx';
 import UnderDevelopmentPage from './pages/UnderDevelopmentPage';
-import WordListPage from "./pages/WordListPage.tsx";
 import CourseListPage from "./pages/CourseListPage.tsx";
 import GrammarListPage from "./pages/GrammarListPage.tsx";
 import CourseDetailPage from "./pages/CourseDetailsPage.tsx";
@@ -44,8 +42,6 @@ function App() {
                 <Route element={<MainLayout/>}>
                     <Route path="/" element={<Navigate to="/search" replace/>}/>
                     <Route path="/search" element={<SearchPage/>}/>
-                    <Route path="/kanji" element={<KanjiListPage/>}/>
-                    <Route path="/words" element={<WordListPage/>}/>
                     <Route path="/grammar" element={<GrammarListPage/>}/>
                     <Route path="/generations" element={<GenerationsListPage/>}/>
                     <Route path="/generation/:elementId" element={<TextDisplayPage/>}/>
