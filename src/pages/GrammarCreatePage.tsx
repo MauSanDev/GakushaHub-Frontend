@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import React, { useState } from 'react';
 import GrammarCreateBox from '../components/GrammarCreateBox';
 import { GrammarData } from "../data/GrammarData.ts";

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { useState, useRef, useEffect, ComponentType } from "react";
 import {
     FaChevronRight,

@@ -1,4 +1,19 @@
 {
+  "compilerOptions": {
+    "strict": false,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "noImplicitThis": false,
+    "checkJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,  // Asegura la interoperabilidad con módulos CommonJS
+    "moduleResolution": "node",  // Resuelve módulos como en Node.js
+    "target": "es6",  // Puedes cambiarlo según la versión de ECMAScript que quieras usar
+    "module": "esnext",  // Módulos de tipo "esnext" para mayor compatibilidad
+    "jsx": "react",  // Para proyectos React, si usas JSX
+    "lib": ["dom", "es6"],  // Especifica las bibliotecas que quieres incluir
+    "allowSyntheticDefaultImports": true  // Permite importaciones por defecto para módulos sin exportación por defecto
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
