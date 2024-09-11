@@ -8,7 +8,7 @@ interface WordTooltipProps {
 }
 
 const WordTooltip: React.FC<WordTooltipProps> = ({ word, targetElement, onClose }) => {
-    const { data: wordDataList, isLoading, error } = useWords([word]);
+    const { data: wordDataList, error } = useWords([word]);
 
     useEffect(() => {
         const tooltip = document.createElement('span');

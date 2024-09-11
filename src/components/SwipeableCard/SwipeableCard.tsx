@@ -13,7 +13,6 @@ const SwipeableCard = forwardRef(({ front, back, onApprove, onReject }: Swipeabl
     const [dragging, setDragging] = useState(false);
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
     const [currentPosition, setCurrentPosition] = useState({ x: 0, y: 0 });
-    const [rotation, setRotation] = useState(0);
     const [overlayColor, setOverlayColor] = useState("rgba(0, 0, 0, 0)");
     const [isVisible, setIsVisible] = useState(true);
     const [resetPosition, setResetPosition] = useState(false);
@@ -54,7 +53,6 @@ const SwipeableCard = forwardRef(({ front, back, onApprove, onReject }: Swipeabl
             if (!isVisible) {
                 setResetPosition(true);
                 setCurrentPosition({ x: 0, y: 0 });
-                setRotation(0);
                 setOverlayColor("rgba(0, 0, 0, 0)");
                 setIsVisible(true);
                 setTimeout(() => setResetPosition(false), 0);
@@ -84,8 +82,6 @@ const SwipeableCard = forwardRef(({ front, back, onApprove, onReject }: Swipeabl
             } else if (deltaX < 0) {
                 setOverlayColor(`rgba(255, 0, 0, ${transitionFactor * 0.5})`);
             }
-
-            setRotation(deltaX / 20);
         }
     };
 
@@ -128,7 +124,6 @@ const SwipeableCard = forwardRef(({ front, back, onApprove, onReject }: Swipeabl
 
     const resetCardPosition = () => {
         setCurrentPosition({ x: 0, y: 0 });
-        setRotation(0);
         setOverlayColor("rgba(0, 0, 0, 0)");
     };
 

@@ -39,16 +39,16 @@ const GenericDeckDisplay = <T,>({
                                 }: GenericDeckDisplayProps<T>) => {
     const [flashcardsMode, setFlashcardsMode] = useState(false);
     const [expanded, setExpanded] = useState(false);
-    const [isMobile, setIsMobile] = useState(false); // Estado para detectar mobile
+    const [isMobile, setIsMobile] = useState(false); 
     const contentRef = useRef<HTMLDivElement | null>(null);
 
-    // Detectar si es mobile y actualizar el estado
+    
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth < 640); // Cambia a true si el ancho es menor a 640px
+            setIsMobile(window.innerWidth < 640); 
         };
 
-        handleResize(); // Chequeo inicial
+        handleResize(); 
         window.addEventListener('resize', handleResize);
 
         return () => window.removeEventListener('resize', handleResize);

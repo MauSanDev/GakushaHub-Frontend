@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { GrammarData } from '../../data/GrammarData';
 import { ExampleData } from '../../data/GeneralTypes.ts';
 import { useLanguage } from '../../context/LanguageContext';
 import { FaQuestionCircle } from 'react-icons/fa';
-import ConfigDropdown from "../ConfigDropdown"; // Importamos el ConfigDropdown
+import ConfigDropdown from "../ConfigDropdown"; 
 
 interface SmallGrammarBoxProps {
     result: GrammarData | null;
@@ -11,8 +11,6 @@ interface SmallGrammarBoxProps {
 
 const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
     const { language } = useLanguage();
-    const contentRef = useRef<HTMLDivElement>(null);
-
     if (!result) return null;
 
     const dropdownItems = [
