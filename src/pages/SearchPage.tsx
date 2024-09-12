@@ -229,7 +229,7 @@ const SearchPage: React.FC = () => {
             )}
 
             {isAuthenticated && (selectedKanji.length > 0 || selectedWords.length > 0) && (
-                <div className="fixed top-4 right-4">
+                <div className="absolute top-0 right-0 flex gap-2">
                     <SaveDeckInput
                         kanjiList={selectedKanji}
                         wordList={selectedWords}

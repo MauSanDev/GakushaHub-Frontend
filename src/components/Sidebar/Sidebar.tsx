@@ -10,6 +10,7 @@ const Sidebar: React.FC = () => {
     const menuItems = [
         { label: 'Search', path: '/search' },
         { label: 'Grammar', path: '/grammar' },
+        { label: 'Add Grammar', path: '/addGrammar', requiresAuth: true },
         { label: 'Courses', path: '/courses', requiresAuth: true },
         { label: 'Texts', path: '/generations' },
         { label: 'Generate', path: '/generate', requiresAuth: true },
@@ -24,7 +25,6 @@ const Sidebar: React.FC = () => {
                 ☰
             </button>
 
-            {/* Sidebar */}
             <div
                 className={`pt-24 fixed lg:left-0 lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:w-32 hover:lg:w-64 lg:h-auto w-full h-full top-0 left-0 z-40 transition-all ${
                     isOpen ? 'translate-x-0 bg-white dark:bg-black ' : '-translate-x-full lg:translate-x-0'
@@ -45,7 +45,6 @@ const Sidebar: React.FC = () => {
                             )
                     )}
 
-                    {/* Mostrar UserMenu en responsive dentro del Sidebar */}
                     <div className="lg:hidden">
                         <UserMenu />
                     </div>
@@ -53,7 +52,6 @@ const Sidebar: React.FC = () => {
                 </div>
             </div>
 
-            {/* Overlay para cerrar el sidebar */}
             {isOpen && (
                 <div
                     className="fixed inset-0 bg-black opacity-50 z-30 lg:hidden"
