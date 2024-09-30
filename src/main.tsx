@@ -6,6 +6,7 @@ import './index.css';
 import { app } from './firebaseConfig';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import {AuthProvider} from "./context/AuthContext.tsx";
+import './i18n.js'
 
 app;
 

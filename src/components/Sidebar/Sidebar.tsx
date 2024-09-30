@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from "../../context/AuthContext.tsx";
-import UserMenu from '../UserMenu'; // Importa el UserMenu
+import UserMenu from '../UserMenu';
+import LocSpan from "../LocSpan.tsx";
 
 const Sidebar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +11,6 @@ const Sidebar: React.FC = () => {
     const menuItems = [
         { label: 'Search', path: '/search' },
         { label: 'Grammar', path: '/grammar' },
-        { label: 'Add Grammar', path: '/addGrammar', requiresAuth: true },
         { label: 'Courses', path: '/courses', requiresAuth: true },
         { label: 'Texts', path: '/generations' },
         { label: 'Generate', path: '/generate', requiresAuth: true },
@@ -31,16 +31,16 @@ const Sidebar: React.FC = () => {
                 }`}
             >
                 <div className="flex flex-col p-4 space-y-4">
-
+                    
                     {menuItems.map((item, index) =>
                             (!item.requiresAuth || isAuthenticated) && (
                                 <Link
                                     key={index}
                                     to={item.path}
                                     className="text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-blue-400 hover:dark:text-white py-2 border-b border-gray-300 dark:border-gray-700 text-left hover:pl-2 transition-all"
-                                    onClick={() => setIsOpen(false)} // Cierra el menú en responsive
+                                    onClick={() => setIsOpen(false)}
                                 >
-                                    {item.label}
+                                    <LocSpan textKey={item.label}/>
                                 </Link>
                             )
                     )}
@@ -59,7 +59,6 @@ const Sidebar: React.FC = () => {
                 ></div>
             )}
 
-            {/* Mostrar UserMenu en pantallas grandes fuera del Sidebar */}
             <div className="hidden lg:block">
                 <UserMenu />
             </div>
