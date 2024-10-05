@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import LanguageDropdown from './LanguageDropdown';
 import DarkModeToggle from './DarkModeToggle';
+import LocSpan from "./LocSpan.tsx";
 
 const UserMenu: React.FC = () => {
     const { user, logout, isEmailVerified, resendEmailVerification } = useAuth();
@@ -73,7 +74,7 @@ const UserMenu: React.FC = () => {
                                     className="block w-full text-left px-2 py-1 text-sm font-bold text-gray-800 dark:text-gray-200 hover:bg-gray-800 hover:text-white rounded"
                                 >
                                     <FaSignOutAlt className="inline-block mr-2" />
-                                    Logout
+                                    <LocSpan textKey={"logout"} />
                                 </button>
                                 <div className="border-t border-gray-200 dark:border-gray-700 mt-2"></div>
                                 <div className="px-4 py-2 inline">

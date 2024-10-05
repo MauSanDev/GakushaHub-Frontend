@@ -13,6 +13,7 @@ import { FaCheckSquare, FaSquare } from 'react-icons/fa';
 import { KanjiData } from '../../data/KanjiData';
 import { WordData } from '../../data/WordData';
 import { GrammarData } from '../../data/GrammarData.ts';
+import LocSpan from "../../components/LocSpan.tsx";
 
 interface SearchPageProps {
     courseId?: string;
@@ -89,7 +90,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
     return (
         <div className={`${searchExecuted ? "min-h-screen flex flex-col w-full overflow-y-auto items-center pt-24" : "flex flex-col items-center justify-center w-full overflow-y-auto"}`}>
             <div className="text-center w-full max-w-md">
-                <h1 className="text-3xl font-bold mb-4 text-black dark:text-white">Let's 探します</h1>
+                <h1 className="text-3xl font-bold mb-4 text-black dark:text-white"><LocSpan textKey={"searchPage.title"} /></h1>
 
                 <div className="w-full max-w-md flex justify-center gap-4 p-1.5 dark:border-gray-700">
                     <button
@@ -98,7 +99,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                         title="Kanji"
                     >
                         {showKanji ? <FaCheckSquare className="text-white" /> : <FaSquare className="text-gray-300" />}
-                        <span>Kanji</span>
+                        <LocSpan textKey={"kanji"} />
                     </button>
                     <button
                         onClick={() => handleToggle('word')}
@@ -106,7 +107,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                         title="Words"
                     >
                         {showWord ? <FaCheckSquare className="text-white" /> : <FaSquare className="text-gray-300" />}
-                        <span>Words</span>
+                        <LocSpan textKey={"words"} />
                     </button>
                     <button
                         onClick={() => handleToggle('grammar')}
@@ -114,7 +115,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                         title="Grammar"
                     >
                         {showGrammar ? <FaCheckSquare className="text-white" /> : <FaSquare className="text-gray-300" />}
-                        <span>Grammar</span>
+                        <LocSpan textKey={"grammar"} />
                     </button>
                     {/*<button*/}
                     {/*    onClick={() => handleToggle('readings')}*/}

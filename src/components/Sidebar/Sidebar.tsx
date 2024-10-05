@@ -9,11 +9,11 @@ const Sidebar: React.FC = () => {
     const { isAuthenticated } = useAuth();
 
     const menuItems = [
-        { label: 'Search', path: '/search' },
-        { label: 'Grammar', path: '/grammar' },
-        { label: 'Courses', path: '/courses', requiresAuth: true },
-        { label: 'Texts', path: '/generations' },
-        { label: 'Generate', path: '/generate', requiresAuth: true },
+        { label: 'search', path: '/search' },
+        { label: 'grammar', path: '/grammar' },
+        { label: 'courses', path: '/courses', requiresAuth: true },
+        { label: 'texts', path: '/generations' },
+        { label: 'generate', path: '/generate', requiresAuth: true },
     ];
 
     return (

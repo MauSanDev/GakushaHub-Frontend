@@ -1,4 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import LocSpan from "../LocSpan.tsx";
+import {useTranslation} from "react-i18next";
 
 interface SearchBarProps {
     onSearch: (tagsMap: { [tag: string]: boolean }) => void;
@@ -10,6 +12,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, interactable: enabled }
     const [inputValue, setInputValue] = useState<string>('');
     const [isComposing, setIsComposing] = useState(false);
     const [interactable, setInteractable] = useState<boolean>(true);
+    const { t } = useTranslation();
 
     useEffect(() => {
         setInteractable(enabled);
@@ -93,7 +96,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, interactable: enabled }
                         onCompositionStart={() => setIsComposing(true)}
                         onCompositionEnd={() => setIsComposing(false)}
                         onPaste={onPaste}
-                        placeholder="Enter text and press comma, Enter, or '、'"
+                        placeholder={t("searchPage.inputPlaceholder")}
                         className="flex-1 min-w-0 focus:outline-none"
                     />
                 </div>
@@ -110,7 +113,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, interactable: enabled }
                 onClick={onSearchPressed}
                 disabled={!interactable}
             >
-                Search
+                <LocSpan textKey={"search"} />
             </button>
         </div>
     );

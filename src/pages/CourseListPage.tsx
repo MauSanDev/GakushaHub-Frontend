@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 import { useOwnerCourses } from "../hooks/coursesHooks/useOwnerCourses.ts";
 import { usePublicCourses } from "../hooks/coursesHooks/usePublicCourses.ts";
 import { useFollowedCourses } from "../hooks/coursesHooks/useFollowedCourses.ts";
-import AddCourseButton from "../components/AddCourseButton.tsx"; 
+import AddCourseButton from "../components/AddCourseButton.tsx";
+import LocSpan from "../components/LocSpan.tsx"; 
 
 const CourseListPage: React.FC = () => {
     const [courses, setCourses] = useState<CourseData[]>([]);
@@ -85,17 +86,17 @@ const CourseListPage: React.FC = () => {
                 <button
                     onClick={() => handleViewChange('owner')}
                     className={`px-4 py-2 rounded lg:text-sm text-xs transition-all border ${currentView === 'owner' ? 'bg-blue-500 dark:bg-gray-600 text-white dark:text-white dark:border-gray-800 ' : 'text-gray-500 bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700'}`}>
-                    My Courses
+                    <LocSpan textKey={"coursesListPage.myCourses"} />
                 </button>
                 <button
                     onClick={() => handleViewChange('public')}
                     className={`px-4 py-2 rounded lg:text-sm text-xs transition-all border ${currentView === 'public' ? 'bg-blue-500 dark:bg-gray-600 text-white dark:text-white dark:border-gray-800 ' : 'text-gray-500 bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700'}`}>
-                    Search Courses
+                    <LocSpan textKey={"coursesListPage.searchCourses"} />
                 </button>
                 <button
                     onClick={() => handleViewChange('followed')}
                     className={`px-4 py-2 rounded lg:text-sm text-xs transition-all border ${currentView === 'followed' ? 'bg-blue-500 dark:bg-gray-600 text-white dark:text-white dark:border-gray-800 ' : 'text-gray-500 bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700'}`}>
-                    Following
+                    <LocSpan textKey={"coursesListPage.followingCourses"} />
                 </button>
                 <AddCourseButton />
             </div>

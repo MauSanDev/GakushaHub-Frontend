@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';  // Importar useNavigate
+import { useNavigate } from 'react-router-dom';
 import CreateCourseModal from "../pages/CreateEmpty/CreateCourseModal.tsx";
+import LocSpan from "./LocSpan.tsx";
 
 const AddCourseButton: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,7 +29,8 @@ const AddCourseButton: React.FC = () => {
                 onClick={openModal}
                 className="flex items-center gap-1 text-gray-700 bg-gray-300 dark:text-gray-300 dark:bg-blue-800 hover:text-white hover:bg-red-500 dark:hover:bg-blue-600 px-2 py-2 rounded transition-colors duration-200 text-xs"
             >
-                <FaPlus size={12} className="text-inherit transition-colors duration-75" /> Create
+                <FaPlus size={12} className="text-inherit transition-colors duration-75" />
+                <LocSpan textKey={"coursesListPage.createCourse"} />
             </button>
 
             {isModalOpen &&

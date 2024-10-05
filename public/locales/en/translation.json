@@ -1,8 +1,26 @@
 {
-  "welcome": "Welcome",
-  "description": "This is a localization example",
-  "Search": "Search",
-  "grammar":{
+  "search": "Search",
+  "grammar": "Grammar",
+  "courses": "Courses",
+  "texts": "Texts",
+  "generate": "Generate",
+  "kanji": "Kanji",
+  "words": "Words",
+  "readings": "Readings",
+  "logout": "Logout",
+  "createdBy": "Created By {0}",
+  "searchPage":
+  {
+    "title": "Let's 探します",
+    "inputPlaceholder": "Enter text and press comma, Enter, or '、'"
+  },
+  "coursesListPage":{
+    "myCourses": "My Courses",
+    "searchCourses": "Search Courses",
+    "followingCourses": "Following",
+    "createCourse": "Create"
+  },
+  "grammarKeys":{
     "formalityLabel": "Formality",
     "usageLabel": "Usage",
     "expressionLabel": "Expressions",
