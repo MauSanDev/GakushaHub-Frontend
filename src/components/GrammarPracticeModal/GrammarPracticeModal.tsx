@@ -30,6 +30,16 @@ const GrammarPracticeModal = ({ deck, onClose }: GrammarPracticeModalProps) => {
         };
     }, [isVisible]);
 
+    // Función para manejar el cierre con confirmación
+    const handleClose = () => {
+        const confirmClose = window.confirm(
+            "Close the Grammar Practice? The practice will be discarded. Do you want to continue?"
+        );
+        if (confirmClose) {
+            onClose(); // Si el usuario confirma, se cierra el modal
+        }
+    };
+
     const modalContent = (
         <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
             <div
@@ -37,7 +47,7 @@ const GrammarPracticeModal = ({ deck, onClose }: GrammarPracticeModalProps) => {
                 style={{ maxHeight: "90vh" }}
             >
                 <button
-                    onClick={onClose}
+                    onClick={handleClose} // Usamos handleClose en lugar de onClose directamente
                     className="absolute top-2 left-2 text-white p-2 rounded-full shadow-lg bg-gray-800 hover:bg-gray-600"
                 >
                     <FaArrowLeft />
