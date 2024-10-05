@@ -57,20 +57,20 @@ const SentenceInput = ({ index, onRemove, isLast, grammarData }: SentenceInputPr
                         borderColor: score !== null ? getScoreColor(score!) : 'gray',
                     }}
                     disabled={score !== null}
-                    placeholder="Enter your sentence"
+                    placeholder="文を書いてください"
                 />
                 {score === null ? (
                     <>
                         <button
                             onClick={() => onRemove(index)}
-                            className="ml-1 p-2 text-white bg-gray-900 hover:bg-red-500 rounded-full text-xs"
+                            className="ml-1 p-2 text-white bg-gray-900 hover:bg-red-500 rounded-full text-xs transition-all"
                             disabled={isLast}
                         >
                             <FaMinus />
                         </button>
                         <button
                             onClick={handleCorrection}
-                            className="ml-1 p-2 text-white bg-gray-900 hover:bg-green-500 rounded-full text-xs"
+                            className="ml-1 p-2 text-white bg-gray-900 hover:bg-green-500 rounded-full text-xs transition-all"
                         >
                             <FaClipboardCheck />
                         </button>
