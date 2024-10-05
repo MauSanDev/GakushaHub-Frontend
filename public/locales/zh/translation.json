@@ -1,0 +1,123 @@
+{
+  "search": "搜索",
+  "grammar": "语法",
+  "courses": "课程",
+  "texts": "文本",
+  "generate": "生成",
+  "kanji": "汉字",
+  "words": "单词",
+  "readings": "读音",
+  "logout": "登出",
+  "topic": "主题",
+  "style": "风格",
+  "tags": "标签",
+  "createdBy": "由 {0} 创建",
+  "textSize": "文字大小",
+  "letterSpacing": "字间距",
+  "lineHeight": "行高",
+  "course": "课程",
+  "lesson": "课",
+  "deck": "卡组",
+  "priority": "优先级",
+  "kanjiDecks": "汉字卡组",
+  "wordDecks": "单词卡组",
+  "grammarDecks": "语法卡组",
+  "readingDecks": "阅读卡组",
+  "toggle": "切换",
+  "elements": "元素",
+  "on": "开启",
+  "off": "关闭",
+  "saveDeckInput": {
+    "saveInto": "保存到集合:",
+    "charLimitExceeded": "一个或多个字段超过了最大字符限制 {0}。",
+    "deckInputEmpty": "\"卡组\" 字段是必填项。",
+    "lessonRequired": "如果提供课程，课是必需的。",
+    "courseRequired": "如果提供课，则课程是必需的。",
+    "courseWillBeCreated": "将创建课程 \"{0}\"。",
+    "lessonWillBeCreated": "课 \"{0}\" 将添加到课程 \"{1}\" 中。",
+    "deckWillBeCreated": "卡组 \"{0}\" 将添加到课 \"{1}\" 中。",
+    "contentWillBeAdded": "内容将添加到现有卡组 \"{0}\" 中。"
+  },
+  "searchPage": {
+    "title": "让我们 来探します",
+    "inputPlaceholder": "输入文本并按逗号、回车或 '、'"
+  },
+  "coursesListPage": {
+    "myCourses": "我的课程",
+    "searchCourses": "搜索课程",
+    "followingCourses": "关注中",
+    "createCourse": "创建"
+  },
+  "grammarKeys": {
+    "formalityLabel": "正式程度",
+    "usageLabel": "用法",
+    "expressionLabel": "表达",
+    "formality": {
+      "formal": "正式",
+      "informal": "非正式",
+      "neutral": "中立",
+      "casual": "随意",
+      "semi-formal": "半正式",
+      "very formal": "非常正式"
+    },
+    "usage_context": {
+      "spoken": "口语",
+      "written": "书面语",
+      "both": "口语和书面语"
+    },
+    "expression_type": {
+      "critical": "批判性",
+      "self-reflection": "自我反省",
+      "positive": "积极",
+      "negative": "消极",
+      "neutral": "中性",
+      "questioning": "疑问",
+      "polite": "礼貌",
+      "polite_formal": "礼貌/正式",
+      "critical_judgmental": "批判/评判",
+      "command": "命令"
+    }
+  },
+  "generationPage": {
+    "description": "根据你的水平和选择的内容生成主题。文本将保存到所选课程的阅读部分。",
+    "selectYourLevel": "选择你的级别",
+    "selectStyle": "选择风格",
+    "generate": "生成",
+    "topicPlaceholder": "输入主题（最多140个字符）",
+    "anonymousDisclaimer": "匿名（其他用户不会知道是谁创建的）。",
+    "tips": {
+      "title": "提示",
+      "tip1": "- 要具体。提供你想要的上下文。",
+      "tip2": "- 如果卡组太大，不会使用所有元素。",
+      "tip3": "- 模型优先选择选定的卡组。",
+      "tip4": "- 考虑你的级别。如果提高JLPT级别，文本中会出现高级单词和汉字。"
+    }
+  },
+  "generationStyles": {
+    "article": "文章",
+    "story": "故事",
+    "traditionalTale": "传统故事",
+    "diary": "日记",
+    "dialogue": "对话",
+    "essay": "散文",
+    "poetry": "诗歌",
+    "review": "评论",
+    "letter": "信件",
+    "novel": "小说",
+    "manga": "漫画",
+    "advertisement": "广告",
+    "haiku": "俳句"
+  },
+  "courseDetailsPage": {
+    "deleteCourse": "删除课程",
+    "isPublic": "公开",
+    "copyLink": "复制课程链接"
+  },
+  "flashcardsModal": {
+    "resetDeck": "重置卡组",
+    "shuffle": "洗牌",
+    "orientation": "方向",
+    "termReading": "单词 -> 读音",
+    "readingTerm": "读音 -> 单词"
+  }
+}

@@ -1,7 +1,98 @@
 {
-  "welcome": "Bienvenido",
-  "description": "Este es un ejemplo de localización",
-  "Search": "Buscar",
+  "search": "Buscar",
+  "grammar": "Gramática",
+  "courses": "Cursos",
+  "texts": "Textos",
+  "generate": "Generar",
+  "kanji": "Kanji",
+  "words": "Palabras",
+  "readings": "Lecturas",
+  "logout": "Cerrar sesión",
+  "topic": "Tema",
+  "style": "Estilo",
+  "tags": "Etiquetas",
+  "createdBy": "Creado por {0}",
+  "textSize": "Tamaño del texto",
+  "letterSpacing": "Espaciado de letras",
+  "lineHeight": "Altura de línea",
+  "course": "Curso",
+  "lesson": "Lección",
+  "deck": "Baraja",
+  "priority": "Prioridad",
+  "kanjiDecks": "Barajas de Kanji",
+  "wordDecks": "Barajas de Palabras",
+  "grammarDecks": "Barajas de Gramática",
+  "readingDecks": "Barajas de Lectura",
+  "toggle": "Alternar",
+  "elements": "Elementos",
+  "on": "Encendido",
+  "off": "Apagado",
+  "saveDeckInput": {
+    "saveInto": "Guardar en la Colección:",
+    "charLimitExceeded": "Uno o más campos superan el límite máximo de caracteres de {0}.",
+    "deckInputEmpty": "El campo \"Baraja\" es obligatorio.",
+    "lessonRequired": "Si se proporciona un Curso, se requiere una Lección.",
+    "courseRequired": "Si se proporciona una Lección, se requiere un Curso.",
+    "courseWillBeCreated": "El Curso \"{0}\" será creado.",
+    "lessonWillBeCreated": "La Lección \"{0}\" será añadida al Curso \"{1}\".",
+    "deckWillBeCreated": "La baraja \"{0}\" será añadida a la Lección \"{1}\".",
+    "contentWillBeAdded": "El contenido será añadido a la baraja existente \"{0}\"."
+  },
+  "searchPage": {
+    "title": "Vamos a 探します",
+    "inputPlaceholder": "Ingrese texto y presione coma, Enter o '、'"
+  },
+  "coursesListPage": {
+    "myCourses": "Mis Cursos",
+    "searchCourses": "Buscar Cursos",
+    "followingCourses": "Siguiendo",
+    "createCourse": "Crear"
+  },
+  "grammarKeys": {
+    "formalityLabel": "Formalidad",
+    "usageLabel": "Uso",
+    "expressionLabel": "Expresiones",
+    "formality": {
+      "formal": "Formal",
+      "informal": "Informal",
+      "neutral": "Neutral",
+      "casual": "Casual",
+      "semi-formal": "Semi-Formal",
+      "very formal": "Muy Formal"
+    },
+    "usage_context": {
+      "spoken": "Hablado",
+      "written": "Escrito",
+      "both": "Hablado & Escrito"
+    },
+    "expression_type": {
+      "critical": "Crítico",
+      "self-reflection": "Autorreflexión",
+      "positive": "Positivo",
+      "negative": "Negativo",
+      "neutral": "Neutral",
+      "questioning": "Interrogativo",
+      "polite": "Cortés",
+      "polite_formal": "Cortés/Formal",
+      "critical_judgmental": "Crítico/Juicioso",
+      "command": "Comando"
+    }
+  },
+  "generationPage": {
+    "description": "Genera temas basados en tu nivel de competencia y contenido seleccionado. El texto se guardará en la sección de Lectura de la lección seleccionada.",
+    "selectYourLevel": "Selecciona tu nivel",
+    "selectStyle": "Selecciona Estilo",
+    "generate": "Generar",
+    "topicPlaceholder": "Ingrese el tema (máximo 140 caracteres)",
+    "anonymousDisclaimer": "Hacerlo Anónimo (Otros usuarios no sabrán quién lo creó).",
+    "tips": {
+      "title": "Consejos",
+      "tip1": "- Sé específico. Da contexto de lo que quieres.",
+      "tip2": "- Si las barajas son demasiado grandes, no se usarán todos los elementos.",
+      "tip3": "- El modelo prioriza las barajas seleccionadas.",
+      "tip4": "- Considera tu nivel. Si aumentas el nivel del JLPT, aparecerán Palabras y Kanji avanzados en el texto."
+    }
+  },
   "generationStyles": {
     "article": "Artículo",
     "story": "Historia",
@@ -16,5 +107,17 @@
     "manga": "Manga",
     "advertisement": "Anuncio",
     "haiku": "Haiku"
+  },
+  "courseDetailsPage": {
+    "deleteCourse": "Eliminar Curso",
+    "isPublic": "Es Público",
+    "copyLink": "Copiar Enlace del Curso"
+  },
+  "flashcardsModal": {
+    "resetDeck": "Reiniciar Baraja",
+    "shuffle": "Barajar",
+    "orientation": "Orientación",
+    "termReading": "Término -> Lectura",
+    "readingTerm": "Lectura -> Término"
   }
 }

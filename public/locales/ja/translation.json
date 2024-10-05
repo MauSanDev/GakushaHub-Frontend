@@ -1,7 +1,98 @@
 {
-  "welcome": "こんにちは",
-  "description": "This is a localization example",
-  "Search": "探す",
+  "search": "検索",
+  "grammar": "文法",
+  "courses": "コース",
+  "texts": "テキスト",
+  "generate": "生成",
+  "kanji": "漢字",
+  "words": "単語",
+  "readings": "読み方",
+  "logout": "ログアウト",
+  "topic": "トピック",
+  "style": "スタイル",
+  "tags": "タグ",
+  "createdBy": "{0} によって作成されました",
+  "textSize": "文字サイズ",
+  "letterSpacing": "文字間隔",
+  "lineHeight": "行間",
+  "course": "コース",
+  "lesson": "レッスン",
+  "deck": "デッキ",
+  "priority": "優先度",
+  "kanjiDecks": "漢字デッキ",
+  "wordDecks": "単語デッキ",
+  "grammarDecks": "文法デッキ",
+  "readingDecks": "読み方デッキ",
+  "toggle": "切り替え",
+  "elements": "要素",
+  "on": "オン",
+  "off": "オフ",
+  "saveDeckInput": {
+    "saveInto": "コレクションに保存：",
+    "charLimitExceeded": "1つ以上のフィールドが最大文字数 {0} を超えています。",
+    "deckInputEmpty": "\"デッキ\" フィールドは必須です。",
+    "lessonRequired": "コースが指定されている場合、レッスンが必要です。",
+    "courseRequired": "レッスンが指定されている場合、コースが必要です。",
+    "courseWillBeCreated": "コース \"{0}\" が作成されます。",
+    "lessonWillBeCreated": "レッスン \"{0}\" がコース \"{1}\" に追加されます。",
+    "deckWillBeCreated": "デッキ \"{0}\" がレッスン \"{1}\" に追加されます。",
+    "contentWillBeAdded": "コンテンツが既存のデッキ \"{0}\" に追加されます。"
+  },
+  "searchPage": {
+    "title": "探しましょう",
+    "inputPlaceholder": "テキストを入力して、カンマ、エンター、または '、' を押します"
+  },
+  "coursesListPage": {
+    "myCourses": "私のコース",
+    "searchCourses": "コースを検索",
+    "followingCourses": "フォロー中",
+    "createCourse": "作成"
+  },
+  "grammarKeys": {
+    "formalityLabel": "形式",
+    "usageLabel": "使用",
+    "expressionLabel": "表現",
+    "formality": {
+      "formal": "フォーマル",
+      "informal": "インフォーマル",
+      "neutral": "中立",
+      "casual": "カジュアル",
+      "semi-formal": "セミフォーマル",
+      "very formal": "非常にフォーマル"
+    },
+    "usage_context": {
+      "spoken": "話し言葉",
+      "written": "書き言葉",
+      "both": "話し言葉と書き言葉"
+    },
+    "expression_type": {
+      "critical": "批判的",
+      "self-reflection": "自己反省",
+      "positive": "肯定的",
+      "negative": "否定的",
+      "neutral": "中立的",
+      "questioning": "疑問",
+      "polite": "丁寧",
+      "polite_formal": "丁寧/フォーマル",
+      "critical_judgmental": "批判的/判断的",
+      "command": "命令"
+    }
+  },
+  "generationPage": {
+    "description": "あなたのレベルと選択したコンテンツに基づいてトピックを生成します。テキストは選択したレッスンの読み方セクションに保存されます。",
+    "selectYourLevel": "レベルを選択",
+    "selectStyle": "スタイルを選択",
+    "generate": "生成",
+    "topicPlaceholder": "トピックを入力 (最大140文字)",
+    "anonymousDisclaimer": "匿名にする (他のユーザーには誰が作成したか分かりません)。",
+    "tips": {
+      "title": "ヒント",
+      "tip1": "- 具体的にしてください。求めていることの文脈を与えてください。",
+      "tip2": "- デッキが大きすぎる場合、すべての要素は使用されません。",
+      "tip3": "- モデルは選択されたデッキを優先します。",
+      "tip4": "- レベルを考慮してください。JLPTレベルを上げると、高度な単語や漢字がテキストに表示されます。"
+    }
+  },
   "generationStyles": {
     "article": "記事",
     "story": "物語",
@@ -13,8 +104,20 @@
     "review": "レビュー",
     "letter": "手紙",
     "novel": "小説",
-    "manga": "マンガ",
+    "manga": "漫画",
     "advertisement": "広告",
     "haiku": "俳句"
+  },
+  "courseDetailsPage": {
+    "deleteCourse": "コースを削除",
+    "isPublic": "公開",
+    "copyLink": "コースリンクをコピー"
+  },
+  "flashcardsModal": {
+    "resetDeck": "デッキをリセット",
+    "shuffle": "シャッフル",
+    "orientation": "向き",
+    "termReading": "単語 -> 読み方",
+    "readingTerm": "読み方 -> 単語"
   }
 }

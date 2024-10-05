@@ -1,0 +1,784 @@
+{
+  "jlpt3": {
+    "n3_102": {
+      "hint": "Un poco... / Ligeramente... (connotación negativa)",
+      "description": "Esta estructura se utiliza para expresar que alguien o algo tiene una ligera tendencia o muestra signos de un estado particular, generalmente en un sentido negativo. Transmite la idea de que algo se siente un poco como o está ligeramente inclinado hacia una condición particular. A menudo se usa para describir sentimientos, condiciones o estados.",
+      "examples": {
+        "example1": "Últimamente, el trabajo ha estado ocupado y me siento un poco cansado.",
+        "example2": "Está mostrando signos de un resfriado, así que debería descansar hoy.",
+        "example3": "Estoy ganando un poco de peso, así que planeo comenzar una dieta.",
+        "example4": "Este reloj va un poco lento.",
+        "example5": "Durante la reunión, habló un poco nervioso."
+      }
+    },
+    "n3_103": {
+      "hint": "En absoluto... / Definitivamente no...",
+      "description": "Esta estructura se utiliza para negar o rechazar algo con firmeza, a menudo en respuesta a una sugerencia o acusación. Añade énfasis a la negación, implicando que la acción no está sucediendo o nunca sucedió, con un tono de defensa o indignación. 'なんか' añade un matiz despectivo, haciendo que la negación sea más contundente.",
+      "examples": {
+        "example1": "¡No estoy llorando en absoluto!",
+        "example2": "Definitivamente no estoy pensando en algo así.",
+        "example3": "No me he olvidado de ti en absoluto.",
+        "example4": "No está enojado en absoluto. No necesitas preocuparte.",
+        "example5": "No estaba holgazaneando en absoluto. Realmente me sentía mal."
+      }
+    },
+    "n3_104": {
+      "hint": "En absoluto... / Definitivamente no...",
+      "description": "Estas estructuras se utilizan para negar o rechazar algo con firmeza, a menudo con un tono de defensa, desprecio o indignación. 'なんか' añade un matiz emocional o despectivo a la negación, haciendo que el rechazo sea más contundente. A menudo se utilizan para refutar acusaciones, suposiciones o sugerencias, enfatizando que la acción, condición o estado no es cierto en absoluto.",
+      "examples": {
+        "example1": "¡No estoy llorando en absoluto!",
+        "example2": "Definitivamente no estoy pensando en algo así.",
+        "example3": "No estoy cansado en absoluto, solo un poco somnoliento.",
+        "example4": "Sus palabras no me entristecieron en absoluto.",
+        "example5": "Este problema no es difícil en absoluto.",
+        "example6": "Definitivamente no es amable. En realidad es una persona fría.",
+        "example7": "¡Esta película no es interesante en absoluto!",
+        "example8": "Esto no es importante en absoluto.",
+        "example9": "No es especial en absoluto, solo una persona común."
+      }
+    },
+    "n3_105": {
+      "hint": "Incluso / Mientras",
+      "description": "Estas estructuras se utilizan para enfatizar la condición mínima necesaria para que algo suceda. 'N＋[助詞]＋さえ' se usa con sustantivos para expresar que incluso lo menos esperado está incluido, y 'Vて＋さえ' se usa para indicar que mientras se realice una acción, seguirá el resultado deseado. El énfasis está en que algo es la única o más importante condición.",
+      "examples": {
+        "example1": "Mientras tenga agua, puedo sobrevivir.",
+        "example2": "Incluso un niño sabe ese hecho.",
+        "example3": "Si tan solo tuviera tiempo, podría estudiar más.",
+        "example4": "Mientras estés a mi lado, no necesito nada más.",
+        "example5": "Saca buenas notas incluso sin estudiar."
+      }
+    },
+    "n3_106": {
+      "hint": "Incluso / Mientras",
+      "description": "Estas estructuras se utilizan para enfatizar algo al dar un ejemplo extremo. 'N＋[助詞]＋さえ' se usa para resaltar que incluso un ejemplo extremo o inesperado es cierto, mientras que 'Vて＋さえ' se usa para indicar que mientras se realice una acción, seguirá un resultado. Esta expresión a menudo se sigue de una forma negativa para resaltar cómo ni siquiera la condición mínima es suficiente.",
+      "examples": {
+        "example1": "Está tan ocupado que ni siquiera tiene tiempo para comer.",
+        "example2": "Mientras tenga agua, puedo sobrevivir.",
+        "example3": "Incluso un niño puede resolver ese problema.",
+        "example4": "Mientras estés a mi lado, no necesito nada más.",
+        "example5": "Saca buenas notas incluso sin estudiar.",
+        "example6": "Estaba tan cansada que ni siquiera podía mantenerse de pie."
+      }
+    },
+    "n3_107": {
+      "hint": "Hasta el punto de / Acerca de",
+      "description": "Esta estructura se utiliza para expresar la medida o grado de algo. Se puede usar para comparar una situación o estado, implicando que es 'hasta el punto de' que algo sucede. A menudo se usa para exagerar o describir algo que es aproximado. Dependiendo del contexto, también se puede usar para minimizar o trivializar algo ('aproximadamente tanto como').",
+      "examples": {
+        "example1": "Estaba tan cansado que casi se desmayó.",
+        "example2": "Estaba tan feliz que lloré.",
+        "example3": "Me duelen las piernas tanto que no puedo ni caminar.",
+        "example4": "Este pastel es tan dulce que no puedo comerlo.",
+        "example5": "No hay nadie tan amable como ella."
+      }
+    },
+    "n3_108": {
+      "hint": "Dejar algo como está / Dejar algo sin hacer",
+      "description": "Esta estructura se utiliza para expresar que una acción se ha dejado en un cierto estado, generalmente implicando negligencia o irresponsabilidad. A menudo tiene una connotación negativa, sugiriendo que algo debería haberse terminado o cuidado, pero se dejó incompleto o en un estado de desorden. También se puede usar para expresar que una acción continúa sin detenerse.",
+      "examples": {
+        "example1": "Me quedé dormido con las luces encendidas.",
+        "example2": "Por favor, no dejes la puerta abierta.",
+        "example3": "Salí de la habitación con la televisión encendida.",
+        "example4": "Sigue hablando y no escucha en absoluto.",
+        "example5": "Hay tazas sin terminar sobre la mesa."
+      }
+    },
+    "n3_109": {
+      "hint": "Lleno de / Cubierto de (usualmente negativo)",
+      "description": "Esta estructura se utiliza para expresar que algo está lleno o cubierto de algo, a menudo en un sentido negativo. Implica que hay una cantidad excesiva de algo indeseable o desagradable. 'だらけ' se utiliza típicamente para describir situaciones donde algo indeseable está presente en abundancia.",
+      "examples": {
+        "example1": "Esta habitación está llena de basura.",
+        "example2": "Su habitación está cubierta de polvo.",
+        "example3": "Su cuaderno está lleno de errores.",
+        "example4": "El camino está cubierto de barro.",
+        "example5": "Ese libro está lleno de mentiras."
+      }
+    },
+    "n3_110": {
+      "hint": "Podría / Tal vez / Sugerir algo suavemente",
+      "description": "Esta estructura se usa cuando señalas suavemente que la apariencia o el comportamiento de alguien es diferente de lo normal, o cuando das una instrucción o sugerencia de manera suave. Es comúnmente utilizada de una manera suave o indirecta para evitar sonar demasiado asertivo o brusco. El tono a menudo es casual, y se usa frecuentemente en conversaciones cotidianas.",
+      "examples": {
+        "example1": "Hoy pareces un poco cansado.",
+        "example2": "Tal vez deberías descansar un poco más.",
+        "example3": "Llegas tarde, ¿algo anda mal?",
+        "example4": "Asegúrate de llegar temprano mañana, ¿de acuerdo?",
+        "example5": "Oye, ¿tu peinado es diferente hoy?"
+      }
+    },
+    "n3_111": {
+      "hint": "Parece / Típico de",
+      "description": "Esta estructura se utiliza para expresar que algo o alguien tiene características típicas de una cierta categoría o grupo. También puede usarse para indicar que algo parece ser cierto basado en lo que el hablante ha escuchado u observado, aunque no está confirmado. Transmite tanto un sentido de tipicidad como una sensación de rumor o suposición.",
+      "examples": {
+        "example1": "Hoy se siente como un clima típico de primavera.",
+        "example2": "Tiene una personalidad realmente masculina.",
+        "example3": "Está estudiando mucho, como un estudiante debería.",
+        "example4": "Parece que vendrá mañana.",
+        "example5": "Escuché que el ramen en esa tienda es delicioso."
+      }
+    },
+    "n3_112": {
+      "hint": "Pensé... / Asumí...",
+      "description": "Esta estructura se utiliza para expresar que el hablante pensó o asumió algo, a menudo para indicar que su suposición resultó ser incorrecta o que se sorprendió por el resultado real. Transmite una sensación de realización o cambio de opinión basado en nueva información o eventos.",
+      "examples": {
+        "example1": "Pensé que él iba en serio, pero en realidad le gusta bromear.",
+        "example2": "Pensé que este problema era fácil, pero fue más difícil de lo que esperaba.",
+        "example3": "Pensé que haría frío hoy, pero está sorprendentemente cálido.",
+        "example4": "Pensé que ella era estudiante, pero en realidad era profesora.",
+        "example5": "Pensé que él no vendría, pero al final vino."
+      }
+    },
+    "n3_113": {
+      "hint": "Como / Por ejemplo",
+      "description": "Esta estructura se utiliza para dar ejemplos, similar a cómo se usan 'や', 'など', o '〜たり'. Indica que los elementos o acciones enumerados son parte de un grupo más amplio y no especificado. A menudo se utiliza de manera casual para sugerir que los ejemplos mencionados son solo algunas de las posibilidades u opciones.",
+      "examples": {
+        "example1": "El fin de semana quiero hacer cosas como ver una película o salir con amigos.",
+        "example2": "Este restaurante tiene varios platos, como sushi y ramen.",
+        "example3": "Quiero estudiar idiomas asiáticos, como japonés o coreano.",
+        "example4": "Planeo visitar lugares como Kioto y Osaka durante las vacaciones de verano.",
+        "example5": "Me gusta pasar tiempo tranquilo haciendo cosas como leer o ver películas."
+      }
+    },
+    "n3_114": {
+      "hint": "Ya que estás / Aprovechando la ocasión de / Aprovechando la oportunidad para",
+      "description": "Esta estructura se utiliza para indicar que, mientras se realiza una acción, se hace otra acción como una tarea adicional o secundaria. Expresa la idea de aprovechar una oportunidad para hacer algo más al mismo tiempo. A menudo se usa cuando la segunda acción es algo conveniente de hacer junto con la acción principal.",
+      "examples": {
+        "example1": "Mientras estaba de paseo, pasé por la oficina de correos.",
+        "example2": "Mientras estaba de viaje de negocios, aproveché para visitar Kioto.",
+        "example3": "¿Podrías devolver el libro mientras estás en la biblioteca?",
+        "example4": "Mientras hacía compras, también compré un pastel.",
+        "example5": "Mientras estudiaba, ordené un poco mi habitación."
+      }
+    },
+    "n3_115": {
+      "hint": "Debe ser / Seguramente",
+      "description": "Tanto 'に違いない' como 'に相違ない' se utilizan para expresar una fuerte convicción o certeza sobre algo. 'に違いない' se usa más comúnmente en el habla cotidiana, mientras que 'に相違ない' es más formal y típicamente aparece en el lenguaje escrito. Ambos transmiten la sensación de que el hablante está seguro de que algo es definitivamente cierto, basado en evidencia, razonamiento o intuición.",
+      "examples": {
+        "example1": "Debe ser estudiante.",
+        "example2": "Ese coche debe ser caro.",
+        "example3": "Ella debe ser la culpable.",
+        "example4": "Este resultado debe ser incorrecto.",
+        "example5": "Esta obra de arte debe ser famosa."
+      }
+    },
+    "n3_116": {
+      "hint": "Nada es tan... como N / N es el más...",
+      "description": "Esta estructura se utiliza para expresar que no hay nada comparable a N en un cierto aspecto. Se enfatiza que N es el más alto o extremo en una calidad o condición particular. A menudo se usa para hacer comparaciones, indicando que algo o alguien no alcanza el nivel o grado de N.",
+      "examples": {
+        "example1": "No hay nadie tan amable como ella.",
+        "example2": "Ninguna estación es tan calurosa como el verano.",
+        "example3": "No hay comida tan deliciosa como el sushi.",
+        "example4": "No hay problema tan difícil como este.",
+        "example5": "No hay nadie tan trabajador como él."
+      }
+    },
+    "n3_117": {
+      "hint": "Sin N / Dejando fuera a N",
+      "description": "Esta estructura se utiliza para expresar que algo se hace o sucede sin un elemento o factor particular (N). Se enfatiza que N está excluido de la situación o proceso. 'ぬきで' se usa a menudo en el habla casual para describir acciones o eventos en los que un componente determinado se omite intencionadamente.",
+      "examples": {
+        "example1": "Fui a la escuela sin desayunar.",
+        "example2": "Bromas aparte, él es realmente talentoso.",
+        "example3": "Este proyecto no puede avanzar sin él.",
+        "example4": "Disfrutemos hoy sin hablar de trabajo.",
+        "example5": "Café sin azúcar, por favor."
+      }
+    },
+    "n3_118": {
+      "hint": "No puedo evitar... / Extremadamente... / Insoportablemente...",
+      "description": "Estas estructuras se utilizan para expresar que algo es tan intenso o fuerte que el hablante no puede controlarlo o soportarlo. Se usan comúnmente para describir emociones, deseos o sensaciones físicas que parecen abrumadoras. 'しょうがない' y 'しかたがない' son intercambiables, con una ligera diferencia de matiz en la que 'しかたがない' puede sonar un poco más formal. 'たまらない' enfatiza que la sensación es tan fuerte que es insoportable.",
+      "examples": {
+        "example1": "No puedo dejar de pensar en él.",
+        "example2": "Estoy extremadamente hambriento.",
+        "example3": "No puedo evitar querer verte.",
+        "example4": "Su sonrisa es insoportablemente linda.",
+        "example5": "Tengo un dolor de cabeza insoportable."
+      }
+    },
+    "n3_89": {
+      "hint": "No hay manera de que... / Es imposible que...",
+      "description": "Esta estructura se utiliza para expresar una fuerte incredulidad o imposibilidad, indicando que no hay manera de que algo sea cierto. Transmite la certeza del hablante de que una situación o hecho particular es imposible. Se puede usar con adjetivos な y sustantivos.",
+      "examples": {
+        "example1": "No hay manera de que él pueda resolver un problema tan difícil.",
+        "example2": "No hay manera de que él haga algo tan grosero.",
+        "example3": "No hay manera de que esto sea un artículo de marca real a un precio tan barato.",
+        "example4": "No hay manera de que esos dos se casen.",
+        "example5": "No hay manera de que él mienta."
+      }
+    },
+    "n3_90": {
+      "hint": "No hay manera de que... / Es imposible que...",
+      "description": "Ambas estructuras se utilizan para expresar una fuerte incredulidad o imposibilidad. 'わけがない' enfatiza que no hay ninguna razón lógica o forma de que algo pueda suceder, mientras que 'はずがない' indica que algo es imposible basado en la expectativa o el sentido común. Ambas transmiten la certeza del hablante de que una situación o hecho particular es imposible. Se pueden usar con adjetivos な y sustantivos.",
+      "examples": {
+        "example1": "No hay manera de que él pueda resolver un problema tan difícil.",
+        "example2": "No hay manera de que él haga algo tan grosero.",
+        "example3": "No hay manera de que esto sea un artículo de marca real a un precio tan barato.",
+        "example4": "No hay manera de que ella mienta.",
+        "example5": "No hay manera de que un avión pueda volar en este clima.",
+        "example6": "No hay manera de que él falle el examen."
+      }
+    },
+    "n3_91": {
+      "hint": "No queda más que... / La única opción es...",
+      "description": "Estas estructuras expresan que no hay otra opción o alternativa más que hacer algo. 'しかない' se usa a menudo en el habla conversacional para indicar que la única acción posible es hacer algo, mientras que 'ほかはない' es más formal y también indica que no hay otras alternativas disponibles. Ambas enfatizan la falta de opciones o alternativas.",
+      "examples": {
+        "example1": "No hay tren, así que no me queda más que caminar.",
+        "example2": "No te queda más que hacerlo ahora.",
+        "example3": "No tenemos opción más que esperarle.",
+        "example4": "La única opción es esperar al próximo autobús.",
+        "example5": "No queda más remedio que hacerlo de nuevo."
+      }
+    },
+    "n3_92": {
+      "hint": "Precisamente porque...",
+      "description": "Esta estructura se utiliza para enfatizar la razón o causa de algo, a menudo implicando que es la razón por la que algo sucede o debería suceder. 'からこそ' agrega énfasis, dejando claro que la razón mencionada es el factor clave o esencial. Comúnmente se usa para subrayar que la situación no podría ocurrir sin la causa mencionada.",
+      "examples": {
+        "example1": "Precisamente porque estás ocupado, debes valorar tu tiempo.",
+        "example2": "Le confié este trabajo precisamente porque es de confianza.",
+        "example3": "Es precisamente en los momentos difíciles cuando no debes rendirte.",
+        "example4": "Es precisamente porque tengo una familia que puedo seguir adelante.",
+        "example5": "Tuvimos éxito precisamente porque nos ayudaste."
+      }
+    },
+    "n3_93": {
+      "hint": "Algo como... / Cosas como...",
+      "description": "Esta estructura se usa cuando se habla de algo que se considera poco importante o trivial. También puede usarse para expresar humildad o restar importancia a algo. 'なんか' agrega una sensación de informalidad o desdén, y es comúnmente usado en japonés hablado. A menudo lleva un matiz de subestimación o modestia, ya sea para desvalorizar algo o a uno mismo, o para sugerir que no merece mucha atención.",
+      "examples": {
+        "example1": "Alguien como yo no puede hacer nada.",
+        "example2": "Algo tan fácil como este problema, cualquiera puede resolverlo.",
+        "example3": "No necesitas preocuparte por lo que él dice.",
+        "example4": "El almuerzo no importa, solo quiero terminar el trabajo rápido.",
+        "example5": "No merezco un premio como este."
+      }
+    },
+    "n3_94": {
+      "hint": "No hay manera / Es imposible que...",
+      "description": "Esta estructura se usa para expresar una gran confianza o certeza de que algo es imposible o que no hay posibilidad de que algo suceda. A menudo se usa en el habla casual para negar fuertemente la posibilidad de una acción. El tono puede ser asertivo o despectivo.",
+      "examples": {
+        "example1": "No hay manera de que pueda resolver un problema tan difícil.",
+        "example2": "No hay manera de que él dijera algo así.",
+        "example3": "No hay manera de que pueda terminar de leer este libro en un día.",
+        "example4": "No hay manera de que esos dos terminen su relación.",
+        "example5": "No hay manera de que él pueda ganar en esta situación."
+      }
+    },
+    "n3_95": {
+      "hint": "Solo porque... no significa que...",
+      "description": "Esta estructura se usa para expresar que, aunque existe una determinada condición o razón, no necesariamente lleva a un resultado o conclusión específica. A menudo se usa para negar o rechazar una suposición o expectativa común basada en la declaración anterior. El hablante implica que la situación no es tan simple como uno podría pensar.",
+      "examples": {
+        "example1": "Solo porque tienes dinero no significa que serás feliz.",
+        "example2": "Solo porque vives en Japón no significa que mejorarás en japonés.",
+        "example3": "Solo porque te gusta no significa que sea bueno comerlo todos los días.",
+        "example4": "Solo porque eres joven no significa que puedas hacer cualquier cosa.",
+        "example5": "Solo porque estás ocupado no significa que sea una razón para no estudiar."
+      }
+    },
+    "n3_96": {
+      "hint": "No necesariamente / No significa que...",
+      "description": "Esta estructura se utiliza para expresar que algo no siempre es cierto o que hay excepciones a una creencia o suposición común. Indica que, aunque algo pueda ser generalmente cierto, no está garantizado en todas las situaciones. 'とは限らない' se usa a menudo para rechazar una generalización excesiva.",
+      "examples": {
+        "example1": "Las cosas caras no son necesariamente buenas.",
+        "example2": "Solo porque alguien es japonés no significa que todos sean educados.",
+        "example3": "Las previsiones meteorológicas no siempre son precisas.",
+        "example4": "No está garantizado que él tendrá éxito.",
+        "example5": "La comida en este restaurante no necesariamente es deliciosa."
+      }
+    },
+    "n3_97": {
+      "hint": "Cuando se trata de... / Hablando de cómo es...",
+      "description": "Esta estructura se utiliza para enfatizar la intensidad de una emoción, calidad o situación. Transmite una fuerte reacción o impresión sobre algo, a menudo expresando sorpresa, admiración o frustración. Se utiliza típicamente para resaltar la extremidad de una situación o sentimiento.",
+      "examples": {
+        "example1": "Cuando se trata de su belleza, es indescriptible.",
+        "example2": "Hablando de lo caluroso que fue ese día, fue insoportable.",
+        "example3": "Cuando se trata de la dificultad del examen, fue impactante.",
+        "example4": "Cuando se trata de su rendimiento en el trabajo, es la perfección misma.",
+        "example5": "Hablando de lo delicioso que estaba ese pastel, fue un sabor inolvidable."
+      }
+    },
+    "n3_98": {
+      "hint": "A pesar de que... / A pesar del hecho de que...",
+      "description": "Esta estructura se utiliza para expresar crítica, frustración o resentimiento hacia alguien o algo, a menudo implicando hipocresía o contradicción. Se usa cuando alguien hace algo inesperado o inapropiado según una cierta condición. El tono suele ser negativo, y el hablante expresa insatisfacción o irritación, pero no con un sentimiento fuerte.",
+      "examples": {
+        "example1": "A pesar de que no estudia, se queja de sus resultados en el examen.",
+        "example2": "A pesar de que no tiene dinero, solo compra ropa cara.",
+        "example3": "A pesar de que no sabe, finge saber.",
+        "example4": "A pesar de que finge ser amable, en realidad es frío.",
+        "example5": "No hables así, especialmente porque solo eres un niño."
+      }
+    },
+    "n3_99": {
+      "hint": "Tiende a... / Lleno de... / Parece...",
+      "description": "Esta estructura se utiliza para expresar que algo tiene una tendencia, está lleno de algo, o da la impresión de algo. A menudo se usa para describir algo que tiene cualidades de un cierto sustantivo o verbo, a menudo en un sentido negativo o casual. También puede transmitir la idea de que algo se parece o se comporta como otra cosa. Cuando se usa con verbos, puede significar 'tiende a' o 'hace fácilmente'.",
+      "examples": {
+        "example1": "Él tiene una personalidad infantil.",
+        "example2": "Esta sopa está grasosa.",
+        "example3": "Últimamente me he vuelto olvidadizo.",
+        "example4": "Ella es una persona que tiende a enojarse fácilmente.",
+        "example5": "Esta camisa parece blanca, pero en realidad es de un azul claro."
+      }
+    },
+    "n3_100": {
+      "hint": "Por culpa de (causa negativa)... / Culpando a...",
+      "description": "Esta estructura se usa para expresar que algo negativo ha sucedido debido a una determinada razón o causa. Implica que la situación o evento es indeseable y se culpa al sujeto o causa de ello. El matiz de 'せい' tiende a llevar un sentimiento de queja o culpa hacia la razón mencionada.",
+      "examples": {
+        "example1": "El partido fue cancelado por culpa de la lluvia.",
+        "example2": "El plan se arruinó por su error.",
+        "example3": "No pude descansar en absoluto porque estaba ocupado.",
+        "example4": "Fracasé porque no estaba bien preparado.",
+        "example5": "Ella podría estar enojada por la forma en que lo dije."
+      }
+    },
+    "n3_101": {
+      "hint": "Porque es (alguien) / Dado (el carácter de alguien)...",
+      "description": "Esta estructura se utiliza para expresar razonamientos o suposiciones basadas en el carácter, personalidad o comportamiento habitual bien conocido de alguien. A menudo se usa para hacer predicciones o suposiciones lógicas sobre lo que alguien hará o cómo actuará debido a su naturaleza o reputación. Es comúnmente utilizada cuando se habla de personas o grupos con comportamientos previsibles.",
+      "examples": {
+        "example1": "Conociéndolo, definitivamente llegará tarde.",
+        "example2": "Dado lo serio que es Tanaka-san, seguramente hará este trabajo correctamente.",
+        "example3": "Porque es tan amable, no podrá dejar a alguien en problemas.",
+        "example4": "Considerando lo ocupado que está, es comprensible que se tarde en contactarnos.",
+        "example5": "Porque son niños, lo olvidarán rápidamente."
+      }
+    }
+  },
+  "n3_81": {
+    "hint": "A menos que / Hasta que algo suceda",
+    "description": "Esta estructura se utiliza para expresar que, a menos que se complete la acción en la primera cláusula, la acción en la segunda cláusula no puede ocurrir. Se utiliza comúnmente para expresar condiciones o restricciones, implicando que algo debe hacerse primero antes de que ocurra otra cosa.",
+    "examples": {
+      "example1": "No puedes salir a jugar a menos que termines tu tarea.",
+      "example2": "No puedo firmar hasta que confirme el contrato.",
+      "example3": "No puedo pasar al siguiente proyecto a menos que termine este trabajo.",
+      "example4": "No podemos tomar una decisión hasta que confirmemos con el profesor.",
+      "example5": "No puedes entrar a menos que abras esta puerta primero."
+    }
+  },
+  "n3_82": {
+    "hint": "Como si algo fuera el caso",
+    "description": "Esta estructura se utiliza para describir algo de una manera que sugiere que es como otra cosa, aunque no lo sea. Puede usarse para comparar acciones, situaciones o sustantivos, creando una expresión metafórica o figurativa. 'かのようだ' y 'かのように' se usan para describir acciones o situaciones, mientras que 'かのような' se usa para modificar sustantivos.",
+    "examples": {
+      "example1": "Él se está riendo como si nada hubiera pasado.",
+      "example2": "El lago es hermoso, como si fuera un espejo.",
+      "example3": "Ella bailó con gracia, como si fuera un pájaro.",
+      "example4": "Sus palabras eran como si estuviera soñando.",
+      "example5": "Él tiene poder como si fuera un mago."
+    }
+  },
+  "n3_83": {
+    "hint": "Mientras algo esté en un cierto estado, antes de que cambie",
+    "description": "Esta estructura se utiliza para expresar que algo debe hacerse, o se desea hacer algo, antes de que ocurra un cambio. También puede usarse para pedirle a alguien que haga algo dentro de ese plazo. Enfatiza la necesidad de actuar mientras una condición o situación particular continúa, antes de que se transforme o se vuelva imposible de abordar.",
+    "examples": {
+      "example1": "Vamos a casa antes de que empiece a llover.",
+      "example2": "Por favor, come mientras todavía está caliente.",
+      "example3": "Deberías escribirlo antes de que lo olvides.",
+      "example4": "Es mejor tener varias experiencias mientras aún eres joven.",
+      "example5": "Mientras veía la película, comencé a llorar."
+    }
+  },
+  "n3_84": {
+    "hint": "Dirigido a / Orientado a / Adecuado para",
+    "description": "Estas estructuras se usan para expresar que algo está destinado, dirigido o es adecuado para un grupo específico. '向けに' y '向けだ' indican que algo está específicamente diseñado o creado para un grupo en particular. '向けの' se usa para modificar un sustantivo. '〜向き' se usa para describir algo que es adecuado o apropiado para un cierto grupo o propósito.",
+    "examples": {
+      "example1": "Este libro está escrito para niños.",
+      "example2": "Este evento está dirigido a principiantes.",
+      "example3": "Hay un descuento para estudiantes.",
+      "example4": "Este programa es adecuado para personas que son buenas en inglés.",
+      "example5": "Este juego está dirigido a adultos, pero los niños también pueden disfrutarlo."
+    }
+  },
+  "n3_85": {
+    "hint": "Dependiendo de / Varía según",
+    "description": "Esta estructura se utiliza para expresar que algo varía dependiendo de la persona, lugar, tiempo o situación. 'によって' se usa a menudo para describir variaciones o diferencias basadas en ciertas condiciones o factores, mientras que 'による' se usa para modificar un sustantivo, indicando que el sustantivo varía o cambia según el sustantivo precedente.",
+    "examples": {
+      "example1": "Las culturas varían dependiendo del país.",
+      "example2": "La forma de pensar varía según la persona.",
+      "example3": "La temperatura cambia mucho dependiendo de la estación.",
+      "example4": "Las diferencias en las costumbres según la región son interesantes.",
+      "example5": "La ocupación de la tienda varía según la hora."
+    }
+  },
+  "n3_86": {
+    "hint": "En medio de hacer algo",
+    "description": "Esta estructura se usa para expresar que algo está sucediendo justo en medio de una actividad o evento. Enfatiza que la acción o el evento están ocurriendo en ese mismo momento. '最中に' se utiliza para describir una acción que ocurre en medio de otra acción en curso, mientras que '最中だ' se usa para describir el estado en curso. Esta expresión a menudo se utiliza en situaciones en las que no quieres que te molesten o interrumpan.",
+    "examples": {
+      "example1": "En medio de la reunión, sonó una llamada telefónica.",
+      "example2": "En medio de cocinar, vino a visitarme un amigo.",
+      "example3": "Mi teléfono sonó en medio del examen.",
+      "example4": "Él estaba justo en medio de salir.",
+      "example5": "En medio de la reunión, comenzó a llover fuerte."
+    }
+  },
+  "n3_87": {
+    "hint": "A medio hacer / En el medio de hacer algo",
+    "description": "Esta estructura se utiliza para expresar que algo está a medio hacer, incompleto o en proceso de realización. 'V＋かけだ' enfatiza que una acción ha comenzado pero aún no ha terminado, mientras que 'V＋かけの＋N' se usa para modificar un sustantivo, indicando que algo está en un estado a medio terminar o dejado incompleto.",
+    "examples": {
+      "example1": "Puse el pastel a medio comer en el refrigerador.",
+      "example2": "Él empezó a decir algo, pero luego se quedó en silencio.",
+      "example3": "Todavía estoy en medio de leer este libro.",
+      "example4": "Hay una carta a medio escribir en el escritorio.",
+      "example5": "Ella empezó a levantarse, pero luego se volvió a sentar."
+    }
+  },
+  "n3_88": {
+    "hint": "No puedo evitar hacer algo / Incapaz de detenerse de hacer algo",
+    "description": "Estas estructuras se utilizan para expresar que el hablante no puede evitar hacer algo o no puede detenerse de hacerlo. 'ずにはいられない' y 'ないではいられない' ambos transmiten la idea de que, a pesar de la voluntad o las intenciones del hablante, se ven obligados a actuar de cierta manera. Expresa una fuerte reacción emocional o instintiva.",
+    "examples": {
+      "example1": "No pude evitar reírme después de escuchar su historia.",
+      "example2": "No pude evitar llorar después de ver esa película.",
+      "example3": "No puedo evitar estar agradecido por su amabilidad.",
+      "example4": "Cuando escucho esta canción, no puedo dejar de bailar.",
+      "example5": "Cuando veo su esfuerzo, no puedo evitar apoyarlo."
+    }
+  },
+  "n3_75": {
+    "hint": "Recibir / Ser dado (formas humildes y honoríficas)",
+    "description": "Esta estructura se utiliza para expresar acciones que se hacen para el hablante (いただく) o para alguien más (くださる) de manera educada y respetuosa. **「いただく」** es la forma humilde que se usa para mostrar humildad cuando el hablante recibe un favor, y **「くださる」** es la forma honorífica para mostrar respeto cuando alguien hace algo por el hablante. Ambas formas se usan para expresar gratitud o cortesía en contextos formales.",
+    "examples": {
+      "example1": "Gracias por ayudarme.",
+      "example2": "¿Podría explicarlo por favor?",
+      "example3": "Aprecio que me hayas dado tu tiempo.",
+      "example4": "El presidente me dio una carta.",
+      "example5": "Gracias por tu cooperación."
+    }
+  },
+  "n3_76": {
+    "hint": "Expresiones educadas para mostrar humildad al referirse a tus propias acciones o las de tu grupo",
+    "description": "Las palabras humildes se utilizan para mostrar respeto al rebajarse cuando se refieren a las propias acciones o las acciones realizadas por personas de su grupo (como colegas, subordinados, etc.). Estas palabras se usan a menudo en situaciones formales o de negocios para expresar cortesía y deferencia.",
+    "examples": {
+      "example1": "Tengo una reunión programada con el presidente la próxima semana.",
+      "example2": "Le mostraré los documentos.",
+      "example3": "Recibí un regalo del presidente.",
+      "example4": "Lo conozco (de manera educada).",
+      "example5": "Creo que este plan es bueno."
+    }
+  },
+  "n3_77": {
+    "hint": "Forma cortés usando 'です' con verbos y sustantivos",
+    "description": "Esta estructura se utiliza para describir cortésmente acciones (con verbos) o estados (con sustantivos). Al agregar 'お' a los verbos y 'ご' a los sustantivos, seguido de 'です', la oración se vuelve más formal y respetuosa. 'お' se usa principalmente con verbos de origen japonés, y 'ご' se usa con sustantivos de origen chino-japonés.",
+    "examples": {
+      "example1": "Esta es mi ayuda, así que no dudes en preguntar.",
+      "example2": "Esta es tu guía, así que por favor sigue por aquí.",
+      "example3": "Es tu descanso, así que tómate tu tiempo y relájate."
+    }
+  },
+  "n3_78": {
+    "hint": "Forma cortés de pedir confirmación o hacer sugerencias",
+    "description": "Esta estructura se usa para pedir confirmación cortésmente o hacer sugerencias. 'でしょうか' se agrega después de un adjetivo な o un sustantivo, convirtiendo la oración en una pregunta manteniendo la cortesía. Se usa comúnmente en atención al cliente o situaciones formales donde el hablante quiere ser respetuoso e indirecto.",
+    "examples": {
+      "example1": "¿Este método estará bien?",
+      "example2": "¿Crees que este libro es interesante?",
+      "example3": "¿Será esta hora adecuada para la reunión?",
+      "example4": "¿Él es el maestro?",
+      "example5": "¿Esta guía te satisfará?"
+    }
+  },
+  "n3_79": {
+    "hint": "Forma honorífica que indica presencia o acción en curso",
+    "description": "Esta estructura usa 'いらっしゃる' como la forma honorífica de 'いる' o '来る', para mostrar respeto al hablar sobre la presencia, estado o acción en curso de alguien. Se usa a menudo en entornos formales para elevar el estatus del sujeto, especialmente cuando se refiere a superiores o clientes.",
+    "examples": {
+      "example1": "El presidente está actualmente asistiendo a la reunión.",
+      "example2": "El maestro está bien de salud nuevamente hoy.",
+      "example3": "¿El cliente todavía está aquí?",
+      "example4": "¿Dónde están tus padres?",
+      "example5": "Parece que el Sr. Tanaka llegó al lugar."
+    }
+  },
+  "n3_80": {
+    "hint": "Formas humildes (いただく) y honoríficas (くださる) para pedir o conceder permiso para hacer algo",
+    "description": "Esta estructura se utiliza para pedir permiso cortésmente (いただく) o conceder permiso (くださる) para realizar una acción. **「いただく」** es la forma humilde que se usa cuando el hablante solicita hacer algo, mostrando humildad. **「くださる」** es la forma honorífica que se usa cuando alguien concede permiso al hablante, mostrando respeto. Ambas se usan comúnmente en contextos formales y de negocios para mostrar deferencia y cortesía.",
+    "examples": {
+      "example1": "Gracias por tu tiempo, ahora hablaré.",
+      "example2": "¿Puedo hacer una pregunta?",
+      "example3": "El maestro amablemente me permitió hacer la presentación.",
+      "example4": "El presidente amablemente dará un saludo.",
+      "example5": "Perdón por haberte hecho esperar."
+    }
+  },
+  "n3_65": {
+    "hint": "Cuando / Si (forma cortés)",
+    "description": "Esta estructura se usa en situaciones formales o corteses, como en una tienda o al explicar condiciones de manera educada. **「ますと」** y **「ですと」** se usan para describir lo que sucederá bajo cierta condición de manera respetuosa. A menudo se traduce como 'si' o 'cuando' y es común en atención al cliente o en entornos formales.",
+    "examples": {
+      "example1": "Si compras este producto, te daremos un regalo gratis.",
+      "example2": "Si tienes esta tarjeta, recibirás un descuento.",
+      "example3": "Cuando presionas este botón, se encenderá la energía.",
+      "example4": "Después de las 6 PM, se requiere una reserva.",
+      "example5": "Si eres miembro, puedes usar este servicio de forma gratuita."
+    }
+  },
+  "n3_66": {
+    "hint": "Si parece / Si parece que / Si",
+    "description": "Esta estructura se usa para expresar una declaración condicional basada en una situación o condición que parece estar sucediendo. Se traduce como 'si parece' o 'si parece que' y se usa a menudo al hacer sugerencias o tomar decisiones basadas en condiciones observadas o supuestas.",
+    "examples": {
+      "example1": "Si parece que va a llover, el partido será cancelado.",
+      "example2": "Si parece que no va a venir, comencemos sin él.",
+      "example3": "Si no te sientes bien, no te esfuerces.",
+      "example4": "Si parece que las carreteras están llenas, es mejor tomar el tren.",
+      "example5": "Si su actitud parece extraña, ten cuidado."
+    }
+  },
+  "n3_67": {
+    "hint": "Venir / Comenzar / Empezar",
+    "description": "Esta estructura se usa para expresar que una acción se está moviendo hacia el hablante o que algo ha comenzado y continúa. A menudo lleva el matiz de algo que comienza a existir, comienza a suceder o se acerca en el tiempo. También puede usarse para indicar acciones que comenzaron en el pasado y continúan hasta el presente.",
+    "examples": {
+      "example1": "Está empezando a hacer frío.",
+      "example2": "De repente comenzó a llorar.",
+      "example3": "Mi amigo vino a visitarme.",
+      "example4": "Poco a poco, mi japonés ha mejorado.",
+      "example5": "Esa persona vino corriendo desde allí."
+    }
+  },
+  "n3_68": {
+    "hint": "Porque / Debido a (dar una razón o excusa)",
+    "description": "Esta estructura se utiliza para explicar una razón o excusa para algo. Puede traducirse como 'porque' o 'debido a', y a menudo se usa cuando el hablante quiere justificar o explicar sus acciones o situación, generalmente de manera más suave o disculpatoria. Es común en el habla formal y educada para dar una excusa o razón para algo.",
+    "examples": {
+      "example1": "Tenía prisa, así que lo siento.",
+      "example2": "Tenía un resfriado, así que me salté la escuela.",
+      "example3": "No pudo venir porque estaba ocupado con el trabajo.",
+      "example4": "Llegué tarde porque la carretera estaba llena.",
+      "example5": "He estado ocupado recientemente, así que siento no haberme puesto en contacto."
+    }
+  },
+  "n3_69": {
+    "hint": "Como / Algo como / Cosas como",
+    "description": "Esta estructura se utiliza para restar importancia o mostrar humildad, a menudo insinuando que el sustantivo mencionado no es particularmente importante o digno de atención. También puede usarse para sugerir ejemplos, similar a 'como' o 'algo como'. En el habla casual, **「なんか」** puede llevar un tono de desprecio o humildad, dependiendo del contexto.",
+    "examples": {
+      "example1": "Alguien como yo todavía es un principiante.",
+      "example2": "Algo como limpiar se puede hacer en cualquier momento.",
+      "example3": "No necesito algo como dinero. Mientras te tenga a ti, es suficiente.",
+      "example4": "¡Deja de jugar y estudia!",
+      "example5": "No quiero comer algo como vegetales."
+    }
+  },
+  "n3_70": {
+    "hint": "Pensé / Me pregunto si / Parecía",
+    "description": "Esta estructura se utiliza para expresar incertidumbre o especulación sobre algo, a menudo basada en una impresión o suposición. Puede traducirse como 'pensé', 'me pregunto si' o 'parecía', y se usa cuando el hablante no está seguro o está especulando sobre una situación o resultado. El matiz suele ser suave e implica que la suposición del hablante podría ser incorrecta.",
+    "examples": {
+      "example1": "Pensé que estaba bien, pero en realidad estaba enfermo.",
+      "example2": "Pensé que iba a llover, pero no lo hizo.",
+      "example3": "Pensé que ella era amable, pero resulta que no lo era.",
+      "example4": "Pensé que el examen sería difícil, pero fue sorprendentemente fácil.",
+      "example5": "Pensé que él vendría, pero no lo hizo."
+    }
+  },
+  "n3_71": {
+    "hint": "Mientras / Antes (de que algo cambie)",
+    "description": "Esta estructura se utiliza para expresar que algo ocurre o debería hacerse mientras un cierto estado o condición continúa. Implica aprovechar la situación actual antes de que cambie, o mientras una acción está en curso. Se puede traducir como 'mientras' o 'antes de que algo cambie'.",
+    "examples": {
+      "example1": "Vamos a casa antes de que empiece a llover.",
+      "example2": "Por favor, come mientras aún esté caliente.",
+      "example3": "Deberías viajar mucho mientras eres joven.",
+      "example4": "Mientras él hablaba, gradualmente me interesé.",
+      "example5": "Por favor, toma notas antes de que lo olvides."
+    }
+  },
+  "n3_72": {
+    "hint": "Acabo de (hacer algo) / Recién",
+    "description": "Esta estructura se usa para expresar que una acción se completó muy recientemente. Se traduce como 'acabo de hacer algo' o 'recién', indicando que solo ha pasado poco tiempo desde que ocurrió la acción. El matiz puede variar ligeramente según el contexto, pero generalmente implica que el evento aún está fresco en la mente del hablante.",
+    "examples": {
+      "example1": "Acabo de llegar a casa.",
+      "example2": "Él acaba de unirse a la empresa el mes pasado.",
+      "example3": "Acabo de comer, pero ya tengo hambre.",
+      "example4": "Acabo de comprar un teléfono nuevo.",
+      "example5": "Ella acaba de graduarse de la universidad."
+    }
+  },
+  "n3_73": {
+    "hint": "Ojalá / Si tan solo / Deberías (con leve crítica)",
+    "description": "Esta estructura expresa decepción por la situación actual, que es diferente de lo que el hablante había esperado. Se puede traducir como 'ojalá' o 'si tan solo'. También se usa para animar a alguien a hacer algo mostrando una leve crítica o insatisfacción con su comportamiento actual. El hablante insinúa que las cosas deberían ser diferentes o que la persona debería cambiar sus acciones.",
+    "examples": {
+      "example1": "Ojalá hubieras venido antes.",
+      "example2": "Ojalá él estudiara más.",
+      "example3": "Si tan solo ella hubiera pedido disculpas en ese momento.",
+      "example4": "No deberías jugar tanto a los videojuegos.",
+      "example5": "Ojalá fuera fin de semana.",
+      "example6": "Deberías pensar más seriamente."
+    }
+  },
+  "n3_74": {
+    "hint": "¿Podrías...? / ¿Te importaría...?",
+    "description": "Esta estructura cortés se utiliza para pedirle a alguien que haga algo por ti. Se traduce como '¿Podrías...?' o '¿Te importaría...?' Expresa una manera educada y humilde de pedir un favor o asistencia para hacer algo.",
+    "examples": {
+      "example1": "¿Podrías revisar este documento por mí?",
+      "example2": "¿Podrías llevarme a la estación?",
+      "example3": "¿Te importaría ayudarme un momento?",
+      "example4": "¿Podrías explicarme esto?",
+      "example5": "¿Podrías abrir la puerta por mí?"
+    }
+  },
+  "n3_54": {
+    "hint": "Gracias a / Debido a (connotación positiva)",
+    "description": "Esta estructura se usa para expresar gratitud o resultados positivos que ocurrieron debido a alguien o algo. Significa 'gracias a' y se usa cuando el hablante atribuye un resultado favorable a una persona, evento o cosa. **「おかげ」** generalmente tiene una connotación positiva, a diferencia de **「せい」**, que se usa para resultados negativos.",
+    "examples": {
+      "example1": "Gracias al maestro, pude aprobar el examen.",
+      "example2": "Gracias a mis amigos, tuve un gran viaje.",
+      "example3": "Pude ir a la universidad gracias a mis padres.",
+      "example4": "Gracias a su consejo, se resolvió el problema.",
+      "example5": "Gracias al buen clima, disfrutamos del picnic."
+    }
+  },
+  "n3_55": {
+    "hint": "A lo largo de / Durante el transcurso de",
+    "description": "Esta estructura se utiliza para expresar que algo ocurre o continúa durante un cierto período de tiempo. Implica que un evento, actividad o condición ocurre o permanece consistente durante todo el lapso. **「を通じて」** y **「を通して」** son intercambiables en este contexto y ambos significan 'a lo largo de' o 'durante el transcurso de'.",
+    "examples": {
+      "example1": "A lo largo del año, esta ciudad está llena de turistas.",
+      "example2": "Fui muy amigo de él durante mis días de estudiante.",
+      "example3": "La reunión se celebró durante todo el día.",
+      "example4": "En esta región nieva durante todo el invierno.",
+      "example5": "Este proyecto se llevó a cabo durante varios meses."
+    }
+  },
+  "n3_56": {
+    "hint": "¿No te gustaría...? / ¿No es...? / ¿No crees que...?",
+    "description": "Estas estructuras se utilizan para hacer sugerencias educadas, invitaciones o para pedir confirmación. **「V＋ませんか」** es una forma cortés de invitar a alguien a hacer algo o sugerir una acción. **「Aく/Aじゃ/Nじゃ＋ないですか/ありませんか」** se usa para pedir confirmación, a menudo significa '¿No es...?' o '¿No crees que...?' de una manera casual o cortés.",
+    "examples": {
+      "example1": "¿No te gustaría ver una película conmigo?",
+      "example2": "¿Vamos a este restaurante?",
+      "example3": "¿Qué tal si damos un paseo?",
+      "example4": "¿No es interesante esta película?",
+      "example5": "¿No hace frío?",
+      "example6": "¿No es una buena idea?",
+      "example7": "¿No es un poco caro este restaurante?",
+      "example8": "¿No es amable?"
+    }
+  },
+  "n3_57": {
+    "hint": "Hablando de / Cuando se trata de",
+    "description": "Estas estructuras se utilizan para introducir un tema o proporcionar una asociación con un cierto sustantivo. **「というと」**, **「といえば」**, y **「といったら」** son a menudo intercambiables y se usan cuando el hablante quiere hablar sobre algo relacionado con un sustantivo específico. Estas expresiones también se usan para mencionar ejemplos o asociaciones que vienen a la mente al pensar en el sustantivo.",
+    "examples": {
+      "example1": "Hablando de Japón, me viene a la mente el Monte Fuji.",
+      "example2": "Cuando se trata de sushi, es un plato representativo de Japón, ¿verdad?",
+      "example3": "Hablando de Kioto, hay muchos templos, ¿verdad?",
+      "example4": "Hablando de vacaciones de verano, tiene que ser el mar, ¿verdad?",
+      "example5": "Cuando piensas en los cerezos en flor, piensas en la primavera de Japón."
+    }
+  },
+  "n3_58": {
+    "hint": "Deberías / Debería",
+    "description": "Esta estructura se usa para expresar un consejo fuerte, obligación o recomendación. **「べきだ」** indica que algo es el curso correcto o apropiado de acción, a menudo se traduce como 'deberías' o 'debería'. Cuando se sigue de un sustantivo (べき＋N), describe algo que es apropiado o recomendado para hacer.",
+    "examples": {
+      "example1": "Deberías cumplir tus promesas.",
+      "example2": "Los estudiantes deberían estudiar.",
+      "example3": "Todos deberían respetar a los demás.",
+      "example4": "Este es un libro que deberías leer.",
+      "example5": "Lo que deberías hacer ahora es descansar."
+    }
+  },
+  "n3_59": {
+    "hint": "Para / Hacia / Desde la perspectiva de",
+    "description": "Esta estructura se usa para expresar cómo algo se percibe o se interpreta desde el punto de vista de una persona o grupo en particular. Se traduce como 'para' o 'hacia' y se usa comúnmente para indicar cómo una situación, objeto o evento afecta a alguien personalmente o cómo lo perciben. Ayuda a mostrar opiniones o evaluaciones subjetivas.",
+    "examples": {
+      "example1": "Este trabajo es muy importante para mí.",
+      "example2": "¿Qué es lo más importante para ti?",
+      "example3": "Para él, este examen es una gran oportunidad.",
+      "example4": "Para Japón, el Monte Fuji es un símbolo especial.",
+      "example5": "Para los niños, la presencia de sus padres es muy importante."
+    }
+  },
+  "n3_60": {
+    "hint": "Cuanto más... más... / Cuanto más... mejor...",
+    "description": "Esta estructura se utiliza para expresar una relación proporcional entre dos acciones o estados, lo que significa 'cuanto más [X], más [Y]'. Resalta que a medida que una condición se intensifica, la otra también lo hace. Esta estructura se usa comúnmente para mostrar aumentos o disminuciones en la intensidad, calidad o frecuencia a medida que otra cosa cambia.",
+    "examples": {
+      "example1": "Cuanto más estudias, mejor te vuelves.",
+      "example2": "Cuanto más lo pienso, menos lo entiendo.",
+      "example3": "Cuanto más caro es, mejor es la calidad.",
+      "example4": "Cuanto más tranquilo está, más fácil es concentrarse.",
+      "example5": "Cuanto más conveniente es, mayor es el precio."
+    }
+  },
+  "n3_61": {
+    "hint": "Por / Debido a / Dependiendo de / A través de",
+    "description": "Estas estructuras se usan para indicar la causa, método o agente de una acción. **「による」** se usa para modificar un sustantivo, mientras que **「によって」** se utiliza para expresar un método, causa o medio. Ambos pueden traducirse como 'por', 'debido a', 'a través de' o 'dependiendo de', según el contexto. A menudo indican cómo se hace algo o qué causó un resultado determinado.",
+    "examples": {
+      "example1": "El daño causado por el tifón se está extendiendo.",
+      "example2": "La presentación a cargo de él se realizará mañana.",
+      "example3": "El tren se detuvo debido al accidente.",
+      "example4": "Este proyecto se llevó a cabo a través de la financiación de la ciudad.",
+      "example5": "Las opiniones varían dependiendo de la persona."
+    }
+  },
+  "n3_62": {
+    "hint": "No solo... sino también / No solo... sino incluso",
+    "description": "Estas estructuras se utilizan para enfatizar que no solo una cosa es cierta, sino que algo adicional o más significativo también lo es. **「ばかりでなく〜も」** se usa para agregar otro hecho relacionado, mientras que **「ばかりか」** enfatiza la naturaleza inesperada o sorprendente de la información adicional. Ambos se utilizan para expresar que algo va más allá de la expectativa inicial.",
+    "examples": {
+      "example1": "No solo es bueno estudiando, sino también en los deportes.",
+      "example2": "Esta película no solo es interesante, sino también conmovedora.",
+      "example3": "Ella no solo es amable, sino también valiente.",
+      "example4": "Él no solo habla inglés, sino también francés.",
+      "example5": "Este restaurante no solo tiene excelente comida, sino también un servicio impecable."
+    }
+  },
+  "n3_63": {
+    "hint": "Cada vez / Siempre que",
+    "description": "Esta estructura se usa para expresar que algo sucede cada vez que ocurre cierta acción o cada vez que se hace algo. Se traduce como 'cada vez' o 'siempre que', e indica una ocurrencia repetida o un resultado consistente cada vez que se realiza la acción.",
+    "examples": {
+      "example1": "Cada vez que lo veo, aprendo algo nuevo.",
+      "example2": "Siempre que escucho esta canción, vuelven los viejos recuerdos.",
+      "example3": "Cada vez que viajo, tomo muchas fotos.",
+      "example4": "Se pone nerviosa cada vez que hay un examen.",
+      "example5": "Cada vez que camino por esta calle, recuerdo el pasado."
+    }
+  },
+  "n3_64": {
+    "hint": "Debe ser / Debería ser",
+    "description": "Esta estructura se utiliza para expresar que se espera que algo sea cierto o que ocurra según un razonamiento lógico o evidencia. Transmite una fuerte expectativa de que 'debe ser' o 'debería ser' de una determinada manera, a menudo porque hay una buena razón o evidencia que lo respalda. **「はず」** indica que el hablante tiene confianza en su conclusión, basándose en lo que sabe.",
+    "examples": {
+      "example1": "Debe venir hoy. Lo dijo ayer.",
+      "example2": "Este reloj era caro, así que no debería estar roto.",
+      "example3": "Ella debe estar todavía en la oficina. La reunión se está prolongando.",
+      "example4": "Según el pronóstico del tiempo, hoy debería estar soleado.",
+      "example5": "Debo aprobar el examen, ya que me preparé para ello."
+    }
+  },
+  "n3_46": {
+    "hint": "Parece / Se ve como / Como",
+    "description": "Ambas estructuras se utilizan para expresar similitud o especulación. **「ようだ」** y **「みたいだ」** indican que algo parece o se ve de cierta manera, con **「ようだ」** siendo ligeramente más formal y **「みたいだ」** más informal. **「ように」** y **「みたいに」** se usan para comparaciones, mientras que **「ような＋N」** y **「みたいな＋N」** se usan para modificar sustantivos comparándolos con otra cosa.",
+    "examples": {
+      "example1": "Parece cansado.",
+      "example2": "Es hermosa como un ángel.",
+      "example3": "Parece que está pensando en algo.",
+      "example4": "Esa nube tiene forma de animal.",
+      "example5": "La forma en que habla es como la de un maestro.",
+      "example6": "Parece que está llorando.",
+      "example7": "Parece cansado (informal).",
+      "example8": "Es hermosa como un ángel (informal).",
+      "example9": "Parece que está pensando en algo (informal).",
+      "example10": "Esa nube tiene forma de animal (informal).",
+      "example11": "La forma en que habla es como la de un maestro (informal).",
+      "example12": "Parece que está llorando (informal)."
+    }
+  },
+  "n3_47": {
+    "hint": "En lugar de / A cambio de / Por otro lado",
+    "description": "Esta estructura se usa para expresar 'en lugar de' o 'a cambio de', indicando un reemplazo o sustitución. También puede usarse para mostrar un equilibrio o intercambio, significando 'por otro lado'. Las formas verbales indican la acción que se está reemplazando, mientras que el sustantivo indica la cosa o persona que se sustituye.",
+    "examples": {
+      "example1": "En lugar de carne, comeré pescado.",
+      "example2": "En lugar de comprar un coche, compré una motocicleta.",
+      "example3": "Como ayudé ayer, hoy tú lo haces en mi lugar.",
+      "example4": "Él no estudia, pero en su lugar, juega mucho.",
+      "example5": "En lugar de ir al cine, vi la televisión en casa.",
+      "example6": "Él no come dulces, pero en cambio, come muchas frutas."
+    }
+  },
+  "n3_48": {
+    "hint": "En lugar de / En lugar de / En nombre de / A cambio de",
+    "description": "Ambas estructuras se usan para expresar sustitución o reemplazo, pero **「にかわって/にかわり」** a menudo se usa para significar 'en lugar de' o 'en nombre de', indicando que alguien está haciendo algo en lugar de otra persona. **「かわりに」** también puede implicar un intercambio, significando 'por otro lado'. Las formas verbales indican la acción que se reemplaza, mientras que la forma sustantiva indica la persona o cosa que se sustituye.",
+    "examples": {
+      "example1": "En lugar de carne, comeré pescado.",
+      "example2": "En lugar de comprar un coche, compré una motocicleta.",
+      "example3": "Como ayudé ayer, hoy tú lo haces en mi lugar.",
+      "example4": "Él no estudia, pero en su lugar, juega mucho.",
+      "example5": "En lugar de ir al cine, vi la televisión en casa.",
+      "example6": "Él no come dulces, pero en cambio, come muchas frutas.",
+      "example7": "El jefe de departamento asistió a la reunión en lugar del presidente.",
+      "example8": "Escribí la carta en nombre de mi padre.",
+      "example9": "Hoy en día, los correos electrónicos han reemplazado a las cartas como el principal método de comunicación.",
+      "example10": "Hoy daré la presentación en lugar de Tanaka-san."
+    }
+  },
+  "n3_49": {
+    "hint": "Sin hacer / En lugar de",
+    "description": "Esta estructura se usa para indicar que se realiza una acción sin hacer otra acción. Es similar a **「ないで」** pero a menudo se usa en contextos más formales. Se usa la raíz del verbo, seguida de **「ずに」**, y significa 'sin hacer' o 'en lugar de hacer'. Para el verbo **する**, la forma es **せずに**.",
+    "examples": {
+      "example1": "Fui a la escuela sin hacer mis deberes.",
+      "example2": "Él se fue sin decir nada.",
+      "example3": "Leí el libro sin usar gafas.",
+      "example4": "Fui a la escuela sin desayunar.",
+      "example5": "Por favor, no olvides y cumple tu promesa."
+    }
+  }
+}
