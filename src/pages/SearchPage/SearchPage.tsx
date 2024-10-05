@@ -87,7 +87,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
     };
 
     return (
-        <div className={`${searchExecuted ? "min-h-screen flex flex-col w-full overflow-y-auto items-center pt-24" : "flex min-h-screen flex-col items-center justify-center w-full overflow-y-auto"}`}>
+        <div className={`${searchExecuted ? "min-h-screen flex flex-col w-full overflow-y-auto items-center pt-24" : "flex flex-col items-center justify-center w-full overflow-y-auto"}`}>
             <div className="text-center w-full max-w-md">
                 <h1 className="text-3xl font-bold mb-4 text-black dark:text-white">Let's 探します</h1>
 

@@ -39,8 +39,8 @@ const CreateLessonModal: React.FC<CreateLessonModalProps> = ({ onClose, onCreate
 
     return (
         <ModalWrapper onClose={onClose}>
-            <div className="relative p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
-                <h2 className="text-2xl font-bold mb-4 text-blue-900 dark:text-white text-center">Create a New Lesson in {courseName}</h2>
+            <div className="relative w-full mt-2 p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
+                <h2 className="text-2xl font-bold mb-4 text-blue-900 dark:text-white text-center">Create a New Lesson in <p>「{courseName}」</p></h2>
 
                 <div className="mb-4">
                     <input
