@@ -16,9 +16,12 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
         <div className="flex justify-between items-center">
             <h1 className="text-lg font-bold text-blue-400 dark:text-white">{result.structure}</h1>
         </div>,
-        <LocSpan textKey={result.hint} namespace={"grammar_jlpt"+ result.jlpt} className="text-xs text-gray-600 dark:text-gray-300"/>,
+        <LocSpan textKey={result.hint} namespace={"grammar_jlpt" + result.jlpt}
+                 className="text-xs text-gray-600 dark:text-gray-300"/>,
         <div key="description">
-            <p className="text-xs text-gray-600 dark:text-gray-300 mb-2"><LocSpan textKey={result.description} namespace={"grammar_jlpt"+ result.jlpt} /></p>
+            <p className="text-xs text-gray-600 dark:text-gray-300 mb-2"><LocSpan textKey={result.description}
+                                                                                  namespace={"grammar_jlpt" + result.jlpt}/>
+            </p>
         </div>,
         <div key="examples">
             <p className="text-xs text-gray-600 dark:text-gray-300 mb-2 font-bold">Examples:</p>
@@ -27,14 +30,15 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
                     result.examples.map((example, index) => (
                         <div key={index} className="mb-2 text-xs pl-2">
                             <span className="text-gray-600 dark:text-gray-300 mr-2">例:</span>
-                            <LocSpan 
+                            <LocSpan
                                 textKey={example.replace('example', 'examples.example')}
-                                 fixTo={"ja"}
-                                 namespace={"grammar_jlpt" + result.jlpt}
-                                 className="text-gray-600 dark:text-gray-300" />
+                                fixTo={"ja"}
+                                namespace={"grammar_jlpt" + result.jlpt}
+                                className="text-gray-600 dark:text-gray-300"/>
                             {i18n.language !== 'ja' && (
                                 <p className="text-gray-600 dark:text-gray-300 pl-6">
-                                    <LocSpan textKey={example.replace('example', 'examples.example')} namespace={"grammar_jlpt" + result.jlpt} />
+                                    <LocSpan textKey={example.replace('example', 'examples.example')}
+                                             namespace={"grammar_jlpt" + result.jlpt}/>
                                 </p>
                             )}
                         </div>
@@ -43,7 +47,49 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
                     <p className="text-gray-600 dark:text-gray-300">No examples available.</p>
                 )}
             </div>
-        </div>
+        </div>,
+            <div className="flex flex-wrap gap-2 text-xs">
+                    
+                    <span
+                        className="text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 bg-gray-300 dark:bg-gray-800 hover:text-gray-600 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap">
+                    <LocSpan
+                        textKey={"grammar.formalityLabel"}
+                        key={"formalityLabel"}
+                    />:&nbsp;
+                        <LocSpan
+                            textKey={"grammar.formality." + result.formality}
+                            key={"formality"}
+                        />
+                    </span>
+
+                <span
+                    className="text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 bg-gray-300 dark:bg-gray-800 hover:text-gray-600 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap">
+                        <LocSpan
+                            textKey={"grammar.usageLabel"}
+                            key={"usageLabel"}
+                        />:&nbsp;
+                    <LocSpan
+                        textKey={"grammar.usage_context." + result.usage_context}
+                        key={"formality"}
+                    />
+                    </span>
+
+                <span
+                    className="text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 bg-gray-300 dark:bg-gray-800 hover:text-gray-600 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap">
+                        <LocSpan
+                            textKey={"grammar.expressionLabel"}
+                            key={"expressionLabel"}
+                        />:&nbsp;
+                    {result.expression_type.map((context, index) => (
+                        <span key={index}>
+                                <LocSpan
+                                    textKey={"grammar.expression_type." + context}
+                                />
+                            {index < result.expression_type.length - 1 && ', '}
+                            </span>
+                    ))}
+                    </span>
+            </div>
     ];
 
     return (
@@ -55,10 +101,11 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
                     <span className="bg-blue-400 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded">
                         JLPT{result.jlpt}
                     </span>
-                    <ConfigDropdown items={dropdownItems} icon={<FaQuestionCircle />} buttonSize="text-xs" />
+                    <ConfigDropdown items={dropdownItems} icon={<FaQuestionCircle/>} buttonSize="text-xs"/>
                 </div>
             </div>
-            <LocSpan textKey={result.hint} namespace={"grammar_jlpt"+ result.jlpt}  className="text-xs text-gray-600 dark:text-gray-300 pl-2" />
+            <LocSpan textKey={result.hint} namespace={"grammar_jlpt" + result.jlpt}
+                     className="text-xs text-gray-600 dark:text-gray-300 pl-2"/>
         </div>
     );
 };

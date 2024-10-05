@@ -69,21 +69,52 @@ const GrammarBox: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect })
                     </div>
                 ))}
             </div>
-            
             <div className="text-gray-400 text-sm mt-4 flex flex-col gap-2">
                 <div className="flex flex-wrap gap-2">
-                    {result.keywords.map((context, index) => (
-                        <span
-                            key={index}
-                            className="bg-gray-200 dark:bg-gray-950 text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 hover:bg-gray-300 hover:dark:bg-gray-800 hover:text-gray-600 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap"
-                        >
-                            {context}
-                        </span>
-                    ))}
+                    
+                    <span
+                        className="bg-gray-200 dark:bg-gray-950 text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 hover:bg-gray-300 hover:dark:bg-gray-800 hover:text-gray-600 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap">
+                    <LocSpan
+                        textKey={"grammar.formalityLabel"}
+                        key={"formalityLabel"}
+                    />:&nbsp;
+                    <LocSpan
+                        textKey={"grammar.formality." + result.formality}
+                        key={"formality"}
+                    />
+                    </span>
+
+                    <span
+                        className="bg-gray-200 dark:bg-gray-950 text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 hover:bg-gray-300 hover:dark:bg-gray-800 hover:text-gray-600 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap">
+                        <LocSpan
+                            textKey={"grammar.usageLabel"}
+                            key={"usageLabel"}
+                        />:&nbsp;
+                        <LocSpan
+                            textKey={"grammar.usage_context." + result.usage_context}
+                            key={"formality"}
+                        />
+                    </span>
+
+                    <span
+                        className="bg-gray-200 dark:bg-gray-950 text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 hover:bg-gray-300 hover:dark:bg-gray-800 hover:text-gray-600 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap">
+                        <LocSpan
+                            textKey={"grammar.expressionLabel"}
+                            key={"expressionLabel"}
+                        />:&nbsp;
+                        {result.expression_type.map((context, index) => (
+                            <span key={index}>
+                                <LocSpan
+                                    textKey={"grammar.expression_type." + context}
+                                />
+                                {index < result.expression_type.length - 1 && ', '}
+                            </span>
+                        ))}
+                    </span>
                 </div>
             </div>
         </div>
-    );
+);
 };
 
 export default GrammarBox;

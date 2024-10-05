@@ -1,5 +1,33 @@
 {
   "welcome": "Welcome",
   "description": "This is a localization example",
-  "Search": "Search"
+  "Search": "Search",
+  "grammar":{
+    "formalityLabel": "Formality",
+    "usageLabel": "Usage",
+    "expressionLabel": "Expressions",
+    "formality": {
+      "formal": "Formal",
+      "informal": "Informal",
+      "neutral": "Neutral",
+      "semi-formal": "Semi-Formal",
+      "very formal": "Very Formal"
+    },
+    "usage_context": {
+      "spoken": "Spoken",
+      "written": "Written",
+      "both": "Spoken & Written"
+    },
+    "expression_type": {
+      "critical": "Critical",
+      "self-reflection": "Self Reflection",
+      "positive": "Positive",
+      "negative": "Negative",
+      "neutral": "Neutral",
+      "questioning": "Questioning",
+      "polite": "Polite",
+      "polite_formal": "Polite/Formal",
+      "command": "Command"
+    }
+  }
 }
