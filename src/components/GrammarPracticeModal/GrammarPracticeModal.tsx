@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaArrowLeft} from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import ReactDOM from "react-dom";
 import { GrammarDeck } from "../../data/GrammarData.ts";
 import GrammarElement from "./GrammarPracticeBox.tsx";
@@ -34,7 +34,7 @@ const GrammarPracticeModal = ({ deck, onClose }: GrammarPracticeModalProps) => {
         <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
             <div
                 className="relative w-11/12 md:w-1/2 lg:w-1/2 h-auto p-4 flex flex-col overflow-y-auto"
-                style={{ maxHeight: "90vh" }}
+                style={{ maxHeight: "90vh", scrollbarWidth: "none", msOverflowStyle: "none" }} // Ocultar scrollbar en Firefox e IE
             >
                 <button
                     onClick={onClose}
