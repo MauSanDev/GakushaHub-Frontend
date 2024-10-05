@@ -11,7 +11,14 @@ import { KanjiData } from "../data/KanjiData";
 import { WordData } from "../data/WordData";
 import { FaEye, FaEyeSlash, FaCheckSquare, FaSquare, FaTrashAlt } from 'react-icons/fa';
 
-const SearchPage: React.FC = () => {
+interface SearchPageProps {
+    courseId?: string;
+    courseName?: string;
+    lessonName?: string;
+    deckName?: string;
+}
+
+const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonName, deckName}) => {
     const [tagsMap, setTagsMap] = useState<{ [tag: string]: boolean }>({});
     const { kanjiResults, wordResults, loading, error } = useSearchContent(tagsMap);
     const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
@@ -227,8 +234,10 @@ const SearchPage: React.FC = () => {
                     </div>
                 </div>
             )}
-
-            {isAuthenticated && (selectedKanji.length > 0 || selectedWords.length > 0) && (
+            
+            {/*{isAuthenticated &&*/}
+            {/*    ((selectedKanji.length > 0 || selectedWords.length > 0) ||*/}
+            {/*        (courseId || courseName || lessonName || deckName)) && (*/}
                 <div className="absolute top-0 right-0 flex gap-2">
                     <SaveDeckInput
                         kanjiList={selectedKanji}
@@ -236,9 +245,13 @@ const SearchPage: React.FC = () => {
                         grammarList={[]}
                         readingList={[]}
                         onSaveStatusChange={onSaveStatusChanged}
+                        courseId={courseId}
+                        courseName={courseName}
+                        lessonName={lessonName}
+                        deckName={deckName}
                     />
                 </div>
-            )}
+            {/*)}*/}
 
             <LoadingScreen isLoading={loading}/>
 

@@ -22,6 +22,7 @@ import { GrammarDeck } from "../../data/GrammarData.ts";
 import { GenerationDeck } from "../../data/GenerationData.ts";
 import DeleteButton from "../DeleteButton";
 import GenerationButton from "../Modals/GenerationButton.tsx";
+import AddContentButton from "../AddContentButton.tsx";
 
 interface LessonBoxProps {
     owner: CourseData;
@@ -52,21 +53,28 @@ const LessonBox: React.FC<LessonBoxProps> = ({
     return (
         <div className="relative p-6 pb-26 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800">
             <div className="absolute top-4 right-4 flex gap-0.5 flex-wrap items-center">
-
+                
+                <AddContentButton 
+                    creatorId={lesson.creatorId._id}
+                    courseId={owner._id}
+                    courseName={owner.name}
+                    lessonName={lesson.name}
+                />
+                
                 <DeleteButton
                     creatorId={lesson.creatorId._id}
                     elementId={lesson._id}
                     elementType="lesson"
                     redirectTo={`/courses/${owner._id}`}
                 />
-                
+
                 <GenerationButton
                     decks={[...lesson.kanjiDecks, ...lesson.grammarDecks, ...lesson.wordDecks]}
                     courseId={owner._id}
                     lessonName={lesson.name}
                     courseName={owner.name}
                 />
-                
+
                 <div className="flex">
                     <button
                         onClick={() => setViewMode("cards")}
@@ -76,7 +84,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({
                                 : "bg-gray-200 dark:bg-gray-950 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
                         }`}
                     >
-                        <FaThLarge size={12} />
+                        <FaThLarge size={12}/>
                     </button>
                     <button
                         onClick={() => setViewMode("table")}
@@ -86,7 +94,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({
                                 : "bg-gray-200 dark:bg-gray-950 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
                         }`}
                     >
-                        <FaTable size={12} />
+                        <FaTable size={12}/>
                     </button>
                 </div>
 
@@ -104,7 +112,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({
                 <p className="text-gray-500 text-center mt-4">表示するものはありません</p>
             ) : (
                 <>
-                    {showKanji && lesson.kanjiDecks.length > 0 && (
+                {showKanji && lesson.kanjiDecks.length > 0 && (
                         <div className="w-full">
                             <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
                                 <FaBookOpen className="text-blue-400" /> Kanji Decks:

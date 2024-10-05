@@ -9,11 +9,14 @@ import { SaveStatus } from "../../utils/SaveStatus.ts";
 import { GeneratedData } from "../../data/GenerationData.ts";
 import { useAuth } from "../../context/AuthContext.tsx";
 import ConfigDropdown from "../ConfigDropdown.tsx";
-import {useOwnerCourses} from "../../hooks/coursesHooks/useOwnerCourses.ts";
+import { useOwnerCourses } from "../../hooks/coursesHooks/useOwnerCourses.ts";
 import { createPortal } from 'react-dom';
 
-
 interface SaveDeckInputProps {
+    courseId?: string;
+    courseName?: string;
+    lessonName?: string;
+    deckName?: string;
     kanjiList: KanjiData[];
     wordList: WordData[];
     grammarList: GrammarData[];
@@ -23,17 +26,34 @@ interface SaveDeckInputProps {
 
 const MAX_INPUT_LENGTH = 12;
 
-const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, grammarList, readingList, onSaveStatusChange }) => {
-    const [selectedCourse, setSelectedCourse] = useState<string>('');
-    const [selectedLesson, setSelectedLesson] = useState<string>('');
-    const [selectedDeck, setSelectedDeck] = useState<string>('');
+const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
+                                                         kanjiList,
+                                                         wordList,
+                                                         grammarList,
+                                                         readingList,
+                                                         onSaveStatusChange,
+                                                         courseId,
+                                                         courseName,
+                                                         lessonName,
+                                                         deckName
+                                                     }) => {
+    const [selectedCourse, setSelectedCourse] = useState<string>(courseName || '');
+    const [selectedLesson, setSelectedLesson] = useState<string>(lessonName || '');
+    const [selectedDeck, setSelectedDeck] = useState<string>(deckName || '');
     const [error, setError] = useState<string | null>(null);
     const { data } = useOwnerCourses(1, 99);
     const { userData } = useAuth();
 
     const { mutate: buildCourse, isLoading: isSaving, isSuccess: saveSuccess } = useBuildCourse();
 
-    if (!userData) return;
+    const isCourseFixed = !!courseName || !!courseId;
+    const isLessonFixed = !!lessonName;
+    const isDeckFixed = !!deckName;
+
+    // Verificar si las listas de contenido están vacías
+    const hasContent = kanjiList.length > 0 || wordList.length > 0 || grammarList.length > 0 || readingList.length > 0;
+
+    if (!userData) return null;
 
     const validateInputLength = (input: string): boolean => {
         return input.length <= MAX_INPUT_LENGTH;
@@ -69,7 +89,6 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
     };
 
     const handleSave = async () => {
-        // Verificar si los inputs exceden la longitud máxima
         if (!validateInputLength(selectedCourse) || !validateInputLength(selectedLesson) || !validateInputLength(selectedDeck)) {
             const errorMsg = `One or more fields exceed the maximum character limit of ${MAX_INPUT_LENGTH}.`;
             setError(errorMsg);
@@ -101,24 +120,22 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
 
         const courseData = data?.documents.find((c) => c.name === selectedCourse);
 
-        if (selectedCourse && selectedLesson && selectedDeck) {
-            buildCourse(
-                {
-                    courseId: courseData?._id || null,
-                    courseName: selectedCourse.trim(),
-                    lessonName: selectedLesson.trim(),
-                    decks: parseDecks(selectedDeck.trim(), kanjiList, wordList, grammarList, readingList),
+        buildCourse(
+            {
+                courseId: courseId || courseData?._id || null, // Pasar courseId desde props o buscarlo
+                courseName: selectedCourse.trim(),
+                lessonName: selectedLesson.trim(),
+                decks: parseDecks(selectedDeck.trim(), kanjiList, wordList, grammarList, readingList),
+            },
+            {
+                onSuccess: () => {
+                    onSaveStatusChange?.(SaveStatus.Success);
                 },
-                {
-                    onSuccess: () => {
-                        onSaveStatusChange?.(SaveStatus.Success);
-                    },
-                    onError: (error) => {
-                        onSaveStatusChange?.(SaveStatus.Error, String(error));
-                    },
-                }
-            );
-        }
+                onError: (error) => {
+                    onSaveStatusChange?.(SaveStatus.Error, String(error));
+                },
+            }
+        );
     };
 
     const getContextMessage = (): string | null => {
@@ -157,21 +174,21 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
                         onChange={setSelectedCourse}
                         placeholder="Course"
                         options={getAvailableCourses()}
-                        disabled={saveSuccess || isSaving}
+                        disabled={saveSuccess || isSaving || isCourseFixed} // Disabled if set by props or courseId
                     />,
                     <DropdownInput
                         value={selectedLesson}
                         onChange={setSelectedLesson}
                         placeholder="Lesson"
                         options={getAvailableLessons()}
-                        disabled={saveSuccess || isSaving}
+                        disabled={saveSuccess || isSaving || isLessonFixed} // Disabled if set by props
                     />,
                     <DropdownInput
                         value={selectedDeck}
                         onChange={setSelectedDeck}
                         placeholder="Deck"
                         options={getAvailableDecks()}
-                        disabled={saveSuccess || isSaving}
+                        disabled={saveSuccess || isSaving || isDeckFixed} // Disabled if set by props
                     />,
                     error ? (
                         <p className="text-red-500 text-xs text-right">{error}</p>
@@ -181,11 +198,11 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
                     <button
                         onClick={handleSave}
                         className={`w-full flex items-center justify-center px-4 py-2 mt-2 rounded ${
-                            saveSuccess
-                                ? 'bg-green-500 text-white cursor-not-allowed'
+                            !hasContent || saveSuccess || isSaving
+                                ? 'bg-gray-300 dark:bg-gray-600 text-gray-400 cursor-not-allowed'
                                 : 'bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600 dark:hover:bg-blue-600'
                         } transition-transform duration-300`}
-                        disabled={saveSuccess || isSaving}
+                        disabled={!hasContent || saveSuccess || isSaving} // Deshabilitar si no hay contenido
                     >
                         {saveSuccess ? <FaCheck /> : isSaving ? <FaClock /> : <FaSave />}
                     </button>
@@ -198,7 +215,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({ kanjiList, wordList, gram
 
     return createPortal(
         dropdownContent,
-        document.getElementById("modal-root")! // Elige dónde quieres que aparezca en el DOM
+        document.getElementById("modal-root")!
     );
 };
 
