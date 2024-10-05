@@ -8,19 +8,24 @@
   "words": "Words",
   "readings": "Readings",
   "logout": "Logout",
+  "topic": "Topic",
+  "style": "Style",
+  "tags": "Tags",
   "createdBy": "Created By {0}",
-  "searchPage":
-  {
+  "textSize": "Text Size",
+  "letterSpacing": "Letter Spacing",
+  "lineHeight": "lineHeight",
+  "searchPage": {
     "title": "Let's 探します",
     "inputPlaceholder": "Enter text and press comma, Enter, or '、'"
   },
-  "coursesListPage":{
+  "coursesListPage": {
     "myCourses": "My Courses",
     "searchCourses": "Search Courses",
     "followingCourses": "Following",
     "createCourse": "Create"
   },
-  "grammarKeys":{
+  "grammarKeys": {
     "formalityLabel": "Formality",
     "usageLabel": "Usage",
     "expressionLabel": "Expressions",
@@ -47,5 +52,36 @@
       "polite_formal": "Polite/Formal",
       "command": "Command"
     }
+  },
+  "generationPage":
+  {
+    "description": "Generate topics based on your proficiency and selected content. The text will be saved in the Reading section of the selected lesson.",
+    "selectYourLevel": "Select your level",
+    "selectStyle": "Select Style",
+    "generate": "Generate",
+    "topicPlaceholder": "Enter the topic (max 140 characters)",
+    "anonymousDisclaimer": "Make it Anonymous (Other users won't know who created this.)",
+    "tips": {
+      "title": "Tips",
+      "tip1": "- Be specific. Give context of what you want.",
+      "tip2": "- If the decks are too big, not all elements will be used.",
+      "tip3": "- The model prioritizes the selected Decks.",
+      "tip4": "- Consider your level. If you scale up the JLPT level, advanced Words and Kanji will appear in the text."
+    }
+  },
+  "generationStyles": {
+    "article": "Article",
+    "story": "Story",
+    "traditionalTale": "Traditional Tale",
+    "diary": "Diary",
+    "dialogue": "Dialogue",
+    "essay": "Essay",
+    "poetry": "Poetry",
+    "review": "Review",
+    "letter": "Letter",
+    "novel": "Novel",
+    "manga": "Manga",
+    "advertisement": "Advertisement",
+    "haiku": "Haiku"
   }
 }

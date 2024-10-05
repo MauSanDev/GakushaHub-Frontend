@@ -3,6 +3,7 @@ import { FaCog, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useParseJapanese } from '../../hooks/useParseJapanese';
 import WordTooltip from '../WordTooltip.tsx';
 import {GeneratedData} from "../../data/GenerationData.ts";
+import LocSpan from "../LocSpan.tsx";
 
 interface TextReaderProps {
     data: GeneratedData
@@ -78,7 +79,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                         <div
                             className="absolute right-0 mt-2 w-56 p-4 bg-white dark:bg-black border border-gray-300 dark:border-gray-800 rounded-md shadow-lg z-50">
                             <div className="flex items-center justify-between">
-                                <label className="text-xs text-gray-700 dark:text-gray-400">Text Size</label>
+                                <label className="text-xs text-gray-700 dark:text-gray-400"><LocSpan textKey={"textSize"}/></label>
                                 <input
                                     type="range"
                                     min="10"
@@ -89,7 +90,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                                 />
                             </div>
                             <div className="flex items-center justify-between mt-2">
-                                <label className="text-xs text-gray-700 dark:text-gray-400">Letter Spacing</label>
+                                <label className="text-xs text-gray-700 dark:text-gray-400"><LocSpan textKey={"letterSpacing"}/></label>
                                 <input
                                     type="range"
                                     min="0"
@@ -100,7 +101,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                                 />
                             </div>
                             <div className="flex items-center justify-between mt-2">
-                                <label className="text-xs text-gray-700 dark:text-gray-400">Line Height</label>
+                                <label className="text-xs text-gray-700 dark:text-gray-400"><LocSpan textKey={"lineHeight"}/></label>
                                 <input
                                     type="range"
                                     min="1"
@@ -132,20 +133,20 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
 
             <div className="mt-60 border-t border-gray-200  dark:border-gray-800 pt-4">
                 <p className="text-xs text-gray-500 mb-2">
-                    Created by {data.isAnonymous || !data.creatorId?.name ? "Anonymous" : data.creatorId?.name} - {new Date(data.createdAt).toLocaleDateString()}
+                    <LocSpan textKey={"createdBy"} replacements={[data.isAnonymous || !data.creatorId?.name ? "Anonymous" : data.creatorId?.name]} /> - {new Date(data.createdAt).toLocaleDateString()}
                 </p>
-                <h2 className="text-sm text-gray-600 dark:text-gray-300 italic mb-4">Topic: "{data.topic}"</h2>
+                <h2 className="text-sm text-gray-600 dark:text-gray-300 italic mb-4"><LocSpan textKey={"topic"}/>: "{data.topic}"</h2>
 
                 <div className="flex items-center gap-2 flex-wrap">
         <span className="inline-block bg-blue-100 dark:bg-blue-900 dark:bg-opacity-50 text-blue-800 dark:text-blue-400 text-xs font-semibold px-2 py-0.5 rounded-full">
-            Style: {data.style}
+            <LocSpan textKey={"style"}/>: {data.style}
         </span>
                     <span
                         className="inline-block bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-500 dark:bg-opacity-50 text-xs font-semibold px-2 py-0.5 rounded-full">
             JLPT: N{data.jlptLevel}
         </span>
                     <div className="flex items-center gap-2">
-                        <span className="text-gray-400 text-xs">Tags:</span>
+                        <span className="text-gray-400 text-xs"><LocSpan textKey={"tags"}/>:</span>
                         <div className="flex flex-wrap gap-1">
                             {data.keywords && data.keywords.length > 0 && data.keywords.map((keyword, index) => (
                                 <div
@@ -163,7 +164,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                     <div className="mt-4 border dark:border-gray-800 rounded p-2">
                         {data.prioritization.grammar && data.prioritization.grammar.length > 0 && (
                             <div className="flex items-center gap-2 flex-wrap">
-                                <span className="text-gray-400 text-xs">Grammar:</span>
+                                <span className="text-gray-400 text-xs"><LocSpan textKey={"grammar"}/>:</span>
                                 <div className="flex flex-wrap gap-1">
                                     {data.prioritization.grammar.map((grammarItem, index) => (
                                         <div
@@ -178,7 +179,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                         )}
                         {data.prioritization.words && data.prioritization.words.length > 0 && (
                             <div className="flex items-center gap-2 flex-wrap mt-2">
-                                <span className="text-gray-400 text-xs">Words:</span>
+                                <span className="text-gray-400 text-xs"><LocSpan textKey={"words"}/>:</span>
                                 <div className="flex flex-wrap gap-1">
                                     {data.prioritization.words.map((wordItem, index) => (
                                         <div
@@ -193,7 +194,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                         )}
                         {data.prioritization.kanji && data.prioritization.kanji.length > 0 && (
                             <div className="flex items-center gap-2 flex-wrap mt-2">
-                                <span className="text-gray-400 text-xs">Kanji:</span>
+                                <span className="text-gray-400 text-xs"><LocSpan textKey={"kanji"}/>:</span>
                                 <div className="flex flex-wrap gap-1">
                                     {data.prioritization.kanji.map((kanjiItem, index) => (
                                         <div

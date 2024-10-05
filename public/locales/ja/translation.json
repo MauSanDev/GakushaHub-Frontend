@@ -1,5 +1,20 @@
 {
   "welcome": "こんにちは",
   "description": "This is a localization example",
-  "Search": "探す"
+  "Search": "探す",
+  "generationStyles": {
+    "article": "記事",
+    "story": "物語",
+    "traditionalTale": "昔話",
+    "diary": "日記",
+    "dialogue": "対話",
+    "essay": "エッセイ",
+    "poetry": "詩",
+    "review": "レビュー",
+    "letter": "手紙",
+    "novel": "小説",
+    "manga": "マンガ",
+    "advertisement": "広告",
+    "haiku": "俳句"
+  }
 }

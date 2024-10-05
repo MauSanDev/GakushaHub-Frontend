@@ -2,6 +2,7 @@ import React from 'react';
 import DeleteButton from './DeleteButton';
 import { GeneratedData } from "../data/GenerationData.ts";
 import {FaCrown} from "react-icons/fa";
+import LocSpan from "./LocSpan.tsx";
 
 interface SimpleTextPreviewProps {
     data: GeneratedData;
@@ -26,21 +27,21 @@ const SimpleTextReader: React.FC<SimpleTextPreviewProps> = ({ data, deleteRelati
 
             <p className="inline-flex text-xs text-gray-500 mb-2 gap-2">
                 <FaCrown/>
-                Created by  {data.isAnonymous || !data.creatorId?.name ? "Anonymous" : data.creatorId?.name}  - {new Date(data.createdAt).toLocaleDateString()}
+                <LocSpan textKey={"createdBy"} replacements={[data.isAnonymous || !data.creatorId?.name ? "Anonymous" : data.creatorId?.name]} />  - {new Date(data.createdAt).toLocaleDateString()}
             </p>
-            <h2 className="text-xs text-gray-600 dark:text-gray-300 mb-2">Topic: "{data.topic}"</h2>
+            <h2 className="text-xs text-gray-600 dark:text-gray-300 mb-2"><LocSpan textKey={"topic"}/>: "{data.topic}"</h2>
 
             <div className="flex items-center gap-2 flex-wrap">
         <span
             className="inline-block bg-blue-100 dark:bg-blue-900 dark:bg-opacity-50 text-blue-800 dark:text-blue-400 text-xs font-semibold px-2 py-0.5 rounded-full">
-            Style: {data.style}
+            <LocSpan textKey={"style"}/>: {data.style}
         </span>
                 <span
                     className="inline-block bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-500 dark:bg-opacity-50 text-xs font-semibold px-2 py-0.5 rounded-full">
             JLPT: N{data.jlptLevel}
         </span>
                 <div className="flex items-center gap-2">
-                    <span className="text-gray-400 text-xs">Tags:</span>
+                    <span className="text-gray-400 text-xs"><LocSpan textKey={"tags"}/>:</span>
                     <div className="flex flex-wrap gap-1">
                         {data.keywords && data.keywords.length > 0 && data.keywords.map((keyword, index) => (
                             <div

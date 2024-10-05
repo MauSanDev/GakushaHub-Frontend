@@ -1,28 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import {FaPaperPlane, FaCheckSquare, FaSquare, FaBookOpen, FaFileAlt, FaBook, FaQuestion} from 'react-icons/fa';
+import { FaPaperPlane, FaCheckSquare, FaSquare, FaBookOpen, FaFileAlt, FaBook, FaQuestion } from 'react-icons/fa';
 import LoadingScreen from '../LoadingScreen';
 import { useGenerateText } from '../../hooks/useGenerateText';
 import { GeneratedData } from "../../data/GenerationData.ts";
 import { useLocation, useNavigate } from 'react-router-dom';
 import OverlayModal from "./OverlayModal.tsx";
-import {KanjiDeck} from "../../data/KanjiData.ts";
-import {WordDeck} from "../../data/WordData.ts";
-import {GrammarDeck} from "../../data/GrammarData.ts";
+import { KanjiDeck } from "../../data/KanjiData.ts";
+import { WordDeck } from "../../data/WordData.ts";
+import { GrammarDeck } from "../../data/GrammarData.ts";
 import ConfigDropdown from "../ConfigDropdown.tsx";
-import {useBuildCourse} from "../../hooks/useBuildCourse.ts";
-import {DeckType, isGrammarDeck, isKanjiDeck, isWordDeck} from "../../data/DeckData.ts";
+import { useBuildCourse } from "../../hooks/useBuildCourse.ts";
+import { DeckType, isGrammarDeck, isKanjiDeck, isWordDeck } from "../../data/DeckData.ts";
+import { useTranslation } from 'react-i18next';
+import LocSpan from "../LocSpan.tsx"; // Para traducciones
 
 interface NewGenerationPageProps {
     courseId?: string,
     courseName?: string,
     lessonName?: string,
-    deckName?: string, 
+    deckName?: string,
     decks?: DeckType[];
     isVisible: boolean;
     onClose: () => void;
 }
 
 const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName, courseId, lessonName, deckName, isVisible, onClose }) => {
+    const { t } = useTranslation(); // Hook de i18n para traducciones
+
     const [topic, setTopic] = useState('');
     const [style, setStyle] = useState('');
     const [jlptLevel, setJlptLevel] = useState(0);
@@ -31,7 +35,6 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
     const [isAnonymous, setIsAnonymous] = useState(false);
     const [onSaveTriggered, setOnSaveTriggered] = useState(false);
     const { mutate: buildCourse } = useBuildCourse();
-
     const { mutate: generateText, isLoading } = useGenerateText();
 
     const navigate = useNavigate();
@@ -43,42 +46,37 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
 
     function getPrioritizedKanji() {
         const allDecks = kanjiDecks;
-        if (!allDecks) return
+        if (!allDecks) return;
         const allKanji = allDecks.flatMap((x) => x.elements);
-        const random = getRandomElements(allKanji, 50)
-        
-        return random.map((result) => result.kanji)
+        const random = getRandomElements(allKanji, 50);
+        return random.map((result) => result.kanji);
     }
-    
+
     function getPrioritizedWords() {
         const allDecks = wordDecks;
-        if (!allDecks) return
+        if (!allDecks) return;
         const allKanji = allDecks.flatMap((x) => x.elements);
-        const random = getRandomElements(allKanji, 25)
-        
-        return random.map((result) => result.word)
+        const random = getRandomElements(allKanji, 25);
+        return random.map((result) => result.word);
     }
-    
+
     function getPrioritizedGrammar() {
         const allDecks = grammarDecks;
-        if (!allDecks) return
+        if (!allDecks) return;
         const allKanji = allDecks.flatMap((x) => x.elements);
-        const random = getRandomElements(allKanji, 10)
-        
-        return random.map((result) => result.structure)
+        const random = getRandomElements(allKanji, 10);
+        return random.map((result) => result.structure);
     }
 
     function getRandomElements<T>(arr: T[], num: number): T[] {
         const shuffled = arr.slice();
-
         for (let i = shuffled.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
         }
-
         return shuffled.slice(0, num);
     }
-    
+
     const handleGenerate = () => {
         if (!topic || !style) {
             setError('All fields are required.');
@@ -87,30 +85,45 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
 
         if (!isLoading) {
             generateText(
-                { topic, style, length: 800, jlptLevel, isPublic: true, isAnonymous: isAnonymous ?? false, prioritization: { words: getPrioritizedWords() ?? [], kanji: getPrioritizedKanji() ?? [], grammar: getPrioritizedGrammar() ?? []}},
+                {
+                    topic,
+                    style,
+                    length: 800,
+                    jlptLevel,
+                    isPublic: true,
+                    isAnonymous: isAnonymous ?? false,
+                    prioritization: {
+                        words: getPrioritizedWords() ?? [],
+                        kanji: getPrioritizedKanji() ?? [],
+                        grammar: getPrioritizedGrammar() ?? []
+                    }
+                },
                 {
                     onSuccess: (data: GeneratedData) => {
                         setGeneratedText(data);
                         setError('');
-                        
-                        if ((courseId || courseName) && lessonName && decks)
-                        {
+
+                        if ((courseId || courseName) && lessonName && decks) {
                             buildCourse(
-                                {courseId: courseId ?? '', courseName: courseName ?? 'Course', lessonName: lessonName ?? 'Lesson', decks: [ { deckName: deckName ?? 'Deck', elements: [ data._id ], deckType: 'reading'}]},
+                                {
+                                    courseId: courseId ?? '',
+                                    courseName: courseName ?? 'Course',
+                                    lessonName: lessonName ?? 'Lesson',
+                                    decks: [{ deckName: deckName ?? 'Deck', elements: [data._id], deckType: 'reading' }]
+                                },
                                 {
                                     onSuccess: () => {
-                                        setOnSaveTriggered(true)
+                                        setOnSaveTriggered(true);
                                     }
-                                });
-                        }
-                        else
-                        {
-                            setOnSaveTriggered(true)
+                                }
+                            );
+                        } else {
+                            setOnSaveTriggered(true);
                         }
                     },
                     onError: (error: unknown) => {
                         setError(`Error generating text: ${error instanceof Error ? error.message : 'Unknown error'}`);
-                    },
+                    }
                 }
             );
         }
@@ -124,20 +137,21 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
 
     const isGenerateEnabled = topic.trim() !== '' && style.trim() !== '' && jlptLevel > 0;
 
-    const writingStyles = [
-        { kanji: "記事", english: "Article" },
-        { kanji: "物語", english: "Story" },
-        { kanji: "昔話", english: "Traditional Tale" },
-        { kanji: "日記", english: "Diary" },
-        { kanji: "対話", english: "Dialogue" },
-        { kanji: "エッセイ", english: "Essay" },
-        { kanji: "詩", english: "Poetry" },
-        { kanji: "レビュー", english: "Review" },
-        { kanji: "手紙", english: "Letter" },
-        { kanji: "小説", english: "Novel" },
-        { kanji: "マンガ", english: "Manga" },
-        { kanji: "広告", english: "Advertisement" },
-        { kanji: "俳句", english: "Haiku" },
+    // Lista de claves de estilos que se traducirán con i18n
+    const writingStyleKeys = [
+        "article",
+        "story",
+        "traditionalTale",
+        "diary",
+        "dialogue",
+        "essay",
+        "poetry",
+        "review",
+        "letter",
+        "novel",
+        "manga",
+        "advertisement",
+        "haiku"
     ];
 
     return (
@@ -147,41 +161,18 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
 
                 <div className="p-3 bg-white dark:bg-gray-900 w-full">
                     <div className="flex flex-col items-center justify-center mb-4">
-
                         <div className="flex items-center justify-center mb-4">
-
                             <h1 className="text-center text-3xl text-black dark:text-white font-bold mb-2">何読みたいの？</h1>
 
                             <div className={"absolute right-0"}>
                                 <ConfigDropdown
-                                    icon={<FaQuestion/>}
+                                    icon={<FaQuestion />}
                                     items={[
-                                        <p className="text-xs text-gray-600 dark:text-gray-300 font-bold">
-                                            Tips:
-                                        </p>,
-                                        <p className="text-xs text-gray-600 dark:text-gray-300">
-                                            - Be specific. Give context of what you want.
-                                        </p>,
-                                        <p className="text-xs text-gray-600 dark:text-gray-300">
-                                            - If the decks are too big, not all elements will be used.
-                                        </p>,
-                                        <p className="text-xs text-gray-600 dark:text-gray-300">
-                                            - The model prioritizes the selected Decks. If you ask for a topic not
-                                            related
-                                            to the Words and Kanjis, it is possible that the text doesn't match with
-                                            your
-                                            topic.
-                                        </p>,
-                                        <p className="text-xs text-gray-600 dark:text-gray-300">
-                                            - Consider the size. Not all the deck's content will be available if the
-                                            text is
-                                            too short.
-                                        </p>,
-                                        <p className="text-xs text-gray-600 dark:text-gray-300">
-                                            - Consider your level. If you scale up the JLPT level, advanced Words and
-                                            Kanji
-                                            will also appear in the text.
-                                        </p>,
+                                        <p className="text-xs text-gray-600 dark:text-gray-300 font-bold"><LocSpan textKey={"generationPage.tips.title"} /></p>,
+                                        <p className="text-xs text-gray-600 dark:text-gray-300"><LocSpan textKey={"generationPage.tips.tip1"} /></p>,
+                                        <p className="text-xs text-gray-600 dark:text-gray-300"><LocSpan textKey={"generationPage.tips.tip2"} /></p>,
+                                        <p className="text-xs text-gray-600 dark:text-gray-300"><LocSpan textKey={"generationPage.tips.tip3"} /></p>,
+                                        <p className="text-xs text-gray-600 dark:text-gray-300"><LocSpan textKey={"generationPage.tips.tip4"} /></p>,
                                     ]}
                                 />
                             </div>
@@ -189,8 +180,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
 
                         {error && <p className="text-red-500 text-center mb-2">{error}</p>}
                         <p className="text-gray-600 dark:text-gray-300 text-sm">
-                            Generate topics based on your proficiency and selected content.
-                            The text will be saved in the Reading section of the selected lesson.
+                            <LocSpan textKey={"generationPage.description"} />
                         </p>
                     </div>
 
@@ -203,10 +193,11 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                                 className={`p-1.5 text-sm border rounded w-full ${style ? 'border-blue-500' : ''}`}
                                 disabled={isLoading}
                             >
-                                <option value="">Select Style</option>
-                                {writingStyles.map((style, index) => (
-                                    <option key={index} value={`${style.kanji} - ${style.english}`}>
-                                        {`${style.kanji} - ${style.english}`}
+                                <option value=""><LocSpan textKey={`generationPage.selectStyle`} /></option>
+                                {writingStyleKeys.map((key) => (
+                                    <option key={key} value={key}>
+                                        <LocSpan textKey={`generationStyles.${key}`} fixTo={"ja"} /> - 
+                                        <LocSpan textKey={`generationStyles.${key}`} />
                                     </option>
                                 ))}
                             </select>
@@ -219,8 +210,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                                 className={`p-1.5 text-sm border rounded w-full ${jlptLevel ? 'border-blue-500' : ''}`}
                                 disabled={isLoading}
                             >
-                                <option value="">Select your level</option>
-                                {/* Opción nula */}
+                                <option value=""><LocSpan textKey={"selectYourLevel"} /></option>
                                 {[5, 4, 3, 2, 1].map((level) => (
                                     <option key={level} value={level}>
                                         JLPT {level}
@@ -234,7 +224,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                         <div className="flex flex-col w-full sm:flex-1">
         <textarea
             id="topic"
-            placeholder="Enter the topic (max 140 characters)"
+            placeholder={t("generationPage.topicPlaceholder")}
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             maxLength={140}
@@ -258,7 +248,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                                 disabled={isLoading || !isGenerateEnabled}
                             >
                                 <FaPaperPlane className="mr-1.5"/>
-                                Generate
+                                <LocSpan textKey={"generationPage.generate"} />
                             </button>
                         </div>
                     </div>
@@ -274,7 +264,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                                 <FaSquare className="text-gray-400" size={24}/>
                             )}
                             <span
-                                className="text-sm text-gray-500">Make it Anonymous (Other users won't know who created this.)</span>
+                                className="text-sm text-gray-500"><LocSpan textKey={"generationPage.anonymousDisclaimer"} /></span>
                         </button>
                     </div>
                     {/*<div className="flex items-center mb-4 mt-4">*/}

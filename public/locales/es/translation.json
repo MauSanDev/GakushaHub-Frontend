@@ -1,5 +1,20 @@
 {
   "welcome": "Bienvenido",
   "description": "Este es un ejemplo de localización",
-  "Search": "Buscar"
+  "Search": "Buscar",
+  "generationStyles": {
+    "article": "Artículo",
+    "story": "Historia",
+    "traditionalTale": "Cuento Tradicional",
+    "diary": "Diario",
+    "dialogue": "Diálogo",
+    "essay": "Ensayo",
+    "poetry": "Poesía",
+    "review": "Reseña",
+    "letter": "Carta",
+    "novel": "Novela",
+    "manga": "Manga",
+    "advertisement": "Anuncio",
+    "haiku": "Haiku"
+  }
 }
