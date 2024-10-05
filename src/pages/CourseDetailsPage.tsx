@@ -20,6 +20,7 @@ import { useAuth } from "../context/AuthContext.tsx";
 import ConfigDropdown from "../components/ConfigDropdown.tsx";
 import { useUpdateCourse } from '../hooks/updateHooks/useUpdateCourse.ts';
 import FollowButton from '../components/FollowButton';
+import AddLessonButton from "../components/AddLessonButton.tsx";
 
 
 const CourseDetailPage: React.FC = () => {
@@ -212,6 +213,8 @@ const CourseDetailPage: React.FC = () => {
                             ))}
                         </select>
                     </div>
+                    
+                    <AddLessonButton courseId={course._id} courseName={course.name}/>
 
                     <div className="relative lg:w-full mb-2">
                         <div className="lg:w-full text-center -mb-2">

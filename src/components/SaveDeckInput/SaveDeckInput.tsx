@@ -24,7 +24,7 @@ interface SaveDeckInputProps {
     onSaveStatusChange?: (status: SaveStatus, error?: string) => void;
 }
 
-const MAX_INPUT_LENGTH = 12;
+const MAX_INPUT_LENGTH = 25;
 
 const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
                                                          kanjiList,
