@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaArrowLeft} from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import ReactDOM from "react-dom";
 import { GrammarDeck } from "../../data/GrammarData.ts";
 import GrammarElement from "./GrammarPracticeBox.tsx";
@@ -33,7 +33,7 @@ const GrammarPracticeModal = ({ deck, onClose }: GrammarPracticeModalProps) => {
     const modalContent = (
         <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
             <div
-                className="relative w-11/12 md:w-1/2 lg:w-1/2 h-auto p-4 flex flex-col overflow-y-auto"
+                className="relative w-11/12 md:w-80 pr-8 lg:w-1/2 h-auto p-4 flex flex-col overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700"
                 style={{ maxHeight: "90vh" }}
             >
                 <button
