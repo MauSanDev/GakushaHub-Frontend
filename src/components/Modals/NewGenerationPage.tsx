@@ -210,7 +210,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                                 className={`p-1.5 text-sm border rounded w-full ${jlptLevel ? 'border-blue-500' : ''}`}
                                 disabled={isLoading}
                             >
-                                <option value=""><LocSpan textKey={"selectYourLevel"} /></option>
+                                <option value=""><LocSpan textKey={"generationPage.selectYourLevel"} /></option>
                                 {[5, 4, 3, 2, 1].map((level) => (
                                     <option key={level} value={level}>
                                         JLPT {level}
@@ -285,12 +285,12 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                     {decks && decks.length > 0 && (
                         <div
                             className="w-full border-gray-200 rounded border p-3 max-h-64 overflow-y-auto  dark:border-gray-700 pb-8">
-                            <h1 className={"font-bold border-b mb-5 dark:text-white dark:border-gray-700"}>Priority</h1>
+                            <h1 className={"font-bold border-b mb-5 dark:text-white dark:border-gray-700"}><LocSpan textKey={"priority"} /></h1>
                             {kanjiDecks && kanjiDecks.length > 0 && (
                                 <div className="w-full">
                                     <div className="flex justify-between items-center mb-2 ">
                                         <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                            <FaBookOpen className="text-blue-400"/> Kanji Decks:
+                                            <FaBookOpen className="text-blue-400"/> <LocSpan textKey={"kanjiDecks"} />:
                                         </h4>
                                     </div>
 
@@ -317,7 +317,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                                 <div className="w-full mt-4 border-t  dark:border-gray-700 pt-5">
                                     <div className="flex justify-between items-center mb-2">
                                         <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                            <FaFileAlt className="text-red-400"/> Word Decks:
+                                            <FaFileAlt className="text-red-400"/> <LocSpan textKey={"wordDecks"} />:
                                         </h4>
                                     </div>
 
@@ -344,7 +344,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                                 <div className="w-full pt-5 mt-5 border-t dark:border-gray-700">
                                     <div className="flex justify-between items-center mb-2">
                                         <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                            <FaBook className="text-green-400"/> Grammar Decks:
+                                            <FaBook className="text-green-400"/> <LocSpan textKey={"grammarDecks"} />:
                                         </h4>
                                     </div>
 

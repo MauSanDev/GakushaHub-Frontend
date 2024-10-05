@@ -11,6 +11,8 @@ import { useAuth } from "../../context/AuthContext.tsx";
 import ConfigDropdown from "../ConfigDropdown.tsx";
 import { useOwnerCourses } from "../../hooks/coursesHooks/useOwnerCourses.ts";
 import { createPortal } from 'react-dom';
+import LocSpan from "../LocSpan.tsx";
+import {useTranslation} from "react-i18next";
 
 interface SaveDeckInputProps {
     courseId?: string;
@@ -43,6 +45,8 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
     const [error, setError] = useState<string | null>(null);
     const { data } = useOwnerCourses(1, 99);
     const { userData } = useAuth();
+    const { t } = useTranslation();
+
 
     const { mutate: buildCourse, isLoading: isSaving, isSuccess: saveSuccess } = useBuildCourse();
 
@@ -90,26 +94,26 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
 
     const handleSave = async () => {
         if (!validateInputLength(selectedCourse) || !validateInputLength(selectedLesson) || !validateInputLength(selectedDeck)) {
-            const errorMsg = `One or more fields exceed the maximum character limit of ${MAX_INPUT_LENGTH}.`;
+            const errorMsg = t("saveDeckInput.charLimitExceeded").replace("{0}", MAX_INPUT_LENGTH.toString());
             setError(errorMsg);
             onSaveStatusChange?.(SaveStatus.Error, errorMsg);
             return;
         }
 
         if (!selectedDeck) {
-            const errorMsg = 'The "Deck" field is required.';
+            const errorMsg =  t("saveDeckInput.deckInputEmpty");
             setError(errorMsg);
             onSaveStatusChange?.(SaveStatus.Error, errorMsg);
             return;
         }
         if (selectedCourse && !selectedLesson) {
-            const errorMsg = 'If a Course is provided, a Lesson is required.';
+            const errorMsg = t("saveDeckInput.lessonRequired");
             setError(errorMsg);
             onSaveStatusChange?.(SaveStatus.Error, errorMsg);
             return;
         }
         if (!selectedCourse && selectedLesson) {
-            const errorMsg = 'If a Lesson is provided, a Course is required.';
+            const errorMsg = t("saveDeckInput.courseRequired");
             setError(errorMsg);
             onSaveStatusChange?.(SaveStatus.Error, errorMsg);
             return;
@@ -143,24 +147,24 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
 
         const courseData = data?.documents.find((c) => c.name === selectedCourse);
         if (!courseData) {
-            return `The Course "${selectedCourse}" will be created.`;
+            return t("saveDeckInput.courseWillBeCreated").replace("{0}", selectedCourse);
         }
 
         if (!selectedLesson) return null;
 
         const lessonData = courseData.lessons.find((l) => l.name === selectedLesson);
         if (!lessonData) {
-            return `The Lesson "${selectedLesson}" will be added to the Course "${selectedCourse}".`;
+            return t("saveDeckInput.lessonWillBeCreated").replace("{0}", selectedLesson).replace("{1}", selectedCourse);
         }
 
         if (!selectedDeck) return null;
 
         const availableDecks = getAvailableDecks();
         if (!availableDecks.includes(selectedDeck)) {
-            return `The deck "${selectedDeck}" will be added to the Lesson "${selectedLesson}".`;
+            return t("saveDeckInput.deckWillBeCreated").replace("{0}", selectedDeck).replace("{1}", selectedLesson);
         }
 
-        return `The content will be added to the existing Deck "${selectedDeck}".`;
+        return t("saveDeckInput.contentWillBeAdded").replace("{0}", selectedDeck);
     };
 
     const dropdownContent = (
@@ -168,25 +172,25 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
             <ConfigDropdown
                 baseColor={"dark:bg-blue-700 dark:hover:bg-blue-500"}
                 items={[
-                    <h1 className={"text-gray-500 text-xs"}>Save into collection:</h1>,
+                    <h1 className={"text-gray-500 text-xs"}><LocSpan textKey={"saveDeckInput.saveInto"} /></h1>,
                     <DropdownInput
                         value={selectedCourse}
                         onChange={setSelectedCourse}
-                        placeholder="Course"
+                        placeholder={t("course")}
                         options={getAvailableCourses()}
                         disabled={saveSuccess || isSaving || isCourseFixed} 
                     />,
                     <DropdownInput
                         value={selectedLesson}
                         onChange={setSelectedLesson}
-                        placeholder="Lesson"
+                        placeholder={t("lesson")}
                         options={getAvailableLessons()}
                         disabled={saveSuccess || isSaving || isLessonFixed} 
                     />,
                     <DropdownInput
                         value={selectedDeck}
                         onChange={setSelectedDeck}
-                        placeholder="Deck"
+                        placeholder={t("deck")}
                         options={getAvailableDecks()}
                         disabled={saveSuccess || isSaving || isDeckFixed} 
                     />,

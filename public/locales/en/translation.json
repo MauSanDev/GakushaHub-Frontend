@@ -15,6 +15,26 @@
   "textSize": "Text Size",
   "letterSpacing": "Letter Spacing",
   "lineHeight": "lineHeight",
+  "course": "Course",
+  "lesson": "Lesson",
+  "deck": "Deck",
+  "priority": "Priority",
+  "kanjiDecks": "Kanji Decks",
+  "wordDecks": "Word Decks",
+  "grammarDecks": "Grammar Decks",
+  "readingDecks": "Reading Decks",
+  "saveDeckInput":
+  {
+    "saveInto": "Save into Collection:",
+    "charLimitExceeded": "One or more fields exceed the maximum character limit of {0}.",
+    "deckInputEmpty": "The \"Deck\" field is required.",
+    "lessonRequired": "If a Course is provided, a Lesson is required.",
+    "courseRequired": "If a Lesson is provided, a Course is required.",
+    "courseWillBeCreated": "The Course \"{0}\" will be created.",
+    "lessonWillBeCreated": "The Lesson \"{0}\" will be added to the Course \"{1}\".",
+    "deckWillBeCreated": "The deck \"{0}\" will be added to the Lesson \"{1}\".",
+    "contentWillBeAdded": "The content will be added to the existing Deck \"{0}\"."
+  },
   "searchPage": {
     "title": "Let's 探します",
     "inputPlaceholder": "Enter text and press comma, Enter, or '、'"
