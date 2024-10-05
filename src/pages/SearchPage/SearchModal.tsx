@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalWrapper from './ModalWrapper';
+import ModalWrapper from '../ModalWrapper';
 import SearchPage from './SearchPage';
 
 interface SearchModalProps {

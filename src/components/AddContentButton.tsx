@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext.tsx';
 import { useNavigate } from 'react-router-dom';  // Importar useNavigate
-import SearchModal from '../pages/SearchModal';
+import SearchModal from '../pages/SearchPage/SearchModal';
 
 interface AddContentButtonProps {
     creatorId: string;
@@ -15,7 +15,7 @@ interface AddContentButtonProps {
 const AddContentButton: React.FC<AddContentButtonProps> = ({ creatorId, courseId, courseName, lessonName, deckName }) => {
     const { user, userData } = useAuth();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const navigate = useNavigate();  // Usar navigate para redirigir
+    const navigate = useNavigate();  
 
     if (!user || (creatorId && userData?._id != creatorId)) return null;
 
@@ -31,7 +31,7 @@ const AddContentButton: React.FC<AddContentButtonProps> = ({ creatorId, courseId
 
     const onSaveModal = () => {
         closeModal();
-        navigate(0);  // Redirige a la misma ruta para "refrescar" la página sin recargar completamente
+        navigate(0);  
     };
 
     return (
@@ -50,7 +50,7 @@ const AddContentButton: React.FC<AddContentButtonProps> = ({ creatorId, courseId
                     courseName={courseName}
                     lessonName={lessonName}
                     deckName={deckName}
-                    onSaveSuccess={onSaveModal}  // Callback para manejar el éxito del guardado
+                    onSaveSuccess={onSaveModal}  
                 />}
         </>
     );

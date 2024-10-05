@@ -50,7 +50,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
     const isLessonFixed = !!lessonName;
     const isDeckFixed = !!deckName;
 
-    // Verificar si las listas de contenido están vacías
+    
     const hasContent = kanjiList.length > 0 || wordList.length > 0 || grammarList.length > 0 || readingList.length > 0;
 
     if (!userData) return null;
@@ -122,7 +122,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
 
         buildCourse(
             {
-                courseId: courseId || courseData?._id || null, // Pasar courseId desde props o buscarlo
+                courseId: courseId || courseData?._id || null, 
                 courseName: selectedCourse.trim(),
                 lessonName: selectedLesson.trim(),
                 decks: parseDecks(selectedDeck.trim(), kanjiList, wordList, grammarList, readingList),
@@ -174,21 +174,21 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
                         onChange={setSelectedCourse}
                         placeholder="Course"
                         options={getAvailableCourses()}
-                        disabled={saveSuccess || isSaving || isCourseFixed} // Disabled if set by props or courseId
+                        disabled={saveSuccess || isSaving || isCourseFixed} 
                     />,
                     <DropdownInput
                         value={selectedLesson}
                         onChange={setSelectedLesson}
                         placeholder="Lesson"
                         options={getAvailableLessons()}
-                        disabled={saveSuccess || isSaving || isLessonFixed} // Disabled if set by props
+                        disabled={saveSuccess || isSaving || isLessonFixed} 
                     />,
                     <DropdownInput
                         value={selectedDeck}
                         onChange={setSelectedDeck}
                         placeholder="Deck"
                         options={getAvailableDecks()}
-                        disabled={saveSuccess || isSaving || isDeckFixed} // Disabled if set by props
+                        disabled={saveSuccess || isSaving || isDeckFixed} 
                     />,
                     error ? (
                         <p className="text-red-500 text-xs text-right">{error}</p>
@@ -202,7 +202,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
                                 ? 'bg-gray-300 dark:bg-gray-600 text-gray-400 cursor-not-allowed'
                                 : 'bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600 dark:hover:bg-blue-600'
                         } transition-transform duration-300`}
-                        disabled={!hasContent || saveSuccess || isSaving} // Deshabilitar si no hay contenido
+                        disabled={!hasContent || saveSuccess || isSaving} 
                     >
                         {saveSuccess ? <FaCheck /> : isSaving ? <FaClock /> : <FaSave />}
                     </button>

@@ -1,5 +1,5 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
-import SearchPage from './pages/SearchPage';
+import SearchPage from './pages/SearchPage/SearchPage.tsx';
 import UnderDevelopmentPage from './pages/UnderDevelopmentPage';
 import CourseListPage from "./pages/CourseListPage.tsx";
 import GrammarListPage from "./pages/GrammarListPage.tsx";
