@@ -23,8 +23,11 @@
   "wordDecks": "Word Decks",
   "grammarDecks": "Grammar Decks",
   "readingDecks": "Reading Decks",
-  "saveDeckInput":
-  {
+  "toggle": "Toggle",
+  "elements": "Elements",
+  "on": "On",
+  "off": "Off",
+  "saveDeckInput": {
     "saveInto": "Save into Collection:",
     "charLimitExceeded": "One or more fields exceed the maximum character limit of {0}.",
     "deckInputEmpty": "The \"Deck\" field is required.",
@@ -73,8 +76,7 @@
       "command": "Command"
     }
   },
-  "generationPage":
-  {
+  "generationPage": {
     "description": "Generate topics based on your proficiency and selected content. The text will be saved in the Reading section of the selected lesson.",
     "selectYourLevel": "Select your level",
     "selectStyle": "Select Style",
@@ -103,5 +105,18 @@
     "manga": "Manga",
     "advertisement": "Advertisement",
     "haiku": "Haiku"
+  },
+  "courseDetailsPage": {
+    "deleteCourse": "Delete Course",
+    "isPublic": "Is Public",
+    "copyLink": "Copy Course Link"
+  },
+  "flashcardsModal":
+  {
+    "resetDeck": "Reset Deck",
+    "shuffle": "Shuffle",
+    "orientation": "Orientation",
+    "termReading": "Term -> Reading",
+    "readingTerm": "Reading -> Term"
   }
 }

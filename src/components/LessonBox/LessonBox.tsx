@@ -23,6 +23,7 @@ import { GenerationDeck } from "../../data/GenerationData.ts";
 import DeleteButton from "../DeleteButton";
 import GenerationButton from "../Modals/GenerationButton.tsx";
 import AddContentButton from "../AddContentButton.tsx";
+import LocSpan from "../LocSpan.tsx";
 
 interface LessonBoxProps {
     owner: CourseData;
@@ -115,7 +116,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({
                 {showKanji && lesson.kanjiDecks.length > 0 && (
                         <div className="w-full">
                             <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                <FaBookOpen className="text-blue-400" /> Kanji Decks:
+                                <FaBookOpen className="text-blue-400" /><LocSpan textKey={"kanjiDecks"}/>:
                             </h4>
 
                             {lesson.kanjiDecks.map((element) => (
@@ -139,7 +140,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({
                     {showWord && lesson.wordDecks.length > 0 && (
                         <div className="mt-4 w-full">
                             <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                <FaFileAlt className="text-red-400" /> Word Decks:
+                                <FaFileAlt className="text-red-400" /> <LocSpan textKey={"wordDecks"}/>:
                             </h4>
 
                             {lesson.wordDecks.map((element) => (
@@ -163,7 +164,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({
                     {showGrammar && lesson.grammarDecks.length > 0 && (
                         <div className="mt-4 w-full">
                             <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2 flex items-center gap-2">
-                                <FaBook className="text-green-400" /> Grammar Decks:
+                                <FaBook className="text-green-400" /> <LocSpan textKey={"grammarDecks"}/>:
                             </h4>
 
                             {lesson.grammarDecks.map((element) => (
@@ -187,7 +188,7 @@ const LessonBox: React.FC<LessonBoxProps> = ({
                         <div className="mt-4 w-full">
                             <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2 flex items-center gap-2">
                                 <FaEye className="text-yellow-400"/>
-                                Reading Decks:
+                                <LocSpan textKey={"readingDecks"}/>:
                             </h4>
 
                             {lesson.readingDecks.map((element) => (

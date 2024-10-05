@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaCog, FaRedo, FaRandom, FaAlignLeft } from "react-icons/fa";
+import LocSpan from "../LocSpan.tsx";
 
 interface SettingsTooltipProps {
     onReset: () => void;
@@ -17,10 +18,22 @@ const SettingsTooltip = ({
                              isTermFirst,
                          }: SettingsTooltipProps) => {
     const [isOpen, setIsOpen] = useState(false);
+    const tooltipRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     return (
-        <div className="relative">
-
+        <div className="relative" ref={tooltipRef}>
             <button
                 onClick={() => setIsOpen((prev) => !prev)}
                 className="text-white p-2 rounded-full shadow-lg bg-gray-800 hover:bg-gray-600"
@@ -36,24 +49,34 @@ const SettingsTooltip = ({
                 >
                     <button
                         onClick={onReset}
-                        className="flex items-center gap-2 w-full py-2 px-4 hover:bg-gray-800 rounded"
+                        className="flex items-center gap-2 w-full py-2 px-4 hover:bg-gray-800 rounded text-xs"
                     >
                         <FaRedo />
-                        Reset Deck
+                        <LocSpan textKey={"flashcardsModal.resetDeck"} />
                     </button>
                     <button
                         onClick={onToggleShuffle}
-                        className="flex items-center gap-2 w-full py-2 px-4 hover:bg-gray-800 rounded"
+                        className="flex items-center gap-2 w-full py-2 px-4 hover:bg-gray-800 rounded text-xs"
                     >
                         <FaRandom />
-                        Shuffle: {isShuffleEnabled ? "On" : "Off"}
+                        <LocSpan textKey={"flashcardsModal.shuffle"} />:{" "}
+                        {isShuffleEnabled ? (
+                            <LocSpan textKey={"on"} />
+                        ) : (
+                            <LocSpan textKey={"off"} />
+                        )}
                     </button>
                     <button
                         onClick={onToggleOrientation}
-                        className="flex items-center gap-2 w-full py-2 px-4 hover:bg-gray-800 rounded"
+                        className="flex items-center gap-2 w-full py-2 px-4 hover:bg-gray-800 rounded text-xs leading-tight"
                     >
                         <FaAlignLeft />
-                        Orientation: {isTermFirst ? "Term -> Reading" : "Reading -> Term"}
+                        <LocSpan textKey={"flashcardsModal.orientation"} />:{" "}
+                        {isTermFirst ? (
+                            <LocSpan textKey={"flashcardsModal.termReading"} />
+                        ) : (
+                            <LocSpan textKey={"flashcardsModal.readingTerm"} />
+                        )}
                     </button>
                 </div>
             )}

@@ -21,6 +21,7 @@ import ConfigDropdown from "../components/ConfigDropdown.tsx";
 import { useUpdateCourse } from '../hooks/updateHooks/useUpdateCourse.ts';
 import FollowButton from '../components/FollowButton';
 import AddLessonButton from "../components/AddLessonButton.tsx";
+import LocSpan from "../components/LocSpan.tsx";
 
 
 const CourseDetailPage: React.FC = () => {
@@ -119,7 +120,7 @@ const CourseDetailPage: React.FC = () => {
     const dropdownItems = [
         isOwner && (
             <div className="flex items-center justify-between">
-                <label className="text-xs text-gray-500">Delete Course</label>
+                <label className="text-xs text-gray-500"><LocSpan textKey={"courseDetailsPage.deleteCourse"} /></label>
                 <DeleteButton
                     creatorId={course?.creatorId._id || ''}
                     elementId={courseId || ''}
@@ -131,7 +132,7 @@ const CourseDetailPage: React.FC = () => {
         ),
         isOwner && (
             <div className="flex items-center justify-between mt-2">
-                <label className="text-xs text-gray-500">Is Public</label>
+                <label className="text-xs text-gray-500"><LocSpan textKey={"courseDetailsPage.isPublic"} /></label>
                 <div className="relative inline-block w-10 select-none">
                     <input
                         type="checkbox"
@@ -164,7 +165,7 @@ const CourseDetailPage: React.FC = () => {
                     className="text-xs text-blue-400 dark:text-white flex items-center transition-transform duration-200 transform active:scale-95"
                 >
                     <FaLink className="mr-1"/>
-                    Copy Course Link
+                    <LocSpan textKey={"courseDetailsPage.copyLink"} />
                 </button>
             </div>
         )
@@ -191,7 +192,7 @@ const CourseDetailPage: React.FC = () => {
                 <div className="flex items-center gap-4 overflow-x-auto w-full sm:w-auto flex-grow">
                     <p className="inline-flex items-center text-left text-xs text-gray-500 w-full flex-grow">
                         <FaCrown className="mr-1"/>
-                        Created by {course.creatorId?.name ?? "???"} - {new Date(course.createdAt).toLocaleDateString()}
+                        <LocSpan textKey={"createdBy"} replacements={[course.creatorId?.name ?? "???"]} /> - {new Date(course.createdAt).toLocaleDateString()}
                     </p>
 
                     {!isOwner && (
@@ -208,7 +209,7 @@ const CourseDetailPage: React.FC = () => {
                         >
                             {course?.lessons.map(lesson => (
                                 <option key={lesson._id} value={lesson._id} className="truncate">
-                                    Lesson: {lesson.name}
+                                    <LocSpan textKey={"lesson"} />: {lesson.name}
                                 </option>
                             ))}
                         </select>
@@ -219,7 +220,7 @@ const CourseDetailPage: React.FC = () => {
                     <div className="relative lg:w-full mb-2">
                         <div className="lg:w-full text-center -mb-2">
                             <span
-                                className="text-xs text-gray-400 dark:text-gray-500 bg-white dark:bg-black p-1">Toggle</span>
+                                className="text-xs text-gray-400 dark:text-gray-500 bg-white dark:bg-black p-1"><LocSpan textKey={"toggle"} /></span>
                         </div>
 
                         <div

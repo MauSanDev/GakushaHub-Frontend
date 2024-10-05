@@ -5,12 +5,13 @@ import {
     FaPlayCircle,
 } from "react-icons/fa";
 import FlashcardsModal from "./FlashcardsPage";
-import GrammarModal from "./GrammarPracticeModal/GrammarPracticeModal.tsx"; // Asegúrate de importar tu modal de gramática
+import GrammarModal from "./GrammarPracticeModal/GrammarPracticeModal.tsx"; 
 import { DeckData } from "../data/DeckData.ts";
 import DeleteButton from "./DeleteButton";
 import GenerationButton from "./Modals/GenerationButton.tsx";
 import { CourseData, LessonData } from "../data/CourseData.ts";
 import AddContentButton from "./AddContentButton.tsx";
+import LocSpan from "./LocSpan.tsx";
 
 interface GenericDeckDisplayProps<T> {
     courseData: CourseData;
@@ -40,7 +41,7 @@ const GenericDeckDisplay = <T,>({
                                     viewMode,
                                 }: GenericDeckDisplayProps<T>) => {
     const [flashcardsMode, setFlashcardsMode] = useState(false);
-    const [grammarModalVisible, setGrammarModalVisible] = useState(false); // Estado para el modal de gramática
+    const [grammarModalVisible, setGrammarModalVisible] = useState(false); 
     const [expanded, setExpanded] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const contentRef = useRef<HTMLDivElement | null>(null);
@@ -117,7 +118,7 @@ const GenericDeckDisplay = <T,>({
                         className="font-bold text-gray-600 dark:text-gray-300 truncate flex-grow lg:max-w-xl max-w-32">
                         {deck.name}
                     </div>
-                    <span className="text-sm text-gray-500">({deck.elements.length} cards)</span>
+                    <span className="text-sm text-gray-500">({deck.elements.length} <LocSpan textKey={"elements"}/>)</span>
                 </div>
 
                 <div className="flex gap-0.5 items-center flex-wrap mt-2 sm:mt-0">
@@ -145,7 +146,7 @@ const GenericDeckDisplay = <T,>({
                         />
                     )}
 
-                    {enableFlashcards && elementType !== "grammarDeck" && ( // Botón de flashcards solo si no es grammar
+                    {enableFlashcards && elementType !== "grammarDeck" && ( 
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
@@ -157,7 +158,7 @@ const GenericDeckDisplay = <T,>({
                         </button>
                     )}
 
-                    {elementType === "grammarDeck" && ( // Botón de gramática
+                    {elementType === "grammarDeck" && ( 
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
