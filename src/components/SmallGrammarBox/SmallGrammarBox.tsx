@@ -1,40 +1,42 @@
 import React from 'react';
 import { GrammarData } from '../../data/GrammarData';
-import { ExampleData } from '../../data/GeneralTypes.ts';
-import { useLanguage } from '../../context/LanguageContext';
 import { FaQuestionCircle } from 'react-icons/fa';
-import ConfigDropdown from "../ConfigDropdown"; 
+import ConfigDropdown from "../ConfigDropdown";
+import LocSpan from "../LocSpan.tsx";
+import i18n from "i18next"; 
 
 interface SmallGrammarBoxProps {
     result: GrammarData | null;
 }
 
 const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
-    const { language } = useLanguage();
     if (!result) return null;
 
     const dropdownItems = [
         <div className="flex justify-between items-center">
             <h1 className="text-lg font-bold text-blue-400 dark:text-white">{result.structure}</h1>
         </div>,
-        <span className="text-xs text-gray-600 dark:text-gray-300">{result.hint}</span>,
+        <LocSpan textKey={result.hint} namespace={"grammar_jlpt"+ result.jlpt} className="text-xs text-gray-600 dark:text-gray-300"/>,
         <div key="description">
-            <p className="text-xs text-gray-600 dark:text-gray-300 mt-2 font-bold">Description:</p>
-            <p className="text-xs text-gray-600 dark:text-gray-300 mb-2">{result.description}</p>
+            <p className="text-xs text-gray-600 dark:text-gray-300 mb-2"><LocSpan textKey={result.description} namespace={"grammar_jlpt"+ result.jlpt} /></p>
         </div>,
         <div key="examples">
             <p className="text-xs text-gray-600 dark:text-gray-300 mb-2 font-bold">Examples:</p>
             <div className="text-gray-600 dark:text-gray-300">
                 {result.examples && result.examples.length > 0 ? (
-                    result.examples.map((example: ExampleData, index) => (
+                    result.examples.map((example, index) => (
                         <div key={index} className="mb-2 text-xs pl-2">
                             <span className="text-gray-600 dark:text-gray-300 mr-2">例:</span>
-                            <b className="text-gray-600 dark:text-gray-300">{example.text}</b>
-                            <p className="text-gray-600 dark:text-gray-300 pl-6">
-                                {example.translations && example.translations[language]
-                                    ? example.translations[language]
-                                    : example.translations.en}
-                            </p>
+                            <LocSpan 
+                                textKey={example.replace('example', 'examples.example')}
+                                 fixTo={"ja"}
+                                 namespace={"grammar_jlpt" + result.jlpt}
+                                 className="text-gray-600 dark:text-gray-300" />
+                            {i18n.language !== 'ja' && (
+                                <p className="text-gray-600 dark:text-gray-300 pl-6">
+                                    <LocSpan textKey={example.replace('example', 'examples.example')} namespace={"grammar_jlpt" + result.jlpt} />
+                                </p>
+                            )}
                         </div>
                     ))
                 ) : (
@@ -56,7 +58,7 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
                     <ConfigDropdown items={dropdownItems} icon={<FaQuestionCircle />} buttonSize="text-xs" />
                 </div>
             </div>
-            <span className="text-xs text-gray-600 dark:text-gray-300 pl-2">{result.hint}</span>
+            <LocSpan textKey={result.hint} namespace={"grammar_jlpt"+ result.jlpt}  className="text-xs text-gray-600 dark:text-gray-300 pl-2" />
         </div>
     );
 };
