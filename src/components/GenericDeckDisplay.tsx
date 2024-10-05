@@ -10,6 +10,7 @@ import { DeckData } from "../data/DeckData.ts";
 import DeleteButton from "./DeleteButton";
 import GenerationButton from "./Modals/GenerationButton.tsx";
 import { CourseData, LessonData } from "../data/CourseData.ts";
+import AddContentButton from "./AddContentButton.tsx";
 
 interface GenericDeckDisplayProps<T> {
     courseData: CourseData;
@@ -120,6 +121,15 @@ const GenericDeckDisplay = <T,>({
                 </div>
 
                 <div className="flex gap-0.5 items-center flex-wrap mt-2 sm:mt-0">
+                    
+                    <AddContentButton
+                        creatorId={deck.creatorId}
+                        courseId={courseData._id}
+                        courseName={courseData.name}
+                        lessonName={lessonData.name}
+                        deckName={deck.name}
+                        />
+                    
                     <DeleteButton
                         creatorId={deck.creatorId}
                         elementId={deck._id}

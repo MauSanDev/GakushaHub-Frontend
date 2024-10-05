@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext.tsx';
+import { useNavigate } from 'react-router-dom';  // Importar useNavigate
 import SearchModal from '../pages/SearchModal';
 
 interface AddContentButtonProps {
@@ -14,6 +15,7 @@ interface AddContentButtonProps {
 const AddContentButton: React.FC<AddContentButtonProps> = ({ creatorId, courseId, courseName, lessonName, deckName }) => {
     const { user, userData } = useAuth();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();  // Usar navigate para redirigir
 
     if (!user || (creatorId && userData?._id != creatorId)) return null;
 
@@ -27,6 +29,11 @@ const AddContentButton: React.FC<AddContentButtonProps> = ({ creatorId, courseId
         setIsModalOpen(false);
     };
 
+    const onSaveModal = () => {
+        closeModal();
+        navigate(0);  // Redirige a la misma ruta para "refrescar" la página sin recargar completamente
+    };
+
     return (
         <>
             <button
@@ -36,14 +43,15 @@ const AddContentButton: React.FC<AddContentButtonProps> = ({ creatorId, courseId
                 <FaPlus size={12} className="text-inherit transition-colors duration-75" />
             </button>
 
-            {isModalOpen && 
-                <SearchModal 
-                    onClose={closeModal} 
+            {isModalOpen &&
+                <SearchModal
+                    onClose={closeModal}
                     courseId={courseId}
                     courseName={courseName}
                     lessonName={lessonName}
                     deckName={deckName}
-                    />}
+                    onSaveSuccess={onSaveModal}  // Callback para manejar el éxito del guardado
+                />}
         </>
     );
 };

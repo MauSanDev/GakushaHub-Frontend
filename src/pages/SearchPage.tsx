@@ -16,9 +16,10 @@ interface SearchPageProps {
     courseName?: string;
     lessonName?: string;
     deckName?: string;
+    onSaveSuccess?: () => void; 
 }
 
-const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonName, deckName}) => {
+const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonName, deckName, onSaveSuccess }) => {
     const [tagsMap, setTagsMap] = useState<{ [tag: string]: boolean }>({});
     const { kanjiResults, wordResults, loading, error } = useSearchContent(tagsMap);
     const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
@@ -39,6 +40,9 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
 
     const onSaveStatusChanged = (status: SaveStatus) => {
         setSaveStatus(status);
+        if (status === SaveStatus.Success && onSaveSuccess) {
+            onSaveSuccess();
+        }
     };
 
     const isSaving = saveStatus === SaveStatus.Saving;
@@ -51,7 +55,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
 
     useEffect(() => {
         if (wordResults) {
-            setSelectedWords(wordResults); 
+            setSelectedWords(wordResults);
         }
     }, [wordResults]);
 
@@ -67,7 +71,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
         );
     };
 
-    
+
     const contentToShow = () => {
         if (showSelectedOnly) {
             return {
@@ -83,19 +87,19 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
 
     const { kanjis, words } = contentToShow();
 
-    
+
     const selectAll = () => {
         setSelectedKanji(kanjiResults || []);
         setSelectedWords(wordResults || []);
     };
 
-    
+
     const deselectAll = () => {
         setSelectedKanji([]);
         setSelectedWords([]);
     };
 
-    
+
     const clearSearch = () => {
         setTagsMap({});
         setSelectedKanji([]);
@@ -234,10 +238,8 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                     </div>
                 </div>
             )}
-            
-            {/*{isAuthenticated &&*/}
-            {/*    ((selectedKanji.length > 0 || selectedWords.length > 0) ||*/}
-            {/*        (courseId || courseName || lessonName || deckName)) && (*/}
+
+            {isAuthenticated &&
                 <div className="absolute top-0 right-0 flex gap-2">
                     <SaveDeckInput
                         kanjiList={selectedKanji}
@@ -251,7 +253,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                         deckName={deckName}
                     />
                 </div>
-            {/*)}*/}
+            }
 
             <LoadingScreen isLoading={loading}/>
 

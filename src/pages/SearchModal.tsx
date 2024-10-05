@@ -8,16 +8,19 @@ interface SearchModalProps {
     courseName?: string;
     lessonName?: string;
     deckName?: string;
+    onSaveSuccess?: () => void;
 }
 
-const SearchModal: React.FC<SearchModalProps> = ({ onClose, courseId, courseName, lessonName, deckName }) => {
+const SearchModal: React.FC<SearchModalProps> = ({ onClose, courseId, courseName, lessonName, deckName, onSaveSuccess }) => {
     return (
         <ModalWrapper onClose={onClose}>
             <SearchPage 
                 courseId={courseId}
                 courseName={courseName}
                 lessonName={lessonName}
-                deckName={deckName} />
+                deckName={deckName} 
+                onSaveSuccess={onSaveSuccess}
+            />
         </ModalWrapper>
     );
 };
