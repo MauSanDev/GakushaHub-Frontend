@@ -40,57 +40,39 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
 
 
             {course.lessons.map((lesson) => (
-                <div key={lesson._id}
-                     className="mb-1 indent-5 dark:bg-gray-950 rounded py-2 border dark:border-gray-800">
-                    <div className="flex items-center max-w-full capitalize">
-                        <FaChevronRight/>
-                        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-2">{lesson.name}</h2>
-                    </div>
-
-                    {/* Responsive: Display as a single line on larger screens and as a list on smaller screens */}
-                    <div
-                        className="ml-9 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-6 text-gray-600 dark:text-gray-300">
-                        {lesson.kanjiDecks.length > 0 && (
-                            <span className="flex items-center gap-1">
-                                <FaBookOpen className="text-blue-400"/>
-                                <span
-                                    className="font-semibold text-gray-800 dark:text-gray-200">Kanji:
-                                    <span className={"text-xs color font-normal text-gray-500"}> ({lesson.kanjiDecks.length} Decks)</span>
-                                </span> 
-                        </span>
-                        )}
-
-                        {lesson.wordDecks.length > 0 && (
-                            <span className="flex items-center gap-1">
-                                <FaFileAlt className="text-red-400"/>
-                                <span
-                                    className="font-semibold text-gray-800 dark:text-gray-200">Words:
-                                    <span
-                                        className={"text-xs color font-normal text-gray-500"}> ({lesson.wordDecks.length} Decks)
-                                    </span>
-                                </span>     
-                            </span>     
-                        )}
-
-                        {lesson.grammarDecks.length > 0 && (
-                            <span className="flex items-center gap-1">
-                                <FaBook className="text-green-400"/>
-                                <span
-                                    className="font-semibold text-gray-800 dark:text-gray-200">Grammar:
-                                    <span
-                                        className={"text-xs color font-normal text-gray-500"}> ({lesson.grammarDecks.length} Decks)
-                                    </span>
-                                </span>     
-                            </span>
-                        )}
-
-                        {lesson.readingDecks?.length > 0 && (
-                            <span className="flex items-center gap-1">
-                                <FaEye className="text-yellow-400"/>
-                                <span
-                                    className="font-semibold text-gray-800 dark:text-gray-200">Readings:</span> {lesson.readingDecks.length} Decks
-                            </span>
-                        )}
+                <div key={lesson._id} className="mb-1 px-2 py-1 rounded dark:bg-gray-950">
+                    <div className="flex items-center justify-between capitalize">
+                        {/* Título de la lección que ocupa el máximo espacio */}
+                        <h2 className="text-base font-medium text-gray-800 dark:text-gray-200 flex-grow truncate">
+                            {lesson.name}
+                        </h2>
+                        {/* Decks alineados a la derecha */}
+                        <div className="flex gap-3 text-gray-600 dark:text-gray-300 text-xs items-center">
+                            {lesson.kanjiDecks.length > 0 && (
+                                <span className="flex items-center gap-1">
+                        <FaBookOpen className="text-blue-400"/>
+                        <span>Kanji: {lesson.kanjiDecks.length}</span>
+                    </span>
+                            )}
+                            {lesson.wordDecks.length > 0 && (
+                                <span className="flex items-center gap-1">
+                        <FaFileAlt className="text-red-400"/>
+                        <span>Words: {lesson.wordDecks.length}</span>
+                    </span>
+                            )}
+                            {lesson.grammarDecks.length > 0 && (
+                                <span className="flex items-center gap-1">
+                        <FaBook className="text-green-400"/>
+                        <span>Grammar: {lesson.grammarDecks.length}</span>
+                    </span>
+                            )}
+                            {lesson.readingDecks?.length > 0 && (
+                                <span className="flex items-center gap-1">
+                        <FaEye className="text-yellow-400"/>
+                        <span>Readings: {lesson.readingDecks.length}</span>
+                    </span>
+                            )}
+                        </div>
                     </div>
                 </div>
             ))}
