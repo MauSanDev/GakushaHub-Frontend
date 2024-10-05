@@ -5,7 +5,8 @@ import LoadingScreen from "../components/LoadingScreen";
 import { Link } from "react-router-dom";
 import { useOwnerCourses } from "../hooks/coursesHooks/useOwnerCourses.ts";
 import { usePublicCourses } from "../hooks/coursesHooks/usePublicCourses.ts";
-import { useFollowedCourses } from "../hooks/coursesHooks/useFollowedCourses.ts"; 
+import { useFollowedCourses } from "../hooks/coursesHooks/useFollowedCourses.ts";
+import AddCourseButton from "../components/AddCourseButton.tsx"; 
 
 const CourseListPage: React.FC = () => {
     const [courses, setCourses] = useState<CourseData[]>([]);
@@ -96,7 +97,9 @@ const CourseListPage: React.FC = () => {
                     className={`px-4 py-2 rounded lg:text-sm text-xs transition-all border ${currentView === 'followed' ? 'bg-blue-500 dark:bg-gray-600 text-white dark:text-white dark:border-gray-800 ' : 'text-gray-500 bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700'}`}>
                     Following
                 </button>
+                <AddCourseButton />
             </div>
+            
 
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
                 {courses.length > 0 ? (
