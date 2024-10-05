@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
 import { useState, useRef, useEffect, ComponentType } from "react";
 import {
     FaChevronRight,
@@ -7,6 +5,7 @@ import {
     FaPlayCircle,
 } from "react-icons/fa";
 import FlashcardsModal from "./FlashcardsPage";
+import GrammarModal from "./GrammarPracticeModal/GrammarPracticeModal.tsx"; // Asegúrate de importar tu modal de gramática
 import { DeckData } from "../data/DeckData.ts";
 import DeleteButton from "./DeleteButton";
 import GenerationButton from "./Modals/GenerationButton.tsx";
@@ -40,17 +39,17 @@ const GenericDeckDisplay = <T,>({
                                     viewMode,
                                 }: GenericDeckDisplayProps<T>) => {
     const [flashcardsMode, setFlashcardsMode] = useState(false);
+    const [grammarModalVisible, setGrammarModalVisible] = useState(false); // Estado para el modal de gramática
     const [expanded, setExpanded] = useState(false);
-    const [isMobile, setIsMobile] = useState(false); 
+    const [isMobile, setIsMobile] = useState(false);
     const contentRef = useRef<HTMLDivElement | null>(null);
 
-    
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth < 640); 
+            setIsMobile(window.innerWidth < 640);
         };
 
-        handleResize(); 
+        handleResize();
         window.addEventListener('resize', handleResize);
 
         return () => window.removeEventListener('resize', handleResize);
@@ -72,6 +71,10 @@ const GenericDeckDisplay = <T,>({
         setFlashcardsMode(true);
     };
 
+    const handleOpenGrammarModal = () => {
+        setGrammarModalVisible(true);
+    };
+
     const renderContent = () => {
         if (viewMode === "cards" || !TableComponent) {
             return (
@@ -83,8 +86,8 @@ const GenericDeckDisplay = <T,>({
             );
         } else if (viewMode === "table" && TableComponent) {
             return (<div className={`grid columns-1 gap-2`}>
-                    <TableComponent deck={deck} />;
-                </div>)
+                <TableComponent deck={deck} />;
+            </div>)
         }
     };
 
@@ -94,6 +97,13 @@ const GenericDeckDisplay = <T,>({
                 <FlashcardsModal
                     deck={deck}
                     onClose={() => setFlashcardsMode(false)}
+                />
+            )}
+
+            {grammarModalVisible && (
+                <GrammarModal
+                    deck={deck}
+                    onClose={() => setGrammarModalVisible(false)}
                 />
             )}
 
@@ -110,7 +120,7 @@ const GenericDeckDisplay = <T,>({
                 </div>
 
                 <div className="flex gap-0.5 items-center flex-wrap mt-2 sm:mt-0">
-                <DeleteButton
+                    <DeleteButton
                         creatorId={deck.creatorId}
                         elementId={deck._id}
                         elementType={elementType}
@@ -125,13 +135,25 @@ const GenericDeckDisplay = <T,>({
                         />
                     )}
 
-                    {enableFlashcards && (
+                    {enableFlashcards && elementType !== "grammarDeck" && ( // Botón de flashcards solo si no es grammar
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
                                 handleFlashcardMode();
                             }}
                             className="p-2 bg-blue-500 dark:bg-gray-950 text-white rounded shadow hover:bg-blue-600 dark:hover:bg-gray-800"
+                        >
+                            <FaPlayCircle size={12}/>
+                        </button>
+                    )}
+
+                    {elementType === "grammarDeck" && ( // Botón de gramática
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleOpenGrammarModal();
+                            }}
+                            className="p-2 bg-green-500 dark:bg-gray-950 text-white rounded shadow hover:bg-green-600 dark:hover:bg-gray-800"
                         >
                             <FaPlayCircle size={12}/>
                         </button>
