@@ -1,5 +1,5 @@
 {
-  "n3_<structure>": "Welcome",
+  "welcome": "こんにちは",
   "description": "This is a localization example",
-  "Search": "Search"
+  "Search": "探す"
 }

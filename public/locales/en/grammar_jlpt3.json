@@ -1,0 +1,1296 @@
+{
+    "jlpt3": {
+        "n3_102": {
+            "hint": "A bit... / Slightly... (negative connotation)",
+            "description": "This structure is used to express that someone or something has a slight tendency or shows signs of a particular state, usually in a negative sense. It conveys the idea that something feels a little bit like or is slightly inclined toward a particular condition. It’s often used to describe feelings, conditions, or states of being.",
+            "examples": {
+                "example1": "Lately, work has been busy and I’m feeling a bit tired.",
+                "example2": "He’s showing signs of a cold, so he should rest today.",
+                "example3": "I’m gaining a bit of weight, so I plan to start a diet.",
+                "example4": "This watch is running a bit slow.",
+                "example5": "During the meeting, he spoke a little nervously."
+            }
+        },
+        "n3_103": {
+            "hint": "Not at all... / Definitely not...",
+            "description": "This structure is used to strongly deny or reject something, often in response to a suggestion or accusation. It adds emphasis to the negation, implying that the action is not happening or never happened, with a tone of defensiveness or indignation. 'なんか' adds a dismissive nuance, making the denial more forceful.",
+            "examples": {
+                "example1": "I’m not crying at all!",
+                "example2": "I’m definitely not thinking about such a thing.",
+                "example3": "I haven’t forgotten about you at all.",
+                "example4": "He’s not angry at all. You don’t need to worry.",
+                "example5": "I wasn’t slacking off at all. I was really feeling unwell."
+            }
+        },
+        "n3_104": {
+            "hint": "Not at all... / Definitely not...",
+            "description": "These structures are used to strongly deny or reject something, often with a tone of defensiveness, dismissal, or indignation. 'なんか' adds an emotional or dismissive nuance to the negation, making the rejection more forceful. They are often used to refute accusations, assumptions, or suggestions, emphasizing that the action, condition, or state is not true at all.",
+            "examples": {
+                "example1": "I’m not crying at all!",
+                "example2": "I’m definitely not thinking about such a thing.",
+                "example3": "I’m not tired at all, just a little sleepy.",
+                "example4": "His words didn’t make me sad at all.",
+                "example5": "This problem isn’t difficult at all.",
+                "example6": "She’s definitely not kind. She’s actually a cold person.",
+                "example7": "This movie isn’t interesting at all!",
+                "example8": "This isn’t important at all.",
+                "example9": "He’s not special at all, just an ordinary person."
+            }
+        },
+        "n3_105": {
+            "hint": "Even / As long as",
+            "description": "These structures are used to emphasize the minimal condition necessary for something to happen. 'N＋[助詞]＋さえ' is used with nouns to express that even the least expected thing is included, and 'Vて＋さえ' is used to indicate that as long as a certain action is done, the desired result will follow. The emphasis is placed on something being the only or most important condition.",
+            "examples": {
+                "example1": "As long as I have water, I can survive.",
+                "example2": "Even a child knows that fact.",
+                "example3": "If only I had time, I could study more.",
+                "example4": "As long as you’re by my side, I don’t need anything else.",
+                "example5": "He gets good grades even without studying."
+            }
+        },
+        "n3_106": {
+            "hint": "Even / As long as",
+            "description": "These structures are used to emphasize something by giving an extreme example. 'N＋[助詞]＋さえ' is used to stress that even an extreme or unexpected example is true, while 'Vて＋さえ' is used to indicate that as long as a certain action is done, a result will follow. This expression is often followed by a negative form to highlight how even the minimal condition isn't enough.",
+            "examples": {
+                "example1": "He's so busy that he doesn't even have time to eat.",
+                "example2": "As long as I have water, I can survive.",
+                "example3": "Even a child can solve that problem.",
+                "example4": "As long as you’re by my side, I don’t need anything else.",
+                "example5": "He gets good grades even without studying.",
+                "example6": "She was so tired that she couldn’t even stand."
+            }
+        },
+        "n3_107": {
+            "hint": "To the extent that / About",
+            "description": "This structure is used to express the extent or degree of something. It can be used to compare a situation or state, implying that it is 'to the extent that' something happens. It is often used for exaggeration or to describe something that is approximate. Depending on the context, it can also be used to downplay or trivialize something ('about as much as').",
+            "examples": {
+                "example1": "He was so tired that he almost collapsed.",
+                "example2": "I was so happy that I cried.",
+                "example3": "My legs hurt so much that I can't even walk.",
+                "example4": "This cake is so sweet that I can't eat it.",
+                "example5": "There’s no one as kind as her."
+            }
+        },
+        "n3_108": {
+            "hint": "Leaving something as it is / Leaving something undone",
+            "description": "This structure is used to express that an action has been left in a certain state, typically implying negligence or irresponsibility. It often has a negative nuance, suggesting that something should have been finished or taken care of but was left incomplete or in a state of disarray. It can also be used to express that an action continues without being stopped.",
+            "examples": {
+                "example1": "I fell asleep with the lights left on.",
+                "example2": "Please don't leave the door open.",
+                "example3": "I left the room with the TV still on.",
+                "example4": "He just keeps talking and doesn’t listen at all.",
+                "example5": "There are unfinished cups left on the table."
+            }
+        },
+        "n3_109": {
+            "hint": "Full of / Covered with (usually negative)",
+            "description": "This structure is used to express that something is full of or covered with something, often in a negative sense. It implies that there is an excessive amount of something undesirable or unpleasant. 'だらけ' is typically used to describe situations where something undesirable is present in abundance.",
+            "examples": {
+                "example1": "This room is full of trash.",
+                "example2": "His room is covered with dust.",
+                "example3": "His notebook is full of mistakes.",
+                "example4": "The road is covered with mud.",
+                "example5": "That book is full of lies."
+            }
+        },
+        "n3_110": {
+            "hint": "Might / Maybe / Gently suggesting something",
+            "description": "This structure is used when you gently point out that someone's appearance or behavior is different from normal, or when you gently give an instruction or suggestion. It’s commonly used in a soft or indirect manner to avoid sounding too assertive or harsh. The tone is often casual, and it’s frequently used in everyday conversations.",
+            "examples": {
+                "example1": "You look a bit tired today.",
+                "example2": "Maybe you should rest a little more.",
+                "example3": "You’re late, is something wrong?",
+                "example4": "Make sure to come early tomorrow, okay?",
+                "example5": "Huh, is your hairstyle different today?"
+            }
+        },
+        "n3_111": {
+            "hint": "Seems like / Typical of",
+            "description": "This structure is used to express that something or someone has characteristics typical of a certain category or group. It can also be used to indicate that something appears to be true based on what the speaker has heard or observed, though it’s not confirmed. It conveys both a sense of typicality and a sense of hearsay or assumption.",
+            "examples": {
+                "example1": "Today, it feels like typical spring weather.",
+                "example2": "He has a really masculine personality.",
+                "example3": "She is studying hard, just like a student should.",
+                "example4": "It seems like he will come tomorrow.",
+                "example5": "I heard the ramen at that shop is delicious."
+            }
+        },
+        "n3_112": {
+            "hint": "I thought... / I assumed...",
+            "description": "This structure is used to express that the speaker thought or assumed something, often to indicate that their assumption turned out to be incorrect or that they were surprised by the actual outcome. It conveys a sense of realization or change of mind based on new information or events.",
+            "examples": {
+                "example1": "I thought he was serious, but he actually likes to joke around.",
+                "example2": "I thought this problem was easy, but it was harder than I expected.",
+                "example3": "I thought it would be cold today, but it's surprisingly warm.",
+                "example4": "I thought she was a student, but she was actually a teacher.",
+                "example5": "I thought he wouldn’t come, but he ended up coming after all."
+            }
+        },
+        "n3_113": {
+            "hint": "Such as / For example",
+            "description": "This structure is used to give examples, similar to how 'や', 'など', or '〜たり' are used. It indicates that the listed items or actions are part of a larger, unspecified group. It is often used in a casual way to suggest that the mentioned examples are just some of the possibilities or options.",
+            "examples": {
+                "example1": "On the weekend, I want to do things like watch a movie or hang out with friends.",
+                "example2": "This restaurant has various dishes, like sushi and ramen.",
+                "example3": "I want to study Asian languages, like Japanese or Korean.",
+                "example4": "I plan to visit places like Kyoto and Osaka during summer vacation.",
+                "example5": "I like spending quiet time doing things like reading or watching movies."
+            }
+        },
+        "n3_114": {
+            "hint": "While you’re at it / On the occasion of / Taking the opportunity to",
+            "description": "This structure is used to indicate that, while doing one action, another action is done as an additional, secondary task. It expresses the idea of taking advantage of one opportunity to do something else at the same time. It is often used when the second action is something convenient to do along with the main action.",
+            "examples": {
+                "example1": "While I was out for a walk, I stopped by the post office.",
+                "example2": "While on a business trip, I took the opportunity to visit Kyoto.",
+                "example3": "Could you return the book while you’re at the library?",
+                "example4": "While shopping, I bought a cake as well.",
+                "example5": "While studying, I tidied up my room a little bit."
+            }
+        },
+        "n3_115": {
+            "hint": "Must be / Surely",
+            "description": "Both 'に違いない' and 'に相違ない' are used to express strong conviction or certainty about something. 'に違いない' is more commonly used in everyday speech, while 'に相違ない' is more formal and typically appears in written language. Both convey a sense that the speaker is confident that something is definitely true based on evidence, reasoning, or intuition.",
+            "examples": {
+                "example1": "He must be a student.",
+                "example2": "That car must be expensive.",
+                "example3": "She must be the culprit.",
+                "example4": "This result must be incorrect.",
+                "example5": "This work of art must be famous."
+            }
+        },
+        "n3_116": {
+            "hint": "Nothing is as... as N / N is the most...",
+            "description": "This structure is used to express that there is nothing comparable to N in a certain aspect. It emphasizes that N is the highest or most extreme in a particular quality or condition. It is often used to make comparisons, indicating that something or someone does not reach the level or degree of N.",
+            "examples": {
+                "example1": "There’s no one as kind as her.",
+                "example2": "No season is as hot as summer.",
+                "example3": "There is no food as delicious as sushi.",
+                "example4": "There’s no problem as difficult as this one.",
+                "example5": "There’s no one as hardworking as him."
+            }
+        },
+        "n3_117": {
+            "hint": "Without N / Leaving out N",
+            "description": "This structure is used to express that something is done or happens without a particular element or factor (N). It emphasizes that N is excluded from the situation or process. 'ぬきで' is often used in casual speech to describe actions or events where a certain component is intentionally left out or omitted.",
+            "examples": {
+                "example1": "I went to school without eating breakfast.",
+                "example2": "Joking aside, he is really talented.",
+                "example3": "This project can’t move forward without him.",
+                "example4": "Let’s enjoy ourselves today without talking about work.",
+                "example5": "Coffee without sugar, please."
+            }
+        },
+        "n3_118": {
+            "hint": "Cannot help but... / Extremely... / Unbearably...",
+            "description": "These structures are used to express that something is so intense or strong that the speaker cannot control or endure it. They are commonly used to describe emotions, desires, or physical sensations that feel overwhelming. 'しょうがない' and 'しかたがない' are interchangeable, with a slight nuance that 'しかたがない' may sound slightly more formal. 'たまらない' emphasizes that the feeling is so strong that it is unbearable.",
+            "examples": {
+                "example1": "I can't stop thinking about him.",
+                "example2": "I'm extremely hungry.",
+                "example3": "I can't help but want to see you.",
+                "example4": "Her smile is unbearably cute.",
+                "example5": "I have an unbearable headache."
+            }
+        },
+        "n3_89": {
+            "hint": "There is no way that... / It is impossible that...",
+            "description": "This structure is used to express strong disbelief or impossibility, indicating that there is no way something could be true. It conveys the speaker's certainty that a particular situation or fact is impossible. It can be used with な-adjectives and nouns.",
+            "examples": {
+                "example1": "There is no way he can solve such a difficult problem.",
+                "example2": "There is no way he would do something so rude.",
+                "example3": "There’s no way this is a real brand item at such a cheap price.",
+                "example4": "There’s no way those two are getting married.",
+                "example5": "There’s no way he would lie."
+            }
+        },
+        "n3_90": {
+            "hint": "There is no way that... / It is impossible that...",
+            "description": "Both structures are used to express strong disbelief or impossibility. 'わけがない' emphasizes that there is no logical reason or way that something could happen, while 'はずがない' indicates that something is impossible based on expectation or common sense. Both convey the speaker's certainty that a particular situation or fact is impossible. They can be used with な-adjectives and nouns.",
+            "examples": {
+                "example1": "There is no way he can solve such a difficult problem.",
+                "example2": "There is no way he would do something so rude.",
+                "example3": "There’s no way this is a real brand item at such a cheap price.",
+                "example4": "There’s no way she would lie.",
+                "example5": "There’s no way a plane could fly in this weather.",
+                "example6": "There’s no way he will fail the exam."
+            }
+        },
+        "n3_91": {
+            "hint": "There is no choice but to... / Only option is to...",
+            "description": "These structures express that there is no other option or choice left but to do something. 'しかない' is often used in conversational speech to indicate that the only course of action is to do something, while 'ほかはない' is more formal and also indicates that no other alternatives are available. Both emphasize a lack of choices or alternatives.",
+            "examples": {
+                "example1": "There's no train, so I have no choice but to walk.",
+                "example2": "You have no choice but to do it now.",
+                "example3": "We have no option but to wait for him.",
+                "example4": "The only option is to wait for the next bus.",
+                "example5": "There is no other choice but to do it again."
+            }
+        },
+        "n3_92": {
+            "hint": "Precisely because...",
+            "description": "This structure is used to emphasize the reason or cause for something, often implying that it is the very reason something happens or should happen. 'からこそ' adds emphasis, making it clear that the stated reason is the key or essential factor. It is commonly used to stress that the situation could not occur without the mentioned cause.",
+            "examples": {
+                "example1": "Precisely because you're busy, you should value your time.",
+                "example2": "I entrusted him with this job precisely because he is trustworthy.",
+                "example3": "It's precisely during tough times that you must not give up.",
+                "example4": "It's precisely because I have a family that I can keep going.",
+                "example5": "We succeeded precisely because you helped us."
+            }
+        },
+        "n3_93": {
+            "hint": "Something like... / Things like...",
+            "description": "This structure is used when talking about something that is considered not very important or trivial. It can also be used to express humility or downplay the significance of something. 'なんか' adds a sense of casualness or dismissal, and is commonly used in spoken Japanese. It often carries a nuance of understatement or modesty, either to belittle something or oneself, or to suggest that it's not worth much attention.",
+            "examples": {
+                "example1": "Someone like me can't do anything.",
+                "example2": "Something as easy as this problem, anyone can solve it.",
+                "example3": "You don’t need to worry about what he says.",
+                "example4": "Lunch doesn’t matter, I just want to finish work quickly.",
+                "example5": "I’m not worthy of an award like this."
+            }
+        },
+        "n3_94": {
+            "hint": "There is no way / It’s impossible that...",
+            "description": "This structure is used to express strong confidence or certainty that something is impossible or that there is no chance of something happening. It is often used in casual speech to strongly negate the possibility of an action. The tone can be assertive or dismissive.",
+            "examples": {
+                "example1": "There’s no way I can solve such a difficult problem.",
+                "example2": "There’s no way he would say something like that.",
+                "example3": "There’s no way I can finish reading this book in one day.",
+                "example4": "There’s no way those two will ever break up.",
+                "example5": "There’s no way he can win in this situation."
+            }
+        },
+        "n3_95": {
+            "hint": "Just because... doesn’t mean...",
+            "description": "This structure is used to express that even if a certain condition or reason exists, it does not necessarily lead to a specific result or conclusion. It’s often used to deny or reject a commonly held assumption or expectation based on the preceding statement. The speaker implies that the situation is not as straightforward as one might think.",
+            "examples": {
+                "example1": "Just because you have money doesn’t mean you’ll be happy.",
+                "example2": "Just because you live in Japan doesn't mean you'll become good at Japanese.",
+                "example3": "Just because you like it doesn’t mean it's good to eat it every day.",
+                "example4": "Just because you're young doesn’t mean you can do anything.",
+                "example5": "Just because you're busy doesn’t mean it’s a reason not to study."
+            }
+        },
+        "n3_96": {
+            "hint": "Not necessarily / It doesn’t mean that...",
+            "description": "This structure is used to express that something is not always true or that there are exceptions to a commonly held belief or assumption. It indicates that while something may generally be the case, it is not guaranteed in all situations. 'とは限らない' is often used to reject an overgeneralization.",
+            "examples": {
+                "example1": "Expensive things are not necessarily good.",
+                "example2": "Just because someone is Japanese doesn't mean they are all polite.",
+                "example3": "Weather forecasts are not always accurate.",
+                "example4": "It’s not guaranteed that he will succeed.",
+                "example5": "The food at this restaurant isn't necessarily delicious."
+            }
+        },
+        "n3_97": {
+            "hint": "When it comes to... / Speaking of how (something) is...",
+            "description": "This structure is used to emphasize the intensity of an emotion, quality, or situation. It conveys a strong reaction or impression about something, often expressing surprise, admiration, or frustration. It is typically used to highlight the extremity of a situation or feeling.",
+            "examples": {
+                "example1": "When it comes to her beauty, it’s beyond words.",
+                "example2": "Speaking of how hot it was that day, it was unbearable.",
+                "example3": "When it comes to the difficulty of the exam, it was shocking.",
+                "example4": "When it comes to his work performance, it's perfection itself.",
+                "example5": "Speaking of how delicious that cake was, it was an unforgettable taste."
+            }
+        },
+        "n3_98": {
+            "hint": "Even though / Despite the fact that...",
+            "description": "This structure is used to express criticism, frustration, or resentment towards someone or something, often implying hypocrisy or contradiction. It is used when someone does something that is unexpected or inappropriate based on a certain condition. The tone is often negative, and the speaker expresses dissatisfaction or irritation but not with a strong feeling.",
+            "examples": {
+                "example1": "Even though he doesn't study, he complains about his exam results.",
+                "example2": "Even though she has no money, she only buys expensive clothes.",
+                "example3": "Even though he doesn’t know, he pretends to know.",
+                "example4": "Even though he pretends to be kind, he's actually cold-hearted.",
+                "example5": "Don’t talk back like that, especially since you’re just a child."
+            }
+        },
+        "n3_99": {
+            "hint": "Tends to... / Full of... / Looks like...",
+            "description": "This structure is used to express that something has a tendency, is full of, or gives the impression of something. It is often used to describe something as having qualities of a certain noun or verb, often in a negative or casual sense. It can also convey the idea of something resembling or behaving like something else. When used with verbs, it can mean 'tends to' or 'easily does'.",
+            "examples": {
+                "example1": "He has a childish personality.",
+                "example2": "This soup is greasy.",
+                "example3": "I’ve become forgetful lately.",
+                "example4": "She is a person who tends to get angry easily.",
+                "example5": "This shirt looks white, but it's actually a light blue."
+            }
+        },
+        "n3_100": {
+            "hint": "Because of (negative cause)... / Blame for...",
+            "description": "This structure is used to express that something negative has happened because of a certain reason or cause. It implies that the situation or event is undesirable and the subject or cause is to blame for it. The nuance of 'せい' tends to carry a feeling of complaint or blame towards the reason given.",
+            "examples": {
+                "example1": "The match was canceled because of the rain.",
+                "example2": "The plan was ruined because of his mistake.",
+                "example3": "I couldn’t rest at all because I was busy.",
+                "example4": "I failed because I was not well prepared.",
+                "example5": "She might be angry because of the way I said it."
+            }
+        },
+        "n3_101": {
+            "hint": "Because it’s (someone) / Given (someone’s character)...",
+            "description": "This structure is used to express reasoning or assumptions based on someone's well-known character, personality, or usual behavior. It is often used to make logical predictions or assumptions about what someone will do or how they will act because of their nature or reputation. It’s commonly used when talking about people or groups with certain predictable behaviors.",
+            "examples": {
+                "example1": "Knowing him, he’ll definitely be late.",
+                "example2": "Given how serious Tanaka-san is, he will surely do this job properly.",
+                "example3": "Because she's so kind, she won’t be able to leave someone in trouble.",
+                "example4": "Considering how busy he is, it's understandable that he’s late in contacting us.",
+                "example5": "Because they’re kids, they’ll forget it quickly."
+            }
+        },
+        "n3_81": {
+            "hint": "Unless/until something happens",
+            "description": "This structure is used to express that unless or until the action in the first clause is completed, the action in the second clause cannot happen. It's commonly used to express conditions or restrictions, implying that something must be done first before something else can occur.",
+            "examples": {
+                "example1": "You can't go out to play unless you finish your homework.",
+                "example2": "I can't sign until I confirm the contract.",
+                "example3": "I can't move on to the next project unless I finish this job.",
+                "example4": "We can't make a decision until we confirm with the teacher.",
+                "example5": "You can't enter unless you open this door first."
+            }
+        },
+        "n3_82": {
+            "hint": "As if something is the case",
+            "description": "This structure is used to describe something in a way that suggests it is like something else, even though it is not. It can be used to compare actions, situations, or nouns, creating a metaphorical or figurative expression. 'かのようだ' and 'かのように' are used to describe actions or situations, while 'かのような' is used to modify nouns.",
+            "examples": {
+                "example1": "He is laughing as if nothing happened.",
+                "example2": "The lake is beautiful, as if it were a mirror.",
+                "example3": "She danced gracefully, as if she were a bird.",
+                "example4": "His words were as if I were dreaming.",
+                "example5": "He has power as if he were a magician."
+            }
+        },
+        "n3_83": {
+            "hint": "While something is still in a certain state, before it changes",
+            "description": "This structure is used to express that something should be done, or you want to do something, before a certain change occurs. It can also be used to ask someone to do something within that time frame. It emphasizes the need to act while a particular condition or situation is ongoing, before it transforms or becomes impossible to address.",
+            "examples": {
+                "example1": "Let's go home before it starts raining.",
+                "example2": "Please eat while it's still warm.",
+                "example3": "You should write it down before you forget.",
+                "example4": "It's better to have various experiences while you're still young.",
+                "example5": "While watching the movie, I started to cry."
+            }
+        },
+        "n3_84": {
+            "hint": "Intended for / Aimed at / Suitable for",
+            "description": "These structures are used to express that something is intended for, aimed at, or suitable for a specific group or audience. '向けに' and '向けだ' indicate that something is specifically designed or created for a particular group. '向けの' is used to modify a noun. '〜向き' is used to describe something that is suitable or appropriate for a certain group or purpose.",
+            "examples": {
+                "example1": "This book is written for children.",
+                "example2": "This event is aimed at beginners.",
+                "example3": "There is a discount for students.",
+                "example4": "This program is suitable for people who are good at English.",
+                "example5": "This game is aimed at adults, but children can also enjoy it."
+            }
+        },
+        "n3_85": {
+            "hint": "Depending on / Varies by",
+            "description": "This structure is used to express that something differs depending on the person, place, time, or situation. 'によって' is often used to describe variations or differences based on certain conditions or factors, while 'による' is used to modify a noun, indicating that the noun varies or changes according to the preceding noun.",
+            "examples": {
+                "example1": "Cultures differ depending on the country.",
+                "example2": "The way of thinking differs depending on the person.",
+                "example3": "The temperature changes greatly depending on the season.",
+                "example4": "The differences in customs depending on the region are interesting.",
+                "example5": "The busyness of the store varies depending on the time."
+            }
+        },
+        "n3_86": {
+            "hint": "In the middle of doing something",
+            "description": "This structure is used to express that something is happening right in the middle of an activity or event. It emphasizes that the action or event is occurring at that very moment. '最中に' is used to describe an action that happens in the middle of another ongoing action, while '最中だ' is used to describe the ongoing state itself. This expression is often used in situations when you do not want to be bothered or interrupted.",
+            "examples": {
+                "example1": "In the middle of the meeting, a phone call came.",
+                "example2": "In the middle of cooking, a friend came to visit.",
+                "example3": "My phone rang in the middle of the exam.",
+                "example4": "He was just in the middle of leaving.",
+                "example5": "In the middle of the meeting, it started to rain heavily."
+            }
+        },
+        "n3_87": {
+            "hint": "Half-done / In the middle of doing something",
+            "description": "This structure is used to express that something is half-done, incomplete, or in the middle of being done. 'V＋かけだ' emphasizes that an action was started but not yet finished, while 'V＋かけの＋N' is used to modify a noun, indicating that something is in a half-finished state or left incomplete.",
+            "examples": {
+                "example1": "I put the half-eaten cake in the fridge.",
+                "example2": "He started to say something, but then fell silent.",
+                "example3": "I'm still in the middle of reading this book.",
+                "example4": "There’s a half-written letter on the desk.",
+                "example5": "She started to stand up, but then sat down again."
+            }
+        },
+        "n3_88": {
+            "hint": "Cannot help but do something / Unable to stop oneself from doing",
+            "description": "These structures are used to express that the speaker cannot help but do something or is unable to stop themselves from doing it. 'ずにはいられない' and 'ないではいられない' both convey the idea that, despite the speaker's will or intentions, they are compelled to act in a certain way. It expresses a strong emotional or instinctive reaction.",
+            "examples": {
+                "example1": "I couldn’t help but laugh after hearing his story.",
+                "example2": "I couldn’t help but cry after watching that movie.",
+                "example3": "I can’t help but be grateful for her kindness.",
+                "example4": "When I hear this song, I can't stop myself from dancing.",
+                "example5": "When I see his effort, I can't help but support him."
+            }
+        },
+        "n3_75": {
+            "hint": "Receive / Be given (humble and honorific forms)",
+            "description": "This structure is used to express actions done for the speaker (いただく) or for someone else (くださる) in a polite and respectful manner. **「いただく」** is the humble form used to show humility when the speaker receives a favor, and **「くださる」** is the honorific form to show respect when someone does something for the speaker. Both forms are used to express gratitude or politeness in formal contexts.",
+            "examples": {
+                "example1": "Thank you for helping me.",
+                "example2": "Could you please explain?",
+                "example3": "I appreciate you giving me your time.",
+                "example4": "The president gave me a letter.",
+                "example5": "Thank you for your cooperation."
+            }
+        },
+        "n3_76": {
+            "hint": "Polite expressions used to show humility when referring to your own actions or those of your group",
+            "description": "Humble words are used to show respect by lowering oneself when referring to one's own actions or actions taken by people in one's group (such as colleagues, subordinates, etc.). These words are often used in formal or business situations to express politeness and deference.",
+            "examples": {
+                "example1": "I am scheduled to meet the president next week.",
+                "example2": "I will show you the documents.",
+                "example3": "I received a gift from the president.",
+                "example4": "I know him (in a polite way).",
+                "example5": "I think this plan is good."
+            }
+        },
+        "n3_77": {
+            "hint": "Polite form using 'です' with verbs and nouns",
+            "description": "This structure is used to politely describe actions (with verbs) or states (with nouns). By adding 'お' to verbs and 'ご' to nouns, followed by 'です', it makes the sentence more formal and respectful. 'お' is used mainly with verbs of Japanese origin, and 'ご' is used with nouns of Sino-Japanese origin.",
+            "examples": {
+                "example1": "This is my help, so please don't hesitate to ask.",
+                "example2": "This is your guidance, so please proceed this way.",
+                "example3": "It's your break, so please take your time and relax."
+            }
+        },
+        "n3_78": {
+            "hint": "Polite way of asking for confirmation or making suggestions",
+            "description": "This structure is used to politely ask for confirmation or make suggestions. 'でしょうか' is added after an な-adjective or noun, turning the sentence into a question while maintaining politeness. It's commonly used in customer service or formal situations where the speaker wants to be respectful and indirect.",
+            "examples": {
+                "example1": "Would this method be alright?",
+                "example2": "Do you think this book is interesting?",
+                "example3": "Will this time for the meeting be okay?",
+                "example4": "Is he the teacher?",
+                "example5": "Would this guidance satisfy you?"
+            }
+        },
+        "n3_79": {
+            "hint": "Honorific form indicating presence or ongoing action",
+            "description": "This structure uses 'いらっしゃる' as the honorific form of 'いる' or '来る', to show respect when talking about someone's presence, state, or ongoing action. It's often used in formal settings to elevate the status of the subject, especially when referring to superiors or customers.",
+            "examples": {
+                "example1": "The president is currently attending the meeting.",
+                "example2": "The teacher is in good health again today.",
+                "example3": "Is the customer still here?",
+                "example4": "Where are your parents?",
+                "example5": "It seems Mr. Tanaka arrived at the venue."
+            }
+        },
+        "n3_80": {
+            "hint": "Humble (いただく) and honorific (くださる) forms for requesting or granting permission to do something",
+            "description": "This structure is used to politely ask for permission (いただく) or grant permission (くださる) to perform an action. **「いただく」** is the humble form used when the speaker requests to do something, showing humility. **「くださる」** is the honorific form used when someone grants the speaker permission, showing respect. Both are commonly used in formal and business contexts to show deference and politeness.",
+            "examples": {
+                "example1": "Thank you for your time, I will speak now.",
+                "example2": "May I ask a question?",
+                "example3": "The teacher kindly allowed me to give the presentation.",
+                "example4": "The president will kindly give a greeting.",
+                "example5": "I apologize for making you wait."
+            }
+        },
+        "n3_65": {
+            "hint": "When / If (polite form)",
+            "description": "This structure is used in polite or formal situations, such as in a shop or when explaining conditions politely. **「ますと」** and **「ですと」** are used to describe what will happen under a certain condition in a respectful way. It often translates as 'if' or 'when' and is commonly heard in customer service or formal settings.",
+            "examples": {
+                "example1": "If you buy this product, we will give you a free gift.",
+                "example2": "If you have this card, you'll receive a discount.",
+                "example3": "When you press this button, the power will turn on.",
+                "example4": "After 6 PM, a reservation is required.",
+                "example5": "If you are a member, you can use this service for free."
+            }
+        },
+        "n3_66": {
+            "hint": "If it seems / If it appears that / If",
+            "description": "This structure is used to express a conditional statement based on a situation or condition that seems to be happening. It translates to 'if it seems' or 'if it appears that' and is often used when making suggestions or decisions based on observed or assumed conditions.",
+            "examples": {
+                "example1": "If it looks like it's going to rain, the game will be canceled.",
+                "example2": "If it seems like he's not coming, let's start without him.",
+                "example3": "If you don't feel well, please don't push yourself.",
+                "example4": "If it seems like the roads are crowded, it's better to take the train.",
+                "example5": "If his attitude seems strange, be careful."
+            }
+        },
+        "n3_67": {
+            "hint": "To come / To begin / To start",
+            "description": "This structure is used to express that an action is moving towards the speaker or that something has started and is continuing. It often carries the nuance of something coming into existence, beginning to happen, or approaching in time. It can also be used to indicate actions that started in the past and continue into the present.",
+            "examples": {
+                "example1": "It's starting to get cold.",
+                "example2": "He suddenly started crying.",
+                "example3": "My friend came over to visit.",
+                "example4": "Little by little, my Japanese has improved.",
+                "example5": "That person came running from over there."
+            }
+        },
+        "n3_68": {
+            "hint": "Because / Due to (giving a reason or excuse)",
+            "description": "This structure is used to explain a reason or excuse for something. It can be translated as 'because' or 'due to,' and is often used when the speaker wants to justify or explain their actions or situation, typically in a softer or more apologetic manner. It is commonly used in formal and polite speech to give an excuse or reason for something.",
+            "examples": {
+                "example1": "I was in a hurry, so I'm sorry.",
+                "example2": "I had a cold, so I skipped school.",
+                "example3": "He couldn't come because he was busy with work.",
+                "example4": "I was late because the road was crowded.",
+                "example5": "I’ve been busy recently, so I’m sorry I haven’t been in touch."
+            }
+        },
+        "n3_69": {
+            "hint": "Such as / Something like / Things like",
+            "description": "This structure is used to downplay or show humility, often implying that the noun mentioned is not particularly important or worthy of attention. It can also be used to suggest examples, similar to 'such as' or 'something like.' In casual speech, **「なんか」** can carry a dismissive or humble tone, depending on the context.",
+            "examples": {
+                "example1": "Someone like me is still a beginner.",
+                "example2": "Something like cleaning can be done anytime.",
+                "example3": "I don’t need something like money. As long as I have you, that’s enough.",
+                "example4": "Stop playing games and study!",
+                "example5": "I don’t want to eat something like vegetables."
+            }
+        },
+        "n3_70": {
+            "hint": "I thought / I wonder if / It seemed",
+            "description": "This structure is used to express uncertainty or speculation about something, often based on an impression or assumption. It can translate as 'I thought,' 'I wonder if,' or 'It seemed,' and is used when the speaker is unsure or is speculating about a situation or outcome. The nuance is often soft and implies that the speaker’s assumption might be incorrect.",
+            "examples": {
+                "example1": "I thought he was fine, but actually he was sick.",
+                "example2": "I thought it might rain, but it didn’t.",
+                "example3": "I thought she was kind, but it turns out she wasn't.",
+                "example4": "I thought the exam would be difficult, but it was surprisingly easy.",
+                "example5": "I thought he would come, but he didn't."
+            }
+        },
+        "n3_71": {
+            "hint": "While / Before (something changes)",
+            "description": "This structure is used to express that something happens or should be done while a certain state or condition continues. It implies taking advantage of the current situation before it changes, or while an action is ongoing. It can be translated as 'while' or 'before something changes.'",
+            "examples": {
+                "example1": "Let's go home before it starts raining.",
+                "example2": "Please eat while it’s still warm.",
+                "example3": "You should travel a lot while you're young.",
+                "example4": "While he was talking, I gradually became interested.",
+                "example5": "Please take notes before you forget."
+            }
+        },
+        "n3_72": {
+            "hint": "Just (did something) / Have just",
+            "description": "This structure is used to express that an action was completed very recently. It translates to 'just did something' or 'have just,' indicating that only a short amount of time has passed since the action occurred. The nuance can vary slightly depending on the context, but it generally implies that the event is still fresh in the speaker's mind.",
+            "examples": {
+                "example1": "I just got home.",
+                "example2": "He just joined this company last month.",
+                "example3": "I just ate, but I’m already hungry.",
+                "example4": "I just bought a new phone.",
+                "example5": "She just graduated from university."
+            }
+        },
+        "n3_73": {
+            "hint": "I wish / If only / You should (with mild criticism)",
+            "description": "This structure expresses disappointment over the current situation, which is different from what the speaker had hoped for. It can be translated as 'I wish' or 'If only.' It is also used to encourage someone to do something while showing mild criticism or dissatisfaction with their current behavior. The speaker implies that things should be different or that the person should change their actions.",
+            "examples": {
+                "example1": "I wish you had come earlier.",
+                "example2": "I wish he would study more.",
+                "example3": "If only she had apologized back then.",
+                "example4": "You shouldn’t play games so much.",
+                "example5": "I wish it were the weekend.",
+                "example6": "You should think more seriously."
+            }
+        },
+        "n3_74": {
+            "hint": "Could you...? / Would you mind...?",
+            "description": "This polite structure is used to request someone to do something for you. It can be translated as 'Could you...?' or 'Would you mind...?' It expresses a polite and humble way to ask for a favor or for assistance in doing something.",
+            "examples": {
+                "example1": "Could you check this document for me?",
+                "example2": "Could you give me a ride to the station?",
+                "example3": "Would you mind helping me for a moment?",
+                "example4": "Could you explain this to me?",
+                "example5": "Could you open the door for me?"
+            }
+        },
+        "n3_54": {
+            "hint": "Thanks to / Because of (positive connotation)",
+            "description": "This structure is used to express gratitude or positive outcomes that happened due to someone or something. It means 'thanks to' and is used when the speaker attributes a favorable result to a person, event, or thing. **「おかげ」** generally carries a positive connotation, unlike **「せい」**, which is used for negative outcomes.",
+            "examples": {
+                "example1": "Thanks to the teacher, I was able to pass the exam.",
+                "example2": "Thanks to my friends, I had a great trip.",
+                "example3": "I was able to go to college thanks to my parents.",
+                "example4": "Thanks to his advice, the problem was solved.",
+                "example5": "Thanks to the good weather, we enjoyed the picnic."
+            }
+        },
+        "n3_55": {
+            "hint": "Throughout / Over the course of",
+            "description": "This structure is used to express that something happens or continues throughout a certain period of time. It implies that an event, activity, or condition occurs or remains consistent over the entire span. **「を通じて」** and **「を通して」** are interchangeable in this context and both mean 'throughout' or 'over the course of.'",
+            "examples": {
+                "example1": "Throughout the year, this town is bustling with tourists.",
+                "example2": "I was close friends with him throughout my student days.",
+                "example3": "The meeting was held throughout the day.",
+                "example4": "It snows in this region throughout the winter.",
+                "example5": "This project was carried out over the course of several months."
+            }
+        },
+        "n3_56": {
+            "hint": "Won't you...? / Isn't it...? / Don't you think...?",
+            "description": "These structures are used to make polite suggestions, invitations, or to ask for confirmation. **「V＋ませんか」** is a polite way to invite someone to do something or suggest an action. **「Aく/Aじゃ/Nじゃ＋ないですか/ありませんか」** is used to ask for confirmation, often meaning 'Isn't it?' or 'Don't you think?' in a casual or polite way.",
+            "examples": {
+                "example1": "Won't you watch a movie with me?",
+                "example2": "Shall we go to this restaurant?",
+                "example3": "How about going for a walk?",
+                "example4": "Isn't this movie interesting?",
+                "example5": "Isn't it cold?",
+                "example6": "Isn't this a good idea?",
+                "example7": "Isn't this restaurant a bit expensive?",
+                "example8": "Isn't he kind?"
+            }
+        },
+        "n3_57": {
+            "hint": "Speaking of / When it comes to",
+            "description": "These structures are used to introduce a topic or provide an association with a certain noun. **「というと」**, **「といえば」**, and **「といったら」** are often interchangeable and are used when the speaker wants to talk about something related to a specific noun. These expressions are also used to bring up examples or associations that come to mind when thinking of the noun.",
+            "examples": {
+                "example1": "Speaking of Japan, Mount Fuji comes to mind.",
+                "example2": "When it comes to sushi, it's a representative dish of Japan, right?",
+                "example3": "Speaking of Kyoto, there are many temples, right?",
+                "example4": "Speaking of summer vacation, it's got to be the sea, right?",
+                "example5": "When you think of cherry blossoms, you think of Japan’s spring."
+            }
+        },
+        "n3_58": {
+            "hint": "Should / Ought to",
+            "description": "This structure is used to express strong advice, obligation, or recommendation. **「べきだ」** indicates that something is the proper or correct course of action, often translating as 'should' or 'ought to.' When followed by a noun (べき＋N), it describes something that is appropriate or recommended to be done.",
+            "examples": {
+                "example1": "You should keep your promises.",
+                "example2": "Students should study.",
+                "example3": "Everyone should respect others.",
+                "example4": "This is a book that you should read.",
+                "example5": "The thing you should do now is to rest."
+            }
+        },
+        "n3_59": {
+            "hint": "For / To / From the perspective of",
+            "description": "This structure is used to express how something is perceived or interpreted from a particular person’s or group’s point of view. It translates as 'for' or 'to' and is commonly used to indicate how a situation, object, or event affects someone personally or how they feel about it. It helps to show subjective opinions or evaluations.",
+            "examples": {
+                "example1": "This job is very important to me.",
+                "example2": "What is the most important thing to you?",
+                "example3": "For him, this exam is a big opportunity.",
+                "example4": "For Japan, Mount Fuji is a special symbol.",
+                "example5": "For children, the presence of their parents is very important."
+            }
+        },
+        "n3_60": {
+            "hint": "The more... the more... / The more... the better...",
+            "description": "This structure is used to express a proportional relationship between two actions or states, meaning 'the more [X], the more [Y].' It highlights that as one condition becomes more intense, the other one does as well. This structure is commonly used to show increases or decreases in intensity, quality, or frequency as something else changes.",
+            "examples": {
+                "example1": "The more you study, the better you become.",
+                "example2": "The more I think about it, the more I don't understand.",
+                "example3": "The more expensive it is, the better the quality.",
+                "example4": "The quieter it is, the easier it is to concentrate.",
+                "example5": "The more convenient it is, the higher the price."
+            }
+        },
+        "n3_61": {
+            "hint": "By / Due to / Depending on / Through",
+            "description": "These structures are used to indicate the cause, method, or agent of an action. **「による」** is used to modify a noun, while **「によって」** is used to express a method, cause, or means. Both can be translated as 'by,' 'due to,' 'through,' or 'depending on,' depending on the context. They often indicate how something is done or what caused a certain result.",
+            "examples": {
+                "example1": "The damage caused by the typhoon is spreading.",
+                "example2": "The presentation by him will be held tomorrow.",
+                "example3": "The train stopped due to the accident.",
+                "example4": "This project was carried out through the city's funding.",
+                "example5": "Opinions vary depending on the person."
+            }
+        },
+        "n3_62": {
+            "hint": "Not only... but also / Not just... but even",
+            "description": "These structures are used to emphasize that not only one thing is true, but something additional or more significant is also true. **「ばかりでなく〜も」** is used to add another related fact, while **「ばかりか」** emphasizes the unexpected or surprising nature of the additional information. Both are used to express that something goes beyond the initial expectation.",
+            "examples": {
+                "example1": "He's not only good at studying, but also good at sports.",
+                "example2": "This movie is not only interesting but also moving.",
+                "example3": "She is not only kind but also brave.",
+                "example4": "He can not only speak English, but also French.",
+                "example5": "This restaurant not only has great food, but also excellent service."
+            }
+        },
+        "n3_63": {
+            "hint": "Every time / Whenever",
+            "description": "This structure is used to express that something happens every time a certain action occurs or every time something is done. It translates to 'every time' or 'whenever,' and indicates a repeated occurrence or consistent result each time the action is performed.",
+            "examples": {
+                "example1": "Every time I meet him, I learn something new.",
+                "example2": "Whenever I hear this song, old memories come back.",
+                "example3": "Every time I travel, I take a lot of photos.",
+                "example4": "She gets nervous every time there's a test.",
+                "example5": "Every time I walk down this road, I remember the past."
+            }
+        },
+        "n3_64": {
+            "hint": "Must be / Should be",
+            "description": "This structure is used to express that something is expected to be true or happen based on logical reasoning or evidence. It conveys a strong expectation that 'it must be' or 'it should be' a certain way, often because there is a good reason or supporting evidence behind it. **「はず」** indicates that the speaker has confidence in their conclusion, based on what they know.",
+            "examples": {
+                "example1": "He must be coming today. He said so yesterday.",
+                "example2": "This watch was expensive, so it shouldn't be broken.",
+                "example3": "She must still be in the office. The meeting is running long.",
+                "example4": "According to the weather forecast, it should be sunny today.",
+                "example5": "I must pass the exam since I prepared for it."
+            }
+        },
+        "n3_46": {
+            "hint": "It seems / It looks like / Like",
+            "description": "Both structures are used to express similarity or speculation. **「ようだ」** and **「みたいだ」** indicate that something seems or looks a certain way, with **「ようだ」** being slightly more formal and **「みたいだ」** more casual. **「ように」** and **「みたいに」** are used for comparisons, while **「ような＋N」** and **「みたいな＋N」** are used to modify nouns by comparing them to something else.",
+            "examples": {
+                "example1": "He seems tired.",
+                "example2": "She is beautiful like an angel.",
+                "example3": "It looks like he's thinking about something.",
+                "example4": "That cloud is shaped like an animal.",
+                "example5": "The way he talks is like a teacher.",
+                "example6": "She looks like she's crying.",
+                "example7": "He seems tired (casual).",
+                "example8": "She is beautiful like an angel (casual).",
+                "example9": "It looks like he's thinking about something (casual).",
+                "example10": "That cloud is shaped like an animal (casual).",
+                "example11": "The way he talks is like a teacher (casual).",
+                "example12": "She looks like she's crying (casual)."
+            }
+        },
+        "n3_47": {
+            "hint": "Instead of / In exchange for / On the other hand",
+            "description": "This structure is used to express 'instead of' or 'in exchange for,' indicating a replacement or substitution. It can also be used to show a balance or trade-off, meaning 'on the other hand.' The verb forms indicate the action that is being replaced, while the noun indicates the thing or person being substituted.",
+            "examples": {
+                "example1": "Instead of meat, I will eat fish.",
+                "example2": "Instead of buying a car, I bought a motorcycle.",
+                "example3": "Since I helped yesterday, today you do it in return.",
+                "example4": "He doesn't study, but instead, he plays a lot.",
+                "example5": "Instead of going to watch a movie, I watched TV at home.",
+                "example6": "He doesn't eat sweets, but instead, he eats a lot of fruit."
+            }
+        },
+        "n3_48": {
+            "hint": "Instead of / In place of / On behalf of / In exchange for",
+            "description": "Both structures are used to express substitution or replacement, but **「にかわって/にかわり」** is often used to mean 'in place of' or 'on behalf of,' indicating that someone is doing something in place of another person. **「かわりに」** can also imply a trade-off, meaning 'on the other hand.' The verb forms indicate the action being replaced, while the noun form indicates the person or thing being substituted.",
+            "examples": {
+                "example1": "Instead of meat, I will eat fish.",
+                "example2": "Instead of buying a car, I bought a motorcycle.",
+                "example3": "Since I helped yesterday, today you do it in return.",
+                "example4": "He doesn't study, but instead, he plays a lot.",
+                "example5": "Instead of going to watch a movie, I watched TV at home.",
+                "example6": "He doesn't eat sweets, but instead, he eats a lot of fruit.",
+                "example7": "The department head attended the meeting in place of the president.",
+                "example8": "I wrote the letter on behalf of my father.",
+                "example9": "Nowadays, emails have replaced letters as the main communication method.",
+                "example10": "I will give the presentation today in place of Tanaka-san."
+            }
+        },
+        "n3_49": {
+            "hint": "Without doing / Instead of",
+            "description": "This structure is used to indicate that an action is performed without doing another action. It is similar to **「ないで」** but is often used in more formal contexts. The verb stem is used, followed by **「ずに」**, and it means 'without doing' or 'instead of doing.' For the verb **する**, the form is **せずに**.",
+            "examples": {
+                "example1": "I went to school without doing my homework.",
+                "example2": "He left without saying anything.",
+                "example3": "I read the book without wearing glasses.",
+                "example4": "I went to school without eating breakfast.",
+                "example5": "Please don’t forget and keep your promise."
+            }
+        },
+        "n3_50": {
+            "hint": "As it is / While still / In the state of",
+            "description": "This structure is used to describe a situation where something remains unchanged or continues in the same state. It indicates that an action or condition is maintained 'as it is' without any changes or modifications. It can also describe actions being done while something is still in a certain state.",
+            "examples": {
+                "example1": "I fell asleep with the door left open.",
+                "example2": "He entered the house with his shoes still on.",
+                "example3": "I'm reading a book with my glasses on.",
+                "example4": "I'm wearing the same clothes as yesterday.",
+                "example5": "She went home while still feeling sad."
+            }
+        },
+        "n3_51": {
+            "hint": "Connecting verbs using ます形 (Formal linking)",
+            "description": "In formal or written Japanese, instead of using the て-form (Vて), verbs can be connected in their ます形 by changing the ending to the 連用形 (continuative form). This form is used to link actions smoothly in more formal contexts or writing. It replaces the need for the て-form when multiple actions are listed in sequence.",
+            "examples": {
+                "example1": "I went home and slept.",
+                "example2": "I took the train and went to work.",
+                "example3": "I ate breakfast and went to school.",
+                "example4": "I talked and understood.",
+                "example5": "I ran and arrived home."
+            }
+        },
+        "n3_52": {
+            "hint": "Was just about to / Was in the middle of / Just when / At the point of",
+            "description": "These structures are used to describe an action that was happening or was just about to happen, as well as a specific point in time related to an adjective. **「Vていた＋ところ」** describes something that was happening when something else occurred. **「Vようとした＋ところ」** expresses an action that was about to happen. **「Aい＋ところ」** describes a specific state or condition, often at a particular point in time.",
+            "examples": {
+                "example1": "Just when I was calling her, the phone ran out of battery.",
+                "example2": "I was just about to go out when it started raining.",
+                "example3": "Just as I was about to finish work, my boss called me.",
+                "example4": "The movie ended at a really good point.",
+                "example5": "Just as he was talking, she walked in.",
+                "example6": "This cake's sweetness is just right."
+            }
+        },
+        "n3_53": {
+            "hint": "To do something completely / To the end / Thoroughly",
+            "description": "This structure is used to express that an action is done completely or thoroughly, leaving nothing undone. It implies that the action is carried out to its full extent. **「きる」** attaches to the verb stem to indicate a sense of completeness or finality. It can also carry a sense of doing something with confidence or decisiveness.",
+            "examples": {
+                "example1": "He finished reading the book completely.",
+                "example2": "He looks completely exhausted.",
+                "example3": "When you finish this job completely, you'll feel a great sense of accomplishment.",
+                "example4": "She ate all the food completely.",
+                "example5": "It’s a story that's hard to believe completely."
+            }
+        },
+        "n3_36": {
+            "hint": "Casual contractions used in spoken Japanese",
+            "description": "These contractions are commonly used in casual spoken Japanese to shorten common expressions. They make speech more fluid and informal, and are typically used in conversations with friends or family. Below are some examples of standard forms and their contracted versions.",
+            "examples": {
+                "example1": "I'm reading a book right now.",
+                "example2": "He's still at home, but he says he doesn't want to go out.",
+                "example3": "I'll read this book before returning it.",
+                "example4": "I'll send the report later.",
+                "example5": "I forgot my homework.",
+                "example6": "I ended up eating everything.",
+                "example7": "You shouldn't rush that much.",
+                "example8": "I have to go, or I'll be late.",
+                "example9": "I have to study.",
+                "example10": "I have to go quickly!"
+            }
+        },
+        "n3_37": {
+            "hint": "Was it? / Remind me / I forgot",
+            "description": "This structure is used when the speaker is trying to recall something they have forgotten or are unsure about. It adds a sense of uncertainty and often comes across as asking oneself or another person to confirm something they vaguely remember. **「っけ」** is a casual ending and is typically used in informal conversations.",
+            "examples": {
+                "example1": "What time is tomorrow's meeting again?",
+                "example2": "Was his name John?",
+                "example3": "Hmm, what did I eat yesterday again?",
+                "example4": "Where did I buy this book again?",
+                "example5": "Is summer vacation coming up soon?"
+            }
+        },
+        "n3_38": {
+            "hint": "Could it be that...? / Maybe / What if...",
+            "description": "This structure is used when the speaker is speculating or wondering about a possible situation, often with a sense of surprise, disbelief, or humor. It's a casual and sometimes playful way to suggest a possibility. **「りして」** is typically used in informal speech and is not limited to the past tense, unlike **「かもしれない」**, which can be more neutral or formal. **「りして」** often adds a more speculative or humorous tone to the statement.",
+            "examples": {
+                "example1": "What if he's still sleeping?",
+                "example2": "Maybe I forgot something?",
+                "example3": "Could it be that those two are dating?",
+                "example4": "What if it rains tomorrow?",
+                "example5": "What if I actually passed the exam!"
+            }
+        },
+        "n3_39": {
+            "hint": "Even though / Despite / But still",
+            "description": "This structure is used to express a condition or fact, followed by a contrasting statement. It is a casual form of **「ても」** or **「でも」**, often used in informal speech to express 'even though,' 'despite,' or 'but still.' The negative form indicates 'even if not' or 'even though not.'",
+            "examples": {
+                "example1": "Even though you were busy, you could have at least called, right?",
+                "example2": "Even if you don't have money, you can still be happy.",
+                "example3": "Even though you don't like him, you still have to work with him.",
+                "example4": "Even though it's raining, I still plan to go out.",
+                "example5": "Even though I'm tired, I still have to study tonight."
+            }
+        },
+        "n3_40": {
+            "hint": "It must be / It's obvious that",
+            "description": "This structure is used to express strong conviction or certainty about something. It conveys that something is obvious or certain in the speaker's opinion. It can be translated as 'it must be,' 'it’s obvious that,' or 'of course.' This is a casual structure commonly used in everyday conversation.",
+            "examples": {
+                "example1": "That must be a lie.",
+                "example2": "Of course he’s going to win.",
+                "example3": "That restaurant is definitely delicious.",
+                "example4": "It's obvious that she doesn't want to go.",
+                "example5": "This problem must be difficult."
+            }
+        },
+        "n3_41": {
+            "hint": "Isn't it? / Right? / You know?",
+            "description": "This structure is used to confirm or expect agreement from the listener, often implying that something is obvious or shared knowledge. **「じゃん」** is a more casual and colloquial variation of **「じゃない」**. Both are used in everyday conversation, with **「じゃん」** being particularly common among younger speakers. It conveys a similar meaning to 'right?' or 'isn't it?' but with a more relaxed tone.",
+            "examples": {
+                "example1": "This movie is interesting, isn't it?",
+                "example2": "He’s kind, right?",
+                "example3": "Isn’t this a good idea?",
+                "example4": "That restaurant is delicious, right?",
+                "example5": "It's cold today, isn’t it?",
+                "example6": "He's amazing, right?"
+            }
+        },
+        "n3_42": {
+            "hint": "Speaking of / About / (Casual topic marker)",
+            "description": "This structure is used in casual speech to introduce a topic or to indicate that someone is talking about something. It is often used as a casual equivalent of **「というのは」** or **「は」** in formal speech. **「って」** can also be used to refer to something someone said, functioning like 'I heard that' or 'they said.'",
+            "examples": {
+                "example1": "Speaking of tomorrow, it's a day off, right?",
+                "example2": "Tanaka-san is kind, isn't he?",
+                "example3": "Dogs are really cute, aren't they?",
+                "example4": "Have you seen the movie yet?",
+                "example5": "I heard that he already left."
+            }
+        },
+        "n3_43": {
+            "hint": "It seems like / It looks like",
+            "description": "This structure is used to express that something appears to be a certain way, based on the speaker's subjective impression or guess. It is a casual expression similar to **「ようだ」**, but **「みたい」** is more common in informal conversations. It can describe something that seems similar to or has the qualities of something else.",
+            "examples": {
+                "example1": "He seems like a child.",
+                "example2": "That cloud looks like an animal.",
+                "example3": "She doesn’t seem to be feeling well.",
+                "example4": "It seems like the cakes at this shop are popular.",
+                "example5": "This room feels cold."
+            }
+        },
+        "n3_44": {
+            "hint": "I wish / It would have been better if",
+            "description": "This structure is used to express regret or the speaker's wish that something had been different. The first part describes a hypothetical condition, while **「よかった」** conveys the idea of 'it would have been better if...' or 'I wish...' The negative form expresses regret that something didn't happen or wasn't a certain way.",
+            "examples": {
+                "example1": "I wish I had come earlier.",
+                "example2": "You should have told him.",
+                "example3": "I wish the weather had been better.",
+                "example4": "I wish I hadn’t gone at that time.",
+                "example5": "I wish that restaurant hadn't been so quiet."
+            }
+        },
+        "n3_45": {
+            "hint": "Only / Nothing but / Just",
+            "description": "This structure is used to express that someone or something is doing nothing but a particular action or that something consists of only one thing. It can imply an excess, with a slightly negative connotation, suggesting that the person is overly focused on one thing at the expense of others.",
+            "examples": {
+                "example1": "He does nothing but play games.",
+                "example2": "There are only children in this room.",
+                "example3": "She’s always complaining.",
+                "example4": "Stop watching so much TV and start studying.",
+                "example5": "He is always working and has no time to play.",
+                "example6": "It's been nothing but rain.",
+                "example7": "Eating nothing but sweets is bad for your health."
+            }
+        },
+        "n3_26": {
+            "hint": "By / Due to / According to",
+            "description": "This structure is used to indicate the means, cause, or method by which something is done, or to specify the agent in passive sentences. It can also be used to indicate variation or difference depending on the situation.",
+            "examples": {
+                "example1": "The university announced the results of the satisfaction survey conducted by the questionnaire.",
+                "example2": "The accident was caused by the driver's carelessness.",
+                "example3": "This problem was resolved through discussion.",
+                "example4": "Culture varies by country.",
+                "example5": "That work was done by him."
+            }
+        },
+        "n3_27": {
+            "hint": "Towards / To / Regarding",
+            "description": "This structure is used to indicate the direction of an action or feeling towards someone or something. It can also express contrast or comparison between two entities, showing how one person or thing relates to another.",
+            "examples": {
+                "example1": "She is kind to everyone.",
+                "example2": "The teacher often takes a strict attitude towards the students.",
+                "example3": "There were many opposing opinions to this proposal.",
+                "example4": "He is fulfilling his responsibilities towards society.",
+                "example5": "Interest in environmental issues is increasing."
+            }
+        },
+        "n3_28": {
+            "hint": "Because of / Due to / For the sake of",
+            "description": "This structure is used to indicate the reason or cause of something. It can also be used to express the purpose of an action when used in a different context. It is commonly used in formal speech to explain why something happened or to describe the intended purpose of an action.",
+            "examples": {
+                "example1": "The hike was canceled due to the rain.",
+                "example2": "I missed school because I caught a cold.",
+                "example3": "The train is delayed due to an accident.",
+                "example4": "I am working hard for the sake of my family.",
+                "example5": "We should make more efforts for world peace."
+            }
+        },
+        "n3_29": {
+            "hint": "Per / Due to",
+            "description": "This structure is used in formal or written contexts to express that something applies on a 'per' basis or to give a reason for something. It can be used to explain the cause of a situation (similar to 'due to') or indicate a unit of measurement (similar to 'per').",
+            "examples": {
+                "example1": "For this charity concert, up to two people can apply per postcard.",
+                "example2": "We will charge an entrance fee of 1,000 yen per person.",
+                "example3": "This meeting room costs 5,000 yen per hour.",
+                "example4": "This road is closed due to construction.",
+                "example5": "We are closed today due to the public holiday."
+            }
+        },
+        "n3_30": {
+            "hint": "As / Just as / According to",
+            "description": "This structure is used to express that something happens or is done exactly as described, shown, or expected. It indicates that an action or result aligns with a plan, expectation, or prior instruction.",
+            "examples": {
+                "example1": "The project is progressing according to the plan.",
+                "example2": "Just as he said, the exam was difficult.",
+                "example3": "If you follow the map, you'll reach the station.",
+                "example4": "Please operate the machine as instructed in the manual.",
+                "example5": "I finished my homework according to the teacher's instructions."
+            }
+        },
+        "n3_31": {
+            "hint": "Through / Via / Over the course of",
+            "description": "This structure is used to express that something happens through or by means of a particular medium, method, or over a certain period. It can describe both a process (e.g., via something) or a duration of time (e.g., over the course of a period).",
+            "examples": {
+                "example1": "Through the internet, you can connect with people all over the world.",
+                "example2": "I met him through a mutual friend.",
+                "example3": "This event is held throughout the year.",
+                "example4": "You can obtain various information through television.",
+                "example5": "She made new friends through her hobbies."
+            }
+        },
+        "n3_32": {
+            "hint": "Like / Similar to",
+            "description": "This structure is used to describe something that resembles or is similar to the noun mentioned. It indicates that something has qualities or characteristics like the noun it follows. **「みたい」** is a more casual version of **「のように」** and **「のような」**, often used in conversational speech.",
+            "examples": {
+                "example1": "He is strong like a superhero.",
+                "example2": "I like quiet animals like cats.",
+                "example3": "This clothing is as white as snow.",
+                "example4": "He dreamt of flying freely like a bird.",
+                "example5": "That child has an angel-like smile.",
+                "example6": "He is strong like a superhero.",
+                "example7": "She is quiet like a cat.",
+                "example8": "That child has a smile like an angel."
+            }
+        },
+        "n3_33": {
+            "hint": "According to",
+            "description": "This structure is used to convey information that is based on a source, such as news, reports, or someone's statement. It translates to 'according to' and is often followed by a statement or report from the mentioned source.",
+            "examples": {
+                "example1": "According to the weather forecast, it will rain tomorrow.",
+                "example2": "According to the news, this case has not been solved yet.",
+                "example3": "According to the teacher, the exam will be held next week.",
+                "example4": "According to the survey, the population of this town is decreasing.",
+                "example5": "According to him, that restaurant is supposed to be very good."
+            }
+        },
+        "n3_34": {
+            "hint": "It is said that / It seems that / I heard that",
+            "description": "This structure is used to relay information that was heard or reported. It indicates that the speaker is conveying something they were told or learned from another source. **「とのことだ」** is a more formal version of **「ということだ」** and is often used in written reports or formal settings.",
+            "examples": {
+                "example1": "According to the weather forecast, it is said that it will rain tomorrow.",
+                "example2": "I heard that he is going to Japan next month.",
+                "example3": "According to the news, this law is going to be amended.",
+                "example4": "According to the president, this year's sales are better than last year's.",
+                "example5": "It seems that she is starting a new project next week."
+            }
+        },
+        "n3_35": {
+            "hint": "About / Regarding / Concerning",
+            "description": "This structure is used to talk about a specific topic or subject. It is often translated as 'about,' 'regarding,' or 'concerning.' **「について（は/も）」** is used to introduce a topic for discussion, while **「についての＋N」** is used to modify a noun with the meaning of 'about the topic.'",
+            "examples": {
+                "example1": "I am interested in Japanese culture.",
+                "example2": "This book is written about history.",
+                "example3": "I asked the teacher about this problem.",
+                "example4": "The discussion about environmental issues is progressing.",
+                "example5": "Have you heard anything about him?"
+            }
+        },
+        "n3_14": {
+            "hint": "N1 is N2 / N1 is called N2",
+            "description": "This structure is used in casual speech for two main purposes: 1) to give a casual definition or explanation of something (N1) by referring to it as N2, and 2) to introduce what someone or something is called or referred to as N1. In the first case, って acts like a casual form of と or という. In the second case, it can also introduce quotes or indicate how something is named.",
+            "examples": {
+                "example1": "Hay fever is a disease caused by allergies.",
+                "example2": "I named (it) Kuro.",
+                "example3": "Sushi is a Japanese dish.",
+                "example4": "I told him to do his best."
+            }
+        },
+        "n3_15": {
+            "hint": "To be allowed to do V / To receive the favor of being allowed to do V",
+            "description": "This structure is used when someone allows or gives permission to another person to perform an action. もらう implies that the speaker receives the favor of being allowed to do something, while くれる implies that the subject is giving the speaker or someone close to them the favor of allowing the action. The verb is placed in its causative form followed by もらう or くれる.",
+            "examples": {
+                "example1": "This company lets me freely express my opinions.",
+                "example2": "My mother let me travel alone.",
+                "example3": "My friend let me drive his car."
+            }
+        },
+        "n3_16": {
+            "hint": "To make/let someone do",
+            "description": "The causative form is used to express that someone makes or lets another person do something. There are specific rules for the three verb groups in Japanese:\n\n**Group 1 (Godan verbs)**: Change the final **u** vowel to **a**, then add **せる**. For example, **書く (kaku)** becomes **書かせる (kakaseru)** (to make someone write).\n\n**Group 2 (Ichidan verbs)**: Simply remove **る** and add **させる**. For example, **食べる (taberu)** becomes **食べさせる (tabesaseru)** (to make someone eat).\n\n**Group 3 (Irregular verbs)**: The verb **する (suru)** becomes **させる (saseru)**, and **くる (kuru)** becomes **こさせる (kosaseru)**.",
+            "examples": {
+                "example1": "The teacher made the students write their homework.",
+                "example2": "The mother made the child eat vegetables.",
+                "example3": "He made her clean the room.",
+                "example4": "I made him come to Tokyo."
+            }
+        },
+        "n3_17": {
+            "hint": "To be made to do something",
+            "description": "The causative passive form is used when someone is made to do something against their will or reluctantly. There are specific rules for each verb group:\n\n**Group 1 (Godan verbs)**: Change the final **u** vowel to **a**, add **せられる** or **される**. For example, **書く (kaku)** becomes **書かせられる (kakaserareru)** (to be made to write).\n\n**Group 2 (Ichidan verbs)**: Simply remove **る** and add **させられる**. For example, **食べる (taberu)** becomes **食べさせられる (tabesaserareru)** (to be made to eat).\n\n**Group 3 (Irregular verbs)**: **する (suru)** becomes **させられる (saserareru)**, and **くる (kuru)** becomes **こさせられる (kosaserareru)**.",
+            "examples": {
+                "example1": "The students were made to write their homework by the teacher.",
+                "example2": "The child was made to eat vegetables by their mother.",
+                "example3": "She was made to clean the room by him.",
+                "example4": "He was made to come to Tokyo by me."
+            }
+        },
+        "n3_18": {
+            "hint": "To show signs of A / To express the desire for V",
+            "description": "This structure is used to describe someone else's feelings or behavior, indicating that they show signs of wanting to do something or feel a certain way. It is typically used to express third-person emotions or desires. When an い-adjective is used, the い is dropped and がる is added. For な-adjectives and verbs, がる is attached directly.",
+            "examples": {
+                "example1": "He is frustrated about losing the match.",
+                "example2": "She seems to be cold.",
+                "example3": "The child wants a new toy.",
+                "example4": "He wants to go on a trip."
+            }
+        },
+        "n3_19": {
+            "hint": "Prone to A / Sensitive to A",
+            "description": "This structure is used with adjectives to describe someone who is sensitive or prone to a certain feeling or condition. It often refers to physical sensations or emotional tendencies. For い-adjectives, the い is dropped and がり is added. For な-adjectives, がり is attached directly. It is often used to describe a characteristic or personality trait.",
+            "examples": {
+                "example1": "I'm sensitive to the cold, so I don't like winter.",
+                "example2": "He's sensitive to heat, so he always has the air conditioner on during summer.",
+                "example3": "My sister is easily scared and dislikes horror movies.",
+                "example4": "Our dog is very needy and is always clinging to someone."
+            }
+        },
+        "n3_20": {
+            "hint": "Suddenly start doing V",
+            "description": "This structure is used to indicate that someone suddenly starts doing something. The verb is placed in its ます stem form followed by 出す (だす). It often conveys that the action begins abruptly or unexpectedly.",
+            "examples": {
+                "example1": "The baby, who had been laughing just a moment ago, suddenly started crying.",
+                "example2": "He suddenly started running.",
+                "example3": "It suddenly started raining.",
+                "example4": "The cat suddenly jumped out."
+            }
+        },
+        "n3_21": {
+            "hint": "Just as V happened, something else occurred",
+            "description": "This structure is used to indicate that something happened immediately after the action in V. It emphasizes that the second action occurs at the very moment the first action is completed, often unexpectedly or suddenly. The verb is placed in its past form (た形), followed by とたん or とたんに.",
+            "examples": {
+                "example1": "Just as I stood up, everything went dark in front of me.",
+                "example2": "Just as I stepped outside, it started raining.",
+                "example3": "As soon as I opened the door, the cat jumped out.",
+                "example4": "The moment he saw my face, he started laughing."
+            }
+        },
+        "n3_22": {
+            "hint": "To try to do V / To be about to do V",
+            "description": "This structure is used to describe someone making an attempt to do something or being on the verge of doing something. The verb is placed in its volitional form (よう形), followed by とする. It can be used both to indicate an intention or effort to perform an action, as well as to describe something that is just about to happen.",
+            "examples": {
+                "example1": "A small child is trying to cross the street.",
+                "example2": "He was about to go out, but it started raining.",
+                "example3": "Just as I was about to get on the train, the doors closed.",
+                "example4": "She was about to say something but stopped."
+            }
+        },
+        "n3_23": {
+            "hint": "There are times when V / Sometimes V happens",
+            "description": "This structure is used to describe something that happens occasionally or sometimes, but not always. It can be used with both affirmative (Vる) and negative (Vない) verbs to indicate that the action occurs or does not occur on certain occasions. The addition of も (こともある) emphasizes that the action happens occasionally, though not frequently.",
+            "examples": {
+                "example1": "In this region, it sometimes snows even in April.",
+                "example2": "Sometimes, I'm too busy to eat lunch.",
+                "example3": "There are times when he works late into the night.",
+                "example4": "There are times when the train doesn't arrive on time."
+            }
+        },
+        "n3_24": {
+            "hint": "To let/leave someone do V for a period of time",
+            "description": "This structure is used to describe leaving someone or something in a certain state or allowing them to continue doing something for a while. It often implies that the subject is of a lower status (such as animals, children, or subordinates). The verb is placed in its causative form (Vさせて), followed by おく, which indicates leaving the action as it is.",
+            "examples": {
+                "example1": "I left the dog waiting in front of the convenience store.",
+                "example2": "I let the child play (for a while).",
+                "example3": "I left the subordinate to do that work.",
+                "example4": "I'll leave it to him to water the flowers."
+            }
+        },
+        "n3_25": {
+            "hint": "To be (unfortunately) V-ed",
+            "description": "This structure is the passive form of a verb (Vられる), followed by しまう in its past form, indicating that something unfortunate or regrettable happened to the speaker as a result of someone else's action. It expresses a sense of disappointment or that the outcome was not desired.",
+            "examples": {
+                "example1": "I invited the guy I have a crush on to the movies, but he unfortunately turned me down.",
+                "example2": "My wallet was stolen (and I regret it).",
+                "example3": "The important documents were thrown away (unfortunately).",
+                "example4": "My shoes were chewed by the dog (and I feel bad about it)."
+            }
+        },
+        "n3_1": {
+            "hint": "Start doing V",
+            "description": "This structure is used to indicate the start of an action. The verb is placed in its ます stem form, followed by 始める (to start). It is often used to express the initiation of a continuous action.",
+            "examples": {
+                "example1": "I started learning Japanese six months ago.",
+                "example2": "He suddenly started crying.",
+                "example3": "My friend started laughing."
+            }
+        },
+        "n3_2": {
+            "hint": "Finish doing V",
+            "description": "This structure is used to express the completion of an action. The verb is placed in its ます stem form, followed by 終わる (to finish). It indicates that the action is fully completed.",
+            "examples": {
+                "example1": "Could you lend me that book when you finish reading it?",
+                "example2": "I finished doing my homework.",
+                "example3": "He went home after finishing the movie."
+            }
+        },
+        "n3_3": {
+            "hint": "Tell someone to do/not do V",
+            "description": "This structure is used to report commands, requests, or instructions that are given to someone. It can be used with verbs like 言う (to say), 注意する (to warn), 頼む (to ask), 伝える (to tell). The verb can either be in the dictionary form (V-る) to express doing something or in the negative form (V-ない) to express not doing something.",
+            "examples": {
+                "example1": "The doctor told me not to drink alcohol.",
+                "example2": "The teacher warned me not to forget my homework.",
+                "example3": "My mother asked me to go to bed early."
+            }
+        },
+        "n3_4": {
+            "hint": "N that says/means Pl",
+            "description": "This structure is used to introduce a noun (N) that is a statement, idea, or fact represented by the preceding plain form (Pl) sentence. It can be used to explain or report a piece of information. The noun can be words like こと (fact, matter) or 話 (story), among others.",
+            "examples": {
+                "example1": "It is not well known that he is a famous musician.",
+                "example2": "I heard the story that he got married.",
+                "example3": "Is the rumor that she is studying abroad true?"
+            }
+        },
+        "n3_5": {
+            "hint": "I think probably Pl",
+            "description": "This structure is used to express a conjecture or assumption about something with a degree of uncertainty. It is the plain form of 〜でしょう (probably), followed by 思う (to think). It conveys the speaker's belief or prediction about a situation, often with a sense of probability or likelihood.",
+            "examples": {
+                "example1": "I think this rain will probably stop in about an hour.",
+                "example2": "I think he probably won’t come today.",
+                "example3": "I think he will probably win that match."
+            }
+        },
+        "n3_6": {
+            "hint": "Doesn't seem A/N",
+            "description": "This structure is used to express that something doesn't seem or appear to be a certain adjective or noun. For い-adjectives, remove the い and add なさそうだ. For な-adjectives and nouns, add じゃなさそうだ. It conveys the speaker's impression or judgment about something based on observation.",
+            "examples": {
+                "example1": "This curry doesn’t seem very spicy.",
+                "example2": "He doesn’t seem very well.",
+                "example3": "That movie doesn’t seem interesting."
+            }
+        },
+        "n3_7": {
+            "hint": "Unlikely to V",
+            "description": "This structure is used to express that something is unlikely to happen or be done. It is based on the speaker's judgment, often implying that the action is difficult or impossible. The verb is followed by そうもない, そうにない, or そうにもない, which all carry a similar meaning, with slight nuances in emphasis.",
+            "examples": {
+                "example1": "This book looks so difficult that I don’t think I can finish it in a week.",
+                "example2": "It doesn't seem like the rain will stop today.",
+                "example3": "It doesn’t seem like he will pass the exam."
+            }
+        },
+        "n3_8": {
+            "hint": "When V happens unexpectedly",
+            "description": "This structure is often used to express surprise or an unexpected result that follows an action. It emphasizes the realization or discovery of something after the verb action happens, often without the speaker's intention or expectation. The second action or situation occurs naturally and catches the speaker by surprise.",
+            "examples": {
+                "example1": "When I noticed, it had become completely dark outside.",
+                "example2": "When I turned around, he was already gone.",
+                "example3": "When I got home, the room was a mess."
+            }
+        },
+        "n3_9": {
+            "hint": "So much that ~; to the extent that ~",
+            "description": "This structure is used to express the degree or extent of something. It shows that something is so intense or extreme that another action or situation happens as a result. It can be used with verbs, adjectives, or nouns to indicate that the level of the action or quality is significant enough to cause a certain effect or reaction.",
+            "examples": {
+                "example1": "Those twins look so alike that even their parents confuse them.",
+                "example2": "I was so happy that I felt like crying.",
+                "example3": "I was so tired that I couldn’t walk."
+            }
+        },
+        "n3_10": {
+            "hint": "To go and do V; to continue doing V",
+            "description": "This structure is used to express that an action moves away from the speaker’s current location or point in time. It can indicate a physical movement (going somewhere to do something) or the continuation of an action into the future. It often implies a change or progression that happens after the current moment.",
+            "examples": {
+                "example1": "When winter comes, the migratory birds fly south.",
+                "example2": "From now on, I will continue to study harder.",
+                "example3": "As time passed, his Japanese continued to improve."
+            }
+        },
+        "n3_11": {
+            "hint": "To come and do V; to have been doing V",
+            "description": "This structure is used to express an action that has been happening up until the present or to describe something that is approaching the speaker's current location or point in time. It can indicate physical movement towards the speaker or a continuous action that has occurred from the past up to now.",
+            "examples": {
+                "example1": "Japanese people have been eating fish since long ago.",
+                "example2": "He came back home.",
+                "example3": "I’ve been working hard for a long time, so I’m looking forward to the results."
+            }
+        },
+        "n3_12": {
+            "hint": "To continue doing V",
+            "description": "This structure is used to indicate that an action is performed continuously or repeatedly over a period of time. The verb is placed in its ます stem form, followed by 続ける (to continue), to express that the action persists without stopping.",
+            "examples": {
+                "example1": "It seems that person has been continuously going to the dentist for over a year.",
+                "example2": "He continued reading the book for hours.",
+                "example3": "I will continue studying Japanese at university."
+            }
+        },
+        "n3_13": {
+            "hint": "If V/N; In the case of V/N",
+            "description": "This structure is used to make suggestions, offer help, or give advice based on a hypothetical condition. It often implies that if the situation of the verb or noun (Vる/N) is true or will happen, then the speaker will provide a relevant response. It can also be used to give conditional information.",
+            "examples": {
+                "example1": "If you are going on a trip, should I lend you a big bag?",
+                "example2": "If you are going to read that book, please check the table of contents first.",
+                "example3": "If it rains tomorrow, the picnic will be canceled."
+            }
+        }
+    }
+}

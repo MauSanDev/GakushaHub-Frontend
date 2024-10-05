@@ -1,0 +1,1530 @@
+{
+    "jlpt2": {
+        "n2_134": {
+            "hint": "Used to do / Used to be",
+            "description": "This structure is used to express **nostalgia** or **reminiscence** about something that used to happen regularly in the past. It can be translated as 'used to' in English and is often used to reflect on habits, customs, or states that no longer exist. It is only used in the **past tense** to recall something from one's past.",
+            "examples": {
+                "example1": "I used to play in the river a lot when I was a child.",
+                "example2": "I used to go to the library every day during my school years.",
+                "example3": "I used to stay up late talking with my friends back in the day.",
+                "example4": "I used to study late into the night when I was young.",
+                "example5": "I used to visit my grandparents' house during summer vacation as a child."
+            }
+        },
+        "n2_135": {
+            "hint": "Concerning / Regarding / Over",
+            "description": "This structure is used to express that something is **about** or **concerning** a particular topic or issue. It is often used to indicate discussions, debates, or conflicts surrounding a subject. **N＋をめぐって** is used to describe the topic of the discussion or conflict, while **N＋をめぐる＋N** is used to modify a noun, indicating something that relates to the topic being discussed.",
+            "examples": {
+                "example1": "There are various opinions regarding the incident.",
+                "example2": "There was a dispute among the family over his inheritance.",
+                "example3": "The debate over the new law continues.",
+                "example4": "Many meetings were held regarding environmental issues.",
+                "example5": "The controversy surrounding the plan has not been resolved yet."
+            }
+        },
+        "n2_136": {
+            "hint": "It’s no wonder / It’s only natural that / That’s why",
+            "description": "This structure is used to explain the reason or circumstances behind something and to indicate that the result is **a matter of course** or **natural**. It is often used when something makes sense in light of the information given, and can be translated as 'It’s no wonder,' 'That’s why,' or 'It’s only natural that.'",
+            "examples": {
+                "example1": "He studies every day. It's no wonder he passed the exam.",
+                "example2": "She lived in Japan for 10 years. It's no wonder her Japanese is good.",
+                "example3": "No wonder this dish is delicious. The ingredients are fresh.",
+                "example4": "No wonder it's cold. It's snowing outside.",
+                "example5": "It's only natural that he's bad at sports. He doesn't practice much."
+            }
+        },
+        "n2_137": {
+            "hint": "On the occasion of / When",
+            "description": "This structure is used to indicate a significant event or occasion and is often translated as 'on the occasion of' or 'when.' It is used in formal contexts to describe actions or considerations taken when starting something important, such as a project, event, or decision. **にあたって** and **にあたり** are interchangeable, with **にあたり** being more formal.",
+            "examples": {
+                "example1": "When starting the new project, we made a plan.",
+                "example2": "When entering university, please submit the required documents.",
+                "example3": "When getting married, we made a lot of preparations.",
+                "example4": "On the occasion of this ceremony, we received help from many people.",
+                "example5": "When holding an event, prior preparation is important."
+            }
+        },
+        "n2_138": {
+            "hint": "In addition to / Besides",
+            "description": "This structure is used to express that something is added to an existing condition or situation. It often translates as 'in addition to' or 'besides.' It is used to show that one thing is happening or present along with another, highlighting that there are multiple factors or aspects involved.",
+            "examples": {
+                "example1": "In addition to the rain, the wind has also gotten stronger.",
+                "example2": "Besides work, I also have to do household chores.",
+                "example3": "In addition to English, he can also speak French.",
+                "example4": "In addition to the recent recession, the company’s performance is also worsening.",
+                "example5": "In addition to studying, I also have a part-time job."
+            }
+        },
+        "n2_139": {
+            "hint": "Imagine if / Even if",
+            "description": "This structure is used to express a **hypothetical situation**, often meaning 'imagine if' or 'even if,' and is followed by a **personal opinion or prediction** about the outcome. It is used when the speaker wants to present a scenario and express their thoughts or expectations on it. **としても** is used in both written and spoken language, while **としたって** is a more casual, colloquial version.",
+            "examples": {
+                "example1": "Imagine if he apologized, she still wouldn’t forgive him.",
+                "example2": "Even if it rains tomorrow, I don't think the game will be canceled.",
+                "example3": "Even if he succeeds, I imagine he might not be happy.",
+                "example4": "Even if I won the lottery, I don’t think I would quit my job.",
+                "example5": "Imagine if we started preparing now, we probably wouldn't make it in time."
+            }
+        },
+        "n2_140": {
+            "hint": "Based on / According to",
+            "description": "This structure is used to express that something is done **based on** or **according to** a particular guideline, fact, or standard. It implies that the action or decision is informed or supported by specific information or principles. **に基づいて/に基づき** is used with verbs to describe actions, while **に基づく/に基づいた＋N** modifies a noun.",
+            "examples": {
+                "example1": "We will make a plan based on the data.",
+                "example2": "We must act in accordance with the law.",
+                "example3": "Let's have a discussion based on facts.",
+                "example4": "I will provide advice based on my experience.",
+                "example5": "This research is based on experimental results."
+            }
+        },
+        "n2_141": {
+            "hint": "Only when / Only after",
+            "description": "This structure is used to emphasize that something is **only possible** or **only meaningful** after a certain action or condition is fulfilled. It is often translated as 'only when' or 'only after.' The focus is on the importance of the condition in making something else happen or in achieving a certain outcome.",
+            "examples": {
+                "example1": "Only when you work hard can you succeed.",
+                "example2": "Only after becoming a parent do you understand a parent's feelings.",
+                "example3": "Only when you help each other in tough times are you true friends.",
+                "example4": "Only when you are healthy can you succeed at work.",
+                "example5": "Only by challenging yourself can you grow."
+            }
+        },
+        "n2_121": {
+            "hint": "Pretend that / Act as if",
+            "description": "This structure is used to express the idea of pretending that something happened or didn't happen. It translates as 'pretend that' or 'act as if.' It is often used when one deliberately chooses to treat a situation as if a particular action or event did or did not occur, even though the reality may be different.",
+            "examples": {
+                "example1": "Please pretend you didn't hear that.",
+                "example2": "Let's pretend today never happened.",
+                "example3": "I pretended not to see his mistake.",
+                "example4": "I'll pretend that email never arrived.",
+                "example5": "Can we pretend that promise was never made?"
+            }
+        },
+        "n2_122": {
+            "hint": "Think that / Assume that",
+            "description": "This structure is used to express that someone believes or assumes something to be true, often in contrast with reality or what others think. It implies that the person is acting based on their own perception or belief, regardless of the actual facts. It can be translated as 'thinking that' or 'assuming that,' and is often used to highlight a personal misconception.",
+            "examples": {
+                "example1": "He thought he was joking, but he made everyone angry.",
+                "example2": "I believe I’ve already explained that.",
+                "example3": "She thinks she is being kind, but sometimes it feels rude.",
+                "example4": "Please act assuming that.",
+                "example5": "I thought I had done it correctly, but there were many mistakes."
+            }
+        },
+        "n2_123": {
+            "hint": "Can't help but / Extremely",
+            "description": "This structure is used to express a strong, overwhelming emotion or feeling that cannot be controlled. It is often translated as 'can't help but' or 'extremely,' and is used when the speaker feels something so strongly that they cannot suppress or avoid it. It conveys emotions or sensations that are difficult to resist or ignore.",
+            "examples": {
+                "example1": "I can't help but want to see her.",
+                "example2": "I'm extremely curious about this movie.",
+                "example3": "I can't help but worry about the exam results.",
+                "example4": "I can't help but feel envious of his success.",
+                "example5": "I miss my family so much I can't stand it."
+            }
+        },
+        "n2_124": {
+            "hint": "If I could / If it's possible",
+            "description": "This structure is used to express a hypothetical or unlikely situation, often implying a strong desire or wish. It is typically translated as 'if I could' or 'if it's possible.' It is used when the speaker knows that the action is difficult or unlikely to happen, but they still express a wish or desire for it.",
+            "examples": {
+                "example1": "If I could go back, I’d want to return to that day.",
+                "example2": "If I could take a break, I’d want to rest for a long time.",
+                "example3": "If I could redo it, I’d like to try again.",
+                "example4": "If I could go, I’d like to, but I’m too busy.",
+                "example5": "If I could fly, I’d want to fly there right now."
+            }
+        },
+        "n2_125": {
+            "hint": "Whether to do or not / To do or not to do",
+            "description": "This structure is used to express indecision or hesitation about whether to do something or not. It often translates to 'whether to do or not' or 'to do or not to do.' The speaker is considering both options and is unsure which action to take. It is commonly used when someone is torn between two actions.",
+            "examples": {
+                "example1": "I'm wondering whether to go or not.",
+                "example2": "I can't decide whether to buy it or not.",
+                "example3": "I'm struggling with whether to speak or not.",
+                "example4": "I'm thinking about whether to contact him or not.",
+                "example5": "I haven't decided whether to take the exam or not."
+            }
+        },
+        "n2_126": {
+            "hint": "After / As a result of",
+            "description": "This structure is used to express that after much effort, consideration, or a long process, a certain outcome or result is reached. It often translates as 'after' or 'as a result of.' It emphasizes that the outcome comes after a significant amount of time or effort.",
+            "examples": {
+                "example1": "After a long discussion, a conclusion was reached.",
+                "example2": "After many discussions, this decision was finally made.",
+                "example3": "After much consideration, he decided to quit his job.",
+                "example4": "After months of investigation, new facts were revealed.",
+                "example5": "After much effort, I was able to achieve my dream."
+            }
+        },
+        "n2_127": {
+            "hint": "Even if / Even though",
+            "description": "This structure is used to express that something will happen or remain true **even if** a certain condition occurs. It emphasizes that the result or action will not change despite the hypothetical situation. It is often translated as 'even if,' 'even though,' or 'no matter what.'",
+            "examples": {
+                "example1": "Even if it rains, I will go out.",
+                "example2": "Even if I'm tired, I can't take a day off work.",
+                "example3": "Even if it's expensive, I want this product.",
+                "example4": "Even if I fail, I won’t give up.",
+                "example5": "Even if it's difficult, it's worth the challenge."
+            }
+        },
+        "n2_128": {
+            "hint": "Hard to / Difficult to",
+            "description": "This structure is used to express that something is **difficult** or **hard to** do, not because of physical difficulty but rather because of emotional, moral, or psychological reasons. It often implies that the action is almost unimaginable or unacceptable to the speaker. It is commonly used with verbs that represent acts that are difficult to perform on a deeper level.",
+            "examples": {
+                "example1": "It's a hard-to-believe story, but it's true.",
+                "example2": "His actions are hard to understand.",
+                "example3": "It’s very hard to say goodbye.",
+                "example4": "Her decision is difficult to accept.",
+                "example5": "There are many unforgettable memories."
+            }
+        },
+        "n2_129": {
+            "hint": "Without caring about / Regardless of",
+            "description": "This structure is used to express that someone does something **without worrying about** or **regardless of** a particular situation, condition, or opinion. It often implies that the person acts boldly, ignoring consequences or what others might think. It is commonly translated as 'without caring about' or 'regardless of.'",
+            "examples": {
+                "example1": "He’s playing soccer outside regardless of the rain.",
+                "example2": "She kept crying, not caring about the people around her.",
+                "example3": "He bought the bag without caring about the price.",
+                "example4": "He sat on the ground without worrying about getting dirty.",
+                "example5": "She ran outside without caring if her clothes got wet."
+            }
+        },
+        "n2_130": {
+            "hint": "Too much / So much that",
+            "description": "This structure is used to express that something is done or felt **to such an extreme degree** that it results in an unintended or negative outcome. It translates as 'so much that' or 'too much,' and is often used to describe emotions or states that become overwhelming, leading to unexpected consequences.",
+            "examples": {
+                "example1": "He was so nervous that he couldn’t speak.",
+                "example2": "I was so overjoyed that I cried.",
+                "example3": "He worked so much that he got sick.",
+                "example4": "I was so surprised that I couldn't speak.",
+                "example5": "I was so worried that I couldn’t sleep."
+            }
+        },
+        "n2_131": {
+            "hint": "With (feeling) / Full of",
+            "description": "This structure is used to express that something is done **with a lot of emotion** or **with a particular feeling**. It is often translated as 'with (feeling)' or 'full of,' and it emphasizes that the action is performed with heartfelt intention or deep emotion.",
+            "examples": {
+                "example1": "I wrote the letter with feelings of gratitude.",
+                "example2": "I give this gift with love.",
+                "example3": "I prayed with all my heart for his safety.",
+                "example4": "I cooked the meal with all my heart.",
+                "example5": "I give this medal with gratitude."
+            }
+        },
+        "n2_132": {
+            "hint": "Both ~ and ~ / Many good (or bad) points / Variety",
+            "description": "This structure is used to emphasize that something has **many good points** or **many bad points**, depending on the context. It can also be used to express **variety** or multiple aspects of a situation. It often translates as 'both ~ and ~' or 'there are many good/bad things about ~.' When used with positive words, it highlights the multiple good aspects of something; when used with negative words, it emphasizes the negative aspects.",
+            "examples": {
+                "example1": "He is both smart and has a good personality.",
+                "example2": "This restaurant has both delicious food and a great atmosphere.",
+                "example3": "That movie is both interesting and moving.",
+                "example4": "She is kind, but she can also be strict.",
+                "example5": "This book has both good content and an affordable price."
+            }
+        },
+        "n2_133": {
+            "hint": "Do something to the end / Do something completely",
+            "description": "This structure is used to express the idea of doing something **to the very end**, despite difficulties, or doing something to an **extreme** degree. It conveys a sense of persistence, endurance, or thoroughness in completing an action. It is often translated as 'do one's best to finish' or 'do something completely.'",
+            "examples": {
+                "example1": "I ran to the very end.",
+                "example2": "He did his best and finished this difficult task.",
+                "example3": "I persevered and won after a long battle.",
+                "example4": "She thought about it deeply and finally made a decision.",
+                "example5": "I survived despite overcoming many difficulties."
+            }
+        },
+        "n2_109": {
+            "hint": "I heard that / They say that",
+            "description": "This structure is used when relaying information that you have heard, often with the nuance that the information may not be completely reliable or solid. It can be used in informal conversations to soften the claim or show uncertainty. Words like 言っていた (someone said) can be omitted, and it is often used in casual speech.",
+            "examples": {
+                "example1": "I heard that he’s getting married next month.",
+                "example2": "I heard that this shop has become popular recently.",
+                "example3": "I heard that she quit her job.",
+                "example4": "I heard there's a new movie coming out, I’m excited.",
+                "example5": "They say Tanaka-san is quitting the company."
+            }
+        },
+        "n2_110": {
+            "hint": "In line with / Along with / Following",
+            "description": "This structure is used to express that something follows or is in accordance with a rule, plan, guideline, or idea. It often translates to 'in line with,' 'according to,' or 'following.' **にそって** refers to following or going along with something, while **にそう** or **にそった** is used to describe something that fits or adheres to that rule or guideline.",
+            "examples": {
+                "example1": "Let’s proceed in line with the plan.",
+                "example2": "We will create a design that follows the customer’s wishes.",
+                "example3": "We must act in accordance with the law.",
+                "example4": "Please prepare the documents in line with this guideline.",
+                "example5": "Walk along the river."
+            }
+        },
+        "n2_111": {
+            "hint": "When it comes to / Regarding",
+            "description": "This structure is used to express that someone is highly skilled or knowledgeable about a particular field or subject. It translates as 'when it comes to' or 'regarding,' and emphasizes that the person or thing is particularly strong or competent in that specific area.",
+            "examples": {
+                "example1": "When it comes to cooking, he’s as good as a professional.",
+                "example2": "When it comes to math, she is the best.",
+                "example3": "No one can match him when it comes to soccer.",
+                "example4": "When it comes to time management, no one can beat him.",
+                "example5": "Regarding English skills, he is the best in the company."
+            }
+        },
+        "n2_112": {
+            "hint": "Unless / Without",
+            "description": "This structure is used to express that something cannot happen or be accomplished unless a certain condition is met. It translates to 'unless' or 'without,' and is often used to state that one action is impossible or ineffective without another specific action or thing happening first.",
+            "examples": {
+                "example1": "Without money, this project cannot move forward.",
+                "example2": "We can't start the meeting unless he comes.",
+                "example3": "Without motivation, success is difficult.",
+                "example4": "You can't enter this room without permission.",
+                "example5": "You can’t pass unless you take the exam."
+            }
+        },
+        "n2_113": {
+            "hint": "Tend to / Prone to",
+            "description": "This structure is used to express that someone or something tends to do something or is prone to a certain condition, often with a negative connotation. It implies that the action or state happens frequently, usually unintentionally, or is characteristic of the person or thing being described.",
+            "examples": {
+                "example1": "Lately, he tends to take days off work.",
+                "example2": "On rainy days, I tend to avoid going out.",
+                "example3": "She is prone to illness, so she often misses school.",
+                "example4": "When I'm busy, I tend to skip meals.",
+                "example5": "People tend to catch colds during this season."
+            }
+        },
+        "n2_114": {
+            "hint": "Although / Despite",
+            "description": "This structure is used to express a contradiction between two actions or states. It translates to 'although' or 'despite,' and is often used to indicate that someone is aware of an action or fact but does something contradictory anyway. It is typically used in written or formal language.",
+            "examples": {
+                "example1": "Although he knew it was wrong, he didn’t stop that behavior.",
+                "example2": "Although I know I should study, I end up watching TV.",
+                "example3": "Even though I plan to go to bed early, I end up staying up late.",
+                "example4": "Although I know it's bad for my health, I can’t quit smoking.",
+                "example5": "Although I think I should apologize, I can’t bring myself to say it."
+            }
+        },
+        "n2_115": {
+            "hint": "If / Assuming that / Suppose that",
+            "description": "This structure is used to present a hypothetical situation or assumption. It can be translated as 'if,' 'suppose that,' or 'assuming that.' It's often used to explore the consequences of an imagined scenario. The forms **としたら**, **とすると**, and **とすれば** are interchangeable and vary slightly in nuance or formality.",
+            "examples": {
+                "example1": "If you were to go to Japan, what would you like to do?",
+                "example2": "If that story is true, it would be a big deal.",
+                "example3": "If you were to buy a new house, where would you like to live?",
+                "example4": "What would you do if you failed the exam?",
+                "example5": "If we assume he’s the culprit, what would his motive be?"
+            }
+        },
+        "n2_116": {
+            "hint": "Depending on / According to",
+            "description": "This structure is used to express that a decision or outcome is based on or decided according to a particular condition or factor. It often translates to 'depending on' or 'according to.' The outcome is determined by the specified factor.",
+            "examples": {
+                "example1": "Tomorrow's event will be decided according to the weather.",
+                "example2": "We will decide what to do according to the results.",
+                "example3": "Whether you can get a scholarship will be decided based on your grades.",
+                "example4": "Whether this project succeeds or not depends on the funding.",
+                "example5": "The hiring decision will be made based on the interview results."
+            }
+        },
+        "n2_117": {
+            "hint": "Continuing to / More and more",
+            "description": "This structure is used to express that a situation is continuously progressing in one direction, often with the nuance that the situation is getting worse or more intense. It implies that the action or state will keep happening and shows no sign of stopping. It can be translated as 'continuing to' or 'more and more.'",
+            "examples": {
+                "example1": "Prices are continuing to rise.",
+                "example2": "Environmental destruction is continuing, while countermeasures are delayed.",
+                "example3": "His illness is continuing to worsen.",
+                "example4": "The population is continuing to decrease.",
+                "example5": "The situation is getting worse and worse."
+            }
+        },
+        "n2_118": {
+            "hint": "Prior to / Before",
+            "description": "This structure is used to express that one action or event occurs **before** another important action or event. It is often used in formal contexts, such as speeches or official announcements. It can be translated as 'prior to' or 'before.' **に先立って/に先立ち** means 'before doing something,' while **に先立つ＋N** is used when modifying a noun, indicating something that occurs before another noun.",
+            "examples": {
+                "example1": "Prior to the opening ceremony, preparations were made at the venue.",
+                "example2": "Before the project started, the team was formed.",
+                "example3": "A rehearsal was held before the wedding ceremony.",
+                "example4": "A meeting will be held prior to this event.",
+                "example5": "I got rid of unnecessary items before the move."
+            }
+        },
+        "n2_119": {
+            "hint": "After / Upon / Based on",
+            "description": "This structure is used to express that one action is done **after** or **based on** a prior action or situation. It often translates to 'after doing' or 'upon doing,' and is used to indicate that a subsequent action takes place **after** completing the first action. **上で** highlights that the second action is dependent on or informed by the first action. The structure **上（で）の＋N** is used to modify a noun.",
+            "examples": {
+                "example1": "We will make a decision after thoroughly considering it.",
+                "example2": "Please sign after confirming the contract details.",
+                "example3": "After reading this document, feel free to ask any questions.",
+                "example4": "The hiring is based on the interview conducted.",
+                "example5": "A decision is necessary based on the investigation."
+            }
+        },
+        "n2_120": {
+            "hint": "In response to / To meet",
+            "description": "This structure is used to express that something is done in response to a request, expectation, or need. It is often translated as 'in response to' or 'to meet.' The structure **N＋にこたえて** is used to describe how an action responds to something, while **N＋にこたえた＋N** is used to modify a noun, emphasizing that it meets the expectations or requests.",
+            "examples": {
+                "example1": "In response to customer requests, we extended our business hours.",
+                "example2": "The players gave it their all in response to the support.",
+                "example3": "We created a new course to meet the needs of students.",
+                "example4": "I want to deliver results that meet the company’s expectations.",
+                "example5": "A decision was made to meet the residents' demands."
+            }
+        },
+        "n2_102": {
+            "hint": "Nothing but / None other than",
+            "description": "This structure is used to emphasize that something is exactly what is being described and cannot be anything else. It often conveys a sense of certainty or conclusion about the situation. It translates to 'nothing but' or 'none other than' in English.",
+            "examples": {
+                "example1": "His success is none other than the result of his hard work.",
+                "example2": "The success of this project is nothing but the power of teamwork.",
+                "example3": "Her selection as leader is due to none other than her abilities.",
+                "example4": "His resignation is none other than because he opposed the company's policies.",
+                "example5": "This invention is nothing but the result of years of research."
+            }
+        },
+        "n2_103": {
+            "hint": "Nothing more than / Merely / Just",
+            "description": "This structure is used to express that something is no more than what is stated, often downplaying its significance. It conveys modesty or emphasizes that something is not as important or significant as it might seem.",
+            "examples": {
+                "example1": "He is nothing more than a mere student.",
+                "example2": "I merely stated my opinion.",
+                "example3": "That is nothing more than a misunderstanding.",
+                "example4": "This plan is merely a suggestion.",
+                "example5": "She was just lucky."
+            }
+        },
+        "n2_104": {
+            "hint": "In addition to / Moreover",
+            "description": "This structure is used to express that something is added to an already existing situation, often enhancing or amplifying the statement. It can be translated as 'in addition to' or 'moreover' and is used to emphasize that multiple factors or conditions are present.",
+            "examples": {
+                "example1": "In addition to being kind, he is also smart.",
+                "example2": "Today, in addition to being cold, it's also windy.",
+                "example3": "This store is cheap, and on top of that, the service is great.",
+                "example4": "She is not only good at singing, but also great at dancing.",
+                "example5": "In addition to the rain, the roads were congested."
+            }
+        },
+        "n2_105": {
+            "hint": "Even though / Although I say　/ It's not actually like that",
+            "description": "This structure is used to clarify or downplay a statement, indicating that the reality is somewhat different from what the listener might expect. It is often used to add nuance or modesty to a statement, translating as 'even though' or 'although I say.' The polite version is **といいましても**.",
+            "examples": {
+                "example1": "Even though he is rich, he doesn't live extravagantly.",
+                "example2": "Although I live in Japan, I mostly work in English.",
+                "example3": "Even though I say I can cook, it's just simple dishes.",
+                "example4": "Although I say I'm a student, I'm already 40 years old.",
+                "example5": "Even though they are famous, many people don’t know them."
+            }
+        },
+        "n2_106": {
+            "hint": "The best / There's nothing better than",
+            "description": "This structure is used to express that something is the best option, or that there is nothing better than a certain action, situation, or thing. It is often used to give advice or make a strong recommendation about what someone should or shouldn't do.",
+            "examples": {
+                "example1": "When you're tired, the best thing to do is to go to bed early.",
+                "example2": "When you catch a cold, there's nothing better than keeping warm and resting.",
+                "example3": "On hot days, nothing beats ice cream.",
+                "example4": "For safe driving, nothing is better than driving slowly.",
+                "example5": "If you want to travel cheaply, the best thing is to book early."
+            }
+        },
+        "n2_107": {
+            "hint": "As expected of / Precisely because",
+            "description": "This structure is used to express that a result or situation is in line with what is expected from the circumstances, or to emphasize that something happens precisely because of a specific reason. **だけあって** highlights the expected result based on someone's ability, position, or circumstances, while **だけに** emphasizes a cause-effect relationship.",
+            "examples": {
+                "example1": "As expected from his long experience, he works quickly.",
+                "example2": "Precisely because it was expensive, this watch is very durable.",
+                "example3": "As expected, she passed the exam because she worked hard.",
+                "example4": "As expected from a famous restaurant, the food is amazing.",
+                "example5": "Precisely because I was feeling unwell, I couldn’t go on the trip."
+            }
+        },
+        "n2_108": {
+            "hint": "Whether A or B / Even if A or B",
+            "description": "This structure is used to express two alternatives, both of which lead to the same conclusion or emphasize the same point. It can be translated as 'whether A or B' or 'even if A or B.' It is often used to highlight that, regardless of which option or scenario applies, the result or situation remains unchanged. **にしろ**, **にしても**, and **にせよ** are interchangeable, with **にせよ** being slightly more formal.",
+            "examples": {
+                "example1": "Whether you study or play, you should make a plan.",
+                "example2": "Whether you go or not, please contact me.",
+                "example3": "Whether you are a man or a woman, this job is tough.",
+                "example4": "Even if it rains, I plan to go out.",
+                "example5": "Whether the result was success or failure, I gave it my all."
+            }
+        },
+        "n2_94": {
+            "hint": "There is a sense of / It feels like",
+            "description": "This structure is used to express that something has a particular quality or gives a certain feeling. It emphasizes the presence of a certain emotional or sensory quality.",
+            "examples": {
+                "example1": "There is a sense of persuasiveness in his story.",
+                "example2": "This movie has something that deeply moves you.",
+                "example3": "Her paintings have a unique charm to them.",
+                "example4": "There’s something in his effort that deserves appreciation.",
+                "example5": "This place still has a sense of old-time atmosphere."
+            }
+        },
+        "n2_95": {
+            "hint": "Will not / Unlikely to",
+            "description": "This structure is used both to express a strong determination not to do something and to indicate that, judging from a situation, there is very little possibility of something happening. For Group 1 and Group 3 verbs, there are multiple ways to form this structure. \n動詞のグループ１と３グループには、複数の接続のし方がある。\n食べる→食べるまい/食べまい\nする→するまい/すまい/しまい\nくる→くるまい/来まい/来まい",
+            "examples": {
+                "example1": "He is unlikely to come in this heavy rain.",
+                "example2": "I will not eat sweets again.",
+                "example3": "This problem is simple, but he is unlikely to solve it.",
+                "example4": "I've decided I won’t meet him again.",
+                "example5": "No one is likely to go to such a far place."
+            }
+        },
+        "n2_96": {
+            "hint": "Whenever / Every time",
+            "description": "This structure is used to express that whenever a certain action or event occurs, it triggers a particular feeling or thought. It often conveys a repetitive or habitual reaction in response to the mentioned situation.",
+            "examples": {
+                "example1": "Every time I see that photo, it brings back fun memories.",
+                "example2": "Whenever I hear his story, I am deeply moved.",
+                "example3": "Whenever I am in trouble, I end up relying on him.",
+                "example4": "Whenever it rains, I remember things from the past.",
+                "example5": "Every time I think about her, I get worried."
+            }
+        },
+        "n2_97": {
+            "hint": "Considering / Despite",
+            "description": "This structure is used to express a situation where the result is unexpected or different from what one would normally expect, given the circumstances. It often translates as 'considering' or 'despite' in English, and is used when comparing something against a certain standard or expectation.",
+            "examples": {
+                "example1": "He looks young considering his age.",
+                "example2": "This dish is quite tasty considering how simple it is.",
+                "example3": "She doesn’t gain weight despite eating a lot.",
+                "example4": "It’s a high-quality product considering the price.",
+                "example5": "I got good test scores despite not studying."
+            }
+        },
+        "n2_98": {
+            "hint": "Just as / No sooner than",
+            "description": "This structure is used to describe a situation where one action happens almost simultaneously with another action. It implies that the second action occurs immediately after, or even before, the first action is completed. It often translates as 'just as' or 'no sooner than' in English.",
+            "examples": {
+                "example1": "No sooner had it started raining than he opened his umbrella.",
+                "example2": "Just as the bell rang, he dashed out of the classroom.",
+                "example3": "He fell asleep the moment he got into bed.",
+                "example4": "Passengers gathered at the door as soon as the train was about to stop.",
+                "example5": "The goal was scored just as the game started."
+            }
+        },
+        "n2_99": {
+            "hint": "Appears to / Seems to",
+            "description": "This structure is used to express that someone or something looks or seems to have a certain quality, often based on visual cues. It conveys the idea of an impression or appearance of a feeling or state, and is commonly used in descriptive language.",
+            "examples": {
+                "example1": "He was looking out the window with a lonely expression.",
+                "example2": "She seemed like she wanted to say something.",
+                "example3": "The children are playing happily.",
+                "example4": "He has a dissatisfied look on his face.",
+                "example5": "She smiled with a confident look."
+            }
+        },
+        "n2_100": {
+            "hint": "Such as / And so on / Various things",
+            "description": "This structure is used to list multiple actions, states, or things, often to imply that there are many things happening at once or a variety of things to consider. It gives a sense of disorganization or that the situation is overwhelming due to the variety of elements.",
+            "examples": {
+                "example1": "I've been busy all day with work, cleaning, and other things.",
+                "example2": "He was complaining, getting angry, and causing a lot of trouble.",
+                "example3": "The movie was an emotional rollercoaster with crying, laughing, and everything in between.",
+                "example4": "I dropped my wallet, was late for the train—today was a total mess.",
+                "example5": "The room is a mess with clothes, books, and other things scattered everywhere."
+            }
+        },
+        "n2_101": {
+            "hint": "Just when / No sooner than",
+            "description": "This structure is used to describe when one event happens immediately after another, often in a surprising or unexpected manner. It conveys that just as something was perceived or thought to happen, another action quickly follows. Don't use it to speak about yourself.",
+            "examples": {
+                "example1": "Just when I thought he came home, he went out again.",
+                "example2": "No sooner had it started raining than it stopped.",
+                "example3": "The baby started crying, and the next moment, was already laughing.",
+                "example4": "Just when I thought the cherry blossoms had bloomed, they had already fallen.",
+                "example5": "The phone rang, but it immediately disconnected."
+            }
+        },
+        "n2_80": {
+            "hint": "It's really / I can't even explain",
+            "description": "This structure is used to emphasize a strong feeling or situation, often expressing surprise, disbelief, or frustration. It can be used to convey a sense of exaggeration or intensity regarding a particular experience.",
+            "examples": {
+                "example1": "His cooking is just unbelievably delicious. I could eat it every day without getting tired of it.",
+                "example2": "That movie was so interesting; I want to watch it again. The plot twists left me speechless!",
+                "example3": "Her dress was so beautiful, it took my breath away. I couldn’t help but stare every time she walked by.",
+                "example4": "The amount of work is just overwhelming; it feels never-ending. I’m starting to wonder if I’ll ever catch up.",
+                "example5": "The view is just amazing; you can't capture it in a photo. Standing here in person is a completely different experience."
+            }
+        },
+        "n2_81": {
+            "hint": "Just done / Freshly done",
+            "description": "This structure is used to indicate that an action has just been completed recently. It emphasizes the freshness or immediacy of the action, often conveying that something is still in a state resulting from that action.",
+            "examples": {
+                "example1": "He just finished his homework a little while ago and still looks tired.",
+                "example2": "This dish is freshly made and really delicious.",
+                "example3": "I just bought new shoes, and I’m still excited to wear them.",
+                "example4": "The room, which I just moved into, is not organized yet and is a bit chaotic.",
+                "example5": "I just returned from my trip and am still immersed in those memories."
+            }
+        },
+        "n2_82": {
+            "hint": "You know / I told you",
+            "description": "This structure is used to emphasize or express frustration about a particular subject. It often conveys a sense of urgency or insistence, typically in informal conversations. It can be used to call attention to something that has already been mentioned or is expected to be understood.",
+            "examples": {
+                "example1": "You know, he always comes late, and it’s really frustrating.",
+                "example2": "I told you, that movie is really interesting! I've watched it several times.",
+                "example3": "You know, she’s really kind, and I rely on her a lot.",
+                "example4": "I told you, once you finish your homework, you have to submit it properly.",
+                "example5": "You know, the recent weather is just like spring!"
+            }
+        },
+        "n2_83": {
+            "hint": "It has become / It's set up to",
+            "description": "This structure is used to express that a system, method, or behavior has been arranged or changed to allow for a certain outcome. It often indicates a transition or a change in state, suggesting that something is now functioning in a particular way.",
+            "examples": {
+                "example1": "This machine has been designed to be easy to operate.",
+                "example2": "These days, it's set up to allow studying online, which is really convenient.",
+                "example3": "That store has become set up to accept credit cards, making payments easier.",
+                "example4": "This app is designed so that users can change their settings.",
+                "example5": "Here, it's set up that smoking is not allowed, so you need to be careful."
+            }
+        },
+        "n2_84": {
+            "hint": "That's why / It means that",
+            "description": "This structure is used to explain or justify a reason for a certain situation or conclusion. It conveys that the preceding statement logically leads to the conclusion being drawn, often indicating a clear understanding or realization.",
+            "examples": {
+                "example1": "That's why he’s been busy at work; I haven’t heard from him at all lately.",
+                "example2": "It means that this dish is delicious because they use fresh ingredients.",
+                "example3": "That’s why she’s so upset; she missed an important meeting.",
+                "example4": "That's why this town is quiet; it’s away from the tourist spots.",
+                "example5": "That's why he hasn’t been talking much lately; he’s been struggling with various things."
+            }
+        },
+        "n2_85": {
+            "hint": "Far from / Not only that",
+            "description": "This structure expresses a strong contrast, indicating that something is not just A, but rather the opposite or something much more significant, often countering what the listener may have thought or said. It emphasizes the extent of the situation.",
+            "examples": {
+                "example1": "He’s far from being late; he might still be at home.",
+                "example2": "This dish is not just delicious; it tastes like something from the best restaurant.",
+                "example3": "She’s not just kind; she’s the type of person who helps everyone.",
+                "example4": "This problem is far from easy; it’s actually very difficult.",
+                "example5": "Japan isn’t just expensive; there are places where the cost of living is quite low."
+            }
+        },
+        "n2_86": {
+            "hint": "If you do not / If it’s like that",
+            "description": "This structure is used to express a negative consequence or judgment based on a certain condition. It implies that if the situation continues as it is, the outcome will be undesirable. It often carries a tone of warning or disapproval.",
+            "examples": {
+                "example1": "If you have such a naive mindset, it’s going to be difficult to succeed.",
+                "example2": "If you’re not prepared, there’s no way you’ll pass the exam.",
+                "example3": "If you keep being lazy like this, you won’t achieve anything.",
+                "example4": "If it’s like his way of speaking, he might not be very trustworthy.",
+                "example5": "If you continue with that attitude, I’m worried you’ll lose friends."
+            }
+        },
+        "n2_87": {
+            "hint": "To pretend / To act as if",
+            "description": "This structure is used to indicate that someone is pretending or acting as if they possess a certain quality or characteristic. It often conveys a sense of insincerity or affectation, highlighting a discrepancy between appearance and reality.",
+            "examples": {
+                "example1": "He acts like an adult, but in reality, he’s still a child.",
+                "example2": "Stop pretending to be wealthy and show your true self.",
+                "example3": "She pretends to have knowledge, but in reality, she doesn’t know much.",
+                "example4": "Don’t act so pretentious; just be natural.",
+                "example5": "Many people pretend to have seen that movie, but they don’t really understand its content."
+            }
+        },
+        "n2_88": {
+            "hint": "Especially / Only in the case of",
+            "description": "This structure is used to indicate that something is particularly true or applicable in the context of a specific noun. It often conveys a sense of emphasis, suggesting that the statement may not apply in general, but it does for the mentioned subject. It is used with negative feelings or criticizm.",
+            "examples": {
+                "example1": "Especially in his case, there’s no way he would do something like that.",
+                "example2": "Only in the case of my friends, I know they would never leak my secrets.",
+                "example3": "Especially during this time, it’s difficult to make travel reservations.",
+                "example4": "Only my mother wouldn’t worry about me unnecessarily.",
+                "example5": "Only in the case of this product, returns are not accepted."
+            }
+        },
+        "n2_89": {
+            "hint": "It’s important to / You should",
+            "description": "This structure is used to give advice or suggestions regarding actions. It emphasizes the necessity or importance of doing (or not doing) a certain action, often conveying a sense of obligation or recommendation.",
+            "examples": {
+                "example1": "For your health, you should exercise every day.",
+                "example2": "If you want to pass the exam, you need to study more.",
+                "example3": "You should cherish your friends; that way, you can build good relationships.",
+                "example4": "To avoid being late, it’s important to keep track of time.",
+                "example5": "You shouldn’t overdo it; you have to prioritize your health."
+            }
+        },
+        "n2_90": {
+            "hint": "A thing called / All of the N",
+            "description": "This structure is used to refer to all instances of the noun described, emphasizing that the same word is used both times for N. It indicates that the statement applies universally to all of the mentioned noun.",
+            "examples": {
+                "example1": "All the customers called 'customers' stood up and started dancing.",
+                "example2": "All of the culture called 'Japanese culture' is very rich.",
+                "example3": "He is an outstanding student referred to as 'outstanding.'",
+                "example4": "All the people called 'people' here will participate.",
+                "example5": "Having your own opinion referred to as 'opinion' is important."
+            }
+        },
+        "n2_91": {
+            "hint": "Was about to / Almost did",
+            "description": "This structure is used to indicate that someone was about to do something or almost did something but did not actually go through with it. It emphasizes the closeness to an action occurring, often carrying a sense of relief or missed opportunity.",
+            "examples": {
+                "example1": "I was about to catch the train, but I ended up being late.",
+                "example2": "I was about to confess to him, but I couldn’t say it because I was too nervous.",
+                "example3": "I was about to submit my homework, but I forgot.",
+                "example4": "I almost got into an accident, but I barely avoided it.",
+                "example5": "I was about to leave, but it started to rain."
+            }
+        },
+        "n2_92": {
+            "hint": "If you're going to / Rather than",
+            "description": "This structure is used when expressing a dislike for doing a certain action, suggesting an alternative choice instead, even if that alternative isn't the best option. It can also express regret about the situation.",
+            "examples": {
+                "example1": "If I have to go, I'd rather just relax at home.",
+                "example2": "I'd prefer to stay silent rather than talk to him.",
+                "example3": "If you're going to push yourself, it’s better not to overdo it.",
+                "example4": "Rather than waiting, it's better to go myself.",
+                "example5": "Rather than watching that movie, I’ll choose another one.",
+                "example6": "If I have to do this job, I'd rather look for another one."
+            }
+        },
+        "n2_93": {
+            "hint": "Better than / Not the worst",
+            "description": "Use まし when you want to say 'I can't say it's good when compared to something else, but it's not the worst.' It often appears with expressions like 〜方が、〜より、〜だけ・まだ・ずっと, etc., to indicate a comparison.",
+            "examples": {
+                "example1": "This movie isn't interesting, but it's better than the previous one.",
+                "example2": "It's cold, but it's better than last winter.",
+                "example3": "The job is tough, but it's still better than my previous workplace.",
+                "example4": "This dish failed, but it's not bad in taste, so I can consider it a little better.",
+                "example5": "I’m not good at driving, but it's still better than cycling."
+            }
+        },
+        "n2_75": {
+            "hint": "Polite expressions used to show respect towards others' actions or status",
+            "description": "Honorific expressions are used to elevate the status of the subject or their actions when referring to others. These expressions are commonly used in formal or business settings to show respect and politeness.",
+            "examples": {
+                "example1": "When the president comes, he will arrive.",
+                "example2": "He is currently attending the meeting.",
+                "example3": "He is currently working.",
+                "example4": "This is the new product. May I show it to you?",
+                "example5": "I will listen to your story.",
+                "example6": "May I borrow this book?",
+                "example7": "I am aware of that matter.",
+                "example8": "Please convey my regards to him.",
+                "example9": "I will bring it right away, so please wait."
+            }
+        },
+        "n2_76": {
+            "hint": "Humbly request / Wish for",
+            "description": "This structure is used to express a humble request or a wish regarding an action (お＋V) or a noun (ご＋N). It shows respect and politeness, making it suitable for formal contexts. The use of '願う' indicates a desire or hope for something to happen.",
+            "examples": {
+                "example1": "I kindly request your assistance.",
+                "example2": "I would appreciate your cooperation.",
+                "example3": "I wish you happiness.",
+                "example4": "I wish for your success.",
+                "example5": "I hope you remain well."
+            }
+        },
+        "n2_77": {
+            "hint": "Humbly state / Respectfully say",
+            "description": "This structure is used to express a humble or respectful statement regarding an action (お＋V) or a noun (ご＋N). '申し上げる' is a formal way to convey information, often used in business or polite conversations. It emphasizes deference and politeness towards the listener.",
+            "examples": {
+                "example1": "I would like to express my gratitude.",
+                "example2": "I would like to report to you.",
+                "example3": "I sincerely apologize.",
+                "example4": "I would like to provide you with information.",
+                "example5": "I apologize for the wait."
+            }
+        },
+        "n2_78": {
+            "hint": "I think that if... / If you can, I’d like you to...",
+            "description": "This structure is used when you modestly say to someone, 'If you can, I’d like you to ~'. It is also used to express a desire or hope of yours based on certain conditions. The speaker conveys a sense of politeness and humility while indicating what they would like to happen if specific circumstances are met.",
+            "examples": {
+                "example1": "If you have time, I’d really like you to come over.",
+                "example2": "If I'm healthy, I’d like to be more active.",
+                "example3": "If I finish this work, I’d like to take a good rest.",
+                "example4": "If the weather is nice, I’d like to go for a picnic.",
+                "example5": "If he comes, I think it will be more fun."
+            }
+        },
+        "n2_79": {
+            "hint": "Used to speak politely about various topics",
+            "description": "The 〜まして form is used to convey politeness when discussing a topic or providing information. It is suitable for formal settings and reflects respect towards the listener.",
+            "examples": {
+                "example1": "Regarding this event, we will inform you as soon as the details are finalized.",
+                "example2": "I would like to speak about this issue.",
+                "example3": "I believe this will be a valuable opportunity for everyone.",
+                "example4": "In this plan, your cooperation is necessary.",
+                "example5": "This experience is very important to me."
+            }
+        },
+        "n2_61": {
+            "hint": "From the point of view of / From the perspective of",
+            "description": "This structure is used to express someone's perspective or viewpoint. It often conveys how something appears or is understood when viewed from a certain standpoint or in terms of a specific aspect.",
+            "examples": {
+                "example1": "From the perspective of convenience, it's definitely easier to live in the city than in the countryside.",
+                "example2": "From the perspective of a foreigner, Japanese culture is very unique.",
+                "example3": "From the economic situation, this investment doesn’t seem too risky.",
+                "example4": "From his point of view, that decision is understandable.",
+                "example5": "From a safety standpoint, this car is better."
+            }
+        },
+        "n2_62": {
+            "hint": "On one hand / While",
+            "description": "This structure is used to contrast two situations or actions, showing that both occur or exist simultaneously. It can also be used to express that while one thing is happening, something else is happening as well.",
+            "examples": {
+                "example1": "On one hand, he’s good at sports, but he’s also great at studying.",
+                "example2": "While technology is advancing, traditional culture is also being preserved.",
+                "example3": "While consumer demand is increasing, so is the strain on the environment.",
+                "example4": "On one hand, some people support the policy, but there are also many who oppose it.",
+                "example5": "She’s working, but at the same time, she’s also attending university."
+            }
+        },
+        "n2_63": {
+            "hint": "Because / From the fact that",
+            "description": "This structure is used to explain a reason or cause, typically derived from a fact or observation. It often highlights how a certain fact leads to a conclusion or gives rise to a name or situation.",
+            "examples": {
+                "example1": "From the fact that the road is wet, we can tell it rained last night.",
+                "example2": "Because of his polite way of speaking, I thought he must have had a good education.",
+                "example3": "Because this mountain resembles Mount Fuji, it is called 'Little Fuji' in this region.",
+                "example4": "From the fact that she is always reading, I realized she loves books.",
+                "example5": "From his trembling voice, I could tell he was nervous."
+            }
+        },
+        "n2_64": {
+            "hint": "Not only / But also",
+            "description": "This structure is used to indicate that something applies not only to one case but also to another. It highlights the inclusion of additional things or people beyond what is initially mentioned.",
+            "examples": {
+                "example1": "He can speak not only Japanese but also English fluently.",
+                "example2": "This movie is not only entertaining but also educational.",
+                "example3": "That technology is highly regarded not only domestically but also internationally.",
+                "example4": "She is not only kind but also very smart.",
+                "example5": "Not only students but also teachers are participating in this project."
+            }
+        },
+        "n2_65": {
+            "hint": "Such as / Like",
+            "description": "This structure is used to give examples of things or people within a category. It lists representative examples to explain or illustrate a broader group or idea.",
+            "examples": {
+                "example1": "They say that eating nuts like walnuts and almonds every day improves memory.",
+                "example2": "In Japan, foods such as sushi and tempura are famous.",
+                "example3": "Old cities like Kyoto and Nara are popular with tourists.",
+                "example4": "Sports like soccer and basketball are popular among young people.",
+                "example5": "She can play instruments such as the piano and violin."
+            }
+        },
+        "n2_66": {
+            "hint": "As / In accordance with",
+            "description": "This structure is used to indicate that one action or situation changes as another action or situation changes. It often implies a gradual or natural change in response to another variable.",
+            "examples": {
+                "example1": "As it got hotter, more people began to feel unwell.",
+                "example2": "As I get older, my physical strength has declined.",
+                "example3": "As the economy developed, people's lives became more prosperous.",
+                "example4": "As the game progressed, his play steadily improved.",
+                "example5": "As technology evolves, our lives are becoming increasingly convenient."
+            }
+        },
+        "n2_67": {
+            "hint": "As / In proportion to",
+            "description": "This structure is used to indicate that as one situation or action progresses, another changes as well, usually in a gradual or proportional manner. It often describes a natural or inevitable change over time.",
+            "examples": {
+                "example1": "As he got older, he interacted less and less with the people around him.",
+                "example2": "As time passed, his memory became more and more unclear.",
+                "example3": "As the exam day approached, he gradually became more anxious.",
+                "example4": "As society develops, people's values also change.",
+                "example5": "As the seasons change, we need to change our clothes accordingly."
+            }
+        },
+        "n2_68": {
+            "hint": "Can / Cannot / Possible / Impossible",
+            "description": "This structure is used to express whether something is possible or impossible. **「得る」** indicates that something can happen or is possible, while **「得ない」** suggests that something cannot happen or is impossible.",
+            "examples": {
+                "example1": "The idea that ordinary people could go to space was unimaginable 100 years ago.",
+                "example2": "This kind of accident can happen to anyone.",
+                "example3": "His success is the result of hard work; it couldn't possibly be just by chance.",
+                "example4": "We couldn't have predicted that so many people would be infected at once.",
+                "example5": "With that explanation, the problem cannot be solved."
+            }
+        },
+        "n2_69": {
+            "hint": "Contrary to / Against",
+            "description": "This structure is used to express that something goes against or is contrary to expectations, rules, or plans. It highlights a contrast between what was expected and what actually happened.",
+            "examples": {
+                "example1": "This economic policy had no effect at all, contrary to the expectations of the people.",
+                "example2": "He continued to pursue his dream, despite the opposition of those around him.",
+                "example3": "The results were excellent, contrary to our expectations.",
+                "example4": "He advanced the new business, against the company's policy.",
+                "example5": "Actions that go against this law will be severely punished."
+            }
+        },
+        "n2_70": {
+            "hint": "Regarding / Concerning",
+            "description": "This structure is used to indicate that something is related to or about a specific topic. It is often used in formal contexts to refer to information or inquiries about a particular subject.",
+            "examples": {
+                "example1": "For inquiries regarding repairs, please contact the service center by phone or email.",
+                "example2": "Do you have any questions regarding this project?",
+                "example3": "No one knows anything about his past.",
+                "example4": "Discussions regarding environmental protection are ongoing.",
+                "example5": "There will be a briefing regarding the new regulations."
+            }
+        },
+        "n2_71": {
+            "hint": "On the other hand / While",
+            "description": "This structure is used to express contrasting aspects of a situation, where one side or element has a certain quality, while the other has a different or opposing quality. It emphasizes that there are two sides to the situation, often one positive and one negative.",
+            "examples": {
+                "example1": "Before coming to Japan, while I had high expectations for studying abroad, I also had great concerns.",
+                "example2": "While he is an excellent manager, on the other hand, he has little time to devote to his family.",
+                "example3": "While this medicine is effective, it also has strong side effects.",
+                "example4": "This job is rewarding, but on the other hand, it’s also very stressful.",
+                "example5": "While cities are convenient, on the other hand, they lack nature."
+            }
+        },
+        "n2_72": {
+            "hint": "In terms of / From the standpoint of",
+            "description": "This structure is used to indicate something from a particular standpoint, perspective, or in terms of a specific context. It highlights how something is interpreted or viewed from a certain aspect.",
+            "examples": {
+                "example1": "Banknotes often depict historically significant figures from the country.",
+                "example2": "Legally, he hasn't committed any wrongdoing.",
+                "example3": "This location is geographically a key point.",
+                "example4": "I only interact with him in a professional capacity.",
+                "example5": "This policy is extremely important from an educational standpoint."
+            }
+        },
+        "n2_73": {
+            "hint": "In the process of / Gradually",
+            "description": "This structure is used to describe something that is currently in the process of happening or changing. It conveys that a situation or action is ongoing and gradually progressing toward a certain outcome.",
+            "examples": {
+                "example1": "The effects of abnormal weather are gradually spreading across the world.",
+                "example2": "The economy is gradually recovering.",
+                "example3": "New technologies are continuously being developed.",
+                "example4": "People’s lifestyles are in the process of changing.",
+                "example5": "The political system of that country is gradually collapsing."
+            }
+        },
+        "n2_74": {
+            "hint": "Not limited to / Not only",
+            "description": "This structure is used to indicate that something is not limited to a specific item, time, or condition. It suggests that the situation or action applies more broadly, beyond just the mentioned subject.",
+            "examples": {
+                "example1": "For the sake of environmental measures, we should be mindful of saving electricity not just in the summer, but throughout the entire year.",
+                "example2": "This restaurant is crowded not only on weekends but also on weekdays.",
+                "example3": "This is an event that not only children but also adults can enjoy.",
+                "example4": "This problem is happening not only in Japan but around the world.",
+                "example5": "Not only men, but women can also take part in this exam."
+            }
+        },
+        "n2_50": {
+            "hint": "Just because / Simply because",
+            "description": "This structure is used to express that a negative or undesirable outcome happened simply because of a particular reason. It emphasizes that the result occurred due to one single cause, often with a sense of regret or frustration.",
+            "examples": {
+                "example1": "Just because I told the truth, I ended up making him angry.",
+                "example2": "Just because I forgot my passport, I couldn’t board the plane.",
+                "example3": "Simply because he’s famous, he can’t live a normal life.",
+                "example4": "Just because I had no money, I couldn’t go to university.",
+                "example5": "Simply because he’s too kind, people sometimes take advantage of him."
+            }
+        },
+        "n2_51": {
+            "hint": "There’s no need to / There’s no reason to",
+            "description": "This structure is used to express that something is unnecessary or not required. It often conveys the idea that the person doesn't have to take a certain action because it’s not needed.",
+            "examples": {
+                "example1": "There's no need for you to apologize. They're the ones at fault.",
+                "example2": "There’s no need to worry. Everything will be fine.",
+                "example3": "There’s no need to rush. We still have plenty of time.",
+                "example4": "There's no reason to contact him. Everything has already been resolved.",
+                "example5": "The exam was easy, so there was no need to study much."
+            }
+        },
+        "n2_52": {
+            "hint": "Compared to / In comparison with",
+            "description": "This structure is used to compare two things, stating how one is different from or superior/inferior to the other. It highlights the differences or similarities between the two items.",
+            "examples": {
+                "example1": "Strawberries have more vitamin C compared to lemons.",
+                "example2": "This year, there has been less rain compared to last year.",
+                "example3": "Tokyo has a higher cost of living compared to other cities.",
+                "example4": "Compared to him, I’m still a beginner.",
+                "example5": "Compared to the original work, this movie's story is simplified."
+            }
+        },
+        "n2_53": {
+            "hint": "As if / No way / Definitely not",
+            "description": "This structure is used to express strong denial or refusal, often with a tone of frustration or disbelief. It conveys the meaning of 'as if' or 'there's no way,' emphasizing that the speaker would never do something or that something is definitely not true.",
+            "examples": {
+                "example1": "There's no way I'm coming to a store with such bad service ever again.",
+                "example2": "As if he would say something like that. I definitely don't believe it.",
+                "example3": "No way am I losing to someone like that!",
+                "example4": "Just because you're tired, there's no way you should give up so easily.",
+                "example5": "There's no way he's such a kind person. He's always cold."
+            }
+        },
+        "n2_54": {
+            "hint": "Precisely because / It is exactly because",
+            "description": "This structure is used to emphasize the reason for something, often to explain that something is being done precisely because of a strong belief or feeling. It conveys the meaning of 'precisely because' or 'exactly for this reason.'",
+            "examples": {
+                "example1": "It is precisely because we love the nature of this mountain that we are strictly limiting the number of tourists.",
+                "example2": "It is exactly because I trust you that I’m entrusting you with this important task.",
+                "example3": "It is precisely because we are healthy that we can enjoy every day.",
+                "example4": "It is because I’m a parent that I’m strict with my children.",
+                "example5": "It is precisely because of hard work that success is possible."
+            }
+        },
+        "n2_55": {
+            "hint": "It's not impossible / It's not entirely unlikely",
+            "description": "This structure is used to suggest that something is not entirely impossible or that a certain action or condition might happen, though it's unlikely or not common. It often conveys that a possibility exists but under specific conditions.",
+            "examples": {
+                "example1": "This problem is difficult, but it's not impossible to solve.",
+                "example2": "If we take this road, it’s not impossible that we might get there faster.",
+                "example3": "Lately, I've been busy, but it's not impossible for me to take a break.",
+                "example4": "That plan isn’t impossible to succeed, but the risk is high.",
+                "example5": "If the conditions are right, it’s not impossible for me to take it on."
+            }
+        },
+        "n2_56": {
+            "hint": "As much as (one) can / To the extent possible",
+            "description": "This structure is used to express doing something to the maximum extent possible. It indicates that the person is making the most of their capacity or resources to perform an action.",
+            "examples": {
+                "example1": "Before the Lunar New Year, Lin brought back as many souvenirs as she could carry when she returned home.",
+                "example2": "He prepared for the exam by making as much effort as he could.",
+                "example3": "Please eat as much as you can. It would be a waste to leave any.",
+                "example4": "I want to do as much as I can with the time I have.",
+                "example5": "I spent all the money I had today."
+            }
+        },
+        "n2_57": {
+            "hint": "Because / It's just that",
+            "description": "This structure is used in casual speech, often to give a reason or justification, especially in a slightly defensive or explanatory tone. It is commonly used in conversations to explain why something is done or why a situation is as it is.",
+            "examples": {
+                "example1": "You can only buy this doll and these sweets in Japan.",
+                "example2": "I don't want to go. I'm tired, that's why.",
+                "example3": "I can't do something like that!",
+                "example4": "Because it's raining!",
+                "example5": "It's cold today, so I don't want to go outside."
+            }
+        },
+        "n2_58": {
+            "hint": "Cannot (do something) / Must (do something)",
+            "description": "This structure is used to express a sense of obligation or inability to do something due to social, moral, or practical reasons. It conveys that, while it might be possible to perform or avoid an action, the speaker feels constrained by external factors or responsibilities.",
+            "examples": {
+                "example1": "I have an important meeting this afternoon, so I can't go home.",
+                "example2": "So many people are waiting, so I can't just go home now.",
+                "example3": "I can't lie to him.",
+                "example4": "I have an exam, so I can't afford to play around.",
+                "example5": "I can't just not repay the money I borrowed."
+            }
+        },
+        "n2_59": {
+            "hint": "Only / Just",
+            "description": "This structure is used to express limitation, meaning 'only' or 'just'. It is often found in formal contexts to indicate that something is the sole option or condition.",
+            "examples": {
+                "example1": "For those who only need medication, please place your consultation card in this box.",
+                "example2": "Only authorized personnel are allowed in this room.",
+                "example3": "I will only tell you the facts.",
+                "example4": "Since today is a special day, we are inviting only special guests.",
+                "example5": "This service is available only to new customers."
+            }
+        },
+        "n2_60": {
+            "hint": "With the intention of / As if",
+            "description": "This structure is used to express that someone does something as if they are doing something else, or with the intention or feeling of doing it. It often implies imagining a situation or acting as if something is true, even though it isn’t.",
+            "examples": {
+                "example1": "Let’s enjoy watching this 'Train Journey' DVD as if we went on a trip.",
+                "example2": "I’ll set this money aside as if I’ve already saved it.",
+                "example3": "I taught the children Japanese as if I were their teacher.",
+                "example4": "Let’s clean up the current house and live here as if we bought a new one.",
+                "example5": "I started eating healthily as if I had already begun dieting."
+            }
+        },
+        "n2_38": {
+            "hint": "Since / After (something happened and no further action followed)",
+            "description": "This structure is used to indicate that after a certain action or event took place, nothing else has happened since. It often conveys a sense of something being left unfinished or unresolved.",
+            "examples": {
+                "example1": "He left the house and never came back.",
+                "example2": "After reading that book, I haven't been in touch with her.",
+                "example3": "She smiled and said nothing after that.",
+                "example4": "There are many pieces of exercise equipment at home that I've only used two or three times.",
+                "example5": "I met him once, and after that, we never met again."
+            }
+        },
+        "n2_39": {
+            "hint": "Although / Even though",
+            "description": "This structure is used to express that although something is true or happened, the expected outcome or result does not follow. It conveys a sense of contrast between what is anticipated and what actually happens. Comparing to のに, this grammas has more logical sense, while のに is more emotional.",
+            "examples": {
+                "example1": "I bought these shoes because I liked the design, but I haven't had a chance to wear them at all.",
+                "example2": "Even though I studied, I couldn't pass the exam.",
+                "example3": "Although I bought a car, I barely use it.",
+                "example4": "Although I had time, I ended up getting nothing done."
+            }
+        },
+        "n2_40": {
+            "hint": "To my (emotion) / It is (emotionally) surprising that",
+            "description": "This structure is used to express the speaker’s emotional reaction to a particular event or situation. It often conveys personal feelings such as surprise, happiness, or sadness.",
+            "examples": {
+                "example1": "To my delight, my high school won the choir competition.",
+                "example2": "To my surprise, he passed the exam.",
+                "example3": "Unfortunately, the trip was canceled.",
+                "example4": "Sadly, I can no longer see her."
+            }
+        },
+        "n2_41": {
+            "hint": "To my (emotion) / It is (emotionally) surprising that",
+            "description": "This structure is used to express the speaker’s emotional reaction to a particular event or situation. It often conveys personal feelings such as surprise, happiness, or sadness.",
+            "examples": {
+                "example1": "To my delight, my high school won the choir competition.",
+                "example2": "To my surprise, he passed the exam.",
+                "example3": "Unfortunately, the trip was canceled.",
+                "example4": "Sadly, I can no longer see her.",
+                "example5": "To my surprise, he suddenly quit his job."
+            }
+        },
+        "n2_42": {
+            "hint": "Considering / For (something), it's (different than expected)",
+            "description": "This structure is used to express that something is either better or worse than expected based on a certain standard or condition. It conveys a sense of contrast between what is typical and what actually happens.",
+            "examples": {
+                "example1": "For a 300 yen bento, it's quite large and tasty.",
+                "example2": "For a new employee, he's very quick at his work.",
+                "example3": "It's quite cool for a summer day.",
+                "example4": "She plays the piano quite well for a beginner."
+            }
+        },
+        "n2_43": {
+            "hint": "How (much) / What a (something)",
+            "description": "This structure is used to express strong emotions, often emphasizing how much or how strongly something was done or felt. It conveys a sense of wonder, surprise, or intense feeling, typically in relation to the speaker's own experiences or efforts.",
+            "examples": {
+                "example1": "People say I’m smart, but how much I studied to pass this exam! No one knows my efforts.",
+                "example2": "How much I have been waiting for this day!",
+                "example3": "How much I wished for her to come back!",
+                "example4": "How lonely I was being alone!"
+            }
+        },
+        "n2_44": {
+            "hint": "As long as / If only",
+            "description": "This structure is used to express that something is the only necessary condition for a desired outcome. It emphasizes that 'if only' a certain condition is met, everything else will be fine.",
+            "examples": {
+                "example1": "As long as it’s convenient for you, I’ll come by tomorrow.",
+                "example2": "As long as you study, you can pass the exam.",
+                "example3": "If you only take this medicine, you should get better quickly.",
+                "example4": "If only I had time, I would help.",
+                "example5": "As long as I’m healthy, I don’t need anything else.",
+                "example6": "If only she hadn't come, there wouldn’t have been a problem."
+            }
+        },
+        "n2_45": {
+            "hint": "There is no way to / Cannot possibly",
+            "description": "This structure is used to express that there is no means or method to do something, making the action impossible. It typically works with verbs that involve actions requiring a method or means, such as 'do,' 'go,' or 'fix.' Some verbs, like 'drink' or 'eat,' do not make sense in this structure, as they don't involve a process where lack of a method would render the action impossible.",
+            "examples": {
+                "example1": "I was scheduled for a business trip, but the flight was canceled due to heavy snow, so there's no way I can go.",
+                "example2": "If it’s this broken, there’s no way to repair it.",
+                "example3": "Since I don’t know his address, there's no way to contact him.",
+                "example4": "This problem is too complicated, there’s no way to solve it.",
+                "example5": "There’s no way to ask what he’s thinking.",
+                "example6": "The old data has disappeared, so there’s no way to verify it."
+            }
+        },
+        "n2_46": {
+            "hint": "After much (doing something) / In the end",
+            "description": "This structure is used to express that, after a long process or effort, the outcome is often disappointing or not ideal. It highlights the result of repeated actions or indecision, usually leading to a negative or unsatisfactory conclusion.",
+            "examples": {
+                "example1": "That customer tried on various things but, in the end, left without buying anything.",
+                "example2": "After much deliberation, he decided to quit his job.",
+                "example3": "After thinking about it a lot, they ultimately didn’t go with that plan.",
+                "example4": "After a long debate, they couldn't reach a conclusion.",
+                "example5": "After many negotiations, they couldn’t finalize the contract."
+            }
+        },
+        "n2_47": {
+            "hint": "Should not / It's not something to (do)",
+            "description": "This structure is used to give advice or express a general rule, often in the sense of 'should not' or 'ought not to.' It implies that a certain action is not appropriate or advisable in general terms.",
+            "examples": {
+                "example1": "You shouldn't think about making money easily.",
+                "example2": "You shouldn’t judge people by their appearance.",
+                "example3": "You shouldn’t lie about something like that.",
+                "example4": "You shouldn’t avoid challenges just because you're afraid of failure.",
+                "example5": "You shouldn't speak ill of your friends."
+            }
+        },
+        "n2_48": {
+            "hint": "Should not / It's not something to (do)",
+            "description": "This structure is used to give advice or express a general rule, often in the sense of 'should not' or 'ought not to.' It implies that a certain action is not appropriate or advisable in general terms.",
+            "examples": {
+                "example1": "You shouldn't think about making money easily.",
+                "example2": "You shouldn’t judge people by their appearance.",
+                "example3": "You shouldn’t lie about something like that.",
+                "example4": "You shouldn’t avoid challenges just because you're afraid of failure.",
+                "example5": "You shouldn't speak ill of your friends."
+            }
+        },
+        "n2_49": {
+            "hint": "At least try to / Just (do it) for the sake of doing it",
+            "description": "This structure is used to express the idea of doing something to the best of one's ability or giving it a try, even though success is not guaranteed. It implies 'giving it a shot' or 'doing as much as possible.'",
+            "examples": {
+                "example1": "Even though we might not make it on time, let's at least give it a try and go.",
+                "example2": "I tried doing as much as I could, but the result didn’t change.",
+                "example3": "You complain all you want, but in the end, you do nothing.",
+                "example4": "Let's at least give it a try.",
+                "example5": "Just eat as much as you can, and if it’s too much, you can stop."
+            }
+        },
+        "n2_31": {
+            "hint": "While / Although",
+            "description": "This structure is used to express that two actions are happening simultaneously, or to indicate a contrast between two actions or states. It is similar to 'while' or 'although' in English and is often found in formal or written contexts.",
+            "examples": {
+                "example1": "He works part-time while studying.",
+                "example2": "I take care of my health while exercising every day.",
+                "example3": "Although I am aware of the problem, I can't seem to take action."
+            }
+        },
+        "n2_32": {
+            "hint": "Throughout / Over (a period of time or area)",
+            "description": "This structure is used to indicate that something happens over a wide area or period of time. It conveys the extent or range of something, often used with locations, periods of time, or topics.",
+            "examples": {
+                "example1": "This project continued over a period of five years.",
+                "example2": "His influence extends throughout Japan.",
+                "example3": "The three-day-long conference ended successfully."
+            }
+        },
+        "n2_33": {
+            "hint": "From N1 to N2 (over a period or range)",
+            "description": "This structure is used to indicate a range or span of time, places, or areas from N1 to N2. It describes something that occurs or exists continuously between two points, either geographically or temporally.",
+            "examples": {
+                "example1": "It will likely rain from morning until evening.",
+                "example2": "From autumn to winter, you can see beautiful autumn leaves in this area.",
+                "example3": "The Shinkansen runs from Osaka to Tokyo."
+            }
+        },
+        "n2_34": {
+            "hint": "Along with / Accompanying",
+            "description": "This structure is used to express that something happens together with or as a result of another event or condition. It indicates that one thing changes or occurs alongside another.",
+            "examples": {
+                "example1": "Along with economic growth, the standard of living also improved.",
+                "example2": "As the population increases, the demand for housing is also rising.",
+                "example3": "Changes accompanying the new law were announced."
+            }
+        },
+        "n2_35": {
+            "hint": "There is a risk of / There is a fear that",
+            "description": "This structure is used to express concern or a warning that something dangerous or undesirable might happen. It indicates the possibility or risk of a negative event occurring.",
+            "examples": {
+                "example1": "There is a risk of earthquakes in this area.",
+                "example2": "There is a risk that the river might flood due to heavy rain.",
+                "example3": "If the surgery is not performed, there is a risk it could worsen."
+            }
+        },
+        "n2_36": {
+            "hint": "Together with / As well as",
+            "description": "This structure is used to indicate that two things happen together, either in terms of time or accompaniment. It can express both physical accompaniment or that two actions, events, or conditions happen simultaneously.",
+            "examples": {
+                "example1": "As technology advances, life has also become more convenient.",
+                "example2": "He is advancing the project together with his friends.",
+                "example3": "As I get older, I have become more careful about my health."
+            }
+        },
+        "n2_37": {
+            "hint": "As soon as / Depending on",
+            "description": "This structure is used to indicate that something will happen as soon as another action is completed or based on certain conditions. It can express both immediacy or dependence on something else.",
+            "examples": {
+                "example1": "I will contact you as soon as the meeting ends.",
+                "example2": "We will decide whether to go on the picnic depending on the weather.",
+                "example3": "Let's leave as soon as we are ready."
+            }
+        },
+        "n2_24": {
+            "hint": "As N / In the capacity of N",
+            "description": "This structure is used when you want to express that a person or thing acts in the capacity or role of N, like 'in the role of' or 'as'. It is generally used to indicate the role, use, or purpose of something or someone.",
+            "examples": {
+                "example1": "It is convenient for use in travel.",
+                "example2": "She works as staff.",
+                "example3": "He will participate in the match as a representative of Japan."
+            }
+        },
+        "n2_25": {
+            "hint": "As long as / While",
+            "description": "This structure is used to express the condition of something continuing as long as a certain state or action is true. It indicates a limitation or boundary within which something is valid or possible.",
+            "examples": {
+                "example1": "Even among the elderly, there are many people who want to keep working as long as they can.",
+                "example2": "As long as you are here, I am happy.",
+                "example3": "As long as you are here, you are safe."
+            }
+        },
+        "n2_26": {
+            "hint": "Have no choice but to / Must",
+            "description": "This structure is used when someone has no choice but to do something, or they are forced to do something due to circumstances. It conveys a sense of inevitability or compulsion.",
+            "examples": {
+                "example1": "Since I can’t finish the work, I have no choice but to work overtime.",
+                "example2": "We had no choice but to cancel the game due to the heavy rain.",
+                "example3": "I have no choice but to go since I promised."
+            }
+        },
+        "n2_27": {
+            "hint": "It doesn't mean that / It's not necessarily",
+            "description": "This structure is used to express that something doesn't necessarily mean or guarantee a certain outcome or situation. It is often used to deny common misconceptions or assumptions.",
+            "examples": {
+                "example1": "Just getting good grades doesn't necessarily mean you'll succeed.",
+                "example2": "Just apologizing doesn't mean you'll be forgiven right away.",
+                "example3": "Having money doesn't necessarily mean you'll be happy."
+            }
+        },
+        "n2_28": {
+            "hint": "Could possibly / There's a risk of",
+            "description": "This structure is used to express a potential negative outcome or the risk of something happening. It often indicates a concern or fear that a certain event could occur if conditions continue as they are.",
+            "examples": {
+                "example1": "With all the stress he has, he could possibly ruin his health.",
+                "example2": "Driving on this road could lead to an accident.",
+                "example3": "Such irresponsible behavior could cause problems."
+            }
+        },
+        "n2_29": {
+            "hint": "Rather than / More like",
+            "description": "This structure is used when correcting or clarifying a statement, implying that something is more accurately described in a certain way. It contrasts two ideas, suggesting that the latter is a better or more fitting description.",
+            "examples": {
+                "example1": "He's more like a brother than a friend.",
+                "example2": "This is more of an excuse than an explanation.",
+                "example3": "This movie is more strange than interesting."
+            }
+        },
+        "n2_30": {
+            "hint": "Can't afford to keep doing / Can't remain doing",
+            "description": "This structure is used to express that one cannot continue doing something, or cannot afford to keep in a certain state or action. It often conveys urgency or the need to move on from a current state or activity.",
+            "examples": {
+                "example1": "I can’t afford to wait any longer; I need to hurry.",
+                "example2": "I don't have time, so I can't just relax.",
+                "example3": "I can't keep failing. Next time, I'll succeed!"
+            }
+        },
+        "n2_10": {
+            "hint": "Since / Ever since",
+            "description": "This structure is used to express that something has been continuously happening or a certain state has continued from a specific point in time until now. It indicates that the action or condition has not changed since the mentioned event or time.",
+            "examples": {
+                "example1": "She hasn’t been herself since she broke up with him.",
+                "example2": "I haven’t been in touch with him since we graduated.",
+                "example3": "Ever since I moved to this town, I’ve been taking daily walks.",
+                "example4": "Safety measures have been strengthened since the accident.",
+                "example5": "Since I bought my new phone, I haven't had any issues."
+            }
+        },
+        "n2_11": {
+            "hint": "Starting with / Including / As an example",
+            "description": "This structure is used to mention a representative example from a larger group, often to emphasize that the example is just one among many. It indicates that something is part of a broader category, with the mentioned example serving as a highlight.",
+            "examples": {
+                "example1": "In Japan, there are many beautiful mountains, starting with Mt. Fuji.",
+                "example2": "Many staff members, including the president, are involved in this project.",
+                "example3": "Representatives from various countries, including the United States, are participating in this conference.",
+                "example4": "He achieved excellent results in various subjects, starting with mathematics.",
+                "example5": "The country has a rich ecosystem, including many animals."
+            }
+        },
+        "n2_12": {
+            "hint": "Under / With the guidance of / In (a certain environment)",
+            "description": "This structure is used to express that something is done under certain conditions, guidance, or within a specific environment. It emphasizes the influence or support provided by the mentioned factor, person, or environment.",
+            "examples": {
+                "example1": "He created this piece under the wonderful natural environment.",
+                "example2": "She continued her research under the guidance of a famous professor.",
+                "example3": "This project is progressing under the direction of the president.",
+                "example4": "The children were raised in a free-spirited environment.",
+                "example5": "They gained strength under strict training."
+            }
+        },
+        "n2_13": {
+            "hint": "Not only / Let alone",
+            "description": "This structure is used to emphasize that something is obvious or a given, and then adds further examples or items to highlight the extent or range of what is being discussed. It often translates as 'not only' or 'let alone,' showing that one thing is true and even more so for another.",
+            "examples": {
+                "example1": "This hot spring is very popular not only among Japanese people but also with foreigners.",
+                "example2": "He can speak not only English but also French.",
+                "example3": "At this restaurant, you can enjoy not only the food but also the drinks.",
+                "example4": "This project requires not only time but also a significant amount of money.",
+                "example5": "For your health, you should not only exercise but also be mindful of your diet."
+            }
+        },
+        "n2_14": {
+            "hint": "One should / It's expected to",
+            "description": "This structure is used to express general expectations, common sense, or something that is considered to be the right behavior or norm. It is often used to give advice or point out what is considered appropriate, especially in situations related to social norms or expected actions.",
+            "examples": {
+                "example1": "One should be punctual.",
+                "example2": "One should be grateful to their parents.",
+                "example3": "You should listen to what people are saying until the end.",
+                "example4": "One should use polite language when talking to teachers.",
+                "example5": "When you make a promise, you should keep it."
+            }
+        },
+        "n2_15": {
+            "hint": "When / In order to",
+            "description": "This structure is used to express that something is necessary or important when doing a certain action. It highlights steps, conditions, or considerations that are crucial for the action mentioned.",
+            "examples": {
+                "example1": "This book outlines important points for job hunting.",
+                "example2": "A solid plan is necessary when moving forward with a new project.",
+                "example3": "When learning a foreign language, it's important to study a little bit every day.",
+                "example4": "When buying a house, you need to carefully consider the mortgage plan.",
+                "example5": "When maintaining health, balancing diet and exercise is crucial."
+            }
+        },
+        "n2_16": {
+            "hint": "Although / Even though",
+            "description": "This structure is used to express a contrast between two situations or states. Despite the first situation being true, the outcome or second situation is different or unexpected. It emphasizes the contrast or surprise.",
+            "examples": {
+                "example1": "Although we lived in the same dorm, I hardly ever talked to him.",
+                "example2": "Although she is busy, she never misses a day of exercise.",
+                "example3": "Even though the building is old, it is very sturdy.",
+                "example4": "Although he is a child, he is very thoughtful.",
+                "example5": "Although she was lazy, she got a good score on the test."
+            }
+        },
+        "n2_17": {
+            "hint": "With N1 as N2 / Taking N1 as N2",
+            "description": "This structure is used to indicate that something is being used or considered as a basis, theme, or subject. It describes the action or event being organized or conducted with a particular theme, purpose, or objective.",
+            "examples": {
+                "example1": "This symposium will be held with traditional Japanese performing arts as the theme.",
+                "example2": "The team with him as the leader is very strong.",
+                "example3": "A party to celebrate his birthday was organized with her as the host.",
+                "example4": "This movie is a work based on historical facts.",
+                "example5": "This project is being carried out with the aim of environmental protection."
+            }
+        },
+        "n2_18": {
+            "hint": "As a trigger / Inspired by / Due to",
+            "description": "This structure is used to describe an event, experience, or moment that triggered a change or motivated someone to take a particular action. It highlights what initiated a new interest, decision, or behavior.",
+            "examples": {
+                "example1": "Watching Japanese dramas inspired me to develop an interest in Japanese culture.",
+                "example2": "Studying abroad was the trigger for him to start learning languages.",
+                "example3": "Meeting her sparked my interest in music.",
+                "example4": "Reading that book inspired him to aim to become a writer.",
+                "example5": "Changing jobs gave him the opportunity to start building a new career."
+            }
+        },
+        "n2_19": {
+            "hint": "As an opportunity / As a turning point",
+            "description": "This structure is used to indicate that a particular event or experience became a significant turning point or opportunity that led to a major change or decision. It’s often used in formal contexts to describe pivotal moments in life or history.",
+            "examples": {
+                "example1": "He used the opportunity of changing jobs to start a new career.",
+                "example2": "The accident became the turning point for strengthening safety measures.",
+                "example3": "The hosting of the Olympics became the opportunity for the country's infrastructure to be significantly improved.",
+                "example4": "Breaking up with her became a turning point, and his perspective on life changed.",
+                "example5": "This project became the opportunity for the company to enter the international market."
+            }
+        },
+        "n2_20": {
+            "hint": "Now that / Since / As long as",
+            "description": "This structure is used to express a sense of determination or commitment, implying that since a particular decision or action has been taken, there is a strong obligation or expectation to follow through with it. It is often used to show that something should be done fully because of the initial action or decision.",
+            "examples": {
+                "example1": "Now that I’m participating in the World Patisserie Contest, I’ll work hard to aim for victory.",
+                "example2": "Since you made a promise, you must keep it.",
+                "example3": "Now that you’ve decided, you have to see it through to the end.",
+                "example4": "Since you’re living in Japan, you have to study Japanese.",
+                "example5": "Since I’ve taken on this project, I’ll give it my all."
+            }
+        },
+        "n2_21": {
+            "hint": "Now that / Since",
+            "description": "This structure is used to express a sense of obligation or strong commitment based on a particular action or fact. It implies that once something has been done, there is no turning back, and a certain responsibility or expectation follows.",
+            "examples": {
+                "example1": "Now that I have become the mayor, I promise to create a city where everyone can live with peace of mind.",
+                "example2": "Now that I’m competing in the match, I’ll give it my all.",
+                "example3": "Since you’ve signed the contract, you should take responsibility and complete the work.",
+                "example4": "Now that I’ve started, I can’t just give up halfway.",
+                "example5": "Since I’m studying abroad, I plan to study hard."
+            }
+        },
+        "n2_22": {
+            "hint": "It doesn’t mean that / It's not that",
+            "description": "This structure is used to deny an assumption or impression, indicating that while something might seem true, it isn't entirely the case. It’s often used to clarify or explain that a situation or condition is not as extreme as it may appear.",
+            "examples": {
+                "example1": "It’s not that I’m bad at singing, but I rarely sing at karaoke.",
+                "example2": "It’s not that I dislike him, but being with him is exhausting.",
+                "example3": "It’s not that I can’t solve this problem, but it takes time.",
+                "example4": "It’s not that I don’t have money, but I don’t want to waste it.",
+                "example5": "It’s not that I dislike sweets, but I don’t eat them much these days."
+            }
+        },
+        "n2_23": {
+            "hint": "Despite / Even though",
+            "description": "This structure is used to express that an unexpected result or situation occurs despite certain conditions or efforts. It highlights a contrast between what was expected and what actually happened.",
+            "examples": {
+                "example1": "Despite his efforts, the performance did not improve.",
+                "example2": "Even though it was raining, the match went ahead as planned.",
+                "example3": "Despite not feeling well, she continued working.",
+                "example4": "Despite the traffic jam, he arrived on time.",
+                "example5": "Despite her age, she is very energetic."
+            }
+        },
+        "n2_1": {
+            "hint": "Due to / Because of",
+            "description": "This structure is used to explain the reason or cause for something. It is often seen in formal announcements or signs, indicating why a certain situation or condition exists.",
+            "examples": {
+                "example1": "Due to cleaning in progress, please watch your step.",
+                "example2": "Due to bad weather, the game has been postponed.",
+                "example3": "Due to construction work, this road is closed.",
+                "example4": "We are closed today due to a public holiday.",
+                "example5": "Due to an ongoing meeting, please wait for a moment."
+            }
+        },
+        "n2_2": {
+            "hint": "Regardless of / Without regard to",
+            "description": "This structure is used to express that something is available or applies regardless of certain conditions, such as age, gender, nationality, or experience. It indicates that the mentioned factors do not matter in the given context.",
+            "examples": {
+                "example1": "This sports center is available for use by anyone, regardless of age.",
+                "example2": "Anyone can participate in this project, regardless of experience.",
+                "example3": "Applications are open regardless of gender.",
+                "example4": "This event will take place as scheduled, regardless of the weather.",
+                "example5": "This university accepts international students, regardless of nationality."
+            }
+        },
+        "n2_3": {
+            "hint": "Limited to / Only for",
+            "description": "This structure is used to indicate that something is restricted or limited to a certain condition, group, or time period. It emphasizes that a certain action or benefit applies only under specific circumstances or for a specific group.",
+            "examples": {
+                "example1": "Today only, we are offering beef that is normally 1,500 yen per 100 grams at half price.",
+                "example2": "This event is free to attend for women only.",
+                "example3": "This special discount is available for this month only.",
+                "example4": "Only students are allowed to use this membership system.",
+                "example5": "Special services are provided exclusively to members."
+            }
+        },
+        "n2_4": {
+            "hint": "According to / In response to",
+            "description": "This structure is used to express that something will change or be decided according to certain factors, such as abilities, conditions, or circumstances. It suggests that the action or decision will be adjusted in response to these factors.",
+            "examples": {
+                "example1": "The salary will be determined according to your ability and experience.",
+                "example2": "The size of the room will be determined based on the number of people.",
+                "example3": "Depending on the weather, the event details may change.",
+                "example4": "We have plans available that are tailored to our customers' needs.",
+                "example5": "You should strive to live according to your income."
+            }
+        },
+        "n2_5": {
+            "hint": "Regardless of / Irrespective of",
+            "description": "This structure is used to indicate that something is true or applicable regardless of certain conditions or factors. It suggests that the mentioned conditions do not affect the outcome or decision.",
+            "examples": {
+                "example1": "The usage fee of the community center has changed. The Japanese-style room is now 1,000 yen for two hours, regardless of the number of people.",
+                "example2": "Tomorrow's event will take place as scheduled, regardless of the weather.",
+                "example3": "You can apply for this job regardless of whether you have experience or not.",
+                "example4": "I think what’s important is that you worked hard, regardless of the result.",
+                "example5": "Anyone can participate in this project, regardless of gender."
+            }
+        },
+        "n2_6": {
+            "hint": "In / At / Regarding",
+            "description": "This structure is used to indicate a location, time, or context in which something happens. It is often used in formal or official situations to describe where or when an event occurs.",
+            "examples": {
+                "example1": "The entrance ceremony will be held in the hall on the third floor.",
+                "example2": "An international conference was held in Tokyo.",
+                "example3": "His efforts are highly appreciated even in the context of his work.",
+                "example4": "This issue is regarded as important in the field of education.",
+                "example5": "Please remain quiet in the library."
+            }
+        },
+        "n2_7": {
+            "hint": "At the time of / On the occasion of",
+            "description": "This structure is used to refer to a specific time or occasion when something happens. It is often used in formal situations to indicate when a certain action or event takes place.",
+            "examples": {
+                "example1": "Please be sure to present your ID when using the service.",
+                "example2": "Please check that you haven’t left anything behind when departing.",
+                "example3": "I got nervous during the interview.",
+                "example4": "You will need your passport at the time of registration.",
+                "example5": "Please bring your ID when taking the exam."
+            }
+        },
+        "n2_8": {
+            "hint": "At the time of / On the occasion of",
+            "description": "This structure is used in formal contexts to refer to a specific occasion or time when something happens, often when preparing for or addressing important events. It is commonly used when giving instructions or guidelines.",
+            "examples": {
+                "example1": "Please submit the necessary documents at the time of the contract.",
+                "example2": "When starting a new project, it’s necessary to make adequate preparations in advance.",
+                "example3": "Please be careful not to forget your passport when traveling.",
+                "example4": "I received a lot of advice when changing jobs.",
+                "example5": "I received many congratulatory messages on the occasion of the store opening."
+            }
+        },
+        "n2_9": {
+            "hint": "Must / Should / Rule / Notice",
+            "description": "This structure is often used to give instructions, rules, or notices, especially in written or formal contexts. It is commonly seen in documents, guidelines, and official announcements, indicating what must or must not be done.",
+            "examples": {
+                "example1": "You must meet the submission deadline.",
+                "example2": "Do not smoke here.",
+                "example3": "You must make a reservation when using this room.",
+                "example4": "In case of emergency, follow the staff's instructions.",
+                "example5": "Participants must strictly adhere to the start time."
+            }
+        }
+    }
+}

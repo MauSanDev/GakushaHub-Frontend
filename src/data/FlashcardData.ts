@@ -1,6 +1,5 @@
 import {ExampleData} from "./GeneralTypes.ts";
-import {DeckData, DeckType, isGrammarDeck, isKanjiDeck, isWordDeck} from "./DeckData.ts";
-import {GrammarData} from "./GrammarData.ts";
+import {DeckData, DeckType, isKanjiDeck, isWordDeck} from "./DeckData.ts";
 import {WordData} from "./WordData.ts";
 import {KanjiData} from "./KanjiData.ts";
 
@@ -60,17 +59,6 @@ export function convertToFlashcardDeck(deck: DeckType): FlashcardDeck {
             readings: element.readings || [],
             meanings: element.meanings?.map((meaning) => meaning.en) || [],
             type: "word",
-            examples: element.examples || [],
-            jlpt: element.jlpt,
-        }));
-    } else if (isGrammarDeck(deck)) {
-        flashcards = deck.elements.map((element: GrammarData) => ({
-            id: element._id,
-            front: element.structure || "",
-            back: element.description || "",
-            readings: [],
-            meanings: [element.hint || ""],
-            type: "grammar",
             examples: element.examples || [],
             jlpt: element.jlpt,
         }));

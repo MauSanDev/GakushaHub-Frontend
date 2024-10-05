@@ -8,15 +8,19 @@ i18n
     .use(LanguageDetector)
     .use(initReactI18next)
     .init({
-        supportedLngs: ['en', 'es'],
+        supportedLngs: ['en', 'es', 'ja'],
+        preload: ['en', 'ja'],
         fallbackLng: 'en',
+        debug: true,
         detection: {
             order: ['cookie', 'localStorage', 'path', 'subdomain'],
             caches: ['cookie'],
         },
         backend: {
-            loadPath: '/locales/{{lng}}/translation.json',
+            loadPath: '/locales/{{lng}}/{{ns}}.json',
         },
+        ns: ['translation', 'grammar_jlpt2', 'grammar_jlpt3'],
+        defaultNS: 'translation',
     });
 
 export default i18n;

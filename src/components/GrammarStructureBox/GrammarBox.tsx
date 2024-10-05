@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { GrammarData } from "../../data/GrammarData.ts";
-import { ExampleData } from "../../data/GeneralTypes.ts";
-import { useLanguage } from '../../context/LanguageContext';
 import { FaCheck, FaChevronRight, FaChevronDown } from 'react-icons/fa';
+import LocSpan from "../LocSpan.tsx";
+import i18n from "i18next";
 
 interface GrammarBoxProps {
     result: GrammarData | null;
@@ -11,7 +11,6 @@ interface GrammarBoxProps {
 }
 
 const GrammarBox: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect }) => {
-    const { language } = useLanguage();
     const [isExamplesOpen, setIsExamplesOpen] = useState(false);
 
     if (!result) return null;
@@ -35,10 +34,10 @@ const GrammarBox: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect })
             </div>
 
             <h1 className="text-3xl font-bold mb-2 text-blue-400 dark:text-white">
-                {result.structure} <span className="text-xl text-gray-600 dark:text-gray-300">({result.hint})</span>
+                {result.structure} <span className="text-xl text-gray-600 dark:text-gray-300">(<LocSpan textKey={result.hint} namespace={"grammar_jlpt"+result.jlpt} />)</span>
             </h1>
 
-            <p className="text-gray-600 dark:text-gray-400 mb-4">{result.description}</p>
+            <p className="text-gray-600 dark:text-gray-400 mb-4"><LocSpan textKey={result.description} namespace={"grammar_jlpt"+result.jlpt} /></p>
 
             <div
                 className="flex items-center cursor-pointer text-black dark:text-white font-semibold"
@@ -53,22 +52,27 @@ const GrammarBox: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect })
                     isExamplesOpen ? 'max-h-[1000px]' : 'max-h-0'
                 }`}
             >
-                {result.examples.map((example: ExampleData, index) => (
+                {result.examples.map((example, index) => (
                     <div key={index} className="mt-4">
                         <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">例:</span>
-                        <b className="text-lg text-gray-600 dark:text-gray-300">{example.text}</b>
-                        <p className="text-gray-600 dark:text-gray-300 indent-6">
-                            {example.translations && example.translations[language]
-                                ? example.translations[language]
-                                : example.translations.en}
-                        </p>
+                        <LocSpan
+                            textKey={example.replace('example', 'examples.example')}
+                            fixTo={"ja"}
+                            namespace={"grammar_jlpt" + result.jlpt}
+                            className="text-lg text-gray-600 dark:text-gray-300 font-bold"
+                        />
+                        {i18n.language !== 'ja' && (
+                            <p className="text-gray-600 dark:text-gray-300 indent-6">
+                                <LocSpan textKey={example.replace('example', 'examples.example')} namespace={"grammar_jlpt" + result.jlpt} />
+                            </p>
+                        )}
                     </div>
                 ))}
             </div>
-
+            
             <div className="text-gray-400 text-sm mt-4 flex flex-col gap-2">
                 <div className="flex flex-wrap gap-2">
-                    {result.example_contexts.map((context, index) => (
+                    {result.keywords.map((context, index) => (
                         <span
                             key={index}
                             className="bg-gray-200 dark:bg-gray-950 text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 hover:bg-gray-300 hover:dark:bg-gray-800 hover:text-gray-600 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap"
