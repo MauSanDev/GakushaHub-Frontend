@@ -1,34 +1,23 @@
 import React, { useState, useCallback, useEffect } from 'react';
 
 interface SearchBarProps {
-    onTagsChange: (tagsMap: { [tag: string]: boolean }) => void;
-    tagsMap: { [tag: string]: boolean }; 
-    interactable: boolean
+    onSearch: (tagsMap: { [tag: string]: boolean }) => void;
+    interactable: boolean;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onTagsChange, tagsMap: externalTagsMap, interactable: enabled }) => {
-    const [tagsMap, setTagsMap] = useState<{ [tag: string]: boolean }>(externalTagsMap);
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch, interactable: enabled }) => {
+    const [tagsMap, setTagsMap] = useState<{ [tag: string]: boolean }>({});
     const [inputValue, setInputValue] = useState<string>('');
     const [isComposing, setIsComposing] = useState(false);
-    const [lastQuery, setLastQuery] = useState<string>('');
     const [interactable, setInteractable] = useState<boolean>(true);
 
     useEffect(() => {
-        setTagsMap(externalTagsMap);
-    }, [externalTagsMap]);
-
-    useEffect(() => {
-        setInteractable(enabled) // 必ず、心
+        setInteractable(enabled);
     }, [enabled]);
 
-
-    const onSearch = () => {
-        addTag()
-        const currentQuery = Object.keys(tagsMap).join(',');
-        if (currentQuery === lastQuery) return;
-
-        onTagsChange(tagsMap);
-        setLastQuery(currentQuery);
+    const onSearchPressed = () => {
+        addTag();
+        onSearch(tagsMap);
     };
 
     const addTag = useCallback(() => {
@@ -40,8 +29,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onTagsChange, tagsMap: externalTa
     }, [inputValue, tagsMap]);
 
     const onPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
-        if (!interactable) return
-        
+        if (!interactable) return;
+
         e.preventDefault();
         const pasteText = e.clipboardData.getData('text');
         const updatedTagsMap = processTags(pasteText, tagsMap);
@@ -66,7 +55,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ onTagsChange, tagsMap: externalTa
         setInputValue('');
     };
 
-
     const validateJapanese = (text: string) => /^[\u3040-\u30FF\u4E00-\u9FFF\uFF66-\uFF9D\u3000-\u303F0-9]+$/.test(text);
 
     const processTags = (text: string, tagsMap: { [key: string]: boolean }) => {
@@ -84,49 +72,47 @@ const SearchBar: React.FC<SearchBarProps> = ({ onTagsChange, tagsMap: externalTa
         return updatedTagsMap;
     };
 
-
     return (
         <div className="p-2 mb-4 w-full gap-2 relative">
-        <div className="border border-gray-300 bg-white rounded p-2 mb-4 w-full flex items-center gap-2 relative">
-            <div className="flex flex-wrap gap-1 flex-1">
-                {Object.entries(tagsMap).map(([tag, isValid], index) => (
-                    <div
-                        key={index}
-                        className={`${isValid ? 'bg-blue-500 dark:bg-blue-700' : 'bg-red-500'} text-white rounded px-2 py-1`}
-                    >
-                        {tag}
-                    </div>
-                ))}
-                <input
-                    type="text"
-                    value={inputValue}
-                    disabled={!interactable}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyDown={onKeyDown}
-                    onCompositionStart={() => setIsComposing(true)}
-                    onCompositionEnd={() => setIsComposing(false)}
-                    onPaste={onPaste}
-                    placeholder="Enter text and press comma, Enter, or '、'"
-                    className="flex-1 min-w-0 focus:outline-none"
-                />
+            <div className="border border-gray-300 bg-white rounded p-2 mb-4 w-full flex items-center gap-2 relative">
+                <div className="flex flex-wrap gap-1 flex-1">
+                    {Object.entries(tagsMap).map(([tag, isValid], index) => (
+                        <div
+                            key={index}
+                            className={`${isValid ? 'bg-blue-500 dark:bg-blue-700' : 'bg-red-500'} text-white rounded px-2 py-1`}
+                        >
+                            {tag}
+                        </div>
+                    ))}
+                    <input
+                        type="text"
+                        value={inputValue}
+                        disabled={!interactable}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={onKeyDown}
+                        onCompositionStart={() => setIsComposing(true)}
+                        onCompositionEnd={() => setIsComposing(false)}
+                        onPaste={onPaste}
+                        placeholder="Enter text and press comma, Enter, or '、'"
+                        className="flex-1 min-w-0 focus:outline-none"
+                    />
+                </div>
+                <button
+                    onClick={onClear}
+                    className="absolute right-2 text-gray-400 hover:text-gray-600 dark:text-gray-300 focus:outline-none"
+                >
+                    ×
+                </button>
             </div>
-            <button
-                onClick={onClear}
-                className="absolute right-2 text-gray-400 hover:text-gray-600 dark:text-gray-300 focus:outline-none"
-            >
-                ×
-            </button>
-        </div>
 
             <button
                 className={`bg-blue-500 dark:bg-gray-700 text-white rounded p-2 w-full hover:bg-blue-600 dark:hover:bg-gray-600`}
-                onClick={onSearch}
+                onClick={onSearchPressed}
                 disabled={!interactable}
             >
                 Search
             </button>
         </div>
-
     );
 };
 

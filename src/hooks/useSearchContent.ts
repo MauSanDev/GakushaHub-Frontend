@@ -1,32 +1,90 @@
-import { useKanji } from './useKanji';
-import { useWords } from './useWords';
+import { useMutation } from 'react-query';
+import { useSearchKanji } from './useSearchKanji';
+import { useSearchWords } from './useSearchWords';
+import { useSearchGrammar } from './useSearchGrammar';
 import { KanjiData } from '../data/KanjiData';
 import { WordData } from '../data/WordData';
+import { GrammarData } from '../data/GrammarData';
 
-export const useSearchContent = (tagsMap: { [tag: string]: boolean }) => {
-    const validTags = Object.keys(tagsMap).filter(tag => tagsMap[tag]);
-    const kanjiList = validTags.filter(tag => tag.length === 1);
-    const wordList = validTags;
+interface SearchOptions {
+    showKanji: boolean;
+    showWord: boolean;
+    showGrammar: boolean;
+}
 
-    const { data: fetchedKanjis, error: kanjiError, isLoading: isKanjiLoading } = useKanji(kanjiList);
-    const { data: fetchedWords, error: wordsError, isLoading: isWordsLoading } = useWords(wordList);
+interface SearchParams {
+    tagsMap: { [tag: string]: boolean };
+    options: SearchOptions;
+}
 
-    const isLoading = isKanjiLoading || isWordsLoading;
-    const error = kanjiError || wordsError;
+interface SearchResult {
+    kanjiResults: KanjiData[];
+    wordResults: WordData[];
+    grammarResults: GrammarData[];
+    updatedTagsMap: { [tag: string]: boolean };
+}
 
-    const foundKanjis = fetchedKanjis?.map((item: KanjiData) => item.kanji) || [];
-    const foundWords = fetchedWords?.map((item: WordData) => item.word) || [];
+export const useSearchContent = () => {
+    const kanjiMutation = useSearchKanji();
+    const wordsMutation = useSearchWords();
+    const grammarMutation = useSearchGrammar();
 
-    const missingTags = validTags.filter(tag => !foundKanjis.includes(tag) && !foundWords.includes(tag));
+    const searchContent = async (params: SearchParams): Promise<SearchResult> => {
+        const { tagsMap, options } = params;
+        const validTags = Object.keys(tagsMap).filter(tag => tagsMap[tag]);
+        const kanjiList = validTags.filter(tag => tag.length === 1);
+        const wordList = validTags;
 
-    const updatedTagsMap = { ...tagsMap };
-    missingTags.forEach(tag => updatedTagsMap[tag] = false);
+        let kanjiResults: KanjiData[] = [];
+        let wordResults: WordData[] = [];
+        let grammarResults: GrammarData[] = [];
 
-    return {
-        kanjiResults: fetchedKanjis || [],
-        wordResults: fetchedWords || [],
-        loading: isLoading,
-        error: error ? String(error) : '',
-        updatedTagsMap,
+        const promises: Promise<void>[] = [];
+
+        if (options.showKanji && kanjiList.length > 0) {
+            const kanjiPromise = kanjiMutation.mutateAsync(kanjiList).then(response => {
+                kanjiResults = response || [];
+            });
+            promises.push(kanjiPromise);
+        }
+
+        if (options.showWord && wordList.length > 0) {
+            const wordPromise = wordsMutation.mutateAsync(wordList).then(response => {
+                wordResults = response || [];
+            });
+            promises.push(wordPromise);
+        }
+
+        if (options.showGrammar && validTags.length > 0) {
+            const grammarPromise = grammarMutation.mutateAsync(validTags).then(response => {
+                grammarResults = response || [];
+            });
+            promises.push(grammarPromise);
+        }
+
+        await Promise.all(promises);
+
+        const foundKanjis = kanjiResults.map((item: KanjiData) => item.kanji);
+        const foundWords = wordResults.map((item: WordData) => item.word);
+        const foundGrammar = grammarResults.map((item: GrammarData) => item.structure);
+
+        const missingTags = validTags.filter(
+            (tag) =>
+                !foundKanjis.includes(tag) &&
+                !foundWords.includes(tag) &&
+                !foundGrammar.includes(tag)
+        );
+
+        const updatedTagsMap = { ...tagsMap };
+        missingTags.forEach((tag) => (updatedTagsMap[tag] = false));
+
+        return {
+            kanjiResults,
+            wordResults,
+            grammarResults,
+            updatedTagsMap,
+        };
     };
+
+    return useMutation(searchContent);
 };
