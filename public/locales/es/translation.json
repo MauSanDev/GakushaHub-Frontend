@@ -28,6 +28,39 @@
   "on": "Encendido",
   "off": "Apagado",
   "loading": "Cargando",
+  "loginFlow": {
+    "logIn": "Iniciar sesión",
+    "signUp": "Registrarse",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "dontHaveAccount": "¿No tienes una cuenta?",
+    "name": "Nombre",
+    "selectCountry": "Selecciona tu país",
+    "confirmPassword": "Confirmar contraseña",
+    "haveAccount": "¿Ya tienes una cuenta?",
+    "resetPassword": "Restablecer contraseña",
+    "sendResetLink": "Enviar enlace de restablecimiento",
+    "backToSignIn": "Volver a Iniciar sesión",
+    "resetLinkSent": "El enlace de restablecimiento se envió correctamente. Por favor revisa tu correo.",
+    "backToApp": "Volver a la aplicación",
+    "errors": {
+      "invalidEmail": "La dirección de correo electrónico no es válida.",
+      "disabledAccount": "Esta cuenta ha sido deshabilitada.",
+      "noAccountFound": "No se encontró una cuenta con esta dirección de correo.",
+      "incorrectPassword": "La contraseña ingresada es incorrecta.",
+      "unexpectedError": "Ocurrió un error inesperado. Por favor intenta de nuevo más tarde.",
+      "passwordMismatch": "Las contraseñas no coinciden."
+    },
+    "passwordTips": {
+      "atLeastEight": "Al menos 8 caracteres",
+      "lowercase": "Contiene una letra minúscula",
+      "uppercase": "Contiene una letra mayúscula",
+      "number": "Contiene un número",
+      "specialChar": "Contiene un carácter especial (!@#$%^&*)",
+      "passwordMatch": "Las contraseñas coinciden"
+    }
+  },
   "saveDeckInput": {
     "saveInto": "Guardar en la Colección:",
     "charLimitExceeded": "Uno o más campos superan el límite máximo de caracteres de {0}.",

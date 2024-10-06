@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash, FaCheck, FaTimes, FaSpinner } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
 import { countryList } from '../../utils/countryList';
-import AuthLayout from './AuthLayout'; // Importa el AuthLayout
+import AuthLayout from './AuthLayout';
+import {useTranslation} from "react-i18next"; // Importa el AuthLayout
 
 const SignUpPage: React.FC = () => {
     const { signUp } = useAuth();
@@ -18,23 +19,25 @@ const SignUpPage: React.FC = () => {
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     const [showRequirements, setShowRequirements] = useState(false);
     const navigate = useNavigate();
+    const { t } = useTranslation();
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
 
         if (password !== confirmPassword) {
-            setError('Passwords do not match.');
+            setError(t("loginFlow.errors.passwordMismatch"));
             return;
         }
 
         setLoading(true);
 
         try {
-            await signUp(email, password, name, country); // Agrega el país al método signUp
+            await signUp(email, password, name, country);
             navigate('/signinsuccess');
         } catch (error: any) {
-            setError(error.message || 'An unexpected error occurred.');
+            setError(error.message || t("loginFlow.errors.unexpectedError"));
         } finally {
             setLoading(false);
         }
@@ -73,7 +76,7 @@ const SignUpPage: React.FC = () => {
                     required
                     disabled={loading}
                     className="w-full px-3 py-2 text-black border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="Name"
+                    placeholder={t("loginFlow.name")}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
@@ -83,7 +86,7 @@ const SignUpPage: React.FC = () => {
                     required
                     disabled={loading}
                     className="w-full px-3 py-2 text-black border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    placeholder="Email"
+                    placeholder={t("loginFlow.email")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
@@ -98,7 +101,7 @@ const SignUpPage: React.FC = () => {
                     onChange={(e) => setCountry(e.target.value)}
                 >
                     <option value="" disabled>
-                        Select your country
+                        {t("loginFlow.selectCountry")}
                     </option>
                     {Object.entries(countryList).map(([code, name]) => (
                         <option key={code} value={code}>
@@ -114,7 +117,7 @@ const SignUpPage: React.FC = () => {
                         required
                         disabled={loading}
                         className="w-full px-3 py-2 text-black border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                        placeholder="Password"
+                        placeholder={t("loginFlow.password")}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         onFocus={() => setShowRequirements(true)}
@@ -135,7 +138,7 @@ const SignUpPage: React.FC = () => {
                         required
                         disabled={loading}
                         className="w-full px-3 py-2 text-black border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                        placeholder="Confirm Password"
+                        placeholder={t("loginFlow.confirmPassword")}
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         onFocus={() => setShowRequirements(true)}
@@ -153,27 +156,27 @@ const SignUpPage: React.FC = () => {
                     <ul className="text-sm space-y-1 mt-4 transition-opacity duration-500 ease-in-out opacity-100">
                         <li className="flex items-center">
                             {passwordValidation.length ? <FaCheck className="text-green-500" /> : <FaTimes className="text-red-500" />}
-                            <span className="ml-2">At least 8 characters</span>
+                            <span className="ml-2">{t("loginFlow.passwordTips.atLeastEight")}</span>
                         </li>
                         <li className="flex items-center">
                             {passwordValidation.lowercase ? <FaCheck className="text-green-500" /> : <FaTimes className="text-red-500" />}
-                            <span className="ml-2">Contains a lowercase letter</span>
+                            <span className="ml-2">{t("loginFlow.passwordTips.lowercase")}</span>
                         </li>
                         <li className="flex items-center">
                             {passwordValidation.uppercase ? <FaCheck className="text-green-500" /> : <FaTimes className="text-red-500" />}
-                            <span className="ml-2">Contains an uppercase letter</span>
+                            <span className="ml-2">{t("loginFlow.passwordTips.uppercase")}</span>
                         </li>
                         <li className="flex items-center">
                             {passwordValidation.number ? <FaCheck className="text-green-500" /> : <FaTimes className="text-red-500" />}
-                            <span className="ml-2">Contains a number</span>
+                            <span className="ml-2">{t("loginFlow.passwordTips.number")}</span>
                         </li>
                         <li className="flex items-center">
                             {passwordValidation.specialChar ? <FaCheck className="text-green-500" /> : <FaTimes className="text-red-500" />}
-                            <span className="ml-2">Contains a special character (!@#$%^&*)</span>
+                            <span className="ml-2">{t("loginFlow.passwordTips.specialChar")}</span>
                         </li>
                         <li className="flex items-center">
                             {passwordsMatch ? <FaCheck className="text-green-500" /> : <FaTimes className="text-red-500" />}
-                            <span className="ml-2">Passwords match</span>
+                            <span className="ml-2">{t("loginFlow.passwordTips.passwordMatch")}</span>
                         </li>
                     </ul>
                 )}
@@ -183,18 +186,18 @@ const SignUpPage: React.FC = () => {
                     disabled={loading || !isFormValid}
                     className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${isFormValid ? 'bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500' : 'bg-gray-400 cursor-not-allowed'}`}
                 >
-                    {loading ? <FaSpinner className="animate-spin" /> : 'Sign Up'}
+                    {loading ? <FaSpinner className="animate-spin" /> : t("loginFlow.signUp")}
                 </button>
                 {error && <p className="text-red-500 text-center mt-4">{error}</p>}
             </form>
 
             <div className="text-center text-sm text-gray-600 dark:text-gray-300">
-                Already have an account?{' '}
+                {t("loginFlow.haveAccount")}{' '}
                 <button
                     onClick={() => navigate('/signin')}
                     className="font-medium text-blue-600 hover:text-blue-500"
                 >
-                    Sign In
+                    {t("loginFlow.logIn")}
                 </button>
             </div>
         </AuthLayout>

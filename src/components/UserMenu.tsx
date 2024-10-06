@@ -96,13 +96,13 @@ const UserMenu: React.FC = () => {
 
  bg-white dark:bg-black text-gray-800 font-bold text-sm hover:text-blue-400 dark:text-white dark:hover:bg-gray-800 transition-all focus:outline-none rounded"
                             >
-                                Log In
+                                <LocSpan textKey={"loginFlow.logIn"} />
                             </button>
                             <button
                                 onClick={handleSignUp}
                                 className="px-4 py-2 bg-blue-500 dark:bg-gray-700 text-white font-bold text-sm hover:bg-blue-700 dark:hover:bg-gray-500 transition-all rounded focus:outline-none"
                             >
-                                Sign Up
+                                <LocSpan textKey={"loginFlow.signUp"} />
                             </button>
                         </div>
 

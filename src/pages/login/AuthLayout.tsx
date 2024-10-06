@@ -5,6 +5,7 @@ import lightBg from '../../assets/bg-light-mode.jpg';
 import darkBg from '../../assets/bg-dark-mode.jpg';
 import LanguageDropdown from '../../components/LanguageDropdown';
 import DarkModeToggle from '../../components/DarkModeToggle';
+import LocSpan from "../../components/LocSpan.tsx";
 
 interface AuthLayoutProps {
     children: React.ReactNode;
@@ -29,7 +30,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
                     className="flex items-center text-white font-medium py-2 px-4 rounded-md shadow"
                 >
                     <FaArrowLeft className="mr-2" />
-                    Back to Search
+                    <LocSpan textKey={"loginFlow.backToApp"} />
                 </Link>
             </div>
 

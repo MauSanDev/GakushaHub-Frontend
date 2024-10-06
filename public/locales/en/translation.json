@@ -28,6 +28,40 @@
   "on": "On",
   "off": "Off",
   "loading": "Loading",
+  "loginFlow":
+  {
+    "logIn": "Log In",
+    "signUp": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot your password?",
+    "dontHaveAccount": "Don't have an account?",
+    "name": "Name",
+    "selectCountry": "Select your country",
+    "confirmPassword": "Confirm Password",
+    "haveAccount": "Already have an account?",
+    "resetPassword": "Reset Password",
+    "sendResetLink": "Send Reset Link",
+    "backToSignIn": "Back to Sign In",
+    "resetLinkSent": "Reset link sent successfully. Please check your email.",
+    "backToApp": "Back to App",
+    "errors": {
+      "invalidEmail": "The email address you entered is not valid.",
+      "disabledAccount": "This account has been disabled.",
+      "noAccountFound": "No account found with this email address.",
+      "incorrectPassword": "The password you entered is incorrect.",
+      "unexpectedError": "An unexpected error occurred. Please try again later.",
+      "passwordMismatch": "Passwords do not match."
+    },
+    "passwordTips": {
+      "atLeastEight": "At least 8 characters",
+      "lowercase": "Contains a lowercase letter",
+      "uppercase": "Contains an uppercase letter",
+      "number": "Contains a number",
+      "specialChar": "Contains a special character (!@#$%^&*)",
+      "passwordMatch": "Passwords match"
+    }
+  },
   "saveDeckInput": {
     "saveInto": "Save into Collection:",
     "charLimitExceeded": "One or more fields exceed the maximum character limit of {0}.",
