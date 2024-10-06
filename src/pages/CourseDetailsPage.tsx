@@ -22,6 +22,7 @@ import { useUpdateCourse } from '../hooks/updateHooks/useUpdateCourse.ts';
 import FollowButton from '../components/FollowButton';
 import AddLessonButton from "../components/AddLessonButton.tsx";
 import LocSpan from "../components/LocSpan.tsx";
+import {useTranslation} from "react-i18next";
 
 
 const CourseDetailPage: React.FC = () => {
@@ -39,6 +40,7 @@ const CourseDetailPage: React.FC = () => {
     const [isPublicInitial, setIsPublicInitial] = useState(false);
     const { userData } = useAuth();
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const updateCourse = useUpdateCourse(courseId || '');
 
@@ -209,7 +211,7 @@ const CourseDetailPage: React.FC = () => {
                         >
                             {course?.lessons.map(lesson => (
                                 <option key={lesson._id} value={lesson._id} className="truncate">
-                                    <LocSpan textKey={"lesson"} />: {lesson.name}
+                                    {t("lesson")} : {lesson.name}
                                 </option>
                             ))}
                         </select>
