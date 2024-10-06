@@ -335,8 +335,7 @@
         "example4": "Considerando lo ocupado que está, es comprensible que se tarde en contactarnos.",
         "example5": "Porque son niños, lo olvidarán rápidamente."
       }
-    }
-  },
+    },
   "n3_81": {
     "hint": "A menos que / Hasta que algo suceda",
     "description": "Esta estructura se utiliza para expresar que, a menos que se complete la acción en la primera cláusula, la acción en la segunda cláusula no puede ocurrir. Se utiliza comúnmente para expresar condiciones o restricciones, implicando que algo debe hacerse primero antes de que ocurra otra cosa.",
@@ -896,401 +895,401 @@
       "example4": "Ese restaurante es delicioso, ¿verdad?",
       "example5": "Hoy hace frío, ¿no es así?",
       "example6": "Él es increíble, ¿verdad?"
-    },
-    "n3_42": {
-      "hint": "Hablando de / Acerca de / (Marcador de tema casual)",
-      "description": "Esta estructura se usa en el habla casual para introducir un tema o para indicar que alguien está hablando sobre algo. A menudo se utiliza como un equivalente casual de **「というのは」** o **「は」** en el discurso formal. **「って」** también puede usarse para referirse a algo que alguien dijo, funcionando como 'escuché que' o 'dijeron que'.",
-      "examples": {
-        "example1": "Hablando de mañana, es un día libre, ¿no?",
-        "example2": "Tanaka-san es amable, ¿verdad?",
-        "example3": "Los perros son realmente lindos, ¿verdad?",
-        "example4": "¿Ya has visto la película?",
-        "example5": "Escuché que él ya se fue."
-      }
-    },
-    "n3_43": {
-      "hint": "Parece que / Se ve como",
-      "description": "Esta estructura se usa para expresar que algo parece ser de cierta manera, basándose en la impresión o suposición subjetiva del hablante. Es una expresión casual similar a **「ようだ」**, pero **「みたい」** es más común en conversaciones informales. Puede describir algo que parece similar o tiene las cualidades de otra cosa.",
-      "examples": {
-        "example1": "Parece un niño.",
-        "example2": "Esa nube parece un animal.",
-        "example3": "Ella no parece sentirse bien.",
-        "example4": "Parece que los pasteles de esta tienda son populares.",
-        "example5": "Esta habitación se siente fría."
-      }
-    },
-    "n3_44": {
-      "hint": "Desearía / Hubiera sido mejor si",
-      "description": "Esta estructura se usa para expresar arrepentimiento o el deseo del hablante de que algo hubiera sido diferente. La primera parte describe una condición hipotética, mientras que **「よかった」** transmite la idea de 'hubiera sido mejor si...' o 'desearía...'. La forma negativa expresa arrepentimiento de que algo no sucedió o no fue de cierta manera.",
-      "examples": {
-        "example1": "Desearía haber venido antes.",
-        "example2": "Deberías habérselo dicho.",
-        "example3": "Desearía que el clima hubiera sido mejor.",
-        "example4": "Desearía no haber ido en ese momento.",
-        "example5": "Desearía que ese restaurante no hubiera estado tan silencioso."
-      }
-    },
-    "n3_45": {
-      "hint": "Solo / Nada más que / Simplemente",
-      "description": "Esta estructura se usa para expresar que alguien o algo no hace más que una acción en particular o que algo consiste en solo una cosa. Puede implicar un exceso, con una connotación ligeramente negativa, sugiriendo que la persona está demasiado centrada en una cosa a expensas de otras.",
-      "examples": {
-        "example1": "No hace nada más que jugar videojuegos.",
-        "example2": "Solo hay niños en esta sala.",
-        "example3": "Siempre está quejándose.",
-        "example4": "Deja de ver tanta televisión y empieza a estudiar.",
-        "example5": "Siempre está trabajando y no tiene tiempo para divertirse.",
-        "example6": "No ha habido más que lluvia.",
-        "example7": "Comer solo dulces es malo para la salud."
-      }
-    },
-    "n3_26": {
-      "hint": "Por / Debido a / Según",
-      "description": "Esta estructura se utiliza para indicar el medio, la causa o el método por el cual se hace algo, o para especificar el agente en oraciones pasivas. También puede usarse para indicar variación o diferencia dependiendo de la situación.",
-      "examples": {
-        "example1": "La universidad anunció los resultados de la encuesta de satisfacción realizada por el cuestionario.",
-        "example2": "El accidente fue causado por la imprudencia del conductor.",
-        "example3": "Este problema se resolvió mediante discusión.",
-        "example4": "La cultura varía según el país.",
-        "example5": "Ese trabajo fue hecho por él."
-      }
-    },
-    "n3_27": {
-      "hint": "Hacia / A / Con respecto a",
-      "description": "Esta estructura se usa para indicar la dirección de una acción o sentimiento hacia alguien o algo. También puede expresar contraste o comparación entre dos entidades, mostrando cómo una persona o cosa se relaciona con otra.",
-      "examples": {
-        "example1": "Ella es amable con todos.",
-        "example2": "El profesor suele tener una actitud estricta hacia los estudiantes.",
-        "example3": "Hubo muchas opiniones en contra de esta propuesta.",
-        "example4": "Él está cumpliendo con sus responsabilidades hacia la sociedad.",
-        "example5": "El interés en los problemas ambientales está aumentando."
-      }
-    },
-    "n3_28": {
-      "hint": "Debido a / Por / Por el bien de",
-      "description": "Esta estructura se usa para indicar la razón o causa de algo. También puede usarse para expresar el propósito de una acción en un contexto diferente. Es comúnmente utilizada en el discurso formal para explicar por qué algo sucedió o para describir el propósito de una acción.",
-      "examples": {
-        "example1": "La caminata fue cancelada debido a la lluvia.",
-        "example2": "Falté a la escuela porque me resfrié.",
-        "example3": "El tren se retrasó debido a un accidente.",
-        "example4": "Estoy trabajando duro por el bien de mi familia.",
-        "example5": "Deberíamos hacer más esfuerzos por la paz mundial."
-      }
-    },
-    "n3_29": {
-      "hint": "Por / Debido a",
-      "description": "Esta estructura se utiliza en contextos formales o escritos para expresar que algo se aplica de manera 'por' o para dar una razón de algo. Se puede usar para explicar la causa de una situación (similar a 'debido a') o indicar una unidad de medida (similar a 'por').",
-      "examples": {
-        "example1": "Para este concierto benéfico, pueden postular hasta dos personas por postal.",
-        "example2": "Cobraremos una tarifa de entrada de 1,000 yenes por persona.",
-        "example3": "Esta sala de reuniones cuesta 5,000 yenes por hora.",
-        "example4": "Esta carretera está cerrada debido a la construcción.",
-        "example5": "Estamos cerrados hoy debido al feriado público."
-      }
-    },
-    "n3_30": {
-      "hint": "Tal como / Justo como / Según",
-      "description": "Esta estructura se utiliza para expresar que algo sucede o se hace exactamente como se describe, muestra o espera. Indica que una acción o resultado está alineado con un plan, expectativa o instrucción previa.",
-      "examples": {
-        "example1": "El proyecto está avanzando según el plan.",
-        "example2": "Tal como dijo, el examen fue difícil.",
-        "example3": "Si sigues el mapa, llegarás a la estación.",
-        "example4": "Por favor, opera la máquina tal como se indica en el manual.",
-        "example5": "Terminé mi tarea según las instrucciones del profesor."
-      }
-    },
-    "n3_31": {
-      "hint": "A través de / Vía / Durante el transcurso de",
-      "description": "Esta estructura se utiliza para expresar que algo sucede a través de un medio, método o durante un cierto período. Puede describir tanto un proceso (por ejemplo, a través de algo) o una duración de tiempo (por ejemplo, durante el transcurso de un período).",
-      "examples": {
-        "example1": "A través de internet, puedes conectarte con personas de todo el mundo.",
-        "example2": "Lo conocí a través de un amigo en común.",
-        "example3": "Este evento se lleva a cabo durante todo el año.",
-        "example4": "Puedes obtener varias informaciones a través de la televisión.",
-        "example5": "Hizo nuevos amigos a través de sus hobbies."
-      }
-    },
-    "n3_32": {
-      "hint": "Como / Similar a",
-      "description": "Esta estructura se utiliza para describir algo que se parece o es similar al sustantivo mencionado. Indica que algo tiene cualidades o características similares al sustantivo que sigue. **「みたい」** es una versión más casual de **「のように」** y **「のような」**, y se usa a menudo en el habla conversacional.",
-      "examples": {
-        "example1": "Él es fuerte como un superhéroe.",
-        "example2": "Me gustan los animales tranquilos como los gatos.",
-        "example3": "Esta ropa es tan blanca como la nieve.",
-        "example4": "Soñó con volar libremente como un pájaro.",
-        "example5": "Ese niño tiene una sonrisa angelical.",
-        "example6": "Él es fuerte como un superhéroe.",
-        "example7": "Ella es tranquila como un gato.",
-        "example8": "Ese niño tiene una sonrisa como la de un ángel."
-      }
-    },
-    "n3_33": {
-      "hint": "Según",
-      "description": "Esta estructura se utiliza para transmitir información que se basa en una fuente, como noticias, informes o declaraciones de alguien. Se traduce como 'según' y a menudo es seguida por una declaración o informe de la fuente mencionada.",
-      "examples": {
-        "example1": "Según el pronóstico del tiempo, mañana lloverá.",
-        "example2": "Según las noticias, este caso aún no se ha resuelto.",
-        "example3": "Según el maestro, el examen será la próxima semana.",
-        "example4": "Según la encuesta, la población de esta ciudad está disminuyendo.",
-        "example5": "Según él, ese restaurante se supone que es muy bueno."
-      }
-    },
-    "n3_34": {
-      "hint": "Se dice que / Parece que / Escuché que",
-      "description": "Esta estructura se utiliza para transmitir información que se escuchó o se informó. Indica que el hablante está transmitiendo algo que le dijeron o que aprendió de otra fuente. **「とのことだ」** es una versión más formal de **「ということだ」** y se usa a menudo en informes escritos o contextos formales.",
-      "examples": {
-        "example1": "Según el pronóstico del tiempo, se dice que mañana lloverá.",
-        "example2": "Escuché que él va a Japón el próximo mes.",
-        "example3": "Según las noticias, esta ley va a ser enmendada.",
-        "example4": "Según el presidente, las ventas de este año son mejores que las del año pasado.",
-        "example5": "Parece que ella comenzará un nuevo proyecto la próxima semana."
-      }
-    },
-    "n3_35": {
-      "hint": "Acerca de / Respecto a / Sobre",
-      "description": "Esta estructura se usa para hablar sobre un tema o asunto específico. A menudo se traduce como 'acerca de', 'respecto a' o 'sobre'. **「について（は/も）」** se utiliza para introducir un tema de discusión, mientras que **「についての＋N」** se usa para modificar un sustantivo con el significado de 'sobre el tema'.",
-      "examples": {
-        "example1": "Estoy interesado en la cultura japonesa.",
-        "example2": "Este libro está escrito sobre historia.",
-        "example3": "Le pregunté al maestro sobre este problema.",
-        "example4": "La discusión sobre los problemas ambientales está avanzando.",
-        "example5": "¿Has oído algo sobre él?"
-      }
-    },
-    "n3_14": {
-      "hint": "N1 es N2 / N1 se llama N2",
-      "description": "Esta estructura se usa en el habla casual con dos propósitos principales: 1) para dar una definición o explicación casual de algo (N1) refiriéndose a ello como N2, y 2) para presentar cómo se llama o se refiere algo o alguien como N1. En el primer caso, って actúa como una forma casual de と o という. En el segundo caso, también puede introducir citas o indicar cómo se llama algo.",
-      "examples": {
-        "example1": "La fiebre del heno es una enfermedad causada por alergias.",
-        "example2": "Lo llamé Kuro.",
-        "example3": "El sushi es un plato japonés.",
-        "example4": "Le dije que hiciera su mejor esfuerzo."
-      }
-    },
-    "n3_15": {
-      "hint": "Se me permite hacer V / Recibir el favor de que se me permita hacer V",
-      "description": "Esta estructura se usa cuando alguien permite o da permiso a otra persona para realizar una acción. もらう implica que el hablante recibe el favor de que se le permita hacer algo, mientras que くれる implica que el sujeto está dando al hablante o a alguien cercano el favor de permitir la acción. El verbo se coloca en su forma causativa seguido de もらう o くれる.",
-      "examples": {
-        "example1": "Esta empresa me permite expresar libremente mis opiniones.",
-        "example2": "Mi madre me permitió viajar solo.",
-        "example3": "Mi amigo me dejó conducir su coche."
-      }
-    },
-    "n3_16": {
-      "hint": "Hacer/Dejar que alguien haga",
-      "description": "La forma causativa se usa para expresar que alguien hace o deja que otra persona haga algo. Existen reglas específicas para los tres grupos de verbos en japonés:\n\n**Grupo 1 (verbos Godan)**: Cambia la vocal final **u** a **a**, luego agrega **せる**. Por ejemplo, **書く (kaku)** se convierte en **書かせる (kakaseru)** (hacer que alguien escriba).\n\n**Grupo 2 (verbos Ichidan)**: Simplemente elimina **る** y agrega **させる**. Por ejemplo, **食べる (taberu)** se convierte en **食べさせる (tabesaseru)** (hacer que alguien coma).\n\n**Grupo 3 (verbos irregulares)**: El verbo **する (suru)** se convierte en **させる (saseru)**, y **くる (kuru)** se convierte en **こさせる (kosaseru)**.",
-      "examples": {
-        "example1": "El profesor hizo que los estudiantes escribieran su tarea.",
-        "example2": "La madre hizo que el niño comiera verduras.",
-        "example3": "Él la hizo limpiar la habitación.",
-        "example4": "Lo hice venir a Tokio."
-      }
-    },
-    "n3_17": {
-      "hint": "Hacer que alguien haga algo",
-      "description": "La forma causativa pasiva se utiliza cuando alguien es obligado a hacer algo en contra de su voluntad o de forma reacia. Existen reglas específicas para cada grupo de verbos:\n\n**Grupo 1 (verbos Godan)**: Cambia la vocal final **u** a **a**, agrega **せられる** o **される**. Por ejemplo, **書く (kaku)** se convierte en **書かせられる (kakaserareru)** (ser obligado a escribir).\n\n**Grupo 2 (verbos Ichidan)**: Simplemente elimina **る** y agrega **させられる**. Por ejemplo, **食べる (taberu)** se convierte en **食べさせられる (tabesaserareru)** (ser obligado a comer).\n\n**Grupo 3 (verbos irregulares)**: **する (suru)** se convierte en **させられる (saserareru)**, y **くる (kuru)** se convierte en **こさせられる (kosaserareru)**.",
-      "examples": {
-        "example1": "Los estudiantes fueron obligados a escribir su tarea por el profesor.",
-        "example2": "El niño fue obligado a comer verduras por su madre.",
-        "example3": "Ella fue obligada a limpiar la habitación por él.",
-        "example4": "Él fue obligado a venir a Tokio por mí."
-      }
-    },
-    "n3_18": {
-      "hint": "Mostrar señales de A / Expresar el deseo de hacer V",
-      "description": "Esta estructura se utiliza para describir los sentimientos o el comportamiento de otra persona, indicando que muestran señales de querer hacer algo o sentir de cierta manera. Se usa típicamente para expresar emociones o deseos en tercera persona. Cuando se usa un adjetivo い, se elimina el い y se agrega がる. Para los adjetivos な y los verbos, se agrega がる directamente.",
-      "examples": {
-        "example1": "Está frustrado por perder el partido.",
-        "example2": "Ella parece tener frío.",
-        "example3": "El niño quiere un juguete nuevo.",
-        "example4": "Él quiere ir de viaje."
-      }
-    },
-    "n3_19": {
-      "hint": "Propenso a A / Sensible a A",
-      "description": "Esta estructura se usa con adjetivos para describir a alguien que es sensible o propenso a un sentimiento o condición. A menudo se refiere a sensaciones físicas o tendencias emocionales. Para los adjetivos い, se elimina el い y se agrega がり. Para los adjetivos な, se agrega がり directamente. A menudo se usa para describir una característica o rasgo de personalidad.",
-      "examples": {
-        "example1": "Soy sensible al frío, por lo que no me gusta el invierno.",
-        "example2": "Es sensible al calor, por lo que siempre tiene el aire acondicionado encendido en verano.",
-        "example3": "Mi hermana se asusta fácilmente y no le gustan las películas de terror.",
-        "example4": "Nuestro perro es muy necesitado y siempre está pegado a alguien."
-      }
-    },
-    "n3_20": {
-      "hint": "Empezar a hacer V repentinamente",
-      "description": "Esta estructura se utiliza para indicar que alguien comienza a hacer algo repentinamente. El verbo se coloca en su forma raíz de ます seguido de 出す (だす). A menudo transmite que la acción comienza de manera abrupta o inesperada.",
-      "examples": {
-        "example1": "El bebé, que estaba riendo hace un momento, de repente comenzó a llorar.",
-        "example2": "Él de repente comenzó a correr.",
-        "example3": "De repente comenzó a llover.",
-        "example4": "El gato de repente saltó."
-      }
-    },
-    "n3_21": {
-      "hint": "Justo cuando ocurrió V, algo más sucedió",
-      "description": "Esta estructura se utiliza para indicar que algo sucedió inmediatamente después de la acción en V. Enfatiza que la segunda acción ocurre en el mismo momento en que se completa la primera acción, a menudo de manera inesperada o repentina. El verbo se coloca en su forma pasada (た形), seguido de とたん o とたんに.",
-      "examples": {
-        "example1": "Justo cuando me levanté, todo se oscureció frente a mí.",
-        "example2": "Justo cuando salí, comenzó a llover.",
-        "example3": "Tan pronto como abrí la puerta, el gato saltó.",
-        "example4": "En el momento en que vio mi cara, comenzó a reír."
-      }
-    },
-    "n3_22": {
-      "hint": "Intentar hacer V / Estar a punto de hacer V",
-      "description": "Esta estructura se utiliza para describir a alguien que intenta hacer algo o que está a punto de hacerlo. El verbo se coloca en su forma volitiva (よう形), seguido de とする. Se puede utilizar tanto para indicar una intención o esfuerzo por realizar una acción como para describir algo que está a punto de suceder.",
-      "examples": {
-        "example1": "Un niño pequeño está intentando cruzar la calle.",
-        "example2": "Estaba a punto de salir, pero comenzó a llover.",
-        "example3": "Justo cuando estaba a punto de subir al tren, las puertas se cerraron.",
-        "example4": "Ella estaba a punto de decir algo, pero se detuvo."
-      }
-    },
-    "n3_23": {
-      "hint": "A veces V / A veces ocurre V",
-      "description": "Esta estructura se utiliza para describir algo que sucede ocasionalmente o a veces, pero no siempre. Se puede usar con verbos en afirmativo (Vる) o negativo (Vない) para indicar que la acción ocurre o no ocurre en ciertas ocasiones. La adición de も (こともある) enfatiza que la acción sucede ocasionalmente, aunque no con frecuencia.",
-      "examples": {
-        "example1": "En esta región, a veces nieva incluso en abril.",
-        "example2": "A veces estoy demasiado ocupado para almorzar.",
-        "example3": "Hay veces en las que él trabaja hasta tarde en la noche.",
-        "example4": "A veces el tren no llega a tiempo."
-      }
-    },
-    "n3_24": {
-      "hint": "Dejar que alguien haga V por un tiempo",
-      "description": "Esta estructura se utiliza para describir dejar a alguien o algo en cierto estado o permitirles continuar haciendo algo por un tiempo. A menudo implica que el sujeto es de un estatus inferior (como animales, niños o subordinados). El verbo se coloca en su forma causativa (Vさせて), seguido de おく, lo que indica dejar la acción como está.",
-      "examples": {
-        "example1": "Dejé al perro esperando frente a la tienda de conveniencia.",
-        "example2": "Dejé que el niño jugara (por un rato).",
-        "example3": "Dejé que el subordinado hiciera ese trabajo.",
-        "example4": "Lo dejaré encargarse de regar las flores."
-      }
-    },
-    "n3_25": {
-      "hint": "Ser V-ed (desafortunadamente)",
-      "description": "Esta estructura es la forma pasiva de un verbo (Vられる), seguida de しまう en su forma pasada, lo que indica que algo desafortunado o lamentable le sucedió al hablante como resultado de la acción de otra persona. Expresa un sentido de decepción o que el resultado no era deseado.",
-      "examples": {
-        "example1": "Invité al chico que me gusta al cine, pero lamentablemente me rechazó.",
-        "example2": "Me robaron la billetera (y lo lamento).",
-        "example3": "Los documentos importantes fueron tirados (lamentablemente).",
-        "example4": "El perro mordió mis zapatos (y me siento mal por ello)."
-      }
-    },
-    "n3_1": {
-      "hint": "Comenzar a hacer V",
-      "description": "Esta estructura se utiliza para indicar el comienzo de una acción. El verbo se coloca en su forma raíz de ます, seguido de 始める (empezar). Se utiliza a menudo para expresar el inicio de una acción continua.",
-      "examples": {
-        "example1": "Comencé a aprender japonés hace seis meses.",
-        "example2": "De repente comenzó a llorar.",
-        "example3": "Mi amigo comenzó a reír."
-      }
-    },
-    "n3_2": {
-      "hint": "Terminar de hacer V",
-      "description": "Esta estructura se utiliza para expresar la finalización de una acción. El verbo se coloca en su forma raíz de ます, seguido de 終わる (terminar). Indica que la acción se ha completado por completo.",
-      "examples": {
-        "example1": "¿Podrías prestarme ese libro cuando termines de leerlo?",
-        "example2": "Terminé de hacer mi tarea.",
-        "example3": "Se fue a casa después de terminar la película."
-      }
-    },
-    "n3_3": {
-      "hint": "Decirle a alguien que haga/no haga V",
-      "description": "Esta estructura se utiliza para informar sobre órdenes, peticiones o instrucciones que se le han dado a alguien. Se puede usar con verbos como 言う (decir), 注意する (advertir), 頼む (pedir), 伝える (informar). El verbo puede estar en su forma de diccionario (V-る) para expresar hacer algo o en la forma negativa (V-ない) para expresar no hacer algo.",
-      "examples": {
-        "example1": "El doctor me dijo que no bebiera alcohol.",
-        "example2": "El profesor me advirtió que no olvidara mi tarea.",
-        "example3": "Mi madre me pidió que me fuera a dormir temprano."
-      }
-    },
-    "n3_4": {
-      "hint": "N que dice/significa Pl",
-      "description": "Esta estructura se utiliza para introducir un sustantivo (N) que es una declaración, idea o hecho representado por la oración en forma simple (Pl) anterior. Se puede usar para explicar o informar una información. El sustantivo puede ser palabras como こと (hecho, asunto) o 話 (historia), entre otros.",
-      "examples": {
-        "example1": "No es muy conocido que él es un músico famoso.",
-        "example2": "Escuché la historia de que él se casó.",
-        "example3": "¿Es verdad el rumor de que ella está estudiando en el extranjero?"
-      }
-    },
-    "n3_5": {
-      "hint": "Creo que probablemente Pl",
-      "description": "Esta estructura se utiliza para expresar una conjetura o suposición sobre algo con un grado de incertidumbre. Es la forma simple de 〜でしょう (probablemente), seguida de 思う (pensar). Transmite la creencia o predicción del hablante sobre una situación, a menudo con un sentido de probabilidad o posibilidad.",
-      "examples": {
-        "example1": "Creo que esta lluvia probablemente se detendrá en una hora.",
-        "example2": "Creo que probablemente él no vendrá hoy.",
-        "example3": "Creo que probablemente ganará ese partido."
-      }
-    },
-    "n3_6": {
-      "hint": "No parece A/N",
-      "description": "Esta estructura se utiliza para expresar que algo no parece o no da la impresión de ser un cierto adjetivo o sustantivo. Para los adjetivos い, se elimina el い y se añade なさそうだ. Para los adjetivos な y sustantivos, se añade じゃなさそうだ. Transmite la impresión o juicio del hablante sobre algo basado en la observación.",
-      "examples": {
-        "example1": "Este curry no parece muy picante.",
-        "example2": "Él no parece estar muy bien.",
-        "example3": "Esa película no parece interesante."
-      }
-    },
-    "n3_7": {
-      "hint": "Poco probable que V",
-      "description": "Esta estructura se utiliza para expresar que algo es poco probable que suceda o se haga. Se basa en el juicio del hablante, a menudo implicando que la acción es difícil o imposible. El verbo va seguido de そうもない, そうにない o そうにもない, que tienen significados similares, aunque con pequeñas diferencias en el énfasis.",
-      "examples": {
-        "example1": "Este libro parece tan difícil que no creo que pueda terminarlo en una semana.",
-        "example2": "No parece que la lluvia vaya a detenerse hoy.",
-        "example3": "No parece que él vaya a aprobar el examen."
-      }
-    },
-    "n3_8": {
-      "hint": "Cuando V sucede inesperadamente",
-      "description": "Esta estructura a menudo se utiliza para expresar sorpresa o un resultado inesperado que sigue a una acción. Enfatiza la realización o el descubrimiento de algo después de que ocurre la acción del verbo, a menudo sin la intención o expectativa del hablante. La segunda acción o situación ocurre de forma natural y sorprende al hablante.",
-      "examples": {
-        "example1": "Cuando me di cuenta, ya se había oscurecido por completo afuera.",
-        "example2": "Cuando me giré, él ya se había ido.",
-        "example3": "Cuando llegué a casa, la habitación estaba hecha un desastre."
-      }
-    },
-    "n3_9": {
-      "hint": "Tanto que ~; al punto de que ~",
-      "description": "Esta estructura se utiliza para expresar el grado o la magnitud de algo. Indica que algo es tan intenso o extremo que como resultado ocurre otra acción o situación. Se puede utilizar con verbos, adjetivos o sustantivos para indicar que el nivel de la acción o cualidad es significativo al punto de causar un cierto efecto o reacción.",
-      "examples": {
-        "example1": "Esos gemelos se parecen tanto que incluso sus padres los confunden.",
-        "example2": "Estaba tan feliz que sentí ganas de llorar.",
-        "example3": "Estaba tan cansado que no podía caminar."
-      }
-    },
-    "n3_10": {
-      "hint": "Ir a hacer V; continuar haciendo V",
-      "description": "Esta estructura se utiliza para expresar que una acción se aleja del lugar actual del hablante o del punto en el tiempo. Puede indicar un movimiento físico (ir a algún lugar para hacer algo) o la continuación de una acción en el futuro. A menudo implica un cambio o progreso que ocurre después del momento actual.",
-      "examples": {
-        "example1": "Cuando llega el invierno, las aves migratorias vuelan hacia el sur.",
-        "example2": "De ahora en adelante, continuaré estudiando más.",
-        "example3": "A medida que pasaba el tiempo, su japonés seguía mejorando."
-      }
-    },
-    "n3_11": {
-      "hint": "Venir a hacer V; haber estado haciendo V",
-      "description": "Esta estructura se utiliza para expresar una acción que ha estado ocurriendo hasta el presente o para describir algo que se está acercando al lugar actual del hablante o al punto en el tiempo. Puede indicar un movimiento físico hacia el hablante o una acción continua que ha ocurrido desde el pasado hasta ahora.",
-      "examples": {
-        "example1": "Los japoneses han estado comiendo pescado desde hace mucho tiempo.",
-        "example2": "Él volvió a casa.",
-        "example3": "He estado trabajando duro durante mucho tiempo, así que estoy esperando los resultados."
-      }
-    },
-    "n3_12": {
-      "hint": "Continuar haciendo V",
-      "description": "Esta estructura se utiliza para indicar que una acción se realiza de manera continua o repetida durante un período de tiempo. El verbo se coloca en su forma raíz de ます, seguido de 続ける (continuar), para expresar que la acción persiste sin detenerse.",
-      "examples": {
-        "example1": "Parece que esa persona ha estado yendo al dentista durante más de un año.",
-        "example2": "Él continuó leyendo el libro durante horas.",
-        "example3": "Seguiré estudiando japonés en la universidad."
-      }
-    },
-    "n3_13": {
-      "hint": "Si V/N; En caso de V/N",
-      "description": "Esta estructura se utiliza para hacer sugerencias, ofrecer ayuda o dar consejos basados en una condición hipotética. A menudo implica que si la situación del verbo o sustantivo (Vる/N) es cierta o va a suceder, entonces el hablante proporcionará una respuesta relevante. También se puede usar para dar información condicional.",
-      "examples": {
-        "example1": "Si vas de viaje, ¿te presto una bolsa grande?",
-        "example2": "Si vas a leer ese libro, por favor revisa el índice primero.",
-        "example3": "Si mañana llueve, el picnic será cancelado."
-      }
+    }},
+  "n3_42": {
+    "hint": "Hablando de / Acerca de / (Marcador de tema casual)",
+    "description": "Esta estructura se usa en el habla casual para introducir un tema o para indicar que alguien está hablando sobre algo. A menudo se utiliza como un equivalente casual de **「というのは」** o **「は」** en el discurso formal. **「って」** también puede usarse para referirse a algo que alguien dijo, funcionando como 'escuché que' o 'dijeron que'.",
+    "examples": {
+      "example1": "Hablando de mañana, es un día libre, ¿no?",
+      "example2": "Tanaka-san es amable, ¿verdad?",
+      "example3": "Los perros son realmente lindos, ¿verdad?",
+      "example4": "¿Ya has visto la película?",
+      "example5": "Escuché que él ya se fue."
+    }
+  },
+  "n3_43": {
+    "hint": "Parece que / Se ve como",
+    "description": "Esta estructura se usa para expresar que algo parece ser de cierta manera, basándose en la impresión o suposición subjetiva del hablante. Es una expresión casual similar a **「ようだ」**, pero **「みたい」** es más común en conversaciones informales. Puede describir algo que parece similar o tiene las cualidades de otra cosa.",
+    "examples": {
+      "example1": "Parece un niño.",
+      "example2": "Esa nube parece un animal.",
+      "example3": "Ella no parece sentirse bien.",
+      "example4": "Parece que los pasteles de esta tienda son populares.",
+      "example5": "Esta habitación se siente fría."
+    }
+  },
+  "n3_44": {
+    "hint": "Desearía / Hubiera sido mejor si",
+    "description": "Esta estructura se usa para expresar arrepentimiento o el deseo del hablante de que algo hubiera sido diferente. La primera parte describe una condición hipotética, mientras que **「よかった」** transmite la idea de 'hubiera sido mejor si...' o 'desearía...'. La forma negativa expresa arrepentimiento de que algo no sucedió o no fue de cierta manera.",
+    "examples": {
+      "example1": "Desearía haber venido antes.",
+      "example2": "Deberías habérselo dicho.",
+      "example3": "Desearía que el clima hubiera sido mejor.",
+      "example4": "Desearía no haber ido en ese momento.",
+      "example5": "Desearía que ese restaurante no hubiera estado tan silencioso."
+    }
+  },
+  "n3_45": {
+    "hint": "Solo / Nada más que / Simplemente",
+    "description": "Esta estructura se usa para expresar que alguien o algo no hace más que una acción en particular o que algo consiste en solo una cosa. Puede implicar un exceso, con una connotación ligeramente negativa, sugiriendo que la persona está demasiado centrada en una cosa a expensas de otras.",
+    "examples": {
+      "example1": "No hace nada más que jugar videojuegos.",
+      "example2": "Solo hay niños en esta sala.",
+      "example3": "Siempre está quejándose.",
+      "example4": "Deja de ver tanta televisión y empieza a estudiar.",
+      "example5": "Siempre está trabajando y no tiene tiempo para divertirse.",
+      "example6": "No ha habido más que lluvia.",
+      "example7": "Comer solo dulces es malo para la salud."
+    }
+  },
+  "n3_26": {
+    "hint": "Por / Debido a / Según",
+    "description": "Esta estructura se utiliza para indicar el medio, la causa o el método por el cual se hace algo, o para especificar el agente en oraciones pasivas. También puede usarse para indicar variación o diferencia dependiendo de la situación.",
+    "examples": {
+      "example1": "La universidad anunció los resultados de la encuesta de satisfacción realizada por el cuestionario.",
+      "example2": "El accidente fue causado por la imprudencia del conductor.",
+      "example3": "Este problema se resolvió mediante discusión.",
+      "example4": "La cultura varía según el país.",
+      "example5": "Ese trabajo fue hecho por él."
+    }
+  },
+  "n3_27": {
+    "hint": "Hacia / A / Con respecto a",
+    "description": "Esta estructura se usa para indicar la dirección de una acción o sentimiento hacia alguien o algo. También puede expresar contraste o comparación entre dos entidades, mostrando cómo una persona o cosa se relaciona con otra.",
+    "examples": {
+      "example1": "Ella es amable con todos.",
+      "example2": "El profesor suele tener una actitud estricta hacia los estudiantes.",
+      "example3": "Hubo muchas opiniones en contra de esta propuesta.",
+      "example4": "Él está cumpliendo con sus responsabilidades hacia la sociedad.",
+      "example5": "El interés en los problemas ambientales está aumentando."
+    }
+  },
+  "n3_28": {
+    "hint": "Debido a / Por / Por el bien de",
+    "description": "Esta estructura se usa para indicar la razón o causa de algo. También puede usarse para expresar el propósito de una acción en un contexto diferente. Es comúnmente utilizada en el discurso formal para explicar por qué algo sucedió o para describir el propósito de una acción.",
+    "examples": {
+      "example1": "La caminata fue cancelada debido a la lluvia.",
+      "example2": "Falté a la escuela porque me resfrié.",
+      "example3": "El tren se retrasó debido a un accidente.",
+      "example4": "Estoy trabajando duro por el bien de mi familia.",
+      "example5": "Deberíamos hacer más esfuerzos por la paz mundial."
+    }
+  },
+  "n3_29": {
+    "hint": "Por / Debido a",
+    "description": "Esta estructura se utiliza en contextos formales o escritos para expresar que algo se aplica de manera 'por' o para dar una razón de algo. Se puede usar para explicar la causa de una situación (similar a 'debido a') o indicar una unidad de medida (similar a 'por').",
+    "examples": {
+      "example1": "Para este concierto benéfico, pueden postular hasta dos personas por postal.",
+      "example2": "Cobraremos una tarifa de entrada de 1,000 yenes por persona.",
+      "example3": "Esta sala de reuniones cuesta 5,000 yenes por hora.",
+      "example4": "Esta carretera está cerrada debido a la construcción.",
+      "example5": "Estamos cerrados hoy debido al feriado público."
+    }
+  },
+  "n3_30": {
+    "hint": "Tal como / Justo como / Según",
+    "description": "Esta estructura se utiliza para expresar que algo sucede o se hace exactamente como se describe, muestra o espera. Indica que una acción o resultado está alineado con un plan, expectativa o instrucción previa.",
+    "examples": {
+      "example1": "El proyecto está avanzando según el plan.",
+      "example2": "Tal como dijo, el examen fue difícil.",
+      "example3": "Si sigues el mapa, llegarás a la estación.",
+      "example4": "Por favor, opera la máquina tal como se indica en el manual.",
+      "example5": "Terminé mi tarea según las instrucciones del profesor."
+    }
+  },
+  "n3_31": {
+    "hint": "A través de / Vía / Durante el transcurso de",
+    "description": "Esta estructura se utiliza para expresar que algo sucede a través de un medio, método o durante un cierto período. Puede describir tanto un proceso (por ejemplo, a través de algo) o una duración de tiempo (por ejemplo, durante el transcurso de un período).",
+    "examples": {
+      "example1": "A través de internet, puedes conectarte con personas de todo el mundo.",
+      "example2": "Lo conocí a través de un amigo en común.",
+      "example3": "Este evento se lleva a cabo durante todo el año.",
+      "example4": "Puedes obtener varias informaciones a través de la televisión.",
+      "example5": "Hizo nuevos amigos a través de sus hobbies."
+    }
+  },
+  "n3_32": {
+    "hint": "Como / Similar a",
+    "description": "Esta estructura se utiliza para describir algo que se parece o es similar al sustantivo mencionado. Indica que algo tiene cualidades o características similares al sustantivo que sigue. **「みたい」** es una versión más casual de **「のように」** y **「のような」**, y se usa a menudo en el habla conversacional.",
+    "examples": {
+      "example1": "Él es fuerte como un superhéroe.",
+      "example2": "Me gustan los animales tranquilos como los gatos.",
+      "example3": "Esta ropa es tan blanca como la nieve.",
+      "example4": "Soñó con volar libremente como un pájaro.",
+      "example5": "Ese niño tiene una sonrisa angelical.",
+      "example6": "Él es fuerte como un superhéroe.",
+      "example7": "Ella es tranquila como un gato.",
+      "example8": "Ese niño tiene una sonrisa como la de un ángel."
+    }
+  },
+  "n3_33": {
+    "hint": "Según",
+    "description": "Esta estructura se utiliza para transmitir información que se basa en una fuente, como noticias, informes o declaraciones de alguien. Se traduce como 'según' y a menudo es seguida por una declaración o informe de la fuente mencionada.",
+    "examples": {
+      "example1": "Según el pronóstico del tiempo, mañana lloverá.",
+      "example2": "Según las noticias, este caso aún no se ha resuelto.",
+      "example3": "Según el maestro, el examen será la próxima semana.",
+      "example4": "Según la encuesta, la población de esta ciudad está disminuyendo.",
+      "example5": "Según él, ese restaurante se supone que es muy bueno."
+    }
+  },
+  "n3_34": {
+    "hint": "Se dice que / Parece que / Escuché que",
+    "description": "Esta estructura se utiliza para transmitir información que se escuchó o se informó. Indica que el hablante está transmitiendo algo que le dijeron o que aprendió de otra fuente. **「とのことだ」** es una versión más formal de **「ということだ」** y se usa a menudo en informes escritos o contextos formales.",
+    "examples": {
+      "example1": "Según el pronóstico del tiempo, se dice que mañana lloverá.",
+      "example2": "Escuché que él va a Japón el próximo mes.",
+      "example3": "Según las noticias, esta ley va a ser enmendada.",
+      "example4": "Según el presidente, las ventas de este año son mejores que las del año pasado.",
+      "example5": "Parece que ella comenzará un nuevo proyecto la próxima semana."
+    }
+  },
+  "n3_35": {
+    "hint": "Acerca de / Respecto a / Sobre",
+    "description": "Esta estructura se usa para hablar sobre un tema o asunto específico. A menudo se traduce como 'acerca de', 'respecto a' o 'sobre'. **「について（は/も）」** se utiliza para introducir un tema de discusión, mientras que **「についての＋N」** se usa para modificar un sustantivo con el significado de 'sobre el tema'.",
+    "examples": {
+      "example1": "Estoy interesado en la cultura japonesa.",
+      "example2": "Este libro está escrito sobre historia.",
+      "example3": "Le pregunté al maestro sobre este problema.",
+      "example4": "La discusión sobre los problemas ambientales está avanzando.",
+      "example5": "¿Has oído algo sobre él?"
+    }
+  },
+  "n3_14": {
+    "hint": "N1 es N2 / N1 se llama N2",
+    "description": "Esta estructura se usa en el habla casual con dos propósitos principales: 1) para dar una definición o explicación casual de algo (N1) refiriéndose a ello como N2, y 2) para presentar cómo se llama o se refiere algo o alguien como N1. En el primer caso, って actúa como una forma casual de と o という. En el segundo caso, también puede introducir citas o indicar cómo se llama algo.",
+    "examples": {
+      "example1": "La fiebre del heno es una enfermedad causada por alergias.",
+      "example2": "Lo llamé Kuro.",
+      "example3": "El sushi es un plato japonés.",
+      "example4": "Le dije que hiciera su mejor esfuerzo."
+    }
+  },
+  "n3_15": {
+    "hint": "Se me permite hacer V / Recibir el favor de que se me permita hacer V",
+    "description": "Esta estructura se usa cuando alguien permite o da permiso a otra persona para realizar una acción. もらう implica que el hablante recibe el favor de que se le permita hacer algo, mientras que くれる implica que el sujeto está dando al hablante o a alguien cercano el favor de permitir la acción. El verbo se coloca en su forma causativa seguido de もらう o くれる.",
+    "examples": {
+      "example1": "Esta empresa me permite expresar libremente mis opiniones.",
+      "example2": "Mi madre me permitió viajar solo.",
+      "example3": "Mi amigo me dejó conducir su coche."
+    }
+  },
+  "n3_16": {
+    "hint": "Hacer/Dejar que alguien haga",
+    "description": "La forma causativa se usa para expresar que alguien hace o deja que otra persona haga algo. Existen reglas específicas para los tres grupos de verbos en japonés:\n\n**Grupo 1 (verbos Godan)**: Cambia la vocal final **u** a **a**, luego agrega **せる**. Por ejemplo, **書く (kaku)** se convierte en **書かせる (kakaseru)** (hacer que alguien escriba).\n\n**Grupo 2 (verbos Ichidan)**: Simplemente elimina **る** y agrega **させる**. Por ejemplo, **食べる (taberu)** se convierte en **食べさせる (tabesaseru)** (hacer que alguien coma).\n\n**Grupo 3 (verbos irregulares)**: El verbo **する (suru)** se convierte en **させる (saseru)**, y **くる (kuru)** se convierte en **こさせる (kosaseru)**.",
+    "examples": {
+      "example1": "El profesor hizo que los estudiantes escribieran su tarea.",
+      "example2": "La madre hizo que el niño comiera verduras.",
+      "example3": "Él la hizo limpiar la habitación.",
+      "example4": "Lo hice venir a Tokio."
+    }
+  },
+  "n3_17": {
+    "hint": "Hacer que alguien haga algo",
+    "description": "La forma causativa pasiva se utiliza cuando alguien es obligado a hacer algo en contra de su voluntad o de forma reacia. Existen reglas específicas para cada grupo de verbos:\n\n**Grupo 1 (verbos Godan)**: Cambia la vocal final **u** a **a**, agrega **せられる** o **される**. Por ejemplo, **書く (kaku)** se convierte en **書かせられる (kakaserareru)** (ser obligado a escribir).\n\n**Grupo 2 (verbos Ichidan)**: Simplemente elimina **る** y agrega **させられる**. Por ejemplo, **食べる (taberu)** se convierte en **食べさせられる (tabesaserareru)** (ser obligado a comer).\n\n**Grupo 3 (verbos irregulares)**: **する (suru)** se convierte en **させられる (saserareru)**, y **くる (kuru)** se convierte en **こさせられる (kosaserareru)**.",
+    "examples": {
+      "example1": "Los estudiantes fueron obligados a escribir su tarea por el profesor.",
+      "example2": "El niño fue obligado a comer verduras por su madre.",
+      "example3": "Ella fue obligada a limpiar la habitación por él.",
+      "example4": "Él fue obligado a venir a Tokio por mí."
+    }
+  },
+  "n3_18": {
+    "hint": "Mostrar señales de A / Expresar el deseo de hacer V",
+    "description": "Esta estructura se utiliza para describir los sentimientos o el comportamiento de otra persona, indicando que muestran señales de querer hacer algo o sentir de cierta manera. Se usa típicamente para expresar emociones o deseos en tercera persona. Cuando se usa un adjetivo い, se elimina el い y se agrega がる. Para los adjetivos な y los verbos, se agrega がる directamente.",
+    "examples": {
+      "example1": "Está frustrado por perder el partido.",
+      "example2": "Ella parece tener frío.",
+      "example3": "El niño quiere un juguete nuevo.",
+      "example4": "Él quiere ir de viaje."
+    }
+  },
+  "n3_19": {
+    "hint": "Propenso a A / Sensible a A",
+    "description": "Esta estructura se usa con adjetivos para describir a alguien que es sensible o propenso a un sentimiento o condición. A menudo se refiere a sensaciones físicas o tendencias emocionales. Para los adjetivos い, se elimina el い y se agrega がり. Para los adjetivos な, se agrega がり directamente. A menudo se usa para describir una característica o rasgo de personalidad.",
+    "examples": {
+      "example1": "Soy sensible al frío, por lo que no me gusta el invierno.",
+      "example2": "Es sensible al calor, por lo que siempre tiene el aire acondicionado encendido en verano.",
+      "example3": "Mi hermana se asusta fácilmente y no le gustan las películas de terror.",
+      "example4": "Nuestro perro es muy necesitado y siempre está pegado a alguien."
+    }
+  },
+  "n3_20": {
+    "hint": "Empezar a hacer V repentinamente",
+    "description": "Esta estructura se utiliza para indicar que alguien comienza a hacer algo repentinamente. El verbo se coloca en su forma raíz de ます seguido de 出す (だす). A menudo transmite que la acción comienza de manera abrupta o inesperada.",
+    "examples": {
+      "example1": "El bebé, que estaba riendo hace un momento, de repente comenzó a llorar.",
+      "example2": "Él de repente comenzó a correr.",
+      "example3": "De repente comenzó a llover.",
+      "example4": "El gato de repente saltó."
+    }
+  },
+  "n3_21": {
+    "hint": "Justo cuando ocurrió V, algo más sucedió",
+    "description": "Esta estructura se utiliza para indicar que algo sucedió inmediatamente después de la acción en V. Enfatiza que la segunda acción ocurre en el mismo momento en que se completa la primera acción, a menudo de manera inesperada o repentina. El verbo se coloca en su forma pasada (た形), seguido de とたん o とたんに.",
+    "examples": {
+      "example1": "Justo cuando me levanté, todo se oscureció frente a mí.",
+      "example2": "Justo cuando salí, comenzó a llover.",
+      "example3": "Tan pronto como abrí la puerta, el gato saltó.",
+      "example4": "En el momento en que vio mi cara, comenzó a reír."
+    }
+  },
+  "n3_22": {
+    "hint": "Intentar hacer V / Estar a punto de hacer V",
+    "description": "Esta estructura se utiliza para describir a alguien que intenta hacer algo o que está a punto de hacerlo. El verbo se coloca en su forma volitiva (よう形), seguido de とする. Se puede utilizar tanto para indicar una intención o esfuerzo por realizar una acción como para describir algo que está a punto de suceder.",
+    "examples": {
+      "example1": "Un niño pequeño está intentando cruzar la calle.",
+      "example2": "Estaba a punto de salir, pero comenzó a llover.",
+      "example3": "Justo cuando estaba a punto de subir al tren, las puertas se cerraron.",
+      "example4": "Ella estaba a punto de decir algo, pero se detuvo."
+    }
+  },
+  "n3_23": {
+    "hint": "A veces V / A veces ocurre V",
+    "description": "Esta estructura se utiliza para describir algo que sucede ocasionalmente o a veces, pero no siempre. Se puede usar con verbos en afirmativo (Vる) o negativo (Vない) para indicar que la acción ocurre o no ocurre en ciertas ocasiones. La adición de も (こともある) enfatiza que la acción sucede ocasionalmente, aunque no con frecuencia.",
+    "examples": {
+      "example1": "En esta región, a veces nieva incluso en abril.",
+      "example2": "A veces estoy demasiado ocupado para almorzar.",
+      "example3": "Hay veces en las que él trabaja hasta tarde en la noche.",
+      "example4": "A veces el tren no llega a tiempo."
+    }
+  },
+  "n3_24": {
+    "hint": "Dejar que alguien haga V por un tiempo",
+    "description": "Esta estructura se utiliza para describir dejar a alguien o algo en cierto estado o permitirles continuar haciendo algo por un tiempo. A menudo implica que el sujeto es de un estatus inferior (como animales, niños o subordinados). El verbo se coloca en su forma causativa (Vさせて), seguido de おく, lo que indica dejar la acción como está.",
+    "examples": {
+      "example1": "Dejé al perro esperando frente a la tienda de conveniencia.",
+      "example2": "Dejé que el niño jugara (por un rato).",
+      "example3": "Dejé que el subordinado hiciera ese trabajo.",
+      "example4": "Lo dejaré encargarse de regar las flores."
+    }
+  },
+  "n3_25": {
+    "hint": "Ser V-ed (desafortunadamente)",
+    "description": "Esta estructura es la forma pasiva de un verbo (Vられる), seguida de しまう en su forma pasada, lo que indica que algo desafortunado o lamentable le sucedió al hablante como resultado de la acción de otra persona. Expresa un sentido de decepción o que el resultado no era deseado.",
+    "examples": {
+      "example1": "Invité al chico que me gusta al cine, pero lamentablemente me rechazó.",
+      "example2": "Me robaron la billetera (y lo lamento).",
+      "example3": "Los documentos importantes fueron tirados (lamentablemente).",
+      "example4": "El perro mordió mis zapatos (y me siento mal por ello)."
+    }
+  },
+  "n3_1": {
+    "hint": "Comenzar a hacer V",
+    "description": "Esta estructura se utiliza para indicar el comienzo de una acción. El verbo se coloca en su forma raíz de ます, seguido de 始める (empezar). Se utiliza a menudo para expresar el inicio de una acción continua.",
+    "examples": {
+      "example1": "Comencé a aprender japonés hace seis meses.",
+      "example2": "De repente comenzó a llorar.",
+      "example3": "Mi amigo comenzó a reír."
+    }
+  },
+  "n3_2": {
+    "hint": "Terminar de hacer V",
+    "description": "Esta estructura se utiliza para expresar la finalización de una acción. El verbo se coloca en su forma raíz de ます, seguido de 終わる (terminar). Indica que la acción se ha completado por completo.",
+    "examples": {
+      "example1": "¿Podrías prestarme ese libro cuando termines de leerlo?",
+      "example2": "Terminé de hacer mi tarea.",
+      "example3": "Se fue a casa después de terminar la película."
+    }
+  },
+  "n3_3": {
+    "hint": "Decirle a alguien que haga/no haga V",
+    "description": "Esta estructura se utiliza para informar sobre órdenes, peticiones o instrucciones que se le han dado a alguien. Se puede usar con verbos como 言う (decir), 注意する (advertir), 頼む (pedir), 伝える (informar). El verbo puede estar en su forma de diccionario (V-る) para expresar hacer algo o en la forma negativa (V-ない) para expresar no hacer algo.",
+    "examples": {
+      "example1": "El doctor me dijo que no bebiera alcohol.",
+      "example2": "El profesor me advirtió que no olvidara mi tarea.",
+      "example3": "Mi madre me pidió que me fuera a dormir temprano."
+    }
+  },
+  "n3_4": {
+    "hint": "N que dice/significa Pl",
+    "description": "Esta estructura se utiliza para introducir un sustantivo (N) que es una declaración, idea o hecho representado por la oración en forma simple (Pl) anterior. Se puede usar para explicar o informar una información. El sustantivo puede ser palabras como こと (hecho, asunto) o 話 (historia), entre otros.",
+    "examples": {
+      "example1": "No es muy conocido que él es un músico famoso.",
+      "example2": "Escuché la historia de que él se casó.",
+      "example3": "¿Es verdad el rumor de que ella está estudiando en el extranjero?"
+    }
+  },
+  "n3_5": {
+    "hint": "Creo que probablemente Pl",
+    "description": "Esta estructura se utiliza para expresar una conjetura o suposición sobre algo con un grado de incertidumbre. Es la forma simple de 〜でしょう (probablemente), seguida de 思う (pensar). Transmite la creencia o predicción del hablante sobre una situación, a menudo con un sentido de probabilidad o posibilidad.",
+    "examples": {
+      "example1": "Creo que esta lluvia probablemente se detendrá en una hora.",
+      "example2": "Creo que probablemente él no vendrá hoy.",
+      "example3": "Creo que probablemente ganará ese partido."
+    }
+  },
+  "n3_6": {
+    "hint": "No parece A/N",
+    "description": "Esta estructura se utiliza para expresar que algo no parece o no da la impresión de ser un cierto adjetivo o sustantivo. Para los adjetivos い, se elimina el い y se añade なさそうだ. Para los adjetivos な y sustantivos, se añade じゃなさそうだ. Transmite la impresión o juicio del hablante sobre algo basado en la observación.",
+    "examples": {
+      "example1": "Este curry no parece muy picante.",
+      "example2": "Él no parece estar muy bien.",
+      "example3": "Esa película no parece interesante."
+    }
+  },
+  "n3_7": {
+    "hint": "Poco probable que V",
+    "description": "Esta estructura se utiliza para expresar que algo es poco probable que suceda o se haga. Se basa en el juicio del hablante, a menudo implicando que la acción es difícil o imposible. El verbo va seguido de そうもない, そうにない o そうにもない, que tienen significados similares, aunque con pequeñas diferencias en el énfasis.",
+    "examples": {
+      "example1": "Este libro parece tan difícil que no creo que pueda terminarlo en una semana.",
+      "example2": "No parece que la lluvia vaya a detenerse hoy.",
+      "example3": "No parece que él vaya a aprobar el examen."
+    }
+  },
+  "n3_8": {
+    "hint": "Cuando V sucede inesperadamente",
+    "description": "Esta estructura a menudo se utiliza para expresar sorpresa o un resultado inesperado que sigue a una acción. Enfatiza la realización o el descubrimiento de algo después de que ocurre la acción del verbo, a menudo sin la intención o expectativa del hablante. La segunda acción o situación ocurre de forma natural y sorprende al hablante.",
+    "examples": {
+      "example1": "Cuando me di cuenta, ya se había oscurecido por completo afuera.",
+      "example2": "Cuando me giré, él ya se había ido.",
+      "example3": "Cuando llegué a casa, la habitación estaba hecha un desastre."
+    }
+  },
+  "n3_9": {
+    "hint": "Tanto que ~; al punto de que ~",
+    "description": "Esta estructura se utiliza para expresar el grado o la magnitud de algo. Indica que algo es tan intenso o extremo que como resultado ocurre otra acción o situación. Se puede utilizar con verbos, adjetivos o sustantivos para indicar que el nivel de la acción o cualidad es significativo al punto de causar un cierto efecto o reacción.",
+    "examples": {
+      "example1": "Esos gemelos se parecen tanto que incluso sus padres los confunden.",
+      "example2": "Estaba tan feliz que sentí ganas de llorar.",
+      "example3": "Estaba tan cansado que no podía caminar."
+    }
+  },
+  "n3_10": {
+    "hint": "Ir a hacer V; continuar haciendo V",
+    "description": "Esta estructura se utiliza para expresar que una acción se aleja del lugar actual del hablante o del punto en el tiempo. Puede indicar un movimiento físico (ir a algún lugar para hacer algo) o la continuación de una acción en el futuro. A menudo implica un cambio o progreso que ocurre después del momento actual.",
+    "examples": {
+      "example1": "Cuando llega el invierno, las aves migratorias vuelan hacia el sur.",
+      "example2": "De ahora en adelante, continuaré estudiando más.",
+      "example3": "A medida que pasaba el tiempo, su japonés seguía mejorando."
+    }
+  },
+  "n3_11": {
+    "hint": "Venir a hacer V; haber estado haciendo V",
+    "description": "Esta estructura se utiliza para expresar una acción que ha estado ocurriendo hasta el presente o para describir algo que se está acercando al lugar actual del hablante o al punto en el tiempo. Puede indicar un movimiento físico hacia el hablante o una acción continua que ha ocurrido desde el pasado hasta ahora.",
+    "examples": {
+      "example1": "Los japoneses han estado comiendo pescado desde hace mucho tiempo.",
+      "example2": "Él volvió a casa.",
+      "example3": "He estado trabajando duro durante mucho tiempo, así que estoy esperando los resultados."
+    }
+  },
+  "n3_12": {
+    "hint": "Continuar haciendo V",
+    "description": "Esta estructura se utiliza para indicar que una acción se realiza de manera continua o repetida durante un período de tiempo. El verbo se coloca en su forma raíz de ます, seguido de 続ける (continuar), para expresar que la acción persiste sin detenerse.",
+    "examples": {
+      "example1": "Parece que esa persona ha estado yendo al dentista durante más de un año.",
+      "example2": "Él continuó leyendo el libro durante horas.",
+      "example3": "Seguiré estudiando japonés en la universidad."
+    }
+  },
+  "n3_13": {
+    "hint": "Si V/N; En caso de V/N",
+    "description": "Esta estructura se utiliza para hacer sugerencias, ofrecer ayuda o dar consejos basados en una condición hipotética. A menudo implica que si la situación del verbo o sustantivo (Vる/N) es cierta o va a suceder, entonces el hablante proporcionará una respuesta relevante. También se puede usar para dar información condicional.",
+    "examples": {
+      "example1": "Si vas de viaje, ¿te presto una bolsa grande?",
+      "example2": "Si vas a leer ese libro, por favor revisa el índice primero.",
+      "example3": "Si mañana llueve, el picnic será cancelado."
     }
   }
+}
 }
