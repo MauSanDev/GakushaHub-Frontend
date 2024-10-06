@@ -27,6 +27,7 @@
   "elements": "元素",
   "on": "开启",
   "off": "关闭",
+  "loading": "加载中",
   "saveDeckInput": {
     "saveInto": "保存到集合:",
     "charLimitExceeded": "一个或多个字段超过了最大字符限制 {0}。",

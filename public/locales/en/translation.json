@@ -27,6 +27,7 @@
   "elements": "Elements",
   "on": "On",
   "off": "Off",
+  "loading": "Loading",
   "saveDeckInput": {
     "saveInto": "Save into Collection:",
     "charLimitExceeded": "One or more fields exceed the maximum character limit of {0}.",

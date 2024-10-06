@@ -27,6 +27,7 @@
   "elements": "要素",
   "on": "オン",
   "off": "オフ",
+  "loading": "読み込み中",
   "saveDeckInput": {
     "saveInto": "コレクションに保存：",
     "charLimitExceeded": "1つ以上のフィールドが最大文字数 {0} を超えています。",

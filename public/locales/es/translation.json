@@ -27,6 +27,7 @@
   "elements": "Elementos",
   "on": "Encendido",
   "off": "Apagado",
+  "loading": "Cargando",
   "saveDeckInput": {
     "saveInto": "Guardar en la Colección:",
     "charLimitExceeded": "Uno o más campos superan el límite máximo de caracteres de {0}.",
