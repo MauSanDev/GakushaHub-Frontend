@@ -19,12 +19,16 @@ interface AuthContextType {
     loading: boolean;
     isAuthenticated: boolean;
     isEmailVerified: boolean;
+    hasLicense: boolean;
+    isPremium: boolean;  // Nuevo campo para verificar si es premium
+    isSensei: boolean;   // Nuevo campo para verificar si es sensei
     signUp: (email: string, password: string, name: string, country: string) => Promise<void>;
     signIn: (email: string, password: string) => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
     logout: () => Promise<void>;
     resendEmailVerification: () => Promise<void>;
     updateUserData: (updatedFields: Partial<UserData>) => void;
+    setupLicense: (licenseType: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -38,6 +42,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loading, setLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isEmailVerified, setIsEmailVerified] = useState(false);
+
+    // Verificar si el usuario es premium o sensei
+    const isPremium = userData?.licenses?.some(license => license.type === 'premium' && license.isActive) || false;
+    const isSensei = userData?.licenses?.some(license => license.type === 'sensei' && license.isActive) || false;
+
+    const hasLicense = isPremium || isSensei;  // Tiene licencia si es premium o sensei
 
     useEffect(() => {
         const auth = getAuth();
@@ -130,7 +140,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.removeItem('authToken');
     };
 
-    // Función para reenviar el correo de verificación
     const resendEmailVerification = async () => {
         if (user) {
             await sendEmailVerification(user);
@@ -149,8 +158,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.setItem('userData', JSON.stringify(updatedUserData));
     };
 
+    const setupLicense = async (licenseType: string) => {
+        if (!userData) {
+            console.error("No user data available to set license");
+            return;
+        }
+
+        try {
+            const updatedUserData = await ApiClient.post<UserData, { type: string }>('api/auth/license', { type: licenseType });
+
+            setUserData(updatedUserData);
+            localStorage.setItem('userData', JSON.stringify(updatedUserData));
+        } catch (error) {
+            console.error('Error setting up license:', error);
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, userData, loading, isAuthenticated, isEmailVerified, signUp, signIn, resetPassword, logout, resendEmailVerification, updateUserData }}>
+        <AuthContext.Provider value={{ user, userData, loading, isAuthenticated, isEmailVerified, hasLicense, isPremium, isSensei, signUp, signIn, resetPassword, logout, resendEmailVerification, updateUserData, setupLicense }}>
             {!loading && children}
         </AuthContext.Provider>
     );

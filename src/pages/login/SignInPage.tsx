@@ -4,7 +4,7 @@ import { FaSpinner } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
 import AuthLayout from './AuthLayout.tsx';
 import LocSpan from "../../components/LocSpan.tsx";
-import {useTranslation} from "react-i18next"; // Importa el AuthLayout
+import {useTranslation} from "react-i18next";
 
 const SignInPage: React.FC = () => {
     const { signIn } = useAuth();
@@ -22,7 +22,7 @@ const SignInPage: React.FC = () => {
 
         try {
             await signIn(email, password);
-            navigate('/');
+            navigate("/");
         } catch (error: any) {
             const code = error.code?.trim();
             switch (code) {

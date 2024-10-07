@@ -7,7 +7,7 @@ import DarkModeToggle from './DarkModeToggle';
 import LocSpan from "./LocSpan.tsx";
 
 const UserMenu: React.FC = () => {
-    const { user, logout, isEmailVerified, resendEmailVerification } = useAuth();
+    const { user, logout, isEmailVerified, resendEmailVerification, isPremium, isSensei } = useAuth();
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -42,6 +42,21 @@ const UserMenu: React.FC = () => {
         };
     }, []);
 
+    // Determinar la licencia más alta
+    const getLicenseTag = () => {
+        if (isSensei) {
+            return "Sensei";
+        } else if (isPremium) {
+            return "Premium";
+        } else {
+            return "Free";
+        }
+    };
+
+    const handleLicenseClick = () => {
+        navigate('/license');
+    };
+
     return (
         <div className="lg:fixed lg:top-0 lg:left-0 lg:p-1 z-50">
             <div ref={menuRef} className="relative">
@@ -53,6 +68,13 @@ const UserMenu: React.FC = () => {
                         >
                             <FaUser className="inline-block mr-2" />
                             {user.displayName || user.email}
+                            {/* Tag de licencia */}
+                            <span
+                                onClick={handleLicenseClick}
+                                className="ml-2 text-xs font-semibold px-2 py-1 bg-blue-200 dark:bg-gray-600 text-blue-800 dark:text-white rounded cursor-pointer hover:bg-blue-300 dark:hover:bg-gray-700 transition"
+                            >
+                                {getLicenseTag()}
+                            </span>
                         </button>
                         {!isEmailVerified && (
                             <div className="text-red-500 text-sm mt-2 flex items-center">
@@ -92,9 +114,7 @@ const UserMenu: React.FC = () => {
                         <div className="flex space-x-2">
                             <button
                                 onClick={handleSignIn}
-                                className="px-4 py-2
-
- bg-white dark:bg-black text-gray-800 font-bold text-sm hover:text-blue-400 dark:text-white dark:hover:bg-gray-800 transition-all focus:outline-none rounded"
+                                className="px-4 py-2 bg-white dark:bg-black text-gray-800 font-bold text-sm hover:text-blue-400 dark:text-white dark:hover:bg-gray-800 transition-all focus:outline-none rounded"
                             >
                                 <LocSpan textKey={"loginFlow.logIn"} />
                             </button>

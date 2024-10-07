@@ -1,4 +1,6 @@
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useAuth } from './context/AuthContext'; // Asumiendo que tienes AuthContext
 import SearchPage from './pages/SearchPage/SearchPage.tsx';
 import UnderDevelopmentPage from './pages/UnderDevelopmentPage';
 import CourseListPage from "./pages/CourseListPage.tsx";
@@ -17,48 +19,52 @@ import FullScreenLayout from "./layouts/FullScreenLayout.tsx";
 import {LanguageProvider} from "./context/LanguageContext.tsx";
 import PrivateRoute from "./layouts/PrivateLayout.tsx";
 import FakeGenerationPage from "./components/Modals/GenerationPage.tsx";
-import { useEffect } from 'react';
-import {applyDarkMode} from "./components/DarkModeToggle.tsx";
+import { applyDarkMode } from "./components/DarkModeToggle.tsx";
 import GrammarCreatePage from "./pages/GrammarCreatePage.tsx";
 
 function App() {
+    const { isAuthenticated, hasLicense } = useAuth();
+    const navigate = useNavigate();
+
     useEffect(() => {
         applyDarkMode();
-    }, []); 
-    
-    
+    }, []);
+
+    useEffect(() => {
+        if (isAuthenticated && !hasLicense) {
+            navigate('/license');
+        }
+    }, [hasLicense, navigate]);
+
     return (
         <LanguageProvider>
-            
             <Routes>
-                <Route element={<FullScreenLayout/>}>
-                    <Route path="/signin" element={<SignInPage/>}/>
-                    <Route path="/signup" element={<SignUpPage/>}/>
-                    <Route path="/forgot-password" element={<ForgotPasswordScreen/>}/>
-                    <Route path="/license" element={<LicenseSelectionPage/>}/>
-                    <Route path="/reset" element={<PasswordResetScreen/>}/>
-                    <Route path="/signinsuccess" element={<NotificationScreen message={'Sign in success. Please validate your account pressing the link you received in your email.'}/>}/>
-                    <Route path="/accountvalidated" element={<NotificationScreen message={'Account validated successfully. Login to start using the service.'}/>}/>
+                <Route element={<FullScreenLayout />}>
+                    <Route path="/signin" element={<SignInPage />} />
+                    <Route path="/signup" element={<SignUpPage />} />
+                    <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
+                    <Route path="/license" element={<LicenseSelectionPage />} />
+                    <Route path="/reset" element={<PasswordResetScreen />} />
+                    <Route path="/signinsuccess" element={<NotificationScreen message={'Sign in success. Please validate your account pressing the link you received in your email.'} />} />
+                    <Route path="/accountvalidated" element={<NotificationScreen message={'Account validated successfully. Login to start using the service.'} />} />
                 </Route>
 
-                <Route element={<MainLayout/>}>
-                    <Route path="/" element={<Navigate to="/search" replace/>}/>
-                    <Route path="/search" element={<SearchPage/>}/>
-                    <Route path="/grammar" element={<GrammarListPage/>}/>
-                    <Route path="/generations" element={<GenerationsListPage/>}/>
-                    <Route path="/generation/:elementId" element={<TextDisplayPage/>}/>
-                    <Route path="*" element={<UnderDevelopmentPage/>}/>
+                <Route element={<MainLayout />}>
+                    <Route path="/" element={<Navigate to="/search" replace />} />
+                    <Route path="/search" element={<SearchPage />} />
+                    <Route path="/grammar" element={<GrammarListPage />} />
+                    <Route path="/generations" element={<GenerationsListPage />} />
+                    <Route path="/generation/:elementId" element={<TextDisplayPage />} />
+                    <Route path="*" element={<UnderDevelopmentPage />} />
                 </Route>
 
-                <Route element={<PrivateRoute/>}>
-                    <Route path="/addGrammar" element={<GrammarCreatePage/>}/>
-                    <Route path="/generate" element={<FakeGenerationPage/>}/>
-                    <Route path="/courses" element={<CourseListPage/>}/>
-                    <Route path="/courses/:courseId" element={<CourseDetailPage/>}/>
-                    <Route path="/courses/:courseId/:lessonId" element={<CourseDetailPage/>}/>
+                <Route element={<PrivateRoute />}>
+                    <Route path="/addGrammar" element={<GrammarCreatePage />} />
+                    <Route path="/generate" element={<FakeGenerationPage />} />
+                    <Route path="/courses" element={<CourseListPage />} />
+                    <Route path="/courses/:courseId" element={<CourseDetailPage />} />
+                    <Route path="/courses/:courseId/:lessonId" element={<CourseDetailPage />} />
                 </Route>
-                
-                
             </Routes>
         </LanguageProvider>
     );
