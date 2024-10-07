@@ -1,6 +1,6 @@
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useAuth } from './context/AuthContext'; // Asumiendo que tienes AuthContext
+import { useAuth } from './context/AuthContext';
 import SearchPage from './pages/SearchPage/SearchPage.tsx';
 import UnderDevelopmentPage from './pages/UnderDevelopmentPage';
 import CourseListPage from "./pages/CourseListPage.tsx";
@@ -22,6 +22,10 @@ import FakeGenerationPage from "./components/Modals/GenerationPage.tsx";
 import { applyDarkMode } from "./components/DarkModeToggle.tsx";
 import GrammarCreatePage from "./pages/GrammarCreatePage.tsx";
 import InstitutionListPage from "./pages/Institutions/InstitutionListPage.tsx";
+import InstitutionDataPage from "./pages/Institutions/InstitutionDataPage.tsx";
+import InstitutionRoute from "./layouts/InstitutionLayout.tsx";
+import InstitutionCourseListPage from "./pages/Institutions/InstitutionCourseListPage.tsx";
+import InstitutionMembersPage from "./pages/Institutions/InstitutionMembersPage.tsx";
 
 function App() {
     const { isAuthenticated, hasLicense } = useAuth();
@@ -66,6 +70,12 @@ function App() {
                     <Route path="/institutions" element={<InstitutionListPage />} />
                     <Route path="/courses/:courseId" element={<CourseDetailPage />} />
                     <Route path="/courses/:courseId/:lessonId" element={<CourseDetailPage />} />
+                </Route>
+
+                <Route element={<InstitutionRoute />}>
+                    <Route path="/institutionData" element={<InstitutionDataPage />} />
+                    <Route path="/institution/courses" element={<InstitutionCourseListPage />} />
+                    <Route path="/institution/members" element={<InstitutionMembersPage />} />
                 </Route>
             </Routes>
         </LanguageProvider>
