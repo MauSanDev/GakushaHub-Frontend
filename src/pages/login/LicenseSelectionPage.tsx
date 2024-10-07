@@ -6,7 +6,7 @@ import { FaReact } from 'react-icons/fa';
 
 const LicenseSelectionPage: React.FC = () => {
     const navigate = useNavigate();
-    const { setupLicense, isPremium, isSensei } = useAuth(); 
+    const { setupLicense, hasLicense, isPremium, isSensei } = useAuth(); 
     const [loading, setLoading] = useState<string | null>(null);
 
     const handleLicenseSetup = async (licenseType: string) => {
@@ -29,11 +29,10 @@ const LicenseSelectionPage: React.FC = () => {
         }
 
         
-        if (
-            (licenseKey === 'free') ||
-            (licenseKey === 'premium' && isPremium) ||
-            (licenseKey === 'sensei' && isSensei)
-        ) {
+        if ((licenseKey === 'free' && hasLicense)
+            || (licenseKey === 'premium' && (isPremium || isSensei)) 
+            || (licenseKey === 'sensei' && (isSensei))) 
+        {
             navigate('/'); 
             return;
         }
@@ -51,9 +50,11 @@ const LicenseSelectionPage: React.FC = () => {
     };
 
     const getBlockedReason = (licenseType: string) => {
-        if (licenseType === 'Free User' && (isPremium || isSensei)) {
+        if (licenseType === 'Free User' && hasLicense) {
             return "You already have a License!";
-        } else if (licenseType === 'Premium' && (isSensei || isPremium)) {
+        } else if (licenseType === 'Premium' && (isPremium || isSensei)) {
+            return "You already have a Premium License!";
+        } else if (licenseType === 'Sensei' && isSensei) {
             return "You already have a Premium License!";
         }
         return null;

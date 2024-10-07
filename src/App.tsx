@@ -21,6 +21,7 @@ import PrivateRoute from "./layouts/PrivateLayout.tsx";
 import FakeGenerationPage from "./components/Modals/GenerationPage.tsx";
 import { applyDarkMode } from "./components/DarkModeToggle.tsx";
 import GrammarCreatePage from "./pages/GrammarCreatePage.tsx";
+import InstitutionListPage from "./pages/Institutions/InstitutionListPage.tsx";
 
 function App() {
     const { isAuthenticated, hasLicense } = useAuth();
@@ -62,6 +63,7 @@ function App() {
                     <Route path="/addGrammar" element={<GrammarCreatePage />} />
                     <Route path="/generate" element={<FakeGenerationPage />} />
                     <Route path="/courses" element={<CourseListPage />} />
+                    <Route path="/institutions" element={<InstitutionListPage />} />
                     <Route path="/courses/:courseId" element={<CourseDetailPage />} />
                     <Route path="/courses/:courseId/:lessonId" element={<CourseDetailPage />} />
                 </Route>

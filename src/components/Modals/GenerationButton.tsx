@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaRobot } from 'react-icons/fa';
 import NewGenerationPage from "./NewGenerationPage.tsx";
 import {DeckType} from "../../data/DeckData.ts";
+import {useAuth} from "../../context/AuthContext.tsx";
 
 interface GenerationButtonProps {
     decks?: DeckType[];
@@ -13,13 +14,17 @@ interface GenerationButtonProps {
 
 const GenerationButton: React.FC<GenerationButtonProps> = ({ decks, deckName, lessonName, courseName, courseId }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const { isPremium } = useAuth()
+    
+    if (!isPremium)
+        return null;
 
     const handleOpenModal = () => {
         setIsModalVisible(true);
     };
 
     const handleCloseModal = () => {
-        setIsModalVisible(false);
+        setIsModalVisible(false); 
     };
 
     return (

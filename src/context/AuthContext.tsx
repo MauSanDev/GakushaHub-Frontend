@@ -13,6 +13,9 @@ import {
 import { ApiClient } from '../services/ApiClient';
 import { UserData } from '../data/UserData';
 
+// Enum de tipos de licencia
+type LicenseType = 'none' | 'free' | 'premium' | 'sensei';
+
 interface AuthContextType {
     user: User | null;
     userData: UserData | null;
@@ -20,8 +23,9 @@ interface AuthContextType {
     isAuthenticated: boolean;
     isEmailVerified: boolean;
     hasLicense: boolean;
-    isPremium: boolean;  // Nuevo campo para verificar si es premium
-    isSensei: boolean;   // Nuevo campo para verificar si es sensei
+    isPremium: boolean;
+    isSensei: boolean;
+    licenseType: LicenseType;  // Agregado: Variable para el tipo de licencia
     signUp: (email: string, password: string, name: string, country: string) => Promise<void>;
     signIn: (email: string, password: string) => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
@@ -43,11 +47,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isEmailVerified, setIsEmailVerified] = useState(false);
 
-    // Verificar si el usuario es premium o sensei
-    const isPremium = userData?.licenses?.some(license => license.type === 'premium' && license.isActive) || false;
-    const isSensei = userData?.licenses?.some(license => license.type === 'sensei' && license.isActive) || false;
+    // Determinar el tipo de licencia más alto del usuario
+    const licenseType: LicenseType = userData?.licenses?.some(license => license.type === 'sensei' && license.isActive)
+        ? 'sensei'
+        : userData?.licenses?.some(license => license.type === 'premium' && license.isActive)
+            ? 'premium'
+            : userData?.licenses?.some(license => license.type === 'free' && license.isActive)
+                ? 'free'
+                : 'none';
 
-    const hasLicense = isPremium || isSensei;  // Tiene licencia si es premium o sensei
+    const hasLicense = licenseType !== 'none';  // Si tiene cualquier licencia
+    const isPremium = licenseType === 'premium' || licenseType === 'sensei';  // Verificar si es premium
+    const isSensei = licenseType === 'sensei';    // Verificar si es sensei
 
     useEffect(() => {
         const auth = getAuth();
@@ -175,7 +186,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     return (
-        <AuthContext.Provider value={{ user, userData, loading, isAuthenticated, isEmailVerified, hasLicense, isPremium, isSensei, signUp, signIn, resetPassword, logout, resendEmailVerification, updateUserData, setupLicense }}>
+        <AuthContext.Provider value={{ user, userData, loading, isAuthenticated, isEmailVerified, hasLicense, isPremium, isSensei, licenseType, signUp, signIn, resetPassword, logout, resendEmailVerification, updateUserData, setupLicense }}>
             {!loading && children}
         </AuthContext.Provider>
     );
