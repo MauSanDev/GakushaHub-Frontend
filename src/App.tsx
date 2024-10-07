@@ -11,6 +11,7 @@ import SignUpPage from "./pages/login/SignUpPage.tsx";
 import NotificationScreen from "./pages/login/NotificationScreen.tsx";
 import ForgotPasswordScreen from "./pages/login/ForgotPasswordScreen.tsx";
 import PasswordResetScreen from "./pages/login/PasswordResetScreen.tsx";
+import LicenseSelectionPage from "./pages/login/LicenseSelectionPage.tsx";
 import MainLayout from "./layouts/MainLayout.tsx";
 import FullScreenLayout from "./layouts/FullScreenLayout.tsx";
 import {LanguageProvider} from "./context/LanguageContext.tsx";
@@ -34,6 +35,7 @@ function App() {
                     <Route path="/signin" element={<SignInPage/>}/>
                     <Route path="/signup" element={<SignUpPage/>}/>
                     <Route path="/forgot-password" element={<ForgotPasswordScreen/>}/>
+                    <Route path="/license" element={<LicenseSelectionPage/>}/>
                     <Route path="/reset" element={<PasswordResetScreen/>}/>
                     <Route path="/signinsuccess" element={<NotificationScreen message={'Sign in success. Please validate your account pressing the link you received in your email.'}/>}/>
                     <Route path="/accountvalidated" element={<NotificationScreen message={'Account validated successfully. Login to start using the service.'}/>}/>

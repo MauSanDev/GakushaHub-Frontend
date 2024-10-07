@@ -68,6 +68,7 @@ const SignUpPage: React.FC = () => {
 
     return (
         <AuthLayout>
+            <div className="max-w-md" >
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">Sign Up</h2>
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                 <input
@@ -199,6 +200,7 @@ const SignUpPage: React.FC = () => {
                 >
                     {t("loginFlow.logIn")}
                 </button>
+            </div>
             </div>
         </AuthLayout>
     );
