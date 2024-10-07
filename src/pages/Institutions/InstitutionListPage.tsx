@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import LoadingScreen from '../../components/LoadingScreen';
 import LocSpan from '../../components/LocSpan.tsx';
-import InstitutionBox from './Components/InstitutionBox.tsx'; // Importa el componente que creamos
+import InstitutionBox from './Components/InstitutionBox.tsx';
+import CreateInstitutionModal from './CreateInstitutionModal'; // Importa el modal de creación de institución
 
 interface InstitutionData {
     _id: string;
@@ -15,15 +16,16 @@ interface InstitutionData {
 
 const InstitutionListPage: React.FC = () => {
     const [institutions, setInstitutions] = useState<InstitutionData[]>([]);
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false); // Estado para manejar el modal
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    const hasOwnerInstitution: boolean = true; // Cambia este valor para probar la UI
+    const hasOwnerInstitution: boolean = false;
 
     const ownerInstitution: InstitutionData | null = hasOwnerInstitution
         ? { _id: 'owner-1', name: 'My Institution', description: 'A brief description of the institution.', members: 120, groups: 5, resources: 10, role: 'owner' }
         : null;
 
-    const isLoading = false; // Placeholder para la pantalla de carga
+    const isLoading = false;
 
     useEffect(() => {
         const dummyInstitutions: InstitutionData[] = [
@@ -32,6 +34,11 @@ const InstitutionListPage: React.FC = () => {
         ];
         setInstitutions(dummyInstitutions);
     }, []);
+
+    const handleCreateInstitutionSuccess = () => {
+        // Aquí puedes actualizar la lista de instituciones después de que se cree una nueva
+        setIsCreateModalOpen(false);
+    };
 
     return (
         <div ref={scrollContainerRef}
@@ -64,9 +71,7 @@ const InstitutionListPage: React.FC = () => {
                     ) : (
                         <div
                             className="p-6 my-10 border-2 border-dashed border-gray-400 dark:border-gray-600 hover:dark:border-green-800 hover:border-green-700 rounded-lg shadow-md text-center cursor-pointer transition-all hover:bg-green-100 dark:hover:bg-green-950 flex items-center justify-center h-48 text-gray-600 dark:text-gray-400 hover:dark:text-green-400 hover:text-green-700 "
-                            onClick={() => {
-                                // Acción que quieras ejecutar al hacer clic
-                            }}
+                            onClick={() => setIsCreateModalOpen(true)} // Abre el modal al hacer clic
                         >
                             <p className="mb-4 text-xl">
                                 You don't have your Institution yet.<br/>
@@ -97,6 +102,14 @@ const InstitutionListPage: React.FC = () => {
                     )}
                 </div>
             </div>
+
+            {/* Modal para crear institución */}
+            {isCreateModalOpen && (
+                <CreateInstitutionModal
+                    onClose={() => setIsCreateModalOpen(false)}
+                    onCreateSuccess={handleCreateInstitutionSuccess}
+                />
+            )}
         </div>
     );
 };
