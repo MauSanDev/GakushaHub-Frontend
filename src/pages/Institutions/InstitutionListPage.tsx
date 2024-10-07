@@ -1,26 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import LoadingScreen from '../../components/LoadingScreen';
 import LocSpan from '../../components/LocSpan.tsx';
+import InstitutionBox from './Components/InstitutionBox.tsx'; // Importa el componente que creamos
 
 interface InstitutionData {
     _id: string;
     name: string;
+    description?: string;
+    members?: number;
+    groups?: number;
+    resources?: number;
+    role: string;
 }
 
 const InstitutionListPage: React.FC = () => {
     const [institutions, setInstitutions] = useState<InstitutionData[]>([]);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    // Placeholder para simular si el usuario tiene una institución propia
-    const ownerInstitution: InstitutionData | null = null; // Cambia esto cuando tengas los datos reales
+    const hasOwnerInstitution: boolean = true; // Cambia este valor para probar la UI
+
+    const ownerInstitution: InstitutionData | null = hasOwnerInstitution
+        ? { _id: 'owner-1', name: 'My Institution', description: 'A brief description of the institution.', members: 120, groups: 5, resources: 10, role: 'owner' }
+        : null;
+
     const isLoading = false; // Placeholder para la pantalla de carga
 
-    // Simulación de instituciones a las que el usuario pertenece
     useEffect(() => {
         const dummyInstitutions: InstitutionData[] = [
-            { _id: '1', name: 'Institution A' },
-            { _id: '2', name: 'Institution B' }
+            { _id: '1', name: 'Institution A', description: 'A brief description of Institution A', members: 80, groups: 3, resources: 7, role: 'member' },
+            { _id: '2', name: 'Institution B', description: 'A brief description of Institution B', members: 50, groups: 2, resources: 5, role: 'member' }
         ];
         setInstitutions(dummyInstitutions);
     }, []);
@@ -34,7 +42,7 @@ const InstitutionListPage: React.FC = () => {
             <div className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
                 <div className="flex items-start mb-4 sm:mb-0">
                     <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
-                        インスティテューションを見つけましょう
+                        私の学校
                     </h1>
                 </div>
             </div>
@@ -45,29 +53,47 @@ const InstitutionListPage: React.FC = () => {
                         <LocSpan textKey={"institutionListPage.myInstitution"} />
                     </h2>
                     {ownerInstitution ? (
-                        <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                            {/* Aquí iría tu componente de datos de la organización */}
-                            <p className="text-gray-700 dark:text-gray-300">My Data</p>
-                        </div>
+                        <InstitutionBox
+                            institutionName={ownerInstitution.name}
+                            institutionDescription={ownerInstitution.description}
+                            members={ownerInstitution.members}
+                            groups={ownerInstitution.groups}
+                            resources={ownerInstitution.resources}
+                            userRole={ownerInstitution.role}
+                        />
                     ) : (
-                        <p className="text-gray-500">You don't have an institution created yet.</p>
+                        <div
+                            className="p-6 my-10 border-2 border-dashed border-gray-400 dark:border-gray-600 hover:dark:border-green-800 hover:border-green-700 rounded-lg shadow-md text-center cursor-pointer transition-all hover:bg-green-100 dark:hover:bg-green-950 flex items-center justify-center h-48 text-gray-600 dark:text-gray-400 hover:dark:text-green-400 hover:text-green-700 "
+                            onClick={() => {
+                                // Acción que quieras ejecutar al hacer clic
+                            }}
+                        >
+                            <p className="mb-4 text-xl">
+                                You don't have your Institution yet.<br/>
+                                <span>Click here to Create</span>
+                            </p>
+                        </div>
                     )}
                 </div>
 
                 <div>
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-                        <LocSpan textKey={"institutionListPage.joinedInstitutions"} />
+                        <LocSpan textKey={"institutionListPage.joinedInstitutions"}/>
                     </h2>
                     {institutions.length > 0 ? (
                         institutions.map((institution) => (
-                            <Link key={institution._id} to={`/institutions/${institution._id}`} className="page-fade-enter page-fade-enter-active">
-                                <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                                    <p className="text-gray-700 dark:text-gray-300">{institution.name}</p>
-                                </div>
-                            </Link>
+                            <InstitutionBox
+                                key={institution._id}
+                                institutionName={institution.name}
+                                institutionDescription={institution.description}
+                                members={institution.members}
+                                groups={institution.groups}
+                                resources={institution.resources}
+                                userRole={institution.role}
+                            />
                         ))
                     ) : (
-                        <p className="text-gray-500">You are not part of any institution yet.</p>
+                        <p className="text-center text-gray-500">何もない</p>
                     )}
                 </div>
             </div>
