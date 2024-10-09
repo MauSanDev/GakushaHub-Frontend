@@ -80,6 +80,9 @@ function App() {
                     <Route path="institution/:institutionId/courses" element={<InstitutionCourseListPage />} />
                     <Route path="institution/:institutionId/members" element={<InstitutionMembersPage />} />
                     <Route path="institution/:institutionId/studyGroups" element={<InstitutionStudyGroupList />} />
+                    <Route path="institution/:institutionId/courses/:courseId" element={<CourseDetailPage />} />
+                    <Route path="institution/:institutionId/courses/:courseId/:lessonId" element={<CourseDetailPage />} />
+
                 </Route>
             </Routes>
         </LanguageProvider>

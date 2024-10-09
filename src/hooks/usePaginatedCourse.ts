@@ -1,15 +1,22 @@
 import { usePaginatedData } from './usePaginatedData.ts';
-import {CourseData} from "../data/CourseData.ts";
-import {useAuth} from "../context/AuthContext.tsx";
+import { CourseData } from "../data/CourseData.ts";
+import { useAuth } from "../context/AuthContext.tsx";
 
-export const usePaginatedCourse = (page: number, limit: number) => {
+export const usePaginatedCourse = (page: number, limit: number, institutionId?: string) => {
     const { userData } = useAuth();
-    const { data, error, resetQueries, ...rest } =  usePaginatedData<CourseData>('/api/course/paginated', page, limit, userData?._id);
 
     if (!userData || !userData._id) {
         throw new Error("Pagination data not available");
     }
-    
+
+    const { data, error, resetQueries, ...rest } = usePaginatedData<CourseData>(
+        '/api/course/paginated',
+        page,
+        limit,
+        userData._id,
+        institutionId ? { institutionId } : undefined
+    );
+
     return { data, error, resetQueries, ...rest };
 };
 
@@ -17,7 +24,6 @@ export interface Deck {
     _id: string;
     name: string;
 }
-
 
 export class Lesson {
     _id: string;

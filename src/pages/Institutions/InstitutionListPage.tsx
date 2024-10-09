@@ -11,7 +11,7 @@ const InstitutionListPage: React.FC = () => {
 
     const { data, error, isLoading } = usePaginatedInstitutions(1, 1); 
 
-    const ownerInstitution = data?.documents?.[0] || null;
+    const ownerInstitution = data?.documents[0] || null;
 
     const handleCreateInstitutionSuccess = () => {
         setIsCreateModalOpen(false);

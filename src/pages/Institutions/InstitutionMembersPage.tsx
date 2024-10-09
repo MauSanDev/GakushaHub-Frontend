@@ -37,9 +37,7 @@ const InstitutionMembersPage: React.FC = () => {
     );
 
     const handleAddMemberSuccess = () => {
-        // Aquí puedes actualizar la lista de miembros después de que se agregue uno nuevo
         setIsAddMemberModalOpen(false);
-        // Puedes agregar lógica aquí para actualizar los miembros tras agregar uno nuevo
     };
 
     return (

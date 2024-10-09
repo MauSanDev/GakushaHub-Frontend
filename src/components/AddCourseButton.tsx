@@ -4,7 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import CreateCourseModal from "../pages/CreateEmpty/CreateCourseModal.tsx";
 import LocSpan from "./LocSpan.tsx";
 
-const AddCourseButton: React.FC = () => {
+interface AddCourseButtonProps {
+    institutionId?: string
+}
+
+
+const AddCourseButton: React.FC<AddCourseButtonProps> = ({ institutionId }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
     
@@ -37,6 +42,7 @@ const AddCourseButton: React.FC = () => {
                 <CreateCourseModal
                     onClose={closeModal}
                     onCreateSuccess={onSaveModal}
+                    institutionId={institutionId}
                 />}
         </>
     );

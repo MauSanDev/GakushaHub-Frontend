@@ -11,9 +11,9 @@ export const useInstitutionById = (institutionId: string) => {
         ['institution', institutionId],
         fetchInstitution,
         {
-            enabled: !!institutionId, // Solo hace el fetch si institutionId está definido
-            staleTime: 5 * 60 * 1000, // 5 minutos de caché antes de que React Query considere los datos "stale"
-            cacheTime: 10 * 60 * 1000, // 10 minutos antes de que la caché se elimine
+            enabled: !!institutionId, 
+            staleTime: 5 * 60 * 1000, 
+            cacheTime: 10 * 60 * 1000, 
         }
     );
 

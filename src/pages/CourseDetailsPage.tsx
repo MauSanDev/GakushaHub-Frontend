@@ -49,7 +49,14 @@ const CourseDetailPage: React.FC = () => {
 
             if(userData._id != course.creatorId._id && !course.isPublic && !userData.followedCourses.includes(course._id))
             {
-                navigate(`/courses`);
+                if (course.institutionId)
+                {
+                    navigate(`/institution/${course.institutionId}/courses`);
+                }
+                else
+                {
+                    navigate(`/courses`);
+                }
                 return;
             }
 
@@ -60,7 +67,15 @@ const CourseDetailPage: React.FC = () => {
             if (!lessonId && course.lessons.length > 0) {
                 const firstLessonId = course.lessons[0]._id;
                 setSelectedLesson(firstLessonId);
-                navigate(`/courses/${courseId}/${firstLessonId}`);
+
+                if (course.institutionId)
+                {
+                    navigate(`/institution/${course.institutionId}/courses/${courseId}/${firstLessonId}`); // TODO: Check for the roles?
+                }
+                else
+                {
+                    navigate(`/courses/${courseId}/${firstLessonId}`);
+                }
             }
         }
     }, [course, userData, lessonId, courseId, navigate]);
@@ -180,7 +195,7 @@ const CourseDetailPage: React.FC = () => {
                 className="lg:pl-0 pl-12 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 mb-2 px-4">
                 <div className="flex items-start mb-4 sm:mb-0">
                     <Link
-                        to="/courses"
+                        to={course.institutionId ? `/institution/${course.institutionId}/courses` : "/courses"}
                         className="bg-blue-500 dark:bg-gray-700 text-white p-2 rounded-full shadow hover:bg-blue-600 dark:hover:bg-gray-600 mr-4"
                     >
                         <FaArrowLeft className="w-5 h-5"/>

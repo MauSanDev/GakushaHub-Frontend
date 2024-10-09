@@ -2,18 +2,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import CourseBox from '../../components/CourseBox';
 import { CourseData } from "../../data/CourseData.ts";
 import LoadingScreen from "../../components/LoadingScreen";
-import { Link } from "react-router-dom";
-import { useOwnerCourses } from "../../hooks/coursesHooks/useOwnerCourses.ts";
+import {Link, useParams} from "react-router-dom";
 import AddCourseButton from "../../components/AddCourseButton.tsx";
+import { usePaginatedCourse } from "../../hooks/usePaginatedCourse.ts";
 
 const InstitutionCourseListPage: React.FC = () => {
+    const { institutionId } = useParams<{ institutionId: string; }>();
     const [courses, setCourses] = useState<CourseData[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredCourses, setFilteredCourses] = useState<CourseData[]>([]);
     const [page, setPage] = useState(1);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    const { data: ownerData, isLoading: ownerLoading, error: ownerError } = useOwnerCourses(page, 99);
+    const { data: ownerData, isLoading: ownerLoading, error: ownerError } = usePaginatedCourse(page, 99, institutionId);
 
     const data = ownerData;
     const isLoading = ownerLoading;
@@ -98,7 +99,7 @@ const InstitutionCourseListPage: React.FC = () => {
                     className="flex-grow px-4 py-2 rounded lg:text-sm text-xs border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300"
                 />
                 <div className="ml-4 text-center">
-                    <AddCourseButton />
+                    <AddCourseButton institutionId={institutionId}/>
                 </div>
             </div>
 

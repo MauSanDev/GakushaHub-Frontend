@@ -10,6 +10,7 @@ export interface CourseData {
     description: string;
     lessons: LessonData[];
     creatorId: UserData;
+    institutionId: string;
     isPublic: boolean;
     createdAt: string;
 }

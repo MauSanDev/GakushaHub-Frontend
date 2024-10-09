@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import ModalWrapper from '../ModalWrapper';
 import { useCreateCourse } from '../../hooks/coursesHooks/useCreateCourse.ts';
+import {useInstitutionById} from "../../hooks/institutionHooks/useInstitutionById.ts";
 
 interface CreateCourseModalProps {
+    institutionId?: string, 
     onClose?: () => void;
     onCreateSuccess?: () => void;
 }
 
-const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ onClose, onCreateSuccess }) => {
+const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ institutionId, onClose, onCreateSuccess }) => {
     const [courseName, setCourseName] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const { mutate: createCourse, isLoading } = useCreateCourse();
+    const { data } = useInstitutionById(institutionId || "");
+
 
     const handleCreateCourse = () => {
         if (courseName.trim() === '') {
@@ -18,7 +22,7 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ onClose, onCreate
             return;
         }
 
-        createCourse(courseName, {
+        createCourse({ courseName, institutionId }, {
             onSuccess: () => {
                 setError(null); // Clear error on success
                 if (onCreateSuccess) {
@@ -38,7 +42,7 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ onClose, onCreate
     return (
         <ModalWrapper onClose={onClose}>
             <div className="relative p-6 w-full mt-2 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
-                <h2 className="text-2xl font-bold mb-4 text-blue-900 dark:text-white text-center">Create a New Course</h2>
+                <h2 className="text-2xl font-bold mb-4 text-blue-900 dark:text-white text-center">Create a New Course {data !== undefined && `for ${data.name}`}</h2>
 
                 <div className="mb-4">
                     <input
