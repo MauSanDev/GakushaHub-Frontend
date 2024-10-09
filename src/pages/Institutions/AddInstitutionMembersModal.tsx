@@ -1,27 +1,31 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import ModalWrapper from '../ModalWrapper';
+import { useAddInstitutionMembers } from '../../hooks/institutionHooks/useAddInstitutionMembers'; // Importar el hook
 
 interface AddInstitutionMembersModalProps {
+    institutionId: string;
     onClose?: () => void;
     onAddSuccess?: () => void;
 }
 
-const AddInstitutionMembersModal: React.FC<AddInstitutionMembersModalProps> = ({ onClose, onAddSuccess }) => {
+const AddInstitutionMembersModal: React.FC<AddInstitutionMembersModalProps> = ({ institutionId, onClose, onAddSuccess }) => {
     const [tags, setTags] = useState<string[]>([]);
     const [inputValue, setInputValue] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
 
+    const { mutate: addMembers, isLoading } = useAddInstitutionMembers();  // Utilizamos el hook para agregar miembros
+
     const inputRef = useRef<HTMLInputElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    
+
     const validateEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
-    
+
     const addTag = useCallback(() => {
         if (inputValue.trim()) {
-            const newTags = inputValue.split(/[\s,;]+/).filter(Boolean); 
+            const newTags = inputValue.split(/[\s,;]+/).filter(Boolean);
             const invalidEmails = newTags.filter(tag => !validateEmail(tag));
             if (invalidEmails.length > 0) {
                 setError(`Invalid email(s): ${invalidEmails.join(', ')}`);
@@ -35,7 +39,6 @@ const AddInstitutionMembersModal: React.FC<AddInstitutionMembersModalProps> = ({
     }, [inputValue, tags]);
 
     const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        
         if (e.key === 'Backspace' && !inputValue && tags.length > 0) {
             e.preventDefault();
             const updatedTags = [...tags];
@@ -47,11 +50,10 @@ const AddInstitutionMembersModal: React.FC<AddInstitutionMembersModalProps> = ({
         }
     };
 
-    
     const onPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
         e.preventDefault();
         const pasteText = e.clipboardData.getData('text');
-        const newTags = pasteText.split(/[\s,;]+/).filter(Boolean); 
+        const newTags = pasteText.split(/[\s,;]+/).filter(Boolean);
         const invalidEmails = newTags.filter(tag => !validateEmail(tag));
         if (invalidEmails.length > 0) {
             setError(`Invalid email(s): ${invalidEmails.join(', ')}`);
@@ -67,7 +69,6 @@ const AddInstitutionMembersModal: React.FC<AddInstitutionMembersModalProps> = ({
         setTags(tags.filter(tag => tag !== tagToRemove));
     };
 
-    
     const clearAllEmails = () => {
         setTags([]);
         setInputValue('');
@@ -80,19 +81,25 @@ const AddInstitutionMembersModal: React.FC<AddInstitutionMembersModalProps> = ({
             return;
         }
 
-        console.log("Members to add:", tags);
-
-        
-        if (onAddSuccess) {
-            onAddSuccess();
-        }
-
-        if (onClose) {
-            onClose();
-        }
+        addMembers(
+            { institutionId, emailList: tags, role: 'student' },  // Puedes ajustar el rol aquí
+            {
+                onSuccess: () => {
+                    if (onAddSuccess) {
+                        onAddSuccess();
+                    }
+                    if (onClose) {
+                        onClose();
+                    }
+                },
+                onError: (error) => {
+                    setError('Error adding members. Please try again.');
+                    console.error('Error adding members:', error);
+                }
+            }
+        );
     };
 
-    
     useEffect(() => {
         if (inputRef.current) {
             inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -112,7 +119,7 @@ const AddInstitutionMembersModal: React.FC<AddInstitutionMembersModalProps> = ({
                         Clear All
                     </button>
                 </div>
-                
+
                 <div className="mb-4">
                     <div
                         ref={containerRef}
@@ -136,10 +143,11 @@ const AddInstitutionMembersModal: React.FC<AddInstitutionMembersModalProps> = ({
                                 onPaste={onPaste}
                                 placeholder="Enter email addresses"
                                 className="flex-1 min-w-0 focus:outline-none bg-transparent text-gray-900 dark:text-gray-300"
+                                disabled={isLoading}
                             />
                         </div>
                     </div>
-                    
+
                     {error && (
                         <div className="text-red-500 text-sm mt-2 max-h-16 overflow-y-auto">
                             {error}
@@ -150,11 +158,12 @@ const AddInstitutionMembersModal: React.FC<AddInstitutionMembersModalProps> = ({
                 <div className="flex justify-center">
                     <button
                         onClick={handleAddMembers}
+                        disabled={isLoading || tags.length === 0}
                         className={`inline-flex w-full justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-500 hover:bg-blue-400 dark:bg-blue-800 dark:hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-                            tags.length === 0 ? 'opacity-50 cursor-not-allowed' : ''
+                            isLoading || tags.length === 0 ? 'opacity-50 cursor-not-allowed' : ''
                         }`}
                     >
-                        Add Members
+                        {isLoading ? 'Adding Members...' : 'Add Members'}
                     </button>
                 </div>
             </div>

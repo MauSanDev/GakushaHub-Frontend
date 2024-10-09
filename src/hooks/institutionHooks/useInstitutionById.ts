@@ -4,7 +4,7 @@ import { ApiClient } from '../../services/ApiClient';
 
 export const useInstitutionById = (institutionId: string) => {
     const fetchInstitution = async () => {
-        return await ApiClient.get<InstitutionData>(`/api/institution/${institutionId}`);
+        return await ApiClient.get<InstitutionData>(`/api/institution/get/${institutionId}`);
     };
 
     const { data, error, isLoading, refetch } = useQuery<InstitutionData>(

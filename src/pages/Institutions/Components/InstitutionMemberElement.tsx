@@ -1,69 +1,82 @@
-import React, { useState, useEffect } from 'react';
-import { FaTrash } from 'react-icons/fa'; 
+import React, {useEffect, useState} from 'react';
+import {FaTrash} from 'react-icons/fa';
+import {MembershipRole, MembershipData, MembershipStatus} from "../../../data/Institutions/MembershipData.ts";
 
 interface InstitutionMemberElementProps {
-    pictureUrl?: string;
-    name: string;
-    role: string;
-    isPending?: boolean;
-    onRemove: () => void; 
-    onRoleChange: (newRole: string) => void; 
+    member: MembershipData;
+    onRemove: () => void;
+    onRoleChange: (newRole: string) => void;
 }
 
 const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
-                                                                               pictureUrl,
-                                                                               name,
-                                                                               role,
-                                                                               isPending = false,
+                                                                               member,
                                                                                onRemove,
                                                                                onRoleChange
                                                                            }) => {
     const roleColors: { [key: string]: string } = {
-        Master: 'dark:text-purple-500 text-purple-400',   
-        Staff: 'dark:text-yellow-500 text-yellow-500',    
-        Sensei: 'dark:text-blue-400 text-blue-400',   
-        Student: 'dark:text-green-500 text-green-400',   
+        owner: 'dark:text-purple-500 text-purple-400',
+        staff: 'dark:text-yellow-500 text-yellow-500',
+        sensei: 'dark:text-blue-400 text-blue-400',
+        student: 'dark:text-green-500 text-green-400',
     };
-    
-    const [selectedRole, setSelectedRole] = useState<string>('');
-    
-    useEffect(() => {
-        if (role) {
-            setSelectedRole(role);
-        }
-    }, [role]);
 
+    const [selectedRole, setSelectedRole] = useState<MembershipRole>(member.role || MembershipRole.Student);
+
+    useEffect(() => {
+        if (member.role) {
+            setSelectedRole(member.role);
+        }
+    }, [member.role]);
+    
     const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const newRole = event.target.value;
+        const newRole = event.target.value as MembershipRole; // Type assertion to MembershipRole
         setSelectedRole(newRole);
         onRoleChange(newRole);
     };
 
+    const isRegisteredUser = !!member.userId; // Check if the user is registered
+
     return (
-        <div className="flex items-center p-4 border-b border-gray-300 dark:border-gray-600 hover:dark:bg-gray-800 hover:bg-blue-100  transition-all">
+        <div className="flex items-center p-4 border-b border-gray-300 dark:border-gray-600 hover:dark:bg-gray-800 hover:bg-blue-100 transition-all">
             <img
-                src={pictureUrl || 'https://via.placeholder.com/40'}
-                alt={name}
+                src={isRegisteredUser ? 'https://via.placeholder.com/40' : 'https://via.placeholder.com/40?text=?'}
+                alt={isRegisteredUser ? member.userId?.name : member.email}
                 className="w-10 h-10 rounded-full mr-4"
             />
             <div className="flex-1">
-                <p className="text-md font-bold text-gray-800 dark:text-gray-200">{name}</p>
+                {isRegisteredUser ? (
+                    <p className="text-md font-bold text-gray-800 dark:text-gray-200">
+                        {member.userId?.name} <span className="pl-4 text-sm text-gray-500 font-normal">{member.email}</span>
+                    </p>
+                ) : (
+                    <p className="text-md font-bold text-gray-800 dark:text-gray-200">{member.email}</p>
+                )}
             </div>
 
-            {isPending && (
+            {member.status === MembershipStatus.Pending && (
                 <span className="italic text-gray-400 mr-4">Pending approval</span>
-            )}
+            )
+            }
 
+            {member.status === MembershipStatus.Rejected && (
+                <span className="italic text-red-400 mr-4">Rejected</span>
+                )
+            }
+
+
+            {member.status === MembershipStatus.Approved && (
             <select
                 value={selectedRole}
                 onChange={handleRoleChange}
                 className={`uppercase font-bold cursor-pointer mr-4 focus:outline-none bg-transparent ${roleColors[selectedRole]}`}
             >
-                <option value="Master">Master</option>
-                <option value="Staff">Staff</option>
-                <option value="Sensei">Sensei</option>
-                <option value="Student">Student</option>
+                <option value="owner">Master</option>
+                <option value="staff">Staff</option>
+                <option value="sensei">Sensei</option>
+                <option value="student">Student</option>
             </select>
+            )
+            }
 
             <button
                 onClick={onRemove}

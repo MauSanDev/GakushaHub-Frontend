@@ -13,9 +13,6 @@ const EditProfilePage: React.FC = () => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        console.log(data)
-        console.log(data?.name)
-        console.log(data?.description)
         if (data && data.name && data.description) {
             setName(data.name);
             setDescription(data.description || '');

@@ -1,50 +1,42 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import LoadingScreen from '../../components/LoadingScreen';
 import InstitutionMemberElement from './Components/InstitutionMemberElement.tsx';
 import AddInstitutionMembersModal from './AddInstitutionMembersModal';
-
-interface MemberData {
-    _id: string;
-    name: string;
-    role: string;
-    pictureUrl?: string;
-    isPending?: boolean;
-}
+import { useParams } from 'react-router-dom';
+import { usePaginatedMembers } from '../../hooks/institutionHooks/usePaginatedMembers.ts';
 
 const InstitutionMembersPage: React.FC = () => {
-    const [members, setMembers] = useState<MemberData[]>([]);
+    const { institutionId } = useParams<{ institutionId: string }>();
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState<boolean>(false);
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    const isLoading = false;
-
-    useEffect(() => {
-        const dummyMembers: MemberData[] = [
-            { _id: '1', name: 'John Doe', role: 'Master', pictureUrl: 'https://via.placeholder.com/40', isPending: false },
-            { _id: '2', name: 'Jane Smith', role: 'Staff', pictureUrl: 'https://via.placeholder.com/40', isPending: true },
-            { _id: '3', name: 'Alice Johnson', role: 'Student', pictureUrl: 'https://via.placeholder.com/40', isPending: false }
-        ];
-        setMembers(dummyMembers);
-    }, []);
+    const { data: membersData, error, isLoading } = usePaginatedMembers(1, 10, institutionId || '');
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
     };
 
-    const filteredMembers = members.filter(member =>
-        member.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
     const handleAddMemberSuccess = () => {
         setIsAddMemberModalOpen(false);
     };
+    
+    const filteredMembers = membersData?.documents.filter((member) =>
+        (member.userId?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            member.email.toLowerCase().includes(searchQuery.toLowerCase()))
+    ) || [];
+
+    if (isLoading) {
+        return <LoadingScreen isLoading={isLoading} />;
+    }
+
+    if (error) {
+        return <p className="text-center text-red-500">Error loading members</p>;
+    }
 
     return (
         <div ref={scrollContainerRef}
              className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-
-            <LoadingScreen isLoading={isLoading} />
 
             <div className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
                 <div className="flex items-start mb-4 sm:mb-0">
@@ -55,7 +47,6 @@ const InstitutionMembersPage: React.FC = () => {
             </div>
 
             <div className="w-full max-w-4xl flex flex-col text-left mt-12">
-
                 <div className="flex items-center justify-between mb-4">
                     <input
                         type="text"
@@ -77,10 +68,7 @@ const InstitutionMembersPage: React.FC = () => {
                         filteredMembers.map((member) => (
                             <InstitutionMemberElement
                                 key={member._id}
-                                name={member.name}
-                                role={member.role}
-                                isPending={member.isPending}
-                                pictureUrl={member.pictureUrl}
+                                member={member}
                                 onRemove={() => {}}
                                 onRoleChange={() => {}}
                             />
@@ -93,8 +81,9 @@ const InstitutionMembersPage: React.FC = () => {
 
             {isAddMemberModalOpen && (
                 <AddInstitutionMembersModal
+                    institutionId={institutionId || ""}
                     onClose={() => setIsAddMemberModalOpen(false)}
-                    onAddSuccess={handleAddMemberSuccess} // Manejar el éxito al agregar miembros
+                    onAddSuccess={handleAddMemberSuccess}
                 />
             )}
         </div>

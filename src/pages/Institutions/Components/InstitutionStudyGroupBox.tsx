@@ -1,23 +1,14 @@
 import React from 'react';
-import { FaUser, FaChalkboardTeacher, FaBook, FaFolder } from 'react-icons/fa'; // Importamos los íconos necesarios
+import { FaUser, FaChalkboardTeacher, FaBook, FaFolder } from 'react-icons/fa'; 
+import { StudyGroupData } from '../../../data/Institutions/StudyGroupData.ts';
+import {Link} from "react-router-dom"; 
 
-interface InstitutionStudyGroupProps {
-    groupName?: string;
-    groupDescription?: string;
-    members?: number;
-    teachers?: number;
-    courses?: number;
-    resources?: number;
+interface InstitutionStudyGroupBoxProps {
+    studyGroup: StudyGroupData;
 }
 
-const InstitutionStudyGroupBox: React.FC<InstitutionStudyGroupProps> = ({
-                                                                            groupName,
-                                                                            groupDescription,
-                                                                            members = 0,
-                                                                            teachers = 0,
-                                                                            courses = 0,
-                                                                            resources = 0,
-                                                                        }) => {
+const InstitutionStudyGroupBox: React.FC<InstitutionStudyGroupBoxProps> = ({ studyGroup }) => {
+
     return (
         <div className="w-full max-w-4xl my-2">
             <div
@@ -25,42 +16,43 @@ const InstitutionStudyGroupBox: React.FC<InstitutionStudyGroupProps> = ({
             >
                 <div className="flex-1">
                     <h2 className="text-lg font-bold text-gray-800 dark:text-white">
-                        {groupName || 'Study Group Name'}
+                        {studyGroup.name || 'Study Group Name'}
                     </h2>
                     <p className="text-gray-600 dark:text-gray-400 text-sm">
-                        {groupDescription || 'Study Group Description'}
+                        {studyGroup.description || 'Study Group Description'}
                     </p>
 
                     <div className="flex items-center justify-between mt-1 text-sm text-gray-500 dark:text-gray-400">
-                        {/* Íconos y números en una sola línea, oculta solo el texto en pantallas pequeñas */}
                         <div className="flex items-center gap-4">
                             <span className="flex items-center">
                                 <FaUser className="mr-1" />
-                                <span>{members}</span> {/* El número siempre visible */}
-                                <span className="hidden sm:inline">Members</span> {/* El texto se oculta en pantallas pequeñas */}
+                                <span>{studyGroup.memberIds?.length}</span>
+                                <span className="hidden sm:inline">Members</span>
                             </span>
                             <span className="flex items-center">
                                 <FaChalkboardTeacher className="mr-1" />
-                                <span>{teachers}</span> {/* El número siempre visible */}
-                                <span className="hidden sm:inline">Teachers</span> {/* El texto se oculta en pantallas pequeñas */}
+                                <span>{studyGroup.memberIds?.length}</span>
+                                <span className="hidden sm:inline">Teachers</span>
                             </span>
                             <span className="flex items-center">
                                 <FaBook className="mr-1" />
-                                <span>{courses}</span> {/* El número siempre visible */}
-                                <span className="hidden sm:inline">Courses</span> {/* El texto se oculta en pantallas pequeñas */}
+                                <span>{studyGroup.courseIds?.length}</span>
+                                <span className="hidden sm:inline">Courses</span>
                             </span>
                             <span className="flex items-center">
                                 <FaFolder className="mr-1" />
-                                <span>{resources}</span> {/* El número siempre visible */}
-                                <span className="hidden sm:inline">Resources</span> {/* El texto se oculta en pantallas pequeñas */}
+                                <span>{studyGroup.resourcesIds?.length}</span>
+                                <span className="hidden sm:inline">Resources</span>
                             </span>
                         </div>
 
-                        {/* Botón de Enter */}
                         <div className="mt-2 sm:mt-0 flex justify-end">
-                            <button className="px-8 py-1 bg-blue-500 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-600  hover:dark:bg-blue-600 transition-all">
+
+                            <Link
+                                to={`/institution/${studyGroup.institutionId}/studyGroup/${studyGroup._id}`}
+                                className="px-12 py-1 bg-blue-500 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-600  hover:dark:bg-blue-600 transition-all">
                                 Enter
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>

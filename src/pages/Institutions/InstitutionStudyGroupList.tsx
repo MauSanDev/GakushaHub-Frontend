@@ -1,42 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import LoadingScreen from '../../components/LoadingScreen';
 import InstitutionStudyGroupBox from './Components/InstitutionStudyGroupBox.tsx';
-import AddStudyGroupModal from './AddStudyGroupModal.tsx'; // Modal para agregar grupos de estudio
-
-interface StudyGroupData {
-    _id: string;
-    name: string;
-    description?: string;
-    members?: number;
-    teachers?: number;
-    courses?: number;
-    resources?: number;
-}
+import AddStudyGroupModal from './AddStudyGroupModal.tsx';
+import { useParams } from "react-router-dom";
+import { usePaginatedStudyGroups } from '../../hooks/institutionHooks/usePaginatedStudyGroups';
 
 const InstitutionStudyGroupPage: React.FC = () => {
-    const [studyGroups, setStudyGroups] = useState<StudyGroupData[]>([]);
+    const { institutionId } = useParams<{ institutionId: string }>();
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [isAddGroupModalOpen, setIsAddGroupModalOpen] = useState<boolean>(false);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const isLoading = false;
 
-    useEffect(() => {
-        const dummyStudyGroups: StudyGroupData[] = [
-            { _id: '1', name: 'Study Group A', description: 'Brief description of Study Group A', members: 10, teachers: 5, resources: 7, courses: 4 },
-            { _id: '2', name: 'Study Group B', description: 'Brief description of Study Group B', members: 15, teachers: 3, resources: 7, courses: 4 },
-        ];
-        setStudyGroups(dummyStudyGroups);
-    }, []);
+    const { data: studyGroupsData, isLoading } = usePaginatedStudyGroups(1, 10, institutionId || ""); // Page = 1, Limit = 10
 
     const handleAddGroupSuccess = () => {
         setIsAddGroupModalOpen(false);
-        // Aquí puedes agregar lógica para actualizar la lista de grupos de estudio
     };
 
-    // Función para filtrar los grupos de estudio en base al searchQuery
-    const filteredStudyGroups = studyGroups.filter(group =>
+    const filteredStudyGroups = studyGroupsData?.documents.filter(group =>
         group.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    ) || [];
 
     return (
         <div className="flex h-screen w-full">
@@ -54,7 +37,6 @@ const InstitutionStudyGroupPage: React.FC = () => {
                 </div>
 
                 <div className="w-full max-w-4xl flex flex-col text-left mt-12">
-
                     <div className="flex items-center justify-between mb-4">
                         {/* Search bar */}
                         <input
@@ -78,12 +60,7 @@ const InstitutionStudyGroupPage: React.FC = () => {
                             filteredStudyGroups.map((group) => (
                                 <InstitutionStudyGroupBox
                                     key={group._id}
-                                    groupName={group.name}
-                                    groupDescription={group.description}
-                                    members={group.members}
-                                    teachers={group.teachers}
-                                    courses={group.courses}
-                                    resources={group.resources}
+                                    studyGroup={group}
                                 />
                             ))
                         ) : (
@@ -95,7 +72,8 @@ const InstitutionStudyGroupPage: React.FC = () => {
                 {isAddGroupModalOpen && (
                     <AddStudyGroupModal
                         onClose={() => setIsAddGroupModalOpen(false)}
-                        onAddSuccess={handleAddGroupSuccess}
+                        onCreateSuccess={handleAddGroupSuccess}
+                        institutionId={institutionId || ""}
                     />
                 )}
             </div>
