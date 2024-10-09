@@ -10,6 +10,7 @@ const InstitutionSidebar: React.FC = () => {
 
     const menuItems = [
         { label: 'profile', path: '/institution/editProfile' },
+        { label: 'news', path: '/institution/news' },
         { label: 'studyGroups', path: '/institution/studyGroups' },
         { label: 'members', path: '/institution/members' },
         { label: 'courses', path: '/institution/courses' },
