@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 interface MyInstitutionProps {
+    institutionId: string;
     institutionName?: string;
     institutionDescription?: string;
     members?: number;
@@ -10,6 +12,7 @@ interface MyInstitutionProps {
 }
 
 const InstitutionBox: React.FC<MyInstitutionProps> = ({
+                                                          institutionId,
                                                           institutionName,
                                                           institutionDescription,
                                                           members = 0,
@@ -39,9 +42,12 @@ const InstitutionBox: React.FC<MyInstitutionProps> = ({
                     </div>
 
                     <div className="mt-4 flex justify-end">
-                        <button className="px-12 py-1 bg-blue-500 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-600  hover:dark:bg-blue-600 transition-all">
+
+                        <Link
+                            to={`/institution/${institutionId}/editProfile`}
+                            className="px-12 py-1 bg-blue-500 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-600  hover:dark:bg-blue-600 transition-all">
                             Enter
-                        </button>
+                        </Link>
                     </div>
                 </div>
 

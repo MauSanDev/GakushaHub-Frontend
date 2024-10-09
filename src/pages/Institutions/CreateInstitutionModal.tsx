@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ModalWrapper from '../ModalWrapper';
+import { useCreateInstitution } from '../../hooks/institutionHooks/useCreateInstitution';
 
 interface CreateInstitutionModalProps {
     onClose?: () => void;
@@ -10,25 +11,32 @@ const CreateInstitutionModal: React.FC<CreateInstitutionModalProps> = ({ onClose
     const [institutionName, setInstitutionName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false); // Placeholder loading state
+
+    const { mutate: createInstitution, isLoading } = useCreateInstitution();
 
     const handleCreateInstitution = () => {
         if (institutionName.trim() === '') {
             setError("Institution name cannot be empty.");
             return;
         }
-        // Placeholder for creating the institution
-        setIsLoading(true);
-        setTimeout(() => {
-            setIsLoading(false);
-            setError(null);
-            if (onCreateSuccess) {
-                onCreateSuccess();
+
+        createInstitution(
+            { name: institutionName, description },
+            {
+                onSuccess: () => {
+                    setError(null);
+                    if (onCreateSuccess) {
+                        onCreateSuccess();
+                    }
+                    if (onClose) {
+                        onClose();
+                    }
+                },
+                onError: (error: any) => {
+                    setError(error.message || "Error creating institution.");
+                },
             }
-            if (onClose) {
-                onClose();
-            }
-        }, 1500); // Simulate async request with a timeout
+        );
     };
 
     return (

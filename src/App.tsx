@@ -27,6 +27,7 @@ import InstitutionRoute from "./layouts/InstitutionLayout.tsx";
 import InstitutionCourseListPage from "./pages/Institutions/InstitutionCourseListPage.tsx";
 import InstitutionMembersPage from "./pages/Institutions/InstitutionMembersPage.tsx";
 import InstitutionStudyGroupList from "./pages/Institutions/InstitutionStudyGroupList.tsx";
+import InstitutionProfileEditionPage from "./pages/Institutions/InstitutionProfileEditionPage.tsx";
 
 function App() {
     const { isAuthenticated, hasLicense } = useAuth();
@@ -74,10 +75,11 @@ function App() {
                 </Route>
 
                 <Route element={<InstitutionRoute />}>
-                    <Route path="/institutionData" element={<InstitutionDataPage />} />
-                    <Route path="/institution/courses" element={<InstitutionCourseListPage />} />
-                    <Route path="/institution/members" element={<InstitutionMembersPage />} />
-                    <Route path="/institution/studyGroups" element={<InstitutionStudyGroupList />} />
+                    <Route path="institution/:institutionId/editProfile" element={<InstitutionProfileEditionPage />} />
+                    <Route path="institution/:institutionId/institutionData" element={<InstitutionDataPage />} />
+                    <Route path="institution/:institutionId/courses" element={<InstitutionCourseListPage />} />
+                    <Route path="institution/:institutionId/members" element={<InstitutionMembersPage />} />
+                    <Route path="institution/:institutionId/studyGroups" element={<InstitutionStudyGroupList />} />
                 </Route>
             </Routes>
         </LanguageProvider>

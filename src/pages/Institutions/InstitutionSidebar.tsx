@@ -1,20 +1,21 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import { useAuth } from "../../context/AuthContext.tsx";
 import UserMenu from '../../components/UserMenu';
 import LocSpan from "../../components/LocSpan.tsx";
 
 const InstitutionSidebar: React.FC = () => {
+    const { institutionId } = useParams<{ institutionId: string; }>();
     const [isOpen, setIsOpen] = useState(false);
     const { isAuthenticated } = useAuth();
 
     const menuItems = [
-        { label: 'profile', path: '/institution/editProfile' },
-        { label: 'news', path: '/institution/news' },
-        { label: 'studyGroups', path: '/institution/studyGroups' },
-        { label: 'members', path: '/institution/members' },
-        { label: 'courses', path: '/institution/courses' },
-        { label: 'resources', path: '/institution/resources' },
+        { label: 'profile', path: `/institution/${institutionId}/editProfile` },
+        { label: 'news', path: `/institution/${institutionId}/news` },
+        { label: 'studyGroups', path: `/institution/${institutionId}/studyGroups` },
+        { label: 'members', path: `/institution/${institutionId}/members` },
+        { label: 'courses', path: `/institution/${institutionId}/courses` },
+        { label: 'resources', path: `/institution/${institutionId}/resources` },
     ];
 
     return (

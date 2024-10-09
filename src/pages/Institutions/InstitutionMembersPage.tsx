@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import LoadingScreen from '../../components/LoadingScreen';
 import InstitutionMemberElement from './Components/InstitutionMemberElement.tsx';
-import AddInstitutionMembersModal from './AddInstitutionMembersModal'; // Importa el modal de agregar miembros
+import AddInstitutionMembersModal from './AddInstitutionMembersModal';
 
 interface MemberData {
     _id: string;
