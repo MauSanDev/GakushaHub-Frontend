@@ -13,7 +13,7 @@ import GenericDeckDisplay from "./GenericDeckDisplay";
 import SmallKanjiBox from "./SmallKanjiBox";
 import SmallWordBox from "./SmallWordBox";
 import SmallGrammarBox from "./SmallGrammarBox";
-import SimpleReadingBox from "./SimpleReadingBox";
+import DeckReadingDataElement from "./DeckReadingDataElement.tsx";
 import KanjiDeckTable from "./Tables/KanjiDeckTable";
 import WordDeckTable from "./Tables/WordDeckTable";
 import { KanjiDeck } from "../data/KanjiData.ts";
@@ -195,7 +195,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                 <GenericDeckDisplay
                                     key={element._id}
                                     deck={element as GenerationDeck}
-                                    renderComponent={SimpleReadingBox}
+                                    renderComponent={DeckReadingDataElement}
                                     columns={1}
                                     enableFlashcards={false}
                                     elementType={"generation"}

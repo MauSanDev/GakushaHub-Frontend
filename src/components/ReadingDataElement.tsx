@@ -1,9 +1,9 @@
 import React from 'react';
 import DeleteButton from './DeleteButton';
 import { GeneratedData } from "../data/GenerationData.ts";
-import {FaCrown} from "react-icons/fa";
 import LocSpan from "./LocSpan.tsx";
 import Container from "./ui/containers/Container.tsx";
+import CreatorLabel from "./ui/text/CreatorLabel.tsx";
 
 interface ReadingDataElementProps {
     data: GeneratedData;
@@ -23,12 +23,9 @@ const ReadingDataElement: React.FC<ReadingDataElementProps> = ({ data, deleteRel
                 />
             </div>
             <h1 className="text-2xl font-bold mb-2 dark:text-white">{data.title}</h1>
-
-
-            <p className="inline-flex text-xs text-gray-500 mb-2 gap-2">
-                <FaCrown/>
-                <LocSpan textKey={"createdBy"} replacements={[data.isAnonymous || !data.creatorId?.name ? "Anonymous" : data.creatorId?.name]} />  - {new Date(data.createdAt).toLocaleDateString()}
-            </p>
+            
+            <CreatorLabel isAnonymous={data.isAnonymous} name={data.creatorId?.name} createdAt={data.createdAt} />
+            
             <h2 className="text-xs text-gray-600 dark:text-gray-300 mb-2"><LocSpan textKey={"topic"}/>: "{data.topic}"</h2>
 
             <div className="flex items-center gap-2 flex-wrap">

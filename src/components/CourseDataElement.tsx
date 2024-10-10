@@ -1,11 +1,12 @@
 import React from 'react';
-import { FaBookOpen, FaBook, FaFileAlt, FaCrown, FaEye } from 'react-icons/fa';
+import { FaBookOpen, FaBook, FaFileAlt, FaEye } from 'react-icons/fa';
 import { CourseData } from "../data/CourseData.ts";
 import DeleteButton from './DeleteButton';
 import FollowButton from "./FollowButton.tsx";
 import {useAuth} from "../context/AuthContext.tsx";
 import LocSpan from "./LocSpan.tsx";
 import Container from "./ui/containers/Container.tsx";
+import CreatorLabel from "./ui/text/CreatorLabel.tsx";
 
 interface CourseDataElementProps {
     course: CourseData;
@@ -33,13 +34,8 @@ const CourseDataElement: React.FC<CourseDataElementProps> = ({ course }) => {
                 {userData?._id !== course.creatorId._id && <FollowButton courseId={course._id}/>}
             </div>
 
-            <p className="inline-flex text-left text-xs text-gray-500 mb-2 gap-2">
-                <FaCrown/>
-                <LocSpan textKey={"createdBy"} replacements={[course.creatorId?.name ?? "???"]} /> - {new Date(course.createdAt).toLocaleDateString()}
-            </p>
-            <p className="text-gray-700 mb-3">{course.description}</p>
-
-
+            <CreatorLabel name={course.creatorId?.name} createdAt={course.createdAt} />
+            
             {course.lessons.map((lesson) => (
                 <div key={lesson._id} className="mb-1 px-2 py-1 rounded dark:bg-gray-950">
                     <div className="flex items-center justify-between capitalize">

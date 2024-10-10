@@ -9,7 +9,7 @@ import {
     FaToggleOn,
     FaToggleOff,
     FaLink,
-    FaCrown, FaEye,
+    FaEye,
 } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCourseById } from '../hooks/coursesHooks/useCourseById';
@@ -23,6 +23,7 @@ import FollowButton from '../components/FollowButton';
 import AddLessonButton from "../components/AddLessonButton.tsx";
 import LocSpan from "../components/LocSpan.tsx";
 import {useTranslation} from "react-i18next";
+import CreatorLabel from "../components/ui/text/CreatorLabel.tsx";
 
 
 const CourseDetailPage: React.FC = () => {
@@ -207,10 +208,7 @@ const CourseDetailPage: React.FC = () => {
             </div>
             <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center justify-between w-full max-w-4xl mb-2 px-4">
                 <div className="flex items-center gap-4 overflow-x-auto w-full sm:w-auto flex-grow">
-                    <p className="inline-flex items-center text-left text-xs text-gray-500 w-full flex-grow">
-                        <FaCrown className="mr-1"/>
-                        <LocSpan textKey={"createdBy"} replacements={[course.creatorId?.name ?? "???"]} /> - {new Date(course.createdAt).toLocaleDateString()}
-                    </p>
+                    <CreatorLabel name={course.creatorId?.name} createdAt={course.createdAt} />
 
                     {!isOwner && (
                         <FollowButton courseId={courseId || ''} />

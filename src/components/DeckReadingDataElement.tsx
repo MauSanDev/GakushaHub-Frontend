@@ -3,13 +3,14 @@ import { FaEye } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import DeleteButton from './DeleteButton';
 import { GeneratedData } from "../data/GenerationData.ts";
+import CreatorLabel from "./ui/text/CreatorLabel.tsx";
 
-interface SimpleReadingBoxProps {
+interface DeckReadingDataElementProps {
     result: GeneratedData;
     deleteRelations?: boolean;
 }
 
-const SimpleReadingBox: React.FC<SimpleReadingBoxProps> = ({ result, deleteRelations }) => {
+const DeckReadingDataElement: React.FC<DeckReadingDataElementProps> = ({ result, deleteRelations }) => {
     return (
         <div className="relative p-4 border bg-white dark:bg-gray-950 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800 rounded-md shadow-md ">
             <div className="absolute top-2 right-2">
@@ -21,9 +22,9 @@ const SimpleReadingBox: React.FC<SimpleReadingBoxProps> = ({ result, deleteRelat
                 />
             </div>
             <div className="dark:border-gray-800">
-                <p className="text-xs text-gray-500 mb-2">
-                    Created by {result.creatorId?.name ?? "???"} - {new Date(result.createdAt).toLocaleDateString()}
-                </p>
+
+                <CreatorLabel name={result.creatorId?.name} createdAt={result.createdAt} />
+                
                 <h1 className="text-xl text-gray-600 font-bold dark:text-gray-300 mb-4">{result.title}</h1>
 
                 <div className="flex items-center gap-2 flex-wrap">
@@ -60,4 +61,4 @@ const SimpleReadingBox: React.FC<SimpleReadingBoxProps> = ({ result, deleteRelat
     );
 };
 
-export default SimpleReadingBox;
+export default DeckReadingDataElement;

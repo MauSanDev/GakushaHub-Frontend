@@ -5,6 +5,7 @@ import WordTooltip from '../WordTooltip.tsx';
 import {GeneratedData} from "../../data/GenerationData.ts";
 import LocSpan from "../LocSpan.tsx";
 import Container from "../ui/containers/Container.tsx";
+import CreatorLabel from "../ui/text/CreatorLabel.tsx";
 
 interface TextReaderProps {
     data: GeneratedData
@@ -133,9 +134,7 @@ const TextReaderElement: React.FC<TextReaderProps> = ({ data }) => {
             )}
 
             <div className="mt-60 border-t border-gray-200  dark:border-gray-800 pt-4">
-                <p className="text-xs text-gray-500 mb-2">
-                    <LocSpan textKey={"createdBy"} replacements={[data.isAnonymous || !data.creatorId?.name ? "Anonymous" : data.creatorId?.name]} /> - {new Date(data.createdAt).toLocaleDateString()}
-                </p>
+                <CreatorLabel name={data.creatorId?.name} isAnonymous={data.isAnonymous} createdAt={data.createdAt} />
                 <h2 className="text-sm text-gray-600 dark:text-gray-300 italic mb-4"><LocSpan textKey={"topic"}/>: "{data.topic}"</h2>
 
                 <div className="flex items-center gap-2 flex-wrap">

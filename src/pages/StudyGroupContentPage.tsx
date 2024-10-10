@@ -9,6 +9,7 @@ import CourseDataElement from "../components/CourseDataElement.tsx";
 import { Link } from "react-router-dom";
 import BindMembersModal from "./StudyGroups/BindMembersModal.tsx";
 import InstitutionMemberElement from "./Institutions/Components/InstitutionMemberElement.tsx";
+import CreatorLabel from "../components/ui/text/CreatorLabel.tsx";
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId, institutionId } = useParams<{ studyGroupId: string; institutionId: string }>();
@@ -18,16 +19,14 @@ const StudyGroupContentPage: React.FC = () => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: studyGroup, error, isLoading } = useStudyGroupById(studyGroupId || '');
-
-    // Cargar la pestaña seleccionada desde localStorage al iniciar
+    
     useEffect(() => {
         const savedTab = localStorage.getItem('currentStudyGroupTab');
         if (savedTab) {
             setCurrentTab(savedTab as 'courses' | 'resources' | 'members');
         }
     }, []);
-
-    // Guardar la pestaña seleccionada en localStorage
+    
     useEffect(() => {
         localStorage.setItem('currentStudyGroupTab', currentTab);
     }, [currentTab]);
@@ -44,12 +43,12 @@ const StudyGroupContentPage: React.FC = () => {
 
     const handleBindCoursesSuccess = () => {
         setIsBindCoursesModalOpen(false);
-        window.location.reload(); // Refrescar la página para cargar los datos actualizados
+        window.location.reload(); 
     };
 
     const handleBindMembersSuccess = () => {
         setIsBindMembersModalOpen(false);
-        window.location.reload(); // Refrescar la página para cargar los datos actualizados
+        window.location.reload(); 
     };
 
     return (
@@ -63,9 +62,7 @@ const StudyGroupContentPage: React.FC = () => {
                             {studyGroup.name}
                         </h1>
                         <p className="text-gray-600 dark:text-gray-400 mt-2">{studyGroup.description}</p>
-                        <p className="text-gray-500 dark:text-gray-500 mt-1 text-sm">
-                            Created by: {studyGroup.creatorId?.name || 'Unknown'}
-                        </p>
+                        <CreatorLabel name={studyGroup.creatorId?.name || 'Unknown'} />
                     </div>
                 </div>
             )}
