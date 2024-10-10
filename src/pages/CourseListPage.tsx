@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import CourseBox from '../components/CourseBox';
+import CourseDataElement from '../components/CourseDataElement.tsx';
 import { CourseData } from "../data/CourseData.ts";
 import LoadingScreen from "../components/LoadingScreen";
 import { Link } from "react-router-dom";
@@ -102,11 +102,11 @@ const CourseListPage: React.FC = () => {
             </div>
             
 
-            <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
+            <div className="w-full max-w-4xl flex flex-col gap-4 text-left pb-24">
                 {courses.length > 0 ? (
                     courses.map((course, index) => (
                         <Link key={index} to={`${course._id}`} className="page-fade-enter page-fade-enter-active">
-                            <CourseBox course={course}/>
+                            <CourseDataElement course={course}/>
                         </Link>
                     ))
                 ) : (

@@ -1,29 +1,29 @@
 import React from 'react';
 import { FaBookOpen, FaBook, FaFileAlt, FaCrown, FaEye } from 'react-icons/fa';
-import { CourseData } from "../../data/CourseData.ts";
-import DeleteButton from '../DeleteButton';
-import FollowButton from "../FollowButton.tsx";
-import {useAuth} from "../../context/AuthContext.tsx";
-import LocSpan from "../LocSpan.tsx";
+import { CourseData } from "../data/CourseData.ts";
+import DeleteButton from './DeleteButton';
+import FollowButton from "./FollowButton.tsx";
+import {useAuth} from "../context/AuthContext.tsx";
+import LocSpan from "./LocSpan.tsx";
+import Container from "./ui/containers/Container.tsx";
 
-interface CourseBoxProps {
+interface CourseDataElementProps {
     course: CourseData;
 }
 
-const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
+const CourseDataElement: React.FC<CourseDataElementProps> = ({ course }) => {
     const { userData } = useAuth()
     
     return (
-        <div
-            className="relative pb-6 bg-white dark:bg-gray-900 px-6 pt-6 rounded-lg shadow-md text-left border-2 border-gray-200 dark:border-gray-800 transform transition-transform duration-300 lg:hover:scale-105 hover:border-blue-300 hover:dark:border-gray-700">
-            <div className="absolute top-2 right-2">
+        <Container>
+         <div className="absolute top-2 right-2">
                 <DeleteButton
                     creatorId={course.creatorId._id}
                     elementId={course._id}
                     elementType="course"
                     deleteRelations={true}
                 />
-            </div>
+         </div>
             
             <div className="flex items-center justify-between">
                 <h1 className="lg:text-3xl text-2xl font-bold text-blue-400 dark:text-white capitalize">
@@ -75,8 +75,8 @@ const CourseBox: React.FC<CourseBoxProps> = ({ course }) => {
                     </div>
                 </div>
             ))}
-        </div>
+        </Container>
     );
 };
 
-export default CourseBox;
+export default CourseDataElement;

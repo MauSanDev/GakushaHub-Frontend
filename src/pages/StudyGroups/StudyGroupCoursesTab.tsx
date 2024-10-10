@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import CourseBox from '../../components/CourseBox';
+import CourseDataElement from '../../components/CourseDataElement.tsx';
 import { CourseData } from "../../data/CourseData.ts";
 import LoadingScreen from "../../components/LoadingScreen";
 import { Link } from "react-router-dom";
-import { StudyGroupData } from '../../data/Institutions/StudyGroupData'; // Asume que tienes el tipo StudyGroupData ya definido
-import { ApiClient } from '../../services/ApiClient'; // O el servicio que uses para hacer fetch a los datos
+import { StudyGroupData } from '../../data/Institutions/StudyGroupData'; 
+import { ApiClient } from '../../services/ApiClient'; 
 
 interface StudyGroupCoursesTabProps {
-    studyGroup: StudyGroupData;  // Recibe el studyGroup como parámetro
+    studyGroup: StudyGroupData;  
 }
 
 const StudyGroupCoursesTab: React.FC<StudyGroupCoursesTabProps> = ({ studyGroup }) => {
@@ -17,8 +17,7 @@ const StudyGroupCoursesTab: React.FC<StudyGroupCoursesTabProps> = ({ studyGroup 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [hasMore, setHasMore] = useState<boolean>(false);
-
-    // Asume que los courses están referenciados por su ID en studyGroup.coursesIds
+    
     const fetchCourses = async (page: number) => {
         setIsLoading(true);
         try {
@@ -66,7 +65,7 @@ const StudyGroupCoursesTab: React.FC<StudyGroupCoursesTabProps> = ({ studyGroup 
                 {courses.length > 0 ? (
                     courses.map((course, index) => (
                         <Link key={index} to={`/courses/${course._id}`} className="page-fade-enter page-fade-enter-active">
-                            <CourseBox course={course} />
+                            <CourseDataElement course={course} />
                         </Link>
                     ))
                 ) : (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import CourseBox from '../../components/CourseBox';
+import CourseDataElement from '../../components/CourseDataElement.tsx';
 import { CourseData } from "../../data/CourseData.ts";
 import LoadingScreen from "../../components/LoadingScreen";
 import {Link, useParams} from "react-router-dom";
@@ -106,7 +106,7 @@ const InstitutionCourseListPage: React.FC = () => {
                 {filteredCourses.length > 0 ? (
                     filteredCourses.map((course, index) => (
                         <Link key={index} to={`${course._id}`} className="page-fade-enter page-fade-enter-active">
-                            <CourseBox course={course}/>
+                            <CourseDataElement course={course}/>
                         </Link>
                     ))
                 ) : (

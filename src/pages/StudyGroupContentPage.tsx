@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { FaFolder, FaUser, FaBook } from "react-icons/fa";
 import { useStudyGroupById } from '../hooks/useGetStudyGroup.tsx';
 import BindCoursesModal from './StudyGroups/BindCoursesModal';
-import CourseBox from "../components/CourseBox";
+import CourseDataElement from "../components/CourseDataElement.tsx";
 import { Link } from "react-router-dom";
 import BindMembersModal from "./StudyGroups/BindMembersModal.tsx";
 import InstitutionMemberElement from "./Institutions/Components/InstitutionMemberElement.tsx";
@@ -107,7 +107,7 @@ const StudyGroupContentPage: React.FC = () => {
                         {studyGroup?.courseIds?.length > 0 ? (
                             studyGroup.courseIds.map((course) => (
                                 <Link key={course.name} to={`/courses/${course._id}`} className="page-fade-enter page-fade-enter-active">
-                                    <CourseBox course={course} key={course.name}/>
+                                    <CourseDataElement course={course} key={course.name}/>
                                 </Link>
                             ))
                         ) : (
