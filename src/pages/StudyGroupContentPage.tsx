@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
-import LoadingScreen from '../../components/LoadingScreen';
-import LocSpan from "../../components/LocSpan.tsx";
+import LoadingScreen from '../components/LoadingScreen';
+import LocSpan from "../components/LocSpan.tsx";
 import { useParams } from "react-router-dom";
 import { FaFolder, FaUser, FaBook } from "react-icons/fa";
-import { useStudyGroupById } from '../../hooks/useGetStudyGroup.tsx';
+import { useStudyGroupById } from '../hooks/useGetStudyGroup.tsx';
+import BindCoursesModal from './StudyGroups/BindCoursesModal';
 
 const StudyGroupContentPage: React.FC = () => {
-    const { studyGroupId } = useParams<{ studyGroupId: string; }>();
+    const { studyGroupId, institutionId } = useParams<{ studyGroupId: string; institutionId: string }>();
     const [currentTab, setCurrentTab] = useState<'courses' | 'resources' | 'members'>('courses');
+    const [isBindCoursesModalOpen, setIsBindCoursesModalOpen] = useState(false); // State to control modal visibility
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: studyGroup, error, isLoading } = useStudyGroupById(studyGroupId || '');
@@ -20,6 +22,11 @@ const StudyGroupContentPage: React.FC = () => {
 
     const handleTabChange = (tab: 'courses' | 'resources' | 'members') => {
         setCurrentTab(tab);
+    };
+
+    const handleBindCoursesSuccess = () => {
+        setIsBindCoursesModalOpen(false);
+        // Add any success actions like refreshing courses
     };
 
     return (
@@ -68,6 +75,12 @@ const StudyGroupContentPage: React.FC = () => {
                 {currentTab === 'courses' && (
                     <div>
                         <h2 className="text-lg font-bold">Courses</h2>
+                        <button
+                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 mb-4"
+                            onClick={() => setIsBindCoursesModalOpen(true)}
+                        >
+                            ＋ Bind Courses
+                        </button>
                         {studyGroup?.courseIds?.length > 0 ? (
                             studyGroup.courseIds.map((course) => (
                                 <div key={course._id}>
@@ -105,6 +118,16 @@ const StudyGroupContentPage: React.FC = () => {
                     </div>
                 )}
             </div>
+
+            {/* Bind Courses Modal */}
+            {isBindCoursesModalOpen && (
+                <BindCoursesModal
+                    onClose={() => setIsBindCoursesModalOpen(false)}
+                    studyGroupId={studyGroupId || ""}
+                    institutionId={institutionId || ""}
+                    onSaveSuccess={handleBindCoursesSuccess}
+                />
+            )}
         </div>
     );
 };

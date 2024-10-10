@@ -22,7 +22,6 @@ const InstitutionCourseListPage: React.FC = () => {
 
     const hasMore = data ? page < (data.totalPages ?? 1) : false;
 
-    // Actualiza la lista de cursos cuando se recibe nueva data
     useEffect(() => {
         if (data) {
             setCourses(prevCourses => {

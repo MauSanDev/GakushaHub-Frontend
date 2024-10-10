@@ -28,7 +28,7 @@ import InstitutionCourseListPage from "./pages/Institutions/InstitutionCourseLis
 import InstitutionMembersPage from "./pages/Institutions/InstitutionMembersPage.tsx";
 import InstitutionStudyGroupList from "./pages/Institutions/InstitutionStudyGroupList.tsx";
 import InstitutionProfileEditionPage from "./pages/Institutions/InstitutionProfileEditionPage.tsx";
-import StudyGroupContentPage from "./pages/Institutions/StudyGroupContentPage.tsx";
+import StudyGroupContentPage from "./pages/StudyGroupContentPage.tsx";
 
 function App() {
     const { isAuthenticated, hasLicense } = useAuth();
