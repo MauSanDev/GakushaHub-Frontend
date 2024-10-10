@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from '../../components/SearchBar';
 import SaveDeckInput from '../../components/SaveDeckInput';
-import KanjiBox from '../../components/KanjiBox';
-import WordBox from '../../components/WordBox';
+import KanjiDataElement from '../../components/KanjiDataElement.tsx';
+import WordDataElement from '../../components/WordDataElement.tsx';
 import GrammarElement from '../../components/GrammarElement.tsx';
 import { useSearchContent } from '../../hooks/useSearchContent';
 import { SaveStatus } from '../../utils/SaveStatus';
@@ -194,7 +194,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                             <SearchPageContainer<KanjiData>
                                 items={kanjiResults}
                                 renderItem={(kanjiData, isSelected, onSelect) => (
-                                    <KanjiBox
+                                    <KanjiDataElement
                                         key={kanjiData.kanji}
                                         result={kanjiData}
                                         isSelected={isSelected}
@@ -209,7 +209,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                             <SearchPageContainer<WordData>
                                 items={wordResults}
                                 renderItem={(wordData, isSelected, onSelect) => (
-                                    <WordBox
+                                    <WordDataElement
                                         key={wordData.word}
                                         result={wordData}
                                         isSelected={isSelected}
