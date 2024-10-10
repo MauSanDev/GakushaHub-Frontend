@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App.tsx';
 import './index.css';
+import './styles.css';
 import { app } from './firebaseConfig';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import {AuthProvider} from "./context/AuthContext.tsx";

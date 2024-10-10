@@ -3,6 +3,7 @@ import { GrammarData } from "../../data/GrammarData.ts";
 import { FaCheck, FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import LocSpan from "../LocSpan.tsx";
 import i18n from "i18next";
+import SelectableContainer from "../ui/containers/SelectableContainer.tsx";
 
 interface GrammarBoxProps {
     result: GrammarData | null;
@@ -16,11 +17,10 @@ const GrammarBox: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect })
     if (!result) return null;
 
     return (
-        <div className={"relative p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 lg:hover:scale-105 bg-white dark:bg-gray-900 " +
-            `${isSelected ? 'dark:border-green-800 dark:hover:border-green-600 border-green-500 hover:border-green-300' : 'border-gray-200 dark:border-gray-800 hover:border-blue-300 hover:dark:border-gray-700'}`}
-
-             onClick={() => onSelect(!isSelected)}>
-
+        <SelectableContainer
+            isSelected={isSelected}
+            onClick={() => onSelect(!isSelected)}
+        >
             <span className="absolute top-2 right-12 bg-blue-400 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded-full">
                 JLPT{result.jlpt}
             </span>
@@ -69,6 +69,7 @@ const GrammarBox: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect })
                     </div>
                 ))}
             </div>
+
             <div className="text-gray-400 text-sm mt-4 flex flex-col gap-2">
                 <div className="flex flex-wrap gap-2">
                     
@@ -78,10 +79,10 @@ const GrammarBox: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect })
                         textKey={"grammarKeys.formalityLabel"}
                         key={"formalityLabel"}
                     />:&nbsp;
-                    <LocSpan
-                        textKey={"grammarKeys.formality." + result.formality}
-                        key={"formality"}
-                    />
+                        <LocSpan
+                            textKey={"grammarKeys.formality." + result.formality}
+                            key={"formality"}
+                        />
                     </span>
 
                     <span
@@ -113,8 +114,8 @@ const GrammarBox: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect })
                     </span>
                 </div>
             </div>
-        </div>
-);
+        </SelectableContainer>
+    );
 };
 
 export default GrammarBox;
