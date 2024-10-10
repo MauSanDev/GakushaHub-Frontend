@@ -9,7 +9,7 @@ interface SelectionableCourseBoxProps {
     isSelected: boolean;
 }
 
-const SelectionableCourseBox: React.FC<SelectionableCourseBoxProps> = ({ course, onSelectCourse, onDeselectCourse, isSelected }) => {
+const SelectableCourseBox: React.FC<SelectionableCourseBoxProps> = ({ course, onSelectCourse, onDeselectCourse, isSelected }) => {
     const [selected, setSelected] = useState(isSelected);
 
     const toggleSelection = () => {
@@ -66,4 +66,4 @@ const SelectionableCourseBox: React.FC<SelectionableCourseBoxProps> = ({ course,
     );
 };
 
-export default SelectionableCourseBox;
+export default SelectableCourseBox;

@@ -1,60 +1,58 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaPlus, FaEye, FaEyeSlash } from 'react-icons/fa';
 import ModalWrapper from '../ModalWrapper';
-import { CourseData } from "../../data/CourseData.ts";
-import SelectableCourseBox from './SelectableCourseBox.tsx';
-import LoadingScreen from "../../components/LoadingScreen";
-import { usePaginatedCourse } from "../../hooks/usePaginatedCourse.ts";
-import { useAddCourseToGroup } from "../../hooks/institutionHooks/useAddCourseToGroup";
+import SelectableMemberBox from './SelectableMemberBox';
+import LoadingScreen from '../../components/LoadingScreen';
+import { usePaginatedMembers } from '../../hooks/institutionHooks/usePaginatedMembers.ts';
+import { MembershipData } from '../../data/Institutions/MembershipData';
+import { useAddMembersToGroup } from '../../hooks/institutionHooks/useAddMemberToGroup.tsx';
 
-interface BindCoursesModalProps {
+interface BindMembersModalProps {
     onClose?: () => void;
-    institutionId?: string;
+    institutionId: string;
     studyGroupId: string;
-    selectedCourses?: CourseData[];
-    onSaveSuccess?: (selectedCourses: CourseData[]) => void;
+    selectedMembers?: MembershipData[];
+    onSaveSuccess?: (selectedMembers: MembershipData[]) => void;
 }
 
-const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutionId, studyGroupId, onSaveSuccess }) => {
-    const [courses, setCourses] = useState<CourseData[]>([]);
-    const [selectedCourses, setSelectedCourses] = useState<CourseData[]>([]);
+const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutionId, studyGroupId, onSaveSuccess }) => {
+    const [members, setMembers] = useState<MembershipData[]>([]);
+    const [selectedMembers, setSelectedMembers] = useState<MembershipData[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filteredCourses, setFilteredCourses] = useState<CourseData[]>([]);
+    const [filteredMembers, setFilteredMembers] = useState<MembershipData[]>([]);
     const [page, setPage] = useState(1);
-    const [showSelectedOnly, setShowSelectedOnly] = useState(false); // Estado para manejar el toggle
+    const [showSelectedOnly, setShowSelectedOnly] = useState(false); 
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    const { data: ownerData, isLoading: ownerLoading, error: ownerError } = usePaginatedCourse(page, 99, institutionId);
+    const { data: membersData, isLoading, error } = usePaginatedMembers(page, 10, institutionId);
 
-    const data = ownerData;
-    const isLoading = ownerLoading;
-    const error = ownerError;
+    const { mutate: addMembersToGroup, isLoading: isAdding } = useAddMembersToGroup(); 
 
+    const data = membersData;
     const hasMore = data ? page < (data.totalPages ?? 1) : false;
 
-    const { mutate: addCoursesToGroup, isLoading: isAdding } = useAddCourseToGroup(); // Hook para agregar cursos
-
-    // Actualiza la lista de cursos cuando se recibe nueva data
+    
     useEffect(() => {
         if (data) {
-            setCourses(prevCourses => {
-                const newCourses = data.documents.filter(newCourse =>
-                    !prevCourses.some(course => course._id === newCourse._id)
+            setMembers(prevMembers => {
+                const newMembers = data.documents.filter(newMember =>
+                    !prevMembers.some(member => member._id === newMember._id)
                 );
-                return [...prevCourses, ...newCourses];
+                return [...prevMembers, ...newMembers];
             });
         }
     }, [data]);
 
-    // Filtra los cursos según el término de búsqueda
+    
     useEffect(() => {
-        const filtered = courses.filter(course =>
-            course.name.toLowerCase().includes(searchTerm.toLowerCase())
+        const filtered = members.filter(member =>
+            member.userId?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            member.email.toLowerCase().includes(searchTerm.toLowerCase())
         );
-        setFilteredCourses(showSelectedOnly ? selectedCourses : filtered);
-    }, [searchTerm, courses, showSelectedOnly, selectedCourses]);
+        setFilteredMembers(showSelectedOnly ? selectedMembers : filtered);
+    }, [searchTerm, members, showSelectedOnly, selectedMembers]);
 
-    // Maneja el scroll infinito
+    
     useEffect(() => {
         const handleScroll = () => {
             const scrollContainer = scrollContainerRef.current;
@@ -77,30 +75,30 @@ const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutio
         };
     }, [hasMore]);
 
-    const handleSelectCourse = (course: CourseData) => {
-        setSelectedCourses(prevSelected => [...prevSelected, course]);
+    const handleSelectMember = (member: MembershipData) => {
+        setSelectedMembers(prevSelected => [...prevSelected, member]);
     };
 
-    const handleDeselectCourse = (course: CourseData) => {
-        setSelectedCourses(prevSelected => prevSelected.filter(selected => selected._id !== course._id));
+    const handleDeselectMember = (member: MembershipData) => {
+        setSelectedMembers(prevSelected => prevSelected.filter(selected => selected._id !== member._id));
     };
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
     };
 
-    const handleAddCourses = () => {
-        addCoursesToGroup(
-            { studyGroupId, courseIds: selectedCourses.map(course => course._id) },
+    const handleAddMembers = () => {
+        addMembersToGroup(
+            { studyGroupId, memberIds: selectedMembers.map(member => member._id) },
             {
                 onSuccess: () => {
                     if (onSaveSuccess) {
-                        onSaveSuccess(selectedCourses);
+                        onSaveSuccess(selectedMembers);
                     }
-                    onClose?.();
+                    onClose?.(); 
                 },
                 onError: (error) => {
-                    console.error("Error adding courses to group:", error);
+                    console.error("Error adding members to group:", error);
                 }
             }
         );
@@ -109,24 +107,25 @@ const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutio
     return (
         <ModalWrapper onClose={onClose}>
             <div className="p-6 max-w-5xl w-full flex flex-col h-[80vh]">
-                <h2 className="text-2xl font-bold mb-4">Bind Courses to Study Group</h2>
+                <h2 className="text-2xl font-bold mb-4">Bind Members to Study Group</h2>
 
+                {/* Barra de búsqueda y botones */}
                 <div className="flex gap-2 mb-4 w-full max-w-4xl justify-between items-center">
                     <input
                         type="text"
-                        placeholder="Search courses..."
+                        placeholder="Search members..."
                         value={searchTerm}
                         onChange={handleSearch}
                         className="flex-grow px-4 py-2 rounded lg:text-sm text-xs border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300"
                     />
                     <div className="flex gap-2">
                         <button
-                            className={`px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center gap-2 text-xs ${selectedCourses.length === 0 || isAdding ? 'opacity-50 cursor-not-allowed' : ''}`}
-                            disabled={selectedCourses.length === 0 || isAdding}
-                            onClick={handleAddCourses}
+                            className={`px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center gap-2 text-xs ${selectedMembers.length === 0 || isAdding ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            disabled={selectedMembers.length === 0 || isAdding}
+                            onClick={handleAddMembers}
                         >
                             <FaPlus />
-                            {isAdding ? 'Adding...' : 'Add Courses'}
+                            {isAdding ? 'Adding...' : 'Add Members'}
                         </button>
                         <button
                             onClick={() => setShowSelectedOnly(!showSelectedOnly)}
@@ -142,7 +141,7 @@ const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutio
                     </div>
                 </div>
 
-                {/* Contenedor scrolleable para la lista de cursos */}
+                {/* Contenedor scrolleable para la lista de miembros */}
                 <div
                     ref={scrollContainerRef}
                     className="w-full max-w-4xl flex-grow overflow-y-auto flex flex-col gap-6 pb-4"
@@ -151,18 +150,18 @@ const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutio
 
                     {error && <p className="text-red-500">{String(error)}</p>}
 
-                    {filteredCourses.length > 0 ? (
-                        filteredCourses.map((course, index) => (
-                            <SelectableCourseBox
+                    {filteredMembers.length > 0 ? (
+                        filteredMembers.map((member, index) => (
+                            <SelectableMemberBox
                                 key={index}
-                                course={course}
-                                isSelected={selectedCourses.some(selected => selected._id === course._id)}
-                                onSelectCourse={handleSelectCourse}
-                                onDeselectCourse={handleDeselectCourse}
+                                member={member}
+                                isSelected={selectedMembers.some(selected => selected._id === member._id)}
+                                onSelectMember={handleSelectMember}
+                                onDeselectMember={handleDeselectMember}
                             />
                         ))
                     ) : (
-                        <p className="text-center text-gray-500">No courses found</p>
+                        <p className="text-center text-gray-500">No members found</p>
                     )}
                 </div>
             </div>
@@ -170,4 +169,4 @@ const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutio
     );
 };
 
-export default BindCoursesModal;
+export default BindMembersModal;

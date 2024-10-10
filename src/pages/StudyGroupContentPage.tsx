@@ -5,14 +5,32 @@ import { useParams } from "react-router-dom";
 import { FaFolder, FaUser, FaBook } from "react-icons/fa";
 import { useStudyGroupById } from '../hooks/useGetStudyGroup.tsx';
 import BindCoursesModal from './StudyGroups/BindCoursesModal';
+import CourseBox from "../components/CourseBox";
+import { Link } from "react-router-dom";
+import BindMembersModal from "./StudyGroups/BindMembersModal.tsx";
+import InstitutionMemberElement from "./Institutions/Components/InstitutionMemberElement.tsx";
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId, institutionId } = useParams<{ studyGroupId: string; institutionId: string }>();
     const [currentTab, setCurrentTab] = useState<'courses' | 'resources' | 'members'>('courses');
-    const [isBindCoursesModalOpen, setIsBindCoursesModalOpen] = useState(false); // State to control modal visibility
+    const [isBindCoursesModalOpen, setIsBindCoursesModalOpen] = useState(false);
+    const [isBindMembersModalOpen, setIsBindMembersModalOpen] = useState(false);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: studyGroup, error, isLoading } = useStudyGroupById(studyGroupId || '');
+
+    // Cargar la pestaña seleccionada desde localStorage al iniciar
+    useEffect(() => {
+        const savedTab = localStorage.getItem('currentStudyGroupTab');
+        if (savedTab) {
+            setCurrentTab(savedTab as 'courses' | 'resources' | 'members');
+        }
+    }, []);
+
+    // Guardar la pestaña seleccionada en localStorage
+    useEffect(() => {
+        localStorage.setItem('currentStudyGroupTab', currentTab);
+    }, [currentTab]);
 
     useEffect(() => {
         if (error) {
@@ -26,7 +44,12 @@ const StudyGroupContentPage: React.FC = () => {
 
     const handleBindCoursesSuccess = () => {
         setIsBindCoursesModalOpen(false);
-        // Add any success actions like refreshing courses
+        window.location.reload(); // Refrescar la página para cargar los datos actualizados
+    };
+
+    const handleBindMembersSuccess = () => {
+        setIsBindMembersModalOpen(false);
+        window.location.reload(); // Refrescar la página para cargar los datos actualizados
     };
 
     return (
@@ -83,11 +106,9 @@ const StudyGroupContentPage: React.FC = () => {
                         </button>
                         {studyGroup?.courseIds?.length > 0 ? (
                             studyGroup.courseIds.map((course) => (
-                                <div key={course._id}>
-                                    <p>{course.name}</p>
-                                    <p>Created by: {course.creatorId?.name || 'Unknown'}</p>
-                                    <p>Lessons: {course.lessons?.length || 0}</p>
-                                </div>
+                                <Link key={course.name} to={`/courses/${course._id}`} className="page-fade-enter page-fade-enter-active">
+                                    <CourseBox course={course} key={course.name}/>
+                                </Link>
                             ))
                         ) : (
                             <p>No courses available</p>
@@ -105,12 +126,15 @@ const StudyGroupContentPage: React.FC = () => {
                 {currentTab === 'members' && (
                     <div>
                         <h2 className="text-lg font-bold">Members</h2>
+                        <button
+                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 mb-4"
+                            onClick={() => setIsBindMembersModalOpen(true)}
+                        >
+                            ＋ Add Members
+                        </button>
                         {studyGroup?.memberIds?.length > 0 ? (
                             studyGroup.memberIds.map((member) => (
-                                <div key={member._id}>
-                                    <p>{member.userId?.name || member.email}</p>
-                                    <p>Role: {member.role}</p>
-                                </div>
+                                <InstitutionMemberElement member={member} key={member.name} />
                             ))
                         ) : (
                             <p>No members available</p>
@@ -126,6 +150,16 @@ const StudyGroupContentPage: React.FC = () => {
                     studyGroupId={studyGroupId || ""}
                     institutionId={institutionId || ""}
                     onSaveSuccess={handleBindCoursesSuccess}
+                />
+            )}
+
+            {/* Bind Members Modal */}
+            {isBindMembersModalOpen && (
+                <BindMembersModal
+                    onClose={() => setIsBindMembersModalOpen(false)}
+                    studyGroupId={studyGroupId || ""}
+                    institutionId={institutionId || ""}
+                    onSaveSuccess={handleBindMembersSuccess}
                 />
             )}
         </div>
