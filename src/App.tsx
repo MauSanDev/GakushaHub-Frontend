@@ -29,6 +29,7 @@ import InstitutionMembersPage from "./pages/Institutions/InstitutionMembersPage.
 import InstitutionStudyGroupList from "./pages/Institutions/InstitutionStudyGroupList.tsx";
 import InstitutionProfileEditionPage from "./pages/Institutions/InstitutionProfileEditionPage.tsx";
 import StudyGroupContentPage from "./pages/StudyGroupContentPage.tsx";
+import MyStudyGroupsPage from "./pages/MyStudyGroupsPage.tsx";
 
 function App() {
     const { isAuthenticated, hasLicense } = useAuth();
@@ -61,9 +62,11 @@ function App() {
                     <Route path="/" element={<Navigate to="/search" replace />} />
                     <Route path="/search" element={<SearchPage />} />
                     <Route path="/grammar" element={<GrammarListPage />} />
+                    <Route path="/groups" element={<MyStudyGroupsPage />} />
                     <Route path="/generations" element={<GenerationsListPage />} />
                     <Route path="/generation/:elementId" element={<TextDisplayPage />} />
                     <Route path="*" element={<UnderDevelopmentPage />} />
+                    <Route path="/studyGroup/:studyGroupId" element={<StudyGroupContentPage />} />
                 </Route>
 
                 <Route element={<PrivateRoute />}>

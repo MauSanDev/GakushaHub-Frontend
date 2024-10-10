@@ -13,6 +13,7 @@ const Sidebar: React.FC = () => {
         { label: 'grammar', path: '/grammar' },
         { label: 'courses', path: '/courses', requiresAuth: true },
         { label: 'texts', path: '/generations'},
+        { label: 'groups', path: '/groups', requiresAuth: true},
         { label: 'institutions', path: '/institutions', requiresRole: ['sensei'] },
         { label: 'generate', path: '/generate', requiresRole: ['premium', 'sensei'] },
     ];

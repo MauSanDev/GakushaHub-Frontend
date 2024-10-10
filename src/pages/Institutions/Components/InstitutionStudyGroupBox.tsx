@@ -1,13 +1,14 @@
 import React from 'react';
 import { FaUser, FaChalkboardTeacher, FaBook, FaFolder } from 'react-icons/fa'; 
 import { StudyGroupData } from '../../../data/Institutions/StudyGroupData.ts';
-import {Link} from "react-router-dom"; 
+import {Link, useParams} from "react-router-dom"; 
 
 interface InstitutionStudyGroupBoxProps {
     studyGroup: StudyGroupData;
 }
 
 const InstitutionStudyGroupBox: React.FC<InstitutionStudyGroupBoxProps> = ({ studyGroup }) => {
+    const { institutionId } = useParams<{ institutionId: string }>();
 
     return (
         <div className="w-full max-w-4xl my-2">
@@ -47,10 +48,14 @@ const InstitutionStudyGroupBox: React.FC<InstitutionStudyGroupBoxProps> = ({ stu
                         </div>
 
                         <div className="mt-2 sm:mt-0 flex justify-end">
-
+                            
                             <Link
-                                to={`/institution/${studyGroup.institutionId}/studyGroup/${studyGroup._id}`}
-                                className="px-12 py-1 bg-blue-500 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-600  hover:dark:bg-blue-600 transition-all">
+                                to={institutionId
+                                    ? `/institution/${studyGroup.institutionId}/studyGroup/${studyGroup._id}`
+                                    : `/studyGroup/${studyGroup._id}`
+                                }
+                                className="px-12 py-1 bg-blue-500 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-600  hover:dark:bg-blue-600 transition-all"
+                            >
                                 Enter
                             </Link>
                         </div>

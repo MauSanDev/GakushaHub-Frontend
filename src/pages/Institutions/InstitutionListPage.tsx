@@ -69,6 +69,9 @@ const InstitutionListPage: React.FC = () => {
                     onCreateSuccess={handleCreateInstitutionSuccess}
                 />
             )}
+            
+            
+            <span className="text-gray-500">Still need to add the list of memberships here</span>
         </div>
     );
 };
