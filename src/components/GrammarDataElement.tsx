@@ -1,29 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { GrammarData } from "../data/GrammarData.ts";
-import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import LocSpan from "./LocSpan.tsx";
 import i18n from "i18next";
 import SelectableContainer from "./ui/containers/SelectableContainer.tsx";
+import CollapsibleSection from "./ui/containers/CollapsibleSection.tsx";
+import RoundedTag from "./ui/text/RoundedTag.tsx";
+import HighlightableTag from "./ui/text/HighlightableTag.tsx";
 
 interface GrammarDataElementProps {
-    result: GrammarData | null;
+    result: GrammarData;
     isSelected: boolean;
     onSelect: (selected: boolean) => void;
 }
 
 const GrammarDataElement: React.FC<GrammarDataElementProps> = ({ result, isSelected, onSelect }) => {
-    const [isExamplesOpen, setIsExamplesOpen] = useState(false);
-
-    if (!result) return null;
-
     return (
         <SelectableContainer
             isSelected={isSelected}
             onClick={() => onSelect(!isSelected)}
         >
-            <span className="absolute top-2 right-12 bg-blue-400 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded-full">
-                JLPT{result.jlpt}
-            </span>
+            <RoundedTag textKey={`JLPT${result.jlpt}`} />
 
             <h1 className="text-3xl font-bold mb-2 text-blue-400 dark:text-white">
                 {result.structure} <span className="text-xl text-gray-600 dark:text-gray-300">(<LocSpan textKey={result.hint} namespace={"grammar_jlpt"+result.jlpt} />)</span>
@@ -31,19 +27,7 @@ const GrammarDataElement: React.FC<GrammarDataElementProps> = ({ result, isSelec
 
             <p className="text-gray-600 dark:text-gray-400 mb-4"><LocSpan textKey={result.description} namespace={"grammar_jlpt"+result.jlpt} /></p>
 
-            <div
-                className="flex items-center cursor-pointer text-black dark:text-white font-semibold"
-                onClick={() => setIsExamplesOpen(!isExamplesOpen)}
-            >
-                <span className="mr-2">{isExamplesOpen ? <FaChevronDown /> : <FaChevronRight />}</span>
-                <span>Examples</span>
-            </div>
-
-            <div
-                className={`overflow-hidden transition-max-height duration-500 ease-in-out ${
-                    isExamplesOpen ? 'max-h-[1000px]' : 'max-h-0'
-                }`}
-            >
+            <CollapsibleSection title="Examples">
                 {result.examples.map((example, index) => (
                     <div key={index} className="mt-4">
                         <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">例:</span>
@@ -60,50 +44,27 @@ const GrammarDataElement: React.FC<GrammarDataElementProps> = ({ result, isSelec
                         )}
                     </div>
                 ))}
-            </div>
+            </CollapsibleSection>
 
             <div className="text-gray-400 text-sm mt-4 flex flex-col gap-2">
                 <div className="flex flex-wrap gap-2">
-                    
-                    <span
-                        className="bg-gray-200 dark:bg-gray-950 text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 hover:bg-gray-300 hover:dark:bg-gray-800 hover:text-gray-600 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap">
-                    <LocSpan
-                        textKey={"grammarKeys.formalityLabel"}
-                        key={"formalityLabel"}
-                    />:&nbsp;
-                        <LocSpan
-                            textKey={"grammarKeys.formality." + result.formality}
-                            key={"formality"}
-                        />
-                    </span>
+                    <HighlightableTag
+                        labelKey="grammarKeys.formalityLabel"
+                        valueKey={`grammarKeys.formality.${result.formality}`}
+                    />
 
-                    <span
-                        className="bg-gray-200 dark:bg-gray-950 text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 hover:bg-gray-300 hover:dark:bg-gray-800 hover:text-gray-600 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap">
-                        <LocSpan
-                            textKey={"grammarKeys.usageLabel"}
-                            key={"usageLabel"}
-                        />:&nbsp;
-                        <LocSpan
-                            textKey={"grammarKeys.usage_context." + result.usage_context}
-                            key={"formality"}
-                        />
-                    </span>
+                    <HighlightableTag
+                        labelKey="grammarKeys.usageLabel"
+                        valueKey={`grammarKeys.usage_context.${result.usage_context}`}
+                    />
 
-                    <span
-                        className="bg-gray-200 dark:bg-gray-950 text-gray-500 rounded-1xl px-1 py-0.5 transition-all duration-300 hover:bg-gray-300 hover:dark:bg-gray-800 hover:text-gray-600 dark:text-gray-300 overflow-hidden text-ellipsis whitespace-nowrap">
-                        <LocSpan
-                            textKey={"grammarKeys.expressionLabel"}
-                            key={"expressionLabel"}
-                        />:&nbsp;
-                        {result.expression_type.map((context, index) => (
-                            <span key={index}>
-                                <LocSpan
-                                    textKey={"grammarKeys.expression_type." + context}
-                                />
-                                {index < result.expression_type.length - 1 && ', '}
-                            </span>
-                        ))}
-                    </span>
+                    {result.expression_type.map((context, index) => (
+                        <HighlightableTag
+                            key={index}
+                            labelKey="grammarKeys.expressionLabel"
+                            valueKey={`grammarKeys.expression_type.${context}`}
+                        />
+                    ))}
                 </div>
             </div>
         </SelectableContainer>

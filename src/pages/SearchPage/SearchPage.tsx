@@ -8,12 +8,13 @@ import { useSearchContent } from '../../hooks/useSearchContent';
 import { SaveStatus } from '../../utils/SaveStatus';
 import { useAuth } from '../../context/AuthContext.tsx';
 import SearchPageContainer from './SearchPageContainer.tsx';
-import {FaCheckSquare, FaEraser, FaSquare} from 'react-icons/fa';
+import { FaEraser } from 'react-icons/fa';
 import { KanjiData } from '../../data/KanjiData';
 import { WordData } from '../../data/WordData';
 import { GrammarData } from '../../data/GrammarData.ts';
 import LocSpan from "../../components/LocSpan.tsx";
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
+import SelectionToggle from "../../components/ui/toggles/SelectionToggle.tsx";
 
 interface SearchPageProps {
     courseId?: string;
@@ -24,7 +25,7 @@ interface SearchPageProps {
 }
 
 const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonName, deckName, onSaveSuccess }) => {
-    const [activeTab, setActiveTab] = useState<'kanji' | 'word' | 'grammar'>('kanji'); // Tab activa
+    const [activeTab, setActiveTab] = useState<'kanji' | 'words' | 'grammar'>('kanji'); // Tab activa
     const [showKanji, setShowKanji] = useState(true);
     const [showWord, setShowWord] = useState(true);
     const [showGrammar, setShowGrammar] = useState(false);
@@ -54,7 +55,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
             if (data.kanjiResults.length > 0) {
                 setActiveTab('kanji');
             } else if (data.wordResults.length > 0) {
-                setActiveTab('word');
+                setActiveTab('words');
             } else if (data.grammarResults.length > 0) {
                 setActiveTab('grammar');
             }
@@ -92,7 +93,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
             case 'kanji':
                 setShowKanji(!showKanji);
                 break;
-            case 'word':
+            case 'words':
                 setShowWord(!showWord);
                 break;
             case 'grammar':
@@ -112,30 +113,9 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                 <h1 className="text-3xl font-bold mb-4 text-black dark:text-white"><LocSpan textKey={"searchPage.title"} /></h1>
 
                 <div className="w-full max-w-md flex justify-center gap-4 p-1.5 dark:border-gray-700">
-                    <button
-                        onClick={() => handleToggle('kanji')}
-                        className={`flex items-center gap-2 px-2 py-1 text-sm rounded transition-colors duration-300 ${showKanji ? 'bg-blue-500 dark:bg-blue-800 text-white border border-blue-500 dark:border-gray-900' : 'border dark:border-gray-600 dark:text-gray-300 border-gray-300 text-gray-500'}`}
-                        title="Kanji"
-                    >
-                        {showKanji ? <FaCheckSquare className="text-white" /> : <FaSquare className="text-gray-300" />}
-                        <LocSpan textKey={"kanji"} />
-                    </button>
-                    <button
-                        onClick={() => handleToggle('word')}
-                        className={`flex items-center gap-2 px-2 py-1 text-sm rounded transition-colors duration-300 ${showWord ? 'bg-blue-500 dark:bg-blue-800 text-white border border-blue-500 dark:border-gray-900' : 'border dark:border-gray-600 dark:text-gray-300 border-gray-300 text-gray-500'}`}
-                        title="Words"
-                    >
-                        {showWord ? <FaCheckSquare className="text-white" /> : <FaSquare className="text-gray-300" />}
-                        <LocSpan textKey={"words"} />
-                    </button>
-                    <button
-                        onClick={() => handleToggle('grammar')}
-                        className={`flex items-center gap-2 px-2 py-1 text-sm rounded transition-colors duration-300 ${showGrammar ? 'bg-blue-500 dark:bg-blue-800 text-white border border-blue-500 dark:border-gray-900' : 'border dark:border-gray-600 dark:text-gray-300 border-gray-300 text-gray-500'}`}
-                        title="Grammar"
-                    >
-                        {showGrammar ? <FaCheckSquare className="text-white" /> : <FaSquare className="text-gray-300" />}
-                        <LocSpan textKey={"grammar"} />
-                    </button>
+                    <SelectionToggle isSelected={showKanji} onToggle={() => handleToggle('kanji')} textKey={'kanji'} />
+                    <SelectionToggle isSelected={showWord} onToggle={() => handleToggle('words')} textKey={'words'} />
+                    <SelectionToggle isSelected={showGrammar} onToggle={() => handleToggle('grammar')} textKey={'grammar'} />
                 </div>
 
                 <SearchBar onSearch={onSavePressed} interactable={!isLoading} />
@@ -169,8 +149,8 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
 
                             {wordResults.length > 0 &&
                                 <button
-                                    onClick={() => setActiveTab('word')}
-                                    className={`w-full px-4 py-1 text-sm font-medium transition-colors duration-300 ${activeTab === 'word' ? 'bg-blue-500 dark:bg-blue-800 text-white' : 'dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300'}`}
+                                    onClick={() => setActiveTab('words')}
+                                    className={`w-full px-4 py-1 text-sm font-medium transition-colors duration-300 ${activeTab === 'words' ? 'bg-blue-500 dark:bg-blue-800 text-white' : 'dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300'}`}
                                 >
                                     Words <p className="text-xs">({wordResults.length} Results
                                     | {selectedWords.length} Selected)</p>
@@ -205,7 +185,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                             />
                         )}
 
-                        {activeTab === 'word' && showWord && wordResults.length > 0 && (
+                        {activeTab === 'words' && showWord && wordResults.length > 0 && (
                             <SearchPageContainer<WordData>
                                 items={wordResults}
                                 renderItem={(wordData, isSelected, onSelect) => (
