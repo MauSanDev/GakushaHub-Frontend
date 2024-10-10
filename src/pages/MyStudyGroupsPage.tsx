@@ -1,36 +1,22 @@
-import React, { useState, useRef } from 'react';
-import LoadingScreen from '../components/LoadingScreen';
+import React, { useState } from 'react';
 import StudyGroupDataElement from './Institutions/Components/StudyGroupDataElement.tsx';
 import { useMyStudyGroups } from '../hooks/institutionHooks/useMyStudyGroups';
 import { useAuth } from '../context/AuthContext.tsx';
+import SectionContainer from "../components/ui/containers/SectionContainer.tsx";
 
 const MyStudyGroupsPage: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
     const { userData } = useAuth();
 
     const { data: studyGroups, isLoading } = useMyStudyGroups(userData?._id || '');
 
-    // Verificación explícita de que studyGroups es un array
     const filteredStudyGroups = Array.isArray(studyGroups)
         ? studyGroups.filter(group => group.name.toLowerCase().includes(searchQuery.toLowerCase()))
         : [];
 
     return (
-        <div className="flex h-screen w-full">
-            <div ref={scrollContainerRef}
-                 className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
 
-                <LoadingScreen isLoading={isLoading} />
-
-                <div className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
-                    <div className="flex items-start mb-4 sm:mb-0">
-                        <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
-                            My Study Groups
-                        </h1>
-                    </div>
-                </div>
-
+        <SectionContainer title={"私の勉強グループ"} isLoading={isLoading}>
                 <div className="w-full max-w-4xl flex flex-col text-left mt-12">
                     <div className="flex items-center justify-between mb-4">
                         {/* Search bar */}
@@ -56,8 +42,7 @@ const MyStudyGroupsPage: React.FC = () => {
                         )}
                     </div>
                 </div>
-            </div>
-        </div>
+        </SectionContainer>
     );
 };
 

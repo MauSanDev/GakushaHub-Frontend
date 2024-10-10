@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import CourseDataElement from '../components/CourseDataElement.tsx';
 import { CourseData } from "../data/CourseData.ts";
-import LoadingScreen from "../components/LoadingScreen";
 import { Link } from "react-router-dom";
 import { useOwnerCourses } from "../hooks/coursesHooks/useOwnerCourses.ts";
 import { usePublicCourses } from "../hooks/coursesHooks/usePublicCourses.ts";
 import { useFollowedCourses } from "../hooks/coursesHooks/useFollowedCourses.ts";
 import AddCourseButton from "../components/AddCourseButton.tsx";
-import LocSpan from "../components/LocSpan.tsx"; 
+import LocSpan from "../components/LocSpan.tsx";
+import SectionContainer from "../components/ui/containers/SectionContainer.tsx"; 
 
 const CourseListPage: React.FC = () => {
     const [courses, setCourses] = useState<CourseData[]>([]);
@@ -66,22 +66,8 @@ const CourseListPage: React.FC = () => {
     };
 
     return (
-        <div ref={scrollContainerRef}
-             className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-
-            <LoadingScreen isLoading={isLoading}/>
-
-            {error && <p className="text-red-500">{String(error)}</p>}
-
-            <div
-                className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
-                <div className="flex items-start mb-4 sm:mb-0">
-                    <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
-                        勉強しましょう
-                    </h1>
-                </div>
-            </div>
-
+        <SectionContainer title={"勉強しましょう"} isLoading={isLoading} error={error?.message}>
+            
             <div className="flex gap-2 mb-4">
                 <button
                     onClick={() => handleViewChange('owner')}
@@ -113,7 +99,7 @@ const CourseListPage: React.FC = () => {
                     <p className="text-center text-gray-500">何もない</p>
                 )}
             </div>
-        </div>
+        </SectionContainer>
     );
 };
 

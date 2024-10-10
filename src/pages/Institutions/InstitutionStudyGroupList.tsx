@@ -1,15 +1,14 @@
-import React, { useState, useRef } from 'react';
-import LoadingScreen from '../../components/LoadingScreen';
+import React, { useState } from 'react';
 import StudyGroupDataElement from './Components/StudyGroupDataElement.tsx';
 import AddStudyGroupModal from './AddStudyGroupModal.tsx';
 import { useParams } from "react-router-dom";
 import { usePaginatedStudyGroups } from '../../hooks/institutionHooks/usePaginatedStudyGroups';
+import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 
 const InstitutionStudyGroupPage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [isAddGroupModalOpen, setIsAddGroupModalOpen] = useState<boolean>(false);
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: studyGroupsData, isLoading } = usePaginatedStudyGroups(1, 10, institutionId || ""); // Page = 1, Limit = 10
 
@@ -22,20 +21,7 @@ const InstitutionStudyGroupPage: React.FC = () => {
     ) || [];
 
     return (
-        <div className="flex h-screen w-full">
-            <div ref={scrollContainerRef}
-                 className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-
-                <LoadingScreen isLoading={isLoading} />
-
-                <div className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
-                    <div className="flex items-start mb-4 sm:mb-0">
-                        <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
-                            グループ
-                        </h1>
-                    </div>
-                </div>
-
+        <SectionContainer title={"勉強のグループ"} isLoading={isLoading} >
                 <div className="w-full max-w-4xl flex flex-col text-left mt-12">
                     <div className="flex items-center justify-between mb-4">
                         {/* Search bar */}
@@ -76,8 +62,7 @@ const InstitutionStudyGroupPage: React.FC = () => {
                         institutionId={institutionId || ""}
                     />
                 )}
-            </div>
-        </div>
+        </SectionContainer>
     );
 };
 

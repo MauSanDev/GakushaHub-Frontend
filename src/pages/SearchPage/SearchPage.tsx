@@ -4,7 +4,6 @@ import SaveDeckInput from '../../components/SaveDeckInput';
 import KanjiBox from '../../components/KanjiBox';
 import WordBox from '../../components/WordBox';
 import GrammarElement from '../../components/GrammarElement.tsx';
-import LoadingScreen from '../../components/LoadingScreen';
 import { useSearchContent } from '../../hooks/useSearchContent';
 import { SaveStatus } from '../../utils/SaveStatus';
 import { useAuth } from '../../context/AuthContext.tsx';
@@ -14,6 +13,7 @@ import { KanjiData } from '../../data/KanjiData';
 import { WordData } from '../../data/WordData';
 import { GrammarData } from '../../data/GrammarData.ts';
 import LocSpan from "../../components/LocSpan.tsx";
+import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 
 interface SearchPageProps {
     courseId?: string;
@@ -107,7 +107,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
     };
 
     return (
-        <div className={`${searchExecuted ? "min-h-screen flex flex-col w-full overflow-y-auto items-center pt-24" : "flex flex-col items-center justify-center w-full overflow-y-auto"}`}>
+        <SectionContainer className={`${searchExecuted ? "min-h-screen flex flex-col w-full overflow-y-auto items-center pt-24" : "flex flex-col items-center justify-center w-full overflow-y-auto"}`}  isLoading={isLoading}>
             <div className="text-center w-full max-w-md">
                 <h1 className="text-3xl font-bold mb-4 text-black dark:text-white"><LocSpan textKey={"searchPage.title"} /></h1>
 
@@ -254,9 +254,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                     />
                 </div>
             )}
-
-            <LoadingScreen isLoading={isLoading}/>
-        </div>
+        </SectionContainer>
     );
 };
 

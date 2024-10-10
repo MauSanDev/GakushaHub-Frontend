@@ -1,5 +1,5 @@
 import React from 'react';
-import loadingIcon from '../../assets/loading-icon.svg';
+import loadingIcon from '../assets/loading-icon.svg';
 import ReactDOM from "react-dom";
 
 interface LoadingScreenProps {

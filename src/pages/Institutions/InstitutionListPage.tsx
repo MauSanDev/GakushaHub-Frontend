@@ -1,15 +1,14 @@
-import React, { useState, useRef } from 'react';
-import LoadingScreen from '../../components/LoadingScreen';
+import React, { useState } from 'react';
 import LocSpan from '../../components/LocSpan.tsx';
 import InstitutionBox from './Components/InstitutionBox.tsx';
 import CreateInstitutionModal from './CreateInstitutionModal';
 import MembershipBox from './Components/MembershipBox'; // Import the MembershipBox
 import { usePaginatedInstitutions } from '../../hooks/institutionHooks/usePaginatedInstitutions';
-import { useMyMemberships } from '../../hooks/institutionHooks/useMyMemberships'; // Import the custom hook
+import { useMyMemberships } from '../../hooks/institutionHooks/useMyMemberships';
+import SectionContainer from "../../components/ui/containers/SectionContainer.tsx"; // Import the custom hook
 
 const InstitutionListPage: React.FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: institutionsData, error: institutionsError, isLoading: institutionsLoading } = usePaginatedInstitutions(1, 1);
     const { data: membershipsData, error: membershipsError, isLoading: membershipsLoading } = useMyMemberships(1, 10); // Use the hook for memberships
@@ -21,19 +20,7 @@ const InstitutionListPage: React.FC = () => {
     };
 
     return (
-        <div ref={scrollContainerRef}
-             className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-
-            <LoadingScreen isLoading={institutionsLoading || membershipsLoading} />
-
-            <div className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
-                <div className="flex items-start mb-4 sm:mb-0">
-                    <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
-                        私の学校
-                    </h1>
-                </div>
-            </div>
-
+        <SectionContainer title={"私の学校"} isLoading={institutionsLoading || membershipsLoading}>
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
                 <div className="mb-6">
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
@@ -71,8 +58,8 @@ const InstitutionListPage: React.FC = () => {
                     </h2>
                     {membershipsError ? (
                         <p className="text-red-500 text-center">Error fetching memberships</p>
-                    ) : membershipsData?.documents?.length > 0 ? (
-                        membershipsData.documents.map((membership) => (
+                    ) : membershipsData?.documents?.length || 0 > 0 ? (
+                        membershipsData?.documents.map((membership) => (
                             <MembershipBox key={membership._id} membership={membership} />
                         ))
                     ) : (
@@ -87,7 +74,7 @@ const InstitutionListPage: React.FC = () => {
                     onCreateSuccess={handleCreateInstitutionSuccess}
                 />
             )}
-        </div>
+        </SectionContainer>
     );
 };
 

@@ -3,10 +3,10 @@ import GrammarElement from '../components/GrammarElement.tsx';
 import { GrammarData } from "../data/GrammarData.ts";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { usePaginatedGrammar } from "../hooks/usePaginatedGrammar.ts";
-import LoadingScreen from "../components/LoadingScreen";
 import SaveDeckInput from '../components/SaveDeckInput';
 import {SaveStatus} from "../utils/SaveStatus.ts";
 import {useAuth} from "../context/AuthContext.tsx";
+import SectionContainer from "../components/ui/containers/SectionContainer.tsx";
 
 const GrammarListPage: React.FC = () => {
     const [allResults, setAllResults] = useState<GrammarData[]>([]);
@@ -91,18 +91,7 @@ const GrammarListPage: React.FC = () => {
     };
 
     return (
-        <div ref={scrollContainerRef}
-             className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-
-            <div
-                className="lg:pl-0 pl-20 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
-                <div className="flex items-start mb-4 sm:mb-0">
-                    <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
-                        文法
-                    </h1>
-                </div>
-            </div>
-            
+        <SectionContainer title={"文法"} isLoading={isLoading || isSaving} error={error} >
             <div className=" w-full lg:max-w-4xl flex flex-wrap gap-2 text-left px-14 lg:px-0 justify-center">
                 <input
                     type="text"
@@ -148,11 +137,7 @@ const GrammarListPage: React.FC = () => {
                                    onSaveStatusChange={onSaveStatusChanged}/>
                 </div>
             ))}
-
-            <LoadingScreen isLoading={isLoading || isSaving}/>
-
-            {error && <p className="text-red-500">{String(error)}</p>}
-
+            
             <div className="mt-4 w-full max-w-4xl flex flex-col gap-4 text-left pb-24">
                 {contentToShow().length > 0 ? (
                     contentToShow().map((grammarData, index) => (
@@ -171,7 +156,7 @@ const GrammarListPage: React.FC = () => {
                     <p className="text-center text-gray-500">何もない</p>
                 )}
             </div>
-        </div>
+        </SectionContainer>
     );
 };
 

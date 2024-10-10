@@ -3,10 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import TextReaderElement from '../components/TextReader';
 import { useFetchElementById } from '../hooks/useFetchElement.ts';
 import { GeneratedData } from "../data/GenerationData.ts";
-import LoadingScreen from "../components/LoadingScreen";
 import SaveDeckInput from '../components/SaveDeckInput';
 import { FaArrowLeft } from 'react-icons/fa';
 import {useAuth} from "../context/AuthContext.tsx";
+import SectionContainer from "../components/ui/containers/SectionContainer.tsx";
 
 const TextDisplayPage: React.FC = () => {
     const { elementId } = useParams<{ elementId: string }>();
@@ -15,11 +15,8 @@ const TextDisplayPage: React.FC = () => {
     const { isAuthenticated } = useAuth()
 
     return (
-        <div className="relative flex flex-col items-center justify-center h-full w-full pt-3">
+        <SectionContainer isLoading={isLoading} error={error && String(error) || ""}>
             <div className="flex-1 rounded-md overflow-y-auto relative max-w-4xl w-full">
-                {isLoading && (
-                    <LoadingScreen isLoading={isLoading} />
-                )}
                 {data ? (
                     <>
 
@@ -53,7 +50,7 @@ const TextDisplayPage: React.FC = () => {
                     </div>
                 )}
             </div>
-        </div>
+        </SectionContainer>
     );
 };
 

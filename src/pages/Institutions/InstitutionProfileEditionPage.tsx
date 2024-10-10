@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useInstitutionById } from '../../hooks/institutionHooks/useInstitutionById.ts';
+import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 
 const EditProfilePage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
@@ -41,11 +42,7 @@ const EditProfilePage: React.FC = () => {
     }
 
     return (
-        <div className="flex flex-col items-center justify-start h-full w-full p-6">
-            <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 mb-8">
-                Edit Institution Profile
-            </h1>
-
+        <SectionContainer title={"学校のプロファイル"} >
             <div className="mb-6 flex flex-col items-center">
                 <img
                     src={profileImage}
@@ -99,7 +96,7 @@ const EditProfilePage: React.FC = () => {
             >
                 Save Changes
             </button>
-        </div>
+        </SectionContainer>
     );
 };
 
