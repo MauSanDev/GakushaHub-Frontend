@@ -24,7 +24,7 @@ const InstitutionSidebar: React.FC = () => {
     return (
         <>
             <button
-                className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white dark:bg-black dark:text-white rounded text-3xl"
+                className="lg:hidden fixed top-4 left-4 z-50 p-2 dark:text-white rounded text-3xl"
                 onClick={() => setIsOpen(!isOpen)}
             >
                 ☰
@@ -32,10 +32,10 @@ const InstitutionSidebar: React.FC = () => {
 
             <div
                 className={`pt-24 fixed lg:left-0 lg:top-1/2 lg:transform lg:-translate-y-1/2 lg:w-32 hover:lg:w-64 lg:h-auto w-full h-full top-0 left-0 z-40 transition-all ${
-                    isOpen ? 'translate-x-0 bg-white dark:bg-black ' : '-translate-x-full lg:translate-x-0'
+                    isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
                 }`}
             >
-                <div className="flex items-center space-x-4 p-4 dark:hover:text-white dark:text-gray-300 bg-white dark:bg-black lg:w-64 w-full">
+                <div className="flex items-center space-x-4 p-4 dark:hover:text-white dark:text-gray-300 lg:w-64 w-full">
                     <div className="w-8 h-8 border-2 border-blue-400 dark:border-gray-600 rounded-md"></div>
                     <div className="flex flex-col items-start">
                         <span className="text-sm font-bold">{data?.name}</span>

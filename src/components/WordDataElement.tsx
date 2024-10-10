@@ -2,6 +2,7 @@ import React from 'react';
 import { WordData } from "../data/WordData.ts";
 import { useLanguage } from "../context/LanguageContext.tsx";
 import SelectableContainer from "./ui/containers/SelectableContainer.tsx";
+import RoundedTag from "./ui/text/RoundedTag.tsx";
 
 interface WordDataElementProps {
     result: WordData;
@@ -20,9 +21,7 @@ const WordDataElement: React.FC<WordDataElementProps> = ({ result, isSelected, o
 
     return (
         <SelectableContainer onClick={() => onSelect(!isSelected)} isSelected={isSelected}>
-            <span className="absolute top-2 left-2 bg-blue-400 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded-full">
-                言葉
-            </span>
+            <RoundedTag textKey={"言葉"} className={"absolute top-2 left-2 "}/>
             
             <h1 className="text-4xl font-bold mb-4 text-blue-400 dark:text-gray-300 text-center">{result.word}</h1>
             <h3 className="text-2xl mb-2 text-gray-600 dark:text-gray-200 text-center">
@@ -32,10 +31,8 @@ const WordDataElement: React.FC<WordDataElementProps> = ({ result, isSelected, o
                 {meaningToShow.slice(0, 3).join("; ")}
             </h2>
             <div className="flex justify-center gap-2 flex-wrap">
-                {result.part_of_speech.map((pos: string, index: number) => (
-                    <span key={index} className="bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-full px-2 py-1 text-xs">
-                        {pos}
-                    </span>
+                {result.part_of_speech.map((pos: string) => (
+                    <RoundedTag textKey={pos} />
                 ))}
             </div>
         </SelectableContainer>

@@ -19,7 +19,7 @@ const GrammarDataElement: React.FC<GrammarDataElementProps> = ({ result, isSelec
             isSelected={isSelected}
             onClick={() => onSelect(!isSelected)}
         >
-            <RoundedTag textKey={`JLPT${result.jlpt}`} />
+            <RoundedTag textKey={`JLPT${result.jlpt}`} className={"absolute top-2 right-12"} />
 
             <h1 className="text-3xl font-bold mb-2 text-blue-400 dark:text-white">
                 {result.structure} <span className="text-xl text-gray-600 dark:text-gray-300">(<LocSpan textKey={result.hint} namespace={"grammar_jlpt"+result.jlpt} />)</span>
