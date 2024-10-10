@@ -109,7 +109,6 @@ const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutio
             <div className="p-6 max-w-5xl w-full flex flex-col h-[80vh]">
                 <h2 className="text-2xl font-bold mb-4">Bind Members to Study Group</h2>
 
-                {/* Barra de búsqueda y botones */}
                 <div className="flex gap-2 mb-4 w-full max-w-4xl justify-between items-center">
                     <input
                         type="text"
@@ -144,7 +143,7 @@ const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutio
                 {/* Contenedor scrolleable para la lista de miembros */}
                 <div
                     ref={scrollContainerRef}
-                    className="w-full max-w-4xl flex-grow overflow-y-auto flex flex-col gap-6 pb-4"
+                    className="w-full max-w-4xl flex-grow overflow-y-auto flex flex-col gap-2 pb-4"
                 >
                     {isLoading && <LoadingScreen isLoading={isLoading} />}
 

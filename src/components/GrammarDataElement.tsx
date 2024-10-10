@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { GrammarData } from "../data/GrammarData.ts";
-import { FaCheck, FaChevronRight, FaChevronDown } from 'react-icons/fa';
+import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import LocSpan from "./LocSpan.tsx";
 import i18n from "i18next";
 import SelectableContainer from "./ui/containers/SelectableContainer.tsx";
@@ -24,14 +24,6 @@ const GrammarDataElement: React.FC<GrammarDataElementProps> = ({ result, isSelec
             <span className="absolute top-2 right-12 bg-blue-400 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded-full">
                 JLPT{result.jlpt}
             </span>
-
-            <div
-                className={`absolute top-2 right-2 w-6 h-6 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 ${
-                    isSelected ? 'bg-green-500 text-white' : 'bg-gray-300 dark:bg-gray-700'
-                }`}
-            >
-                {isSelected && <FaCheck />}
-            </div>
 
             <h1 className="text-3xl font-bold mb-2 text-blue-400 dark:text-white">
                 {result.structure} <span className="text-xl text-gray-600 dark:text-gray-300">(<LocSpan textKey={result.hint} namespace={"grammar_jlpt"+result.jlpt} />)</span>

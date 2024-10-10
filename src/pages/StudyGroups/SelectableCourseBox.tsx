@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { FaBookOpen, FaBook, FaFileAlt, FaEye, FaCheck } from 'react-icons/fa';
+import { FaBookOpen, FaBook, FaFileAlt, FaEye } from 'react-icons/fa';
 import { CourseData } from "../../data/CourseData.ts";
+import SelectableContainer from "../../components/ui/containers/SelectableContainer.tsx";
 
 interface SelectionableCourseBoxProps {
     course: CourseData;
@@ -22,17 +23,7 @@ const SelectableCourseBox: React.FC<SelectionableCourseBoxProps> = ({ course, on
     };
 
     return (
-        <div
-            onClick={toggleSelection}
-            className={`relative flex items-center p-4 rounded-lg shadow-md transition-all border-2 cursor-pointer 
-            ${selected ? 'border-green-500 bg-blue-50 dark:bg-gray-800' : 'bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800'} 
-            ${selected ? 'hover:border-green-300' : 'hover:border-blue-300 hover:dark:border-gray-700'}`}
-        >
-            {selected && (
-                <FaCheck className="absolute top-2 right-2 text-white bg-green-500 rounded-full p-1" />
-            )}
-
-            <div className="flex-1">
+        <SelectableContainer isSelected={selected} onClick={toggleSelection}>
                 <h2 className="text-lg font-bold text-gray-800 dark:text-white">
                     {course.name}
                 </h2>
@@ -61,8 +52,7 @@ const SelectableCourseBox: React.FC<SelectionableCourseBoxProps> = ({ course, on
                         </span>
                     </div>
                 </div>
-            </div>
-        </div>
+        </SelectableContainer>
     );
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { MembershipData, MembershipStatus } from '../../data/Institutions/MembershipData.ts';
+import SelectableContainer from "../../components/ui/containers/SelectableContainer.tsx";
 
 interface SelectableMemberBoxProps {
     member: MembershipData;
@@ -20,7 +21,6 @@ const SelectableMemberBox: React.FC<SelectableMemberBoxProps> = ({ member, isSel
 
     const isRegisteredUser = !!member.userId;
 
-    // Mapeamos los roles con colores para mostrarlos
     const roleColors: { [key: string]: string } = {
         owner: 'text-purple-500',
         staff: 'text-yellow-500',
@@ -29,11 +29,7 @@ const SelectableMemberBox: React.FC<SelectableMemberBoxProps> = ({ member, isSel
     };
 
     return (
-        <div
-            onClick={toggleSelection}
-            className={`flex items-center p-4 border-b border-gray-300 dark:border-gray-600 cursor-pointer transition-all 
-            ${isSelected ? 'bg-blue-50 dark:bg-gray-800 border-blue-400' : 'hover:bg-blue-100 dark:hover:bg-gray-800'}`}
-        >
+        <SelectableContainer isSelected={isSelected} onClick={toggleSelection} className={`flex items-center`}>
             <img
                 src={isRegisteredUser ? 'https://via.placeholder.com/40' : 'https://via.placeholder.com/40?text=?'}
                 alt={isRegisteredUser ? member.userId?.name : member.email}
@@ -57,7 +53,6 @@ const SelectableMemberBox: React.FC<SelectableMemberBoxProps> = ({ member, isSel
                 <span className="italic text-red-400 mr-4">Rejected</span>
             )}
 
-            {/* Mostrar el rol del miembro */}
             <span className={`uppercase font-bold ml-4 ${roleColors[member.role]}`}>
                 {member.role}
             </span>
@@ -65,7 +60,7 @@ const SelectableMemberBox: React.FC<SelectableMemberBoxProps> = ({ member, isSel
             {isSelected && (
                 <FaCheckCircle className="text-green-500" size={16} />
             )}
-        </div>
+        </SelectableContainer>
     );
 };
 
