@@ -1,1 +1,1 @@
-export { default } from './TextReader.tsx';
+export { default } from './TextReaderElement.tsx';

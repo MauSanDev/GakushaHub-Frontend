@@ -4,12 +4,13 @@ import { useParseJapanese } from '../../hooks/useParseJapanese';
 import WordTooltip from '../WordTooltip.tsx';
 import {GeneratedData} from "../../data/GenerationData.ts";
 import LocSpan from "../LocSpan.tsx";
+import Container from "../ui/containers/Container.tsx";
 
 interface TextReaderProps {
     data: GeneratedData
 }
 
-const TextReader: React.FC<TextReaderProps> = ({ data }) => {
+const TextReaderElement: React.FC<TextReaderProps> = ({ data }) => {
     const [showFurigana, setShowFurigana] = useState(true);
     const [fontSize, setFontSize] = useState(18);
     const [letterSpacing, setLetterSpacing] = useState(1);
@@ -56,7 +57,7 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
     }, [formattedContent]);
 
     return (
-        <div className="relative lg:p-6 mb-24 pb-10 p-2 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
+        <Container>
             <h1 className="text-2xl font-bold mb-4 mt-8 text-center dark:text-white">{data.title}</h1>
             <div className="absolute top-4 right-14 flex items-center space-x-2">
                 <button
@@ -210,8 +211,8 @@ const TextReader: React.FC<TextReaderProps> = ({ data }) => {
                     </div>
                 )}
             </div>
-        </div>
+        </Container>
     );
 };
 
-export default TextReader;
+export default TextReaderElement;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import TextReader from '../components/TextReader';
+import TextReaderElement from '../components/TextReader';
 import { useFetchElementById } from '../hooks/useFetchElement.ts';
 import { GeneratedData } from "../data/GenerationData.ts";
 import LoadingScreen from "../components/LoadingScreen";
@@ -41,7 +41,7 @@ const TextDisplayPage: React.FC = () => {
                         </div>
 
                         <div className="relative">
-                            <TextReader data={data} />
+                            <TextReaderElement data={data} />
                         </div>
                         
                     </>

@@ -3,17 +3,17 @@ import DeleteButton from './DeleteButton';
 import { GeneratedData } from "../data/GenerationData.ts";
 import {FaCrown} from "react-icons/fa";
 import LocSpan from "./LocSpan.tsx";
+import Container from "./ui/containers/Container.tsx";
 
-interface SimpleTextPreviewProps {
+interface ReadingDataElementProps {
     data: GeneratedData;
     deleteRelations?: boolean;
 }
 
-const SimpleTextReader: React.FC<SimpleTextPreviewProps> = ({ data, deleteRelations }) => {
+const ReadingDataElement: React.FC<ReadingDataElementProps> = ({ data, deleteRelations }) => {
     
     return (
-        <div
-            className="relative p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 lg:hover:scale-105 bg-white dark:bg-gray-900 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800">
+        <Container>
             <div className="absolute top-2 right-2">
                 <DeleteButton
                     creatorId={data.creatorId?._id ?? ''}
@@ -54,8 +54,8 @@ const SimpleTextReader: React.FC<SimpleTextPreviewProps> = ({ data, deleteRelati
                     </div>
                 </div>
             </div>
-        </div>
+        </Container>
     );
 };
 
-export default SimpleTextReader;
+export default ReadingDataElement;

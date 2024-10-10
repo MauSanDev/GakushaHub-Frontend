@@ -1,21 +1,19 @@
 import React from 'react';
 import { FaUser, FaChalkboardTeacher, FaBook, FaFolder } from 'react-icons/fa'; 
 import { StudyGroupData } from '../../../data/Institutions/StudyGroupData.ts';
-import {Link, useParams} from "react-router-dom"; 
+import {Link, useParams} from "react-router-dom";
+import Container from "../../../components/ui/containers/Container.tsx"; 
 
-interface InstitutionStudyGroupBoxProps {
+interface StudyGroupDataElementProps {
     studyGroup: StudyGroupData;
 }
 
-const InstitutionStudyGroupBox: React.FC<InstitutionStudyGroupBoxProps> = ({ studyGroup }) => {
+const StudyGroupDataElement: React.FC<StudyGroupDataElementProps> = ({ studyGroup }) => {
     const { institutionId } = useParams<{ institutionId: string }>();
 
     return (
-        <div className="w-full max-w-4xl my-2">
-            <div
-                className={`relative flex items-center p-4 rounded-lg shadow-md transition-all dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-gray-600`}
-            >
-                <div className="flex-1">
+        <Container className="w-full max-w-4xl my-2">
+            <div className="flex-1">
                     <h2 className="text-lg font-bold text-gray-800 dark:text-white">
                         {studyGroup.name || 'Study Group Name'}
                     </h2>
@@ -61,9 +59,8 @@ const InstitutionStudyGroupBox: React.FC<InstitutionStudyGroupBoxProps> = ({ stu
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+        </Container>
     );
 };
 
-export default InstitutionStudyGroupBox;
+export default StudyGroupDataElement;

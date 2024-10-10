@@ -6,7 +6,7 @@ import UnderDevelopmentPage from './pages/UnderDevelopmentPage';
 import CourseListPage from "./pages/CourseListPage.tsx";
 import GrammarListPage from "./pages/GrammarListPage.tsx";
 import CourseDetailPage from "./pages/CourseDetailsPage.tsx";
-import GenerationsListPage from "./pages/GenerationsListPage.tsx";
+import ReadingListPage from "./pages/ReadingListPage.tsx";
 import TextDisplayPage from "./pages/TextDisplayPage.tsx";
 import SignInPage from "./pages/login/SignInPage.tsx";
 import SignUpPage from "./pages/login/SignUpPage.tsx";
@@ -63,7 +63,7 @@ function App() {
                     <Route path="/search" element={<SearchPage />} />
                     <Route path="/grammar" element={<GrammarListPage />} />
                     <Route path="/groups" element={<MyStudyGroupsPage />} />
-                    <Route path="/generations" element={<GenerationsListPage />} />
+                    <Route path="/generations" element={<ReadingListPage />} />
                     <Route path="/generation/:elementId" element={<TextDisplayPage />} />
                     <Route path="*" element={<UnderDevelopmentPage />} />
                     <Route path="/studyGroup/:studyGroupId" element={<StudyGroupContentPage />} />

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import SimpleTextReader from '../components/SimpleTextReader';
+import ReadingDataElement from '../components/ReadingDataElement.tsx';
 import loadingIcon from '../assets/loading-icon.svg';
 import { usePaginatedGenerations } from '../hooks/usePaginatedGenerations';
 import { GeneratedData } from "../data/GenerationData";
 
-const GenerationsListPage: React.FC = () => {
+const ReadingListPage: React.FC = () => {
     const [generatedTexts, setGeneratedTexts] = useState<GeneratedData[]>([]);
     const [page, setPage] = useState(1);
     const [resetPage, setResetPage] = useState(false);
@@ -85,7 +85,7 @@ const GenerationsListPage: React.FC = () => {
                         >
                             <Link key={generatedText._id} to={`/generation/${generatedText._id}`}
                                   className="page-fade-enter page-fade-enter-active">
-                                <SimpleTextReader
+                                <ReadingDataElement
                                     data={generatedText}
                                 />
                             </Link>
@@ -99,4 +99,4 @@ const GenerationsListPage: React.FC = () => {
     );
 };
 
-export default GenerationsListPage;
+export default ReadingListPage;

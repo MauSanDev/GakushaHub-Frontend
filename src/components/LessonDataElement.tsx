@@ -9,23 +9,24 @@ import {
     FaTable,
     FaThLarge, FaEye,
 } from "react-icons/fa";
-import GenericDeckDisplay from "../GenericDeckDisplay";
-import SmallKanjiBox from "../SmallKanjiBox";
-import SmallWordBox from "../SmallWordBox";
-import SmallGrammarBox from "../SmallGrammarBox";
-import SimpleReadingBox from "../SimpleReadingBox";
-import KanjiDeckTable from "../Tables/KanjiDeckTable";
-import WordDeckTable from "../Tables/WordDeckTable";
-import { KanjiDeck } from "../../data/KanjiData.ts";
-import { WordDeck } from "../../data/WordData.ts";
-import { GrammarDeck } from "../../data/GrammarData.ts";
-import { GenerationDeck } from "../../data/GenerationData.ts";
-import DeleteButton from "../DeleteButton";
-import GenerationButton from "../Modals/GenerationButton.tsx";
-import AddContentButton from "../AddContentButton.tsx";
-import LocSpan from "../LocSpan.tsx";
+import GenericDeckDisplay from "./GenericDeckDisplay";
+import SmallKanjiBox from "./SmallKanjiBox";
+import SmallWordBox from "./SmallWordBox";
+import SmallGrammarBox from "./SmallGrammarBox";
+import SimpleReadingBox from "./SimpleReadingBox";
+import KanjiDeckTable from "./Tables/KanjiDeckTable";
+import WordDeckTable from "./Tables/WordDeckTable";
+import { KanjiDeck } from "../data/KanjiData.ts";
+import { WordDeck } from "../data/WordData.ts";
+import { GrammarDeck } from "../data/GrammarData.ts";
+import { GenerationDeck } from "../data/GenerationData.ts";
+import DeleteButton from "./DeleteButton";
+import GenerationButton from "./Modals/GenerationButton.tsx";
+import AddContentButton from "./AddContentButton.tsx";
+import LocSpan from "./LocSpan.tsx";
+import Container from "./ui/containers/Container.tsx";
 
-interface LessonBoxProps {
+interface LessonDataElementProps {
     owner: CourseData;
     lesson: LessonData;
     showKanji: boolean;
@@ -34,7 +35,7 @@ interface LessonBoxProps {
     showReadings: boolean;
 }
 
-const LessonBox: React.FC<LessonBoxProps> = ({
+const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                                  owner,
                                                  lesson,
                                                  showKanji,
@@ -52,9 +53,8 @@ const LessonBox: React.FC<LessonBoxProps> = ({
     );
 
     return (
-        <div className="relative p-6 pb-26 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800">
+        <Container>
             <div className="absolute top-4 right-4 flex gap-0.5 flex-wrap items-center">
-                
                 <AddContentButton 
                     creatorId={lesson.creatorId._id}
                     courseId={owner._id}
@@ -209,8 +209,8 @@ const LessonBox: React.FC<LessonBoxProps> = ({
                     )}
                 </>
             )}
-        </div>
+        </Container>
     );
 };
 
-export default LessonBox;
+export default LessonDataElement;

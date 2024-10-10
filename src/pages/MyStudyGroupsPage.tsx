@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
-import InstitutionStudyGroupBox from './Institutions/Components/InstitutionStudyGroupBox.tsx';
+import StudyGroupDataElement from './Institutions/Components/StudyGroupDataElement.tsx';
 import { useMyStudyGroups } from '../hooks/institutionHooks/useMyStudyGroups';
 import { useAuth } from '../context/AuthContext.tsx';
 
@@ -46,7 +46,7 @@ const MyStudyGroupsPage: React.FC = () => {
                     <div>
                         {filteredStudyGroups.length > 0 ? (
                             filteredStudyGroups.map((group) => (
-                                <InstitutionStudyGroupBox
+                                <StudyGroupDataElement
                                     key={group._id}
                                     studyGroup={group}
                                 />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import LessonBox from '../components/LessonBox';
+import LessonDataElement from '../components/LessonDataElement.tsx';
 import {
     FaArrowLeft,
     FaBookOpen,
@@ -288,7 +288,7 @@ const CourseDetailPage: React.FC = () => {
 
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
                 {lesson ? (
-                    <LessonBox
+                    <LessonDataElement
                         key={lesson._id}
                         lesson={lesson}
                         showKanji={showKanji}

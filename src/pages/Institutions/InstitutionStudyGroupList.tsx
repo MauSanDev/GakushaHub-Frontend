@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import LoadingScreen from '../../components/LoadingScreen';
-import InstitutionStudyGroupBox from './Components/InstitutionStudyGroupBox.tsx';
+import StudyGroupDataElement from './Components/StudyGroupDataElement.tsx';
 import AddStudyGroupModal from './AddStudyGroupModal.tsx';
 import { useParams } from "react-router-dom";
 import { usePaginatedStudyGroups } from '../../hooks/institutionHooks/usePaginatedStudyGroups';
@@ -58,7 +58,7 @@ const InstitutionStudyGroupPage: React.FC = () => {
                     <div>
                         {filteredStudyGroups.length > 0 ? (
                             filteredStudyGroups.map((group) => (
-                                <InstitutionStudyGroupBox
+                                <StudyGroupDataElement
                                     key={group._id}
                                     studyGroup={group}
                                 />

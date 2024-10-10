@@ -1,7 +1,8 @@
 import React from 'react';
-import { MembershipData, MembershipStatus, MembershipRole } from '../../../data/Institutions/MembershipData.ts';
+import { MembershipData, MembershipStatus } from '../../../data/Institutions/MembershipData.ts';
 import { useChangeMembershipStatus } from '../../../hooks/institutionHooks/useChangeMembershipStatus';
 import { FaCheck, FaTimes } from 'react-icons/fa';
+import Container from "../../../components/ui/containers/Container.tsx";
 
 interface MembershipBoxProps {
     membership: MembershipData;
@@ -32,8 +33,7 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
     };
 
     return (
-        <div className="w-full max-w-4xl my-2">
-            <div className="relative flex items-center p-4 rounded-lg shadow-md transition-all dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-gray-600">
+        <Container className="w-full max-w-4xl my-2">
                 <div className="flex-1">
                     <h3 className="text-lg font-bold text-gray-800 dark:text-white">
                         {membership.institutionId?.name || 'Unknown Institution'}
@@ -73,8 +73,7 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
                         </button>
                     </div>
                 )}
-            </div>
-        </div>
+        </Container>
     );
 };
 
