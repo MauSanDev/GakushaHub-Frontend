@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { GrammarData } from "../../data/GrammarData.ts";
+import { GrammarData } from "../data/GrammarData.ts";
 import { FaCheck, FaChevronRight, FaChevronDown } from 'react-icons/fa';
-import LocSpan from "../LocSpan.tsx";
+import LocSpan from "./LocSpan.tsx";
 import i18n from "i18next";
-import SelectableContainer from "../ui/containers/SelectableContainer.tsx";
+import SelectableContainer from "./ui/containers/SelectableContainer.tsx";
 
 interface GrammarBoxProps {
     result: GrammarData | null;
@@ -11,7 +11,7 @@ interface GrammarBoxProps {
     onSelect: (selected: boolean) => void;
 }
 
-const GrammarBox: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect }) => {
+const GrammarElement: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect }) => {
     const [isExamplesOpen, setIsExamplesOpen] = useState(false);
 
     if (!result) return null;
@@ -118,4 +118,4 @@ const GrammarBox: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect })
     );
 };
 
-export default GrammarBox;
+export default GrammarElement;

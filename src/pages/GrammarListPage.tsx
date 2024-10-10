@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import GrammarBox from '../components/GrammarStructureBox';
+import GrammarElement from '../components/GrammarElement.tsx';
 import { GrammarData } from "../data/GrammarData.ts";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { usePaginatedGrammar } from "../hooks/usePaginatedGrammar.ts";
@@ -7,7 +7,6 @@ import LoadingScreen from "../components/LoadingScreen";
 import SaveDeckInput from '../components/SaveDeckInput';
 import {SaveStatus} from "../utils/SaveStatus.ts";
 import {useAuth} from "../context/AuthContext.tsx";
-
 
 const GrammarListPage: React.FC = () => {
     const [allResults, setAllResults] = useState<GrammarData[]>([]);
@@ -161,7 +160,7 @@ const GrammarListPage: React.FC = () => {
                             key={index}
                             className="page-fade-enter page-fade-enter-active"
                         >
-                            <GrammarBox
+                            <GrammarElement
                                 result={grammarData}
                                 isSelected={selectedGrammar.includes(grammarData)}
                                 onSelect={(selected) => toggleSelectedGrammar(grammarData, selected)}
