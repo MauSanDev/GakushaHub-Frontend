@@ -11,7 +11,7 @@ i18n
         supportedLngs: ['en', 'es', 'ja', 'zh'],
         preload: ['en', 'ja'],
         fallbackLng: 'en',
-        debug: true,
+        // debug: true,
         detection: {
             order: ['cookie', 'localStorage', 'path', 'subdomain'],
             caches: ['cookie'],

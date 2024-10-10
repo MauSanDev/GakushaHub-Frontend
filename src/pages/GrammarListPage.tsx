@@ -8,6 +8,7 @@ import { useAuth } from "../context/AuthContext.tsx";
 import SectionContainer from "../components/ui/containers/SectionContainer.tsx";
 import ShowSelectionToggle from "../components/ui/toggles/ShowSelectionToggle.tsx";
 import SelectionToggle from "../components/ui/toggles/SelectionToggle.tsx";
+import SearchBar from "../components/ui/inputs/SearchBar.tsx"; 
 
 const GrammarListPage: React.FC = () => {
     const [allResults, setAllResults] = useState<GrammarData[]>([]);
@@ -84,7 +85,7 @@ const GrammarListPage: React.FC = () => {
                 x.structure.toLowerCase().includes(lowercasedTerm) ||
                 x.hint?.toLowerCase().includes(lowercasedTerm) ||
                 x.description.toLowerCase().includes(lowercasedTerm) ||
-                x.example_contexts.some(keyword => keyword.toLowerCase().includes(lowercasedTerm))
+                (x.example_contexts && x.example_contexts.some(keyword => keyword.toLowerCase().includes(lowercasedTerm))) // Chequea que example_contexts exista
             );
         }
 
@@ -94,13 +95,7 @@ const GrammarListPage: React.FC = () => {
     return (
         <SectionContainer title={"文法"} isLoading={isLoading || isSaving} error={error?.message} >
             <div className="w-full lg:max-w-4xl flex flex-wrap gap-2 text-left px-14 lg:px-0 justify-center">
-                <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search Grammar..."
-                    className="flex-1 min-w-[200px] w-full border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300"
-                />
+                <SearchBar onSearch={setSearchTerm} placeholder="Search Grammar..." />
 
                 <div className="flex justify-center gap-0.5 pb-2">
                     {[5, 4, 3, 2, 1].map(level => (
