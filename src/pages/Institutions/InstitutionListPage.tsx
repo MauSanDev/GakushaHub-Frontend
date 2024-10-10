@@ -3,15 +3,18 @@ import LoadingScreen from '../../components/LoadingScreen';
 import LocSpan from '../../components/LocSpan.tsx';
 import InstitutionBox from './Components/InstitutionBox.tsx';
 import CreateInstitutionModal from './CreateInstitutionModal';
+import MembershipBox from './Components/MembershipBox'; // Import the MembershipBox
 import { usePaginatedInstitutions } from '../../hooks/institutionHooks/usePaginatedInstitutions';
+import { useMyMemberships } from '../../hooks/institutionHooks/useMyMemberships'; // Import the custom hook
 
 const InstitutionListPage: React.FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    const { data, error, isLoading } = usePaginatedInstitutions(1, 1); 
+    const { data: institutionsData, error: institutionsError, isLoading: institutionsLoading } = usePaginatedInstitutions(1, 1);
+    const { data: membershipsData, error: membershipsError, isLoading: membershipsLoading } = useMyMemberships(1, 10); // Use the hook for memberships
 
-    const ownerInstitution = data?.documents[0] || null;
+    const ownerInstitution = institutionsData?.documents[0] || null;
 
     const handleCreateInstitutionSuccess = () => {
         setIsCreateModalOpen(false);
@@ -21,7 +24,7 @@ const InstitutionListPage: React.FC = () => {
         <div ref={scrollContainerRef}
              className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
 
-            <LoadingScreen isLoading={isLoading} />
+            <LoadingScreen isLoading={institutionsLoading || membershipsLoading} />
 
             <div className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
                 <div className="flex items-start mb-4 sm:mb-0">
@@ -36,7 +39,7 @@ const InstitutionListPage: React.FC = () => {
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
                         <LocSpan textKey={"institutionListPage.myInstitution"} />
                     </h2>
-                    {error ? (
+                    {institutionsError ? (
                         <p className="text-red-500 text-center">Error fetching institutions</p>
                     ) : ownerInstitution ? (
                         <InstitutionBox
@@ -51,7 +54,7 @@ const InstitutionListPage: React.FC = () => {
                     ) : (
                         <div
                             className="p-6 my-10 border-2 border-dashed border-gray-400 dark:border-gray-600 hover:dark:border-green-800 hover:border-green-700 rounded-lg shadow-md text-center cursor-pointer transition-all hover:bg-green-100 dark:hover:bg-green-950 flex items-center justify-center h-48 text-gray-600 dark:text-gray-400 hover:dark:text-green-400 hover:text-green-700 "
-                            onClick={() => setIsCreateModalOpen(true)} 
+                            onClick={() => setIsCreateModalOpen(true)}
                         >
                             <p className="mb-4 text-xl">
                                 You don't have your Institution yet.<br/>
@@ -61,6 +64,21 @@ const InstitutionListPage: React.FC = () => {
                     )}
                 </div>
 
+                {/* Membresías del usuario */}
+                <div className="mb-6">
+                    <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+                        <LocSpan textKey={"institutionListPage.myMemberships"} />
+                    </h2>
+                    {membershipsError ? (
+                        <p className="text-red-500 text-center">Error fetching memberships</p>
+                    ) : membershipsData?.documents?.length > 0 ? (
+                        membershipsData.documents.map((membership) => (
+                            <MembershipBox key={membership._id} membership={membership} />
+                        ))
+                    ) : (
+                        <p className="text-center text-gray-500">No memberships found</p>
+                    )}
+                </div>
             </div>
 
             {isCreateModalOpen && (
@@ -69,9 +87,6 @@ const InstitutionListPage: React.FC = () => {
                     onCreateSuccess={handleCreateInstitutionSuccess}
                 />
             )}
-            
-            
-            <span className="text-gray-500">Still need to add the list of memberships here</span>
         </div>
     );
 };

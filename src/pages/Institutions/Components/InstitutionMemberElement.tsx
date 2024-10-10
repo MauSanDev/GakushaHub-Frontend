@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {FaTrash} from 'react-icons/fa';
-import {MembershipRole, MembershipData, MembershipStatus} from "../../../data/Institutions/MembershipData.ts";
+import React, { useEffect, useState } from 'react';
+import { FaTrash, FaUndo } from 'react-icons/fa';
+import { MembershipRole, MembershipData, MembershipStatus } from "../../../data/Institutions/MembershipData.ts";
+import { useChangeMembershipStatus } from "../../../hooks/institutionHooks/useChangeMembershipStatus";
 
 interface InstitutionMemberElementProps {
     member: MembershipData;
@@ -21,17 +22,22 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
     };
 
     const [selectedRole, setSelectedRole] = useState<MembershipRole>(member.role || MembershipRole.Student);
+    const { mutate: changeMembershipStatus } = useChangeMembershipStatus(); // Hook to change membership status
 
     useEffect(() => {
         if (member.role) {
             setSelectedRole(member.role);
         }
     }, [member.role]);
-    
+
     const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newRole = event.target.value as MembershipRole; // Type assertion to MembershipRole
         setSelectedRole(newRole);
         onRoleChange(newRole);
+    };
+
+    const handleSendAgain = () => {
+        changeMembershipStatus({ membershipId: member._id, newStatus: MembershipStatus.Pending });
     };
 
     const isRegisteredUser = !!member.userId; // Check if the user is registered
@@ -55,28 +61,34 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
 
             {member.status === MembershipStatus.Pending && (
                 <span className="italic text-gray-400 mr-4">Pending approval</span>
-            )
-            }
+            )}
 
             {member.status === MembershipStatus.Rejected && (
-                <span className="italic text-red-400 mr-4">Rejected</span>
-                )
-            }
-
+                <div className="flex items-center">
+                    <span className="italic text-red-400 mr-4">Rejected</span>
+                    <button
+                        onClick={handleSendAgain}
+                        className="text-blue-500 hover:text-blue-700 ml-4 flex items-center"
+                        title="Send Again"
+                    >
+                        <FaUndo size={16} />
+                        <span className="ml-2">Send Again</span>
+                    </button>
+                </div>
+            )}
 
             {member.status === MembershipStatus.Approved && (
-            <select
-                value={selectedRole}
-                onChange={handleRoleChange}
-                className={`uppercase font-bold cursor-pointer mr-4 focus:outline-none bg-transparent ${roleColors[selectedRole]}`}
-            >
-                <option value="owner">Master</option>
-                <option value="staff">Staff</option>
-                <option value="sensei">Sensei</option>
-                <option value="student">Student</option>
-            </select>
-            )
-            }
+                <select
+                    value={selectedRole}
+                    onChange={handleRoleChange}
+                    className={`uppercase font-bold cursor-pointer mr-4 focus:outline-none bg-transparent ${roleColors[selectedRole]}`}
+                >
+                    <option value="owner">Master</option>
+                    <option value="staff">Staff</option>
+                    <option value="sensei">Sensei</option>
+                    <option value="student">Student</option>
+                </select>
+            )}
 
             <button
                 onClick={onRemove}
