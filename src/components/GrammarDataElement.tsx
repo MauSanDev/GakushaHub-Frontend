@@ -5,13 +5,13 @@ import LocSpan from "./LocSpan.tsx";
 import i18n from "i18next";
 import SelectableContainer from "./ui/containers/SelectableContainer.tsx";
 
-interface GrammarBoxProps {
+interface GrammarDataElementProps {
     result: GrammarData | null;
     isSelected: boolean;
     onSelect: (selected: boolean) => void;
 }
 
-const GrammarElement: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelect }) => {
+const GrammarDataElement: React.FC<GrammarDataElementProps> = ({ result, isSelected, onSelect }) => {
     const [isExamplesOpen, setIsExamplesOpen] = useState(false);
 
     if (!result) return null;
@@ -118,4 +118,4 @@ const GrammarElement: React.FC<GrammarBoxProps> = ({ result, isSelected, onSelec
     );
 };
 
-export default GrammarElement;
+export default GrammarDataElement;

@@ -27,7 +27,7 @@ const GrammarCreatePage: React.FC = () => {
             {newGrammar && (
                 <div className="mt-4">
                     <h2 className="text-xl font-bold text-gray-700 dark:text-gray-200">Previsualización</h2>
-                    {/* Aquí podrías reutilizar GrammarElement para mostrar una previsualización del elemento creado */}
+                    {/* Aquí podrías reutilizar GrammarDataElement para mostrar una previsualización del elemento creado */}
                 </div>
             )}
         </div>

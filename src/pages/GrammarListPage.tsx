@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import GrammarElement from '../components/GrammarElement.tsx';
+import GrammarDataElement from '../components/GrammarDataElement.tsx';
 import { GrammarData } from "../data/GrammarData.ts";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { usePaginatedGrammar } from "../hooks/usePaginatedGrammar.ts";
@@ -145,7 +145,7 @@ const GrammarListPage: React.FC = () => {
                             key={index}
                             className="page-fade-enter page-fade-enter-active"
                         >
-                            <GrammarElement
+                            <GrammarDataElement
                                 result={grammarData}
                                 isSelected={selectedGrammar.includes(grammarData)}
                                 onSelect={(selected) => toggleSelectedGrammar(grammarData, selected)}

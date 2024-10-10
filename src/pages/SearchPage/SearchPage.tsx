@@ -3,7 +3,7 @@ import SearchBar from '../../components/SearchBar';
 import SaveDeckInput from '../../components/SaveDeckInput';
 import KanjiDataElement from '../../components/KanjiDataElement.tsx';
 import WordDataElement from '../../components/WordDataElement.tsx';
-import GrammarElement from '../../components/GrammarElement.tsx';
+import GrammarDataElement from '../../components/GrammarDataElement.tsx';
 import { useSearchContent } from '../../hooks/useSearchContent';
 import { SaveStatus } from '../../utils/SaveStatus';
 import { useAuth } from '../../context/AuthContext.tsx';
@@ -225,7 +225,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                                 items={grammarResults}
                                 maxColumns={1}
                                 renderItem={(grammarData, isSelected, onSelect) => (
-                                    <GrammarElement
+                                    <GrammarDataElement
                                         key={grammarData.structure}
                                         result={grammarData}
                                         isSelected={isSelected}
