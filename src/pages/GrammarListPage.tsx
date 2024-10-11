@@ -50,7 +50,7 @@ const GrammarListPage: React.FC = () => {
             <div className="w-full lg:max-w-4xl flex flex-wrap gap-2 text-left px-14 lg:px-0 justify-center">
                 <SearchBar onSearch={setSearchTerm} placeholder="Search Grammar..." />
 
-                <div className="flex justify-center gap-0.5 pb-2">
+                <div className="flex flex-wrap justify-center gap-0.5 pb-2">
                     {[5, 4, 3, 2, 1].map(level => (
                         <SelectionToggle
                             key={level}

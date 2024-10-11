@@ -66,7 +66,7 @@ const Sidebar: React.FC = () => {
 
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black opacity-50 z-30 lg:hidden"
+                    className="fixed inset-0 bg-black dark:bg-black z-30 lg:hidden"
                     onClick={() => setIsOpen(false)}
                 ></div>
             )}

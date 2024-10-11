@@ -41,7 +41,7 @@ const CourseListPage: React.FC = () => {
 
     return (
         <SectionContainer title={"勉強しましょう"} isLoading={isLoading} error={error?.message}>
-            <div className="flex gap-2 mb-4">
+            <div className="flex flex-wrap gap-2 mb-2">
                 <Tabs tabs={tabs} onTabChange={handleViewChange} currentTab={currentView} />
                 <AddCourseButton />
             </div>

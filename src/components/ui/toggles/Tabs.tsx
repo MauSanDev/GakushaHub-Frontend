@@ -4,7 +4,7 @@ import TabToggle from './TabToggle.tsx';
 interface Tab {
     label: string;
     view: string;
-    icon?: React.ReactNode
+    icon?: React.ReactNode;
 }
 
 interface TabsProps {
@@ -15,7 +15,7 @@ interface TabsProps {
 
 const Tabs: React.FC<TabsProps> = ({ tabs, onTabChange, currentTab }) => {
     return (
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
             {tabs.map(tab => (
                 <TabToggle
                     key={tab.view}

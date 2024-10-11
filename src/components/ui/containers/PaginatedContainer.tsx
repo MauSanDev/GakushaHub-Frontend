@@ -82,8 +82,6 @@ const PaginatedContainer = <T,>({
                 </button>
             );
         }
-
-        // Botón para ir al final
         if (currentPage < totalPages) {
             pageNumbers.push(
                 <button
@@ -95,21 +93,18 @@ const PaginatedContainer = <T,>({
                 </button>
             );
         }
-
         return pageNumbers;
     };
 
     return (
-
-        // <div className="flex flex-col h-full"> {/* Flex container para ocupar todo el espacio */}
-        <div className="mt-4 w-full max-w-4xl flex flex-col gap-2 text-left pb-24 h-full">
-            <div className="pagination-controls flex gapx-2 mx-0.5 w-full justify-center items-center">
+        <div className=" w-full max-w-4xl flex flex-col gap-2 text-left pb-24 h-full">
+            <div className="pagination-controls flex gapx-2 mx-0.5 w-full justify-center items-center  mt-2">
                 <span className={"text-gray-400 dark:text-gray-600 text-xs pr-3"}>Pages:</span>
                 {renderPageNumbers()}
             </div>
 
-            <div className="document-list flex flex-col gap-2 py-1 overflow-y-auto  h-full"
-                 style={{maxHeight: 'calc(100vh - 200px)'}}>
+            <div className="document-list flex flex-col gap-2 py-1 overflow-y-auto h-full pb-24"
+                 style={{maxHeight: 'calc(100vh)'}}>
                 {documents.map((document) => (
                     <RenderComponent
                         key={document._id}

@@ -32,12 +32,17 @@ const DropdownInput: React.FC<DropdownInputProps> = ({
         (option) => option.toLowerCase() === value.toLowerCase()
     );
 
+    const handleClick = (e: React.MouseEvent) => {
+        e.stopPropagation(); // Evita que el evento haga clic en elementos debajo
+    };
+
     return (
-        <div className="relative w-full overflow-visible sm:w-auto">
+        <div className="relative w-full overflow-visible sm:w-auto" onClick={handleClick}>
             <input
                 type="text"
                 value={value}
-                onClick={() => {
+                onClick={(e) => {
+                    handleClick(e);
                     if (options.length > 0) {
                         setShowDropdown(true);
                     }
@@ -50,18 +55,22 @@ const DropdownInput: React.FC<DropdownInputProps> = ({
                 }}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder={placeholder}
-                className={`focus:outline-none w-full text-sm p-2 placeholder-gray-500 dark:bg-black dark:text-white${
+                className={`focus:outline-none w-full text-sm p-2 placeholder-gray-500 dark:bg-black dark:text-white ${
                     isExactMatch ? 'text-blue-400 dark:text-blue-400' : ''
                 }`}
                 disabled={disabled}
                 style={{ border: 'none' }}
             />
             {showDropdown && filteredOptions.length > 0 && (
-                <ul className="absolute w-full bg-blue-500 dark:bg-gray-700 text-white rounded shadow-lg max-h-40 overflow-y-auto z-10 mt-1 text-sm">
+                <ul
+                    className="absolute w-full bg-blue-500 dark:bg-gray-700 text-white rounded shadow-lg max-h-40 overflow-y-auto z-10 mt-1 text-sm"
+                    onClick={handleClick}
+                >
                     {filteredOptions.map((option, index) => (
                         <li
                             key={index}
-                            onClick={() => {
+                            onClick={(e) => {
+                                handleClick(e);
                                 onChange(option);
                                 setShowDropdown(false);
                             }}

@@ -38,7 +38,7 @@ const InstitutionStudyGroupPage: React.FC = () => {
                         onSearch={handleSearch}
                         placeholder="Search study groups..."
                     />
-                    <PrimaryButton onClick={() => setIsAddGroupModalOpen(true)} label={"addStudyGroup"} iconComponent={<FaPlus />} className={"w-40 text-xs"} />
+                    <PrimaryButton onClick={() => setIsAddGroupModalOpen(true)} label={"addStudyGroup"} iconComponent={<FaPlus />} className={"text-xs"} />
                 </div>
 
                 {!isLoading && studyGroupsData && (

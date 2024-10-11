@@ -27,7 +27,7 @@ const TabToggle: React.FC<TabToggleProps> = ({
     return (
         <button
             onClick={onToggle}
-            className={`${currentState.className} whitespace-nowrap flex items-center gap-2 px-4 py-2 rounded lg:text-sm text-xs transition-all`}
+            className={`${currentState.className} flex items-center gap-2 px-4 py-2 rounded lg:text-sm text-xs transition-all`}
         >
             {currentState.icon}
             <LocSpan textKey={currentState.text} />

@@ -50,53 +50,53 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
                 className="w-10 h-10 rounded-full mr-4"
             />
             <div className="flex-1">
-                {isRegisteredUser ? (
-                    <p className="text-md font-bold text-gray-800 dark:text-gray-200">
-                        {member.userId?.name} <span className="pl-4 text-sm text-gray-500 font-normal">{member.email}</span>
-                    </p>
-                ) : (
-                    <p className="text-md font-bold text-gray-800 dark:text-gray-200">{member.email}</p>
+                <p className="text-md font-bold text-gray-800 dark:text-gray-200">
+                    {isRegisteredUser ? member.userId?.name : member.email}
+                </p>
+                <p className="text-sm text-gray-500">
+                    {member.email}
+                </p>
+                {member.status === MembershipStatus.Pending && (
+                    <span className="italic text-yellow-700 text-xs">Pending approval</span>
                 )}
             </div>
 
-            {member.status === MembershipStatus.Pending && (
-                <span className="italic text-gray-400 mr-4">Pending approval</span>
-            )}
+            <div className="flex items-center">
+                {member.status === MembershipStatus.Rejected && (
+                    <div className="flex items-center mr-4">
+                        <span className="italic text-red-400">Rejected</span>
+                        <button
+                            onClick={handleSendAgain}
+                            className="text-blue-500 hover:text-blue-700 ml-2 flex items-center"
+                            title="Send Again"
+                        >
+                            <FaUndo size={16} />
+                            <span className="ml-2">Send Again</span>
+                        </button>
+                    </div>
+                )}
 
-            {member.status === MembershipStatus.Rejected && (
-                <div className="flex items-center">
-                    <span className="italic text-red-400 mr-4">Rejected</span>
-                    <button
-                        onClick={handleSendAgain}
-                        className="text-blue-500 hover:text-blue-700 ml-4 flex items-center"
-                        title="Send Again"
+                {member.status === MembershipStatus.Approved && (
+                    <select
+                        value={selectedRole}
+                        onChange={handleRoleChange}
+                        className={`uppercase font-bold cursor-pointer focus:outline-none bg-transparent mr-4 ${roleColors[selectedRole]}`}
                     >
-                        <FaUndo size={16} />
-                        <span className="ml-2">Send Again</span>
-                    </button>
-                </div>
-            )}
+                        <option value="owner">Master</option>
+                        <option value="staff">Staff</option>
+                        <option value="sensei">Sensei</option>
+                        <option value="student">Student</option>
+                    </select>
+                )}
 
-            {member.status === MembershipStatus.Approved && (
-                <select
-                    value={selectedRole}
-                    onChange={handleRoleChange}
-                    className={`uppercase font-bold cursor-pointer mr-4 focus:outline-none bg-transparent ${roleColors[selectedRole]}`}
+                <button
+                    onClick={onRemove}
+                    className="text-red-500 hover:text-red-700"
+                    title="Remove Member"
                 >
-                    <option value="owner">Master</option>
-                    <option value="staff">Staff</option>
-                    <option value="sensei">Sensei</option>
-                    <option value="student">Student</option>
-                </select>
-            )}
-
-            <button
-                onClick={onRemove}
-                className="text-red-500 hover:text-red-700 ml-4"
-                title="Remove Member"
-            >
-                <FaTrash size={16} />
-            </button>
+                    <FaTrash size={16} />
+                </button>
+            </div>
         </div>
     );
 };

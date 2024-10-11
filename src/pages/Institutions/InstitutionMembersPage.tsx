@@ -39,7 +39,7 @@ const InstitutionMembersPage: React.FC = () => {
                         onSearch={handleSearch}
                         placeholder="Search members..."
                     />
-                    <PrimaryButton onClick={() => setIsAddMemberModalOpen(true)} label={"addMember"} iconComponent={<FaPlus />} className={"w-40 text-xs"} />
+                    <PrimaryButton onClick={() => setIsAddMemberModalOpen(true)} label={"addMember"} iconComponent={<FaPlus />} className={"text-xs"} />
                 </div>
 
                 {!isLoading && membersData && (

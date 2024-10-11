@@ -22,7 +22,7 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({ onClose, children,className
                 className="relative w-11/12 md:w-80 lg:w-1/2 h-auto p-4 flex flex-col max-h-[100vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700"
                 style={{paddingLeft: '1rem'}}
             >
-                <div className="relative">
+                <div className="relative lg:pl-0 pl-10 ">
                     <BackButton onClick={onClose}/>
                 </div>
 
