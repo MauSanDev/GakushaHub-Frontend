@@ -13,11 +13,11 @@
     @apply border-gray-200 dark:border-gray-800 hover:border-blue-300 hover:dark:border-gray-700;
 }
 .toggle-selected {
-    @apply bg-blue-500 dark:bg-gray-800 dark:border-gray-700 text-white border rounded-full px-3 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md text-xs;
+    @apply bg-blue-500 whitespace-nowrap dark:bg-gray-800 dark:border-gray-700 text-white border rounded-full px-3 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md text-xs;
 }
 
 .toggle-deselected {
-    @apply bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 border dark:border-gray-700 rounded-full px-3 transition-all duration-300 text-xs transform lg:hover:scale-105 hover:shadow-md;
+    @apply bg-gray-200 whitespace-nowrap dark:bg-gray-900 text-gray-600 dark:text-gray-300 border dark:border-gray-700 rounded-full px-3 transition-all duration-300 text-xs transform lg:hover:scale-105 hover:shadow-md;
 }
 
 .selection-toggle-selected {

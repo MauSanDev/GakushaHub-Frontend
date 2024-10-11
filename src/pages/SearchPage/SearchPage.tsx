@@ -15,6 +15,7 @@ import { GrammarData } from '../../data/GrammarData.ts';
 import LocSpan from "../../components/LocSpan.tsx";
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import SelectionToggle from "../../components/ui/toggles/SelectionToggle.tsx";
+import SecondaryButton from "../../components/ui/buttons/SecondaryButton.tsx";
 
 interface SearchPageProps {
     courseId?: string;
@@ -120,15 +121,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
 
                 <SearchBar onSearch={onSavePressed} interactable={!isLoading} />
                 {searchExecuted && (
-                    <div className="flex justify-center w-full mt-4">
-                        <button
-                            onClick={onClearSearch}
-                            className="flex justify-center text-center text-xs border dark:border-gray-700 rounded-full px-3 py-1 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md items-center gap-2 bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white"
-                        >
-                            <FaEraser/>
-                            <LocSpan textKey={"clearSearch"}/>
-                        </button>
-                    </div>
+                    <SecondaryButton onClick={onClearSearch} label={"clearSearch"} IconComponent={<FaEraser />} />
                 )}
             </div>
 

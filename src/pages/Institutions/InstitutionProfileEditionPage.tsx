@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useInstitutionById } from '../../hooks/institutionHooks/useInstitutionById.ts';
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
+import SecondaryButton from "../../components/ui/buttons/SecondaryButton.tsx";
 
 const EditProfilePage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
@@ -56,12 +57,8 @@ const EditProfilePage: React.FC = () => {
                     className="hidden"
                     accept="image/*"
                 />
-                <button
-                    onClick={() => fileInputRef.current?.click()}
-                    className="px-4 py-2 bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 rounded-full hover:bg-blue-300 hover:text-white transition-all"
-                >
-                    Change Profile Picture
-                </button>
+                
+                <SecondaryButton label={"changeProfilePicture"} onClick={() => fileInputRef.current?.click()} />
             </div>
 
             <div className="mb-4 w-full max-w-md">

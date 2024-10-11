@@ -5,6 +5,8 @@ import AddInstitutionMembersModal from './AddInstitutionMembersModal';
 import { useParams } from 'react-router-dom';
 import { usePaginatedMembers } from '../../hooks/institutionHooks/usePaginatedMembers.ts';
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
+import SecondaryButton from "../../components/ui/buttons/SecondaryButton.tsx";
+import {FaPlus} from "react-icons/fa";
 
 const InstitutionMembersPage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
@@ -46,12 +48,7 @@ const InstitutionMembersPage: React.FC = () => {
                         value={searchQuery}
                         onChange={handleSearch}
                     />
-                    <button
-                        className="flex justify-center text-center text-sm border dark:border-gray-700 rounded-full px-5 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md items-center gap-2 bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white"
-                        onClick={() => setIsAddMemberModalOpen(true)}
-                    >
-                        ＋ Add Members
-                    </button>
+                    <SecondaryButton onClick={() => setIsAddMemberModalOpen(true)} label={"addMember"} IconComponent={<FaPlus />} />
                 </div>
 
                 <div>

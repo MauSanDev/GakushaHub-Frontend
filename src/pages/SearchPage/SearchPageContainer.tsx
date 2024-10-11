@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { FaCheckSquare, FaSquare, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaCheckSquare, FaSquare } from 'react-icons/fa';
+import SecondaryButton from "../../components/ui/buttons/SecondaryButton.tsx";
+import ShowSelectionToggle from "../../components/ui/toggles/ShowSelectionToggle.tsx";
 
 interface SearchPageContainerProps<T> {
     items: T[];
@@ -43,31 +45,10 @@ const SearchPageContainer = <T extends { _id: string }>({
         <div className="w-full max-w-4xl gap-2 flex flex-col justify-center items-center px-2">
             <div className="w-full flex justify-center items-center">
                 <div className="flex gap-2">
-                    <button
-                        onClick={() => setShowSelectedOnly(!showSelectedOnly)}
-                        className={`whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 ${
-                            showSelectedOnly
-                                ? 'bg-blue-500 dark:bg-green-900 text-white'
-                                : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white'
-                        }`}
-                    >
-                        {showSelectedOnly ? <FaEyeSlash /> : <FaEye />}
-                        {showSelectedOnly ? 'Show All' : 'Show Selected'}
-                    </button>
-                    <button
-                        onClick={selectAll}
-                        className="whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white"
-                    >
-                        <FaCheckSquare />
-                        Select All
-                    </button>
-                    <button
-                        onClick={deselectAll}
-                        className="whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white"
-                    >
-                        <FaSquare />
-                        Deselect All
-                    </button>
+                    <ShowSelectionToggle onToggle={() => setShowSelectedOnly(!showSelectedOnly)} isSelected={showSelectedOnly} />
+                    
+                    <SecondaryButton IconComponent={<FaCheckSquare />} label={"selectAll"} onClick={selectAll} />
+                    <SecondaryButton IconComponent={<FaSquare />} label={"deselectAll"} onClick={deselectAll} />
                 </div>
             </div>
 
