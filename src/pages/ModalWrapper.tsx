@@ -19,14 +19,14 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({ onClose, children,className
     return ReactDOM.createPortal(
         <div className={`fixed inset-0 bg-white dark:bg-black bg-opacity-90 flex items-center justify-center z-40 overflow-y-auto ${className}`}>
             <div
-                className="relative w-11/12 md:w-80 lg:w-1/2 h-auto p-4 flex flex-col max-h-[90vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700"
+                className="relative w-11/12 md:w-80 lg:w-1/2 h-auto p-4 flex flex-col max-h-[100vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700"
                 style={{paddingLeft: '1rem'}}
             >
                 <div className="relative">
                     <BackButton onClick={onClose}/>
                 </div>
 
-                <div className="pt-3 max-w-5xl h-[80vh]">
+                <div className="pt-3 max-w-5xl h-[90vh]">
                     <div className="relative z-0 w-full flex-col flex justify-center items-center">
                         {children}
                     </div>

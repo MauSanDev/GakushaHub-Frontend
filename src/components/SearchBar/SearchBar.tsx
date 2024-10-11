@@ -108,7 +108,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, interactable: enabled }
                 </button>
             </div>
             
-            <PrimaryButton label={"search"} onClick={onSearchPressed} disabled={!interactable} />
+            <PrimaryButton label={"search"} onClick={onSearchPressed} disabled={!interactable} className={"w-full"} />
         </div>
     );
 };

@@ -129,12 +129,12 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
 
             {searchExecuted && (
                 <>
-                    <div className="w-full max-w-4xl mt-6 flex justify-center items-center border-b border-gray-700">
+                    <div className="w-full max-w-4xl mt-6 flex justify-center items-center border-b border-gray-400 dark:border-gray-700">
 
                         {kanjiResults.length > 0 &&
                             <button
                                 onClick={() => setActiveTab('kanji')}
-                                className={`w-full px-4 py-1text-sm font-medium transition-colors duration-300 ${activeTab === 'kanji' ? 'bg-blue-500 dark:bg-blue-800 text-white' : 'dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300'}`}
+                                className={`w-full px-4 py-1 text-sm font-medium transition-colors duration-300 ${activeTab === 'kanji' ? 'bg-blue-500 dark:bg-gray-700 text-white' : 'dark:hover:bg-gray-800 hover:bg-blue-100 text-gray-700 dark:text-gray-300 border-gray-300'}`}
                             >
                                 Kanji <p className="text-xs">({kanjiResults.length} Results
                                 | {selectedKanji.length} Selected)</p>
@@ -144,7 +144,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                         {wordResults.length > 0 &&
                             <button
                                 onClick={() => setActiveTab('words')}
-                                className={`w-full px-4 py-1 text-sm font-medium transition-colors duration-300 ${activeTab === 'words' ? 'bg-blue-500 dark:bg-blue-800 text-white' : 'dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300'}`}
+                                className={`w-full px-4 py-1 text-sm font-medium transition-colors duration-300 ${activeTab === 'words' ? 'bg-blue-500 dark:bg-blue-800 text-white' : 'dark:hover:bg-gray-800 hover:bg-blue-100 text-gray-700 dark:text-gray-300 border-gray-300'}`}
                             >
                                 Words <p className="text-xs">({wordResults.length} Results
                                 | {selectedWords.length} Selected)</p>
@@ -154,7 +154,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                         {grammarResults.length > 0 &&
                             <button
                                 onClick={() => setActiveTab('grammar')}
-                                className={`w-full px-4 py-1 text-sm font-medium transition-colors duration-300 ${activeTab === 'grammar' ? 'bg-blue-500 dark:bg-blue-800 text-white border-blue-500' : 'dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300'}`}
+                                className={`w-full px-4 py-1 text-sm font-medium transition-colors duration-300 ${activeTab === 'grammar' ? 'bg-blue-500 dark:bg-blue-800 text-white border-blue-500' : 'dark:hover:bg-gray-800 hover:bg-blue-100 text-gray-700 dark:text-gray-300 border-gray-300'}`}
                             >
                                 Grammar <p className="text-xs">({grammarResults.length} Results
                                 | {selectedGrammar.length} Selected)</p>
