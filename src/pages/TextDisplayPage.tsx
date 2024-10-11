@@ -25,7 +25,7 @@ const TextDisplayPage: React.FC = () => {
                                 kanjiList={[]} 
                                 wordList={[]}
                                 grammarList={[]}
-                                readingList={[data]} />
+                                readingList={[data._id]} />
                         </div>)}
                         
                         <div className="flex items-center justify-between mb-4 lg:pl-0 pl-20 mt-4">

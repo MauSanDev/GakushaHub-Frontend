@@ -14,7 +14,7 @@ const InstitutionCourseListPage: React.FC = () => {
 
     const { data: ownerData, isLoading: ownerLoading, error: ownerError, triggerFetch: fetchCourses } = usePaginatedCourse(
         page,
-        99,
+        10,
         searchTerm,
         institutionId
     );

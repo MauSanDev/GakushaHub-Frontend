@@ -1,9 +1,5 @@
 import {useMutation, useQueryClient} from 'react-query';
 import { ApiClient } from '../services/ApiClient';
-import { KanjiData } from "../data/KanjiData.ts";
-import { WordData} from "../data/WordData.ts";
-import { GrammarData} from "../data/GrammarData.ts";
-import { GeneratedData } from "../data/GenerationData.ts";
 import {useAuth} from "../context/AuthContext.tsx";
 import {usePaginatedCourse} from "./usePaginatedCourse.ts";
 import {CourseData} from "../data/CourseData.ts";
@@ -34,14 +30,14 @@ const createCourse = async (params: CreateCourseParams, creatorId: string): Prom
     return await ApiClient.post<BuildResponse, {}>('/api/course/build', { ...params, creatorId });
 };
 
-export const parseDecks = (deckName : string, kanjiData: KanjiData[], wordData : WordData[], grammarData : GrammarData[], readingData : GeneratedData[]) =>
+export const parseDecks = (deckName : string, kanjiData: string[], wordData : string[], grammarData : string[], readingData : string[]) =>
 {
     const decks : Deck[] = []
     
     if (kanjiData.length > 0) {
         decks.push({
             deckName: `${deckName}`,
-            elements: kanjiData.map((x) => x._id),
+            elements: kanjiData,
             deckType: 'kanji',
         });
     }
@@ -49,7 +45,7 @@ export const parseDecks = (deckName : string, kanjiData: KanjiData[], wordData :
     if (wordData.length > 0) {
         decks.push({
             deckName: `${deckName}`,
-            elements: wordData.map((x) => x._id),
+            elements: wordData,
             deckType: 'word',
         });
     }
@@ -57,7 +53,7 @@ export const parseDecks = (deckName : string, kanjiData: KanjiData[], wordData :
     if (grammarData.length > 0) {
         decks.push({
             deckName: `${deckName}`,
-            elements: grammarData.map((x) => x._id),
+            elements: grammarData,
             deckType: 'grammar',
         });
     }
@@ -65,7 +61,7 @@ export const parseDecks = (deckName : string, kanjiData: KanjiData[], wordData :
     if (readingData.length > 0) {
         decks.push({
             deckName: `${deckName}`,
-            elements: readingData.map((x) => x._id),
+            elements: readingData,
             deckType: 'reading',
         });
     }

@@ -1,28 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaCheck, FaClock, FaSave } from 'react-icons/fa';
 import DropdownInput from "../DropdownInput/DropdownInput.tsx";
 import { parseDecks, useBuildCourse } from "../../hooks/useBuildCourse.ts";
-import { KanjiData } from "../../data/KanjiData.ts";
-import { WordData } from "../../data/WordData.ts";
-import { GrammarData } from "../../data/GrammarData.ts";
 import { SaveStatus } from "../../utils/SaveStatus.ts";
-import { GeneratedData } from "../../data/GenerationData.ts";
 import { useAuth } from "../../context/AuthContext.tsx";
 import TooltipButton from "../TooltipButton.tsx";
 import { useOwnerCourses } from "../../hooks/coursesHooks/useOwnerCourses.ts";
 import { createPortal } from 'react-dom';
 import LocSpan from "../LocSpan.tsx";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 interface SaveDeckInputProps {
     courseId?: string;
     courseName?: string;
     lessonName?: string;
     deckName?: string;
-    kanjiList: KanjiData[];
-    wordList: WordData[];
-    grammarList: GrammarData[];
-    readingList: GeneratedData[];
+    kanjiList?: string[];
+    wordList?: string[];
+    grammarList?: string[];
+    readingList?: string[];
     onSaveStatusChange?: (status: SaveStatus, error?: string) => void;
 }
 
@@ -43,10 +39,15 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
     const [selectedLesson, setSelectedLesson] = useState<string>(lessonName || '');
     const [selectedDeck, setSelectedDeck] = useState<string>(deckName || '');
     const [error, setError] = useState<string | null>(null);
-    const { data } = useOwnerCourses(1, 99);
-    const { userData } = useAuth();
     const { t } = useTranslation();
+    const { userData } = useAuth();
 
+    // Llamamos al hook useOwnerCourses al montar el componente
+    const { data, fetchCourses } = useOwnerCourses(1, 99);
+
+    useEffect(() => {
+        fetchCourses(); // Llamamos al hook para obtener los cursos
+    }, [fetchCourses]);
 
     const { mutate: buildCourse, isLoading: isSaving, isSuccess: saveSuccess } = useBuildCourse();
 
@@ -54,8 +55,10 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
     const isLessonFixed = !!lessonName;
     const isDeckFixed = !!deckName;
 
-    
-    const hasContent = kanjiList.length > 0 || wordList.length > 0 || grammarList.length > 0 || readingList.length > 0;
+    const hasContent = (kanjiList && kanjiList?.length > 0)
+        || (wordList && wordList.length > 0)
+        || (grammarList && grammarList.length > 0)
+        || (readingList && readingList.length > 0);
 
     if (!userData) return null;
 
@@ -101,7 +104,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
         }
 
         if (!selectedDeck) {
-            const errorMsg =  t("saveDeckInput.deckInputEmpty");
+            const errorMsg = t("saveDeckInput.deckInputEmpty");
             setError(errorMsg);
             onSaveStatusChange?.(SaveStatus.Error, errorMsg);
             return;
@@ -126,10 +129,10 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
 
         buildCourse(
             {
-                courseId: courseId || courseData?._id || null, 
+                courseId: courseId || courseData?._id || null,
                 courseName: selectedCourse.trim(),
                 lessonName: selectedLesson.trim(),
-                decks: parseDecks(selectedDeck.trim(), kanjiList, wordList, grammarList, readingList),
+                decks: parseDecks(selectedDeck.trim(), kanjiList ?? [], wordList ?? [], grammarList ?? [], readingList ?? []),
             },
             {
                 onSuccess: () => {
@@ -178,21 +181,21 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
                         onChange={setSelectedCourse}
                         placeholder={t("course")}
                         options={getAvailableCourses()}
-                        disabled={saveSuccess || isSaving || isCourseFixed} 
+                        disabled={saveSuccess || isSaving || isCourseFixed}
                     />,
                     <DropdownInput
                         value={selectedLesson}
                         onChange={setSelectedLesson}
                         placeholder={t("lesson")}
                         options={getAvailableLessons()}
-                        disabled={saveSuccess || isSaving || isLessonFixed} 
+                        disabled={saveSuccess || isSaving || isLessonFixed}
                     />,
                     <DropdownInput
                         value={selectedDeck}
                         onChange={setSelectedDeck}
                         placeholder={t("deck")}
                         options={getAvailableDecks()}
-                        disabled={saveSuccess || isSaving || isDeckFixed} 
+                        disabled={saveSuccess || isSaving || isDeckFixed}
                     />,
                     error ? (
                         <p className="text-red-500 text-xs text-right">{error}</p>
@@ -206,7 +209,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
                                 ? 'bg-gray-300 dark:bg-gray-600 text-gray-400 cursor-not-allowed'
                                 : 'bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600 dark:hover:bg-blue-600'
                         } transition-transform duration-300`}
-                        disabled={!hasContent || saveSuccess || isSaving} 
+                        disabled={!hasContent || saveSuccess || isSaving}
                     >
                         {saveSuccess ? <FaCheck /> : isSaving ? <FaClock /> : <FaSave />}
                     </button>

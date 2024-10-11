@@ -70,10 +70,7 @@ const GrammarListPage: React.FC = () => {
             {isAuthenticated && selectedGrammarIds.length > 0 && (
                 <div className="fixed top-4 right-4">
                     <SaveDeckInput
-                        kanjiList={[]}
-                        wordList={[]}
                         grammarList={selectedGrammarIds}
-                        readingList={[]}
                         onSaveStatusChange={onSaveStatusChanged}
                     />
                 </div>
