@@ -25,6 +25,7 @@ import {useTranslation} from "react-i18next";
 import CreatorLabel from "../components/ui/text/CreatorLabel.tsx";
 import BackButton from "../components/ui/buttons/BackButton.tsx";
 import {CollectionTypes} from "../data/CollectionTypes.tsx";
+import Editable from "../components/ui/text/Editable.tsx";
 
 const CourseDetailPage: React.FC = () => {
     const { courseId, lessonId } = useParams<{ courseId: string; lessonId?: string }>();
@@ -197,12 +198,32 @@ const CourseDetailPage: React.FC = () => {
                 <div className="flex items-start mb-4 sm:mb-0">
                     
                     <BackButton onClick={() => navigate(course.institutionId ? `/institution/${course.institutionId}/courses` : "/courses")}/>
-                    <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
-                        {course?.name || "Course"}
-                    </h1>
+                    
+                    <Editable
+                        initialValue={course.name}
+                        collection={CollectionTypes.Course}
+                        documentId={course._id || ''}
+                        field="name"
+                        className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize"
+                        canEdit={true}
+                        maxChar={400}
+                    />
+                    
                 </div>
             </div>
             <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center justify-between w-full max-w-4xl mb-2 px-4">
+                
+                <Editable
+                    initialValue={course.description}
+                    collection={CollectionTypes.Course}
+                    documentId={course._id || ''}
+                    field="description"
+                    className="text-gray-600 dark:text-gray-400 mt-2"
+                    canEdit={true}
+                    maxChar={400}
+                    placeholder={"Add a Description..."}
+                />
+                
                 <div className="flex items-center gap-4 overflow-x-auto w-full sm:w-auto flex-grow">
                     <CreatorLabel name={course.creatorId?.name} createdAt={course.createdAt} />
 
@@ -275,10 +296,6 @@ const CourseDetailPage: React.FC = () => {
                     </div>)}
                 </div>
             </div>
-
-            <h3 className="text-gray-500 text-left w-full max-w-4xl ml-10">
-                {course?.description}
-            </h3>
 
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
                 {lesson ? (

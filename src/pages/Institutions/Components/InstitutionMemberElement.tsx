@@ -39,11 +39,11 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
         setSelectedRole(newRole);
         onRoleChange(newRole);
 
-        // Actualizar el rol en el backend usando el hook `useUpdateDocument`
+        
         updateMemberRole({
-            collection: 'membership', // Nombre de la colección en el backend
-            documentId: member._id, // ID del miembro que se está actualizando
-            updateData: { role: newRole } // Los datos a actualizar (el nuevo rol)
+            collection: 'membership', 
+            documentId: member._id, 
+            updateData: { role: newRole } 
         });
     };
 

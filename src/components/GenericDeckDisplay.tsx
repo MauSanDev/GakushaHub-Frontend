@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import { useState, useRef, useEffect, ComponentType } from "react";
+import React, { useState, useRef, useEffect, ComponentType } from "react";
 import {
     FaChevronRight,
     FaChevronDown,
@@ -16,6 +16,7 @@ import AddContentButton from "./AddContentButton.tsx";
 import LocSpan from "./LocSpan.tsx";
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
 import {CollectionTypes} from "../data/CollectionTypes.tsx";
+import Editable from "./ui/text/Editable.tsx";
 
 interface GenericDeckDisplayProps<T> {
     courseData: CourseData;
@@ -118,11 +119,18 @@ const GenericDeckDisplay = <T,>({
                     <button className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200">
                         {expanded ? <FaChevronDown size={12}/> : <FaChevronRight size={12}/>}
                     </button>
-                    <div
-                        className="font-bold text-gray-600 dark:text-gray-300 truncate flex-grow lg:max-w-xl max-w-32">
-                        {deck.name}
-                    </div>
-                    <span className="text-sm text-gray-500">({deck.elements.length} <LocSpan textKey={"elements"}/>)</span>
+
+
+                    <Editable
+                        initialValue={deck.name}
+                        collection={elementType}
+                        documentId={deck._id || ''}
+                        field="name"
+                        className="font-bold text-gray-600 dark:text-gray-300 truncate flex-grow lg:max-w-xl max-w-32"
+                        canEdit={true}
+                        maxChar={40}
+                    />
+                    <span className="text-sm text-gray-500 whitespace-nowrap">({deck.elements.length} <LocSpan textKey={"elements"}/>)</span>
                 </div>
 
                 <div className="flex gap-0.5 items-center flex-wrap mt-2 sm:mt-0">

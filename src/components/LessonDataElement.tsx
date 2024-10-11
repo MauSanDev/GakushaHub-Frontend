@@ -1,14 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import React, { useState } from "react";
-import { CourseData, LessonData } from "../../data/CourseData.ts";
-import {
-    FaBookOpen,
-    FaBook,
-    FaFileAlt,
-    FaTable,
-    FaThLarge, FaEye,
-} from "react-icons/fa";
+import React, {useState} from "react";
+import {CourseData, LessonData} from "../../data/CourseData.ts";
+import {FaBook, FaBookOpen, FaEye, FaFileAlt, FaTable, FaThLarge,} from "react-icons/fa";
 import GenericDeckDisplay from "./GenericDeckDisplay";
 import SmallKanjiBox from "./SmallKanjiBox";
 import SmallWordBox from "./SmallWordBox";
@@ -16,16 +10,17 @@ import SmallGrammarBox from "./SmallGrammarBox";
 import DeckReadingDataElement from "./DeckReadingDataElement.tsx";
 import KanjiDeckTable from "./Tables/KanjiDeckTable";
 import WordDeckTable from "./Tables/WordDeckTable";
-import { KanjiDeck } from "../data/KanjiData.ts";
-import { WordDeck } from "../data/WordData.ts";
-import { GrammarDeck } from "../data/GrammarData.ts";
-import { GenerationDeck } from "../data/GenerationData.ts";
+import {KanjiDeck} from "../data/KanjiData.ts";
+import {WordDeck} from "../data/WordData.ts";
+import {GrammarDeck} from "../data/GrammarData.ts";
+import {GenerationDeck} from "../data/GenerationData.ts";
 import DeleteButton from "./DeleteButton";
 import GenerationButton from "./Modals/GenerationButton.tsx";
 import AddContentButton from "./AddContentButton.tsx";
 import LocSpan from "./LocSpan.tsx";
 import Container from "./ui/containers/Container.tsx";
 import {CollectionTypes} from "../data/CollectionTypes.tsx";
+import Editable from "./ui/text/Editable.tsx";
 
 interface LessonDataElementProps {
     owner: CourseData;
@@ -102,13 +97,27 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
 
             </div>
 
-            <h3 className="lg:text-2xl text-xl font-bold text-blue-400 dark:text-white mb-2 capitalize pt-8">
-                {lesson.name}
-            </h3>
 
-            <p className="text-gray-700 mb-4 text-sm">
-                {lesson.description}
-            </p>
+            <Editable
+                initialValue={lesson.name}
+                collection={CollectionTypes.Lesson}
+                documentId={lesson._id || ''}
+                field="name"
+                className="lg:text-2xl text-xl font-bold text-blue-400 dark:text-white mb-2 capitalize pt-8"
+                canEdit={true}
+                maxChar={40}
+            />
+
+            <Editable
+                initialValue={lesson.description}
+                collection={CollectionTypes.Lesson}
+                documentId={lesson._id || ''}
+                field="description"
+                className="text-gray-700 mb-4 text-sm"
+                canEdit={true}
+                maxChar={400}
+                placeholder={"Add a Description"}
+            />
 
             {noContentToShow ? (
                 <p className="text-gray-500 text-center mt-4">表示するものはありません</p>
@@ -126,7 +135,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                     deck={element as KanjiDeck}
                                     renderComponent={SmallKanjiBox}
                                     TableComponent={KanjiDeckTable}
-                                    elementType={"kanjiDeck"}
+                                    elementType={CollectionTypes.KanjiDeck}
                                     lessonData={lesson}
                                     courseData={owner}
                                     enableGeneration={true}
@@ -151,7 +160,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                     renderComponent={SmallWordBox}
                                     TableComponent={WordDeckTable}
                                     enableGeneration={true}
-                                    elementType={"wordDeck"}
+                                    elementType={CollectionTypes.WordDeck}
                                     lessonData={lesson}
                                     courseData={owner}
                                     viewMode={viewMode}
@@ -175,7 +184,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                     renderComponent={SmallGrammarBox}
                                     columns={2}
                                     enableFlashcards={false}
-                                    elementType={"grammarDeck"}
+                                    elementType={CollectionTypes.GrammarDeck}
                                     lessonData={lesson}
                                     courseData={owner}
                                     enableGeneration={true}

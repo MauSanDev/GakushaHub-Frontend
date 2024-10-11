@@ -4,7 +4,8 @@ import { useInstitutionById } from '../../hooks/institutionHooks/useInstitutionB
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import SecondaryButton from "../../components/ui/buttons/SecondaryButton.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
-import {FaCamera, FaCheck} from "react-icons/fa";
+import { FaCamera, FaCheck, FaSpinner } from "react-icons/fa";
+import { useUpdateDocument } from '../../hooks/updateHooks/useUpdateDocument';
 
 const EditProfilePage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
@@ -14,12 +15,17 @@ const EditProfilePage: React.FC = () => {
     const [name, setName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
 
+    const [isSaving, setIsSaving] = useState(false); 
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const { mutate: updateInstitution } = useUpdateDocument<Partial<{ name: string; description: string }>>(); 
+
+    const initialData = useRef({ name: '', description: '' }); 
 
     useEffect(() => {
         if (data && data.name && data.description) {
             setName(data.name);
             setDescription(data.description || '');
+            initialData.current = { name: data.name, description: data.description || '' }; 
         }
     }, [data]);
 
@@ -32,8 +38,36 @@ const EditProfilePage: React.FC = () => {
     };
 
     const handleSaveChanges = () => {
-        console.log('Nombre:', name);
-        console.log('Descripción:', description);
+        
+        const updatedData: Partial<{ name: string; description: string }> = {};
+
+        if (name !== initialData.current.name) {
+            updatedData.name = name;
+        }
+
+        if (description !== initialData.current.description) {
+            updatedData.description = description;
+        }
+        
+        if (Object.keys(updatedData).length === 0) {
+            return;
+        }
+        
+        setIsSaving(true);
+
+        updateInstitution({
+            collection: 'institution',
+            documentId: institutionId || '',
+            updateData: updatedData
+        }, {
+            onSuccess: () => {
+                setIsSaving(false); 
+            },
+            onError: (error) => {
+                console.error("Error updating institution:", error);
+                setIsSaving(false); 
+            }
+        });
     };
 
     if (isLoading) {
@@ -45,7 +79,7 @@ const EditProfilePage: React.FC = () => {
     }
 
     return (
-        <SectionContainer title={"学校のプロファイル"} >
+        <SectionContainer title={"学校のプロファイル"}>
             <div className="mb-6 flex flex-col items-center">
                 <img
                     src={profileImage}
@@ -59,7 +93,7 @@ const EditProfilePage: React.FC = () => {
                     className="hidden"
                     accept="image/*"
                 />
-                
+
                 <SecondaryButton label={"changeProfilePicture"} iconComponent={<FaCamera />} onClick={() => fileInputRef.current?.click()} />
             </div>
 
@@ -89,7 +123,13 @@ const EditProfilePage: React.FC = () => {
                 />
             </div>
 
-            <PrimaryButton onClick={handleSaveChanges} label={"saveChanges"} iconComponent={<FaCheck />} className={"w-40"}/>
+            <PrimaryButton
+                onClick={handleSaveChanges}
+                label={isSaving ? "" : "saveChanges"} 
+                iconComponent={isSaving ? <FaSpinner className="animate-spin" /> : <FaCheck />} 
+                className={"w-40"}
+                disabled={isSaving} 
+            />
         </SectionContainer>
     );
 };

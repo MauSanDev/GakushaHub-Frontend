@@ -7,7 +7,7 @@ import PrimaryButton from "../../../components/ui/buttons/PrimaryButton.tsx";
 
 interface MembershipBoxProps {
     membership: MembershipData;
-    canEditRole: boolean; // Nueva prop para manejar la edición del rol
+    canEditRole: boolean; 
 }
 
 const roleColors: { [key: string]: string } = {
@@ -38,7 +38,6 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership, canEditRole }
     const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newRole = event.target.value as MembershipRole;
         setSelectedRole(newRole);
-        // Aquí puedes disparar alguna lógica si deseas cambiar el rol al backend
     };
 
     return (

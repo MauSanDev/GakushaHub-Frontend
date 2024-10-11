@@ -11,6 +11,8 @@ import InstitutionMemberElement from "./Institutions/Components/InstitutionMembe
 import CreatorLabel from "../components/ui/text/CreatorLabel.tsx";
 import PrimaryButton from "../components/ui/buttons/PrimaryButton.tsx";
 import Tabs from "../components/ui/toggles/Tabs.tsx";
+import Editable from "../components/ui/text/Editable";
+import {CollectionTypes} from "../data/CollectionTypes.tsx"; 
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId, institutionId } = useParams<{ studyGroupId: string; institutionId: string }>();
@@ -64,11 +66,25 @@ const StudyGroupContentPage: React.FC = () => {
 
             {studyGroup && (
                 <div className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
-                    <div className="flex flex-col items-start mb-4 sm:mb-0">
-                        <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
-                            {studyGroup.name}
-                        </h1>
-                        <p className="text-gray-600 dark:text-gray-400 mt-2">{studyGroup.description}</p>
+                    <div className="flex flex-col items-start mb-4 sm:mb-0 w-full">
+                        <Editable
+                            initialValue={studyGroup.name}
+                            collection={CollectionTypes.StudyGroup}
+                            documentId={studyGroupId || ''}
+                            field="name"
+                            className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize"
+                            canEdit={true}
+                            maxChar={40}
+                        />
+                        <Editable
+                            initialValue={studyGroup.description}
+                            collection={CollectionTypes.StudyGroup}
+                            documentId={studyGroupId || ''}
+                            field="description"
+                            className="text-gray-600 dark:text-gray-400 mt-2"
+                            canEdit={true}
+                            maxChar={400}
+                        />
                         <CreatorLabel name={studyGroup.creatorId?.name || 'Unknown'} />
                     </div>
                 </div>
@@ -81,7 +97,6 @@ const StudyGroupContentPage: React.FC = () => {
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24 text-white">
                 {currentTab === 'courses' && (
                     <div>
-                        <h2 className="text-lg font-bold">Courses</h2>
                         <PrimaryButton label={"bindCourses"} iconComponent={<FaPlus />} onClick={() => setIsBindCoursesModalOpen(true)} className={"w-40 text-xs mb-2"} />
 
                         {studyGroup?.courseIds?.length > 0 ? (
@@ -98,14 +113,12 @@ const StudyGroupContentPage: React.FC = () => {
 
                 {currentTab === 'resources' && (
                     <div>
-                        <h2 className="text-lg font-bold">Resources</h2>
                         <p>No resources available</p>
                     </div>
                 )}
 
                 {currentTab === 'members' && (
                     <div>
-                        <h2 className="text-lg font-bold">Members</h2>
                         <PrimaryButton label={"addMembers"} iconComponent={<FaPlus />} onClick={() => setIsBindMembersModalOpen(true)} className={"w-40 text-xs"} />
 
                         {studyGroup?.memberIds?.length > 0 ? (
