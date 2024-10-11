@@ -14,7 +14,7 @@ interface GenerationButtonProps {
 }
 
 const GenerationButton: React.FC<GenerationButtonProps> = ({ decks, deckName, lessonName, courseName, courseId }) => {
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [ isModalVisible, setIsModalVisible] = useState(false);
     const { isPremium } = useAuth()
     
     if (!isPremium)
@@ -31,7 +31,9 @@ const GenerationButton: React.FC<GenerationButtonProps> = ({ decks, deckName, le
     return (
         <>
             <TertiaryButton onClick={handleOpenModal} iconComponent={<FaRobot />} />
-            <NewGenerationPage isVisible={isModalVisible} onClose={handleCloseModal} decks={decks} deckName={deckName ?? "読書"} lessonName={lessonName} courseName={courseName} courseId={courseId} />
+            {isModalVisible &&
+                <NewGenerationPage onClose={handleCloseModal} decks={decks} deckName={deckName ?? "読書"} lessonName={lessonName} courseName={courseName} courseId={courseId} />
+            }
         </>
     );
 };

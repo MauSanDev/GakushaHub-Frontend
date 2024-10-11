@@ -4,7 +4,6 @@ import LoadingScreen from '../LoadingScreen';
 import { useGenerateText } from '../../hooks/useGenerateText';
 import { GeneratedData } from "../../data/GenerationData.ts";
 import { useLocation, useNavigate } from 'react-router-dom';
-import OverlayModal from "./OverlayModal.tsx";
 import { KanjiDeck } from "../../data/KanjiData.ts";
 import { WordDeck } from "../../data/WordData.ts";
 import { GrammarDeck } from "../../data/GrammarData.ts";
@@ -12,7 +11,11 @@ import ConfigDropdown from "../ConfigDropdown.tsx";
 import { useBuildCourse } from "../../hooks/useBuildCourse.ts";
 import { DeckType, isGrammarDeck, isKanjiDeck, isWordDeck } from "../../data/DeckData.ts";
 import { useTranslation } from 'react-i18next';
-import LocSpan from "../LocSpan.tsx"; // Para traducciones
+import LocSpan from "../LocSpan.tsx";
+import ModalWrapper from "../../pages/ModalWrapper.tsx";
+import Container from "../ui/containers/Container.tsx";
+import SectionTitle from "../ui/text/SectionTitle.tsx";
+import PrimaryButton from "../ui/buttons/PrimaryButton.tsx";
 
 interface NewGenerationPageProps {
     courseId?: string,
@@ -20,11 +23,10 @@ interface NewGenerationPageProps {
     lessonName?: string,
     deckName?: string,
     decks?: DeckType[];
-    isVisible: boolean;
     onClose: () => void;
 }
 
-const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName, courseId, lessonName, deckName, isVisible, onClose }) => {
+const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName, courseId, lessonName, deckName, onClose }) => {
     const { t } = useTranslation(); // Hook de i18n para traducciones
 
     const [topic, setTopic] = useState('');
@@ -155,101 +157,91 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
     ];
 
     return (
-        <OverlayModal isVisible={isVisible} onClose={onClose}>
-            <div className="flex items-center justify-center p-4 relative">
+        <ModalWrapper onClose={onClose}>
+            <Container>
                 <LoadingScreen isLoading={isLoading} />
+                 <div className="flex flex-col items-center justify-center mb-4">
+                    <div className="flex items-center justify-center mb-4">
 
-                <div className="p-3 bg-white dark:bg-gray-900 w-full">
-                    <div className="flex flex-col items-center justify-center mb-4">
-                        <div className="flex items-center justify-center mb-4">
-                            <h1 className="text-center text-3xl text-black dark:text-white font-bold mb-2">何読みたいの？</h1>
+                        <SectionTitle title={"何読みたいの？"} className={"text-center"} />
 
-                            <div className={"absolute right-0"}>
-                                <ConfigDropdown
-                                    icon={<FaQuestion />}
-                                    items={[
-                                        <p className="text-xs text-gray-600 dark:text-gray-300 font-bold"><LocSpan textKey={"generationPage.tips.title"} /></p>,
-                                        <p className="text-xs text-gray-600 dark:text-gray-300"><LocSpan textKey={"generationPage.tips.tip1"} /></p>,
-                                        <p className="text-xs text-gray-600 dark:text-gray-300"><LocSpan textKey={"generationPage.tips.tip2"} /></p>,
-                                        <p className="text-xs text-gray-600 dark:text-gray-300"><LocSpan textKey={"generationPage.tips.tip3"} /></p>,
-                                        <p className="text-xs text-gray-600 dark:text-gray-300"><LocSpan textKey={"generationPage.tips.tip4"} /></p>,
-                                    ]}
-                                />
-                            </div>
-                        </div>
-
-                        {error && <p className="text-red-500 text-center mb-2">{error}</p>}
-                        <p className="text-gray-600 dark:text-gray-300 text-sm">
-                            <LocSpan textKey={"generationPage.description"} />
-                        </p>
-                    </div>
-
-                    <div className="flex flex-wrap gap-3 mb-3 mt-4">
-                        <div className="flex flex-col w-full sm:flex-1">
-                            <select
-                                id="style"
-                                value={style}
-                                onChange={(e) => setStyle(e.target.value)}
-                                className={`p-1.5 text-sm border rounded w-full ${style ? 'border-blue-500' : ''}`}
-                                disabled={isLoading}
-                            >
-                                <option value=""><LocSpan textKey={`generationPage.selectStyle`} /></option>
-                                {writingStyleKeys.map((key) => (
-                                    <option key={key} value={key}>
-                                        <LocSpan textKey={`generationStyles.${key}`} fixTo={"ja"} /> - 
-                                        <LocSpan textKey={`generationStyles.${key}`} />
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="flex flex-col w-full sm:w-1/4">
-                            <select
-                                id="jlptLevel"
-                                value={jlptLevel ?? ""}
-                                onChange={(e) => setJlptLevel(e.target.value ? Number(e.target.value) : 0)}
-                                className={`p-1.5 text-sm border rounded w-full ${jlptLevel ? 'border-blue-500' : ''}`}
-                                disabled={isLoading}
-                            >
-                                <option value=""><LocSpan textKey={"generationPage.selectYourLevel"} /></option>
-                                {[5, 4, 3, 2, 1].map((level) => (
-                                    <option key={level} value={level}>
-                                        JLPT {level}
-                                    </option>
-                                ))}
-                            </select>
+                        <div className={"absolute right-10"}>
+                            <ConfigDropdown
+                                icon={<FaQuestion />}
+                                items={[
+                                    <p className="text-xs text-gray-600 dark:text-gray-300 font-bold"><LocSpan textKey={"generationPage.tips.title"} /></p>,
+                                    <p className="text-xs text-gray-600 dark:text-gray-300"><LocSpan textKey={"generationPage.tips.tip1"} /></p>,
+                                    <p className="text-xs text-gray-600 dark:text-gray-300"><LocSpan textKey={"generationPage.tips.tip2"} /></p>,
+                                    <p className="text-xs text-gray-600 dark:text-gray-300"><LocSpan textKey={"generationPage.tips.tip3"} /></p>,
+                                    <p className="text-xs text-gray-600 dark:text-gray-300"><LocSpan textKey={"generationPage.tips.tip4"} /></p>,
+                                ]}
+                            />
                         </div>
                     </div>
+
+                    {error && <p className="text-red-500 text-center mb-2">{error}</p>}
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                        <LocSpan textKey={"generationPage.description"} />
+                    </p>
+                </div>
+
+                <div className="flex flex-wrap gap-3 mb-3 mt-4">
+                    <div className="flex flex-col w-full sm:flex-1">
+                        <select
+                            id="style"
+                            value={style}
+                            onChange={(e) => setStyle(e.target.value)}
+                            className={`input-field ${style ? 'border-blue-500' : ''}`}
+                            disabled={isLoading}
+                        >
+                            <option value=""><LocSpan textKey={`generationPage.selectStyle`} /></option>
+                            {writingStyleKeys.map((key) => (
+                                <option key={key} value={key}>
+                                    <LocSpan textKey={`generationStyles.${key}`} fixTo={"ja"} /> - 
+                                    <LocSpan textKey={`generationStyles.${key}`} />
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="flex flex-col w-full sm:w-1/4">
+                        <select
+                            id="jlptLevel"
+                            value={jlptLevel ?? ""}
+                            onChange={(e) => setJlptLevel(e.target.value ? Number(e.target.value) : 0)}
+                            className={`input-field ${jlptLevel ? 'border-blue-500' : ''}`}
+                            disabled={isLoading}
+                        >
+                            <option value=""><LocSpan textKey={"generationPage.selectYourLevel"} /></option>
+                            {[5, 4, 3, 2, 1].map((level) => (
+                                <option key={level} value={level}>
+                                    JLPT {level}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
 
                     <div className="flex flex-wrap gap-3">
                         <div className="flex flex-col w-full sm:flex-1">
-        <textarea
-            id="topic"
-            placeholder={t("generationPage.topicPlaceholder")}
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            maxLength={140}
-            className={`p-1.5 text-sm border rounded w-full h-8 resize-none ${topic ? 'border-blue-500' : ''}`}
-            disabled={isLoading}
-            rows={1}
-            style={{height: 'auto'}}
-            onInput={(e) => {
-                const textarea = e.target as HTMLTextAreaElement;
-                textarea.style.height = 'auto';
-                textarea.style.height = `${Math.min(textarea.scrollHeight, 80)}px`;
-            }}
-        />
+                            <textarea
+                                id="topic"
+                                placeholder={t("generationPage.topicPlaceholder")}
+                                value={topic}
+                                onChange={(e) => setTopic(e.target.value)}
+                                maxLength={140}
+                                className={`input-field ${topic ? 'border-blue-500' : ''}`}
+                                disabled={isLoading}
+                                rows={1}
+                                style={{height: 'auto'}}
+                                onInput={(e) => {
+                                    const textarea = e.target as HTMLTextAreaElement;
+                                    textarea.style.height = 'auto';
+                                    textarea.style.height = `${Math.min(textarea.scrollHeight, 80)}px`;
+                                }}
+                            />
                         </div>
                         <div className="flex w-full sm:w-1/4 justify-end">
-                            <button
-                                onClick={handleGenerate}
-                                className={`p-1.5 bg-blue-500 dark:bg-gray-700 text-white rounded hover:bg-blue-600 dark:hover:bg-gray-600 transition flex items-center justify-center w-full text-sm ${
-                                    !isGenerateEnabled ? 'opacity-50 cursor-not-allowed' : ''
-                                }`}
-                                disabled={isLoading || !isGenerateEnabled}
-                            >
-                                <FaPaperPlane className="mr-1.5"/>
-                                <LocSpan textKey={"generationPage.generate"} />
-                            </button>
+                            <PrimaryButton label={"generationPage.generate"} iconComponent={<FaPaperPlane />} onClick={handleGenerate} disabled={isLoading || !isGenerateEnabled} />
                         </div>
                     </div>
 
@@ -267,20 +259,6 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                                 className="text-sm text-gray-500"><LocSpan textKey={"generationPage.anonymousDisclaimer"} /></span>
                         </button>
                     </div>
-                    {/*<div className="flex items-center mb-4 mt-4">*/}
-                    {/*    <button*/}
-                    {/*        onClick={() => setIsPublic(!isPublic)}*/}
-                    {/*        className="flex items-center space-x-2"*/}
-                    {/*    >*/}
-                    {/*        {isPublic ? (*/}
-                    {/*            <FaCheckSquare className="text-blue-600" size={24}/>*/}
-                    {/*        ) : (*/}
-                    {/*            <FaSquare className="text-gray-400" size={24}/>*/}
-                    {/*        )}*/}
-                    {/*        <span*/}
-                    {/*            className="text-sm text-gray-500">Make it public (Other users will be able to read it)</span>*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
 
                     {decks && decks.length > 0 && (
                         <div
@@ -368,9 +346,8 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                             )}
                         </div>
                     )}
-                </div>
-            </div>
-        </OverlayModal>
+            </Container>
+        </ModalWrapper>
     );
 };
 

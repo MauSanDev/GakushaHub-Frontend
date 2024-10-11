@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FaPlus, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa';
 import ModalWrapper from '../ModalWrapper';
 import SelectableMemberBox from './SelectableMemberBox';
-import LoadingScreen from '../../components/LoadingScreen';
 import { usePaginatedMembers } from '../../hooks/institutionHooks/usePaginatedMembers.ts';
 import { MembershipData } from '../../data/Institutions/MembershipData';
 import { useAddMembersToGroup } from '../../hooks/institutionHooks/useAddMemberToGroup.tsx';
+import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
+import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
+import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
+import ShowSelectionToggle from "../../components/ui/toggles/ShowSelectionToggle.tsx";
 
 interface BindMembersModalProps {
-    onClose?: () => void;
+    onClose: () => void;
     institutionId: string;
     studyGroupId: string;
     selectedMembers?: MembershipData[];
@@ -83,10 +86,6 @@ const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutio
         setSelectedMembers(prevSelected => prevSelected.filter(selected => selected._id !== member._id));
     };
 
-    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value);
-    };
-
     const handleAddMembers = () => {
         addMembersToGroup(
             { studyGroupId, memberIds: selectedMembers.map(member => member._id) },
@@ -106,48 +105,21 @@ const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutio
 
     return (
         <ModalWrapper onClose={onClose}>
+            <SectionContainer title={"Bind Members to Study Group"} className={"h-[80vh]"} isLoading={isLoading} error={error?.message}>
             <div className="p-6 max-w-5xl w-full flex flex-col h-[80vh]">
-                <h2 className="text-2xl font-bold mb-4">Bind Members to Study Group</h2>
-
                 <div className="flex gap-2 mb-4 w-full max-w-4xl justify-between items-center">
-                    <input
-                        type="text"
-                        placeholder="Search members..."
-                        value={searchTerm}
-                        onChange={handleSearch}
-                        className="flex-grow px-4 py-2 rounded lg:text-sm text-xs border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300"
-                    />
+                    
+                    <SearchBar onSearch={setSearchTerm} placeholder={"Search Members..."} />
                     <div className="flex gap-2">
-                        <button
-                            className={`px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center gap-2 text-xs ${selectedMembers.length === 0 || isAdding ? 'opacity-50 cursor-not-allowed' : ''}`}
-                            disabled={selectedMembers.length === 0 || isAdding}
-                            onClick={handleAddMembers}
-                        >
-                            <FaPlus />
-                            {isAdding ? 'Adding...' : 'Add Members'}
-                        </button>
-                        <button
-                            onClick={() => setShowSelectedOnly(!showSelectedOnly)}
-                            className={`whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-2 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 ${
-                                showSelectedOnly
-                                    ? 'bg-blue-500 dark:bg-green-900 text-white'
-                                    : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white'
-                            }`}
-                        >
-                            {showSelectedOnly ? <FaEyeSlash /> : <FaEye />}
-                            {showSelectedOnly ? 'Show All' : 'Show Selected'}
-                        </button>
+                        <PrimaryButton iconComponent={<FaPlus />} label={isAdding ? 'Adding...' : 'Add Members'} onClick={handleAddMembers} disabled={selectedMembers.length === 0 || isAdding} className={"text-sm"}/>
+                        <ShowSelectionToggle isSelected={showSelectedOnly} onToggle={() => setShowSelectedOnly(!showSelectedOnly)} />
                     </div>
                 </div>
 
-                {/* Contenedor scrolleable para la lista de miembros */}
                 <div
                     ref={scrollContainerRef}
                     className="w-full max-w-4xl flex-grow overflow-y-auto flex flex-col gap-2 pb-4"
                 >
-                    {isLoading && <LoadingScreen isLoading={isLoading} />}
-
-                    {error && <p className="text-red-500">{String(error)}</p>}
 
                     {filteredMembers.length > 0 ? (
                         filteredMembers.map((member, index) => (
@@ -164,6 +136,7 @@ const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutio
                     )}
                 </div>
             </div>
+            </SectionContainer>
         </ModalWrapper>
     );
 };
