@@ -56,10 +56,6 @@ const SelectableMemberBox: React.FC<SelectableMemberBoxProps> = ({ member, isSel
             <span className={`uppercase font-bold ml-4 ${roleColors[member.role]}`}>
                 {member.role}
             </span>
-            
-            {isSelected && (
-                <FaCheckCircle className="text-green-500" size={16} />
-            )}
         </SelectableContainer>
     );
 };
