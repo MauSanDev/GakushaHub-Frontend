@@ -12,6 +12,12 @@ const StudyGroupDataElement: React.FC<StudyGroupDataElementProps> = ({ studyGrou
     const { institutionId } = useParams<{ institutionId: string }>();
 
     return (
+        <Link
+            to={institutionId
+                ? `/institution/${studyGroup.institutionId}/studyGroup/${studyGroup._id}`
+                : `/studyGroup/${studyGroup._id}`
+            }
+        >
         <Container className="w-full max-w-4xl my-2">
             <div className="flex-1">
                     <h2 className="text-lg font-bold text-gray-800 dark:text-white">
@@ -45,21 +51,11 @@ const StudyGroupDataElement: React.FC<StudyGroupDataElementProps> = ({ studyGrou
                             </span>
                         </div>
 
-                        <div className="mt-2 sm:mt-0 flex justify-end">
-                            
-                            <Link
-                                to={institutionId
-                                    ? `/institution/${studyGroup.institutionId}/studyGroup/${studyGroup._id}`
-                                    : `/studyGroup/${studyGroup._id}`
-                                }
-                                className="px-12 py-1 bg-blue-500 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-600  hover:dark:bg-blue-600 transition-all"
-                            >
-                                Enter
-                            </Link>
-                        </div>
                     </div>
                 </div>
         </Container>
+        </Link>
+
     );
 };
 

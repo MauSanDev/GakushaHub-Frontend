@@ -2,36 +2,23 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import ReadingDataElement from '../components/ReadingDataElement.tsx';
 import { usePaginatedGenerations } from '../hooks/usePaginatedGenerations';
-import { GeneratedData } from "../data/GenerationData";
 import SectionContainer from "../components/ui/containers/SectionContainer.tsx";
+import PaginatedContainer from '../components/ui/containers/PaginatedContainer.tsx';
+import SearchBar from '../components/ui/inputs/SearchBar.tsx';
 
 const ReadingListPage: React.FC = () => {
-    const [generatedTexts, setGeneratedTexts] = useState<GeneratedData[]>([]);
     const [page, setPage] = useState(1);
-    const [resetPage, setResetPage] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    const { data, isLoading, error } = usePaginatedGenerations(page, 20);
+    // Pasamos el searchTerm al hook para que se utilice en la búsqueda
+    const { data, isLoading, error, fetchGenerations } = usePaginatedGenerations(page, 20, searchTerm);
 
     const hasMore = data ? page < (data.totalPages ?? 1) : false;
 
     useEffect(() => {
-        setGeneratedTexts([]);
-        setPage(1);
-        setResetPage(true);
-    }, []);
-
-    useEffect(() => {
-        if (data && resetPage) {
-            setGeneratedTexts(data.documents);
-            setResetPage(false);
-        } else if (data && !resetPage) {
-            const newTexts = data.documents.filter(newText =>
-                !generatedTexts.some(existingText => existingText._id === newText._id)
-            );
-            setGeneratedTexts(prevTexts => [...prevTexts, ...newTexts]);
-        }
-    }, [data]);
+        fetchGenerations();  // Llamamos a fetchGenerations con el searchTerm incluido
+    }, [page, searchTerm]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -55,27 +42,28 @@ const ReadingListPage: React.FC = () => {
         };
     }, [hasMore]);
 
+
     return (
-        <SectionContainer title={"読みましょう"} isLoading={isLoading} error={error?.message} >
-            <div className="mt-4 w-full max-w-4xl flex flex-col gap-4 text-left pb-24">
-                {generatedTexts.length > 0 ? (
-                    generatedTexts.map((generatedText) => (
-                        <div
-                            key={generatedText._id}
-                            className="page-fade-enter page-fade-enter-active"
-                        >
-                            <Link key={generatedText._id} to={`/generation/${generatedText._id}`}
-                                  className="page-fade-enter page-fade-enter-active">
-                                <ReadingDataElement
-                                    data={generatedText}
-                                />
-                            </Link>
-                        </div>
-                    ))
-                ) : (
-                    !isLoading && <p className="text-center text-gray-500">No generated texts available</p>
-                )}
+        <SectionContainer title={"読みましょう"} isLoading={isLoading} error={error?.message}>
+            <div className="w-full lg:max-w-4xl flex flex-wrap gap-2 text-left px-14 lg:px-0 justify-center">
+                <SearchBar onSearch={setSearchTerm} placeholder="Search Readings..." />
             </div>
+
+            {!isLoading && data && (
+                <PaginatedContainer
+                    documents={data.documents}
+                    currentPage={page}
+                    totalPages={data.totalPages}
+                    onPageChange={setPage}
+                    RenderComponent={({ document }) => (
+                        <Link to={`/generation/${document._id}`} className="page-fade-enter page-fade-enter-active">
+                            <ReadingDataElement
+                                data={document}
+                            />
+                        </Link>
+                    )}
+                />
+            )}
         </SectionContainer>
     );
 };

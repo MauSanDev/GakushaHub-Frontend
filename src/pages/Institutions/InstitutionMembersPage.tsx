@@ -1,71 +1,62 @@
-import React, { useState } from 'react';
-import LoadingScreen from '../../components/LoadingScreen';
+import React, { useState, useEffect } from 'react';
 import InstitutionMemberElement from './Components/InstitutionMemberElement.tsx';
 import AddInstitutionMembersModal from './AddInstitutionMembersModal';
 import { useParams } from 'react-router-dom';
 import { usePaginatedMembers } from '../../hooks/institutionHooks/usePaginatedMembers.ts';
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
-import {FaPlus} from "react-icons/fa";
+import PaginatedContainer from '../../components/ui/containers/PaginatedContainer.tsx';
+import { FaPlus } from "react-icons/fa";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
+import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
 
 const InstitutionMembersPage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState<boolean>(false);
+    const [page, setPage] = useState(1);
 
-    const { data: membersData, error, isLoading } = usePaginatedMembers(1, 10, institutionId || '');
+    const { data: membersData, isLoading, fetchMembers } = usePaginatedMembers(page, 30, institutionId || '', searchQuery);
 
-    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(event.target.value);
-    };
+    useEffect(() => {
+        fetchMembers();
+    }, [page, searchQuery, fetchMembers]);
 
     const handleAddMemberSuccess = () => {
         setIsAddMemberModalOpen(false);
     };
-    
-    const filteredMembers = membersData?.documents.filter((member) =>
-        (member.userId?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            member.email.toLowerCase().includes(searchQuery.toLowerCase()))
-    ) || [];
 
-    if (isLoading) {
-        return <LoadingScreen isLoading={isLoading} />;
-    }
-
-    if (error) {
-        return <p className="text-center text-red-500">Error loading members</p>;
-    }
+    const handleSearch = (query: string) => {
+        setSearchQuery(query);
+    };
 
     return (
-        <SectionContainer title={"メンバー"} isLoading={isLoading} >
+        <SectionContainer title={"メンバー"} isLoading={isLoading}>
 
             <div className="w-full max-w-4xl flex flex-col text-left mt-12">
                 <div className="flex items-center justify-between mb-4">
-                    <input
-                        type="text"
+                    {/* Reemplazo del input anterior con SearchBar */}
+                    <SearchBar
+                        onSearch={handleSearch}
                         placeholder="Search members..."
-                        className="px-4 py-2 w-full lg:w-1/2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600"
-                        value={searchQuery}
-                        onChange={handleSearch}
                     />
-
-                    <PrimaryButton onClick={() => setIsAddMemberModalOpen(true)} label={"addMember"} iconComponent={<FaPlus />}  className={"w-40 text-xs"}/>
+                    <PrimaryButton onClick={() => setIsAddMemberModalOpen(true)} label={"addMember"} iconComponent={<FaPlus />} className={"w-40 text-xs"} />
                 </div>
 
-                <div>
-                    {filteredMembers.length > 0 ? (
-                        filteredMembers.map((member) => (
+                {!isLoading && membersData && (
+                    <PaginatedContainer
+                        documents={membersData.documents}
+                        currentPage={page}
+                        totalPages={membersData.totalPages}
+                        onPageChange={setPage}
+                        RenderComponent={({ document }) => (
                             <InstitutionMemberElement
-                                key={member._id}
-                                member={member}
-                                onRemove={() => {}}
-                                onRoleChange={() => {}}
+                                member={document}
+                                onRemove={() => { }}
+                                onRoleChange={() => { }}
                             />
-                        ))
-                    ) : (
-                        <p className="text-center text-gray-500">誰もいない</p>
-                    )}
-                </div>
+                        )}
+                    />
+                )}
             </div>
 
             {isAddMemberModalOpen && (

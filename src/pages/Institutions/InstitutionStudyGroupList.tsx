@@ -1,64 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import StudyGroupDataElement from './Components/StudyGroupDataElement.tsx';
 import AddStudyGroupModal from './AddStudyGroupModal.tsx';
 import { useParams } from "react-router-dom";
 import { usePaginatedStudyGroups } from '../../hooks/institutionHooks/usePaginatedStudyGroups';
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
-import {FaPlus} from "react-icons/fa";
+import PaginatedContainer from '../../components/ui/containers/PaginatedContainer.tsx';
+import { FaPlus } from "react-icons/fa";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
+import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
 
 const InstitutionStudyGroupPage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
+    const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [isAddGroupModalOpen, setIsAddGroupModalOpen] = useState<boolean>(false);
 
-    const { data: studyGroupsData, isLoading } = usePaginatedStudyGroups(1, 10, institutionId || ""); // Page = 1, Limit = 10
+    const { data: studyGroupsData, isLoading, fetchStudyGroups } = usePaginatedStudyGroups(page, 10, institutionId || "", searchQuery);
+
+    useEffect(() => {
+        fetchStudyGroups();
+    }, [page, searchQuery, fetchStudyGroups]);
 
     const handleAddGroupSuccess = () => {
         setIsAddGroupModalOpen(false);
     };
 
-    const filteredStudyGroups = studyGroupsData?.documents.filter(group =>
-        group.name.toLowerCase().includes(searchQuery.toLowerCase())
-    ) || [];
+    const handleSearch = (query: string) => {
+        setSearchQuery(query);
+    };
 
     return (
-        <SectionContainer title={"勉強のグループ"} isLoading={isLoading} >
-                <div className="w-full max-w-4xl flex flex-col text-left mt-12">
-                    <div className="flex items-center justify-between mb-4">
-                        {/* Search bar */}
-                        <input
-                            type="text"
-                            placeholder="Search study groups..."
-                            className="px-4 py-2 w-full lg:w-1/2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                        
-                        <PrimaryButton onClick={() => setIsAddGroupModalOpen(true)} label={"addStudyGroup"} iconComponent={<FaPlus />}  className={"w-40 text-xs"}/>
-                    </div>
-
-                    <div>
-                        {filteredStudyGroups.length > 0 ? (
-                            filteredStudyGroups.map((group) => (
-                                <StudyGroupDataElement
-                                    key={group._id}
-                                    studyGroup={group}
-                                />
-                            ))
-                        ) : (
-                            <p className="text-center text-gray-500">No study groups found</p>
-                        )}
-                    </div>
+        <SectionContainer title={"勉強のグループ"} isLoading={isLoading}>
+            <div className="w-full max-w-4xl flex flex-col text-left mt-12">
+                <div className="flex items-center justify-between mb-4">
+                    {/* Reemplazo del input anterior con SearchBar */}
+                    <SearchBar
+                        onSearch={handleSearch}
+                        placeholder="Search study groups..."
+                    />
+                    <PrimaryButton onClick={() => setIsAddGroupModalOpen(true)} label={"addStudyGroup"} iconComponent={<FaPlus />} className={"w-40 text-xs"} />
                 </div>
 
-                {isAddGroupModalOpen && (
-                    <AddStudyGroupModal
-                        onClose={() => setIsAddGroupModalOpen(false)}
-                        onCreateSuccess={handleAddGroupSuccess}
-                        institutionId={institutionId || ""}
+                {!isLoading && studyGroupsData && (
+                    <PaginatedContainer
+                        documents={studyGroupsData.documents}
+                        currentPage={page}
+                        totalPages={studyGroupsData.totalPages}
+                        onPageChange={setPage}
+                        RenderComponent={({ document }) => (
+                            <StudyGroupDataElement
+                                studyGroup={document}
+                            />
+                        )}
                     />
                 )}
+            </div>
+
+            {isAddGroupModalOpen && (
+                <AddStudyGroupModal
+                    onClose={() => setIsAddGroupModalOpen(false)}
+                    onCreateSuccess={handleAddGroupSuccess}
+                    institutionId={institutionId || ""}
+                />
+            )}
         </SectionContainer>
     );
 };

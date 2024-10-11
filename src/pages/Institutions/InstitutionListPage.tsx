@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LocSpan from '../../components/LocSpan.tsx';
 import InstitutionBox from './Components/InstitutionBox.tsx';
 import CreateInstitutionModal from './CreateInstitutionModal';
-import MembershipBox from './Components/MembershipBox'; // Import the MembershipBox
+import MembershipBox from './Components/MembershipBox';
 import { usePaginatedInstitutions } from '../../hooks/institutionHooks/usePaginatedInstitutions';
 import { useMyMemberships } from '../../hooks/institutionHooks/useMyMemberships';
-import SectionContainer from "../../components/ui/containers/SectionContainer.tsx"; // Import the custom hook
+import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 
 const InstitutionListPage: React.FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
-
-    const { data: institutionsData, error: institutionsError, isLoading: institutionsLoading } = usePaginatedInstitutions(1, 1);
-    const { data: membershipsData, error: membershipsError, isLoading: membershipsLoading } = useMyMemberships(1, 10); // Use the hook for memberships
+    
+    const { data: institutionsData, error: institutionsError, isLoading: institutionsLoading, fetchInstitutions } = usePaginatedInstitutions(1, 1);
+    const { data: membershipsData, error: membershipsError, isLoading: membershipsLoading, fetchMemberships } = useMyMemberships(1, 10);
 
     const ownerInstitution = institutionsData?.documents[0] || null;
+
+    useEffect(() => {
+        fetchInstitutions(); 
+        fetchMemberships();  
+    }, [fetchInstitutions, fetchMemberships]);
 
     const handleCreateInstitutionSuccess = () => {
         setIsCreateModalOpen(false);
@@ -51,7 +56,6 @@ const InstitutionListPage: React.FC = () => {
                     )}
                 </div>
 
-                {/* Membresías del usuario */}
                 <div className="mb-6">
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
                         <LocSpan textKey={"institutionListPage.myMemberships"} />

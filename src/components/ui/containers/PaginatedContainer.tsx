@@ -103,7 +103,8 @@ const PaginatedContainer = <T,>({
 
         // <div className="flex flex-col h-full"> {/* Flex container para ocupar todo el espacio */}
         <div className="mt-4 w-full max-w-4xl flex flex-col gap-2 text-left pb-24 h-full">
-            <div className="pagination-controls flex gapx-2 mx-0.5 w-full justify-center">
+            <div className="pagination-controls flex gapx-2 mx-0.5 w-full justify-center items-center">
+                <span className={"text-gray-400 dark:text-gray-600 text-xs pr-3"}>Pages:</span>
                 {renderPageNumbers()}
             </div>
 

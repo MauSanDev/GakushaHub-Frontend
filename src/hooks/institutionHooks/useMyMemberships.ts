@@ -5,12 +5,15 @@ import { useAuth } from "../../context/AuthContext.tsx";
 export const useMyMemberships = (page: number, limit: number) => {
     const { userData } = useAuth();
 
-    const { data, error, isLoading, refetch, resetQueries } = usePaginatedData<MembershipData>(
+    const mutation = usePaginatedData<MembershipData>(
         '/api/institution/myMemberships',
         page,
         limit,
         userData?._id
     );
 
-    return { data, error, isLoading, refetch, resetQueries };
+    return {
+        ...mutation,
+        fetchMemberships: mutation.mutate,
+    };
 };
