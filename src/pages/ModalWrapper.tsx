@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { FaArrowLeft } from "react-icons/fa";
+import BackButton from "../components/ui/buttons/BackButton.tsx";
 
 interface ModalWrapperProps {
-    onClose?: () => void;
+    onClose: () => void;
     children: React.ReactNode;
 }
 
@@ -22,11 +22,12 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({ onClose, children }) => {
                 style={{ paddingLeft: '1rem' }}
             >
                 <div className="relative">
+                    
                     <button
                         onClick={onClose}
                         className="relative text-xl text-white p-2 rounded-full shadow-lg bg-gray-800 hover:bg-gray-600 z-10"
                     >
-                        <FaArrowLeft />
+                        <BackButton onClick={onClose} />
                     </button>
                 </div>
 

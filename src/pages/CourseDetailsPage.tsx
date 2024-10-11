@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import LessonDataElement from '../components/LessonDataElement.tsx';
 import {
-    FaArrowLeft,
     FaBookOpen,
     FaFileAlt,
     FaBook,
@@ -11,7 +10,7 @@ import {
     FaLink,
     FaEye,
 } from "react-icons/fa";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useCourseById } from '../hooks/coursesHooks/useCourseById';
 import { useLessonById } from '../hooks/coursesHooks/useLessonById';
 import LoadingScreen from "../components/LoadingScreen";
@@ -24,7 +23,7 @@ import AddLessonButton from "../components/AddLessonButton.tsx";
 import LocSpan from "../components/LocSpan.tsx";
 import {useTranslation} from "react-i18next";
 import CreatorLabel from "../components/ui/text/CreatorLabel.tsx";
-
+import BackButton from "../components/ui/buttons/BackButton.tsx";
 
 const CourseDetailPage: React.FC = () => {
     const { courseId, lessonId } = useParams<{ courseId: string; lessonId?: string }>();
@@ -195,12 +194,8 @@ const CourseDetailPage: React.FC = () => {
             <div
                 className="lg:pl-0 pl-12 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 mb-2 px-4">
                 <div className="flex items-start mb-4 sm:mb-0">
-                    <Link
-                        to={course.institutionId ? `/institution/${course.institutionId}/courses` : "/courses"}
-                        className="bg-blue-500 dark:bg-gray-700 text-white p-2 rounded-full shadow hover:bg-blue-600 dark:hover:bg-gray-600 mr-4"
-                    >
-                        <FaArrowLeft className="w-5 h-5"/>
-                    </Link>
+                    
+                    <BackButton onClick={() => navigate(course.institutionId ? `/institution/${course.institutionId}/courses` : "/courses")}/>
                     <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
                         {course?.name || "Course"}
                     </h1>

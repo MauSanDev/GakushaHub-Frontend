@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { FaArrowLeft, FaEye, FaUndo, FaCheck } from "react-icons/fa";
+import { FaEye, FaUndo, FaCheck } from "react-icons/fa";
 import SwipeableCard from "../SwipeableCard";
 import SummaryModal from "../SummaryModal";
 import SettingsTooltip from "../SettingsTooltip";
 import { convertToFlashcardDeck, FlashcardData } from "../../data/FlashcardData.ts";
 import { DeckType } from "../../data/DeckData.ts";
 import ReactDOM from "react-dom";
+import BackButton from "../ui/buttons/BackButton.tsx";
 
 interface FlashcardsModalProps {
     deck: DeckType;
@@ -169,12 +170,7 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
                     className="relative w-11/12 md:w-1/3 lg:w-1/4 h-auto p-4 flex flex-col items-center"
                     style={{ maxHeight: "90vh" }}
                 >
-                    <button
-                        onClick={onClose}
-                        className="absolute top-2 left-2 text-white p-2 rounded-full shadow-lg bg-gray-800 hover:bg-gray-600"
-                    >
-                        <FaArrowLeft />
-                    </button>
+                    <BackButton onClick={onClose} className={"absolute top-2 left-2"} />
 
                     <div className="absolute right-0 top-3">
                         <SettingsTooltip
