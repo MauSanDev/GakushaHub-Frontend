@@ -4,6 +4,7 @@ import TabToggle from './TabToggle.tsx';
 interface Tab {
     label: string;
     view: string;
+    icon?: React.ReactNode
 }
 
 interface TabsProps {
@@ -22,10 +23,12 @@ const Tabs: React.FC<TabsProps> = ({ tabs, onTabChange, currentTab }) => {
                     onToggle={() => onTabChange(tab.view)}
                     onSelected={{
                         text: tab.label,
+                        icon: tab.icon,
                         className: 'bg-blue-500 dark:bg-gray-600 text-white dark:border-gray-800',
                     }}
                     onDeselected={{
                         text: tab.label,
+                        icon: tab.icon,
                         className: 'text-gray-500 bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700',
                     }}
                 />

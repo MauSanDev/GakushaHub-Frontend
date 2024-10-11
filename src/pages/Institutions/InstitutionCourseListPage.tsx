@@ -33,10 +33,9 @@ const InstitutionCourseListPage: React.FC = () => {
         }
     }, [data]);
 
-    // Filtra los cursos según el término de búsqueda
     useEffect(() => {
         if (searchTerm === '') {
-            setFilteredCourses(courses); // Si no hay término de búsqueda, muestra todos los cursos
+            setFilteredCourses(courses); 
         } else {
             setFilteredCourses(
                 courses.filter(course =>
@@ -73,7 +72,6 @@ const InstitutionCourseListPage: React.FC = () => {
     };
 
     return (
-
         <SectionContainer title={"コース"} isLoading={isLoading} error={error && String(error) || ""}>
             <div className="flex gap-2 mb-4 w-full max-w-4xl justify-between items-center">
                 <input

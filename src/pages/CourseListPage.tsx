@@ -8,6 +8,7 @@ import { useFollowedCourses } from "../hooks/coursesHooks/useFollowedCourses.ts"
 import AddCourseButton from "../components/AddCourseButton.tsx";
 import SectionContainer from "../components/ui/containers/SectionContainer.tsx";
 import Tabs from "../components/ui/toggles/Tabs.tsx";
+import {FaBook, FaBookmark, FaSearch} from "react-icons/fa";
 
 const CourseListPage: React.FC = () => {
     const [courses, setCourses] = useState<CourseData[]>([]);
@@ -65,9 +66,9 @@ const CourseListPage: React.FC = () => {
     };
 
     const tabs = [
-        { label: "coursesListPage.myCourses", view: 'owner' },
-        { label: "coursesListPage.searchCourses", view: 'public' },
-        { label: "coursesListPage.followingCourses", view: 'followed' }
+        { label: "coursesListPage.myCourses", view: 'owner', icon: <FaBook />},
+        { label: "coursesListPage.searchCourses", view: 'public', icon: <FaSearch />},
+        { label: "coursesListPage.followingCourses", view: 'followed', icon: <FaBookmark /> }
     ];
 
     return (
