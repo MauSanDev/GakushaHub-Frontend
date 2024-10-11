@@ -89,7 +89,7 @@ const GrammarListPage: React.FC = () => {
                         <GrammarDataElement
                             result={document}
                             isSelected={selectedGrammarIds.includes(document._id)}
-                            onSelect={(isSelected) => handleItemSelect(document._id, isSelected)}  // Pasamos el id y el estado de selección
+                            onSelect={(isSelected) => handleItemSelect(document._id, isSelected)} 
                         />
                     )}
                 />
