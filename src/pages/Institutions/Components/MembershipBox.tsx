@@ -3,6 +3,7 @@ import { MembershipData, MembershipStatus } from '../../../data/Institutions/Mem
 import { useChangeMembershipStatus } from '../../../hooks/institutionHooks/useChangeMembershipStatus';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import Container from "../../../components/ui/containers/Container.tsx";
+import PrimaryButton from "../../../components/ui/buttons/PrimaryButton.tsx";
 
 interface MembershipBoxProps {
     membership: MembershipData;
@@ -42,35 +43,23 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                         {membership.institutionId?.description || 'No description available'}
                     </p>
-
-                    {membership.status === MembershipStatus.Pending && (
-                        <p className="text-sm text-yellow-500 mt-2">
-                            You received this membership.
-                        </p>
-                    )}
                 </div>
 
                 {/* Botones para aceptar o rechazar si el estado es pending */}
                 {membership.status === MembershipStatus.Pending ? (
-                    <div className="flex gap-2 mt-2 sm:mt-0">
-                        <button
-                            onClick={handleAccept}
-                            className="flex items-center px-4 py-1 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all"
-                        >
-                            <FaCheck className="mr-2" /> Accept
-                        </button>
-                        <button
-                            onClick={handleReject}
-                            className="flex items-center px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all"
-                        >
-                            <FaTimes className="mr-2" /> Reject
-                        </button>
+                    <div className="flex gap-2 mt-2 sm:mt-0 justify-end">
+                        {membership.status === MembershipStatus.Pending && (
+                            <p className="text-sm text-yellow-500 mt-2">
+                                You received this membership.
+                            </p>
+                        )}
+                        
+                        <PrimaryButton onClick={handleAccept} label="accept" className={"text-xs w-40 bg-green-500 hover:bg-green-600 dark:bg-green-500 hover:dark:bg-green-600"} iconComponent={<FaCheck />} />
+                        <PrimaryButton onClick={handleReject} label="reject" className={"text-xs w-40 bg-red-500-500 hover:bg-red-500-green-600 dark:bg-red-600 hover:dark:bg-red-600"} iconComponent={<FaTimes />} />
                     </div>
                 ) : (
                     <div className="mt-2 sm:mt-0 flex justify-end">
-                        <button className="px-12 py-1 bg-blue-500 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-600 hover:dark:bg-blue-600 transition-all">
-                            Enter
-                        </button>
+                        <PrimaryButton className={"w-40"} label={"enter"} onClick={() => {}}/>
                     </div>
                 )}
         </Container>

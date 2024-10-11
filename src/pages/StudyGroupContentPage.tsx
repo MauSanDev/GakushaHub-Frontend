@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
-import LocSpan from "../components/LocSpan.tsx";
 import { useParams } from "react-router-dom";
-import { FaFolder, FaUser, FaBook } from "react-icons/fa";
+import {FaFolder, FaUser, FaBook, FaPlus} from "react-icons/fa";
 import { useStudyGroupById } from '../hooks/useGetStudyGroup.tsx';
 import BindCoursesModal from './StudyGroups/BindCoursesModal';
 import CourseDataElement from "../components/CourseDataElement.tsx";
@@ -10,6 +9,8 @@ import { Link } from "react-router-dom";
 import BindMembersModal from "./StudyGroups/BindMembersModal.tsx";
 import InstitutionMemberElement from "./Institutions/Components/InstitutionMemberElement.tsx";
 import CreatorLabel from "../components/ui/text/CreatorLabel.tsx";
+import TabToggle from '../components/ui/toggles/TabToggle.tsx';
+import PrimaryButton from "../components/ui/buttons/PrimaryButton.tsx";
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId, institutionId } = useParams<{ studyGroupId: string; institutionId: string }>();
@@ -19,14 +20,14 @@ const StudyGroupContentPage: React.FC = () => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: studyGroup, error, isLoading } = useStudyGroupById(studyGroupId || '');
-    
+
     useEffect(() => {
         const savedTab = localStorage.getItem('currentStudyGroupTab');
         if (savedTab) {
             setCurrentTab(savedTab as 'courses' | 'resources' | 'members');
         }
     }, []);
-    
+
     useEffect(() => {
         localStorage.setItem('currentStudyGroupTab', currentTab);
     }, [currentTab]);
@@ -43,12 +44,12 @@ const StudyGroupContentPage: React.FC = () => {
 
     const handleBindCoursesSuccess = () => {
         setIsBindCoursesModalOpen(false);
-        window.location.reload(); 
+        window.location.reload();
     };
 
     const handleBindMembersSuccess = () => {
         setIsBindMembersModalOpen(false);
-        window.location.reload(); 
+        window.location.reload();
     };
 
     return (
@@ -68,39 +69,57 @@ const StudyGroupContentPage: React.FC = () => {
             )}
 
             <div className="flex gap-2 mb-4">
-                <button
-                    onClick={() => handleTabChange('courses')}
-                    className={`flex items-center gap-2 px-4 py-2 rounded lg:text-sm text-xs transition-all border ${currentTab === 'courses' ? 'bg-blue-500 dark:bg-gray-600 text-white dark:text-white dark:border-gray-800 ' : 'text-gray-500 bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700'}`}
-                >
-                    <FaBook className="mr-1" />
-                    <LocSpan textKey={"institutionPage.courses"} />
-                </button>
-                <button
-                    onClick={() => handleTabChange('resources')}
-                    className={`flex items-center gap-2 px-4 py-2 rounded lg:text-sm text-xs transition-all border ${currentTab === 'resources' ? 'bg-blue-500 dark:bg-gray-600 text-white dark:text-white dark:border-gray-800 ' : 'text-gray-500 bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700'}`}
-                >
-                    <FaFolder className="mr-1" />
-                    <LocSpan textKey={"institutionPage.resources"} />
-                </button>
-                <button
-                    onClick={() => handleTabChange('members')}
-                    className={`flex items-center gap-2 px-4 py-2 rounded lg:text-sm text-xs transition-all border ${currentTab === 'members' ? 'bg-blue-500 dark:bg-gray-600 text-white dark:text-white dark:border-gray-800 ' : 'text-gray-500 bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700'}`}
-                >
-                    <FaUser className="mr-1" />
-                    <LocSpan textKey={"institutionPage.members"} />
-                </button>
+                <TabToggle
+                    isSelected={currentTab === 'courses'}
+                    onToggle={() => handleTabChange('courses')}
+                    onSelected={{
+                        text: 'institutionPage.courses',
+                        icon: <FaBook className="mr-1" />,
+                        className: 'bg-blue-500 dark:bg-gray-600 text-white dark:border-gray-800',
+                    }}
+                    onDeselected={{
+                        text: 'institutionPage.courses',
+                        icon: <FaBook className="mr-1" />,
+                        className: 'text-gray-500 bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700',
+                    }}
+                />
+                <TabToggle
+                    isSelected={currentTab === 'resources'}
+                    onToggle={() => handleTabChange('resources')}
+                    onSelected={{
+                        text: 'institutionPage.resources',
+                        icon: <FaFolder className="mr-1" />,
+                        className: 'bg-blue-500 dark:bg-gray-600 text-white dark:border-gray-800',
+                    }}
+                    onDeselected={{
+                        text: 'institutionPage.resources',
+                        icon: <FaFolder className="mr-1" />,
+                        className: 'text-gray-500 bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700',
+                    }}
+                />
+                <TabToggle
+                    isSelected={currentTab === 'members'}
+                    onToggle={() => handleTabChange('members')}
+                    onSelected={{
+                        text: 'institutionPage.members',
+                        icon: <FaUser className="mr-1" />,
+                        className: 'bg-blue-500 dark:bg-gray-600 text-white dark:border-gray-800',
+                    }}
+                    onDeselected={{
+                        text: 'institutionPage.members',
+                        icon: <FaUser className="mr-1" />,
+                        className: 'text-gray-500 bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700',
+                    }}
+                />
             </div>
 
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24 text-white">
                 {currentTab === 'courses' && (
                     <div>
                         <h2 className="text-lg font-bold">Courses</h2>
-                        <button
-                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 mb-4"
-                            onClick={() => setIsBindCoursesModalOpen(true)}
-                        >
-                            ＋ Bind Courses
-                        </button>
+                        
+                        <PrimaryButton label={"bindCourses"} iconComponent={<FaPlus />} onClick={() => setIsBindCoursesModalOpen(true)} className={"w-40 text-xs mb-2"} />
+                        
                         {studyGroup?.courseIds?.length > 0 ? (
                             studyGroup.courseIds.map((course) => (
                                 <Link key={course.name} to={`/courses/${course._id}`} className="page-fade-enter page-fade-enter-active">
@@ -123,12 +142,8 @@ const StudyGroupContentPage: React.FC = () => {
                 {currentTab === 'members' && (
                     <div>
                         <h2 className="text-lg font-bold">Members</h2>
-                        <button
-                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 mb-4"
-                            onClick={() => setIsBindMembersModalOpen(true)}
-                        >
-                            ＋ Add Members
-                        </button>
+                        <PrimaryButton label={"addMembers"} iconComponent={<FaPlus />} onClick={() => setIsBindCoursesModalOpen(true)} className={"w-40 text-xs"} />
+
                         {studyGroup?.memberIds?.length > 0 ? (
                             studyGroup.memberIds.map((member) => (
                                 <InstitutionMemberElement member={member} key={member.name} />

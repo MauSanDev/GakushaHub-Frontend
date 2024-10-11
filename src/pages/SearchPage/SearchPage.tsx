@@ -120,46 +120,46 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                 </div>
 
                 <SearchBar onSearch={onSavePressed} interactable={!isLoading} />
+                <div  className="flex justify-center">
                 {searchExecuted && (
-                    <SecondaryButton onClick={onClearSearch} label={"clearSearch"} IconComponent={<FaEraser />} />
+                    <SecondaryButton onClick={onClearSearch} label={"clearSearch"} iconComponent={<FaEraser />} />
                 )}
+                </div>
             </div>
 
             {searchExecuted && (
                 <>
-                    <div className="w-full max-w-4xl mt-6 flex justify-center">
-                        <div className="flex w-full border-b border-gray-700">
+                    <div className="w-full max-w-4xl mt-6 flex justify-center items-center border-b border-gray-700">
 
-                            {kanjiResults.length > 0 &&
-                                <button
-                                    onClick={() => setActiveTab('kanji')}
-                                    className={`w-full px-4 py-1text-sm font-medium transition-colors duration-300 ${activeTab === 'kanji' ? 'bg-blue-500 dark:bg-blue-800 text-white' : 'dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300'}`}
-                                >
-                                    Kanji <p className="text-xs">({kanjiResults.length} Results
-                                    | {selectedKanji.length} Selected)</p>
-                                </button>
-                            }
+                        {kanjiResults.length > 0 &&
+                            <button
+                                onClick={() => setActiveTab('kanji')}
+                                className={`w-full px-4 py-1text-sm font-medium transition-colors duration-300 ${activeTab === 'kanji' ? 'bg-blue-500 dark:bg-blue-800 text-white' : 'dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300'}`}
+                            >
+                                Kanji <p className="text-xs">({kanjiResults.length} Results
+                                | {selectedKanji.length} Selected)</p>
+                            </button>
+                        }
 
-                            {wordResults.length > 0 &&
-                                <button
-                                    onClick={() => setActiveTab('words')}
-                                    className={`w-full px-4 py-1 text-sm font-medium transition-colors duration-300 ${activeTab === 'words' ? 'bg-blue-500 dark:bg-blue-800 text-white' : 'dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300'}`}
-                                >
-                                    Words <p className="text-xs">({wordResults.length} Results
-                                    | {selectedWords.length} Selected)</p>
-                                </button>
-                            }
+                        {wordResults.length > 0 &&
+                            <button
+                                onClick={() => setActiveTab('words')}
+                                className={`w-full px-4 py-1 text-sm font-medium transition-colors duration-300 ${activeTab === 'words' ? 'bg-blue-500 dark:bg-blue-800 text-white' : 'dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300'}`}
+                            >
+                                Words <p className="text-xs">({wordResults.length} Results
+                                | {selectedWords.length} Selected)</p>
+                            </button>
+                        }
 
-                            {grammarResults.length > 0 &&
-                                <button
-                                    onClick={() => setActiveTab('grammar')}
-                                    className={`w-full px-4 py-1 text-sm font-medium transition-colors duration-300 ${activeTab === 'grammar' ? 'bg-blue-500 dark:bg-blue-800 text-white border-blue-500' : 'dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300'}`}
-                                >
-                                    Grammar <p className="text-xs">({grammarResults.length} Results
-                                    | {selectedGrammar.length} Selected)</p>
-                                </button>
-                            }
-                        </div>
+                        {grammarResults.length > 0 &&
+                            <button
+                                onClick={() => setActiveTab('grammar')}
+                                className={`w-full px-4 py-1 text-sm font-medium transition-colors duration-300 ${activeTab === 'grammar' ? 'bg-blue-500 dark:bg-blue-800 text-white border-blue-500' : 'dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300'}`}
+                            >
+                                Grammar <p className="text-xs">({grammarResults.length} Results
+                                | {selectedGrammar.length} Selected)</p>
+                            </button>
+                        }
                     </div>
 
                     <div className="mt-4 w-full max-w-4xl gap-2 flex flex-wrap justify-center items-center px-2">

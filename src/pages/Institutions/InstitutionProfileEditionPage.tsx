@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useInstitutionById } from '../../hooks/institutionHooks/useInstitutionById.ts';
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import SecondaryButton from "../../components/ui/buttons/SecondaryButton.tsx";
+import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
+import {FaCamera, FaCheck} from "react-icons/fa";
 
 const EditProfilePage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
@@ -58,7 +60,7 @@ const EditProfilePage: React.FC = () => {
                     accept="image/*"
                 />
                 
-                <SecondaryButton label={"changeProfilePicture"} onClick={() => fileInputRef.current?.click()} />
+                <SecondaryButton label={"changeProfilePicture"} iconComponent={<FaCamera />} onClick={() => fileInputRef.current?.click()} />
             </div>
 
             <div className="mb-4 w-full max-w-md">
@@ -87,12 +89,7 @@ const EditProfilePage: React.FC = () => {
                 />
             </div>
 
-            <button
-                onClick={handleSaveChanges}
-                className="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all"
-            >
-                Save Changes
-            </button>
+            <PrimaryButton onClick={handleSaveChanges} label={"saveChanges"} iconComponent={<FaCheck />} className={"w-40"}/>
         </SectionContainer>
     );
 };

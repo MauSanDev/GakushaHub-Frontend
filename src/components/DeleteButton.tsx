@@ -3,6 +3,7 @@ import { FaTrash } from 'react-icons/fa';
 import { useDeleteElement } from '../hooks/useDeleteElement';
 import { useNavigate } from 'react-router-dom';
 import {useAuth} from "../context/AuthContext.tsx";
+import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
 
 interface DeleteButtonProps {
     creatorId: string
@@ -19,9 +20,7 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ creatorId, elementId, eleme
     
     if (!user || (creatorId && userData?._id != creatorId)) return ;
 
-    const handleDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        event.preventDefault();
-        event.stopPropagation();
+    const handleDelete = () => {
 
         if (window.confirm(`Are you sure you want to delete this ${elementType}?`)) {
             mutation.mutate(
@@ -40,13 +39,8 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ creatorId, elementId, eleme
     };
 
     return (
-        <button
-            onClick={handleDelete}
-            disabled={mutation.isLoading}
-            className="flex items-center gap-1 text-gray-700 bg-gray-300 dark:text-gray-300 dark:bg-gray-950 hover:text-white hover:bg-red-500 dark:hover:bg-red-500 px-2 py-2 rounded transition-colors duration-200 text-sm"
-        >
-            <FaTrash size={12} className="text-inherit transition-colors duration-75" />
-        </button>
+        
+        <TertiaryButton iconComponent={<FaTrash />} className={"hover:bg-red-500 hover:dark:bg-red-500 "} onClick={handleDelete} disabled={mutation.isLoading}/>
     );
 };
 

@@ -4,8 +4,8 @@ import AddStudyGroupModal from './AddStudyGroupModal.tsx';
 import { useParams } from "react-router-dom";
 import { usePaginatedStudyGroups } from '../../hooks/institutionHooks/usePaginatedStudyGroups';
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
-import SecondaryButton from "../../components/ui/buttons/SecondaryButton.tsx";
 import {FaPlus} from "react-icons/fa";
+import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 
 const InstitutionStudyGroupPage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
@@ -35,7 +35,7 @@ const InstitutionStudyGroupPage: React.FC = () => {
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
                         
-                        <SecondaryButton onClick={() => setIsAddGroupModalOpen(true)} label={"addStudyGroup"} IconComponent={<FaPlus />} />
+                        <PrimaryButton onClick={() => setIsAddGroupModalOpen(true)} label={"addStudyGroup"} iconComponent={<FaPlus />}  className={"w-40 text-xs"}/>
                     </div>
 
                     <div>

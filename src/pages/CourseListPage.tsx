@@ -6,20 +6,19 @@ import { useOwnerCourses } from "../hooks/coursesHooks/useOwnerCourses.ts";
 import { usePublicCourses } from "../hooks/coursesHooks/usePublicCourses.ts";
 import { useFollowedCourses } from "../hooks/coursesHooks/useFollowedCourses.ts";
 import AddCourseButton from "../components/AddCourseButton.tsx";
-import LocSpan from "../components/LocSpan.tsx";
-import SectionContainer from "../components/ui/containers/SectionContainer.tsx"; 
+import SectionContainer from "../components/ui/containers/SectionContainer.tsx";
+import Tabs from "../components/ui/toggles/Tabs.tsx";
 
 const CourseListPage: React.FC = () => {
     const [courses, setCourses] = useState<CourseData[]>([]);
     const [page, setPage] = useState(1);
-    const [currentView, setCurrentView] = useState<'owner' | 'public' | 'followed'>('owner');
+    const [currentView, setCurrentView] = useState<string>('owner');
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: ownerData, isLoading: ownerLoading, error: ownerError } = useOwnerCourses(page, 99);
     const { data: publicData, isLoading: publicLoading, error: publicError } = usePublicCourses(page, 20);
-    const { data: followedData, isLoading: followedLoading, error: followedError } = useFollowedCourses(page, 20); 
+    const { data: followedData, isLoading: followedLoading, error: followedError } = useFollowedCourses(page, 20);
 
-    
     const data = currentView === 'owner' ? ownerData : currentView === 'public' ? publicData : followedData;
     const isLoading = currentView === 'owner' ? ownerLoading : currentView === 'public' ? publicLoading : followedLoading;
     const error = currentView === 'owner' ? ownerError : currentView === 'public' ? publicError : followedError;
@@ -59,48 +58,38 @@ const CourseListPage: React.FC = () => {
         };
     }, [hasMore]);
 
-    const handleViewChange = (view: 'owner' | 'public' | 'followed') => {
+    const handleViewChange = (view: string) => {
         setCourses([]);
         setPage(1);
         setCurrentView(view);
     };
 
+    const tabs = [
+        { label: "coursesListPage.myCourses", view: 'owner' },
+        { label: "coursesListPage.searchCourses", view: 'public' },
+        { label: "coursesListPage.followingCourses", view: 'followed' }
+    ];
+
     return (
         <SectionContainer title={"勉強しましょう"} isLoading={isLoading} error={error?.message}>
-            
             <div className="flex gap-2 mb-4">
-                <button
-                    onClick={() => handleViewChange('owner')}
-                    className={`px-4 py-2 rounded lg:text-sm text-xs transition-all border ${currentView === 'owner' ? 'bg-blue-500 dark:bg-gray-600 text-white dark:text-white dark:border-gray-800 ' : 'text-gray-500 bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700'}`}>
-                    <LocSpan textKey={"coursesListPage.myCourses"} />
-                </button>
-                <button
-                    onClick={() => handleViewChange('public')}
-                    className={`px-4 py-2 rounded lg:text-sm text-xs transition-all border ${currentView === 'public' ? 'bg-blue-500 dark:bg-gray-600 text-white dark:text-white dark:border-gray-800 ' : 'text-gray-500 bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700'}`}>
-                    <LocSpan textKey={"coursesListPage.searchCourses"} />
-                </button>
-                <button
-                    onClick={() => handleViewChange('followed')}
-                    className={`px-4 py-2 rounded lg:text-sm text-xs transition-all border ${currentView === 'followed' ? 'bg-blue-500 dark:bg-gray-600 text-white dark:text-white dark:border-gray-800 ' : 'text-gray-500 bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700'}`}>
-                    <LocSpan textKey={"coursesListPage.followingCourses"} />
-                </button>
-                <AddCourseButton />
+                <Tabs tabs={tabs} onTabChange={handleViewChange} currentTab={currentView}/>
+                <AddCourseButton/>
             </div>
             
-
-            <div className="w-full max-w-4xl flex flex-col gap-4 text-left pb-24">
-                {courses.length > 0 ? (
-                    courses.map((course, index) => (
-                        <Link key={index} to={`${course._id}`} className="page-fade-enter page-fade-enter-active">
-                            <CourseDataElement course={course}/>
-                        </Link>
-                    ))
-                ) : (
-                    <p className="text-center text-gray-500">何もない</p>
-                )}
-            </div>
+                <div className="w-full max-w-4xl flex flex-col gap-4 text-left pb-24">
+                    {courses.length > 0 ? (
+                        courses.map((course, index) => (
+                            <Link key={index} to={`${course._id}`} className="page-fade-enter page-fade-enter-active">
+                                <CourseDataElement course={course}/>
+                            </Link>
+                        ))
+                    ) : (
+                        <p className="text-center text-gray-500">何もない</p>
+                    )}
+                </div>
         </SectionContainer>
-    );
+);
 };
 
 export default CourseListPage;

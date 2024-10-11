@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import LocSpan from "../LocSpan.tsx";
 import {useTranslation} from "react-i18next";
+import PrimaryButton from "../ui/buttons/PrimaryButton.tsx";
 
 interface SearchBarProps {
     onSearch: (tagsMap: { [tag: string]: boolean }) => void;
@@ -107,14 +108,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, interactable: enabled }
                     ×
                 </button>
             </div>
-
-            <button
-                className={`bg-blue-500 dark:bg-gray-700 text-white rounded p-2 w-full hover:bg-blue-600 dark:hover:bg-gray-600`}
-                onClick={onSearchPressed}
-                disabled={!interactable}
-            >
-                <LocSpan textKey={"search"} />
-            </button>
+            
+            <PrimaryButton label={"search"} onClick={onSearchPressed} disabled={!interactable} />
         </div>
     );
 };

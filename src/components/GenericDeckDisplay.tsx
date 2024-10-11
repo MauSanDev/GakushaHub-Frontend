@@ -14,6 +14,7 @@ import GenerationButton from "./Modals/GenerationButton.tsx";
 import { CourseData, LessonData } from "../data/CourseData.ts";
 import AddContentButton from "./AddContentButton.tsx";
 import LocSpan from "./LocSpan.tsx";
+import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
 
 interface GenericDeckDisplayProps<T> {
     courseData: CourseData;
@@ -149,27 +150,11 @@ const GenericDeckDisplay = <T,>({
                     )}
 
                     {enableFlashcards && elementType !== "grammarDeck" && ( 
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleFlashcardMode();
-                            }}
-                            className="p-2 bg-blue-500 dark:bg-gray-950 text-white rounded shadow hover:bg-blue-600 dark:hover:bg-gray-800"
-                        >
-                            <FaPlayCircle size={12}/>
-                        </button>
+                        <TertiaryButton iconComponent={<FaPlayCircle />} onClick={handleFlashcardMode} />
                     )}
 
-                    {elementType === "grammarDeck" && ( 
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleOpenGrammarModal();
-                            }}
-                            className="p-2 bg-green-500 dark:bg-gray-950 text-white rounded shadow hover:bg-green-600 dark:hover:bg-gray-800"
-                        >
-                            <FaPlayCircle size={12}/>
-                        </button>
+                    {elementType === "grammarDeck" && (
+                        <TertiaryButton iconComponent={<FaPlayCircle />} onClick={handleOpenGrammarModal} />
                     )}
                 </div>
             </div>

@@ -47,8 +47,8 @@ const SearchPageContainer = <T extends { _id: string }>({
                 <div className="flex gap-2">
                     <ShowSelectionToggle onToggle={() => setShowSelectedOnly(!showSelectedOnly)} isSelected={showSelectedOnly} />
                     
-                    <SecondaryButton IconComponent={<FaCheckSquare />} label={"selectAll"} onClick={selectAll} />
-                    <SecondaryButton IconComponent={<FaSquare />} label={"deselectAll"} onClick={deselectAll} />
+                    <SecondaryButton iconComponent={<FaCheckSquare />} label={"selectAll"} onClick={selectAll} />
+                    <SecondaryButton iconComponent={<FaSquare />} label={"deselectAll"} onClick={deselectAll} />
                 </div>
             </div>
 

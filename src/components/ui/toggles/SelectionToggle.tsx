@@ -16,7 +16,7 @@ const SelectionToggle: React.FC<SelectionToggleProps> = ({ isSelected, onToggle,
             onSelected={{
                 icon: <FaCheckSquare className="text-white" />,
                 text:textKey,
-                className: "selection-toggle-selected bg-blue-500 dark:bg-blue-800 text-white border border-blue-500 dark:border-gray-900"
+                className: "selection-toggle-selected bg-blue-500 dark:bg-gray-700 text-white border border-blue-500 dark:border-gray-900"
             }}
             onDeselected={{
                 icon: <FaSquare className="text-gray-300" />,

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
+import PrimaryButton from "../../../components/ui/buttons/PrimaryButton.tsx";
+import RoundedTag from "../../../components/ui/text/RoundedTag.tsx";
 
 interface MyInstitutionProps {
     institutionId: string;
@@ -21,6 +23,8 @@ const InstitutionBox: React.FC<MyInstitutionProps> = ({
                                                           userRole = 'member'
                                                       }) => {
     const isOwner = userRole === 'owner';
+    const navigate = useNavigate();
+
 
     return (
         <div className="w-full max-w-4xl my-4">
@@ -29,7 +33,9 @@ const InstitutionBox: React.FC<MyInstitutionProps> = ({
                     ${isOwner ? 'bg-green-100 dark:bg-green-900 dark:bg-opacity-30 border-2 border-green-500 dark:border-green-700 dark:hover:border-green-500 hover:border-green-400' : 'dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-gray-600'}`}
             >
                 <div className="w-24 h-24 sm:w-40 sm:h-40 bg-gray-300 rounded-lg mr-6 dark:bg-gray-900"></div>
-
+                
+                <RoundedTag textKey={userRole} className={`absolute top-2 right-2 ${isOwner ? 'bg-green-600 dark:bg-green-700' : 'bg-blue-400 dark:bg-gray-600'}`}/>
+                
                 <div className="flex-1">
                     <h2 className="text-xl font-bold text-gray-800 dark:text-white">
                         {institutionName || 'Institution Name'}
@@ -42,18 +48,12 @@ const InstitutionBox: React.FC<MyInstitutionProps> = ({
                     </div>
 
                     <div className="mt-4 flex justify-end">
-
-                        <Link
-                            to={`/institution/${institutionId}/editProfile`}
-                            className="px-12 py-1 bg-blue-500 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-600  hover:dark:bg-blue-600 transition-all">
-                            Enter
-                        </Link>
+                        <PrimaryButton className={"w-40"} label={"enter"} onClick={() => {
+                            navigate(`/institution/${institutionId}/editProfile`)
+                        }}/>
                     </div>
                 </div>
 
-                <span className={`absolute top-2 right-2 text-white text-xs px-2 py-1 rounded-full ${isOwner ? 'bg-green-600 dark:bg-green-700' : 'bg-blue-400 dark:bg-gray-600'}`}>
-                    {userRole}
-                </span>
             </div>
         </div>
     );
