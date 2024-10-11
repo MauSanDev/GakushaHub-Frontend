@@ -5,9 +5,10 @@ import BackButton from "../components/ui/buttons/BackButton.tsx";
 interface ModalWrapperProps {
     onClose: () => void;
     children: React.ReactNode;
+    className?: string;
 }
 
-const ModalWrapper: React.FC<ModalWrapperProps> = ({ onClose, children }) => {
+const ModalWrapper: React.FC<ModalWrapperProps> = ({ onClose, children,className }) => {
     useEffect(() => {
         document.body.style.overflow = 'hidden';
         return () => {
@@ -16,7 +17,7 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({ onClose, children }) => {
     }, []);
 
     return ReactDOM.createPortal(
-        <div className="fixed inset-0 bg-white dark:bg-black bg-opacity-90 flex items-center justify-center z-40 overflow-y-auto ">
+        <div className={`fixed inset-0 bg-white dark:bg-black bg-opacity-90 flex items-center justify-center z-40 overflow-y-auto ${className}`}>
             <div
                 className="relative w-11/12 md:w-80 lg:w-1/2 h-auto p-4 flex flex-col max-h-[90vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700"
                 style={{paddingLeft: '1rem'}}
