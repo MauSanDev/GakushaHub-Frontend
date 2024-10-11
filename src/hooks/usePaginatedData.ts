@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient, UseQueryResult } from 'react-query';
+import { useMutation, useQueryClient, UseMutationResult } from 'react-query';
 import { ApiClient } from '../services/ApiClient';
 import { PaginatedData } from '../data/PaginatedData.ts';
 
@@ -11,32 +11,31 @@ const fetchPaginatedData = async <T>(
     creatorId: string,
     extraParams?: Record<string, string>
 ): Promise<InferPaginatedData<T>> => {
-    
+
     const extraQueryString = extraParams
         ? '&' + new URLSearchParams(extraParams).toString()
         : '';
-    
+
     return ApiClient.get<InferPaginatedData<T>>(`${endpoint}?page=${page}&limit=${limit}&creatorId=${creatorId}${extraQueryString}`);
 };
-
 
 export const usePaginatedData = <T>(
     endpoint: string,
     page: number,
     limit: number,
     userId?: string,
-    extraParams?: Record<string, string> 
-): UseQueryResult<InferPaginatedData<T>, Error> & { resetQueries: () => void } => {
+    extraParams?: Record<string, string>
+): UseMutationResult<InferPaginatedData<T>, Error, void> & { resetQueries: () => void } => {
 
     const queryClient = useQueryClient();
-    const queryKey = [endpoint, page, limit, extraParams];
-    
-    const queryResult = useQuery<InferPaginatedData<T>, Error>(
-        queryKey,
-        () => fetchPaginatedData<T>(endpoint, page, limit, userId ?? '', extraParams),
+
+    const mutationResult = useMutation<InferPaginatedData<T>, Error, void>(
+        async () => await fetchPaginatedData<T>(endpoint, page, limit, userId ?? '', extraParams),
         {
-            keepPreviousData: true,
-            staleTime: 5 * 60 * 1000,
+            onSuccess: (data) => {
+                // Cache the result using queryClient
+                queryClient.setQueryData([endpoint, page, limit, extraParams], data);
+            }
         }
     );
 
@@ -44,5 +43,5 @@ export const usePaginatedData = <T>(
         queryClient.invalidateQueries(endpoint);
     };
 
-    return { ...queryResult, resetQueries };
+    return { ...mutationResult, resetQueries };
 };
