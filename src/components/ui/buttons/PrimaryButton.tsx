@@ -17,7 +17,7 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({ onClick, label, iconCompo
             label={label}
             iconComponent={iconComponent}
             disabled={disabled}
-            className={`bg-blue-500 dark:bg-blue-800 text-white rounded py-2 px-4 hover:bg-blue-600 dark:hover:bg-blue-700 transition-all ${className}`}
+            className={`bg-blue-500 dark:bg-blue-800 text-white rounded py-2 px-4 hover:bg-blue-600 dark:hover:bg-blue-700 text-sm transition-all ${className}`}
         />
     );
 };

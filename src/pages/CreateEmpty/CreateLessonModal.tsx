@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import ModalWrapper from '../ModalWrapper';
 import { useCreateLesson } from '../../hooks/coursesHooks/useCreateLesson.ts';
+import InputField from "../../components/ui/inputs/InputField";
+import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
+import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
 
 interface CreateLessonModalProps {
-    onClose?: () => void;
+    onClose: () => void;
     onCreateSuccess?: () => void;
     courseId: string;
     courseName: string;
@@ -40,38 +43,29 @@ const CreateLessonModal: React.FC<CreateLessonModalProps> = ({ onClose, onCreate
     return (
         <ModalWrapper onClose={onClose}>
             <div className="relative w-full mt-2 p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
-                <h2 className="text-2xl font-bold mb-4 text-blue-900 dark:text-white text-center">Create a New Lesson in <p>「{courseName}」</p></h2>
+                <SectionTitle title={`Create a New Lesson in 「${courseName}`} className="text-center pb-4" />
 
-                <div className="mb-4">
-                    <input
-                        type="text"
-                        id="lessonName"
-                        value={lessonName}
-                        onChange={(e) => {
-                            setLessonName(e.target.value);
-                            setError(null); // Clear error when typing
-                        }}
-                        placeholder="Enter lesson name"
-                        disabled={isLoading}
-                        className={`mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-300 ${
-                            error ? 'border-red-500' : ''
-                        }`}
-                    />
-                    {error && (
-                        <p className="text-red-500 text-sm mt-2">{error}</p>
-                    )}
-                </div>
+                <InputField
+                    id="lessonName"
+                    value={lessonName}
+                    onChange={(e) => {
+                        setLessonName(e.target.value);
+                        setError(null); // Clear error when typing
+                    }}
+                    placeholder="Enter lesson name"
+                    disabled={isLoading}
+                    error={error}
+                />
 
-                <div className="flex justify-center">
-                    <button
+                {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+
+                <div className="flex justify-center mt-4">
+                    <PrimaryButton
+                        label="Create"
                         onClick={handleCreateLesson}
                         disabled={isLoading || lessonName.trim() === ''}
-                        className={`inline-flex w-full justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-500 hover:bg-blue-400 dark:bg-blue-800 dark:hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-                            isLoading || lessonName.trim() === '' ? 'opacity-50 cursor-not-allowed' : ''
-                        }`}
-                    >
-                        {isLoading ? 'Creating...' : 'Create'}
-                    </button>
+                        className={`w-full ${isLoading || lessonName.trim() === '' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    />
                 </div>
             </div>
         </ModalWrapper>

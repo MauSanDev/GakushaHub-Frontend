@@ -22,7 +22,7 @@ const BaseButton: React.FC<BaseButtonProps> = ({ onClick, label, value, iconComp
         <button
             onClick={handleClick}
             disabled={disabled}
-            className={`flex justify-center items-center gap-2 text-center ${className}`}
+            className={`flex justify-center items-center gap-2 text-center ${className} ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
             {iconComponent && <span>{iconComponent}</span>}
             {label && (

@@ -137,7 +137,7 @@ const CourseDetailPage: React.FC = () => {
     const dropdownItems = [
         isOwner && (
             <div className="flex items-center justify-between">
-                <label className="text-xs text-gray-500"><LocSpan textKey={"courseDetailsPage.deleteCourse"} /></label>
+                <label className="text-xs text-gray-500 dark:text-gray-300"><LocSpan textKey={"courseDetailsPage.deleteCourse"} /></label>
                 <DeleteButton
                     creatorId={course?.creatorId._id || ''}
                     elementId={courseId || ''}
@@ -149,7 +149,7 @@ const CourseDetailPage: React.FC = () => {
         ),
         isOwner && (
             <div className="flex items-center justify-between mt-2">
-                <label className="text-xs text-gray-500"><LocSpan textKey={"courseDetailsPage.isPublic"} /></label>
+                <label className="text-xs text-gray-500 dark:text-gray-300"><LocSpan textKey={"courseDetailsPage.isPublic"} /></label>
                 <div className="relative inline-block w-10 select-none">
                     <input
                         type="checkbox"
