@@ -77,7 +77,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, interactable: enabled }
 
     return (
         <div className="p-2 mb-4 w-full gap-2 relative">
-            <div className="border border-gray-300 bg-white rounded p-2 mb-4 w-full flex items-center gap-2 relative">
+            <div className="input-field border border-gray-300 bg-white rounded p-2 mb-4 w-full flex items-center gap-2 relative">
                 <div className="flex flex-wrap gap-1 flex-1">
                     {Object.entries(tagsMap).map(([tag, isValid], index) => (
                         <div
@@ -97,7 +97,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, interactable: enabled }
                         onCompositionEnd={() => setIsComposing(false)}
                         onPaste={onPaste}
                         placeholder={t("searchPage.inputPlaceholder")}
-                        className="flex-1 min-w-0 focus:outline-none"
+                        className="outline-none border-none bg-transparent w-full flex-1 min-w-0 focus:outline-none"
+
                     />
                 </div>
                 <button

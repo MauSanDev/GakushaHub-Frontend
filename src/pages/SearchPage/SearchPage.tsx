@@ -35,29 +35,24 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
     const [selectedKanjiIds, setSelectedKanjiIds] = useState<string[]>([]);
     const [selectedWordIds, setSelectedWordIds] = useState<string[]>([]);
     const [selectedGrammarIds, setSelectedGrammarIds] = useState<string[]>([]);
-
+    
     useEffect(() => {
-        if (data?.kanjiResults?.length) {
-            setSelectedKanjiIds(data?.kanjiResults.map(kanji => kanji.kanji));
-        }
-        if (data?.wordResults?.length) {
-            setSelectedWordIds(data?.wordResults.map(word => word.word));
-        }
-        if (data?.grammarResults?.length) {
-            setSelectedGrammarIds(data?.grammarResults.map(grammar => grammar.structure));
-        }
-
         if (data) {
             if (data.kanjiResults.length > 0) {
                 setActiveTab('kanji');
-            } else if (data.wordResults.length > 0) {
+                setSelectedKanjiIds(data.kanjiResults.map(kanji => kanji._id));
+            }
+            if (data.wordResults.length > 0) {
                 setActiveTab('words');
-            } else if (data.grammarResults.length > 0) {
+                setSelectedWordIds(data.wordResults.map(word => word._id));
+            }
+            if (data.grammarResults.length > 0) {
                 setActiveTab('grammar');
+                setSelectedGrammarIds(data.grammarResults.map(grammar => grammar._id));
             }
         }
-    }, [data]);
-
+    }, [data]); 
+    
     const onSaveStatusChanged = (status: SaveStatus) => {
         if (status === SaveStatus.Success && onSaveSuccess) {
             onSaveSuccess();
@@ -98,6 +93,10 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
             default:
                 break;
         }
+
+        console.log(selectedKanjiIds)
+        console.log(selectedGrammarIds)
+        console.log(selectedWordIds)
     };
 
     return (
@@ -158,9 +157,10 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                         {activeTab === 'kanji' && showKanji && kanjiResults.length > 0 && (
                             <SearchPageContainer
                                 items={kanjiResults}
+                                selectedItems={selectedKanjiIds}
                                 renderItem={(kanjiData, isSelected, onSelect) => (
                                     <KanjiDataElement
-                                        key={kanjiData.kanji}
+                                        key={kanjiData._id}
                                         result={kanjiData}
                                         isSelected={isSelected}
                                         onSelect={onSelect}
@@ -173,9 +173,10 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                         {activeTab === 'words' && showWord && wordResults.length > 0 && (
                             <SearchPageContainer
                                 items={wordResults}
+                                selectedItems={selectedWordIds}
                                 renderItem={(wordData, isSelected, onSelect) => (
                                     <WordDataElement
-                                        key={wordData.word}
+                                        key={wordData._id}
                                         result={wordData}
                                         isSelected={isSelected}
                                         onSelect={onSelect}
@@ -189,9 +190,10 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                             <SearchPageContainer
                                 items={grammarResults}
                                 maxColumns={1}
+                                selectedItems={selectedGrammarIds}
                                 renderItem={(grammarData, isSelected, onSelect) => (
                                     <GrammarDataElement
-                                        key={grammarData.structure}
+                                        key={grammarData._id}
                                         result={grammarData}
                                         isSelected={isSelected}
                                         onSelect={onSelect}
@@ -207,10 +209,9 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
             {isAuthenticated && (
                 <div className="absolute top-0 right-0 flex gap-2">
                     <SaveDeckInput
-                        kanjiList={selectedKanjiIds} // Pasa solo los IDs seleccionados
-                        wordList={selectedWordIds} // Pasa solo los IDs seleccionados
-                        grammarList={selectedGrammarIds} // Pasa solo los IDs seleccionados
-                        readingList={[]} // Si tienes lecturas específicas, puedes agregarlas aquí
+                        kanjiList={selectedKanjiIds} 
+                        wordList={selectedWordIds} 
+                        grammarList={selectedGrammarIds} 
                         onSaveStatusChange={onSaveStatusChanged}
                         courseId={courseId}
                         courseName={courseName}

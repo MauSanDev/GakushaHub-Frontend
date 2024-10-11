@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FaCheckSquare, FaSquare } from 'react-icons/fa';
 import SecondaryButton from "../../components/ui/buttons/SecondaryButton.tsx";
 import ShowSelectionToggle from "../../components/ui/toggles/ShowSelectionToggle.tsx";
 
 interface SearchPageContainerProps<T> {
     items: T[];
+    selectedItems: string[]; 
     renderItem: (item: T, isSelected: boolean, onSelect: (isSelected: boolean) => void) => React.ReactNode;
     onSelectionChange: (selectedItemIds: string[]) => void;
     maxColumns?: number;
@@ -12,33 +13,35 @@ interface SearchPageContainerProps<T> {
 
 const SearchPageContainer = <T extends { _id: string }>({
                                                             items,
+                                                            selectedItems, 
                                                             renderItem,
                                                             onSelectionChange,
                                                             maxColumns = 3,
                                                         }: SearchPageContainerProps<T>) => {
-    const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]); // Almacena solo los _id
     const [showSelectedOnly, setShowSelectedOnly] = useState(false);
 
-    useEffect(() => {
-        onSelectionChange(selectedItemIds); // Notifica los _id seleccionados
-    }, [selectedItemIds, onSelectionChange]);
+    // useEffect(() => {
+    //     onSelectionChange(selectedItemIds); 
+    // }, [selectedItemIds, onSelectionChange]);
+
 
     const toggleSelected = (item: T, isSelected: boolean) => {
-        setSelectedItemIds(prevSelected =>
-            isSelected ? [...prevSelected, item._id] : prevSelected.filter(selectedId => selectedId !== item._id)
+        onSelectionChange(
+            isSelected ? [...selectedItems, item._id] : selectedItems.filter(selectedId => selectedId !== item._id)
         );
     };
 
+
     const selectAll = () => {
-        setSelectedItemIds(items.map(item => item._id)); // Selecciona todos los _id
+        onSelectionChange(items.map(item => item._id)); 
     };
 
     const deselectAll = () => {
-        setSelectedItemIds([]); // Deselecciona todo
+        onSelectionChange([]); 
     };
 
     const itemsToShow = showSelectedOnly
-        ? items.filter(item => selectedItemIds.includes(item._id)) // Muestra solo los seleccionados
+        ? items.filter(item => selectedItems.includes(item._id)) 
         : items;
 
     const gridClass = `grid gap-4 ${maxColumns === 1 ? 'md:grid-cols-1' : maxColumns === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'}`;
@@ -55,7 +58,7 @@ const SearchPageContainer = <T extends { _id: string }>({
 
             <div className={`mt-4 ${gridClass}`}>
                 {itemsToShow.map(item =>
-                    renderItem(item, selectedItemIds.includes(item._id), isSelected => toggleSelected(item, isSelected))
+                    renderItem(item, selectedItems.includes(item._id), isSelected => toggleSelected(item, isSelected))
                 )}
             </div>
         </div>

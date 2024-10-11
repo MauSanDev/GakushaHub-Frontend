@@ -31,8 +31,8 @@ const WordDataElement: React.FC<WordDataElementProps> = ({ result, isSelected, o
                 {meaningToShow.slice(0, 3).join("; ")}
             </h2>
             <div className="flex justify-center gap-2 flex-wrap">
-                {result.part_of_speech.map((pos: string) => (
-                    <RoundedTag textKey={pos} />
+                {result.part_of_speech.map((pos: string, index: number) => (
+                    <RoundedTag key={index} textKey={pos} />
                 ))}
             </div>
         </SelectableContainer>

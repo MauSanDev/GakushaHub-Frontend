@@ -33,16 +33,16 @@ const KanjiDataElement: React.FC<KanjiDataElementProps> = ({ result, isSelected,
                 {result.readings.kunyomi.length > 0 && (
                     <div className="flex flex-wrap gap-2 justify-center items-center">
                         <span className="text-xs text-gray-500 mr-1">訓:</span>
-                        {result.readings.kunyomi.map((reading) => (
-                            <HighlightableTag labelKey={truncatedText(reading, 10)} />
+                        {result.readings.kunyomi.map((reading, index) => (
+                            <HighlightableTag key={index} labelKey={truncatedText(reading, 10)} />
                         ))}
                     </div>
                 )}
                 {result.readings.onyomi.length > 0 && (
                     <div className="flex flex-wrap gap-2 justify-center items-center">
                         <span className="text-xs text-gray-500 mr-1">音:</span>
-                        {result.readings.onyomi.map((reading) => (
-                            <HighlightableTag labelKey={truncatedText(reading, 10)} />
+                        {result.readings.onyomi.map((reading, index) => (
+                            <HighlightableTag key={index} labelKey={truncatedText(reading, 10)} />
                         ))}
                     </div>
                 )}
