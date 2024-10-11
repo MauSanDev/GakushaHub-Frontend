@@ -1,5 +1,4 @@
 import React from 'react';
-import { FaCheckCircle } from 'react-icons/fa';
 import { MembershipData, MembershipStatus } from '../../data/Institutions/MembershipData.ts';
 import SelectableContainer from "../../components/ui/containers/SelectableContainer.tsx";
 

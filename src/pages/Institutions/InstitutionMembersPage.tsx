@@ -8,7 +8,8 @@ import PaginatedContainer from '../../components/ui/containers/PaginatedContaine
 import { FaPlus } from "react-icons/fa";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
-import { useDeleteElement } from '../../hooks/useDeleteElement'; // Importa el hook para eliminar
+import { useDeleteElement } from '../../hooks/useDeleteElement';
+import {CollectionTypes} from "../../data/CollectionTypes.tsx"; 
 
 const InstitutionMembersPage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
@@ -17,7 +18,7 @@ const InstitutionMembersPage: React.FC = () => {
     const [page, setPage] = useState(1);
 
     const { data: membersData, isLoading, fetchMembers } = usePaginatedMembers(page, 30, institutionId || '', searchQuery);
-    const { mutate: deleteMembership } = useDeleteElement(); // Usamos el hook para eliminar miembros
+    const { mutate: deleteMembership } = useDeleteElement(); 
 
     useEffect(() => {
         fetchMembers();
@@ -25,7 +26,7 @@ const InstitutionMembersPage: React.FC = () => {
 
     const handleAddMemberSuccess = () => {
         setIsAddMemberModalOpen(false);
-        fetchMembers(); // Refrescar lista después de agregar
+        fetchMembers(); 
     };
 
     const handleSearch = (query: string) => {
@@ -34,11 +35,11 @@ const InstitutionMembersPage: React.FC = () => {
 
     const handleRemove = (memberId: string) => {
         deleteMembership(
-            { elementId: memberId, elementType: 'membership' },
+            { elementId: memberId, elementType: CollectionTypes.Membership },
             {
                 onSuccess: () => {
-                    setPage(1); // Reinicia la página a 1
-                    fetchMembers(); // Refresca la lista de miembros
+                    setPage(1); 
+                    fetchMembers(); 
                 },
                 onError: (error) => {
                     console.error('Error deleting member:', error);
@@ -68,8 +69,9 @@ const InstitutionMembersPage: React.FC = () => {
                         RenderComponent={({ document }) => (
                             <InstitutionMemberElement
                                 member={document}
-                                onRemove={() => handleRemove(document._id)} // Pasamos la función que maneja la eliminación
+                                onRemove={() => handleRemove(document._id)} 
                                 onRoleChange={() => { /* Manejar el cambio de rol si es necesario */ }}
+                                canEditRole={true}
                             />
                         )}
                     />

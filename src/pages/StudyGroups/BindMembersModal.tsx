@@ -9,7 +9,7 @@ import SectionContainer from "../../components/ui/containers/SectionContainer.ts
 import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import ShowSelectionToggle from "../../components/ui/toggles/ShowSelectionToggle.tsx";
-import PaginatedContainer from "../../components/ui/containers/PaginatedContainer"; // Importa el componente de paginación
+import PaginatedContainer from "../../components/ui/containers/PaginatedContainer"; 
 
 interface BindMembersModalProps {
     onClose: () => void;
@@ -29,12 +29,12 @@ const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutio
 
     const { mutate: addMembersToGroup, isLoading: isAdding } = useAddMembersToGroup();
 
-    // Ejecuta fetchMembers cada vez que cambian la página, el término de búsqueda o el institutionId
+    
     useEffect(() => {
         fetchMembers();
     }, [page, searchTerm, institutionId, fetchMembers]);
 
-    // Filtra los miembros según el término de búsqueda y si se muestran solo los seleccionados
+    
     const filteredMembers = showSelectedOnly ? selectedMembers : (membersData?.documents ?? []);
 
     const handleSelectMember = (member: MembershipData) => {
@@ -75,13 +75,12 @@ const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutio
                         </div>
                     </div>
 
-                    {/* Uso de PaginatedContainer para manejar la paginación */}
                     {!isLoading && membersData && (
                         <PaginatedContainer
-                            documents={filteredMembers} // Miembros filtrados
+                            documents={filteredMembers} 
                             currentPage={page}
                             totalPages={membersData.totalPages}
-                            onPageChange={setPage} // Cambia de página
+                            onPageChange={setPage} 
                             RenderComponent={({ document }) => (
                                 <SelectableMemberBox
                                     member={document}

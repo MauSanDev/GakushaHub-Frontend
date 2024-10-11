@@ -110,7 +110,7 @@ const StudyGroupContentPage: React.FC = () => {
 
                         {studyGroup?.memberIds?.length > 0 ? (
                             studyGroup.memberIds.map((member) => (
-                                <InstitutionMemberElement member={member} key={member.name} />
+                                <InstitutionMemberElement member={member} key={member.name} canEditRole={false} />
                             ))
                         ) : (
                             <p>No members available</p>

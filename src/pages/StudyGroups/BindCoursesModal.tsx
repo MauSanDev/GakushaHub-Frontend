@@ -9,7 +9,7 @@ import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import ShowSelectionToggle from "../../components/ui/toggles/ShowSelectionToggle.tsx";
 import PaginatedContainer from "../../components/ui/containers/PaginatedContainer";
-import CourseDataElement from "../../components/CourseDataElement.tsx"; // Importa el componente de paginación
+import SelectableCourseBox from "./SelectableCourseBox.tsx"; 
 
 interface BindCoursesModalProps {
     onClose: () => void;
@@ -25,20 +25,20 @@ const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutio
     const [showSelectedOnly, setShowSelectedOnly] = useState(false);
     const [page, setPage] = useState(1);
 
-    // Uso del hook para obtener los cursos paginados
+    
     const { data, isLoading, error, triggerFetch } = usePaginatedCourse(page, 99, searchTerm, institutionId);
 
     const { mutate: addCoursesToGroup, isLoading: isAdding } = useAddCourseToGroup();
 
-    // Ejecuta triggerFetch cada vez que cambian la página, el término de búsqueda o el institutionId
+    
     useEffect(() => {
         triggerFetch();
     }, [page, searchTerm, institutionId]);
 
-    // Filtra los cursos según el término de búsqueda y si se muestran solo los seleccionados
+    
     const filteredCourses = showSelectedOnly ? selectedCourses : (data?.documents ?? []);
 
-    // Funciones de selección y deselección de cursos
+    
     const handleSelectCourse = (course: CourseData) => {
         setSelectedCourses(prevSelected => [...prevSelected, course]);
     };
@@ -47,7 +47,7 @@ const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutio
         setSelectedCourses(prevSelected => prevSelected.filter(selected => selected._id !== course._id));
     };
 
-    // Agrega los cursos seleccionados al grupo de estudio
+    
     const handleAddCourses = () => {
         addCoursesToGroup(
             { studyGroupId, courseIds: selectedCourses.map(course => course._id) },
@@ -82,16 +82,18 @@ const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutio
                         </div>
                     </div>
 
-                    {/* Uso de PaginatedContainer para manejar la paginación */}
                     {!isLoading && data && (
                         <PaginatedContainer
-                            documents={filteredCourses} // Cursos filtrados
+                            documents={filteredCourses} 
                             currentPage={page}
                             totalPages={data.totalPages}
-                            onPageChange={setPage} // Cambia de página
+                            onPageChange={setPage} 
                             RenderComponent={({ document }) => (
-                                <CourseDataElement
+                                <SelectableCourseBox
                                     course={document}
+                                    isSelected={selectedCourses.some(selected => selected._id === document._id)}
+                                    onSelectCourse={handleSelectCourse}
+                                    onDeselectCourse={handleDeselectCourse}
                                 />
                             )}
                         />

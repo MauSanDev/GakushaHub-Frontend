@@ -2,17 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { FaTrash, FaUndo } from 'react-icons/fa';
 import { MembershipRole, MembershipData, MembershipStatus } from "../../../data/Institutions/MembershipData.ts";
 import { useChangeMembershipStatus } from "../../../hooks/institutionHooks/useChangeMembershipStatus";
+import { useUpdateDocument } from "../../../hooks/updateHooks/useUpdateDocument";
 
 interface InstitutionMemberElementProps {
     member: MembershipData;
     onRemove: (toRemove: string) => void;
     onRoleChange: (newRole: string) => void;
+    canEditRole: boolean;
 }
 
 const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
                                                                                member,
                                                                                onRemove,
-                                                                               onRoleChange
+                                                                               onRoleChange,
+                                                                               canEditRole
                                                                            }) => {
     const roleColors: { [key: string]: string } = {
         owner: 'dark:text-purple-500 text-purple-400',
@@ -22,7 +25,8 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
     };
 
     const [selectedRole, setSelectedRole] = useState<MembershipRole>(member.role || MembershipRole.Student);
-    const { mutate: changeMembershipStatus } = useChangeMembershipStatus(); // Hook to change membership status
+    const { mutate: changeMembershipStatus } = useChangeMembershipStatus();
+    const { mutate: updateMemberRole } = useUpdateDocument<Partial<MembershipData>>();
 
     useEffect(() => {
         if (member.role) {
@@ -31,19 +35,25 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
     }, [member.role]);
 
     const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const newRole = event.target.value as MembershipRole; // Type assertion to MembershipRole
+        const newRole = event.target.value as MembershipRole;
         setSelectedRole(newRole);
         onRoleChange(newRole);
+
+        // Actualizar el rol en el backend usando el hook `useUpdateDocument`
+        updateMemberRole({
+            collection: 'membership', // Nombre de la colección en el backend
+            documentId: member._id, // ID del miembro que se está actualizando
+            updateData: { role: newRole } // Los datos a actualizar (el nuevo rol)
+        });
     };
 
     const handleSendAgain = () => {
         changeMembershipStatus({ membershipId: member._id, newStatus: MembershipStatus.Pending });
     };
 
-    const isRegisteredUser = !!member.userId; // Check if the user is registered
+    const isRegisteredUser = !!member.userId;
 
     const handleRemoveClick = () => {
-        // Muestra el popup de confirmación
         const confirmDelete = window.confirm("Are you sure you want to remove this member?");
         if (confirmDelete) {
             onRemove(member._id);
@@ -85,20 +95,26 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
                 )}
 
                 {member.status === MembershipStatus.Approved && (
-                    <select
-                        value={selectedRole}
-                        onChange={handleRoleChange}
-                        className={`uppercase font-bold cursor-pointer focus:outline-none bg-transparent mr-4 ${roleColors[selectedRole]}`}
-                    >
-                        <option value="owner">Master</option>
-                        <option value="staff">Staff</option>
-                        <option value="sensei">Sensei</option>
-                        <option value="student">Student</option>
-                    </select>
+                    canEditRole ? (
+                        <select
+                            value={selectedRole}
+                            onChange={handleRoleChange}
+                            className={`uppercase font-bold cursor-pointer focus:outline-none bg-transparent mr-4 ${roleColors[selectedRole]}`}
+                        >
+                            <option value="owner">Master</option>
+                            <option value="staff">Staff</option>
+                            <option value="sensei">Sensei</option>
+                            <option value="student">Student</option>
+                        </select>
+                    ) : (
+                        <span className={`uppercase font-bold mr-4 ${roleColors[selectedRole]}`}>
+                            {selectedRole}
+                        </span>
+                    )
                 )}
 
                 <button
-                    onClick={handleRemoveClick} // Agrega la confirmación al eliminar
+                    onClick={handleRemoveClick}
                     className="text-red-500 hover:text-red-700"
                     title="Remove Member"
                 >
