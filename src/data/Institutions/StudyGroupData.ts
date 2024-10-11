@@ -8,4 +8,5 @@ export interface StudyGroupData {
     courseIds: string[];  
     createdAt: string;  
     resourcesIds: string[];  
+    isActive: boolean
 }

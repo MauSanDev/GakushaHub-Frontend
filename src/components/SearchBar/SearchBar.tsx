@@ -19,7 +19,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, interactable: enabled }
     }, [enabled]);
 
     const onSearchPressed = () => {
-        addTag();
+        if (inputValue)
+        {
+            addTag();
+            return;
+        }
         onSearch(tagsMap);
     };
 

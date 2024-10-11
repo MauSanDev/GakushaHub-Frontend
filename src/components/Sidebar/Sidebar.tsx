@@ -29,7 +29,7 @@ const Sidebar: React.FC = () => {
     return (
         <>
             <button
-                className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white dark:bg-black dark:text-white rounded text-3xl"
+                className="lg:hidden fixed top-1 left-1 z-50 p-2 bg-white dark:bg-black dark:text-white rounded text-3xl"
                 onClick={() => setIsOpen(!isOpen)}
             >
                 ☰

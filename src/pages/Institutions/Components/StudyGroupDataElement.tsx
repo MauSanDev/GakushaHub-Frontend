@@ -5,6 +5,7 @@ import {Link, useParams} from "react-router-dom";
 import Container from "../../../components/ui/containers/Container.tsx";
 import DeleteButton from "../../../components/DeleteButton.tsx";
 import { CollectionTypes } from "../../../data/CollectionTypes.tsx";
+import RoundedTag from "../../../components/ui/text/RoundedTag.tsx";
 
 interface StudyGroupDataElementProps {
     studyGroup: StudyGroupData;
@@ -21,6 +22,8 @@ const StudyGroupDataElement: React.FC<StudyGroupDataElementProps> = ({ studyGrou
             }
         >
             <Container className="w-full max-w-4xl my-2">
+
+                {!studyGroup.isActive && (<RoundedTag textKey={"archived"} className={"right-10 top-2 absolute"}/>)}
 
                 <div className="absolute top-2 right-2">
                     <DeleteButton

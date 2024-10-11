@@ -47,7 +47,7 @@ const SearchPageContainer = <T extends { _id: string }>({
     const gridClass = `grid gap-4 ${maxColumns === 1 ? 'md:grid-cols-1' : maxColumns === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'}`;
 
     return (
-        <div className="w-full max-w-4xl gap-2 flex flex-col justify-center items-center px-2">
+        <div className="w-full max-w-4xl gap-2 flex flex-col justify-center items-center px-2 pb-48">
             <div className="w-full flex justify-center items-center">
                 <div className="flex gap-2">
                     <ShowSelectionToggle onToggle={() => setShowSelectedOnly(!showSelectedOnly)} isSelected={showSelectedOnly} />
