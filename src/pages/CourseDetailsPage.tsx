@@ -195,7 +195,7 @@ const CourseDetailPage: React.FC = () => {
              className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
             <div
                 className="lg:pl-0 pl-12 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 mb-2 px-4">
-                <div className="flex items-start mb-4 sm:mb-0">
+                <div className="flex items-start mb-4 sm:mb-0 w-full">
                     
                     <BackButton onClick={() => navigate(course.institutionId ? `/institution/${course.institutionId}/courses` : "/courses")}/>
                     
@@ -206,7 +206,7 @@ const CourseDetailPage: React.FC = () => {
                         field="name"
                         className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize"
                         canEdit={true}
-                        maxChar={400}
+                        maxChar={40}
                     />
                     
                 </div>

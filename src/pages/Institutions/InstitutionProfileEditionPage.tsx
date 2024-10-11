@@ -98,7 +98,7 @@ const EditProfilePage: React.FC = () => {
             </div>
 
             <div className="mb-4 w-full max-w-md">
-                <label className="block text-gray-700 dark:text-gray-300 mb-2" htmlFor="name">
+                <label className="block text-gray-700 dark:text-gray-300 mb-2 text-xs" htmlFor="name">
                     Name
                 </label>
                 <input
@@ -106,19 +106,19 @@ const EditProfilePage: React.FC = () => {
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600"
+                    className="transparent-input-field font-bold"
                 />
             </div>
 
             <div className="mb-6 w-full max-w-md">
-                <label className="block text-gray-700 dark:text-gray-300 mb-2" htmlFor="description">
+                <label className="block text-gray-700 dark:text-gray-300 mb-2 text-xs" htmlFor="description">
                     Description
                 </label>
                 <textarea
                     id="description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600"
+                    className="input-field"
                     rows={4}
                 />
             </div>

@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { FaFolder, FaUser, FaBook, FaPlus } from "react-icons/fa";
 import { useStudyGroupById } from '../hooks/useGetStudyGroup.tsx';
 import BindCoursesModal from './StudyGroups/BindCoursesModal';
-import CourseDataElement from "../components/CourseDataElement.tsx";
+import StudyGroupCourseDataElement from "../components/StudyGroupCourseDataElement.tsx";
 import { Link } from "react-router-dom";
 import BindMembersModal from "./StudyGroups/BindMembersModal.tsx";
 import InstitutionMemberElement from "./Institutions/Components/InstitutionMemberElement.tsx";
@@ -12,7 +12,8 @@ import CreatorLabel from "../components/ui/text/CreatorLabel.tsx";
 import PrimaryButton from "../components/ui/buttons/PrimaryButton.tsx";
 import Tabs from "../components/ui/toggles/Tabs.tsx";
 import Editable from "../components/ui/text/Editable";
-import {CollectionTypes} from "../data/CollectionTypes.tsx"; 
+import {CollectionTypes} from "../data/CollectionTypes.tsx";
+import StudyGroupMemberElement from "../components/StudyGroupMemberElement.tsx"; 
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId, institutionId } = useParams<{ studyGroupId: string; institutionId: string }>();
@@ -102,7 +103,7 @@ const StudyGroupContentPage: React.FC = () => {
                         {studyGroup?.courseIds?.length > 0 ? (
                             studyGroup.courseIds.map((course) => (
                                 <Link key={course.name} to={`/courses/${course._id}`} className="page-fade-enter page-fade-enter-active">
-                                    <CourseDataElement course={course} key={course.name} />
+                                    <StudyGroupCourseDataElement studyGroupId={studyGroup._id} course={course} />
                                 </Link>
                             ))
                         ) : (
@@ -123,7 +124,7 @@ const StudyGroupContentPage: React.FC = () => {
 
                         {studyGroup?.memberIds?.length > 0 ? (
                             studyGroup.memberIds.map((member) => (
-                                <InstitutionMemberElement member={member} key={member.name} canEditRole={false} />
+                                <StudyGroupMemberElement member={member} studyGroupId={studyGroup._id} key={member.name} canEditRole={false} />
                             ))
                         ) : (
                             <p>No members available</p>

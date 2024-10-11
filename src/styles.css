@@ -30,3 +30,7 @@
 .input-field {
     @apply flex-1 min-w-[200px] w-full border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 text-sm;
 }
+
+.transparent-input-field {
+    @apply w-full px-2 py-1 border-b bg-transparent outline-none focus:outline-none resize-none overflow-hidden border-gray-600 focus:border-blue-500 text-black dark:text-white;
+}

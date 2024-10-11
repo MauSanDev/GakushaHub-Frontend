@@ -117,11 +117,11 @@ const Editable: React.FC<EditableProps> = ({
                     <textarea
                         ref={textareaRef}
                         value={value}
-                        onChange={handleInputChange} // Restringe el input según el maxChar
+                        onChange={handleInputChange}
                         onBlur={handleBlur}
-                        onKeyDown={handleKeyDown} // Maneja Enter y Esc
+                        onKeyDown={handleKeyDown}
                         rows={1}
-                        className={`w-full px-2 py-1 border-b bg-transparent outline-none focus:outline-none resize-none overflow-hidden 
+                        className={`transparent-input-field 
                             ${isMaxCharReached ? 'border-red-500' : 'border-gray-600 focus:border-blue-500'}`}
                         placeholder={placeholder}
                     />
