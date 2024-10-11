@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import ModalWrapper from '../ModalWrapper';
 import { CourseData } from "../../data/CourseData.ts";
-import SelectableCourseBox from './SelectableCourseBox.tsx';
 import { usePaginatedCourse } from "../../hooks/usePaginatedCourse.ts";
 import { useAddCourseToGroup } from "../../hooks/institutionHooks/useAddCourseToGroup";
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import ShowSelectionToggle from "../../components/ui/toggles/ShowSelectionToggle.tsx";
+import PaginatedContainer from "../../components/ui/containers/PaginatedContainer";
+import CourseDataElement from "../../components/CourseDataElement.tsx"; // Importa el componente de paginación
 
 interface BindCoursesModalProps {
     onClose: () => void;
@@ -19,67 +20,25 @@ interface BindCoursesModalProps {
 }
 
 const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutionId, studyGroupId, onSaveSuccess }) => {
-    const [courses, setCourses] = useState<CourseData[]>([]);
     const [selectedCourses, setSelectedCourses] = useState<CourseData[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filteredCourses, setFilteredCourses] = useState<CourseData[]>([]);
+    const [showSelectedOnly, setShowSelectedOnly] = useState(false);
     const [page, setPage] = useState(1);
-    const [showSelectedOnly, setShowSelectedOnly] = useState(false); 
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    const { data: ownerData, isLoading: ownerLoading, error: ownerError } = usePaginatedCourse(page, 99, institutionId);
+    // Uso del hook para obtener los cursos paginados
+    const { data, isLoading, error, triggerFetch } = usePaginatedCourse(page, 99, searchTerm, institutionId);
 
-    const data = ownerData;
-    const isLoading = ownerLoading;
-    const error = ownerError;
+    const { mutate: addCoursesToGroup, isLoading: isAdding } = useAddCourseToGroup();
 
-    const hasMore = data ? page < (data.totalPages ?? 1) : false;
-
-    const { mutate: addCoursesToGroup, isLoading: isAdding } = useAddCourseToGroup(); 
-
-    
+    // Ejecuta triggerFetch cada vez que cambian la página, el término de búsqueda o el institutionId
     useEffect(() => {
-        if (data) {
-            setCourses(prevCourses => {
-                const newCourses = data.documents.filter(newCourse =>
-                    !prevCourses.some(course => course._id === newCourse._id)
-                );
-                return [...prevCourses, ...newCourses];
-            });
-        }
-    }, [data]);
+        triggerFetch();
+    }, [page, searchTerm, institutionId]);
 
-    
-    useEffect(() => {
-        const filtered = courses.filter(course =>
-            course.name.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredCourses(showSelectedOnly ? selectedCourses : filtered);
-    }, [searchTerm, courses, showSelectedOnly, selectedCourses]);
+    // Filtra los cursos según el término de búsqueda y si se muestran solo los seleccionados
+    const filteredCourses = showSelectedOnly ? selectedCourses : (data?.documents ?? []);
 
-    
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrollContainer = scrollContainerRef.current;
-            if (scrollContainer) {
-                const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
-                if (scrollTop + clientHeight >= scrollHeight - 100 && hasMore) {
-                    setPage(prevPage => prevPage + 1);
-                }
-            }
-        };
-
-        const scrollContainer = scrollContainerRef.current;
-        if (scrollContainer) {
-            scrollContainer.addEventListener('scroll', handleScroll);
-        }
-        return () => {
-            if (scrollContainer) {
-                scrollContainer.removeEventListener('scroll', handleScroll);
-            }
-        };
-    }, [hasMore]);
-
+    // Funciones de selección y deselección de cursos
     const handleSelectCourse = (course: CourseData) => {
         setSelectedCourses(prevSelected => [...prevSelected, course]);
     };
@@ -88,6 +47,7 @@ const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutio
         setSelectedCourses(prevSelected => prevSelected.filter(selected => selected._id !== course._id));
     };
 
+    // Agrega los cursos seleccionados al grupo de estudio
     const handleAddCourses = () => {
         addCoursesToGroup(
             { studyGroupId, courseIds: selectedCourses.map(course => course._id) },
@@ -112,9 +72,9 @@ const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutio
 
                     <div className="flex gap-2 mb-4 w-full max-w-4xl justify-between items-center">
 
-                        <SearchBar onSearch={setSearchTerm} placeholder={"Search Members..."}/>
+                        <SearchBar onSearch={setSearchTerm} placeholder={"Search Courses..."} />
                         <div className="flex gap-2">
-                            <PrimaryButton iconComponent={<FaPlus/>} label={isAdding ? 'Adding...' : 'Add Members'}
+                            <PrimaryButton iconComponent={<FaPlus/>} label={isAdding ? 'Adding...' : 'Add Courses'}
                                            onClick={handleAddCourses}
                                            disabled={selectedCourses.length === 0 || isAdding} className={"text-sm"}/>
                             <ShowSelectionToggle isSelected={showSelectedOnly}
@@ -122,25 +82,20 @@ const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutio
                         </div>
                     </div>
 
-                    <div
-                        ref={scrollContainerRef}
-                        className="w-full max-w-4xl flex-grow overflow-y-auto flex flex-col gap-6 pb-4"
-                    >
-
-                        {filteredCourses.length > 0 ? (
-                            filteredCourses.map((course, index) => (
-                                <SelectableCourseBox
-                                    key={index}
-                                    course={course}
-                                    isSelected={selectedCourses.some(selected => selected._id === course._id)}
-                                    onSelectCourse={handleSelectCourse}
-                                    onDeselectCourse={handleDeselectCourse}
+                    {/* Uso de PaginatedContainer para manejar la paginación */}
+                    {!isLoading && data && (
+                        <PaginatedContainer
+                            documents={filteredCourses} // Cursos filtrados
+                            currentPage={page}
+                            totalPages={data.totalPages}
+                            onPageChange={setPage} // Cambia de página
+                            RenderComponent={({ document }) => (
+                                <CourseDataElement
+                                    course={document}
                                 />
-                            ))
-                        ) : (
-                            <p className="text-center text-gray-500">No courses found</p>
-                        )}
-                    </div>
+                            )}
+                        />
+                    )}
                 </div>
             </SectionContainer>
         </ModalWrapper>

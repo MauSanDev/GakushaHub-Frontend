@@ -24,6 +24,7 @@ import LocSpan from "../components/LocSpan.tsx";
 import {useTranslation} from "react-i18next";
 import CreatorLabel from "../components/ui/text/CreatorLabel.tsx";
 import BackButton from "../components/ui/buttons/BackButton.tsx";
+import {CollectionTypes} from "../data/CollectionTypes.tsx";
 
 const CourseDetailPage: React.FC = () => {
     const { courseId, lessonId } = useParams<{ courseId: string; lessonId?: string }>();
@@ -141,7 +142,7 @@ const CourseDetailPage: React.FC = () => {
                 <DeleteButton
                     creatorId={course?.creatorId._id || ''}
                     elementId={courseId || ''}
-                    elementType="course"
+                    elementType={CollectionTypes.Course}
                     deleteRelations={true}
                     redirectTo="/courses"
                 />

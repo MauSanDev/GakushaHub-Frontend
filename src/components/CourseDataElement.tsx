@@ -7,6 +7,7 @@ import {useAuth} from "../context/AuthContext.tsx";
 import LocSpan from "./LocSpan.tsx";
 import Container from "./ui/containers/Container.tsx";
 import CreatorLabel from "./ui/text/CreatorLabel.tsx";
+import {CollectionTypes} from "../data/CollectionTypes.tsx";
 
 interface CourseDataElementProps {
     course: CourseData;
@@ -21,7 +22,7 @@ const CourseDataElement: React.FC<CourseDataElementProps> = ({ course }) => {
                 <DeleteButton
                     creatorId={course.creatorId._id}
                     elementId={course._id}
-                    elementType="course"
+                    elementType={CollectionTypes.Course}
                     deleteRelations={true}
                 />
          </div>

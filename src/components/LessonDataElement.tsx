@@ -25,6 +25,7 @@ import GenerationButton from "./Modals/GenerationButton.tsx";
 import AddContentButton from "./AddContentButton.tsx";
 import LocSpan from "./LocSpan.tsx";
 import Container from "./ui/containers/Container.tsx";
+import {CollectionTypes} from "../data/CollectionTypes.tsx";
 
 interface LessonDataElementProps {
     owner: CourseData;
@@ -65,7 +66,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                 <DeleteButton
                     creatorId={lesson.creatorId._id}
                     elementId={lesson._id}
-                    elementType="lesson"
+                    elementType={CollectionTypes.Lesson}
                     redirectTo={`/courses/${owner._id}`}
                 />
 

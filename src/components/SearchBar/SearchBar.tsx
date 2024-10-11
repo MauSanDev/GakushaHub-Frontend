@@ -97,7 +97,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, interactable: enabled }
                         onCompositionEnd={() => setIsComposing(false)}
                         onPaste={onPaste}
                         placeholder={t("searchPage.inputPlaceholder")}
-                        className="outline-none border-none bg-transparent w-full flex-1 min-w-0 focus:outline-none"
+                        className="outline-none border-none bg-transparent w-full flex-1 min-w-0 focus:outline-none text-lg"
 
                     />
                 </div>

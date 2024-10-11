@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { ApiClient } from '../services/ApiClient';
+import {CollectionTypes} from "../data/CollectionTypes.tsx";
 
 interface DeleteElementParams {
     elementId: string;
-    elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation' | 'kanjiDeck' | 'grammarDeck' | 'wordDeck';
+    elementType: CollectionTypes;
     deleteRelations?: boolean;
 }
 

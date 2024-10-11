@@ -4,11 +4,12 @@ import { useDeleteElement } from '../hooks/useDeleteElement';
 import { useNavigate } from 'react-router-dom';
 import {useAuth} from "../context/AuthContext.tsx";
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
+import {CollectionTypes} from "../data/CollectionTypes.tsx";
 
 interface DeleteButtonProps {
     creatorId: string
     elementId: string;
-    elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation' | 'kanjiDeck' | 'grammarDeck' | 'wordDeck';
+    elementType: CollectionTypes;
     deleteRelations?: boolean;
     redirectTo?: string;
 }

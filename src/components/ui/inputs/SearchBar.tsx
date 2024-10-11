@@ -46,7 +46,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, placeholder = 'Search..
                 value={inputValue}
                 onChange={handleInputChange}
                 placeholder={t(placeholder)}
-                className="pl-6 outline-none border-none bg-transparent w-full"  
+                className="pl-6 outline-none border-none bg-transparent w-full text-lg"  
             />
         </div>
     );

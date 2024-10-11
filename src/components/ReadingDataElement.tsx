@@ -4,6 +4,7 @@ import { GeneratedData } from "../data/GenerationData.ts";
 import LocSpan from "./LocSpan.tsx";
 import Container from "./ui/containers/Container.tsx";
 import CreatorLabel from "./ui/text/CreatorLabel.tsx";
+import {CollectionTypes} from "../data/CollectionTypes.tsx";
 
 interface ReadingDataElementProps {
     data: GeneratedData;
@@ -18,7 +19,7 @@ const ReadingDataElement: React.FC<ReadingDataElementProps> = ({ data, deleteRel
                 <DeleteButton
                     creatorId={data.creatorId?._id ?? ''}
                     elementId={data._id}
-                    elementType={'generation'}
+                    elementType={CollectionTypes.Generation}
                     deleteRelations={deleteRelations}
                 />
             </div>

@@ -13,7 +13,6 @@ export const useAddMembersToGroup = () => {
         },
         {
             onSuccess: (_data, variables) => {
-                // Invalidar los queries relacionados al grupo de estudio
                 queryClient.invalidateQueries(`studyGroup_${variables.studyGroupId}`);
             },
             onError: (error) => {

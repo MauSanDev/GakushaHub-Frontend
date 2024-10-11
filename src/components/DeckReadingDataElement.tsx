@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import DeleteButton from './DeleteButton';
 import { GeneratedData } from "../data/GenerationData.ts";
 import CreatorLabel from "./ui/text/CreatorLabel.tsx";
+import {CollectionTypes} from "../data/CollectionTypes.tsx";
 
 interface DeckReadingDataElementProps {
     result: GeneratedData;
@@ -17,7 +18,7 @@ const DeckReadingDataElement: React.FC<DeckReadingDataElementProps> = ({ result,
                 <DeleteButton
                     creatorId={result.creatorId._id}
                     elementId={result._id}
-                    elementType={'generation'}
+                    elementType={CollectionTypes.Generation}
                     deleteRelations={deleteRelations}
                 />
             </div>

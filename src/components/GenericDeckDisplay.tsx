@@ -15,6 +15,7 @@ import { CourseData, LessonData } from "../data/CourseData.ts";
 import AddContentButton from "./AddContentButton.tsx";
 import LocSpan from "./LocSpan.tsx";
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
+import {CollectionTypes} from "../data/CollectionTypes.tsx";
 
 interface GenericDeckDisplayProps<T> {
     courseData: CourseData;
@@ -26,7 +27,7 @@ interface GenericDeckDisplayProps<T> {
     mobileColumns?: number;
     enableFlashcards?: boolean;
     enableGeneration?: boolean;
-    elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation' | 'kanjiDeck' | 'grammarDeck' | 'wordDeck';
+    elementType: CollectionTypes;
     viewMode: "table" | "cards";
 }
 

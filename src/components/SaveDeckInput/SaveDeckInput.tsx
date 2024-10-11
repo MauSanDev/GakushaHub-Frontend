@@ -173,6 +173,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
     const dropdownContent = (
         <div className="absolute top-0 right-0 z-50 flex flex-col gap-2 shadow-lg p-4 rounded-md">
             <TooltipButton
+                autoClose={false}
                 baseColor={"dark:bg-blue-700 dark:hover:bg-blue-500"}
                 items={[
                     <h1 className={"text-gray-500 text-xs"}><LocSpan textKey={"saveDeckInput.saveInto"} /></h1>,

@@ -6,15 +6,12 @@ import Sidebar from "../components/Sidebar";
 const PrivateRoute: React.FC = () => {
     const { isAuthenticated } = useAuth();
 
-    // Evitar que la página se scrollee o se mueva en mobile
     useEffect(() => {
-        // Desactivar el scroll en el cuerpo de la página
         document.body.style.overflow = 'hidden';
         document.body.style.position = 'fixed';
         document.body.style.width = '100%';
 
         return () => {
-            // Rehabilitar el scroll cuando el componente se desmonta
             document.body.style.overflow = '';
             document.body.style.position = '';
             document.body.style.width = '';
@@ -26,7 +23,7 @@ const PrivateRoute: React.FC = () => {
     }
 
     return (
-        <div className="flex h-screen w-full px-2 overflow-hidden">
+        <div className="flex h-screen w-full px-2 overflow-hidden fixed dark:bg-black">
             <Sidebar />
             <div className="flex-1 flex flex-col items-center justify-center">
                 <Outlet />

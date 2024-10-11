@@ -7,46 +7,57 @@ interface TooltipButtonProps {
     icon?: React.ReactNode;
     buttonSize?: string;
     baseColor?: string;
-    hoverColor?: string; 
+    hoverColor?: string;
+    autoClose?: boolean;
 }
 
 const TooltipButton: React.FC<TooltipButtonProps> = ({
-                                                           items,
-                                                           icon,
-                                                           buttonSize = 'text-lg',
-                                                           baseColor = 'bg-blue-500 dark:bg-gray-700',  
-                                                           hoverColor = 'hover:bg-blue-600 dark:hover:bg-gray-600', 
-                                                       }) => {
+                                                         items,
+                                                         icon,
+                                                         buttonSize = 'text-lg',
+                                                         baseColor = 'bg-blue-500 dark:bg-gray-700',
+                                                         hoverColor = 'hover:bg-blue-600 dark:hover:bg-gray-600',
+                                                         autoClose = true,
+                                                     }) => {
     const [showConfig, setShowConfig] = useState(false);
     const [position, setPosition] = useState({ top: 0, left: 0 });
     const buttonRef = useRef<HTMLButtonElement | null>(null);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) && !buttonRef.current?.contains(event.target as Node)) {
-                setShowConfig(false);
-            }
-        };
+        if (autoClose) {
+            const handleClickOutside = (event: MouseEvent) => {
+                const target = event.target as Node;
+                // Si el clic no está en el dropdown, ni en el botón, y no es un campo de entrada
+                if (dropdownRef.current &&
+                    !dropdownRef.current.contains(target) &&
+                    !buttonRef.current?.contains(target) &&
+                    !(target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target instanceof HTMLSelectElement)) {
+                    setShowConfig(false);
+                }
+            };
 
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+            document.addEventListener('mousedown', handleClickOutside);
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside);
+            };
+        }
+    }, [autoClose]);
 
     useEffect(() => {
-        const handleScroll = () => {
-            if (showConfig) {
-                setShowConfig(false);
-            }
-        };
+        if (autoClose) {
+            const handleScroll = () => {
+                if (showConfig) {
+                    setShowConfig(false);
+                }
+            };
 
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [showConfig]);
+            window.addEventListener('scroll', handleScroll);
+            return () => {
+                window.removeEventListener('scroll', handleScroll);
+            };
+        }
+    }, [autoClose, showConfig]);
 
     useEffect(() => {
         if (showConfig && buttonRef.current && dropdownRef.current) {

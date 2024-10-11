@@ -5,7 +5,7 @@ import { useChangeMembershipStatus } from "../../../hooks/institutionHooks/useCh
 
 interface InstitutionMemberElementProps {
     member: MembershipData;
-    onRemove: () => void;
+    onRemove: (toRemove: string) => void;
     onRoleChange: (newRole: string) => void;
 }
 
@@ -41,6 +41,14 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
     };
 
     const isRegisteredUser = !!member.userId; // Check if the user is registered
+
+    const handleRemoveClick = () => {
+        // Muestra el popup de confirmación
+        const confirmDelete = window.confirm("Are you sure you want to remove this member?");
+        if (confirmDelete) {
+            onRemove(member._id);
+        }
+    };
 
     return (
         <div className="flex items-center p-4 border-b border-gray-300 dark:border-gray-600 hover:dark:bg-gray-800 hover:bg-blue-100 transition-all">
@@ -90,7 +98,7 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
                 )}
 
                 <button
-                    onClick={onRemove}
+                    onClick={handleRemoveClick} // Agrega la confirmación al eliminar
                     className="text-red-500 hover:text-red-700"
                     title="Remove Member"
                 >
