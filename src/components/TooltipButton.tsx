@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaCog } from 'react-icons/fa';
 import { createPortal } from 'react-dom';
 
-interface ConfigDropdownProps {
+interface TooltipButtonProps {
     items: React.ReactNode[];
     icon?: React.ReactNode;
     buttonSize?: string;
@@ -10,7 +10,7 @@ interface ConfigDropdownProps {
     hoverColor?: string; 
 }
 
-const ConfigDropdown: React.FC<ConfigDropdownProps> = ({
+const TooltipButton: React.FC<TooltipButtonProps> = ({
                                                            items,
                                                            icon,
                                                            buttonSize = 'text-lg',
@@ -112,4 +112,4 @@ const ConfigDropdown: React.FC<ConfigDropdownProps> = ({
     );
 };
 
-export default ConfigDropdown;
+export default TooltipButton;

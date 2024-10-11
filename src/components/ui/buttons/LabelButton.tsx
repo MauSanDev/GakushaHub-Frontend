@@ -1,15 +1,16 @@
 import React from 'react';
 import BaseButton from "./BaseButton.tsx";
 
-interface PrimaryButtonProps {
+interface LabelButtonProps {
     onClick: () => void;
     label?: string;
+    value?: string;
     iconComponent?: React.ReactNode;
     className?: string;
     disabled?: boolean;
 }
 
-const PrimaryButton: React.FC<PrimaryButtonProps> = ({ onClick, label, iconComponent , disabled, className}) => {
+const LabelButton: React.FC<LabelButtonProps> = ({ onClick, label, iconComponent , disabled, className, value}) => {
 
     return (
         <BaseButton
@@ -17,9 +18,10 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({ onClick, label, iconCompo
             label={label}
             iconComponent={iconComponent}
             disabled={disabled}
-            className={`bg-blue-500 dark:bg-blue-800 text-white rounded py-2 px-4 hover:bg-blue-600 dark:hover:bg-blue-700 transition-all ${className}`}
+            value={value}
+            className={`text-xs text-left text-white py-2 px-4 w-full hover:bg-blue-600 dark:hover:bg-gray-700 transition-all ${className}`}
         />
     );
 };
 
-export default PrimaryButton;
+export default LabelButton;

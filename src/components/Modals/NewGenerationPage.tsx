@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { KanjiDeck } from "../../data/KanjiData.ts";
 import { WordDeck } from "../../data/WordData.ts";
 import { GrammarDeck } from "../../data/GrammarData.ts";
-import ConfigDropdown from "../ConfigDropdown.tsx";
+import TooltipButton from "../TooltipButton.tsx";
 import { useBuildCourse } from "../../hooks/useBuildCourse.ts";
 import { DeckType, isGrammarDeck, isKanjiDeck, isWordDeck } from "../../data/DeckData.ts";
 import { useTranslation } from 'react-i18next';
@@ -166,7 +166,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ decks, courseName
                         <SectionTitle title={"何読みたいの？"} className={"text-center"} />
 
                         <div className={"absolute right-10"}>
-                            <ConfigDropdown
+                            <TooltipButton
                                 icon={<FaQuestion />}
                                 items={[
                                     <p className="text-xs text-gray-600 dark:text-gray-300 font-bold"><LocSpan textKey={"generationPage.tips.title"} /></p>,

@@ -18,7 +18,6 @@ import MainLayout from "./layouts/MainLayout.tsx";
 import FullScreenLayout from "./layouts/FullScreenLayout.tsx";
 import {LanguageProvider} from "./context/LanguageContext.tsx";
 import PrivateRoute from "./layouts/PrivateLayout.tsx";
-import FakeGenerationPage from "./components/Modals/GenerationPage.tsx";
 import { applyDarkMode } from "./components/DarkModeToggle.tsx";
 import GrammarCreatePage from "./pages/GrammarCreatePage.tsx";
 import InstitutionListPage from "./pages/Institutions/InstitutionListPage.tsx";
@@ -71,7 +70,6 @@ function App() {
 
                 <Route element={<PrivateRoute />}>
                     <Route path="/addGrammar" element={<GrammarCreatePage />} />
-                    <Route path="/generate" element={<FakeGenerationPage />} />
                     <Route path="/courses" element={<CourseListPage />} />
                     <Route path="/institutions" element={<InstitutionListPage />} />
                     <Route path="/courses/:courseId" element={<CourseDetailPage />} />

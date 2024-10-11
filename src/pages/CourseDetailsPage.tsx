@@ -16,7 +16,7 @@ import { useLessonById } from '../hooks/coursesHooks/useLessonById';
 import LoadingScreen from "../components/LoadingScreen";
 import DeleteButton from '../components/DeleteButton';
 import { useAuth } from "../context/AuthContext.tsx";
-import ConfigDropdown from "../components/ConfigDropdown.tsx";
+import TooltipButton from "../components/TooltipButton.tsx";
 import { useUpdateCourse } from '../hooks/updateHooks/useUpdateCourse.ts';
 import FollowButton from '../components/FollowButton';
 import AddLessonButton from "../components/AddLessonButton.tsx";
@@ -267,7 +267,7 @@ const CourseDetailPage: React.FC = () => {
                     </div>
 
                     {(isOwner || isPublic) && (<div className="relative">
-                        <ConfigDropdown
+                        <TooltipButton
                             icon={<FaCog/>}
                             items={dropdownItems}
                         />

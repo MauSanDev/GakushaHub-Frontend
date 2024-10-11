@@ -4,12 +4,13 @@ import LocSpan from "../../LocSpan.tsx";
 interface BaseButtonProps {
     onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
     label?: string;
+    value?: string;
     iconComponent?: React.ReactNode;
     className?: string;
     disabled?: boolean;
 }
 
-const BaseButton: React.FC<BaseButtonProps> = ({ onClick, label, iconComponent, className = '', disabled }) => {
+const BaseButton: React.FC<BaseButtonProps> = ({ onClick, label, value, iconComponent, className = '', disabled }) => {
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
@@ -24,7 +25,17 @@ const BaseButton: React.FC<BaseButtonProps> = ({ onClick, label, iconComponent, 
             className={`flex justify-center items-center gap-2 text-center ${className}`}
         >
             {iconComponent && <span>{iconComponent}</span>}
-            {label && <LocSpan textKey={label} />}
+            {label && (
+                <span>
+                    <LocSpan textKey={label} />
+                    {value && (
+                        <>
+                            {`: `}
+                            <LocSpan textKey={value} />
+                        </>
+                    )}
+                </span>
+            )}
         </button>
     );
 };

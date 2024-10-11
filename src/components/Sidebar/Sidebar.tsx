@@ -15,7 +15,7 @@ const Sidebar: React.FC = () => {
         { label: 'texts', path: '/generations'},
         { label: 'groups', path: '/groups', requiresAuth: true},
         { label: 'institutions', path: '/institutions', requiresRole: ['sensei'] },
-        { label: 'generate', path: '/generate', requiresRole: ['premium', 'sensei'] },
+        // { label: 'generate', path: '/generate', requiresRole: ['premium', 'sensei'] },
     ];
 
     const hasRequiredRole = (requiredRoles?: string[]) => {

@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import LocSpan from "../LocSpan.tsx";
 import {useTranslation} from "react-i18next";
 import PrimaryButton from "../ui/buttons/PrimaryButton.tsx";
 

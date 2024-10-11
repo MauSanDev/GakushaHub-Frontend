@@ -1,7 +1,7 @@
 import React from 'react';
 import { GrammarData } from '../../data/GrammarData';
 import { FaQuestionCircle } from 'react-icons/fa';
-import ConfigDropdown from "../ConfigDropdown";
+import TooltipButton from "../TooltipButton.tsx";
 import LocSpan from "../LocSpan.tsx";
 import i18n from "i18next"; 
 
@@ -101,7 +101,7 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
                     <span className="bg-blue-400 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded">
                         JLPT{result.jlpt}
                     </span>
-                    <ConfigDropdown items={dropdownItems} icon={<FaQuestionCircle/>} buttonSize="text-xs"/>
+                    <TooltipButton items={dropdownItems} icon={<FaQuestionCircle/>} buttonSize="text-xs"/>
                 </div>
             </div>
             <LocSpan textKey={result.hint} namespace={"grammar_jlpt" + result.jlpt}

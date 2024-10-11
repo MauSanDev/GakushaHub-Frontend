@@ -8,7 +8,7 @@ import { GrammarData } from "../../data/GrammarData.ts";
 import { SaveStatus } from "../../utils/SaveStatus.ts";
 import { GeneratedData } from "../../data/GenerationData.ts";
 import { useAuth } from "../../context/AuthContext.tsx";
-import ConfigDropdown from "../ConfigDropdown.tsx";
+import TooltipButton from "../TooltipButton.tsx";
 import { useOwnerCourses } from "../../hooks/coursesHooks/useOwnerCourses.ts";
 import { createPortal } from 'react-dom';
 import LocSpan from "../LocSpan.tsx";
@@ -169,7 +169,7 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
 
     const dropdownContent = (
         <div className="absolute top-0 right-0 z-50 flex flex-col gap-2 shadow-lg p-4 rounded-md">
-            <ConfigDropdown
+            <TooltipButton
                 baseColor={"dark:bg-blue-700 dark:hover:bg-blue-500"}
                 items={[
                     <h1 className={"text-gray-500 text-xs"}><LocSpan textKey={"saveDeckInput.saveInto"} /></h1>,
