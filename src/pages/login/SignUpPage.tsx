@@ -4,7 +4,7 @@ import { FaEye, FaEyeSlash, FaCheck, FaTimes, FaSpinner } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
 import { countryList } from '../../utils/countryList';
 import AuthLayout from './AuthLayout';
-import {useTranslation} from "react-i18next"; // Importa el AuthLayout
+import {useTranslation} from "react-i18next";
 
 const SignUpPage: React.FC = () => {
     const { signUp } = useAuth();
@@ -76,7 +76,7 @@ const SignUpPage: React.FC = () => {
                     type="text"
                     required
                     disabled={loading}
-                    className="w-full px-3 py-2 text-black border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="input-field"
                     placeholder={t("loginFlow.name")}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -86,7 +86,7 @@ const SignUpPage: React.FC = () => {
                     type="email"
                     required
                     disabled={loading}
-                    className="w-full px-3 py-2 text-black border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="input-field"
                     placeholder={t("loginFlow.email")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -97,7 +97,7 @@ const SignUpPage: React.FC = () => {
                     name="country"
                     required
                     disabled={loading}
-                    className="w-full px-3 py-2 text-black border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="input-field"
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
                 >
@@ -117,7 +117,7 @@ const SignUpPage: React.FC = () => {
                         type={passwordVisible ? 'text' : 'password'}
                         required
                         disabled={loading}
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        className="input-field"
                         placeholder={t("loginFlow.password")}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -125,7 +125,7 @@ const SignUpPage: React.FC = () => {
                     />
                     <button
                         type="button"
-                        className="absolute inset-y-0 text-black right-0 pr-3 flex items-center text-sm leading-5"
+                        className="absolute inset-y-0 text-gray-600 dark:text-gray-300 right-0 pr-3 flex items-center text-sm leading-5"
                         onClick={togglePasswordVisibility}
                     >
                         {passwordVisible ? <FaEyeSlash /> : <FaEye />}
@@ -138,7 +138,7 @@ const SignUpPage: React.FC = () => {
                         type={confirmPasswordVisible ? 'text' : 'password'}
                         required
                         disabled={loading}
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        className="input-field"
                         placeholder={t("loginFlow.confirmPassword")}
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
@@ -146,7 +146,7 @@ const SignUpPage: React.FC = () => {
                     />
                     <button
                         type="button"
-                        className="absolute inset-y-0 text-black right-0 pr-3 flex items-center text-sm leading-5"
+                        className="absolute inset-y-0 text-gray-800 dark:text-gray-300 right-0 pr-3 flex items-center text-sm leading-5"
                         onClick={toggleConfirmPasswordVisibility}
                     >
                         {confirmPasswordVisible ? <FaEyeSlash /> : <FaEye />}
@@ -154,7 +154,7 @@ const SignUpPage: React.FC = () => {
                 </div>
 
                 {showRequirements && (
-                    <ul className="text-sm space-y-1 mt-4 transition-opacity duration-500 ease-in-out opacity-100">
+                    <ul className="text-sm space-y-1 mt-4 transition-opacity duration-500 ease-in-out opacity-100 text-gray-800 dark:text-gray-400">
                         <li className="flex items-center">
                             {passwordValidation.length ? <FaCheck className="text-green-500" /> : <FaTimes className="text-red-500" />}
                             <span className="ml-2">{t("loginFlow.passwordTips.atLeastEight")}</span>
@@ -185,14 +185,14 @@ const SignUpPage: React.FC = () => {
                 <button
                     type="submit"
                     disabled={loading || !isFormValid}
-                    className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${isFormValid ? 'bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500' : 'bg-gray-400 cursor-not-allowed'}`}
+                    className={`w-full bg-blue-500 dark:bg-blue-800 text-white rounded py-2 px-4 hover:bg-blue-600 dark:hover:bg-blue-700 text-sm transition-all ${isFormValid ? 'bg-blue-600 hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500' : 'opacity-50 bg-gray-400 cursor-not-allowed'}`}
                 >
                     {loading ? <FaSpinner className="animate-spin" /> : t("loginFlow.signUp")}
                 </button>
                 {error && <p className="text-red-500 text-center mt-4">{error}</p>}
             </form>
 
-            <div className="text-center text-sm text-gray-600 dark:text-gray-300">
+            <div className="text-center text-sm text-gray-600 dark:text-gray-300 py-4">
                 {t("loginFlow.haveAccount")}{' '}
                 <button
                     onClick={() => navigate('/signin')}

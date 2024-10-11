@@ -6,6 +6,7 @@ import darkBg from '../../assets/bg-dark-mode.jpg';
 import LanguageDropdown from '../../components/LanguageDropdown';
 import DarkModeToggle from '../../components/DarkModeToggle';
 import LocSpan from "../../components/LocSpan.tsx";
+import Container from "../../components/ui/containers/Container.tsx";
 
 interface AuthLayoutProps {
     children: React.ReactNode;
@@ -35,13 +36,13 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
             </div>
 
             <div className="relative z-10 flex flex-1 justify-center items-center p-4">
-                <div className="bg-white dark:bg-gray-900 dark:text-white p-6 space-y-8 shadow-lg rounded-lg">
+                <Container>
                     {children}
                     <div className="flex gap-6 items-center px-4 mb-4">
                         <LanguageDropdown />
                         <DarkModeToggle />
                     </div>
-                </div>
+                </Container>
             </div>
         </div>
     );
