@@ -17,6 +17,7 @@ import LocSpan from "./LocSpan.tsx";
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
 import {CollectionTypes} from "../data/CollectionTypes.tsx";
 import Editable from "./ui/text/Editable.tsx";
+import {MembershipRole} from "../data/Institutions/MembershipData.ts";
 
 interface GenericDeckDisplayProps<T> {
     courseData: CourseData;
@@ -30,6 +31,7 @@ interface GenericDeckDisplayProps<T> {
     enableGeneration?: boolean;
     elementType: CollectionTypes;
     viewMode: "table" | "cards";
+    viewerRole: MembershipRole;
 }
 
 const GenericDeckDisplay = <T,>({
@@ -44,6 +46,7 @@ const GenericDeckDisplay = <T,>({
                                     enableFlashcards = true,
                                     elementType,
                                     viewMode,
+                                    viewerRole
                                 }: GenericDeckDisplayProps<T>) => {
     const [flashcardsMode, setFlashcardsMode] = useState(false);
     const [grammarModalVisible, setGrammarModalVisible] = useState(false); 
@@ -127,7 +130,7 @@ const GenericDeckDisplay = <T,>({
                         documentId={deck._id || ''}
                         field="name"
                         className="font-bold text-gray-600 dark:text-gray-300 truncate flex-grow lg:max-w-xl max-w-32"
-                        canEdit={true}
+                        canEdit={viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei|| viewerRole === MembershipRole.Staff}
                         maxChar={40}
                     />
                     <span className="text-sm text-gray-500 whitespace-nowrap">({deck.elements.length} <LocSpan textKey={"elements"}/>)</span>

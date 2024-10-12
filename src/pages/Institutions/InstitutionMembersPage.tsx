@@ -9,7 +9,10 @@ import { FaPlus } from "react-icons/fa";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
 import { useDeleteElement } from '../../hooks/useDeleteElement';
-import {CollectionTypes} from "../../data/CollectionTypes.tsx"; 
+import { CollectionTypes } from "../../data/CollectionTypes.tsx";
+import { usePrivilege } from '../../hooks/usePrivilege';
+import { MembershipRole } from '../../data/Institutions/MembershipData.ts';
+import {useInstitutionById} from "../../hooks/institutionHooks/useInstitutionById.ts";
 
 const InstitutionMembersPage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
@@ -17,8 +20,11 @@ const InstitutionMembersPage: React.FC = () => {
     const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState<boolean>(false);
     const [page, setPage] = useState(1);
 
+    const { data: institution } = useInstitutionById(institutionId || '');
     const { data: membersData, isLoading, fetchMembers } = usePaginatedMembers(page, 30, institutionId || '', searchQuery);
-    const { mutate: deleteMembership } = useDeleteElement(); 
+    const { mutate: deleteMembership } = useDeleteElement();
+
+    const { role } = usePrivilege(institutionId || '', institution?.creatorId || '');
 
     useEffect(() => {
         fetchMembers();
@@ -26,7 +32,7 @@ const InstitutionMembersPage: React.FC = () => {
 
     const handleAddMemberSuccess = () => {
         setIsAddMemberModalOpen(false);
-        fetchMembers(); 
+        fetchMembers();
     };
 
     const handleSearch = (query: string) => {
@@ -38,8 +44,8 @@ const InstitutionMembersPage: React.FC = () => {
             { elementId: memberId, elementType: CollectionTypes.Membership },
             {
                 onSuccess: () => {
-                    setPage(1); 
-                    fetchMembers(); 
+                    setPage(1);
+                    fetchMembers();
                 },
                 onError: (error) => {
                     console.error('Error deleting member:', error);
@@ -48,16 +54,24 @@ const InstitutionMembersPage: React.FC = () => {
         );
     };
 
+    const canManageMembers = role === MembershipRole.Owner || role === MembershipRole.Staff;
+
     return (
         <SectionContainer title={"メンバー"} isLoading={isLoading}>
             <div className="w-full max-w-4xl flex flex-col text-left mt-12">
                 <div className="flex items-center justify-between mb-4">
-                    {/* Reemplazo del input anterior con SearchBar */}
                     <SearchBar
                         onSearch={handleSearch}
                         placeholder="Search members..."
                     />
-                    <PrimaryButton onClick={() => setIsAddMemberModalOpen(true)} label={"addMember"} iconComponent={<FaPlus />} className={"text-xs"} />
+                    {canManageMembers && (
+                        <PrimaryButton
+                            onClick={() => setIsAddMemberModalOpen(true)}
+                            label={"addMember"}
+                            iconComponent={<FaPlus />}
+                            className={"text-xs"}
+                        />
+                    )}
                 </div>
 
                 {!isLoading && membersData && (
@@ -69,9 +83,9 @@ const InstitutionMembersPage: React.FC = () => {
                         RenderComponent={({ document }) => (
                             <InstitutionMemberElement
                                 member={document}
-                                onRemove={() => handleRemove(document._id)} 
+                                onRemove={canManageMembers ? () => handleRemove(document._id) : () => {}}
                                 onRoleChange={() => { /* Manejar el cambio de rol si es necesario */ }}
-                                canEditRole={true}
+                                canEditRole={canManageMembers}
                             />
                         )}
                     />

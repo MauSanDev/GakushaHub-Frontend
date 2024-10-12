@@ -21,6 +21,7 @@ import LocSpan from "./LocSpan.tsx";
 import Container from "./ui/containers/Container.tsx";
 import {CollectionTypes} from "../data/CollectionTypes.tsx";
 import Editable from "./ui/text/Editable.tsx";
+import {MembershipRole} from "../data/Institutions/MembershipData.ts";
 
 interface LessonDataElementProps {
     owner: CourseData;
@@ -29,6 +30,7 @@ interface LessonDataElementProps {
     showWord: boolean;
     showGrammar: boolean;
     showReadings: boolean;
+    viewerRole: MembershipRole;
 }
 
 const LessonDataElement: React.FC<LessonDataElementProps> = ({
@@ -38,6 +40,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                                  showWord,
                                                  showGrammar,
                                                  showReadings,
+                                                 viewerRole,
                                              }) => {
     const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
 
@@ -104,7 +107,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                 documentId={lesson._id || ''}
                 field="name"
                 className="lg:text-2xl text-xl font-bold text-blue-400 dark:text-white mb-2 capitalize pt-8"
-                canEdit={true}
+                canEdit={viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei|| viewerRole === MembershipRole.Staff}
                 maxChar={40}
             />
 
@@ -114,7 +117,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                 documentId={lesson._id || ''}
                 field="description"
                 className="text-gray-700 mb-4 text-sm"
-                canEdit={true}
+                canEdit={viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei|| viewerRole === MembershipRole.Staff}
                 maxChar={400}
                 placeholder={"Add a Description"}
             />
@@ -142,6 +145,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                     viewMode={viewMode}
                                     columns={6}
                                     mobileColumns={2}
+                                    viewerRole={viewerRole}
                                 />
                             ))}
                         </div>
@@ -166,6 +170,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                     viewMode={viewMode}
                                     columns={6}
                                     mobileColumns={2}
+                                    viewerRole={viewerRole}
                                 />
                             ))}
                         </div>
@@ -189,6 +194,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                     courseData={owner}
                                     enableGeneration={true}
                                     viewMode={viewMode}
+                                    viewerRole={viewerRole}
                                 />
                             ))}
                         </div>

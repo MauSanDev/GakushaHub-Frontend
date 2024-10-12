@@ -7,10 +7,11 @@ import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
 
 interface StudyGroupMemberElementProps {
     member: MembershipData;
-    studyGroupId: string; // ID del grupo de estudio al que pertenece el miembro
+    studyGroupId: string;
+    permission: string;
 }
 
-const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ member, studyGroupId }) => {
+const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ member, studyGroupId, permission }) => {
     const roleColors: { [key: string]: string } = {
         owner: 'dark:text-purple-500 text-purple-400',
         staff: 'dark:text-yellow-500 text-yellow-500',
@@ -64,7 +65,9 @@ const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ membe
                     {member.role}
                 </span>
 
-                <TertiaryButton onClick={handleRemoveClick} iconComponent={<FaTrash />} label={"Remove"} />
+                {(permission === 'owner' || permission === 'editor') &&
+                    <TertiaryButton onClick={handleRemoveClick} iconComponent={<FaTrash />} label={"Remove"} />
+                }
             </div>
         </div>
     );

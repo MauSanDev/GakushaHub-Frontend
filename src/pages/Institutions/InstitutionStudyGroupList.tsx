@@ -8,14 +8,19 @@ import PaginatedContainer from '../../components/ui/containers/PaginatedContaine
 import { FaPlus } from "react-icons/fa";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
+import { usePrivilege } from '../../hooks/usePrivilege';
+import { MembershipRole } from '../../data/Institutions/MembershipData.ts';
+import {useInstitutionById} from "../../hooks/institutionHooks/useInstitutionById.ts";
 
 const InstitutionStudyGroupPage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [isAddGroupModalOpen, setIsAddGroupModalOpen] = useState<boolean>(false);
-
+    const { data: institutionData } = useInstitutionById(institutionId || "");
     const { data: studyGroupsData, isLoading, fetchStudyGroups } = usePaginatedStudyGroups(page, 10, institutionId || "", searchQuery);
+
+    const { role } = usePrivilege(institutionId || '', institutionData?.creatorId || '');
 
     useEffect(() => {
         fetchStudyGroups();
@@ -29,16 +34,26 @@ const InstitutionStudyGroupPage: React.FC = () => {
         setSearchQuery(query);
     };
 
+    const canAddStudyGroup = role === MembershipRole.Owner || role === MembershipRole.Staff;
+
     return (
         <SectionContainer title={"勉強のグループ"} isLoading={isLoading}>
+            <span className={"text-white"}>{role}</span>
             <div className="w-full max-w-4xl flex flex-col text-left mt-12">
                 <div className="flex items-center justify-between mb-4">
-                    {/* Reemplazo del input anterior con SearchBar */}
+                    {/* Barra de búsqueda */}
                     <SearchBar
                         onSearch={handleSearch}
                         placeholder="Search study groups..."
                     />
-                    <PrimaryButton onClick={() => setIsAddGroupModalOpen(true)} label={"addStudyGroup"} iconComponent={<FaPlus />} className={"text-xs"} />
+                    {canAddStudyGroup && (
+                        <PrimaryButton
+                            onClick={() => setIsAddGroupModalOpen(true)}
+                            label={"addStudyGroup"}
+                            iconComponent={<FaPlus/>}
+                            className={"text-xs"}
+                        />
+                    )}
                 </div>
 
                 {!isLoading && studyGroupsData && (
@@ -47,7 +62,7 @@ const InstitutionStudyGroupPage: React.FC = () => {
                         currentPage={page}
                         totalPages={studyGroupsData.totalPages}
                         onPageChange={setPage}
-                        RenderComponent={({ document }) => (
+                        RenderComponent={({document}) => (
                             <StudyGroupDataElement
                                 studyGroup={document}
                             />

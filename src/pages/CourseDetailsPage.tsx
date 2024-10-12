@@ -21,11 +21,13 @@ import { useUpdateCourse } from '../hooks/updateHooks/useUpdateCourse.ts';
 import FollowButton from '../components/FollowButton';
 import AddLessonButton from "../components/AddLessonButton.tsx";
 import LocSpan from "../components/LocSpan.tsx";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import CreatorLabel from "../components/ui/text/CreatorLabel.tsx";
 import BackButton from "../components/ui/buttons/BackButton.tsx";
-import {CollectionTypes} from "../data/CollectionTypes.tsx";
+import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import Editable from "../components/ui/text/Editable.tsx";
+import { usePrivilege } from '../hooks/usePrivilege';
+import { MembershipRole } from '../data/Institutions/MembershipData.ts';
 
 const CourseDetailPage: React.FC = () => {
     const { courseId, lessonId } = useParams<{ courseId: string; lessonId?: string }>();
@@ -44,21 +46,14 @@ const CourseDetailPage: React.FC = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
 
+    const { role } = usePrivilege(course?.institutionId ?? '', course?.creatorId?._id ?? '');
+
     const updateCourse = useUpdateCourse(courseId || '');
 
     useEffect(() => {
-        if (course && userData) {
-
-            if(userData._id != course.creatorId._id && !course.isPublic && !userData.followedCourses.includes(course._id))
-            {
-                if (course.institutionId)
-                {
-                    navigate(`/institution/${course.institutionId}/courses`);
-                }
-                else
-                {
-                    navigate(`/courses`);
-                }
+        if (course && userData && role) {
+            if (role === MembershipRole.None && !course.isPublic && !userData.followedCourses.includes(course._id)) {
+                navigate(-1);
                 return;
             }
 
@@ -69,18 +64,14 @@ const CourseDetailPage: React.FC = () => {
             if (!lessonId && course.lessons.length > 0) {
                 const firstLessonId = course.lessons[0]._id;
                 setSelectedLesson(firstLessonId);
-
-                if (course.institutionId)
-                {
-                    navigate(`/institution/${course.institutionId}/courses/${courseId}/${firstLessonId}`); // TODO: Check for the roles?
-                }
-                else
-                {
+                if (course.institutionId) {
+                    navigate(`/institution/${course.institutionId}/courses/${courseId}/${firstLessonId}`);
+                } else {
                     navigate(`/courses/${courseId}/${firstLessonId}`);
                 }
             }
         }
-    }, [course, userData, lessonId, courseId, navigate]);
+    }, [role]);
 
     useEffect(() => {
         if (selectedLesson) {
@@ -93,11 +84,10 @@ const CourseDetailPage: React.FC = () => {
         setSelectedLesson(lessonId);
         navigate(`/courses/${courseId}/${lessonId}`);
     };
+
     const handleToggleChange = () => {
         const newIsPublic = !isPublic;
         setIsPublic(newIsPublic);
-
-
         if (newIsPublic !== isPublicInitial) {
             updateCourse({ isPublic: newIsPublic });
         }
@@ -196,34 +186,33 @@ const CourseDetailPage: React.FC = () => {
             <div
                 className="lg:pl-0 pl-12 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 mb-2 px-4">
                 <div className="flex items-start mb-4 sm:mb-0 w-full">
-                    
+
                     <BackButton onClick={() => navigate(course.institutionId ? `/institution/${course.institutionId}/courses` : "/courses")}/>
-                    
+
                     <Editable
                         initialValue={course.name}
                         collection={CollectionTypes.Course}
                         documentId={course._id || ''}
                         field="name"
                         className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize"
-                        canEdit={true}
+                        canEdit={role === MembershipRole.Owner || role === MembershipRole.Sensei || role === MembershipRole.Staff} // Condición para editar
                         maxChar={40}
                     />
-                    
                 </div>
             </div>
             <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center justify-between w-full max-w-4xl mb-2 px-4">
-                
+
                 <Editable
                     initialValue={course.description}
                     collection={CollectionTypes.Course}
                     documentId={course._id || ''}
                     field="description"
                     className="text-gray-600 dark:text-gray-400 mt-2"
-                    canEdit={true}
+                    canEdit={role === MembershipRole.Owner || role === MembershipRole.Sensei || role === MembershipRole.Staff} // Condición para editar
                     maxChar={400}
                     placeholder={"Add a Description..."}
                 />
-                
+
                 <div className="flex items-center gap-4 overflow-x-auto w-full sm:w-auto flex-grow">
                     <CreatorLabel name={course.creatorId?.name} createdAt={course.createdAt} />
 
@@ -246,7 +235,7 @@ const CourseDetailPage: React.FC = () => {
                             ))}
                         </select>
                     </div>
-                    
+
                     <AddLessonButton courseId={course._id} courseName={course.name}/>
 
                     <div className="relative lg:w-full mb-2">
@@ -290,7 +279,7 @@ const CourseDetailPage: React.FC = () => {
 
                     {(isOwner || isPublic) && (<div className="relative">
                         <TooltipButton
-                            icon={<FaCog/>}
+                            icon={<FaCog />}
                             items={dropdownItems}
                         />
                     </div>)}
@@ -307,6 +296,7 @@ const CourseDetailPage: React.FC = () => {
                         showGrammar={showGrammar}
                         showReadings={showReadings}
                         owner={course}
+                        viewerRole={role}
                     />
                 ) : (
                     <p className="text-center text-gray-500">何もない</p>

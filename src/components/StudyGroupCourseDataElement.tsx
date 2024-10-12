@@ -8,6 +8,7 @@ import { useAuth } from "../context/AuthContext.tsx";
 import LocSpan from "./LocSpan.tsx";
 import Container from "./ui/containers/Container.tsx";
 import CreatorLabel from "./ui/text/CreatorLabel.tsx";
+import FollowButton from "./FollowButton.tsx";
 
 interface StudyGroupCourseDataElementProps {
     course: CourseData;
@@ -43,8 +44,6 @@ const StudyGroupCourseDataElement: React.FC<StudyGroupCourseDataElementProps> = 
                 <h1 className="lg:text-3xl text-2xl font-bold text-blue-400 dark:text-white capitalize">
                     {course.name}
                 </h1>
-
-                {userData?._id !== course.creatorId._id && <FollowButton courseId={course._id} />}
             </div>
 
             <CreatorLabel name={course.creatorId?.name} createdAt={course.createdAt} />

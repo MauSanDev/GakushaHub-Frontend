@@ -14,12 +14,11 @@ const Sidebar: React.FC = () => {
         { label: 'courses', path: '/courses', requiresAuth: true },
         { label: 'texts', path: '/generations'},
         { label: 'groups', path: '/groups', requiresAuth: true},
-        { label: 'institutions', path: '/institutions', requiresRole: ['sensei'] },
-        // { label: 'generate', path: '/generate', requiresRole: ['premium', 'sensei'] },
+        { label: 'institutions', path: '/institutions' },
     ];
 
     const hasRequiredRole = (requiredRoles?: string[]) => {
-        if (!requiredRoles) return true; // Si no hay roles requeridos, todos pueden acceder
+        if (!requiredRoles) return true;
         return (
             (requiredRoles.includes('premium') && isPremium) ||
             (requiredRoles.includes('sensei') && isSensei)

@@ -15,7 +15,8 @@ export enum MembershipRole {
     Owner = 'owner',
     Sensei = 'sensei',
     Student = 'student',
-    Staff = 'staff'
+    Staff = 'staff',
+    None = 'none'
 }
 
 export enum MembershipStatus {
