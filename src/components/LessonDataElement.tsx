@@ -44,12 +44,13 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                              }) => {
     const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
 
-    const noContentToShow = !(
-        (showKanji && lesson.kanjiDecks.length > 0) ||
-        (showWord && lesson.wordDecks.length > 0) ||
-        (showGrammar && lesson.grammarDecks.length > 0) ||
-        (showReadings && lesson.readingDecks.length > 0)
-    );
+    const noContentToShow = true;
+    // const noContentToShow = !(
+    //     (showKanji && lesson.kanjiDecks.length > 0) ||
+    //     (showWord && lesson.wordDecks.length > 0) ||
+    //     (showGrammar && lesson.grammarDecks.length > 0) ||
+    //     (showReadings && lesson.readingDecks.length > 0)
+    // );
 
     return (
         <Container>

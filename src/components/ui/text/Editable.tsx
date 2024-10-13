@@ -73,7 +73,7 @@ const Editable: React.FC<EditableProps> = ({
                     setIsSaving(false);
                     setIsEditing(false);
                     if (onSave) {
-                        onSave(value); // Ejecuta el callback con el nuevo valor
+                        onSave(value);
                     }
                 },
                 onError: (error) => {

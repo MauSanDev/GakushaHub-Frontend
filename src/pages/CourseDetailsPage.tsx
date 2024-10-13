@@ -1,23 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import LessonDataElement from '../components/LessonDataElement.tsx';
-import {
-    FaBookOpen,
-    FaFileAlt,
-    FaBook,
-    FaCog,
-    FaToggleOn,
-    FaToggleOff,
-    FaLink,
-    FaEye,
-} from "react-icons/fa";
+import { FaBook, FaBookOpen, FaCog, FaEye, FaFileAlt, FaLink, FaToggleOff, FaToggleOn } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCourseById } from '../hooks/coursesHooks/useCourseById';
-import { useLessonById } from '../hooks/coursesHooks/useLessonById';
 import LoadingScreen from "../components/LoadingScreen";
 import DeleteButton from '../components/DeleteButton';
 import { useAuth } from "../context/AuthContext.tsx";
 import TooltipButton from "../components/TooltipButton.tsx";
-import { useUpdateCourse } from '../hooks/updateHooks/useUpdateCourse.ts';
 import FollowButton from '../components/FollowButton';
 import AddLessonButton from "../components/AddLessonButton.tsx";
 import LocSpan from "../components/LocSpan.tsx";
@@ -27,65 +15,71 @@ import BackButton from "../components/ui/buttons/BackButton.tsx";
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import Editable from "../components/ui/text/Editable.tsx";
 import { MembershipRole } from '../data/Institutions/MembershipData.ts';
+import { useCourses } from '../hooks/newHooks/Courses/useCourses';
+import { useLessons } from '../hooks/newHooks/Courses/useLessons';
+import DeckToggle from "../components/ui/toggles/DeckToggle.tsx";
+import { useUpdateDocument } from "../hooks/updateHooks/useUpdateDocument.ts";
+
+enum DeckType {
+    Kanji = 'kanji',
+    Word = 'word',
+    Grammar = 'grammar',
+    Readings = 'readings'
+}
 
 const CourseDetailPage: React.FC = () => {
     const { courseId, lessonId } = useParams<{ courseId: string; lessonId?: string }>();
     const [selectedLesson, setSelectedLesson] = useState<string | null>(lessonId || null);
-    const { data: course, error: courseError, isLoading: courseLoading } = useCourseById(courseId || '');
-    const { data: lesson, isLoading: lessonLoading, refetch: fetchLesson } = useLessonById(selectedLesson || '');
-    const [showKanji, setShowKanji] = useState(true);
-    const [showWord, setShowWord] = useState(true);
-    const [showGrammar, setShowGrammar] = useState(true);
-    const [showReadings, setShowReadings] = useState(true);
+    const { data: courseData, mutate: fetchCourse, isLoading: courseLoading } = useCourses([courseId || '']);
+    const [lessonsIds, setLessonsIds] = useState<string[]>([]);
+    const { data: lessonsData, mutate: fetchLessons, isLoading: lessonsLoading } = useLessons(lessonsIds);
+    const [toggleState, setToggleState] = useState<Record<DeckType, boolean>>({
+        [DeckType.Kanji]: true,
+        [DeckType.Word]: true,
+        [DeckType.Grammar]: true,
+        [DeckType.Readings]: true
+    });
     const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const [isOwner, setIsOwner] = useState(false);
     const [isPublic, setIsPublic] = useState(false);
-    const [isPublicInitial, setIsPublicInitial] = useState(false);
-    const { userData, getRole } = useAuth();
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const { getRole } = useAuth();
+    const { mutate: updateDocument } = useUpdateDocument<{ isPublic: boolean }>();
 
     const [role, setRole] = useState<MembershipRole>();
 
-    const updateCourse = useUpdateCourse(courseId || '');
-
     useEffect(() => {
         const fetchUserRole = async () => {
-            const fetchedRole = await getRole(course?.institutionId || "", course?.creatorId?._id || "");
+            const fetchedRole = await getRole(courseData?.[courseId || '']?.institutionId || "", courseData?.[courseId || '']?.creatorId || "");
             setRole(fetchedRole);
         };
 
         fetchUserRole();
-    }, [course, getRole]);
+    }, [courseData, getRole]);
 
     useEffect(() => {
-        if (course && userData && role) {
-            if (role === MembershipRole.None && !course.isPublic && !userData.followedCourses.includes(course._id)) {
-                navigate(-1);
-                return;
-            }
-
-            setIsOwner(course.creatorId._id === userData._id);
-            setIsPublic(course.isPublic || false);
-            setIsPublicInitial(course.isPublic || false);
-
-            if (!lessonId && course.lessons.length > 0) {
-                const firstLessonId = course.lessons[0]._id;
-                setSelectedLesson(firstLessonId);
-                if (course.institutionId) {
-                    navigate(`/institution/${course.institutionId}/courses/${courseId}/${firstLessonId}`);
-                } else {
-                    navigate(`/courses/${courseId}/${firstLessonId}`);
-                }
-            }
-        }
-    }, [role, course]);
+        fetchCourse([courseId || '']);
+    }, [fetchCourse]);
 
     useEffect(() => {
-        if (selectedLesson) {
-            fetchLesson();
+        const course = courseData?.[courseId || ''];
+        if (course && course.lessons) {
+            setLessonsIds(course.lessons);
+            fetchLessons(course.lessons);
         }
-    }, [selectedLesson, fetchLesson]);
+    }, [courseData, fetchLessons]);
+
+    useEffect(() => {
+        if (lessonsData && !selectedLesson) {
+            const firstLessonId = Object.keys(lessonsData)[0];
+            setSelectedLesson(firstLessonId);
+            if (courseData?.institutionId) {
+                navigate(`/institution/${courseData?.institutionId}/courses/${courseId}/${firstLessonId}`);
+            } else {
+                navigate(`/courses/${courseId}/${firstLessonId}`);
+            }
+        }
+    }, [lessonsData, selectedLesson, courseData, courseId, navigate]);
 
     const handleLessonChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const lessonId = e.target.value;
@@ -96,39 +90,32 @@ const CourseDetailPage: React.FC = () => {
     const handleToggleChange = () => {
         const newIsPublic = !isPublic;
         setIsPublic(newIsPublic);
-        if (newIsPublic !== isPublicInitial) {
-            updateCourse({ isPublic: newIsPublic });
-        }
+        updateDocument({
+            collection: 'Course',
+            documentId: courseId || '',
+            updateData: { isPublic: newIsPublic }
+        });
     };
 
-    const handleToggle = (toggleType: 'kanji' | 'word' | 'grammar' | 'readings') => {
-        const toggles = { kanji: showKanji, word: showWord, grammar: showGrammar, readings: showReadings };
+    const isOwner = role === MembershipRole.Owner;
 
-        if (toggleType === 'kanji') toggles.kanji = !showKanji;
-        if (toggleType === 'word') toggles.word = !showWord;
-        if (toggleType === 'grammar') toggles.grammar = !showGrammar;
-        if (toggleType === 'readings') toggles.readings = !showReadings;
-
-        if (!toggles.kanji && !toggles.word && !toggles.grammar && !toggles.readings) {
-            setShowKanji(true);
-            setShowWord(true);
-            setShowGrammar(true);
-            setShowReadings(true);
-        } else {
-            setShowKanji(toggles.kanji);
-            setShowWord(toggles.word);
-            setShowGrammar(toggles.grammar);
-            setShowReadings(toggles.readings);
-        }
+    // Toggle handler for Decks
+    const handleToggle = (deckType: DeckType) => {
+        setToggleState((prevState) => {
+            const newState = { ...prevState, [deckType]: !prevState[deckType] };
+            const allToggledOff = Object.values(newState).every(state => !state);
+            return allToggledOff
+                ? { [DeckType.Kanji]: true, [DeckType.Word]: true, [DeckType.Grammar]: true, [DeckType.Readings]: true }
+                : newState;
+        });
     };
 
-    if (courseLoading) {
-        return <LoadingScreen isLoading={courseLoading} />;
+    if (courseLoading || lessonsLoading) {
+        return <LoadingScreen isLoading={courseLoading || lessonsLoading} />;
     }
 
-    if (courseError) {
-        return <div className="text-red-500 text-center">{String(courseError)}</div>;
-    }
+    const course = courseData?.[courseId || ''];
+    const lesson = lessonsData?.[selectedLesson || ''];
 
     if (!course) {
         return <div>No course found</div>;
@@ -139,7 +126,7 @@ const CourseDetailPage: React.FC = () => {
             <div className="flex items-center justify-between">
                 <label className="text-xs text-gray-500 dark:text-gray-300"><LocSpan textKey={"courseDetailsPage.deleteCourse"} /></label>
                 <DeleteButton
-                    creatorId={course?.creatorId._id || ''}
+                    creatorId={course?.creatorId || ''}
                     elementId={courseId || ''}
                     elementType={CollectionTypes.Course}
                     deleteRelations={true}
@@ -163,11 +150,9 @@ const CourseDetailPage: React.FC = () => {
                         className={`block overflow-hidden h-6 rounded-full cursor-pointer`}
                     >
                         {isPublic ? (
-                            <FaToggleOn
-                                className="text-green-500 text-2xl absolute inset-0 m-auto"/>
+                            <FaToggleOn className="text-green-500 text-2xl absolute inset-0 m-auto"/>
                         ) : (
-                            <FaToggleOff
-                                className="text-gray-500 text-2xl absolute inset-0 m-auto"/>
+                            <FaToggleOff className="text-gray-500 text-2xl absolute inset-0 m-auto"/>
                         )}
                     </label>
                 </div>
@@ -203,7 +188,7 @@ const CourseDetailPage: React.FC = () => {
                         documentId={course._id || ''}
                         field="name"
                         className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize"
-                        canEdit={role === MembershipRole.Owner || role === MembershipRole.Sensei || role === MembershipRole.Staff} // Condición para editar
+                        canEdit={role === MembershipRole.Owner || role === MembershipRole.Sensei || role === MembershipRole.Staff}
                         maxChar={40}
                     />
                 </div>
@@ -216,13 +201,13 @@ const CourseDetailPage: React.FC = () => {
                     documentId={course._id || ''}
                     field="description"
                     className="text-gray-600 dark:text-gray-400 mt-2"
-                    canEdit={role === MembershipRole.Owner || role === MembershipRole.Sensei || role === MembershipRole.Staff} // Condición para editar
+                    canEdit={role === MembershipRole.Owner || role === MembershipRole.Sensei || role === MembershipRole.Staff}
                     maxChar={400}
                     placeholder={"Add a Description..."}
                 />
 
                 <div className="flex items-center gap-4 overflow-x-auto w-full sm:w-auto flex-grow">
-                    <CreatorLabel name={course.creatorId?.name} createdAt={course.createdAt} />
+                    <CreatorLabel creatorId={course.creatorId} createdAt={course.createdAt} />
 
                     {!isOwner && (
                         <FollowButton courseId={courseId || ''} />
@@ -236,7 +221,7 @@ const CourseDetailPage: React.FC = () => {
                             onChange={handleLessonChange}
                             className="pl-2 pr-2 py-1.5 border rounded text-sm dark:bg-gray-900 dark:text-white dark:border-gray-700 w-[180px] lg:w-[220px] truncate  flex-grow"
                         >
-                            {course?.lessons.map(lesson => (
+                            {lessonsData && Object.values(lessonsData).map(lesson => (
                                 <option key={lesson._id} value={lesson._id} className="truncate">
                                     {t("lesson")} : {lesson.name}
                                 </option>
@@ -248,46 +233,46 @@ const CourseDetailPage: React.FC = () => {
 
                     <div className="relative lg:w-full mb-2">
                         <div className="lg:w-full text-center -mb-2">
-                            <span
-                                className="text-xs text-gray-400 dark:text-gray-500 bg-white dark:bg-black p-1"><LocSpan textKey={"toggle"} /></span>
+        <span className="text-xs text-gray-400 dark:text-gray-500 bg-white dark:bg-black p-1">
+            <LocSpan textKey={"toggle"}/>
+        </span>
                         </div>
 
                         <div
                             className="flex items-center gap-1.5 p-1.5 border border-gray-300 dark:border-gray-700 rounded-lg">
-                            <button
-                                onClick={() => handleToggle('kanji')}
-                                className={`p-1 rounded transition-colors duration-300 ${showKanji ? 'bg-blue-500 text-white hover:bg-blue-600' : 'bg-gray-200 dark:bg-gray-800 text-blue-400 hover:bg-gray-300'}`}
-                                title="Kanji Decks"
-                            >
-                                <FaBookOpen className={`text-sm ${showKanji ? 'text-white' : 'text-blue-400'}`}/>
-                            </button>
-                            <button
-                                onClick={() => handleToggle('word')}
-                                className={`p-1 rounded transition-colors duration-300 ${showWord ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-gray-200 dark:bg-gray-800 text-red-500 hover:bg-gray-300'}`}
-                                title="Word Decks"
-                            >
-                                <FaFileAlt className={`text-sm ${showWord ? 'text-white' : 'text-red-500'}`}/>
-                            </button>
-                            <button
-                                onClick={() => handleToggle('grammar')}
-                                className={`p-1 rounded transition-colors duration-300 ${showGrammar ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-gray-200 dark:bg-gray-800 text-green-500 hover:bg-gray-300'}`}
-                                title="Grammar Decks"
-                            >
-                                <FaBook className={`text-sm ${showGrammar ? 'text-white' : 'text-green-500'}`}/>
-                            </button>
-                            <button
-                                onClick={() => handleToggle('readings')}
-                                className={`p-1 rounded transition-colors duration-300 ${showReadings ? 'bg-yellow-500 text-white hover:bg-yellow-600' : 'bg-gray-200 dark:bg-gray-800 text-yellow-400 hover:bg-gray-300'}`}
-                                title="Reading Decks"
-                            >
-                                <FaEye className={`text-sm ${showReadings ? 'text-white' : 'text-yellow-400'}`}/>
-                            </button>
+                            <DeckToggle
+                                isSelected={toggleState[DeckType.Kanji]}
+                                onToggle={() => handleToggle(DeckType.Kanji)}
+                                icon={<FaBookOpen className={`text-sm ${toggleState[DeckType.Kanji] ? 'text-white' : 'text-blue-400'}`}/>}
+                                selectedColor="bg-blue-500 text-white"
+                            />
+
+                            <DeckToggle
+                                isSelected={toggleState[DeckType.Word]}
+                                onToggle={() => handleToggle(DeckType.Word)}
+                                icon={<FaFileAlt className={`text-sm ${toggleState[DeckType.Word] ? 'text-white' : 'text-red-500'}`}/>}
+                                selectedColor="bg-red-500 text-white"
+                            />
+
+                            <DeckToggle
+                                isSelected={toggleState[DeckType.Grammar]}
+                                onToggle={() => handleToggle(DeckType.Grammar)}
+                                icon={<FaBook className={`text-sm ${toggleState[DeckType.Grammar] ? 'text-white' : 'text-green-500'}`}/>}
+                                selectedColor="bg-green-500 text-white"
+                            />
+
+                            <DeckToggle
+                                isSelected={toggleState[DeckType.Readings]}
+                                onToggle={() => handleToggle(DeckType.Readings)}
+                                icon={<FaEye className={`text-sm ${toggleState[DeckType.Readings] ? 'text-white' : 'text-yellow-400'}`}/>}
+                                selectedColor="bg-yellow-500 text-white"
+                            />
                         </div>
                     </div>
 
                     {(isOwner || isPublic) && (<div className="relative">
                         <TooltipButton
-                            icon={<FaCog />}
+                            icon={<FaCog/>}
                             items={dropdownItems}
                         />
                     </div>)}
@@ -299,10 +284,10 @@ const CourseDetailPage: React.FC = () => {
                     <LessonDataElement
                         key={lesson._id}
                         lesson={lesson}
-                        showKanji={showKanji}
-                        showWord={showWord}
-                        showGrammar={showGrammar}
-                        showReadings={showReadings}
+                        showKanji={toggleState[DeckType.Kanji]}
+                        showWord={toggleState[DeckType.Word]}
+                        showGrammar={toggleState[DeckType.Grammar]}
+                        showReadings={toggleState[DeckType.Readings]}
                         owner={course}
                         viewerRole={role || MembershipRole.None}
                     />
@@ -311,7 +296,7 @@ const CourseDetailPage: React.FC = () => {
                 )}
             </div>
 
-            {lessonLoading && <LoadingScreen isLoading={lessonLoading}/>}
+            {lessonsLoading && <LoadingScreen isLoading={lessonsLoading}/>}
         </div>
     );
 };

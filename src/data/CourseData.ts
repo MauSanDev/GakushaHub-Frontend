@@ -8,8 +8,8 @@ export interface CourseData {
     _id: string;
     name: string;
     description: string;
-    lessons: LessonData[];
-    creatorId: UserData;
+    lessons: string[];
+    creatorId: string;
     institutionId: string;
     isPublic: boolean;
     createdAt: string;

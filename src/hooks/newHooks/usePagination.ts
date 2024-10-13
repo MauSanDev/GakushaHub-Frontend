@@ -45,7 +45,6 @@ export const usePagination = <T>(
         async () => await fetchPaginatedData<T>(endpoint, page, limit, creatorId, search, searchFields, extraParams),
         {
             onSuccess: (data) => {
-                // Cache the result using queryClient
                 queryClient.setQueryData([endpoint, page, limit, creatorId, search, searchFields, extraParams], data);
             }
         }
