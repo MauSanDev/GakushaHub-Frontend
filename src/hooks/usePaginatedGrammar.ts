@@ -1,37 +1,33 @@
-import { usePaginatedData } from './usePaginatedData.ts';
+import { useFullPagination } from './newHooks/useFullPagination';
 import { GrammarData } from '../data/GrammarData.ts';
-import { useAuth } from "../context/AuthContext.tsx";
 
 export const usePaginatedGrammar = (
     page: number,
     limit: number,
     keyword?: string,
-    jlptLevels?: number[]  // Array de niveles de JLPT
+    jlptLevel?: number  
 ) => {
-    const { userData } = useAuth();
-
-    // Genera los parámetros extra a partir de los inputs
+    const searchFields = ['structure', 'keywords'];
     const extraParams: Record<string, string> = {};
-
-    if (keyword) {
-        extraParams['keyword'] = keyword;
+    
+    if (jlptLevel && jlptLevel !== -1) {
+        extraParams['jlpt'] = jlptLevel.toString();  
     }
 
-    if (jlptLevels && jlptLevels.length > 0) {
-        extraParams['jlptLevels'] = jlptLevels.join(',');  // Lo convertimos a string separado por comas
-    }
-
-    // Pasamos los parámetros adicionales al hook de paginación
-    const mutation = usePaginatedData<GrammarData>(
-        '/api/grammar/paginated',
+    const { mutate, isLoading, data, resetQueries } = useFullPagination<GrammarData>(
         page,
         limit,
-        userData?._id,
+        'grammar',
+        keyword || '',  
+        searchFields,
         extraParams
     );
 
     return {
-        ...mutation,
-        fetchGrammarData: mutation.mutate,  // Alias para llamar la mutación manualmente
+        mutate,
+        isLoading,
+        data,
+        resetQueries,
+        fetchGrammarData: mutate,
     };
 };
