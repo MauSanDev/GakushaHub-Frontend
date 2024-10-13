@@ -6,20 +6,26 @@ import SectionContainer from "../components/ui/containers/SectionContainer.tsx";
 import Tabs from "../components/ui/toggles/Tabs.tsx";
 import { FaBook, FaBookmark, FaSearch } from "react-icons/fa";
 import PaginatedContainer from "../components/ui/containers/PaginatedContainer.tsx";
-import { useMyCourses } from "../hooks/newHooks/Courses/useMyCourses.ts"; // Importamos el nuevo hook
+import { useMyCourses } from "../hooks/newHooks/Courses/useMyCourses.ts";
+import { usePublicCourses } from "../hooks/newHooks/Courses/usePublicCourses.ts"; // Importamos el nuevo hook
 
 const CourseListPage: React.FC = () => {
     const [page, setPage] = useState(1);
     const [currentView, setCurrentView] = useState<string>('owner');
 
-    const { data, isLoading, mutate: fetchCourses } = useMyCourses(page, 20, );
+    const { data: myCoursesData, isLoading: myCoursesLoading, mutate: fetchMyCourses } = useMyCourses(page, 20);
+    const { data: publicCoursesData, isLoading: publicCoursesLoading, mutate: fetchPublicCourses } = usePublicCourses(page, 20);
+
+    const data = currentView === 'owner' ? myCoursesData : publicCoursesData;
+    const isLoading = currentView === 'owner' ? myCoursesLoading : publicCoursesLoading;
+    const fetchCourses = currentView === 'owner' ? fetchMyCourses : fetchPublicCourses;
 
     useEffect(() => {
         fetchCourses();
-    }, [page]);
+    }, [page, currentView]);
 
     const handleViewChange = (view: string) => {
-        setPage(1);
+        setPage(1); // Reseteamos la paginación al cambiar de vista
         setCurrentView(view);
     };
 
