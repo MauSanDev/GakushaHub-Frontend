@@ -9,7 +9,7 @@ import RoundedTag from "../../../components/ui/text/RoundedTag.tsx";
 
 interface StudyGroupDataElementProps {
     studyGroup: StudyGroupData;
-    canDelete: boolean
+    canDelete?: boolean
 }
 
 const StudyGroupDataElement: React.FC<StudyGroupDataElementProps> = ({ studyGroup, canDelete = false }) => {

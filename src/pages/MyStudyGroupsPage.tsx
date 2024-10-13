@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import StudyGroupDataElement from './Institutions/Components/StudyGroupDataElement.tsx';
 import { useMyStudyGroups } from '../hooks/institutionHooks/useMyStudyGroups';
-import { useAuth } from '../context/AuthContext.tsx';
 import SectionContainer from "../components/ui/containers/SectionContainer.tsx";
 import SearchBar from "../components/ui/inputs/SearchBar.tsx";
+import PaginatedContainer from '../components/ui/containers/PaginatedContainer.tsx';
 
 const MyStudyGroupsPage: React.FC = () => {
-    const [searchQuery, setSearchQuery] = useState<string>('');
-    const { userData } = useAuth();
+    const [page, setPage] = useState<number>(1);  
+    const [limit] = useState<number>(10);  
+    const [searchQuery, setSearchQuery] = useState<string>('');  
 
-    const { data: studyGroups, isLoading } = useMyStudyGroups(userData?._id || '');
+    const { data: studyGroupsData, isLoading, fetchStudyGroups } = useMyStudyGroups(
+        page,
+        limit,
+        searchQuery
+    );
 
-    const filteredStudyGroups = Array.isArray(studyGroups)
-        ? studyGroups.filter(group => group.name.toLowerCase().includes(searchQuery.toLowerCase()))
-        : [];
+    useEffect(() => {
+        fetchStudyGroups();  
+    }, [page, searchQuery]);
 
     const handleSearch = (query: string) => {
         setSearchQuery(query);
@@ -29,18 +34,22 @@ const MyStudyGroupsPage: React.FC = () => {
                     />
                 </div>
 
-                <div>
-                    {filteredStudyGroups.length > 0 ? (
-                        filteredStudyGroups.map((group) => (
+                {!isLoading && studyGroupsData && studyGroupsData.documents.length > 0 ? (
+                    <PaginatedContainer
+                        documents={studyGroupsData.documents}  
+                        currentPage={page}  
+                        totalPages={studyGroupsData.totalPages}  
+                        onPageChange={setPage}  
+                        RenderComponent={({ document }) => (
                             <StudyGroupDataElement
-                                key={group._id}
-                                studyGroup={group}
+                                key={document._id}
+                                studyGroup={document}
                             />
-                        ))
-                    ) : (
-                        <p className="text-center text-gray-500">No study groups found</p>
-                    )}
-                </div>
+                        )}
+                    />
+                ) : (
+                    <p className="text-center text-gray-500">No study groups found</p>
+                )}
             </div>
         </SectionContainer>
     );

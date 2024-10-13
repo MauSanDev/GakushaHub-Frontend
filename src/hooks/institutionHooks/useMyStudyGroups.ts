@@ -1,21 +1,30 @@
-import { useQuery } from 'react-query';
+import { useFullPagination } from '../../hooks/newHooks/useFullPagination'; 
 import { StudyGroupData } from '../../data/Institutions/StudyGroupData.ts';
-import { ApiClient } from '../../services/ApiClient';
 
-export const useMyStudyGroups = (userId: string) => {
-    const fetchMyStudyGroups = async () => {
-        return await ApiClient.get<StudyGroupData[]>(`/api/institution/studyGroup/myGroups`);
-    };
+export const useMyStudyGroups = (
+    page: number,
+    limit: number,
+    keyword?: string
+) => {
+    const extraParams: Record<string, string> = {};
 
-    const { data, error, isLoading, refetch } = useQuery<StudyGroupData[]>(
-        ['myStudyGroups', userId],
-        fetchMyStudyGroups,
-        {
-            enabled: !!userId,
-            staleTime: 5 * 60 * 1000,  // Cache duration
-            cacheTime: 10 * 60 * 1000, // Cache duration
-        }
+    if (keyword) {
+        extraParams['keyword'] = keyword;
+    }
+
+    const { mutate, isLoading, data, resetQueries } = useFullPagination<StudyGroupData>(
+        page,
+        limit,
+        'studyGroup',  
+        keyword || '',  
+        ['name', 'description'],  
+        extraParams  
     );
 
-    return { data, error, isLoading, refetch };
+    return {
+        data,
+        isLoading,
+        resetQueries,
+        fetchStudyGroups: mutate, 
+    };
 };
