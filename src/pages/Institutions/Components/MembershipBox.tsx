@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { MembershipData, MembershipStatus, MembershipRole } from '../../../data/Institutions/MembershipData.ts';
 import { useChangeMembershipStatus } from '../../../hooks/institutionHooks/useChangeMembershipStatus';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import Container from "../../../components/ui/containers/Container.tsx";
 import PrimaryButton from "../../../components/ui/buttons/PrimaryButton.tsx";
+import {useNavigate} from "react-router-dom";
 
 interface MembershipBoxProps {
     membership: MembershipData;
-    canEditRole: boolean; 
 }
 
 const roleColors: { [key: string]: string } = {
@@ -17,9 +17,9 @@ const roleColors: { [key: string]: string } = {
     student: 'text-green-500 dark:text-green-400',
 };
 
-const MembershipBox: React.FC<MembershipBoxProps> = ({ membership, canEditRole }) => {
+const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
     const { mutate: changeStatus } = useChangeMembershipStatus();
-    const [selectedRole, setSelectedRole] = useState<MembershipRole>(membership.role);
+    const navigate = useNavigate();
 
     const handleAccept = () => {
         changeStatus({
@@ -34,40 +34,21 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership, canEditRole }
             newStatus: 'rejected',
         });
     };
-
-    const handleRoleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const newRole = event.target.value as MembershipRole;
-        setSelectedRole(newRole);
-    };
-
+    
     return (
         <Container className="w-full max-w-4xl my-2">
             <div className="flex-1">
                 <h3 className="text-lg font-bold text-gray-800 dark:text-white">
                     {membership.institutionId?.name || 'Unknown Institution'}
-                    {/* Si se puede editar el rol, mostrar un dropdown, de lo contrario, solo el texto */}
-                    {canEditRole ? (
-                        <select
-                            value={selectedRole}
-                            onChange={handleRoleChange}
-                            className={`ml-2 bg-transparent font-bold uppercase ${roleColors[selectedRole]}`}
-                        >
-                            <option value="owner">Master</option>
-                            <option value="staff">Staff</option>
-                            <option value="sensei">Sensei</option>
-                            <option value="student">Student</option>
-                        </select>
-                    ) : (
-                        <span className={`ml-2 ${roleColors[membership.role]}`}>({membership.role})</span>
-                    )}
+                    
+                    <span className={`ml-2 uppercase ${roleColors[membership.role]}`}>{membership.role}</span>
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     {membership.institutionId?.description || 'No description available'}
                 </p>
             </div>
 
-            {/* Botones para aceptar o rechazar si el estado es pending */}
-            {membership.status === MembershipStatus.Pending ? (
+            {membership.status === MembershipStatus.Pending && (
                 <div className="flex gap-2 mt-2 sm:mt-0 justify-end">
                     <p className="text-sm text-yellow-500 mt-2">
                         You received this membership.
@@ -86,9 +67,14 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership, canEditRole }
                         iconComponent={<FaTimes />}
                     />
                 </div>
-            ) : (
-                <div className="mt-2 sm:mt-0 flex justify-end">
-                    <PrimaryButton className="w-40" label="enter" onClick={() => {}} />
+            )}
+
+            {(membership.role === MembershipRole.Owner || membership.role === MembershipRole.Sensei || membership.role === MembershipRole.Staff) && (
+
+                <div className="mt-4 flex justify-end">
+                    <PrimaryButton className={"w-40"} label={"enter"} onClick={() => {
+                        navigate(`/institution/${membership.institutionId._id}/studyGroups`)
+                    }}/>
                 </div>
             )}
         </Container>

@@ -1,24 +1,34 @@
-import React, { useState } from 'react';
-import {Link, useParams} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { useAuth } from "../../context/AuthContext.tsx";
 import UserMenu from '../../components/UserMenu';
 import LocSpan from "../../components/LocSpan.tsx";
-import {useInstitutionById} from "../../hooks/institutionHooks/useInstitutionById.ts";
+import { useInstitutionById } from "../../hooks/institutionHooks/useInstitutionById.ts";
+import { MembershipRole } from "../../data/Institutions/MembershipData.ts";
 
 const InstitutionSidebar: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string; }>();
     const [isOpen, setIsOpen] = useState(false);
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, getRole } = useAuth(); // Obtener getRole de useAuth
     const { data } = useInstitutionById(institutionId || "");
+    const [role, setRole] = useState<MembershipRole | null>(null);
 
+    useEffect(() => {
+        const fetchRole = async () => {
+            if (institutionId && data?.creatorId) {
+                const userRole = await getRole(institutionId, data.creatorId);
+                setRole(userRole); // Guardamos el rol en el estado
+            }
+        };
+
+        fetchRole();
+    }, [institutionId, data, getRole]);
 
     const menuItems = [
-        { label: 'profile', path: `/institution/${institutionId}/editProfile` },
-        { label: 'news', path: `/institution/${institutionId}/news` },
-        { label: 'studyGroups', path: `/institution/${institutionId}/studyGroups` },
-        { label: 'members', path: `/institution/${institutionId}/members` },
-        { label: 'courses', path: `/institution/${institutionId}/courses` },
-        { label: 'resources', path: `/institution/${institutionId}/resources` },
+        { label: 'profile', path: `/institution/${institutionId}/editProfile`, roles: [MembershipRole.Owner, MembershipRole.Staff] },
+        { label: 'studyGroups', path: `/institution/${institutionId}/studyGroups`, roles: null },
+        { label: 'members', path: `/institution/${institutionId}/members`, roles: null },
+        { label: 'courses', path: `/institution/${institutionId}/courses`, roles: null },
     ];
 
     return (
@@ -47,14 +57,14 @@ const InstitutionSidebar: React.FC = () => {
 
                 <div className="flex flex-col p-4 space-y-4">
                     {menuItems.map((item, index) =>
-                            (!item || isAuthenticated) && (
+                            (!item.roles || (role && item.roles.includes(role))) && isAuthenticated && (
                                 <Link
                                     key={index}
                                     to={item.path}
                                     className="text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-blue-400 hover:dark:text-white py-2 border-b border-gray-300 dark:border-gray-700 text-left hover:pl-2 transition-all"
                                     onClick={() => setIsOpen(false)}
                                 >
-                                    <LocSpan textKey={item.label}/>
+                                    <LocSpan textKey={item.label} />
                                 </Link>
                             )
                     )}

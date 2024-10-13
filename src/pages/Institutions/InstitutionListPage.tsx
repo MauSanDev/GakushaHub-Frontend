@@ -9,18 +9,18 @@ import { useAuth } from '../../context/AuthContext';
 
 const InstitutionListPage: React.FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
-    const { memberships, refetchMemberships } = useAuth();  // Ahora usamos memberships directamente de useAuth
+    const { memberships, refetchMemberships } = useAuth();  
     const [isMembershipsLoading, setIsMembershipsLoading] = useState<boolean>(true);
 
-    // Cargar instituciones
+    
     const { data: institutionsData, error: institutionsError, isLoading: institutionsLoading, fetchInstitutions } = usePaginatedInstitutions(1, 1);
     const ownerInstitution = institutionsData?.documents[0] || null;
 
     useEffect(() => {
-        // Efecto para cargar instituciones al montar el componente
+        
         const fetchInstitutionsData = async () => {
             try {
-                await fetchInstitutions();  // Cargar instituciones
+                await fetchInstitutions();  
             } catch (error) {
                 console.error('Error fetching institutions:', error);
             }
@@ -30,12 +30,12 @@ const InstitutionListPage: React.FC = () => {
     }, [fetchInstitutions]);
 
     useEffect(() => {
-        let isMounted = true;  // Para evitar actualizaciones cuando el componente se desmonta
+        let isMounted = true;  
 
         const fetchMembershipsData = async () => {
             try {
                 setIsMembershipsLoading(true);
-                await refetchMemberships();  // Refetch con el hook de AuthContext
+                await refetchMemberships();  
             } catch (error) {
                 console.error('Error fetching memberships:', error);
             } finally {
@@ -50,7 +50,7 @@ const InstitutionListPage: React.FC = () => {
         console.log(memberships.documents);
 
         return () => {
-            isMounted = false;  // Cleanup
+            isMounted = false;  
         };
     }, [refetchMemberships]);
 
@@ -96,7 +96,7 @@ const InstitutionListPage: React.FC = () => {
                     </h2>
                     {memberships?.documents?.length ? (
                         memberships?.documents.map((membership) => (
-                            <MembershipBox key={membership?._id || ""} membership={membership} />
+                            <MembershipBox key={membership?._id || ""} membership={membership}/>
                         ))
                     ) : (
                         <p className="text-center text-gray-500">No memberships found</p>
