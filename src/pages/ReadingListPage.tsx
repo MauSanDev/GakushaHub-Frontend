@@ -11,13 +11,12 @@ const ReadingListPage: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    // Pasamos el searchTerm al hook para que se utilice en la búsqueda
     const { data, isLoading, error, fetchGenerations } = usePaginatedGenerations(page, 20, searchTerm);
 
     const hasMore = data ? page < (data.totalPages ?? 1) : false;
 
     useEffect(() => {
-        fetchGenerations();  // Llamamos a fetchGenerations con el searchTerm incluido
+        fetchGenerations();  
     }, [page, searchTerm]);
 
     useEffect(() => {
