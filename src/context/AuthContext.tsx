@@ -12,8 +12,9 @@ import {
 } from 'firebase/auth';
 import { ApiClient } from '../services/ApiClient';
 import { UserData } from '../data/UserData';
+import { MembershipRole, MembershipData } from '../data/Institutions/MembershipData';
+import { useQuery } from 'react-query';
 
-// Enum de tipos de licencia
 type LicenseType = 'none' | 'free' | 'premium' | 'sensei';
 
 interface AuthContextType {
@@ -25,7 +26,10 @@ interface AuthContextType {
     hasLicense: boolean;
     isPremium: boolean;
     isSensei: boolean;
-    licenseType: LicenseType;  // Agregado: Variable para el tipo de licencia
+    licenseType: LicenseType;
+    memberships: MembershipData[] | null;
+    getRole: (institutionId: string, creatorId: string) => Promise<MembershipRole>;
+    refetchMemberships: () => Promise<void>;
     signUp: (email: string, password: string, name: string, country: string) => Promise<void>;
     signIn: (email: string, password: string) => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
@@ -46,8 +50,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [loading, setLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isEmailVerified, setIsEmailVerified] = useState(false);
+    const [roleCache] = useState(new Map<string, MembershipRole>());
+    const [memberships, setMemberships] = useState<MembershipData[] | null>(null); // Estado local de membresías
 
-    // Determinar el tipo de licencia más alto del usuario
+    // Función para cargar las membresías con useQuery, evitando llamadas repetitivas
+    const fetchMemberships = async (): Promise<MembershipData[]> => {
+        const response = await ApiClient.get<MembershipData[]>('/api/institution/myMemberships');
+        return response;
+    };
+
+    const { data: membershipsData, refetch: refetchMemberships } = useQuery(
+        'myMemberships',
+        fetchMemberships,
+        {
+            enabled: !!userData, // Solo habilitar si existe userData
+            onSuccess: (data) => setMemberships(data || []), // Guardar en el estado local
+            onError: (error) => console.error('Error fetching memberships:', error),
+        }
+    );
+
+    // Calcular el tipo de licencia basado en los datos del usuario
     const licenseType: LicenseType = userData?.licenses?.some(license => license.type === 'sensei' && license.isActive)
         ? 'sensei'
         : userData?.licenses?.some(license => license.type === 'premium' && license.isActive)
@@ -56,10 +78,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 ? 'free'
                 : 'none';
 
-    const hasLicense = licenseType !== 'none';  // Si tiene cualquier licencia
-    const isPremium = licenseType === 'premium' || licenseType === 'sensei';  // Verificar si es premium
-    const isSensei = licenseType === 'sensei';    // Verificar si es sensei
+    const hasLicense = licenseType !== 'none';  // Tiene cualquier tipo de licencia
+    const isPremium = licenseType === 'premium' || licenseType === 'sensei';  // Es premium
+    const isSensei = licenseType === 'sensei';    // Es sensei
 
+    // Manejar autenticación de usuario con Firebase
     useEffect(() => {
         const auth = getAuth();
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -130,6 +153,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const data = await ApiClient.post<UserData, {}>('api/auth/login', {});
             setUserData(data);
             localStorage.setItem('userData', JSON.stringify(data));
+
+            refetchMemberships(); // Refetch memberships después de iniciar sesión
         }
 
         setUser(user);
@@ -147,6 +172,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUserData(null);
         setIsAuthenticated(false);
         setIsEmailVerified(false);
+        setMemberships(null);
         localStorage.removeItem('userData');
         localStorage.removeItem('authToken');
     };
@@ -185,8 +211,80 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const createCacheKey = (institutionId: string | null, creatorId: string): string => {
+        return `${institutionId || 'null'}_${creatorId}`;
+    };
+
+    const getRole = async (institutionId: string | null, creatorId: string): Promise<MembershipRole> => {
+        const cacheKey = createCacheKey(institutionId, creatorId);
+
+        if (roleCache.has(cacheKey)) {
+            return roleCache.get(cacheKey)!;
+        }
+
+        if (creatorId === userData?._id) {
+            roleCache.set(cacheKey, MembershipRole.Owner);
+            return MembershipRole.Owner;
+        }
+
+        if (institutionId) {
+            const membership = memberships?.documents.find(m =>
+                m.institutionId._id === institutionId && m.userId === userData?._id
+            );
+
+            let newRole: MembershipRole = MembershipRole.None;
+
+            if (membership) {
+                switch (membership.role) {
+                    case 'owner':
+                        newRole = MembershipRole.Owner;
+                        break;
+                    case 'staff':
+                        newRole = MembershipRole.Staff;
+                        break;
+                    case 'sensei':
+                        newRole = MembershipRole.Sensei;
+                        break;
+                    case 'student':
+                        newRole = MembershipRole.Student;
+                        break;
+                    default:
+                        newRole = MembershipRole.None;
+                        break;
+                }
+            }
+
+            roleCache.set(cacheKey, newRole);
+            return newRole;
+        }
+
+        roleCache.set(cacheKey, MembershipRole.None);
+        return MembershipRole.None;
+    };
+
     return (
-        <AuthContext.Provider value={{ user, userData, loading, isAuthenticated, isEmailVerified, hasLicense, isPremium, isSensei, licenseType, signUp, signIn, resetPassword, logout, resendEmailVerification, updateUserData, setupLicense }}>
+        <AuthContext.Provider value={{
+            user,
+            userData,
+            loading,
+            isAuthenticated,
+            isEmailVerified,
+            hasLicense,
+            isPremium,
+            isSensei,
+            licenseType,
+            roleCache,
+            memberships,
+            getRole,
+            refetchMemberships,
+            signUp,
+            signIn,
+            resetPassword,
+            logout,
+            resendEmailVerification,
+            updateUserData,
+            setupLicense
+        }}>
             {!loading && children}
         </AuthContext.Provider>
     );

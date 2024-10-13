@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import InstitutionSidebar from "../pages/Institutions/InstitutionSidebar.tsx";
-import { usePrivilege } from '../hooks/usePrivilege';
 import { MembershipRole } from '../data/Institutions/MembershipData.ts';
 import { useInstitutionById } from "../hooks/institutionHooks/useInstitutionById.ts";
 
 const InstitutionRoute: React.FC = () => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, getRole } = useAuth(); // Usamos getRole desde useAuth
     const { institutionId } = useParams<{ institutionId: string }>();
-    const { data, isLoading: institutionLoading } = useInstitutionById(institutionId || "");  // Incluimos isLoading
-    const { role } = usePrivilege(institutionId || '', data?.creatorId || '');
-    const [loading, setLoading] = useState(true);  // Estado para manejar la carga del rol y la institución
+    const { data, isLoading: institutionLoading } = useInstitutionById(institutionId || "");
+    const [role, setRole] = useState<MembershipRole>(MembershipRole.None); // Guardamos el rol en un estado local
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -27,22 +26,27 @@ const InstitutionRoute: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        // Esperamos a que ambos: institutionId y role, estén completamente cargados
-        if (!institutionLoading && role !== MembershipRole.None) {
-            setLoading(false);
+        const fetchRole = async () => {
+            if (institutionId && data?.creatorId) {
+                const fetchedRole = await getRole(institutionId, data.creatorId);
+                setRole(fetchedRole);
+                setLoading(false);
+            }
+        };
+
+        if (!institutionLoading) {
+            fetchRole();
         }
-    }, [institutionLoading, role]);
+    }, [institutionId, data, getRole, institutionLoading]);
 
     useEffect(() => {
-        // Si el rol no es adecuado, redirigimos cuando ya tenemos los datos cargados
         if (!loading && (!isAuthenticated || (role !== MembershipRole.Owner && role !== MembershipRole.Staff && role !== MembershipRole.Sensei))) {
-            navigate("/");
+            navigate(-1);
         }
     }, [role, isAuthenticated, loading, navigate]);
 
-    // Mostrar algo mientras la institución y el rol están cargando
     if (loading || institutionLoading) {
-        return <div>Loading...</div>;  // Pantalla de carga personalizada
+        return <div>Loading...</div>;
     }
 
     return (

@@ -1,43 +1,43 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
-import {Link, useParams} from "react-router-dom";
-import {FaBook, FaChalkboardTeacher, FaFolder, FaPlus, FaSchool, FaUser} from "react-icons/fa";
-import {useStudyGroupById} from '../hooks/useGetStudyGroup.tsx';
-import {useInstitutionById} from '../hooks/institutionHooks/useInstitutionById.ts';
+import { Link, useParams } from "react-router-dom";
+import { FaBook, FaChalkboardTeacher, FaFolder, FaPlus, FaSchool, FaUser } from "react-icons/fa";
+import { useStudyGroupById } from '../hooks/useGetStudyGroup.tsx';
+import { useInstitutionById } from '../hooks/institutionHooks/useInstitutionById.ts';
 import BindCoursesModal from './StudyGroups/BindCoursesModal';
 import StudyGroupCourseDataElement from "../components/StudyGroupCourseDataElement.tsx";
 import BindMembersModal from "./StudyGroups/BindMembersModal.tsx";
 import PrimaryButton from "../components/ui/buttons/PrimaryButton.tsx";
 import Tabs from "../components/ui/toggles/Tabs.tsx";
 import Editable from "../components/ui/text/Editable";
-import {CollectionTypes} from "../data/CollectionTypes.tsx";
+import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import StudyGroupMemberElement from "../components/StudyGroupMemberElement.tsx";
 import LocSpan from "../components/LocSpan";
 import SelectionToggle from "../components/ui/toggles/SelectionToggle.tsx";
-import {useUpdateDocument} from '../hooks/updateHooks/useUpdateDocument';
+import { useUpdateDocument } from '../hooks/updateHooks/useUpdateDocument';
 import RoundedTag from "../components/ui/text/RoundedTag.tsx";
-import {usePrivilege} from "../hooks/usePrivilege";
-import {MembershipRole} from "../data/Institutions/MembershipData.ts";
+import { MembershipRole } from "../data/Institutions/MembershipData.ts";
+import { useAuth } from '../context/AuthContext';
 
 const StudyGroupContentPage: React.FC = () => {
-    const { studyGroupId } = useParams<{ studyGroupId: string; }>();
+    const { studyGroupId } = useParams<{ studyGroupId: string }>();
     const [currentTab, setCurrentTab] = useState<string>('courses');
     const [isBindCoursesModalOpen, setIsBindCoursesModalOpen] = useState(false);
     const [isBindMembersModalOpen, setIsBindMembersModalOpen] = useState(false);
     const [isArchived, setIsArchived] = useState<boolean>(false);
+    const [role, setRole] = useState<MembershipRole>(MembershipRole.None);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: studyGroup, error, isLoading } = useStudyGroupById(studyGroupId || '');
     const { data: institution } = useInstitutionById(studyGroup?.institutionId || '');
 
     const { mutate: updateDocument } = useUpdateDocument<Partial<{ isActive: boolean }>>();
-
-    const { role } = usePrivilege(studyGroup?.institutionId || '', studyGroup?.creatorId || "");
+    const { getRole } = useAuth(); // Accedemos a getRole desde useAuth
 
     useEffect(() => {
         setIsArchived(!(studyGroup?.isActive ?? false));
     }, [studyGroup]);
-
+    
     useEffect(() => {
         const savedTab = localStorage.getItem('currentStudyGroupTab');
         if (savedTab) {
@@ -54,6 +54,21 @@ const StudyGroupContentPage: React.FC = () => {
             console.error('Error loading study group:', error);
         }
     }, [error]);
+
+    useEffect(() => {
+        
+        const fetchRole = async () => {
+            if (studyGroup?.institutionId) {
+                const fetchedRole = await getRole(studyGroup.institutionId, '');
+                console.log(fetchedRole)
+                setRole(fetchedRole);
+            }
+        };
+
+        if (studyGroup) {
+            fetchRole();
+        }
+    }, [studyGroup, getRole]);
 
     const handleTabChange = (view: string) => {
         setCurrentTab(view);
@@ -87,7 +102,7 @@ const StudyGroupContentPage: React.FC = () => {
     };
 
     const canEdit = role === MembershipRole.Owner || role === MembershipRole.Staff || role === MembershipRole.Sensei;
-    
+
     const tabs = [
         { label: 'institutionPage.courses', view: 'courses', icon: <FaBook /> },
         { label: 'institutionPage.resources', view: 'resources', icon: <FaFolder /> },
@@ -107,12 +122,12 @@ const StudyGroupContentPage: React.FC = () => {
 
                             {!studyGroup.isActive && (<RoundedTag textKey={"archived"} />)}
 
-                            {(role === MembershipRole.Staff || role === MembershipRole.Owner) && 
-                            <SelectionToggle
-                                isSelected={isArchived}
-                                onToggle={handleToggleArchive}
-                                textKey={"Archive"}
-                            />}
+                            {(role === MembershipRole.Staff || role === MembershipRole.Owner) &&
+                                <SelectionToggle
+                                    isSelected={isArchived}
+                                    onToggle={handleToggleArchive}
+                                    textKey={"Archive"}
+                                />}
                         </div>
 
                         <Editable
@@ -121,7 +136,7 @@ const StudyGroupContentPage: React.FC = () => {
                             documentId={studyGroupId || ''}
                             field="name"
                             className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize"
-                            canEdit={role === 'owner' || role === 'editor'}  // Solo permite la edición si es owner o editor
+                            canEdit={canEdit}
                             maxChar={40}
                         />
                         <Editable
@@ -159,12 +174,11 @@ const StudyGroupContentPage: React.FC = () => {
                         {canEdit &&
                             <PrimaryButton label={'bindCourses'} iconComponent={<FaPlus />} onClick={() => setIsBindCoursesModalOpen(true)} className={'w-40 text-xs mb-2'} />
                         }
-                        
 
                         {studyGroup?.courseIds?.length > 0 ? (
                             studyGroup.courseIds.map((course) => (
                                 <Link key={course.name} to={`/courses/${course._id}`} className="page-fade-enter page-fade-enter-active">
-                                    <StudyGroupCourseDataElement studyGroupId={studyGroup._id} course={course} />
+                                    <StudyGroupCourseDataElement studyGroupId={studyGroup._id} course={course} canDelete={canEdit}/>
                                 </Link>
                             ))
                         ) : (
@@ -181,14 +195,14 @@ const StudyGroupContentPage: React.FC = () => {
 
                 {currentTab === 'members' && (
                     <div>
-                        
+
                         {canEdit &&
                             <PrimaryButton label={'addMembers'} iconComponent={<FaPlus />} onClick={() => setIsBindMembersModalOpen(true)} className={'w-40 text-xs'} />
                         }
 
                         {studyGroup?.memberIds?.length > 0 ? (
                             studyGroup.memberIds.map((member) => (
-                                <StudyGroupMemberElement member={member} studyGroupId={studyGroup._id} key={member.name} permission={role} />
+                                <StudyGroupMemberElement member={member} studyGroupId={studyGroup._id} key={member.name} viewerRole={role} />
                             ))
                         ) : (
                             <p>No members available</p>

@@ -10,9 +10,8 @@ import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
 import { useDeleteElement } from '../../hooks/useDeleteElement';
 import { CollectionTypes } from "../../data/CollectionTypes.tsx";
-import { usePrivilege } from '../../hooks/usePrivilege';
 import { MembershipRole } from '../../data/Institutions/MembershipData.ts';
-import {useInstitutionById} from "../../hooks/institutionHooks/useInstitutionById.ts";
+import { useAuth } from '../../context/AuthContext'; // Usa el AuthContext
 
 const InstitutionMembersPage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
@@ -20,11 +19,21 @@ const InstitutionMembersPage: React.FC = () => {
     const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState<boolean>(false);
     const [page, setPage] = useState(1);
 
-    const { data: institution } = useInstitutionById(institutionId || '');
     const { data: membersData, isLoading, fetchMembers } = usePaginatedMembers(page, 30, institutionId || '', searchQuery);
     const { mutate: deleteMembership } = useDeleteElement();
 
-    const { role } = usePrivilege(institutionId || '', institution?.creatorId || '');
+    const [role, setRole] = useState<MembershipRole>();
+    const { getRole, refetchMemberships } = useAuth();
+
+
+    useEffect(() => {
+        const fetchUserRole = async () => {
+            const fetchedRole = await getRole(institutionId || "", "");
+            setRole(fetchedRole);
+        };
+
+        fetchUserRole();
+    }, [getRole]);
 
     useEffect(() => {
         fetchMembers();
@@ -33,6 +42,7 @@ const InstitutionMembersPage: React.FC = () => {
     const handleAddMemberSuccess = () => {
         setIsAddMemberModalOpen(false);
         fetchMembers();
+        refetchMemberships();
     };
 
     const handleSearch = (query: string) => {
@@ -46,6 +56,7 @@ const InstitutionMembersPage: React.FC = () => {
                 onSuccess: () => {
                     setPage(1);
                     fetchMembers();
+                    refetchMemberships(); // Refrescar membresías cuando se eliminen miembros
                 },
                 onError: (error) => {
                     console.error('Error deleting member:', error);
@@ -86,6 +97,7 @@ const InstitutionMembersPage: React.FC = () => {
                                 onRemove={canManageMembers ? () => handleRemove(document._id) : () => {}}
                                 onRoleChange={() => { /* Manejar el cambio de rol si es necesario */ }}
                                 canEditRole={canManageMembers}
+                                enableRemove={true}
                             />
                         )}
                     />

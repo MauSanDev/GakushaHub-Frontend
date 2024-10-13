@@ -9,9 +9,10 @@ import RoundedTag from "../../../components/ui/text/RoundedTag.tsx";
 
 interface StudyGroupDataElementProps {
     studyGroup: StudyGroupData;
+    canDelete: boolean
 }
 
-const StudyGroupDataElement: React.FC<StudyGroupDataElementProps> = ({ studyGroup }) => {
+const StudyGroupDataElement: React.FC<StudyGroupDataElementProps> = ({ studyGroup, canDelete = false }) => {
     const { institutionId } = useParams<{ institutionId: string }>();
 
     return (
@@ -25,6 +26,7 @@ const StudyGroupDataElement: React.FC<StudyGroupDataElementProps> = ({ studyGrou
 
                 {!studyGroup.isActive && (<RoundedTag textKey={"archived"} className={"right-10 top-2 absolute"}/>)}
 
+                {canDelete && 
                 <div className="absolute top-2 right-2">
                     <DeleteButton
                         creatorId={studyGroup.creatorId}
@@ -32,7 +34,7 @@ const StudyGroupDataElement: React.FC<StudyGroupDataElementProps> = ({ studyGrou
                         elementType={CollectionTypes.StudyGroup}
                         deleteRelations={true}
                     />
-                </div>
+                </div>}
                 
                 <div className="flex-1">
                     <h2 className="text-lg font-bold text-gray-800 dark:text-white">

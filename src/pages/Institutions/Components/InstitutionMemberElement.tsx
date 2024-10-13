@@ -9,13 +9,15 @@ interface InstitutionMemberElementProps {
     onRemove: (toRemove: string) => void;
     onRoleChange: (newRole: string) => void;
     canEditRole: boolean;
+    enableRemove?: boolean;
 }
 
 const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
                                                                                member,
                                                                                onRemove,
                                                                                onRoleChange,
-                                                                               canEditRole
+                                                                               canEditRole,
+                                                                               enableRemove = false
                                                                            }) => {
     const roleColors: { [key: string]: string } = {
         owner: 'dark:text-purple-500 text-purple-400',
@@ -113,13 +115,15 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
                     )
                 )}
 
-                <button
-                    onClick={handleRemoveClick}
-                    className="text-red-500 hover:text-red-700"
-                    title="Remove Member"
-                >
-                    <FaTrash size={16} />
-                </button>
+                {enableRemove && canEditRole && 
+                    <button
+                        onClick={handleRemoveClick}
+                        className="text-red-500 hover:text-red-700"
+                        title="Remove Member"
+                    >
+                        <FaTrash size={16} />
+                    </button>
+                }
             </div>
         </div>
     );

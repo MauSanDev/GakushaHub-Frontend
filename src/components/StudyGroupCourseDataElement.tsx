@@ -4,19 +4,17 @@ import { CourseData } from "../data/CourseData.ts";
 import TertiaryButton from './ui/buttons/TertiaryButton.tsx';
 import { useUpdateDocument } from '../hooks/updateHooks/useUpdateDocument';
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
-import { useAuth } from "../context/AuthContext.tsx";
 import LocSpan from "./LocSpan.tsx";
 import Container from "./ui/containers/Container.tsx";
 import CreatorLabel from "./ui/text/CreatorLabel.tsx";
-import FollowButton from "./FollowButton.tsx";
 
 interface StudyGroupCourseDataElementProps {
     course: CourseData;
     studyGroupId: string;
+    canDelete: boolean;
 }
 
-const StudyGroupCourseDataElement: React.FC<StudyGroupCourseDataElementProps> = ({ course, studyGroupId }) => {
-    const { userData } = useAuth();
+const StudyGroupCourseDataElement: React.FC<StudyGroupCourseDataElementProps> = ({ course, studyGroupId, canDelete = false }) => {
     const { mutate: updateStudyGroup } = useUpdateDocument<{ courseIds: string[] }>();
 
     const handleRemoveCourse = () => {
@@ -36,9 +34,12 @@ const StudyGroupCourseDataElement: React.FC<StudyGroupCourseDataElementProps> = 
 
     return (
         <Container>
-            <div className="absolute top-2 right-2">
-                <TertiaryButton onClick={handleRemoveCourse} iconComponent={<FaTrash />} label={"Remove"} />
-            </div>
+
+            {canDelete &&
+                <div className="absolute top-2 right-2">
+                    <TertiaryButton onClick={handleRemoveCourse} iconComponent={<FaTrash />} label={"Remove"} />
+                </div>
+            }
 
             <div className="flex items-center justify-between">
                 <h1 className="lg:text-3xl text-2xl font-bold text-blue-400 dark:text-white capitalize">

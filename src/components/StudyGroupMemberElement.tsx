@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaTrash } from 'react-icons/fa';
-import { MembershipData, MembershipStatus } from "../data/Institutions/MembershipData.ts";
+import {MembershipData, MembershipRole, MembershipStatus} from "../data/Institutions/MembershipData.ts";
 import { useUpdateDocument } from "../hooks/updateHooks/useUpdateDocument";
 import {CollectionTypes} from "../data/CollectionTypes.tsx";
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
@@ -8,10 +8,10 @@ import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
 interface StudyGroupMemberElementProps {
     member: MembershipData;
     studyGroupId: string;
-    permission: string;
+    viewerRole: MembershipRole;
 }
 
-const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ member, studyGroupId, permission }) => {
+const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ member, studyGroupId, viewerRole }) => {
     const roleColors: { [key: string]: string } = {
         owner: 'dark:text-purple-500 text-purple-400',
         staff: 'dark:text-yellow-500 text-yellow-500',
@@ -42,7 +42,7 @@ const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ membe
     const isRegisteredUser = !!member.userId;
 
     return (
-        <div className="flex items-center p-4 border-b border-gray-300 dark:border-gray-600 hover:dark:bg-gray-800 hover:bg-blue-100 transition-all">
+        <div key={studyGroupId} className="flex items-center p-4 border-b border-gray-300 dark:border-gray-600 hover:dark:bg-gray-800 hover:bg-blue-100 transition-all">
             <img
                 src={isRegisteredUser ? 'https://via.placeholder.com/40' : 'https://via.placeholder.com/40?text=?'}
                 alt={isRegisteredUser ? member.userId?.name : member.email}
@@ -65,7 +65,7 @@ const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ membe
                     {member.role}
                 </span>
 
-                {(permission === 'owner' || permission === 'editor') &&
+                {(viewerRole == MembershipRole.Sensei || viewerRole == MembershipRole.Owner) &&
                     <TertiaryButton onClick={handleRemoveClick} iconComponent={<FaTrash />} label={"Remove"} />
                 }
             </div>

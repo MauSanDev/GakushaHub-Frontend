@@ -8,9 +8,9 @@ import PaginatedContainer from '../../components/ui/containers/PaginatedContaine
 import { FaPlus } from "react-icons/fa";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
-import { usePrivilege } from '../../hooks/usePrivilege';
 import { MembershipRole } from '../../data/Institutions/MembershipData.ts';
-import {useInstitutionById} from "../../hooks/institutionHooks/useInstitutionById.ts";
+import { useInstitutionById } from "../../hooks/institutionHooks/useInstitutionById.ts";
+import { useAuth } from "../../context/AuthContext.tsx";
 
 const InstitutionStudyGroupPage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
@@ -20,7 +20,22 @@ const InstitutionStudyGroupPage: React.FC = () => {
     const { data: institutionData } = useInstitutionById(institutionId || "");
     const { data: studyGroupsData, isLoading, fetchStudyGroups } = usePaginatedStudyGroups(page, 10, institutionId || "", searchQuery);
 
-    const { role } = usePrivilege(institutionId || '', institutionData?.creatorId || '');
+    const { getRole } = useAuth();  // Usamos getRole desde el contexto de Auth
+    const [role, setRole] = useState<MembershipRole>(MembershipRole.None);
+    const [isRoleLoading, setIsRoleLoading] = useState(true);  // Manejamos el estado de carga del rol
+
+    useEffect(() => {
+        const fetchUserRole = async () => {
+            if (institutionId && institutionData?.creatorId) {
+                setIsRoleLoading(true);  // Comenzamos la carga del rol
+                const fetchedRole = await getRole(institutionId, institutionData.creatorId);
+                setRole(fetchedRole);
+                setIsRoleLoading(false);  // Terminamos la carga del rol
+            }
+        };
+
+        fetchUserRole();
+    }, [institutionId, institutionData, getRole]);
 
     useEffect(() => {
         fetchStudyGroups();
@@ -34,19 +49,17 @@ const InstitutionStudyGroupPage: React.FC = () => {
         setSearchQuery(query);
     };
 
-    const canAddStudyGroup = role === MembershipRole.Owner || role === MembershipRole.Staff;
+    const canModifyStudyGroups = role === MembershipRole.Owner || role === MembershipRole.Staff;
 
     return (
-        <SectionContainer title={"勉強のグループ"} isLoading={isLoading}>
-            <span className={"text-white"}>{role}</span>
+        <SectionContainer title={"勉強のグループ"} isLoading={isLoading || isRoleLoading}>
             <div className="w-full max-w-4xl flex flex-col text-left mt-12">
                 <div className="flex items-center justify-between mb-4">
-                    {/* Barra de búsqueda */}
                     <SearchBar
                         onSearch={handleSearch}
                         placeholder="Search study groups..."
                     />
-                    {canAddStudyGroup && (
+                    {canModifyStudyGroups && (
                         <PrimaryButton
                             onClick={() => setIsAddGroupModalOpen(true)}
                             label={"addStudyGroup"}
@@ -65,6 +78,7 @@ const InstitutionStudyGroupPage: React.FC = () => {
                         RenderComponent={({document}) => (
                             <StudyGroupDataElement
                                 studyGroup={document}
+                                canDelete={canModifyStudyGroups}
                             />
                         )}
                     />

@@ -26,7 +26,6 @@ import CreatorLabel from "../components/ui/text/CreatorLabel.tsx";
 import BackButton from "../components/ui/buttons/BackButton.tsx";
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import Editable from "../components/ui/text/Editable.tsx";
-import { usePrivilege } from '../hooks/usePrivilege';
 import { MembershipRole } from '../data/Institutions/MembershipData.ts';
 
 const CourseDetailPage: React.FC = () => {
@@ -42,13 +41,22 @@ const CourseDetailPage: React.FC = () => {
     const [isOwner, setIsOwner] = useState(false);
     const [isPublic, setIsPublic] = useState(false);
     const [isPublicInitial, setIsPublicInitial] = useState(false);
-    const { userData } = useAuth();
+    const { userData, getRole } = useAuth();
     const navigate = useNavigate();
     const { t } = useTranslation();
 
-    const { role } = usePrivilege(course?.institutionId ?? '', course?.creatorId?._id ?? '');
+    const [role, setRole] = useState<MembershipRole>();
 
     const updateCourse = useUpdateCourse(courseId || '');
+
+    useEffect(() => {
+        const fetchUserRole = async () => {
+            const fetchedRole = await getRole(course?.institutionId || "", course?.creatorId?._id || "");
+            setRole(fetchedRole);
+        };
+
+        fetchUserRole();
+    }, [course, getRole]);
 
     useEffect(() => {
         if (course && userData && role) {
@@ -71,7 +79,7 @@ const CourseDetailPage: React.FC = () => {
                 }
             }
         }
-    }, [role]);
+    }, [role, course]);
 
     useEffect(() => {
         if (selectedLesson) {
@@ -296,7 +304,7 @@ const CourseDetailPage: React.FC = () => {
                         showGrammar={showGrammar}
                         showReadings={showReadings}
                         owner={course}
-                        viewerRole={role}
+                        viewerRole={role || MembershipRole.None}
                     />
                 ) : (
                     <p className="text-center text-gray-500">何もない</p>

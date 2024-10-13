@@ -4,28 +4,62 @@ import InstitutionBox from './Components/InstitutionBox.tsx';
 import CreateInstitutionModal from './CreateInstitutionModal';
 import MembershipBox from './Components/MembershipBox';
 import { usePaginatedInstitutions } from '../../hooks/institutionHooks/usePaginatedInstitutions';
-import { useMyMemberships } from '../../hooks/institutionHooks/useMyMemberships';
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
+import { useAuth } from '../../context/AuthContext';
 
 const InstitutionListPage: React.FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
-    
-    const { data: institutionsData, error: institutionsError, isLoading: institutionsLoading, fetchInstitutions } = usePaginatedInstitutions(1, 1);
-    const { data: membershipsData, error: membershipsError, isLoading: membershipsLoading, fetchMemberships } = useMyMemberships(1, 10);
+    const { memberships, refetchMemberships } = useAuth();  // Ahora usamos memberships directamente de useAuth
+    const [isMembershipsLoading, setIsMembershipsLoading] = useState<boolean>(true);
 
+    // Cargar instituciones
+    const { data: institutionsData, error: institutionsError, isLoading: institutionsLoading, fetchInstitutions } = usePaginatedInstitutions(1, 1);
     const ownerInstitution = institutionsData?.documents[0] || null;
 
     useEffect(() => {
-        fetchInstitutions(); 
-        fetchMemberships();  
-    }, [fetchInstitutions, fetchMemberships]);
+        // Efecto para cargar instituciones al montar el componente
+        const fetchInstitutionsData = async () => {
+            try {
+                await fetchInstitutions();  // Cargar instituciones
+            } catch (error) {
+                console.error('Error fetching institutions:', error);
+            }
+        };
+
+        fetchInstitutionsData();
+    }, [fetchInstitutions]);
+
+    useEffect(() => {
+        let isMounted = true;  // Para evitar actualizaciones cuando el componente se desmonta
+
+        const fetchMembershipsData = async () => {
+            try {
+                setIsMembershipsLoading(true);
+                await refetchMemberships();  // Refetch con el hook de AuthContext
+            } catch (error) {
+                console.error('Error fetching memberships:', error);
+            } finally {
+                if (isMounted) {
+                    setIsMembershipsLoading(false);
+                }
+            }
+        };
+
+        fetchMembershipsData();
+
+        console.log(memberships.documents);
+
+        return () => {
+            isMounted = false;  // Cleanup
+        };
+    }, [refetchMemberships]);
 
     const handleCreateInstitutionSuccess = () => {
         setIsCreateModalOpen(false);
     };
 
     return (
-        <SectionContainer title={"私の学校"} isLoading={institutionsLoading || membershipsLoading}>
+        <SectionContainer title={"私の学校"} isLoading={institutionsLoading || isMembershipsLoading}>
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
                 <div className="mb-6">
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
@@ -49,7 +83,7 @@ const InstitutionListPage: React.FC = () => {
                             onClick={() => setIsCreateModalOpen(true)}
                         >
                             <p className="mb-4 text-xl">
-                                You don't have your Institution yet.<br/>
+                                You don't have your Institution yet.<br />
                                 <span>Click here to Create</span>
                             </p>
                         </div>
@@ -60,11 +94,9 @@ const InstitutionListPage: React.FC = () => {
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
                         <LocSpan textKey={"institutionListPage.myMemberships"} />
                     </h2>
-                    {membershipsError ? (
-                        <p className="text-red-500 text-center">Error fetching memberships</p>
-                    ) : membershipsData?.documents?.length || 0 > 0 ? (
-                        membershipsData?.documents.map((membership) => (
-                            <MembershipBox key={membership._id} membership={membership} />
+                    {memberships?.documents?.length ? (
+                        memberships?.documents.map((membership) => (
+                            <MembershipBox key={membership?._id || ""} membership={membership} />
                         ))
                     ) : (
                         <p className="text-center text-gray-500">No memberships found</p>
