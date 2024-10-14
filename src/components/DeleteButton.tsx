@@ -22,10 +22,13 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ creatorId, elementId, eleme
     if (!user || (creatorId && userData?._id != creatorId)) return ;
 
     const handleDelete = () => {
-
         if (window.confirm(`Are you sure you want to delete this ${elementType}?`)) {
             mutation.mutate(
-                { elementId, elementType, deleteRelations },
+                {
+                    elementIds: [elementId],
+                    elementType,
+                    deleteRelations,
+                },
                 {
                     onSuccess: () => {
                         if (redirectTo) {

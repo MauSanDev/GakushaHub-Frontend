@@ -47,20 +47,27 @@ const InstitutionMembersPage: React.FC = () => {
     const handleSearch = (query: string) => {
         setSearchQuery(query);
     };
-
+    
     const handleRemove = (memberId: string) => {
-        deleteMembership(
-            { elementId: memberId, elementType: CollectionTypes.Membership },
-            {
-                onSuccess: () => {
-                    setPage(1);
-                    fetchMemberships();
+        const confirmDelete = window.confirm("Are you sure you want to remove this member?");
+        if (confirmDelete) {
+            deleteMembership(
+                {
+                    elementIds: [memberId],
+                    elementType: CollectionTypes.Membership,
+                    deleteRelations: true,
                 },
-                onError: (error) => {
-                    console.error('Error deleting member:', error);
-                },
-            }
-        );
+                {
+                    onSuccess: () => {
+                        setPage(1);
+                        fetchMemberships();
+                    },
+                    onError: (error) => {
+                        console.error('Error deleting member:', error);
+                    },
+                }
+            );
+        }
     };
 
     const canManageMembers = role === MembershipRole.Owner || role === MembershipRole.Staff;

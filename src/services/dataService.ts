@@ -1,6 +1,7 @@
 import { QueryClient } from 'react-query';
 import { ApiClient } from './ApiClient';
 import {PaginatedData} from "../data/PaginatedData.ts";
+import {CollectionTypes} from "../data/CollectionTypes.tsx";
 
 type InferPaginatedData<T> = T extends PaginatedData<unknown> ? T : PaginatedData<T>;
 
@@ -176,5 +177,24 @@ export const updateList = async (
     } catch (error) {
         console.error(`Error modifying list in ${collection} with ID: ${documentId}`, error);
         throw error;
+    }
+};
+export const deleteData = async (
+    elementIds: string[],
+    elementType: CollectionTypes,
+    deleteRelations: boolean = false
+): Promise<string> => {
+    try {
+        const response = await ApiClient.delete<{ message: string }>(`/api/${elementType}/delete/${elementType}`, {
+            data: {
+                elementIds,
+                deleteRelations,
+            },
+        });
+        console.log(`Successfully deleted elements from ${elementType}:`, elementIds);
+        return response.message; 
+    } catch (error) {
+        console.error(`Error deleting elements from ${elementType}:`, error);
+        throw error; 
     }
 };
