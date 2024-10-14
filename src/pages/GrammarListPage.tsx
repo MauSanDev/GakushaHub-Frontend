@@ -24,12 +24,15 @@ const GrammarListPage: React.FC = () => {
     const onSaveStatusChanged = (status: SaveStatus) => {
         setSaveStatus(status);
     };
-
+    
+    useEffect(() => {
+        setPage(1);
+    }, [searchTerm, selectedJLPTLevel]);
+    
     useEffect(() => {
         fetchGrammarData();
     }, [page, searchTerm, selectedJLPTLevel]);
 
-    
     const handleJLPTLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedJLPTLevel(Number(event.target.value));
     };

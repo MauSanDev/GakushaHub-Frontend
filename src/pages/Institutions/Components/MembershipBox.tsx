@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { MembershipData, MembershipStatus, MembershipRole } from '../../../data/MembershipData.ts';
 import { useChangeMembershipStatus } from '../../../hooks/institutionHooks/useChangeMembershipStatus';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import Container from "../../../components/ui/containers/Container.tsx";
 import PrimaryButton from "../../../components/ui/buttons/PrimaryButton.tsx";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useInstitution } from '../../../hooks/newHooks/Institutions/useInstitutions.ts';
 
 interface MembershipBoxProps {
     membership: MembershipData;
@@ -21,6 +22,16 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
     const { mutate: changeStatus } = useChangeMembershipStatus();
     const navigate = useNavigate();
 
+    const { data: institutionData, mutate: fetchInstitution, isLoading, error } = useInstitution([membership.institutionId]);
+
+    const institutionName = institutionData?.[membership.institutionId]?.name || 'Unknown Institution';
+    const institutionDescription = institutionData?.[membership.institutionId]?.description || 'No description available';
+
+
+    useEffect(() => {
+        fetchInstitution([membership.institutionId]);
+    }, [membership]);
+    
     const handleAccept = () => {
         changeStatus({
             membershipId: membership._id,
@@ -34,17 +45,27 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
             newStatus: 'rejected',
         });
     };
-    
+
+    if (isLoading) {
+        return <div>Loading institution details...</div>;
+    }
+
+    if (error) {
+        return <div>Error loading institution details</div>;
+    }
+
     return (
         <Container className="w-full max-w-4xl my-2">
             <div className="flex-1">
                 <h3 className="text-lg font-bold text-gray-800 dark:text-white">
-                    {membership.institutionId?.name || 'Unknown Institution'}
-                    
-                    <span className={`ml-2 uppercase ${roleColors[membership.role]}`}>{membership.role}</span>
+                    {institutionName}
+
+                    <span className={`ml-2 uppercase ${roleColors[membership.role]}`}>
+                        {membership.role}
+                    </span>
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    {membership.institutionId?.description || 'No description available'}
+                    {institutionDescription}
                 </p>
             </div>
 
@@ -70,11 +91,14 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
             )}
 
             {(membership.role === MembershipRole.Owner || membership.role === MembershipRole.Sensei || membership.role === MembershipRole.Staff) && (
-
                 <div className="mt-4 flex justify-end">
-                    <PrimaryButton className={"w-40"} label={"enter"} onClick={() => {
-                        navigate(`/institution/${membership.institutionId._id}/studyGroups`)
-                    }}/>
+                    <PrimaryButton
+                        className={"w-40"}
+                        label={"enter"}
+                        onClick={() => {
+                            navigate(`/institution/${membership.institutionId}/studyGroups`);
+                        }}
+                    />
                 </div>
             )}
         </Container>

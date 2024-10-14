@@ -98,9 +98,15 @@ const PaginatedContainer = <T,>({
 
     return (
         <div className=" w-full max-w-4xl flex flex-col gap-2 text-left pb-24 h-full">
-            <div className="pagination-controls flex gapx-2 mx-0.5 w-full justify-center items-center  mt-2">
-                <span className={"text-gray-400 dark:text-gray-600 text-xs pr-3"}>Pages:</span>
-                {renderPageNumbers()}
+            <div className="pagination-controls flex gapx-2 mx-0.5 w-full justify-center items-center mt-2">
+                {totalPages > 0 ? (
+                    <>
+                        <span className="text-gray-400 dark:text-gray-600 text-xs pr-3">Pages:</span>
+                        {renderPageNumbers()}
+                    </>
+                ) : (
+                    <span className="text-gray-400 dark:text-gray-600 text-xs">No elements found</span>
+                )}
             </div>
 
             <div className="document-list flex flex-col gap-2 py-1 overflow-y-auto h-full pb-24"

@@ -1,9 +1,6 @@
 export interface MembershipData {
     _id: string;
-    userId?: {
-        _id: string;
-        name: string;
-    }; 
+    userId: string;
     email: string; 
     institutionId: string; 
     role: MembershipRole; 

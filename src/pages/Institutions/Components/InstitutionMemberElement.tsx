@@ -3,6 +3,7 @@ import { FaTrash, FaUndo } from 'react-icons/fa';
 import { MembershipRole, MembershipData, MembershipStatus } from "../../../data/MembershipData.ts";
 import { useChangeMembershipStatus } from "../../../hooks/institutionHooks/useChangeMembershipStatus";
 import { useUpdateDocument } from "../../../hooks/updateHooks/useUpdateDocument";
+import {useUserInfo} from "../../../hooks/newHooks/Courses/useUserInfo.ts";
 
 interface InstitutionMemberElementProps {
     member: MembershipData;
@@ -29,6 +30,11 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
     const [selectedRole, setSelectedRole] = useState<MembershipRole>(member.role || MembershipRole.Student);
     const { mutate: changeMembershipStatus } = useChangeMembershipStatus();
     const { mutate: updateMemberRole } = useUpdateDocument<Partial<MembershipData>>();
+    const { mutate: fetchUserInfo, data: userInfo } = useUserInfo([member?.userId]);
+
+    useEffect(() => {
+        fetchUserInfo([member?.userId]);
+    }, [member.userId]);
 
     useEffect(() => {
         if (member.role) {
@@ -53,7 +59,7 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
         changeMembershipStatus({ membershipId: member._id, newStatus: MembershipStatus.Pending });
     };
 
-    const isRegisteredUser = !!member.userId;
+    const isRegisteredUser = !!member.userId && userInfo;
 
     const handleRemoveClick = () => {
         const confirmDelete = window.confirm("Are you sure you want to remove this member?");
@@ -66,12 +72,12 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
         <div className="flex items-center p-4 border-b border-gray-300 dark:border-gray-600 hover:dark:bg-gray-800 hover:bg-blue-100 transition-all">
             <img
                 src={isRegisteredUser ? 'https://via.placeholder.com/40' : 'https://via.placeholder.com/40?text=?'}
-                alt={isRegisteredUser ? member.userId?.name : member.email}
+                alt={isRegisteredUser ? userInfo?.[member.userId]?.name || member.email : member.email}
                 className="w-10 h-10 rounded-full mr-4"
             />
             <div className="flex-1">
                 <p className="text-md font-bold text-gray-800 dark:text-gray-200">
-                    {isRegisteredUser ? member.userId?.name : member.email}
+                    {isRegisteredUser ? userInfo?.[member.userId]?.name || member.email : member.email}
                 </p>
                 <p className="text-sm text-gray-500">
                     {member.email}

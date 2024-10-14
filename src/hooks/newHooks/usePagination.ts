@@ -9,27 +9,34 @@ const fetchPaginatedData = async <T>(
     page: number,
     limit: number,
     creatorId?: string,
-    searches?: Record<string, string[]>, // Adaptamos para múltiples búsquedas
+    searches?: Record<string, string[]>,
     extraParams?: Record<string, string>
 ): Promise<InferPaginatedData<T>> => {
     const searchQueryString = searches
         ? Object.entries(searches)
             .map(([searchKey, searchValues]) => {
-                const searchFieldsQuery = searchValues.join(',');
-                return `${searchKey}=${encodeURIComponent(searchFieldsQuery)}&${searchKey}fields=${encodeURIComponent(searchValues.join(','))}`;
+                if (searchKey.endsWith('fields')) {
+                    return `${searchKey}=${encodeURIComponent(searchValues.join(','))}`;
+                } else {
+                    // Tratamos los valores de búsqueda (como search1)
+                    return `${searchKey}=${encodeURIComponent(searchValues.join(','))}`;
+                }
             })
             .join('&')
         : '';
 
+    // Manejamos los parámetros extra
     const extraQueryString = extraParams
         ? '&' + new URLSearchParams(extraParams).toString()
         : '';
 
+    // Construimos la query final con todos los parámetros
     const queryString = `?page=${page}&limit=${limit}`
         + (creatorId ? `&creatorId=${creatorId}` : '')
         + (searchQueryString ? `&${searchQueryString}` : '')
         + extraQueryString;
 
+    // Llamamos a la API con la query string construida
     return ApiClient.get<InferPaginatedData<T>>(`${endpoint}/paginate${queryString}`);
 };
 

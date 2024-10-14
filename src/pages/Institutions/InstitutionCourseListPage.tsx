@@ -2,35 +2,31 @@ import React, { useState, useEffect } from 'react';
 import CourseDataElement from '../../components/CourseDataElement.tsx';
 import { Link, useParams } from "react-router-dom";
 import AddCourseButton from "../../components/AddCourseButton.tsx";
-import { usePaginatedCourse } from "../../hooks/usePaginatedCourse.ts";
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import PaginatedContainer from '../../components/ui/containers/PaginatedContainer.tsx';
 import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
+import {useInstitutionCourses} from "../../hooks/newHooks/Courses/useInstitutionCourses.ts";
 
 const InstitutionCourseListPage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
     const [searchTerm, setSearchTerm] = useState('');
     const [page, setPage] = useState(1);
 
-    const { data: ownerData, isLoading: ownerLoading, error: ownerError, triggerFetch: fetchCourses } = usePaginatedCourse(
-        page,
-        10,
-        searchTerm,
-        institutionId
-    );
+    const { data: coursesData, isLoading: coursesLoading, mutate: fetchCourses } = useInstitutionCourses(page, 20, '', institutionId || '');
 
     useEffect(() => {
-        fetchCourses(); // Fetch data when the page or search term changes
+        console.log(institutionId)
+        fetchCourses(); 
     }, [page, searchTerm]);
 
     const handleSearch = (query: string) => {
         setSearchTerm(query);
     };
 
-    const filteredCourses = ownerData?.documents || [];
+    const filteredCourses = coursesData?.documents || [];
 
     return (
-        <SectionContainer title={"コース"} isLoading={ownerLoading} error={ownerError && String(ownerError) || ""}>
+        <SectionContainer title={"コース"} isLoading={coursesLoading}>
             <div className="flex gap-2 mb-4 w-full max-w-4xl justify-between items-center">
                 <SearchBar
                     onSearch={handleSearch}
@@ -41,11 +37,11 @@ const InstitutionCourseListPage: React.FC = () => {
                 </div>
             </div>
 
-            {!ownerLoading && ownerData && (
+            {!coursesLoading && coursesData && (
                 <PaginatedContainer
                     documents={filteredCourses}
                     currentPage={page}
-                    totalPages={ownerData.totalPages}
+                    totalPages={coursesData.totalPages}
                     onPageChange={setPage}
                     RenderComponent={({ document }) => (
                         <Link key={document._id} to={`${document._id}`} className="page-fade-enter page-fade-enter-active">

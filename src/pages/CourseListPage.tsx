@@ -7,7 +7,7 @@ import Tabs from "../components/ui/toggles/Tabs.tsx";
 import { FaBook, FaBookmark, FaSearch } from "react-icons/fa";
 import PaginatedContainer from "../components/ui/containers/PaginatedContainer.tsx";
 import { useMyCourses } from "../hooks/newHooks/Courses/useMyCourses.ts";
-import { usePublicCourses } from "../hooks/newHooks/Courses/usePublicCourses.ts"; // Importamos el nuevo hook
+import { usePublicCourses } from "../hooks/newHooks/Courses/usePublicCourses.ts";
 
 const CourseListPage: React.FC = () => {
     const [page, setPage] = useState(1);

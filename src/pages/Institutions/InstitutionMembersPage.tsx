@@ -19,7 +19,7 @@ const InstitutionMembersPage: React.FC = () => {
     const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState<boolean>(false);
     const [page, setPage] = useState(1);
 
-    const { data: membersData, isLoading, fetchMembers } = usePaginatedMembers(page, 30, institutionId || '', searchQuery);
+    const { data: membersData, mutate: fetchMembers, isLoading} = usePaginatedMembers(page, 30, institutionId || '', searchQuery);
     const { mutate: deleteMembership } = useDeleteElement();
 
     const [role, setRole] = useState<MembershipRole>();
@@ -37,7 +37,7 @@ const InstitutionMembersPage: React.FC = () => {
 
     useEffect(() => {
         fetchMembers();
-    }, [page, searchQuery, fetchMembers]);
+    }, [page, searchQuery]);
 
     const handleAddMemberSuccess = () => {
         setIsAddMemberModalOpen(false);
@@ -56,7 +56,7 @@ const InstitutionMembersPage: React.FC = () => {
                 onSuccess: () => {
                     setPage(1);
                     fetchMembers();
-                    refetchMemberships(); // Refrescar membresías cuando se eliminen miembros
+                    refetchMemberships();
                 },
                 onError: (error) => {
                     console.error('Error deleting member:', error);

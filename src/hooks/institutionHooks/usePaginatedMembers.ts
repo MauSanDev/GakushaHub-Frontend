@@ -1,39 +1,33 @@
-import { usePaginatedData } from '../usePaginatedData.ts';
-import { MembershipData } from '../../data/Institutions/MembershipData.ts';
-import { useAuth } from '../../context/AuthContext.tsx';
+import { useFullPagination } from '../newHooks/useFullPagination';
+import { MembershipData } from '../../data/MembershipData.ts';
 
 export const usePaginatedMembers = (
     page: number,
     limit: number,
     institutionId: string,
-    searchQuery?: string
+    keyword?: string
 ) => {
-    const { userData } = useAuth();
+    const extraParams = { institutionId };
+    const searches: Record<string, string[]> = {};
 
-    if (!userData || !userData._id) {
-        throw new Error('Pagination data not available');
+    if (keyword) {
+        searches['search1'] = [keyword];
+        searches['search1fields'] = ['structure', 'keywords'];
     }
 
-    const extraParams: Record<string, string> = {};
-
-    if (institutionId) {
-        extraParams['institutionId'] = institutionId;
-    }
-
-    if (searchQuery) {
-        extraParams['searchQuery'] = searchQuery;  // Agregamos la búsqueda si está presente
-    }
-
-    const mutation = usePaginatedData<MembershipData>(
-        '/api/institution/members/list',
+    const { mutate, isLoading, data, resetQueries } = useFullPagination<MembershipData>(
         page,
         limit,
-        userData._id,
+        'membership',
+        searches,
         extraParams
     );
 
     return {
-        ...mutation,
-        fetchMembers: mutation.mutate,
+        mutate,
+        isLoading,
+        data,
+        resetQueries,
+        fetchMemberships: mutate,
     };
 };

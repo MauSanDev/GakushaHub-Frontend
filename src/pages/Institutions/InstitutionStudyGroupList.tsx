@@ -20,17 +20,17 @@ const InstitutionStudyGroupPage: React.FC = () => {
     const { data: institutionData } = useInstitutionById(institutionId || "");
     const { data: studyGroupsData, isLoading, fetchStudyGroups } = usePaginatedStudyGroups(page, 10, institutionId || "", searchQuery);
 
-    const { getRole } = useAuth();  // Usamos getRole desde el contexto de Auth
+    const { getRole } = useAuth();
     const [role, setRole] = useState<MembershipRole>(MembershipRole.None);
-    const [isRoleLoading, setIsRoleLoading] = useState(true);  // Manejamos el estado de carga del rol
+    const [isRoleLoading, setIsRoleLoading] = useState(true);
 
     useEffect(() => {
         const fetchUserRole = async () => {
             if (institutionId && institutionData?.creatorId) {
-                setIsRoleLoading(true);  // Comenzamos la carga del rol
+                setIsRoleLoading(true);
                 const fetchedRole = await getRole(institutionId, institutionData.creatorId);
                 setRole(fetchedRole);
-                setIsRoleLoading(false);  // Terminamos la carga del rol
+                setIsRoleLoading(false);
             }
         };
 
@@ -39,7 +39,7 @@ const InstitutionStudyGroupPage: React.FC = () => {
 
     useEffect(() => {
         fetchStudyGroups();
-    }, [page, searchQuery, fetchStudyGroups]);
+    }, [page, searchQuery]);
 
     const handleAddGroupSuccess = () => {
         setIsAddGroupModalOpen(false);
@@ -63,7 +63,7 @@ const InstitutionStudyGroupPage: React.FC = () => {
                         <PrimaryButton
                             onClick={() => setIsAddGroupModalOpen(true)}
                             label={"addStudyGroup"}
-                            iconComponent={<FaPlus/>}
+                            iconComponent={<FaPlus />}
                             className={"text-xs"}
                         />
                     )}
@@ -75,7 +75,7 @@ const InstitutionStudyGroupPage: React.FC = () => {
                         currentPage={page}
                         totalPages={studyGroupsData.totalPages}
                         onPageChange={setPage}
-                        RenderComponent={({document}) => (
+                        RenderComponent={({ document }) => (
                             <StudyGroupDataElement
                                 studyGroup={document}
                                 canDelete={canModifyStudyGroups}
