@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { FaTrash } from 'react-icons/fa';
 import {MembershipData, MembershipRole, MembershipStatus} from "../data/MembershipData.ts";
 import { useUpdateDocument } from "../hooks/updateHooks/useUpdateDocument";
 import {CollectionTypes} from "../data/CollectionTypes.tsx";
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
+import {useUserInfo} from "../hooks/newHooks/Courses/useUserInfo.ts";
 
 interface StudyGroupMemberElementProps {
     member: MembershipData;
@@ -20,7 +21,13 @@ const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ membe
     };
 
     const { mutate: removeMemberFromGroup } = useUpdateDocument<Partial<{ memberIds: string[] }>>();
+    const { mutate: fetchUserInfo, data: userInfo } = useUserInfo([member?.userId]);
 
+    useEffect(() => {
+        fetchUserInfo([member.userId]);
+    }, [member]);
+
+    
     const handleRemoveClick = () => {
         const confirmDelete = window.confirm("Are you sure you want to remove this member from the group?");
         if (confirmDelete) {
@@ -45,12 +52,12 @@ const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ membe
         <div key={studyGroupId} className="flex items-center p-4 border-b border-gray-300 dark:border-gray-600 hover:dark:bg-gray-800 hover:bg-blue-100 transition-all">
             <img
                 src={isRegisteredUser ? 'https://via.placeholder.com/40' : 'https://via.placeholder.com/40?text=?'}
-                alt={isRegisteredUser ? member.userId?.name : member.email}
+                alt={isRegisteredUser ? member.userId : member.email}
                 className="w-10 h-10 rounded-full mr-4"
             />
             <div className="flex-1">
                 <p className="text-md font-bold text-gray-800 dark:text-gray-200">
-                    {isRegisteredUser ? member.userId?.name : member.email}
+                    {isRegisteredUser ? userInfo?.[member.userId]?.name || member.email : member.email}
                 </p>
                 <p className="text-sm text-gray-500">
                     {member.email}

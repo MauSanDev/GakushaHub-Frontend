@@ -48,6 +48,7 @@ const InstitutionBox: React.FC<MyInstitutionProps> = ({
                     </div>
 
                     <div className="mt-4 flex justify-end">
+                        <span>{institutionId}</span>
                         <PrimaryButton className={"w-40"} label={"enter"} onClick={() => {
                             navigate(`/institution/${institutionId}/studyGroups`)
                         }}/>

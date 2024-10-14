@@ -24,6 +24,8 @@ const StudyGroupDataElement: React.FC<StudyGroupDataElementProps> = ({ studyGrou
         >
             <Container className="w-full max-w-4xl my-2">
 
+                <span>{studyGroup.memberIds.join(' - ')}</span>
+                
                 {!studyGroup.isActive && (<RoundedTag textKey={"archived"} className={"right-10 top-2 absolute"}/>)}
 
                 {canDelete && 

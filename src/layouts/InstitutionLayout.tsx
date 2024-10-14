@@ -13,7 +13,6 @@ const InstitutionRoute: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    // Manejo de estilos en el body para evitar el scroll
     useEffect(() => {
         document.body.style.overflow = 'hidden';
         document.body.style.position = 'fixed';

@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { FaBook, FaChalkboardTeacher, FaFolder, FaPlus, FaSchool, FaUser } from "react-icons/fa";
 import { useStudyGroupById } from '../hooks/useGetStudyGroup.tsx';
 import { useInstitutionById } from '../hooks/institutionHooks/useInstitutionById.ts';
 import BindCoursesModal from './StudyGroups/BindCoursesModal';
-import StudyGroupCourseDataElement from "../components/StudyGroupCourseDataElement.tsx";
 import BindMembersModal from "./StudyGroups/BindMembersModal.tsx";
 import PrimaryButton from "../components/ui/buttons/PrimaryButton.tsx";
 import Tabs from "../components/ui/toggles/Tabs.tsx";
@@ -18,6 +17,8 @@ import { useUpdateDocument } from '../hooks/updateHooks/useUpdateDocument';
 import RoundedTag from "../components/ui/text/RoundedTag.tsx";
 import { MembershipRole } from "../data/MembershipData.ts";
 import { useAuth } from '../context/AuthContext';
+import { useStudyMembers } from '../hooks/newHooks/Memberships/useStudyMembers'; // Importa el hook
+import PaginatedContainer from '../components/ui/containers/PaginatedContainer'; // Importa el componente de paginación
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId } = useParams<{ studyGroupId: string }>();
@@ -26,18 +27,30 @@ const StudyGroupContentPage: React.FC = () => {
     const [isBindMembersModalOpen, setIsBindMembersModalOpen] = useState(false);
     const [isArchived, setIsArchived] = useState<boolean>(false);
     const [role, setRole] = useState<MembershipRole>(MembershipRole.None);
+    const [page, setPage] = useState<number>(1); // Estado para la página de miembros
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: studyGroup, error, isLoading } = useStudyGroupById(studyGroupId || '');
     const { data: institution } = useInstitutionById(studyGroup?.institutionId || '');
 
+    const { data: membersData, isLoading: membersLoading, fetchStudyMembers } = useStudyMembers(
+        studyGroup?.memberIds || [],
+        page,
+        10
+    );
+
     const { mutate: updateDocument } = useUpdateDocument<Partial<{ isActive: boolean }>>();
-    const { getRole } = useAuth(); // Accedemos a getRole desde useAuth
+    const { getRole } = useAuth();
 
     useEffect(() => {
         setIsArchived(!(studyGroup?.isActive ?? false));
     }, [studyGroup]);
     
+    useEffect(() => {
+        fetchStudyMembers();
+        console.log(studyGroup?.memberIds)
+    }, [currentTab]);
+
     useEffect(() => {
         const savedTab = localStorage.getItem('currentStudyGroupTab');
         if (savedTab) {
@@ -56,11 +69,10 @@ const StudyGroupContentPage: React.FC = () => {
     }, [error]);
 
     useEffect(() => {
-        
         const fetchRole = async () => {
             if (studyGroup?.institutionId) {
                 const fetchedRole = await getRole(studyGroup.institutionId, '');
-                console.log(fetchedRole)
+                console.log(fetchedRole);
                 setRole(fetchedRole);
             }
         };
@@ -113,7 +125,7 @@ const StudyGroupContentPage: React.FC = () => {
 
     return (
         <div ref={scrollContainerRef} className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-            <LoadingScreen isLoading={isLoading} />
+            <LoadingScreen isLoading={isLoading || membersLoading} />
             {studyGroup && (
                 <div className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
                     <div className="flex flex-col items-start mb-4 sm:mb-0 w-full">
@@ -175,15 +187,6 @@ const StudyGroupContentPage: React.FC = () => {
                             <PrimaryButton label={'bindCourses'} iconComponent={<FaPlus />} onClick={() => setIsBindCoursesModalOpen(true)} className={'w-40 text-xs mb-2'} />
                         }
 
-                        {studyGroup?.courseIds?.length > 0 ? (
-                            studyGroup.courseIds.map((course) => (
-                                <Link key={course.name} to={`/courses/${course._id}`} className="page-fade-enter page-fade-enter-active">
-                                    <StudyGroupCourseDataElement studyGroupId={studyGroup._id} course={course} canDelete={canEdit}/>
-                                </Link>
-                            ))
-                        ) : (
-                            <p>No courses available</p>
-                        )}
                     </div>
                 )}
 
@@ -195,15 +198,21 @@ const StudyGroupContentPage: React.FC = () => {
 
                 {currentTab === 'members' && (
                     <div>
-
                         {canEdit &&
                             <PrimaryButton label={'addMembers'} iconComponent={<FaPlus />} onClick={() => setIsBindMembersModalOpen(true)} className={'w-40 text-xs'} />
                         }
 
-                        {studyGroup?.memberIds?.length > 0 ? (
-                            studyGroup.memberIds.map((member) => (
-                                <StudyGroupMemberElement member={member} studyGroupId={studyGroup._id} key={member.name} viewerRole={role} />
-                            ))
+                        {/* PaginatedContainer para mostrar los miembros */}
+                        {membersData && membersData.documents.length > 0 ? (
+                            <PaginatedContainer
+                                documents={membersData.documents}
+                                currentPage={page}
+                                totalPages={membersData.totalPages}
+                                onPageChange={setPage}
+                                RenderComponent={({ document }) => (
+                                    <StudyGroupMemberElement member={document} studyGroupId={studyGroupId || ''} viewerRole={role} />
+                                )}
+                            />
                         ) : (
                             <p>No members available</p>
                         )}
