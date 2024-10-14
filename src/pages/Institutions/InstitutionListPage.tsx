@@ -9,33 +9,33 @@ import { useAuth } from '../../context/AuthContext';
 
 const InstitutionListPage: React.FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
-    const { memberships, refetchMemberships } = useAuth();  
+    const { memberships, refetchMemberships } = useAuth();
     const [isMembershipsLoading, setIsMembershipsLoading] = useState<boolean>(true);
 
-    
-    const { data: institutionsData, error: institutionsError, isLoading: institutionsLoading, fetchInstitutions } = usePaginatedInstitutions(1, 1);
+    const { data: institutionsData, isLoading: institutionsLoading, fetchInstitutions } = usePaginatedInstitutions(1, 10);
     const ownerInstitution = institutionsData?.documents[0] || null;
 
+    // Llamamos a fetchInstitutions solo una vez cuando el componente se monta
     useEffect(() => {
-        
         const fetchInstitutionsData = async () => {
             try {
-                await fetchInstitutions();  
+                await fetchInstitutions();
             } catch (error) {
                 console.error('Error fetching institutions:', error);
             }
         };
 
         fetchInstitutionsData();
-    }, [fetchInstitutions]);
+    }, []); // Dependencias vacías para que se ejecute solo una vez al montar el componente
 
+    // Llamamos a refetchMemberships solo una vez cuando el componente se monta
     useEffect(() => {
-        let isMounted = true;  
+        let isMounted = true;
 
         const fetchMembershipsData = async () => {
             try {
                 setIsMembershipsLoading(true);
-                await refetchMemberships();  
+                await refetchMemberships();
             } catch (error) {
                 console.error('Error fetching memberships:', error);
             } finally {
@@ -47,15 +47,14 @@ const InstitutionListPage: React.FC = () => {
 
         fetchMembershipsData();
 
-        console.log(memberships.documents);
-
         return () => {
-            isMounted = false;  
+            isMounted = false;
         };
-    }, [refetchMemberships]);
+    }, []); // Dependencias vacías para que se ejecute solo una vez al montar el componente
 
     const handleCreateInstitutionSuccess = () => {
         setIsCreateModalOpen(false);
+        fetchInstitutions();  // Refetch institutions after a successful creation
     };
 
     return (
@@ -65,9 +64,7 @@ const InstitutionListPage: React.FC = () => {
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
                         <LocSpan textKey={"institutionListPage.myInstitution"} />
                     </h2>
-                    {institutionsError ? (
-                        <p className="text-red-500 text-center">Error fetching institutions</p>
-                    ) : ownerInstitution ? (
+                    {ownerInstitution ? (
                         <InstitutionBox
                             institutionId={ownerInstitution._id}
                             institutionName={ownerInstitution.name}
@@ -94,8 +91,8 @@ const InstitutionListPage: React.FC = () => {
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
                         <LocSpan textKey={"institutionListPage.myMemberships"} />
                     </h2>
-                    {memberships?.documents?.length ? (
-                        memberships?.documents.map((membership) => (
+                    {memberships?.length ? (
+                        memberships.map((membership) => (
                             <MembershipBox key={membership?._id || ""} membership={membership}/>
                         ))
                     ) : (

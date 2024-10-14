@@ -1,5 +1,5 @@
 import React from 'react';
-import { MembershipData, MembershipStatus } from '../../data/Institutions/MembershipData.ts';
+import { MembershipData, MembershipStatus } from '../../data/MembershipData.ts';
 import SelectableContainer from "../../components/ui/containers/SelectableContainer.tsx";
 
 interface SelectableMemberBoxProps {

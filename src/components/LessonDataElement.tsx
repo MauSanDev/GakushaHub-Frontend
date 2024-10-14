@@ -21,7 +21,7 @@ import LocSpan from "./LocSpan.tsx";
 import Container from "./ui/containers/Container.tsx";
 import {CollectionTypes} from "../data/CollectionTypes.tsx";
 import Editable from "./ui/text/Editable.tsx";
-import {MembershipRole} from "../data/Institutions/MembershipData.ts";
+import {MembershipRole} from "../data/MembershipData.ts";
 
 interface LessonDataElementProps {
     owner: CourseData;

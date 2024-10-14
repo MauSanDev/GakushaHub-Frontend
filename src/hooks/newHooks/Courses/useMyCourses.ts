@@ -1,7 +1,7 @@
 import { useFullPagination } from '../useFullPagination';
 import { CourseData } from '../../../data/CourseData';
 import { PaginatedData } from '../../../data/PaginatedData.ts';
-import {useAuth} from "../../../context/AuthContext.tsx";
+import { useAuth } from "../../../context/AuthContext.tsx";
 
 export const useMyCourses = (
     page: number,
@@ -10,13 +10,19 @@ export const useMyCourses = (
 ): { mutate: () => void, isLoading: boolean, data?: PaginatedData<CourseData>, resetQueries: () => void } => {
     const { userData } = useAuth();
 
+    const searches: Record<string, string[]> = {};
+    
+    if (search) {
+        searches['search1'] = [search];
+        searches['search1fields'] = ['name'];
+    }
+
     return useFullPagination<CourseData>(
         page,
         limit,
         'course',
-        search,
-        ['name'],
+        searches,  
         {},
-        userData?._id 
+        userData?._id  
     );
 };

@@ -5,21 +5,26 @@ export const usePaginatedGrammar = (
     page: number,
     limit: number,
     keyword?: string,
-    jlptLevel?: number  
+    jlptLevel?: number
 ) => {
-    const searchFields = ['structure', 'keywords'];
-    const extraParams: Record<string, string> = {};
+    const searches: Record<string, string[]> = {};
     
+    if (keyword) {
+        searches['search1'] = [keyword];  
+        searches['search1fields'] = ['structure', 'keywords'];  
+    }
+
+    const extraParams: Record<string, string> = {};
+
     if (jlptLevel && jlptLevel !== -1) {
-        extraParams['jlpt'] = jlptLevel.toString();  
+        extraParams['jlpt'] = jlptLevel.toString();
     }
 
     const { mutate, isLoading, data, resetQueries } = useFullPagination<GrammarData>(
         page,
         limit,
         'grammar',
-        keyword || '',  
-        searchFields,
+        searches,  
         extraParams
     );
 

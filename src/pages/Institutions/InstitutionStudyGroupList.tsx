@@ -8,7 +8,7 @@ import PaginatedContainer from '../../components/ui/containers/PaginatedContaine
 import { FaPlus } from "react-icons/fa";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
-import { MembershipRole } from '../../data/Institutions/MembershipData.ts';
+import { MembershipRole } from '../../data/MembershipData.ts';
 import { useInstitutionById } from "../../hooks/institutionHooks/useInstitutionById.ts";
 import { useAuth } from "../../context/AuthContext.tsx";
 

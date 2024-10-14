@@ -7,12 +7,19 @@ export const usePublicCourses = (
     limit: number,
     search: string = ''
 ): { mutate: () => void, isLoading: boolean, data?: PaginatedData<CourseData>, resetQueries: () => void } => {
+
+    const searches: Record<string, string[]> = {};
+    
+    if (search) {
+        searches['search1'] = [search];
+        searches['search1fields'] = ['name'];
+    }
+
     return useFullPagination<CourseData>(
         page,
         limit,
-        'course',              
-        search,                
-        ['name'],
+        'course',
+        searches,  
         { isPublic: 'true' }  
     );
 };

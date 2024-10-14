@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext.tsx";
 import UserMenu from '../../components/UserMenu';
 import LocSpan from "../../components/LocSpan.tsx";
 import { useInstitutionById } from "../../hooks/institutionHooks/useInstitutionById.ts";
-import { MembershipRole } from "../../data/Institutions/MembershipData.ts";
+import { MembershipRole } from "../../data/MembershipData.ts";
 
 const InstitutionSidebar: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string; }>();

@@ -6,16 +6,15 @@ export const useFullPagination = <T>(
     page: number,
     limit: number,
     key: string,
-    search: string = '',
-    searchFields: string[] = ['name'],
-    extraParams?: Record<string, string>, 
+    searches: Record<string, string[]> = {}, 
+    extraParams?: Record<string, string>,
     creatorId?: string
 ): { mutate: () => void, isLoading: boolean, data?: PaginatedData<T>, resetQueries: () => void } => {
     
     const { mutate: paginateMutate, resetQueries: paginateResetQueries, data: paginatedData, isLoading: isPaginating } = usePagination<string>(
-        `api/${key}`, page, limit, creatorId, search, searchFields, extraParams
+        `api/${key}`, page, limit, creatorId, searches, extraParams
     );
-    
+
     const { mutate: fetchElementsMutate, resetQueries: elementsResetQueries, data: elementsData, isLoading: isFetchingElements } = useElements<T>(
         paginatedData?.documents || [], key
     );

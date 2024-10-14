@@ -1,5 +1,5 @@
 import React from 'react';
-import { MembershipData, MembershipStatus, MembershipRole } from '../../../data/Institutions/MembershipData.ts';
+import { MembershipData, MembershipStatus, MembershipRole } from '../../../data/MembershipData.ts';
 import { useChangeMembershipStatus } from '../../../hooks/institutionHooks/useChangeMembershipStatus';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import Container from "../../../components/ui/containers/Container.tsx";

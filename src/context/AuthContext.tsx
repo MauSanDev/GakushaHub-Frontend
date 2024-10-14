@@ -12,8 +12,8 @@ import {
 } from 'firebase/auth';
 import { ApiClient } from '../services/ApiClient';
 import { UserData } from '../data/UserData';
-import { MembershipRole, MembershipData } from '../data/Institutions/MembershipData';
-import { useQuery } from 'react-query';
+import { MembershipRole, MembershipData } from '../data/MembershipData';
+import { useMyMemberships } from '../hooks/newHooks/Memberships/useMyMemberships.ts';
 
 type LicenseType = 'none' | 'free' | 'premium' | 'sensei';
 
@@ -29,7 +29,7 @@ interface AuthContextType {
     licenseType: LicenseType;
     memberships: MembershipData[] | null;
     getRole: (institutionId: string, creatorId: string) => Promise<MembershipRole>;
-    refetchMemberships: () => Promise<void>;
+    refetchMemberships: () => void;
     signUp: (email: string, password: string, name: string, country: string) => Promise<void>;
     signIn: (email: string, password: string) => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
@@ -51,25 +51,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isEmailVerified, setIsEmailVerified] = useState(false);
     const [roleCache] = useState(new Map<string, MembershipRole>());
-    const [memberships, setMemberships] = useState<MembershipData[] | null>(null); // Estado local de membresías
+    
+    const { data: membershipsData, fetchMemberships } = useMyMemberships(userData?._id || '');
 
-    // Función para cargar las membresías con useQuery, evitando llamadas repetitivas
-    const fetchMemberships = async (): Promise<MembershipData[]> => {
-        const response = await ApiClient.get<MembershipData[]>('/api/institution/myMemberships');
-        return response;
-    };
+    const [memberships, setMemberships] = useState<MembershipData[] | null>(null); 
 
-    const { data: membershipsData, refetch: refetchMemberships } = useQuery(
-        'myMemberships',
-        fetchMemberships,
-        {
-            enabled: !!userData, // Solo habilitar si existe userData
-            onSuccess: (data) => setMemberships(data || []), // Guardar en el estado local
-            onError: (error) => console.error('Error fetching memberships:', error),
+    useEffect(() => {
+        if (memberships && memberships.length > 0)
+            return;
+
+        if (membershipsData?.documents) {
+            setMemberships(membershipsData.documents);
         }
-    );
+    }, [membershipsData]);
 
-    // Calcular el tipo de licencia basado en los datos del usuario
+    
     const licenseType: LicenseType = userData?.licenses?.some(license => license.type === 'sensei' && license.isActive)
         ? 'sensei'
         : userData?.licenses?.some(license => license.type === 'premium' && license.isActive)
@@ -78,11 +74,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 ? 'free'
                 : 'none';
 
-    const hasLicense = licenseType !== 'none';  // Tiene cualquier tipo de licencia
-    const isPremium = licenseType === 'premium' || licenseType === 'sensei';  // Es premium
-    const isSensei = licenseType === 'sensei';    // Es sensei
+    const hasLicense = licenseType !== 'none';  
+    const isPremium = licenseType === 'premium' || licenseType === 'sensei';  
+    const isSensei = licenseType === 'sensei';    
 
-    // Manejar autenticación de usuario con Firebase
+    
     useEffect(() => {
         const auth = getAuth();
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -100,6 +96,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     setUserData(data);
                     localStorage.setItem('userData', JSON.stringify(data));
                 }
+
+                fetchMemberships();
             } else {
                 setIsAuthenticated(false);
                 setIsEmailVerified(false);
@@ -154,7 +152,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setUserData(data);
             localStorage.setItem('userData', JSON.stringify(data));
 
-            refetchMemberships(); // Refetch memberships después de iniciar sesión
+            fetchMemberships();
         }
 
         setUser(user);
@@ -228,8 +226,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
 
         if (institutionId) {
-            const membership = memberships?.documents.find(m =>
-                m.institutionId._id === institutionId && m.userId === userData?._id
+            const membership = memberships?.find(m =>
+                m.institutionId === institutionId && m.userId === userData?._id
             );
 
             let newRole: MembershipRole = MembershipRole.None;
@@ -273,10 +271,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             isPremium,
             isSensei,
             licenseType,
-            roleCache,
             memberships,
             getRole,
-            refetchMemberships,
+            refetchMemberships: fetchMemberships,
             signUp,
             signIn,
             resetPassword,

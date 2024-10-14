@@ -16,7 +16,7 @@ import LocSpan from "../components/LocSpan";
 import SelectionToggle from "../components/ui/toggles/SelectionToggle.tsx";
 import { useUpdateDocument } from '../hooks/updateHooks/useUpdateDocument';
 import RoundedTag from "../components/ui/text/RoundedTag.tsx";
-import { MembershipRole } from "../data/Institutions/MembershipData.ts";
+import { MembershipRole } from "../data/MembershipData.ts";
 import { useAuth } from '../context/AuthContext';
 
 const StudyGroupContentPage: React.FC = () => {

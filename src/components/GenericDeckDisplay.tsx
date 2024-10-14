@@ -17,7 +17,7 @@ import LocSpan from "./LocSpan.tsx";
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
 import {CollectionTypes} from "../data/CollectionTypes.tsx";
 import Editable from "./ui/text/Editable.tsx";
-import {MembershipRole} from "../data/Institutions/MembershipData.ts";
+import {MembershipRole} from "../data/MembershipData.ts";
 
 interface GenericDeckDisplayProps<T> {
     courseData: CourseData;

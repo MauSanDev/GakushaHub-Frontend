@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import InstitutionSidebar from "../pages/Institutions/InstitutionSidebar.tsx";
-import { MembershipRole } from '../data/Institutions/MembershipData.ts';
+import { MembershipRole } from '../data/MembershipData.ts';
 import { useInstitutionById } from "../hooks/institutionHooks/useInstitutionById.ts";
 
 const InstitutionRoute: React.FC = () => {

@@ -6,13 +6,18 @@ export const usePaginatedGenerations = (
     limit: number,
     keyword?: string,
 ) => {
+    const searches: Record<string, string[]> = {};
     
+    if (keyword) {
+        searches['search1'] = [keyword];
+        searches['search1fields'] = ['title'];
+    }
+
     const { mutate, isLoading, data, resetQueries } = useFullPagination<GeneratedData>(
         page,
         limit,
-        'generation',  
-        keyword || '',  
-        ['title']
+        'generation',
+        searches,  
     );
 
     return {
@@ -20,6 +25,6 @@ export const usePaginatedGenerations = (
         isLoading,
         data,
         resetQueries,
-        fetchGenerations: mutate,  
+        fetchGenerations: mutate,
     };
 };

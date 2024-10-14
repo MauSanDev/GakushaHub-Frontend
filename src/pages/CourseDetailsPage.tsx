@@ -14,7 +14,7 @@ import CreatorLabel from "../components/ui/text/CreatorLabel.tsx";
 import BackButton from "../components/ui/buttons/BackButton.tsx";
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import Editable from "../components/ui/text/Editable.tsx";
-import { MembershipRole } from '../data/Institutions/MembershipData.ts';
+import { MembershipRole } from '../data/MembershipData.ts';
 import { useCourses } from '../hooks/newHooks/Courses/useCourses';
 import { useLessons } from '../hooks/newHooks/Courses/useLessons';
 import DeckToggle from "../components/ui/toggles/DeckToggle.tsx";

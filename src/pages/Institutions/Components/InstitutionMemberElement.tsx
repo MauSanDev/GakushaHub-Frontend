@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaTrash, FaUndo } from 'react-icons/fa';
-import { MembershipRole, MembershipData, MembershipStatus } from "../../../data/Institutions/MembershipData.ts";
+import { MembershipRole, MembershipData, MembershipStatus } from "../../../data/MembershipData.ts";
 import { useChangeMembershipStatus } from "../../../hooks/institutionHooks/useChangeMembershipStatus";
 import { useUpdateDocument } from "../../../hooks/updateHooks/useUpdateDocument";
 

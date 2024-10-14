@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaTrash } from 'react-icons/fa';
-import {MembershipData, MembershipRole, MembershipStatus} from "../data/Institutions/MembershipData.ts";
+import {MembershipData, MembershipRole, MembershipStatus} from "../data/MembershipData.ts";
 import { useUpdateDocument } from "../hooks/updateHooks/useUpdateDocument";
 import {CollectionTypes} from "../data/CollectionTypes.tsx";
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
