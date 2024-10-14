@@ -18,7 +18,7 @@ import { MembershipRole } from '../data/MembershipData.ts';
 import { useCourses } from '../hooks/newHooks/Courses/useCourses';
 import { useLessons } from '../hooks/newHooks/Courses/useLessons';
 import DeckToggle from "../components/ui/toggles/DeckToggle.tsx";
-import { useUpdateDocument } from "../hooks/updateHooks/useUpdateDocument.ts";
+import { useUpdateData } from "../hooks/updateHooks/useUpdateData.ts";
 
 enum DeckType {
     Kanji = 'kanji',
@@ -44,7 +44,7 @@ const CourseDetailPage: React.FC = () => {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { getRole } = useAuth();
-    const { mutate: updateDocument } = useUpdateDocument<{ isPublic: boolean }>();
+    const { mutate: updateDocument } = useUpdateData<{ isPublic: boolean }>();
 
     const [role, setRole] = useState<MembershipRole>();
 
@@ -100,7 +100,7 @@ const CourseDetailPage: React.FC = () => {
         updateDocument({
             collection: 'Course',
             documentId: courseId || '',
-            updateData: { isPublic: newIsPublic }
+            newData: { isPublic: newIsPublic }
         });
     };
 

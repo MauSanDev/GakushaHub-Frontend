@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { FaBookOpen, FaBook, FaFileAlt, FaEye, FaTrash } from 'react-icons/fa';
-import {CourseData, LessonData} from "../data/CourseData.ts";
+import { CourseData, LessonData } from "../data/CourseData.ts";
 import TertiaryButton from './ui/buttons/TertiaryButton.tsx';
-import { useUpdateDocument } from '../hooks/updateHooks/useUpdateDocument';
+import { useUpdateList } from '../hooks/updateHooks/useUpdateList.ts'; // Importa el nuevo hook
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import LocSpan from "./LocSpan.tsx";
 import Container from "./ui/containers/Container.tsx";
@@ -16,33 +16,30 @@ interface StudyGroupCourseDataElementProps {
 }
 
 const StudyGroupCourseDataElement: React.FC<StudyGroupCourseDataElementProps> = ({ course, studyGroupId, canDelete = false }) => {
-    const { mutate: updateStudyGroup } = useUpdateDocument<{ courseIds: string[] }>();
-    const { mutate: fetchLessons, data: lessonsData, isLoading: lessonsLoading } = useLessons(course.lessons);
+    const { mutate: modifyList } = useUpdateList();
+    const { fetchLessons, data: lessonsData, isLoading: lessonsLoading } = useLessons(course.lessons);
 
     useEffect(() => {
         if (course.lessons.length > 0) {
-            fetchLessons(course.lessons);
+            fetchLessons();
         }
     }, [course.lessons, fetchLessons]);
 
     const handleRemoveCourse = () => {
-        updateStudyGroup({
-            collection: CollectionTypes.StudyGroup,
-            documentId: studyGroupId,
-            updateData: { $pull: { courseIds: course._id } }
-        }, {
-            onSuccess: () => {
-                console.log(`Course ${course._id} removed successfully from study group ${studyGroupId}`);
-            },
-            onError: (error) => {
-                console.error("Error removing course from study group:", error);
-            }
-        });
+        const confirmDelete = window.confirm("Are you sure you want to remove this course from the study group?");
+        if (confirmDelete) {
+            modifyList({
+                collection: CollectionTypes.StudyGroup,
+                documentId: studyGroupId,
+                field: 'courseIds',
+                value: course._id,
+                action: 'remove'
+            });
+        }
     };
 
     return (
         <Container>
-
             {canDelete &&
                 <div className="absolute top-2 right-2">
                     <TertiaryButton onClick={handleRemoveCourse} iconComponent={<FaTrash />} label={"Remove"} />

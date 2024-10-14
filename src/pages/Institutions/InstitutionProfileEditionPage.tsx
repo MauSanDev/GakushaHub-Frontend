@@ -5,7 +5,7 @@ import SectionContainer from "../../components/ui/containers/SectionContainer.ts
 import SecondaryButton from "../../components/ui/buttons/SecondaryButton.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import { FaCamera, FaCheck, FaSpinner } from "react-icons/fa";
-import { useUpdateDocument } from '../../hooks/updateHooks/useUpdateDocument';
+import { useUpdateData } from '../../hooks/updateHooks/useUpdateData.ts';
 
 const EditProfilePage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
@@ -17,7 +17,7 @@ const EditProfilePage: React.FC = () => {
 
     const [isSaving, setIsSaving] = useState(false); 
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const { mutate: updateInstitution } = useUpdateDocument<Partial<{ name: string; description: string }>>(); 
+    const { mutate: updateInstitution } = useUpdateData<Partial<{ name: string; description: string }>>(); 
 
     const initialData = useRef({ name: '', description: '' }); 
 
@@ -58,7 +58,7 @@ const EditProfilePage: React.FC = () => {
         updateInstitution({
             collection: 'institution',
             documentId: institutionId || '',
-            updateData: updatedData
+            newData: updatedData
         }, {
             onSuccess: () => {
                 setIsSaving(false); 

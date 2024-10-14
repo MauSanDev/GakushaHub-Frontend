@@ -13,7 +13,7 @@ import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import StudyGroupMemberElement from "../components/StudyGroupMemberElement.tsx";
 import LocSpan from "../components/LocSpan";
 import SelectionToggle from "../components/ui/toggles/SelectionToggle.tsx";
-import { useUpdateDocument } from '../hooks/updateHooks/useUpdateDocument';
+import { useUpdateData } from '../hooks/updateHooks/useUpdateData.ts';
 import RoundedTag from "../components/ui/text/RoundedTag.tsx";
 import { MembershipRole } from "../data/MembershipData.ts";
 import { useAuth } from '../context/AuthContext';
@@ -49,7 +49,7 @@ const StudyGroupContentPage: React.FC = () => {
         10 
     );
 
-    const { mutate: updateDocument } = useUpdateDocument<Partial<{ isActive: boolean }>>();
+    const { mutate: updateDocument } = useUpdateData<Partial<{ isActive: boolean }>>();
     const { getRole, memberships } = useAuth();
     
 
@@ -123,7 +123,7 @@ const StudyGroupContentPage: React.FC = () => {
         updateDocument({
             collection: CollectionTypes.StudyGroup,
             documentId: studyGroupId || '',
-            updateData: { isActive: isArchived },
+            newData: { isActive: isArchived },
         });
     };
 

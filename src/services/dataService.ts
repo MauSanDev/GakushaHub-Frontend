@@ -147,14 +147,34 @@ export const resetCachedQueries = (ids: string[], key: string, queryClient: Quer
     queryClient.invalidateQueries([`${key}ByIds`, ids]);
 };
 
-export const updateData = async (endpoint: string, documentId: string, data: unknown): Promise<unknown> => {
-    console.log(`Updating document with ID: ${documentId} at ${endpoint}`);
+export const updateData = async (collection: string, documentId: string, data: unknown): Promise<unknown> => {
+    console.log(`Updating document with ID: ${documentId} at ${collection}`);
     try {
-        const response = await ApiClient.put<unknown, unknown>(`${endpoint}/${documentId}`, data);
+        const response = await ApiClient.put<unknown, unknown>(`api/${collection}/update/${documentId}`, data);
         console.log("Document updated successfully:", response);
         return response;
     } catch (error) {
-        console.error(`Error updating document with ID: ${documentId} at ${endpoint}`, error);
+        console.error(`Error updating document with ID: ${documentId} at ${collection}`, error);
+        throw error;
+    }
+};
+
+export const updateList = async (
+    collection: string,
+    documentId: string,
+    field: string,
+    value: string,
+    action: 'add' | 'remove'
+): Promise<void> => {
+    const updateDataPayload = action === 'add'
+        ? { $addToSet: { [field]: value } }
+        : { $pull: { [field]: value } };
+
+    try {
+        await updateData(collection, documentId, updateDataPayload);
+        console.log(`${action === 'add' ? 'Added' : 'Removed'} ${value} from ${field} in ${collection} with ID: ${documentId}`);
+    } catch (error) {
+        console.error(`Error modifying list in ${collection} with ID: ${documentId}`, error);
         throw error;
     }
 };

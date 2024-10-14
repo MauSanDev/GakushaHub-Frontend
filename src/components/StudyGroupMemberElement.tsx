@@ -1,10 +1,10 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { FaTrash } from 'react-icons/fa';
-import {MembershipData, MembershipRole, MembershipStatus} from "../data/MembershipData.ts";
-import { useUpdateDocument } from "../hooks/updateHooks/useUpdateDocument";
-import {CollectionTypes} from "../data/CollectionTypes.tsx";
+import { MembershipData, MembershipRole, MembershipStatus } from "../data/MembershipData.ts";
+import { useUpdateList } from "../hooks/updateHooks/useUpdateList.ts";
+import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
-import {useUserInfo} from "../hooks/newHooks/Courses/useUserInfo.ts";
+import { useUserInfo } from "../hooks/newHooks/Courses/useUserInfo.ts";
 
 interface StudyGroupMemberElementProps {
     member: MembershipData;
@@ -20,28 +20,22 @@ const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ membe
         student: 'dark:text-green-500 text-green-400',
     };
 
-    const { mutate: removeMemberFromGroup } = useUpdateDocument<Partial<{ memberIds: string[] }>>();
+    const { mutate: modifyList } = useUpdateList(); // Usa el nuevo hook
     const { fetchUserInfo, data: userInfo } = useUserInfo([member?.userId]);
 
     useEffect(() => {
         fetchUserInfo();
     }, [member]);
 
-    
     const handleRemoveClick = () => {
         const confirmDelete = window.confirm("Are you sure you want to remove this member from the group?");
         if (confirmDelete) {
-            removeMemberFromGroup({
+            modifyList({
                 collection: CollectionTypes.StudyGroup,
                 documentId: studyGroupId,
-                updateData: { $pull: { memberIds: member._id } }
-            }, {
-                onSuccess: () => {
-                    console.log(`Member ${member._id} removed successfully from study group ${studyGroupId}`);
-                },
-                onError: (error) => {
-                    console.error("Error removing member from group:", error);
-                }
+                field: 'memberIds',
+                value: member._id,
+                action: 'remove'
             });
         }
     };
@@ -72,7 +66,7 @@ const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ membe
                     {member.role}
                 </span>
 
-                {(viewerRole == MembershipRole.Sensei || viewerRole == MembershipRole.Owner) &&
+                {(viewerRole === MembershipRole.Sensei || viewerRole === MembershipRole.Owner) &&
                     <TertiaryButton onClick={handleRemoveClick} iconComponent={<FaTrash />} label={"Remove"} />
                 }
             </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaTrash, FaUndo } from 'react-icons/fa';
 import { MembershipRole, MembershipData, MembershipStatus } from "../../../data/MembershipData.ts";
 import { useChangeMembershipStatus } from "../../../hooks/institutionHooks/useChangeMembershipStatus";
-import { useUpdateDocument } from "../../../hooks/updateHooks/useUpdateDocument";
+import { useUpdateData } from "../../../hooks/updateHooks/useUpdateData.ts";
 import {useUserInfo} from "../../../hooks/newHooks/Courses/useUserInfo.ts";
 
 interface InstitutionMemberElementProps {
@@ -29,11 +29,11 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
 
     const [selectedRole, setSelectedRole] = useState<MembershipRole>(member.role || MembershipRole.Student);
     const { mutate: changeMembershipStatus } = useChangeMembershipStatus();
-    const { mutate: updateMemberRole } = useUpdateDocument<Partial<MembershipData>>();
-    const { mutate: fetchUserInfo, data: userInfo } = useUserInfo([member?.userId]);
+    const { mutate: updateMemberRole } = useUpdateData<Partial<MembershipData>>();
+    const { fetchUserInfo, data: userInfo } = useUserInfo([member?.userId]);
 
     useEffect(() => {
-        fetchUserInfo([member?.userId]);
+        fetchUserInfo();
     }, [member.userId]);
 
     useEffect(() => {
@@ -51,7 +51,7 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
         updateMemberRole({
             collection: 'membership', 
             documentId: member._id, 
-            updateData: { role: newRole } 
+            newData: { role: newRole } 
         });
     };
 

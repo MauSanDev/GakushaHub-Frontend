@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaCheck, FaTimes, FaEdit, FaSpinner } from 'react-icons/fa';
-import { useUpdateDocument } from '../../../hooks/updateHooks/useUpdateDocument';
+import { useUpdateData } from '../../../hooks/updateHooks/useUpdateData.ts';
 import TertiaryButton from "../buttons/TertiaryButton.tsx";
 
 interface EditableProps {
@@ -32,7 +32,7 @@ const Editable: React.FC<EditableProps> = ({
     const [isMaxCharReached, setIsMaxCharReached] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const { mutate: updateDocument } = useUpdateDocument<Partial<{ [key: string]: string }>>();
+    const { mutate: updateDocument } = useUpdateData<Partial<{ [key: string]: string }>>();
 
     const handleEdit = () => {
         if (canEdit) {
@@ -67,7 +67,7 @@ const Editable: React.FC<EditableProps> = ({
             updateDocument({
                 collection,
                 documentId,
-                updateData: { [field]: value },
+                newData: { [field]: value },
             }, {
                 onSuccess: () => {
                     setIsSaving(false);

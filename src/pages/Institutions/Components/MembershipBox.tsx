@@ -22,14 +22,14 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
     const { mutate: changeStatus } = useChangeMembershipStatus();
     const navigate = useNavigate();
 
-    const { data: institutionData, mutate: fetchInstitution, isLoading, error } = useInstitution([membership.institutionId]);
+    const { data: institutionData, fetchInstitution, isLoading } = useInstitution([membership.institutionId]);
 
     const institutionName = institutionData?.[membership.institutionId]?.name || 'Unknown Institution';
     const institutionDescription = institutionData?.[membership.institutionId]?.description || 'No description available';
 
 
     useEffect(() => {
-        fetchInstitution([membership.institutionId]);
+        fetchInstitution();
     }, [membership]);
     
     const handleAccept = () => {
@@ -48,10 +48,6 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
 
     if (isLoading) {
         return <div>Loading institution details...</div>;
-    }
-
-    if (error) {
-        return <div>Error loading institution details</div>;
     }
 
     return (
