@@ -3,7 +3,8 @@ import { getAuth, onAuthStateChanged, signOut, User, createUserWithEmailAndPassw
 import { ApiClient } from '../services/ApiClient';
 import { UserData } from '../data/UserData';
 import { MembershipRole, MembershipData } from '../data/MembershipData';
-import { useMyMemberships } from '../hooks/newHooks/Memberships/useMyMemberships.ts';
+import { fetchFullPagination } from '../services/dataService.ts';
+import { useQueryClient } from 'react-query';
 
 type LicenseType = 'none' | 'free' | 'premium' | 'sensei';
 
@@ -18,7 +19,7 @@ interface AuthContextType {
     isSensei: boolean;
     licenseType: LicenseType;
     memberships: MembershipData[] | null;
-    membershipsLoading: boolean;  // <- Añadido este estado de carga
+    membershipsLoading: boolean;
     getRole: (institutionId: string, creatorId: string) => Promise<MembershipRole>;
     refetchMemberships: () => void;
     signUp: (email: string, password: string, name: string, country: string) => Promise<void>;
@@ -39,25 +40,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return storedUserData ? JSON.parse(storedUserData) : null;
     });
     const [loading, setLoading] = useState(true);
-    const [membershipsLoading] = useState(true);  // <- Añadido este estado de carga
+    const [membershipsLoading, setMembershipsLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isEmailVerified, setIsEmailVerified] = useState(false);
+    const [memberships, setMemberships] = useState<MembershipData[] | null>(null);
+    const queryClient = useQueryClient();  // Para manejar el cache
     const [roleCache] = useState(new Map<string, MembershipRole>());
-
-    const [memberships, setMemberships] = useState<MembershipData[] | null>(() => {
-        const storedMemberships = localStorage.getItem('memberships');
-        return storedMemberships ? JSON.parse(storedMemberships) : null;
-    });
-
-    const { data: membershipsData, fetchMemberships } = useMyMemberships(userData?._id || '');
-
-    useEffect(() => {
-        if (membershipsData?.documents && membershipsData.documents.length > 0) {
-            console.log('Force setting memberships:', membershipsData.documents);
-            setMemberships([...membershipsData.documents]); // Forzar actualización de estado con una copia
-            localStorage.setItem('memberships', JSON.stringify([...membershipsData.documents])); // También guarda en localStorage
-        }
-    }, [membershipsData]);
 
     const licenseType: LicenseType = userData?.licenses?.some(license => license.type === 'sensei' && license.isActive)
         ? 'sensei'
@@ -70,6 +58,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const hasLicense = licenseType !== 'none';
     const isPremium = licenseType === 'premium' || licenseType === 'sensei';
     const isSensei = licenseType === 'sensei';
+
+    // Método para obtener las memberships usando fetchFullPagination
+    const fetchMemberships = async () => {
+        if (userData?._id) {
+            setMembershipsLoading(true);
+            try {
+                const result = await fetchFullPagination<MembershipData>(
+                    1,  // Página inicial
+                    99, // Límite de memberships por página
+                    'membership',
+                    queryClient,
+                    {},  // Sin búsquedas adicionales
+                    { userId: userData._id } // Parám extra para buscar por userId
+                );
+
+                if (result?.documents) {
+                    console.log('Fetched memberships:', result.documents);
+                    setMemberships(result.documents);
+                    localStorage.setItem('memberships', JSON.stringify(result.documents));
+                }
+            } catch (error) {
+                console.error('Error fetching memberships:', error);
+            } finally {
+                setMembershipsLoading(false);
+            }
+        }
+    };
 
     useEffect(() => {
         const auth = getAuth();
@@ -103,18 +118,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     useEffect(() => {
         if (!memberships && userData?._id) {
-            console.log('Fetching memberships for user:', userData._id);
             fetchMemberships();  // Solo hacemos fetch si las memberships no están ya cargadas
         }
-    }, [userData, memberships]); // Si `memberships` ya está, no se vuelve a hacer fetch
-
-    useEffect(() => {
-        console.log('Memberships state in context:', memberships); // Para ver cuándo se actualizan
-    }, [memberships]);
-
-    useEffect(() => {
-        console.log('Memberships data fetched:', membershipsData?.documents); // Para verificar que el hook las obtiene
-    }, [membershipsData]);
+    }, [userData, memberships]);
 
     const handleTokenRefresh = async (user: User) => {
         try {
@@ -280,7 +286,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             isSensei,
             licenseType,
             memberships,
-            membershipsLoading,  // <- Añadido
+            membershipsLoading,
             getRole,
             refetchMemberships: fetchMemberships,
             signUp,
