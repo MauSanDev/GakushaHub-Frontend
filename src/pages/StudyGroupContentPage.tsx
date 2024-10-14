@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
-import { useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import { FaBook, FaChalkboardTeacher, FaFolder, FaPlus, FaSchool, FaUser } from "react-icons/fa";
 import { useStudyGroupById } from '../hooks/useGetStudyGroup.tsx';
 import { useInstitutionById } from '../hooks/institutionHooks/useInstitutionById.ts';
@@ -17,8 +17,10 @@ import { useUpdateDocument } from '../hooks/updateHooks/useUpdateDocument';
 import RoundedTag from "../components/ui/text/RoundedTag.tsx";
 import { MembershipRole } from "../data/MembershipData.ts";
 import { useAuth } from '../context/AuthContext';
-import { useStudyMembers } from '../hooks/newHooks/Memberships/useStudyMembers'; // Importa el hook
-import PaginatedContainer from '../components/ui/containers/PaginatedContainer'; // Importa el componente de paginación
+import { useStudyMembers } from '../hooks/newHooks/Memberships/useStudyMembers';
+import { useStudyGroupCourses } from '../hooks/newHooks/Courses/useStudyGroupCourses';
+import PaginatedContainer from '../components/ui/containers/PaginatedContainer';
+import StudyGroupCourseDataElement from "../components/StudyGroupCourseDataElement.tsx";
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId } = useParams<{ studyGroupId: string }>();
@@ -27,7 +29,7 @@ const StudyGroupContentPage: React.FC = () => {
     const [isBindMembersModalOpen, setIsBindMembersModalOpen] = useState(false);
     const [isArchived, setIsArchived] = useState<boolean>(false);
     const [role, setRole] = useState<MembershipRole>(MembershipRole.None);
-    const [page, setPage] = useState<number>(1); // Estado para la página de miembros
+    const [page, setPage] = useState<number>(1);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: studyGroup, error, isLoading } = useStudyGroupById(studyGroupId || '');
@@ -38,17 +40,35 @@ const StudyGroupContentPage: React.FC = () => {
         page,
         10
     );
+    
+
+    
+    const { data: coursesData, isLoading: coursesLoading, fetchStudyCourses } = useStudyGroupCourses(
+        studyGroup?.courseIds || [], 
+        page,
+        10 
+    );
 
     const { mutate: updateDocument } = useUpdateDocument<Partial<{ isActive: boolean }>>();
-    const { getRole } = useAuth();
+    const { getRole, memberships } = useAuth();
+
+
+    useEffect(() => {
+        if (!memberships) {
+            console.log('Memberships not loaded yet');
+        } else {
+            console.log('Memberships:', memberships); // Aquí deberías ver las memberships cargadas
+        }
+    }, [memberships]);
 
     useEffect(() => {
         setIsArchived(!(studyGroup?.isActive ?? false));
     }, [studyGroup]);
-    
+
     useEffect(() => {
         fetchStudyMembers();
-        console.log(studyGroup?.memberIds)
+        fetchStudyCourses(); 
+        console.log(studyGroup?.memberIds, studyGroup?.courseIds);
     }, [currentTab]);
 
     useEffect(() => {
@@ -77,10 +97,12 @@ const StudyGroupContentPage: React.FC = () => {
             }
         };
 
+        console.log("memberships:" + memberships);
+        
         if (studyGroup) {
             fetchRole();
         }
-    }, [studyGroup, getRole]);
+    }, [studyGroup, memberships, getRole]);
 
     const handleTabChange = (view: string) => {
         setCurrentTab(view);
@@ -125,7 +147,7 @@ const StudyGroupContentPage: React.FC = () => {
 
     return (
         <div ref={scrollContainerRef} className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-            <LoadingScreen isLoading={isLoading || membersLoading} />
+            <LoadingScreen isLoading={isLoading || membersLoading || coursesLoading} />
             {studyGroup && (
                 <div className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
                     <div className="flex flex-col items-start mb-4 sm:mb-0 w-full">
@@ -187,6 +209,21 @@ const StudyGroupContentPage: React.FC = () => {
                             <PrimaryButton label={'bindCourses'} iconComponent={<FaPlus />} onClick={() => setIsBindCoursesModalOpen(true)} className={'w-40 text-xs mb-2'} />
                         }
 
+                        {coursesData && coursesData.documents.length > 0 ? (
+                            <PaginatedContainer
+                                documents={coursesData.documents}
+                                currentPage={page}
+                                totalPages={coursesData.totalPages}
+                                onPageChange={setPage}
+                                RenderComponent={({ document }) => (
+                                    <Link key={document.name} to={`/courses/${document._id}`} className="page-fade-enter page-fade-enter-active">
+                                        <StudyGroupCourseDataElement studyGroupId={studyGroup?._id || ''} course={document} canDelete={canEdit} />
+                                    </Link>
+                                )}
+                            />
+                        ) : (
+                            <p>No courses available</p>
+                        )}
                     </div>
                 )}
 

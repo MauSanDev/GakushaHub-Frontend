@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaBookOpen, FaBook, FaFileAlt, FaEye, FaTrash } from 'react-icons/fa';
-import { CourseData } from "../data/CourseData.ts";
+import {CourseData, LessonData} from "../data/CourseData.ts";
 import TertiaryButton from './ui/buttons/TertiaryButton.tsx';
 import { useUpdateDocument } from '../hooks/updateHooks/useUpdateDocument';
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import LocSpan from "./LocSpan.tsx";
 import Container from "./ui/containers/Container.tsx";
 import CreatorLabel from "./ui/text/CreatorLabel.tsx";
+import { useLessons } from "../hooks/newHooks/Courses/useLessons.ts";
 
 interface StudyGroupCourseDataElementProps {
     course: CourseData;
@@ -16,6 +17,13 @@ interface StudyGroupCourseDataElementProps {
 
 const StudyGroupCourseDataElement: React.FC<StudyGroupCourseDataElementProps> = ({ course, studyGroupId, canDelete = false }) => {
     const { mutate: updateStudyGroup } = useUpdateDocument<{ courseIds: string[] }>();
+    const { mutate: fetchLessons, data: lessonsData, isLoading: lessonsLoading } = useLessons(course.lessons);
+
+    useEffect(() => {
+        if (course.lessons.length > 0) {
+            fetchLessons(course.lessons);
+        }
+    }, [course.lessons, fetchLessons]);
 
     const handleRemoveCourse = () => {
         updateStudyGroup({
@@ -47,43 +55,49 @@ const StudyGroupCourseDataElement: React.FC<StudyGroupCourseDataElementProps> = 
                 </h1>
             </div>
 
-            <CreatorLabel name={course.creatorId?.name} createdAt={course.createdAt} />
+            <CreatorLabel creatorId={course.creatorId} createdAt={course.createdAt} />
 
-            {course.lessons.map((lesson) => (
-                <div key={lesson._id} className="mb-1 px-2 py-1 rounded dark:bg-gray-950">
-                    <div className="flex items-center justify-between capitalize">
-                        <h2 className="text-base font-medium text-gray-800 dark:text-gray-200 flex-grow truncate">
-                            {lesson.name}
-                        </h2>
-                        <div className="flex gap-3 text-gray-600 dark:text-gray-300 text-xs items-center">
-                            {lesson.kanjiDecks.length > 0 && (
-                                <span className="flex items-center gap-1">
-                                    <FaBookOpen className="text-blue-400" />
-                                    <span><LocSpan textKey={"kanji"} />: {lesson.kanjiDecks.length}</span>
-                                </span>
-                            )}
-                            {lesson.wordDecks.length > 0 && (
-                                <span className="flex items-center gap-1">
-                                    <FaFileAlt className="text-red-400" />
-                                    <span><LocSpan textKey={"words"} />: {lesson.wordDecks.length}</span>
-                                </span>
-                            )}
-                            {lesson.grammarDecks.length > 0 && (
-                                <span className="flex items-center gap-1">
-                                    <FaBook className="text-green-400" />
-                                    <span><LocSpan textKey={"grammar"} />: {lesson.grammarDecks.length}</span>
-                                </span>
-                            )}
-                            {lesson.readingDecks?.length > 0 && (
-                                <span className="flex items-center gap-1">
-                                    <FaEye className="text-yellow-400" />
-                                    <span><LocSpan textKey={"readings"} />: {lesson.readingDecks.length}</span>
-                                </span>
-                            )}
+            {/* Mostrar las lecciones cargadas */}
+            {lessonsLoading && <p>Loading lessons...</p>}
+            {!lessonsLoading && lessonsData ? (
+                Object.values(lessonsData).map((lesson: LessonData) => (
+                    <div key={lesson._id} className="mb-1 px-2 py-1 rounded dark:bg-gray-950">
+                        <div className="flex items-center justify-between capitalize">
+                            <h2 className="text-base font-medium text-gray-800 dark:text-gray-200 flex-grow truncate">
+                                {lesson.name}
+                            </h2>
+                            <div className="flex gap-3 text-gray-600 dark:text-gray-300 text-xs items-center">
+                                {lesson.kanjiDecks.length > 0 && (
+                                    <span className="flex items-center gap-1">
+                                        <FaBookOpen className="text-blue-400" />
+                                        <span><LocSpan textKey={"kanji"} />: {lesson.kanjiDecks.length}</span>
+                                    </span>
+                                )}
+                                {lesson.wordDecks.length > 0 && (
+                                    <span className="flex items-center gap-1">
+                                        <FaFileAlt className="text-red-400" />
+                                        <span><LocSpan textKey={"words"} />: {lesson.wordDecks.length}</span>
+                                    </span>
+                                )}
+                                {lesson.grammarDecks.length > 0 && (
+                                    <span className="flex items-center gap-1">
+                                        <FaBook className="text-green-400" />
+                                        <span><LocSpan textKey={"grammar"} />: {lesson.grammarDecks.length}</span>
+                                    </span>
+                                )}
+                                {lesson.readingDecks?.length > 0 && (
+                                    <span className="flex items-center gap-1">
+                                        <FaEye className="text-yellow-400" />
+                                        <span><LocSpan textKey={"readings"} />: {lesson.readingDecks.length}</span>
+                                    </span>
+                                )}
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                ))
+            ) : (
+                <p>No lessons available</p>
+            )}
         </Container>
     );
 };

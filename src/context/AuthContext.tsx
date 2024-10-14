@@ -1,15 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import {
-    getAuth,
-    onAuthStateChanged,
-    signOut,
-    User,
-    createUserWithEmailAndPassword,
-    updateProfile,
-    sendEmailVerification,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail
-} from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut, User, createUserWithEmailAndPassword, updateProfile, sendEmailVerification, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { ApiClient } from '../services/ApiClient';
 import { UserData } from '../data/UserData';
 import { MembershipRole, MembershipData } from '../data/MembershipData';
@@ -28,6 +18,7 @@ interface AuthContextType {
     isSensei: boolean;
     licenseType: LicenseType;
     memberships: MembershipData[] | null;
+    membershipsLoading: boolean;  // <- Añadido este estado de carga
     getRole: (institutionId: string, creatorId: string) => Promise<MembershipRole>;
     refetchMemberships: () => void;
     signUp: (email: string, password: string, name: string, country: string) => Promise<void>;
@@ -48,24 +39,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return storedUserData ? JSON.parse(storedUserData) : null;
     });
     const [loading, setLoading] = useState(true);
+    const [membershipsLoading] = useState(true);  // <- Añadido este estado de carga
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isEmailVerified, setIsEmailVerified] = useState(false);
     const [roleCache] = useState(new Map<string, MembershipRole>());
-    
+
+    const [memberships, setMemberships] = useState<MembershipData[] | null>(() => {
+        const storedMemberships = localStorage.getItem('memberships');
+        return storedMemberships ? JSON.parse(storedMemberships) : null;
+    });
+
     const { data: membershipsData, fetchMemberships } = useMyMemberships(userData?._id || '');
 
-    const [memberships, setMemberships] = useState<MembershipData[] | null>(null); 
-
     useEffect(() => {
-        if (memberships && memberships.length > 0)
-            return;
-
-        if (membershipsData?.documents) {
-            setMemberships(membershipsData.documents);
+        if (membershipsData?.documents && membershipsData.documents.length > 0) {
+            console.log('Force setting memberships:', membershipsData.documents);
+            setMemberships([...membershipsData.documents]); // Forzar actualización de estado con una copia
+            localStorage.setItem('memberships', JSON.stringify([...membershipsData.documents])); // También guarda en localStorage
         }
     }, [membershipsData]);
 
-    
     const licenseType: LicenseType = userData?.licenses?.some(license => license.type === 'sensei' && license.isActive)
         ? 'sensei'
         : userData?.licenses?.some(license => license.type === 'premium' && license.isActive)
@@ -74,11 +67,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 ? 'free'
                 : 'none';
 
-    const hasLicense = licenseType !== 'none';  
-    const isPremium = licenseType === 'premium' || licenseType === 'sensei';  
-    const isSensei = licenseType === 'sensei';    
+    const hasLicense = licenseType !== 'none';
+    const isPremium = licenseType === 'premium' || licenseType === 'sensei';
+    const isSensei = licenseType === 'sensei';
 
-    
     useEffect(() => {
         const auth = getAuth();
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -108,6 +100,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         return () => unsubscribe();
     }, [userData]);
+
+    useEffect(() => {
+        if (!memberships && userData?._id) {
+            console.log('Fetching memberships for user:', userData._id);
+            fetchMemberships();  // Solo hacemos fetch si las memberships no están ya cargadas
+        }
+    }, [userData, memberships]); // Si `memberships` ya está, no se vuelve a hacer fetch
+
+    useEffect(() => {
+        console.log('Memberships state in context:', memberships); // Para ver cuándo se actualizan
+    }, [memberships]);
+
+    useEffect(() => {
+        console.log('Memberships data fetched:', membershipsData?.documents); // Para verificar que el hook las obtiene
+    }, [membershipsData]);
 
     const handleTokenRefresh = async (user: User) => {
         try {
@@ -173,6 +180,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setMemberships(null);
         localStorage.removeItem('userData');
         localStorage.removeItem('authToken');
+        localStorage.removeItem('memberships');
     };
 
     const resendEmailVerification = async () => {
@@ -272,6 +280,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             isSensei,
             licenseType,
             memberships,
+            membershipsLoading,  // <- Añadido
             getRole,
             refetchMemberships: fetchMemberships,
             signUp,

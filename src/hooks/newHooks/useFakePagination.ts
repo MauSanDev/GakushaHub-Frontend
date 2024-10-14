@@ -64,7 +64,6 @@ export const useFakePagination = <T>(
         }
         : undefined;
 
-    // Log the final combinedData before returning
     console.log("Final paginated data:", combinedData);
 
     return {

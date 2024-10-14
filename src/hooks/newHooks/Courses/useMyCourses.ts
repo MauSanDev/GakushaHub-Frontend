@@ -21,7 +21,7 @@ export const useMyCourses = (
         page,
         limit,
         'course',
-        searches,  
+        searches,
         {},
         userData?._id  
     );
