@@ -16,10 +16,10 @@ interface CourseDataElementProps {
 const CourseDataElement: React.FC<CourseDataElementProps> = ({ course }) => {
     const { userData } = useAuth();
 
-    const { mutate: fetchLessons, data: lessonsData, isLoading: lessonsLoading } = useLessons(course.lessons);
+    const { fetchLessons, data: lessonsData, isLoading: lessonsLoading } = useLessons(course.lessons);
 
     useEffect(() => {
-        fetchLessons(course.lessons);
+        fetchLessons();
     }, [course]);
 
     return (

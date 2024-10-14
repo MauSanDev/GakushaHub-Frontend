@@ -10,11 +10,11 @@ interface CreatorLabelProps {
 }
 
 const CreatorLabel: React.FC<CreatorLabelProps> = ({ creatorId, isAnonymous, createdAt }) => {
-    const { mutate: fetchUserInfo, data: userInfo } = useUserInfo([creatorId]);
+    const { fetchUserInfo, data: userInfo } = useUserInfo([creatorId]);
     const displayName = (isAnonymous || !userInfo) ? "Anonymous" : userInfo[creatorId].name;
 
     useEffect(() => {
-        fetchUserInfo([creatorId]);
+        fetchUserInfo();
     }, [creatorId]);
 
     return (

@@ -1,28 +1,58 @@
-import { useFullPagination } from '../useFullPagination';
+import { useState, useEffect } from 'react';
+import { useQueryClient } from 'react-query';
+import { fetchFullPagination } from '../../../services/dataService.ts';
 import { CourseData } from '../../../data/CourseData';
-import { PaginatedData } from '../../../data/PaginatedData.ts';
-import { useAuth } from "../../../context/AuthContext.tsx";
+import { PaginatedData } from '../../../data/PaginatedData';
+import { useAuth } from "../../../context/AuthContext";
 
 export const useMyCourses = (
     page: number,
     limit: number,
     search: string = ''
-): { mutate: () => void, isLoading: boolean, data?: PaginatedData<CourseData>, resetQueries: () => void } => {
+): { fetchCourses: () => void, isLoading: boolean, data?: PaginatedData<CourseData>, resetQueries: () => void } => {
     const { userData } = useAuth();
+    const queryClient = useQueryClient();
+    const [data, setData] = useState<PaginatedData<CourseData> | undefined>(undefined);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const searches: Record<string, string[]> = {};
-    
+
     if (search) {
         searches['search1'] = [search];
         searches['search1fields'] = ['name'];
     }
 
-    return useFullPagination<CourseData>(
-        page,
-        limit,
-        'course',
-        searches,
-        {},
-        userData?._id  
-    );
+    const fetchCourses = async () => {
+        setIsLoading(true);
+        try {
+            const result = await fetchFullPagination<CourseData>(
+                page,
+                limit,
+                'course',
+                queryClient,
+                searches,
+                {},
+                userData?._id
+            );
+            setData(result);
+        } catch (error) {
+            console.error('Error fetching courses:', error);
+            setData(undefined);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (userData?._id) {
+            fetchCourses();
+        }
+    }, [page, limit, search, userData?._id]);
+
+    return {
+        data,
+        isLoading,
+        resetQueries: () => queryClient.invalidateQueries('course'),
+        fetchCourses,
+    };
 };

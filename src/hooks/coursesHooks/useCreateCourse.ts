@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import { ApiClient } from '../../services/ApiClient';
 import { useAuth } from "../../context/AuthContext.tsx";
 import { MY_COURSES_ENDPOINT } from "./useOwnerCourses.ts";
-import { GET_COURSE_BY_ID_ENDPOINT } from "./useCourseById.ts";
 import { CourseData } from "../../data/CourseData.ts";
 
 interface CreateCoursePayload {
@@ -48,9 +47,8 @@ export const useCreateCourse = () => {
             });
         },
         {
-            onSuccess: (course) => {
+            onSuccess: () => {
                 queryClient.invalidateQueries(MY_COURSES_ENDPOINT);
-                queryClient.invalidateQueries(GET_COURSE_BY_ID_ENDPOINT + course._id);
             },
             onError: (error) => {
                 console.error("Error creating course:", error);

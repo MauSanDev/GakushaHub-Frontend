@@ -30,9 +30,9 @@ enum DeckType {
 const CourseDetailPage: React.FC = () => {
     const { courseId, lessonId } = useParams<{ courseId: string; lessonId?: string }>();
     const [selectedLesson, setSelectedLesson] = useState<string | null>(lessonId || null);
-    const { data: courseData, mutate: fetchCourse, isLoading: courseLoading } = useCourses([courseId || '']);
+    const { data: courseData, isLoading: courseLoading, fetchCourses } = useCourses([courseId || '']);
     const [lessonsIds, setLessonsIds] = useState<string[]>([]);
-    const { data: lessonsData, mutate: fetchLessons, isLoading: lessonsLoading } = useLessons(lessonsIds);
+    const { data: lessonsData, isLoading: lessonsLoading, fetchLessons } = useLessons(lessonsIds);
     const [toggleState, setToggleState] = useState<Record<DeckType, boolean>>({
         [DeckType.Kanji]: true,
         [DeckType.Word]: true,
@@ -48,6 +48,12 @@ const CourseDetailPage: React.FC = () => {
 
     const [role, setRole] = useState<MembershipRole>();
 
+
+    useEffect(() => {
+        fetchCourses();
+        fetchLessons();
+    }, [courseId, lessonId]);
+    
     useEffect(() => {
         const fetchUserRole = async () => {
             const fetchedRole = await getRole(courseData?.[courseId || '']?.institutionId || "", courseData?.[courseId || '']?.creatorId || "");
@@ -55,26 +61,27 @@ const CourseDetailPage: React.FC = () => {
         };
 
         fetchUserRole();
-    }, [courseData, getRole]);
-
-    useEffect(() => {
-        fetchCourse([courseId || '']);
-    }, [fetchCourse]);
+    }, [courseData, getRole, courseId]);
 
     useEffect(() => {
         const course = courseData?.[courseId || ''];
         if (course && course.lessons) {
             setLessonsIds(course.lessons);
-            fetchLessons(course.lessons);
         }
-    }, [courseData, fetchLessons]);
+    }, [courseData, courseId]);
+
+    // useEffect(() => {
+    //     if (lessonsIds.length > 0) {
+    //         fetchLessons(lessonsIds);
+    //     }
+    // }, [lessonsIds, fetchLessons]);
 
     useEffect(() => {
         if (lessonsData && !selectedLesson) {
             const firstLessonId = Object.keys(lessonsData)[0];
             setSelectedLesson(firstLessonId);
-            if (courseData?.institutionId) {
-                navigate(`/institution/${courseData?.institutionId}/courses/${courseId}/${firstLessonId}`);
+            if (courseData?.[courseId || '']?.institutionId) {
+                navigate(`/institution/${courseData?.[courseId || '']?.institutionId}/courses/${courseId}/${firstLessonId}`);
             } else {
                 navigate(`/courses/${courseId}/${firstLessonId}`);
             }
@@ -99,7 +106,6 @@ const CourseDetailPage: React.FC = () => {
 
     const isOwner = role === MembershipRole.Owner;
 
-    // Toggle handler for Decks
     const handleToggle = (deckType: DeckType) => {
         setToggleState((prevState) => {
             const newState = { ...prevState, [deckType]: !prevState[deckType] };

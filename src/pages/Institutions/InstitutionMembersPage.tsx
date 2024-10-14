@@ -19,11 +19,11 @@ const InstitutionMembersPage: React.FC = () => {
     const [isAddMemberModalOpen, setIsAddMemberModalOpen] = useState<boolean>(false);
     const [page, setPage] = useState(1);
 
-    const { data: membersData, mutate: fetchMembers, isLoading} = usePaginatedMembers(page, 30, institutionId || '', searchQuery);
+    const { data: membersData, fetchMemberships, isLoading} = usePaginatedMembers(page, 30, institutionId || '', searchQuery);
     const { mutate: deleteMembership } = useDeleteElement();
 
     const [role, setRole] = useState<MembershipRole>();
-    const { getRole, refetchMemberships } = useAuth();
+    const { getRole } = useAuth();
 
 
     useEffect(() => {
@@ -36,13 +36,12 @@ const InstitutionMembersPage: React.FC = () => {
     }, [getRole]);
 
     useEffect(() => {
-        fetchMembers();
+        fetchMemberships();
     }, [page, searchQuery]);
 
     const handleAddMemberSuccess = () => {
         setIsAddMemberModalOpen(false);
-        fetchMembers();
-        refetchMemberships();
+        fetchMemberships();
     };
 
     const handleSearch = (query: string) => {
@@ -55,8 +54,7 @@ const InstitutionMembersPage: React.FC = () => {
             {
                 onSuccess: () => {
                     setPage(1);
-                    fetchMembers();
-                    refetchMemberships();
+                    fetchMemberships();
                 },
                 onError: (error) => {
                     console.error('Error deleting member:', error);

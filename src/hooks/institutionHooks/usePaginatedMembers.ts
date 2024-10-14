@@ -1,5 +1,8 @@
-import { useFullPagination } from '../newHooks/useFullPagination';
-import { MembershipData } from '../../data/MembershipData.ts';
+import { useState, useEffect } from 'react';
+import { useQueryClient } from 'react-query';
+import { fetchFullPagination } from '../../services/dataService.ts';
+import { MembershipData } from '../../data/MembershipData';
+import {PaginatedData} from "../../data/PaginatedData.ts";
 
 export const usePaginatedMembers = (
     page: number,
@@ -7,6 +10,10 @@ export const usePaginatedMembers = (
     institutionId: string,
     keyword?: string
 ) => {
+    const queryClient = useQueryClient();
+    const [data, setData] = useState<PaginatedData<MembershipData> | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
     const extraParams = { institutionId };
     const searches: Record<string, string[]> = {};
 
@@ -15,19 +22,34 @@ export const usePaginatedMembers = (
         searches['search1fields'] = ['structure', 'keywords'];
     }
 
-    const { mutate, isLoading, data, resetQueries } = useFullPagination<MembershipData>(
-        page,
-        limit,
-        'membership',
-        searches,
-        extraParams
-    );
+    const fetchMemberships = async () => {
+        setIsLoading(true);
+        try {
+            const result = await fetchFullPagination<MembershipData>(
+                page,
+                limit,
+                'membership',
+                queryClient,
+                searches,
+                extraParams
+            );
+            setData(result || null);
+        } catch (error) {
+            console.error('Error fetching memberships:', error);
+            setData(null);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchMemberships();
+    }, [page, limit, institutionId, keyword]);
 
     return {
-        mutate,
-        isLoading,
         data,
-        resetQueries,
-        fetchMemberships: mutate,
+        isLoading,
+        resetQueries: () => queryClient.invalidateQueries('membership'),
+        fetchMemberships,
     };
 };

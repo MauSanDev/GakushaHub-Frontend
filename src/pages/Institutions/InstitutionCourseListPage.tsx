@@ -5,19 +5,18 @@ import AddCourseButton from "../../components/AddCourseButton.tsx";
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import PaginatedContainer from '../../components/ui/containers/PaginatedContainer.tsx';
 import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
-import {useInstitutionCourses} from "../../hooks/newHooks/Courses/useInstitutionCourses.ts";
+import { useInstitutionCourses } from "../../hooks/newHooks/Courses/useInstitutionCourses.ts";
 
 const InstitutionCourseListPage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
     const [searchTerm, setSearchTerm] = useState('');
     const [page, setPage] = useState(1);
 
-    const { data: coursesData, isLoading: coursesLoading, mutate: fetchCourses } = useInstitutionCourses(page, 20, '', institutionId || '');
+    const { data: coursesData, isLoading: coursesLoading, fetchCourses } = useInstitutionCourses(page, 20, searchTerm, institutionId || '');
 
     useEffect(() => {
-        console.log(institutionId)
-        fetchCourses(); 
-    }, [page, searchTerm]);
+        fetchCourses();
+    }, [page, searchTerm, institutionId]);
 
     const handleSearch = (query: string) => {
         setSearchTerm(query);

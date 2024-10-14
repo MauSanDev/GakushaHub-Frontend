@@ -1,6 +1,9 @@
-import { useFullPagination } from "../newHooks/useFullPagination.ts";
-import { InstitutionData } from '../../data/Institutions/InstitutionData.ts';
-import { useAuth } from "../../context/AuthContext.tsx";
+import { useState, useEffect } from 'react';
+import { useQueryClient } from 'react-query';
+import { fetchFullPagination } from '../../services/dataService.ts';
+import { InstitutionData } from '../../data/Institutions/InstitutionData';
+import { useAuth } from "../../context/AuthContext";
+import {PaginatedData} from "../../data/PaginatedData.ts";
 
 export const usePaginatedInstitutions = (
     page: number,
@@ -8,33 +11,51 @@ export const usePaginatedInstitutions = (
     keyword?: string
 ) => {
     const { userData } = useAuth();
+    const queryClient = useQueryClient();
+    
+    const [data, setData] = useState<PaginatedData<InstitutionData> | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const searches: Record<string, string[]> = {};
     const extraParams: Record<string, string> = {};
-
-    // Si existe un keyword, se agrega a la búsqueda
+    
     if (keyword) {
-        searches['search1'] = [keyword];  // Valor a buscar
-        searches['search1fields'] = ['name', 'description'];  // Campos donde buscar
+        searches['search1'] = [keyword];  
+        searches['search1fields'] = ['name', 'description'];  
     }
-
-    // Si existe userData, pasamos el userId (creatorId) como extraParam
+    
     if (userData?._id) {
         extraParams['creatorId'] = userData._id;
     }
+    
+    const fetchInstitutions = async () => {
+        setIsLoading(true);
+        try {
+            const result = await fetchFullPagination<InstitutionData>(
+                page,
+                limit,
+                'institution',
+                queryClient,
+                searches,
+                extraParams
+            );
+            setData(result || null);
+        } catch (error) {
+            console.error('Error fetching institutions:', error);
+            setData(null);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
-    const { mutate, isLoading, data, resetQueries } = useFullPagination<InstitutionData>(
-        page,
-        limit,
-        'institution',
-        searches,   // Usamos el objeto searches para las búsquedas por keyword
-        extraParams // Pasamos creatorId en extraParams
-    );
+    useEffect(() => {
+        fetchInstitutions();
+    }, [page, limit, keyword, userData]);
 
     return {
         data,
         isLoading,
-        resetQueries,
-        fetchInstitutions: mutate,  // Renombramos mutate como fetchInstitutions
+        resetQueries: () => queryClient.invalidateQueries('institution'),
+        fetchInstitutions,
     };
 };

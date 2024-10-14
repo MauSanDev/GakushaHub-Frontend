@@ -44,7 +44,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isEmailVerified, setIsEmailVerified] = useState(false);
     const [memberships, setMemberships] = useState<MembershipData[] | null>(null);
-    const queryClient = useQueryClient();  // Para manejar el cache
+    const queryClient = useQueryClient();  
     const [roleCache] = useState(new Map<string, MembershipRole>());
 
     const licenseType: LicenseType = userData?.licenses?.some(license => license.type === 'sensei' && license.isActive)
@@ -59,18 +59,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const isPremium = licenseType === 'premium' || licenseType === 'sensei';
     const isSensei = licenseType === 'sensei';
 
-    // Método para obtener las memberships usando fetchFullPagination
     const fetchMemberships = async () => {
         if (userData?._id) {
             setMembershipsLoading(true);
             try {
                 const result = await fetchFullPagination<MembershipData>(
-                    1,  // Página inicial
-                    99, // Límite de memberships por página
+                    1,  
+                    99, 
                     'membership',
                     queryClient,
-                    {},  // Sin búsquedas adicionales
-                    { userId: userData._id } // Parám extra para buscar por userId
+                    {},  
+                    { userId: userData._id } 
                 );
 
                 if (result?.documents) {
@@ -118,7 +117,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     useEffect(() => {
         if (!memberships && userData?._id) {
-            fetchMemberships();  // Solo hacemos fetch si las memberships no están ya cargadas
+            fetchMemberships();  
         }
     }, [userData, memberships]);
 

@@ -1,6 +1,9 @@
-import { useFullPagination } from '../newHooks/useFullPagination.ts';
-import { StudyGroupData } from '../../data/Institutions/StudyGroupData.ts';
-import { useAuth } from "../../context/AuthContext.tsx";
+import { useState, useEffect } from 'react';
+import { useQueryClient } from 'react-query';
+import { fetchFullPagination } from '../../services/dataService.ts';
+import { StudyGroupData } from '../../data/Institutions/StudyGroupData';
+import { useAuth } from "../../context/AuthContext";
+import {PaginatedData} from "../../data/PaginatedData.ts";
 
 export const useMyStudyGroups = (
     page: number,
@@ -8,12 +11,14 @@ export const useMyStudyGroups = (
     keyword?: string
 ) => {
     const { memberships } = useAuth();
+    const queryClient = useQueryClient();
 
-    // Variables iniciales
-    let searches: Record<string, string[]> = {};
+    const [data, setData] = useState<PaginatedData<StudyGroupData> | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const searches: Record<string, string[]> = {};
     const extraParams: Record<string, string> = {};
 
-    // Configurar searches solo si memberships no es nulo y tiene datos
     if (memberships && memberships.length > 0) {
         if (keyword) {
             searches['search1'] = [keyword];
@@ -30,14 +35,31 @@ export const useMyStudyGroups = (
         searches['search3fields'] = ['memberIds'];
     }
 
-    // Llamar al hook useFullPagination siempre, pero con valores predeterminados si no hay memberships
-    const { mutate, isLoading, data, resetQueries } = useFullPagination<StudyGroupData>(
-        page,
-        limit,
-        'studyGroup',
-        memberships && memberships.length > 0 ? searches : {},  // Pasar searches o un objeto vacío
-        extraParams
-    );
+    const fetchStudyGroups = async () => {
+        setIsLoading(true);
+        try {
+            const result = await fetchFullPagination<StudyGroupData>(
+                page,
+                limit,
+                'studyGroup',
+                queryClient,
+                searches,
+                extraParams
+            );
+            setData(result || null);
+        } catch (error) {
+            console.error('Error fetching study groups:', error);
+            setData(null);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (memberships && memberships.length > 0) {
+            fetchStudyGroups();
+        }
+    }, [page, limit, keyword, memberships]);
 
     if (!memberships || memberships.length === 0) {
         return {
@@ -51,7 +73,7 @@ export const useMyStudyGroups = (
     return {
         data,
         isLoading,
-        resetQueries,
-        fetchStudyGroups: mutate,
+        resetQueries: () => queryClient.invalidateQueries('studyGroup'),
+        fetchStudyGroups,
     };
 };

@@ -13,8 +13,8 @@ const CourseListPage: React.FC = () => {
     const [page, setPage] = useState(1);
     const [currentView, setCurrentView] = useState<string>('owner');
 
-    const { data: myCoursesData, isLoading: myCoursesLoading, mutate: fetchMyCourses } = useMyCourses(page, 20);
-    const { data: publicCoursesData, isLoading: publicCoursesLoading, mutate: fetchPublicCourses } = usePublicCourses(page, 20);
+    const { data: myCoursesData, isLoading: myCoursesLoading, fetchCourses: fetchMyCourses } = useMyCourses(page, 20);
+    const { data: publicCoursesData, isLoading: publicCoursesLoading, fetchCourses: fetchPublicCourses } = usePublicCourses(page, 20);
 
     const data = currentView === 'owner' ? myCoursesData : publicCoursesData;
     const isLoading = currentView === 'owner' ? myCoursesLoading : publicCoursesLoading;

@@ -51,15 +51,7 @@ const StudyGroupContentPage: React.FC = () => {
 
     const { mutate: updateDocument } = useUpdateDocument<Partial<{ isActive: boolean }>>();
     const { getRole, memberships } = useAuth();
-
-
-    useEffect(() => {
-        if (!memberships) {
-            console.log('Memberships not loaded yet');
-        } else {
-            console.log('Memberships:', memberships); // Aquí deberías ver las memberships cargadas
-        }
-    }, [memberships]);
+    
 
     useEffect(() => {
         setIsArchived(!(studyGroup?.isActive ?? false));

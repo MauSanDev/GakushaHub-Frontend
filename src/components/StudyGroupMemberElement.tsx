@@ -21,10 +21,10 @@ const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ membe
     };
 
     const { mutate: removeMemberFromGroup } = useUpdateDocument<Partial<{ memberIds: string[] }>>();
-    const { mutate: fetchUserInfo, data: userInfo } = useUserInfo([member?.userId]);
+    const { fetchUserInfo, data: userInfo } = useUserInfo([member?.userId]);
 
     useEffect(() => {
-        fetchUserInfo([member.userId]);
+        fetchUserInfo();
     }, [member]);
 
     

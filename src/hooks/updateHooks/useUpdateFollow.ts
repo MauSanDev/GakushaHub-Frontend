@@ -1,7 +1,6 @@
 import { useUpdateDocument } from './useUpdateDocument';
 import { useAuth } from "../../context/AuthContext.tsx";
-import {useQueryClient} from "react-query";
-import {FOLLOWED_COURSES_ENDPOINT} from "../coursesHooks/useFollowedCourses.ts";
+// import {FOLLOWED_COURSES_ENDPOINT} from "../coursesHooks/useFollowedCourses.ts";
 
 interface UpdateFollowParams {
     $push?: { followedCourses: string };
@@ -11,7 +10,6 @@ interface UpdateFollowParams {
 export const useUpdateFollow = (courseId: string) => {
     const updateDocument = useUpdateDocument<UpdateFollowParams>();
     const { userData, updateUserData } = useAuth();
-    const queryClient = useQueryClient();
 
 
     const updateFollow = (addFollow: boolean) => {
@@ -36,7 +34,7 @@ export const useUpdateFollow = (courseId: string) => {
                         ? [...(userData.followedCourses || []), courseId]
                         : (userData.followedCourses || []).filter((id) => id !== courseId);
 
-                    queryClient.invalidateQueries(FOLLOWED_COURSES_ENDPOINT)
+                    // queryClient.invalidateQueries(FOLLOWED_COURSES_ENDPOINT)
                     updateUserData({ followedCourses: updatedFollows });
                 },
                 onError: (error) => {

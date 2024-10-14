@@ -146,3 +146,15 @@ export const resetCachedQueries = (ids: string[], key: string, queryClient: Quer
     console.log(`Invalidating queries for ${key} IDs:`, ids);
     queryClient.invalidateQueries([`${key}ByIds`, ids]);
 };
+
+export const updateData = async (endpoint: string, documentId: string, data: unknown): Promise<unknown> => {
+    console.log(`Updating document with ID: ${documentId} at ${endpoint}`);
+    try {
+        const response = await ApiClient.put<unknown, unknown>(`${endpoint}/${documentId}`, data);
+        console.log("Document updated successfully:", response);
+        return response;
+    } catch (error) {
+        console.error(`Error updating document with ID: ${documentId} at ${endpoint}`, error);
+        throw error;
+    }
+};
