@@ -8,34 +8,23 @@ import { useInstitutionById } from "../hooks/institutionHooks/useInstitutionById
 const InstitutionRoute: React.FC = () => {
     const { isAuthenticated, getRole } = useAuth();
     const { institutionId } = useParams<{ institutionId: string }>();
-
     const [role, setRole] = useState<MembershipRole>(MembershipRole.None);
-    const [loading, setLoading] = useState(true);
+    const [loadingRole, setLoadingRole] = useState(true);
+    const [loadingInstitution, setLoadingInstitution] = useState(true);
     const navigate = useNavigate();
 
-    // Usar el hook para cargar la institución
     const { data: institution, isLoading: institutionLoading, fetchInstitution } = useInstitutionById(institutionId || "");
 
-    useEffect(() => {
-        document.body.style.overflow = 'hidden';
-        document.body.style.position = 'fixed';
-        document.body.style.width = '100%';
-
-        return () => {
-            document.body.style.overflow = '';
-            document.body.style.position = '';
-            document.body.style.width = '';
-        };
-    }, []);
-
-    // Cargar la institución cuando se monta el componente
+    // Fetch institution data when institutionId changes
     useEffect(() => {
         if (institutionId) {
-            fetchInstitution();  // Llamamos manualmente para obtener la institución
+            setLoadingInstitution(true);
+            fetchInstitution();
+            setLoadingInstitution(false);
         }
     }, [institutionId, fetchInstitution]);
 
-    // Carga del rol del usuario
+    // Fetch role after institution is fetched
     useEffect(() => {
         const fetchRole = async () => {
             if (institutionId && institution?.creatorId) {
@@ -45,31 +34,30 @@ const InstitutionRoute: React.FC = () => {
                 } catch (error) {
                     console.error('Error fetching role:', error);
                 } finally {
-                    setLoading(false); // Asegurarse de que el loading se actualice
+                    setLoadingRole(false);
                 }
             } else {
-                setLoading(false); // Si no hay institutionId o creatorId, dejamos de cargar
+                setLoadingRole(false);
             }
         };
 
-        if (!institutionLoading) {
+        if (!institutionLoading && institution) {
             fetchRole();
         }
     }, [institutionId, institution, getRole, institutionLoading]);
 
-    // Redirección si no está autenticado o no tiene el rol adecuado
+    // Redirect if not authenticated or doesn't have the right role
     useEffect(() => {
-        if (!loading && (!isAuthenticated || (role !== MembershipRole.Owner && role !== MembershipRole.Staff && role !== MembershipRole.Sensei))) {
+        if (!loadingRole && !loadingInstitution && (!isAuthenticated || (role !== MembershipRole.Owner && role !== MembershipRole.Staff && role !== MembershipRole.Sensei))) {
             navigate(-1);
         }
-    }, [role, isAuthenticated, loading, navigate]);
+    }, [role, isAuthenticated, loadingRole, loadingInstitution, navigate]);
 
-    // Si está cargando, mostrar mensaje de "Loading"
-    if (loading || institutionLoading) {
+    // Show loading state while fetching institution and role
+    if (loadingInstitution || loadingRole || institutionLoading) {
         return <div>Loading...</div>;
     }
 
-    // Si todo está bien, renderizar el componente
     return (
         <div className="flex h-screen w-full px-2 overflow-visible">
             <InstitutionSidebar />
