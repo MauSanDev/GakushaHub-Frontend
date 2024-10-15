@@ -44,7 +44,7 @@ export const usePaginatedStudyGroups = (
 
     useEffect(() => {
         fetchStudyGroups();
-    }, [page, limit, searchQuery, institutionId]);
+    }, [page, limit, searchQuery]);
 
     return {
         data,

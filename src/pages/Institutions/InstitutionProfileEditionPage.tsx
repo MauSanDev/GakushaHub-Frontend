@@ -9,23 +9,27 @@ import { useUpdateData } from '../../hooks/updateHooks/useUpdateData.ts';
 
 const EditProfilePage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
-    const { data, error, isLoading } = useInstitutionById(institutionId || "");
+    const { data, isLoading, fetchInstitution } = useInstitutionById(institutionId || "");
 
     const [profileImage, setProfileImage] = useState<string>('https://via.placeholder.com/150');
     const [name, setName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
 
-    const [isSaving, setIsSaving] = useState(false); 
+    const [isSaving, setIsSaving] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const { mutate: updateInstitution } = useUpdateData<Partial<{ name: string; description: string }>>(); 
+    const { mutate: updateInstitution } = useUpdateData<Partial<{ name: string; description: string }>>();
 
-    const initialData = useRef({ name: '', description: '' }); 
+    const initialData = useRef({ name: '', description: '' });
+
+    useEffect(() => {
+        fetchInstitution();
+    }, [fetchInstitution]);
 
     useEffect(() => {
         if (data && data.name && data.description) {
             setName(data.name);
             setDescription(data.description || '');
-            initialData.current = { name: data.name, description: data.description || '' }; 
+            initialData.current = { name: data.name, description: data.description || '' };
         }
     }, [data]);
 
@@ -38,7 +42,6 @@ const EditProfilePage: React.FC = () => {
     };
 
     const handleSaveChanges = () => {
-        
         const updatedData: Partial<{ name: string; description: string }> = {};
 
         if (name !== initialData.current.name) {
@@ -48,11 +51,11 @@ const EditProfilePage: React.FC = () => {
         if (description !== initialData.current.description) {
             updatedData.description = description;
         }
-        
+
         if (Object.keys(updatedData).length === 0) {
             return;
         }
-        
+
         setIsSaving(true);
 
         updateInstitution({
@@ -61,21 +64,17 @@ const EditProfilePage: React.FC = () => {
             newData: updatedData
         }, {
             onSuccess: () => {
-                setIsSaving(false); 
+                setIsSaving(false);
             },
             onError: (error) => {
                 console.error("Error updating institution:", error);
-                setIsSaving(false); 
+                setIsSaving(false);
             }
         });
     };
 
     if (isLoading) {
         return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>Error loading institution data.</div>;
     }
 
     return (
@@ -125,10 +124,10 @@ const EditProfilePage: React.FC = () => {
 
             <PrimaryButton
                 onClick={handleSaveChanges}
-                label={isSaving ? "" : "saveChanges"} 
-                iconComponent={isSaving ? <FaSpinner className="animate-spin" /> : <FaCheck />} 
+                label={isSaving ? "" : "saveChanges"}
+                iconComponent={isSaving ? <FaSpinner className="animate-spin" /> : <FaCheck />}
                 className={"w-40"}
-                disabled={isSaving} 
+                disabled={isSaving}
             />
         </SectionContainer>
     );

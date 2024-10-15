@@ -1,13 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { ApiClient } from '../../services/ApiClient';
 import { useAuth } from "../../context/AuthContext.tsx";
-
-interface MemberData {
-    userId?: string;
-    email: string;
-    role: string;
-    isActive: boolean;
-}
+import {MembershipData} from "../../data/MembershipData.ts";
 
 interface AddMembersPayload {
     institutionId: string;
@@ -15,15 +9,15 @@ interface AddMembersPayload {
     role: string;
 }
 
-const ADD_MEMBERS_ENDPOINT = '/api/institution/members/add';
+const ADD_MEMBERS_ENDPOINT = '/api/membership/create';
 
-const addInstitutionMembers = async ({ institutionId, emailList, role }: AddMembersPayload): Promise<MemberData[]> => {
-    return await ApiClient.post<MemberData[], AddMembersPayload>(ADD_MEMBERS_ENDPOINT, { institutionId, emailList, role });
+const addInstitutionMembers = async ({ institutionId, emailList, role }: AddMembersPayload): Promise<MembershipData[]> => {
+    return await ApiClient.post<MembershipData[], AddMembersPayload>(ADD_MEMBERS_ENDPOINT, { institutionId, emailList, role });
 };
 
 export const useAddInstitutionMembers = () => {
-    const { userData } = useAuth();  // Fetch user data from AuthContext
-    const queryClient = useQueryClient();  // Get query client for cache management
+    const { userData } = useAuth();  
+    const queryClient = useQueryClient();  
 
     return useMutation(
         async ({ institutionId, emailList, role }: AddMembersPayload) => {

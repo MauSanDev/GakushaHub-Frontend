@@ -9,15 +9,19 @@ import { MembershipRole } from "../../data/MembershipData.ts";
 const InstitutionSidebar: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string; }>();
     const [isOpen, setIsOpen] = useState(false);
-    const { isAuthenticated, getRole } = useAuth(); // Obtener getRole de useAuth
-    const { data } = useInstitutionById(institutionId || "");
+    const { isAuthenticated, getRole } = useAuth();
+    const { data, fetchInstitution } = useInstitutionById(institutionId || "");
     const [role, setRole] = useState<MembershipRole | null>(null);
+
+    useEffect(() => {
+        fetchInstitution();
+    }, [fetchInstitution]);
 
     useEffect(() => {
         const fetchRole = async () => {
             if (institutionId && data?.creatorId) {
                 const userRole = await getRole(institutionId, data.creatorId);
-                setRole(userRole); // Guardamos el rol en el estado
+                setRole(userRole);
             }
         };
 

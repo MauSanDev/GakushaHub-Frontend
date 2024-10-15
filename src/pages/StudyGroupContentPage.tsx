@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
-import {Link, useParams} from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FaBook, FaChalkboardTeacher, FaFolder, FaPlus, FaSchool, FaUser } from "react-icons/fa";
 import { useStudyGroupById } from '../hooks/useGetStudyGroup.tsx';
 import { useInstitutionById } from '../hooks/institutionHooks/useInstitutionById.ts';
@@ -33,25 +33,26 @@ const StudyGroupContentPage: React.FC = () => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: studyGroup, error, isLoading } = useStudyGroupById(studyGroupId || '');
-    const { data: institution } = useInstitutionById(studyGroup?.institutionId || '');
+    const { data: institution, fetchInstitution } = useInstitutionById(studyGroup?.institutionId || '');
 
     const { data: membersData, isLoading: membersLoading, fetchStudyMembers } = useStudyMembers(
         studyGroup?.memberIds || [],
         page,
         10
     );
-    
 
-    
     const { data: coursesData, isLoading: coursesLoading, fetchStudyCourses } = useStudyGroupCourses(
-        studyGroup?.courseIds || [], 
+        studyGroup?.courseIds || [],
         page,
-        10 
+        10
     );
 
     const { mutate: updateDocument } = useUpdateData<Partial<{ isActive: boolean }>>();
     const { getRole, memberships } = useAuth();
-    
+
+    useEffect(() => {
+        fetchInstitution();
+    }, [fetchInstitution]);
 
     useEffect(() => {
         setIsArchived(!(studyGroup?.isActive ?? false));
@@ -59,8 +60,7 @@ const StudyGroupContentPage: React.FC = () => {
 
     useEffect(() => {
         fetchStudyMembers();
-        fetchStudyCourses(); 
-        console.log(studyGroup?.memberIds, studyGroup?.courseIds);
+        fetchStudyCourses();
     }, [currentTab]);
 
     useEffect(() => {
@@ -84,13 +84,10 @@ const StudyGroupContentPage: React.FC = () => {
         const fetchRole = async () => {
             if (studyGroup?.institutionId) {
                 const fetchedRole = await getRole(studyGroup.institutionId, '');
-                console.log(fetchedRole);
                 setRole(fetchedRole);
             }
         };
 
-        console.log("memberships:" + memberships);
-        
         if (studyGroup) {
             fetchRole();
         }
@@ -231,7 +228,6 @@ const StudyGroupContentPage: React.FC = () => {
                             <PrimaryButton label={'addMembers'} iconComponent={<FaPlus />} onClick={() => setIsBindMembersModalOpen(true)} className={'w-40 text-xs'} />
                         }
 
-                        {/* PaginatedContainer para mostrar los miembros */}
                         {membersData && membersData.documents.length > 0 ? (
                             <PaginatedContainer
                                 documents={membersData.documents}
@@ -249,7 +245,6 @@ const StudyGroupContentPage: React.FC = () => {
                 )}
             </div>
 
-            {/* Bind Courses Modal */}
             {isBindCoursesModalOpen && (
                 <BindCoursesModal
                     onClose={() => setIsBindCoursesModalOpen(false)}

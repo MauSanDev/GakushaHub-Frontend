@@ -28,6 +28,6 @@ export const useCourses = (ids: string[]): {
     return {
         data,
         isLoading,
-        fetchCourses, // Devuelvo la función para que puedas llamarla manualmente
+        fetchCourses,
     };
 };

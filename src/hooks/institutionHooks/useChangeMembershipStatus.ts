@@ -11,7 +11,7 @@ export const useChangeMembershipStatus = () => {
 
     return useMutation(
         async ({ membershipId, newStatus }: ChangeMembershipStatusParams) => {
-            return await ApiClient.post('/api/institution/members/changeStatus', {
+            return await ApiClient.post('/api/membership/changeStatus', {
                 membershipId,
                 newStatus,
             });

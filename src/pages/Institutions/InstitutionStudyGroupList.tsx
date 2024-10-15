@@ -17,12 +17,16 @@ const InstitutionStudyGroupPage: React.FC = () => {
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [isAddGroupModalOpen, setIsAddGroupModalOpen] = useState<boolean>(false);
-    const { data: institutionData } = useInstitutionById(institutionId || "");
+    const { data: institutionData, fetchInstitution } = useInstitutionById(institutionId || "");
     const { data: studyGroupsData, isLoading, fetchStudyGroups } = usePaginatedStudyGroups(page, 10, institutionId || "", searchQuery);
 
     const { getRole } = useAuth();
     const [role, setRole] = useState<MembershipRole>(MembershipRole.None);
     const [isRoleLoading, setIsRoleLoading] = useState(true);
+
+    useEffect(() => {
+        fetchInstitution();
+    }, [fetchInstitution]);
 
     useEffect(() => {
         const fetchUserRole = async () => {
@@ -43,6 +47,7 @@ const InstitutionStudyGroupPage: React.FC = () => {
 
     const handleAddGroupSuccess = () => {
         setIsAddGroupModalOpen(false);
+        fetchStudyGroups(); // Refetch study groups after successfully adding one
     };
 
     const handleSearch = (query: string) => {

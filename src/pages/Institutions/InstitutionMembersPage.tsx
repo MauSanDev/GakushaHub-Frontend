@@ -10,7 +10,7 @@ import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
 import { useDeleteElement } from '../../hooks/useDeleteElement';
 import { CollectionTypes } from "../../data/CollectionTypes.tsx";
-import { MembershipRole } from '../../data/MembershipData.ts';
+import { MembershipRole} from '../../data/MembershipData.ts';
 import { useAuth } from '../../context/AuthContext'; // Usa el AuthContext
 
 const InstitutionMembersPage: React.FC = () => {
@@ -28,12 +28,15 @@ const InstitutionMembersPage: React.FC = () => {
 
     useEffect(() => {
         const fetchUserRole = async () => {
+            console.log(institutionId);
             const fetchedRole = await getRole(institutionId || "", "");
             setRole(fetchedRole);
+            console.log(fetchedRole);
         };
 
         fetchUserRole();
     }, [getRole]);
+
 
     useEffect(() => {
         fetchMemberships();

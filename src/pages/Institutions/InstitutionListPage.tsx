@@ -6,16 +6,23 @@ import MembershipBox from './Components/MembershipBox';
 import { usePaginatedInstitutions } from '../../hooks/institutionHooks/usePaginatedInstitutions';
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import { useAuth } from '../../context/AuthContext';
+import {InstitutionData} from "../../data/Institutions/InstitutionData.ts";
 
 const InstitutionListPage: React.FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
     const { memberships, refetchMemberships } = useAuth();
     const [isMembershipsLoading, setIsMembershipsLoading] = useState<boolean>(true);
-
+    const [institutions, setInstitutions] = useState<InstitutionData[]>([]);
     const { data: institutionsData, isLoading: institutionsLoading, fetchInstitutions } = usePaginatedInstitutions(1, 10);
-    const ownerInstitution = institutionsData?.documents[0] || null;
+    
+    useEffect(() => {
+        if (institutionsData?.documents) {
+            setInstitutions(institutionsData.documents);  
+        }
+    }, [institutionsData]);
 
-    // Llamamos a fetchInstitutions solo una vez cuando el componente se monta
+    const ownerInstitution = institutions.length > 0 ? institutions[0] : null;
+    
     useEffect(() => {
         const fetchInstitutionsData = async () => {
             try {
@@ -26,9 +33,9 @@ const InstitutionListPage: React.FC = () => {
         };
 
         fetchInstitutionsData();
-    }, []); // Dependencias vacías para que se ejecute solo una vez al montar el componente
+    }, []); 
 
-    // Llamamos a refetchMemberships solo una vez cuando el componente se monta
+    
     useEffect(() => {
         let isMounted = true;
 
@@ -50,11 +57,11 @@ const InstitutionListPage: React.FC = () => {
         return () => {
             isMounted = false;
         };
-    }, []); // Dependencias vacías para que se ejecute solo una vez al montar el componente
+    }, []); 
 
     const handleCreateInstitutionSuccess = () => {
         setIsCreateModalOpen(false);
-        fetchInstitutions();  // Refetch institutions after a successful creation
+        fetchInstitutions();  
     };
 
     return (

@@ -8,10 +8,13 @@ import { useInstitutionById } from "../hooks/institutionHooks/useInstitutionById
 const InstitutionRoute: React.FC = () => {
     const { isAuthenticated, getRole } = useAuth();
     const { institutionId } = useParams<{ institutionId: string }>();
-    const { data, isLoading: institutionLoading } = useInstitutionById(institutionId || "");
+
     const [role, setRole] = useState<MembershipRole>(MembershipRole.None);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+
+    // Usar el hook para cargar la institución
+    const { data: institution, isLoading: institutionLoading, fetchInstitution } = useInstitutionById(institutionId || "");
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -25,12 +28,19 @@ const InstitutionRoute: React.FC = () => {
         };
     }, []);
 
+    // Cargar la institución cuando se monta el componente
+    useEffect(() => {
+        if (institutionId) {
+            fetchInstitution();  // Llamamos manualmente para obtener la institución
+        }
+    }, [institutionId, fetchInstitution]);
+
     // Carga del rol del usuario
     useEffect(() => {
         const fetchRole = async () => {
-            if (institutionId && data?.creatorId) {
+            if (institutionId && institution?.creatorId) {
                 try {
-                    const fetchedRole = await getRole(institutionId, data.creatorId);
+                    const fetchedRole = await getRole(institutionId, institution.creatorId);
                     setRole(fetchedRole);
                 } catch (error) {
                     console.error('Error fetching role:', error);
@@ -45,7 +55,7 @@ const InstitutionRoute: React.FC = () => {
         if (!institutionLoading) {
             fetchRole();
         }
-    }, [institutionId, data, getRole, institutionLoading]);
+    }, [institutionId, institution, getRole, institutionLoading]);
 
     // Redirección si no está autenticado o no tiene el rol adecuado
     useEffect(() => {
@@ -64,7 +74,6 @@ const InstitutionRoute: React.FC = () => {
         <div className="flex h-screen w-full px-2 overflow-visible">
             <InstitutionSidebar />
             <div className="flex-1 flex flex-col items-center justify-center">
-                <span className={"text-white"}>{role}</span>
                 <Outlet />
             </div>
         </div>

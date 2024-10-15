@@ -28,7 +28,10 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({memb
     const { fetchUserInfo, data: userInfo } = useUserInfo([member?.userId]);
 
     useEffect(() => {
-        fetchUserInfo();
+        if (member.userId)
+        {
+            fetchUserInfo();
+        }
     }, [member.userId]);
 
     useEffect(() => {
@@ -74,9 +77,9 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({memb
                 <p className="text-md font-bold text-gray-800 dark:text-gray-200">
                     {isRegisteredUser ? userInfo?.[member.userId]?.name || member.email : member.email}
                 </p>
-                <p className="text-sm text-gray-500">
+                {isRegisteredUser && (<p className="text-sm text-gray-500">
                     {member.email}
-                </p>
+                </p>)}
                 {member.status === MembershipStatus.Pending && (
                     <span className="italic text-yellow-700 text-xs">Pending approval</span>
                 )}
