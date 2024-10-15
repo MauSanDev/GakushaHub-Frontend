@@ -9,10 +9,10 @@ export const createElement = async (
     collection: string,
     data: Record<string, unknown>
 ): Promise<unknown> => {
-    // console.log(`Creating new element in ${collection}`);
+    console.log(`Creating new element in ${collection}`);
     try {
         const response = await ApiClient.post<unknown, unknown>(`api/${collection}/create`, data);
-        // console.log("Element created successfully:", response);
+        console.log("Element created successfully:", response);
         return response;
     } catch (error) {
         console.error(`Error creating element in ${collection}`, error);
@@ -33,7 +33,7 @@ export const fetchPaginatedData = async <T>(
 
     const cachedData = queryClient.getQueryData<InferPaginatedData<T>>(queryKey);
     if (cachedData) {
-        // console.log('Returning cached data for query:', queryKey);
+        console.log('Returning cached data for query:', queryKey);
         return cachedData;
     }
 
@@ -85,10 +85,10 @@ export const fetchFullPagination = async <T>(
             extraParams
         );
 
-        // console.log('Paginated data received:', paginatedData);
+        console.log('Paginated data received:', paginatedData);
         
         if (paginatedData?.documents && paginatedData.documents.length > 0) {
-            // console.log(`Fetching full ${key} for IDs:`, paginatedData.documents);
+            console.log(`Fetching full ${key} for IDs:`, paginatedData.documents);
             
             const elementsData = await fetchElements<T>(paginatedData.documents, key, queryClient);
             
@@ -99,7 +99,7 @@ export const fetchFullPagination = async <T>(
 
             return combinedData;
         } else {
-            // console.log(`No IDs found to fetch ${key}.`);
+            console.log(`No IDs found to fetch ${key}.`);
             return undefined;
         }
     } catch (error) {
@@ -109,14 +109,14 @@ export const fetchFullPagination = async <T>(
 };
 
 export const resetPaginationQueries = (key: string, queryClient: QueryClient) => {
-    // console.log(`Invalidating queries for pagination of ${key}`);
+    console.log(`Invalidating queries for pagination of ${key}`);
     queryClient.invalidateQueries([key]);
 };
 
 const fetchElementsByIds = async <T>(ids: string[], key: string, fields?: string[]): Promise<Record<string, Partial<T>>> => {
     const idsParam = ids.join(',');
     const fieldsParam = fields ? `?fields=${fields.join(',')}` : '';
-    // console.log(`Fetching ${key} for IDs: ${idsParam}, with fields: ${fields || 'full'}`);
+    console.log(`Fetching ${key} for IDs: ${idsParam}, with fields: ${fields || 'full'}`);
     return ApiClient.get<Record<string, Partial<T>>>(`/api/${key}/get/${idsParam}${fieldsParam}`);
 };
 
@@ -129,7 +129,7 @@ export const fetchElements = async <T>(
     const cachedData: Record<string, T> = {};
     const idsToFetch: string[] = [];
 
-    // console.log(`Received IDs for fetching ${key}:`, ids);
+    console.log(`Received IDs for fetching ${key}:`, ids);
 
     ids.forEach(id => {
         const cachedElement = queryClient.getQueryData<Partial<T>>([key, id]);
@@ -138,30 +138,30 @@ export const fetchElements = async <T>(
             
             const missingFields = fields && fields.some(field => !(field in cachedElement));
             if (!missingFields) {
-                // console.log(`${key} with ID ${id} found in cache and has all required fields`);
+                console.log(`${key} with ID ${id} found in cache and has all required fields`);
                 cachedData[id] = cachedElement as T;  
             } else {
-                // console.log(`${key} with ID ${id} missing some fields, adding to fetch list`);
+                console.log(`${key} with ID ${id} missing some fields, adding to fetch list`);
                 idsToFetch.push(id);
             }
         } else {
-            // console.log(`${key} with ID ${id} not found in cache, adding to fetch list`);
+            console.log(`${key} with ID ${id} not found in cache, adding to fetch list`);
             idsToFetch.push(id);  
         }
     });
     
     if (idsToFetch.length === 0) {
-        // console.log(`All ${key} found in cache with required fields, no need to fetch`);
+        console.log(`All ${key} found in cache with required fields, no need to fetch`);
         return cachedData;
     }
     
-    // console.log(`Fetching ${key} for IDs:`, idsToFetch);
+    console.log(`Fetching ${key} for IDs:`, idsToFetch);
     const fetchedData = await fetchElementsByIds<T>(idsToFetch, key, fields);
     
     Object.entries(fetchedData).forEach(([id, fetchedElement]) => {
         const cachedElement = cachedData[id] || {};
         const updatedElement = { ...cachedElement, ...fetchedElement };  
-        // console.log(`Updating cache for ${key} with ID ${id}`);
+        console.log(`Updating cache for ${key} with ID ${id}`);
 
         
         queryClient.setQueryData([key, id], updatedElement);
@@ -173,15 +173,25 @@ export const fetchElements = async <T>(
 
 
 export const resetCachedQueries = (ids: string[], key: string, queryClient: QueryClient) => {
-    // console.log(`Invalidating queries for ${key} IDs:`, ids);
+    console.log(`Invalidating queries for ${key} IDs:`, ids);
     queryClient.invalidateQueries([`${key}ByIds`, ids]);
 };
 
-export const updateData = async (collection: string, documentId: string, data: unknown): Promise<unknown> => {
-    // console.log(`Updating document with ID: ${documentId} at ${collection}`);
+export const updateData = async (
+    collection: string,
+    documentId: string,
+    data: unknown,
+    queryClient: QueryClient
+): Promise<unknown> => {
+    console.log(`Updating document with ID: ${documentId} at ${collection}`);
     try {
+        // Realizamos la petición UPDATE
         const response = await ApiClient.put<unknown, unknown>(`api/${collection}/update/${documentId}`, data);
-        // console.log("Document updated successfully:", response);
+        console.log("Document updated successfully:", response);
+
+        // Actualizamos la cache con la nueva data
+        queryClient.setQueryData([collection, documentId], response);
+
         return response;
     } catch (error) {
         console.error(`Error updating document with ID: ${documentId} at ${collection}`, error);
@@ -194,15 +204,16 @@ export const updateList = async (
     documentId: string,
     field: string,
     value: string,
-    action: 'add' | 'remove'
+    action: 'add' | 'remove',
+    queryClient: QueryClient
 ): Promise<void> => {
     const updateDataPayload = action === 'add'
         ? { $addToSet: { [field]: value } }
         : { $pull: { [field]: value } };
 
     try {
-        await updateData(collection, documentId, updateDataPayload);
-        // console.log(`${action === 'add' ? 'Added' : 'Removed'} ${value} from ${field} in ${collection} with ID: ${documentId}`);
+        await updateData(collection, documentId, updateDataPayload, queryClient);
+        console.log(`${action === 'add' ? 'Added' : 'Removed'} ${value} from ${field} in ${collection} with ID: ${documentId}`);
     } catch (error) {
         console.error(`Error modifying list in ${collection} with ID: ${documentId}`, error);
         throw error;
@@ -212,6 +223,7 @@ export const updateList = async (
 export const deleteData = async (
     elementIds: string[],
     elementType: CollectionTypes,
+    queryClient: QueryClient,
     deleteRelations: boolean = false,
     extraParams?: Record<string, unknown>
 ): Promise<string> => {
@@ -222,11 +234,21 @@ export const deleteData = async (
             ...extraParams
         };
 
+        // Realizamos la petición DELETE
         const response = await ApiClient.delete<{ message: string }>(`/api/${elementType}/delete`, {
             data: requestData
         });
 
-        // console.log(`Successfully deleted elements from ${elementType}:`, elementIds);
+        console.log(`Successfully deleted elements from ${elementType}:`, elementIds);
+
+        // Invalidamos la cache de cada ID eliminado
+        elementIds.forEach(id => {
+            queryClient.removeQueries([elementType, id]);
+        });
+
+        // Invalidamos las queries de paginación relacionadas
+        queryClient.invalidateQueries([elementType]);
+
         return response.message;
     } catch (error) {
         console.error(`Error deleting elements from ${elementType}:`, error);

@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query';
+import {useMutation, useQueryClient} from 'react-query';
 import { updateList } from '../../services/dataService.ts';
 
 interface UpdateListParams {
@@ -10,9 +10,11 @@ interface UpdateListParams {
 }
 
 export const useUpdateList = () => {
+    const queryClient = useQueryClient();
+
     return useMutation(
         async ({ collection, documentId, field, value, action }: UpdateListParams) => {
-            return await updateList(collection, documentId, field, value, action);
+            return await updateList(collection, documentId, field, value, action, queryClient);
         },
         {
             onError: (error) => {

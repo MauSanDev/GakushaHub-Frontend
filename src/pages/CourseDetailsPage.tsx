@@ -70,11 +70,11 @@ const CourseDetailPage: React.FC = () => {
         }
     }, [courseData, courseId]);
 
-    // useEffect(() => {
-    //     if (lessonsIds.length > 0) {
-    //         fetchLessons(lessonsIds);
-    //     }
-    // }, [lessonsIds, fetchLessons]);
+    useEffect(() => {
+        if (lessonsIds.length > 0) {
+            fetchLessons();
+        }
+    }, [lessonsIds]);
 
     useEffect(() => {
         if (lessonsData && !selectedLesson) {

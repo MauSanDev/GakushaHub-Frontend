@@ -18,7 +18,7 @@ export const useDeleteElement = () => {
             extraParams?: Record<string, unknown> 
         }) =>
             
-            deleteData(elementIds, elementType, deleteRelations, extraParams),
+            deleteData(elementIds, elementType, queryClient, deleteRelations, extraParams),
         {
             onSuccess: () => {
                 queryClient.invalidateQueries('parsedText');
