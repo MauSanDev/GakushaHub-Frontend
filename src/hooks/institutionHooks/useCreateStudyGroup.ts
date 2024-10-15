@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query';
+import {QueryClient, useMutation, useQueryClient} from 'react-query';
 import { useAuth } from "../../context/AuthContext.tsx";
 import { createElement } from '../../services/dataService';
 import { StudyGroupData } from '../../data/Institutions/StudyGroupData';
@@ -11,7 +11,7 @@ interface CreateStudyGroupPayload {
     description: string;
 }
 
-const createStudyGroup = async ({ name, creatorId, institutionId, description }: CreateStudyGroupPayload): Promise<StudyGroupData> => {
+const createStudyGroup = async ({ name, creatorId, institutionId, description }: CreateStudyGroupPayload, queryClient: QueryClient): Promise<StudyGroupData> => {
     const data: Record<string, unknown> = {
         name,
         creatorId,
@@ -19,7 +19,7 @@ const createStudyGroup = async ({ name, creatorId, institutionId, description }:
         description,
     };
 
-    return await createElement(CollectionTypes.StudyGroup, data) as StudyGroupData;
+    return await createElement(CollectionTypes.StudyGroup, data, queryClient) as StudyGroupData;
 };
 
 export const useCreateStudyGroup = () => {
@@ -42,7 +42,7 @@ export const useCreateStudyGroup = () => {
                 creatorId: userData._id,
                 institutionId,
                 description,
-            });
+            }, queryClient);
         },
         {
             onSuccess: (studyGroup: StudyGroupData) => {

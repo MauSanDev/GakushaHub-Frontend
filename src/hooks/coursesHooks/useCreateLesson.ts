@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query';
+import {QueryClient, useMutation, useQueryClient} from 'react-query';
 import { useAuth } from "../../context/AuthContext.tsx";
 import { createElement } from '../../services/dataService';
 import { CollectionTypes } from "../../data/CollectionTypes.tsx";
@@ -10,14 +10,14 @@ interface CreateLessonPayload {
     creatorId: string;
 }
 
-const createEmptyLesson = async ({ courseId, name, creatorId }: CreateLessonPayload): Promise<LessonData> => {
+const createEmptyLesson = async ({ courseId, name, creatorId }: CreateLessonPayload, queryClient: QueryClient): Promise<LessonData> => {
     const data: Record<string, unknown> = {
         courseId,
         name,
         creatorId,
     };
 
-    return await createElement(CollectionTypes.Lesson, data) as LessonData;
+    return await createElement(CollectionTypes.Lesson, data, queryClient) as LessonData;
 };
 
 export const useCreateLesson = () => {
@@ -40,12 +40,11 @@ export const useCreateLesson = () => {
                 courseId,
                 name: lessonName,
                 creatorId: userData._id,
-            });
+            }, queryClient);
         },
         {
             onSuccess: () => {
-                // Invalida las queries relacionadas para refrescar los datos si es necesario
-                queryClient.invalidateQueries('lessons'); // Cambia 'lessons' por el endpoint o key correcto si es necesario
+                queryClient.invalidateQueries('lessons');
             },
             onError: (error) => {
                 console.error("Error creating lesson:", error);

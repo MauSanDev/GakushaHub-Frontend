@@ -5,14 +5,23 @@ import {CollectionTypes} from "../data/CollectionTypes.tsx";
 
 type InferPaginatedData<T> = T extends PaginatedData<unknown> ? T : PaginatedData<T>;
 
-export const createElement = async (
+export const createElement = async <T>(
     collection: string,
-    data: Record<string, unknown>
-): Promise<unknown> => {
+    data: Record<string, unknown>,
+    queryClient: QueryClient
+): Promise<T> => {
     console.log(`Creating new element in ${collection}`);
     try {
-        const response = await ApiClient.post<unknown, unknown>(`api/${collection}/create`, data);
+        const response = await ApiClient.post<T, Record<string, unknown>>(`api/${collection}/create`, data);
         console.log("Element created successfully:", response);
+        
+        const newElementId = (response as { _id?: string })._id;
+        
+        if (newElementId) {
+            queryClient.setQueryData([collection, newElementId], response);
+            queryClient.invalidateQueries([collection]);
+        }
+
         return response;
     } catch (error) {
         console.error(`Error creating element in ${collection}`, error);
@@ -185,11 +194,11 @@ export const updateData = async (
 ): Promise<unknown> => {
     console.log(`Updating document with ID: ${documentId} at ${collection}`);
     try {
-        // Realizamos la petición UPDATE
+        
         const response = await ApiClient.put<unknown, unknown>(`api/${collection}/update/${documentId}`, data);
         console.log("Document updated successfully:", response);
 
-        // Actualizamos la cache con la nueva data
+        
         queryClient.setQueryData([collection, documentId], response);
 
         return response;
@@ -234,19 +243,19 @@ export const deleteData = async (
             ...extraParams
         };
 
-        // Realizamos la petición DELETE
+        
         const response = await ApiClient.delete<{ message: string }>(`/api/${elementType}/delete`, {
             data: requestData
         });
 
         console.log(`Successfully deleted elements from ${elementType}:`, elementIds);
 
-        // Invalidamos la cache de cada ID eliminado
+        
         elementIds.forEach(id => {
             queryClient.removeQueries([elementType, id]);
         });
 
-        // Invalidamos las queries de paginación relacionadas
+        
         queryClient.invalidateQueries([elementType]);
 
         return response.message;

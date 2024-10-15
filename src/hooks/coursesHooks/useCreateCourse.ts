@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from 'react-query';
+import {QueryClient, useMutation, useQueryClient} from 'react-query';
 import { useAuth } from "../../context/AuthContext.tsx";
 import { MY_COURSES_ENDPOINT } from "./useOwnerCourses.ts";
 import { CourseData } from "../../data/CourseData.ts";
@@ -11,7 +11,7 @@ interface CreateCoursePayload {
     institutionId?: string;
 }
 
-const createEmptyCourse = async ({name, creatorId, institutionId,}: CreateCoursePayload): Promise<CourseData> => {
+const createEmptyCourse = async ({name, creatorId, institutionId,}: CreateCoursePayload, queryClient: QueryClient): Promise<CourseData> => {
     const data: Record<string, unknown> = {
         name,
         creatorId,
@@ -22,7 +22,7 @@ const createEmptyCourse = async ({name, creatorId, institutionId,}: CreateCourse
     }
 
     
-    return await createElement(CollectionTypes.Course, data) as CourseData;
+    return await createElement(CollectionTypes.Course, data, queryClient) as CourseData;
 };
 
 export const useCreateCourse = () => {
@@ -44,7 +44,7 @@ export const useCreateCourse = () => {
                 name: courseName,
                 creatorId: userData._id,
                 institutionId,
-            });
+            }, queryClient);
         },
         {
             onSuccess: () => {
