@@ -18,6 +18,7 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ institutionId, on
     const { data } = useInstitutionById(institutionId || "");
 
     const handleCreateCourse = () => {
+        
         if (courseName.trim() === '') {
             setError("Course name cannot be empty.");
             return;
@@ -25,12 +26,12 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ institutionId, on
 
         createCourse({ courseName, institutionId }, {
             onSuccess: () => {
-                setError(null); // Clear error on success
+                setError(null); 
                 if (onCreateSuccess) {
-                    onCreateSuccess();
+                    onCreateSuccess(); 
                 }
                 if (onClose) {
-                    onClose();
+                    onClose(); 
                 }
             },
             onError: (error) => {
@@ -47,20 +48,23 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ institutionId, on
                     Create a New Course {data && `for ${data.name}`}
                 </h2>
 
+                {/* Input para el nombre del curso */}
                 <InputField
                     id="courseName"
                     value={courseName}
                     onChange={(e) => {
                         setCourseName(e.target.value);
-                        setError(null); // Clear error when typing
+                        setError(null); 
                     }}
                     placeholder="Enter course name"
                     disabled={isLoading}
                     error={error}
                 />
 
+                {/* Mostrar mensaje de error si ocurre */}
                 {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
+                {/* Botón de creación */}
                 <div className="flex justify-center mt-4">
                     <PrimaryButton
                         label="Create"

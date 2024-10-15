@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { useQueryClient } from 'react-query';
 import { fetchElements } from '../../../services/dataService';
 import { LessonData } from '../../../data/CourseData';
+import {CollectionTypes} from "../../../data/CollectionTypes.tsx";
 
 export const useLessons = (ids: string[]): {
     data: Record<string, LessonData> | undefined,
@@ -15,7 +16,7 @@ export const useLessons = (ids: string[]): {
     const fetchLessons = useCallback(async () => {
         setIsLoading(true);
         try {
-            const result = await fetchElements<LessonData>(ids, 'course/lesson', queryClient);
+            const result = await fetchElements<LessonData>(ids, CollectionTypes.Lesson, queryClient);
             setData(result);
         } catch (error) {
             console.error('Error fetching lessons:', error);
@@ -23,11 +24,11 @@ export const useLessons = (ids: string[]): {
         } finally {
             setIsLoading(false);
         }
-    }, [ids, queryClient]); // useCallback para evitar que se redefina en cada render
+    }, [ids, queryClient]); 
 
     return {
         data,
         isLoading,
-        fetchLessons, // Devuelvo la función para que pueda llamarse manualmente
+        fetchLessons, 
     };
 };

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import ModalWrapper from '../ModalWrapper';
-import { useCreateLesson } from '../../hooks/coursesHooks/useCreateLesson.ts';
+import { useCreateLesson } from '../../hooks/coursesHooks/useCreateLesson';
 import InputField from "../../components/ui/inputs/InputField";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
-import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
+import SectionTitle from "../../components/ui/text/SectionTitle";
 
 interface CreateLessonModalProps {
     onClose: () => void;
@@ -22,22 +22,23 @@ const CreateLessonModal: React.FC<CreateLessonModalProps> = ({ onClose, onCreate
             setError("Lesson name cannot be empty.");
             return;
         }
-
-        createLesson({ courseId, lessonName }, {
-            onSuccess: () => {
-                setError(null); // Clear error on success
-                if (onCreateSuccess) {
-                    onCreateSuccess();
-                }
-                if (onClose) {
-                    onClose();
-                }
-            },
-            onError: (error) => {
-                setError("Error creating lesson. Please try again.");
-                console.error("Error creating lesson:", error);
-            },
-        });
+        
+        createLesson(
+            { courseId, lessonName },
+            {
+                onSuccess: () => {
+                    setError(null); 
+                    if (onCreateSuccess) {
+                        onCreateSuccess();
+                    }
+                    onClose(); 
+                },
+                onError: (error) => {
+                    setError("Error creating lesson. Please try again.");
+                    console.error("Error creating lesson:", error);
+                },
+            }
+        );
     };
 
     return (
@@ -50,7 +51,7 @@ const CreateLessonModal: React.FC<CreateLessonModalProps> = ({ onClose, onCreate
                     value={lessonName}
                     onChange={(e) => {
                         setLessonName(e.target.value);
-                        setError(null); // Clear error when typing
+                        setError(null); 
                     }}
                     placeholder="Enter lesson name"
                     disabled={isLoading}

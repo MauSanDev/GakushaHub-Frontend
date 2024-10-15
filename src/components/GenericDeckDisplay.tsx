@@ -109,7 +109,7 @@ const GenericDeckDisplay = <T,>({
                         <DeleteButton
                             creatorId={deck.creatorId}
                             elementId={deck._id}
-                            elementType={elementType}
+                            elementType={deckType}
                         />
                     </>
                 )}

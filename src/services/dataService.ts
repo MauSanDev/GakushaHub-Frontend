@@ -5,14 +5,38 @@ import {CollectionTypes} from "../data/CollectionTypes.tsx";
 
 type InferPaginatedData<T> = T extends PaginatedData<unknown> ? T : PaginatedData<T>;
 
-const fetchPaginatedData = async <T>(
+export const createElement = async (
+    collection: string,
+    data: Record<string, unknown>
+): Promise<unknown> => {
+    console.log(`Creating new element in ${collection}`);
+    try {
+        const response = await ApiClient.post<unknown, unknown>(`api/${collection}/create`, data);
+        console.log("Element created successfully:", response);
+        return response;
+    } catch (error) {
+        console.error(`Error creating element in ${collection}`, error);
+        throw error;
+    }
+};
+
+export const fetchPaginatedData = async <T>(
     endpoint: string,
     page: number,
     limit: number,
+    queryClient: QueryClient,
     creatorId?: string,
     searches?: Record<string, string[]>,
     extraParams?: Record<string, string>
 ): Promise<InferPaginatedData<T>> => {
+    const queryKey = [endpoint, page, limit, creatorId, searches, extraParams];
+
+    const cachedData = queryClient.getQueryData<InferPaginatedData<T>>(queryKey);
+    if (cachedData) {
+        console.log('Returning cached data for query:', queryKey);
+        return cachedData;
+    }
+
     const searchQueryString = searches
         ? Object.entries(searches)
             .map(([searchKey, searchValues]) => {
@@ -34,7 +58,11 @@ const fetchPaginatedData = async <T>(
         + (searchQueryString ? `&${searchQueryString}` : '')
         + extraQueryString;
 
-    return ApiClient.get<InferPaginatedData<T>>(`${endpoint}/paginate${queryString}`);
+    const fetchedData = await ApiClient.get<InferPaginatedData<T>>(`${endpoint}/paginate${queryString}`);
+
+    queryClient.setQueryData(queryKey, fetchedData);
+
+    return fetchedData;
 };
 
 export const fetchFullPagination = async <T>(
@@ -51,6 +79,7 @@ export const fetchFullPagination = async <T>(
             `api/${key}`,
             page,
             limit,
+            queryClient,
             creatorId,
             searches,
             extraParams
@@ -179,22 +208,28 @@ export const updateList = async (
         throw error;
     }
 };
+
 export const deleteData = async (
     elementIds: string[],
     elementType: CollectionTypes,
-    deleteRelations: boolean = false
+    deleteRelations: boolean = false,
+    extraParams?: Record<string, unknown>
 ): Promise<string> => {
     try {
-        const response = await ApiClient.delete<{ message: string }>(`/api/${elementType}/delete/${elementType}`, {
-            data: {
-                elementIds,
-                deleteRelations,
-            },
+        const requestData = {
+            elementIds,
+            deleteRelations,
+            ...extraParams
+        };
+
+        const response = await ApiClient.delete<{ message: string }>(`/api/${elementType}/delete`, {
+            data: requestData
         });
+
         console.log(`Successfully deleted elements from ${elementType}:`, elementIds);
-        return response.message; 
+        return response.message;
     } catch (error) {
         console.error(`Error deleting elements from ${elementType}:`, error);
-        throw error; 
+        throw error;
     }
 };

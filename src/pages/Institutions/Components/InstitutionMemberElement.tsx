@@ -13,13 +13,8 @@ interface InstitutionMemberElementProps {
     enableRemove?: boolean;
 }
 
-const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
-                                                                               member,
-                                                                               onRemove,
-                                                                               onRoleChange,
-                                                                               canEditRole,
-                                                                               enableRemove = false
-                                                                           }) => {
+const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({member, onRemove, onRoleChange, canEditRole, enableRemove = false
+}) => {
     const roleColors: { [key: string]: string } = {
         owner: 'dark:text-purple-500 text-purple-400',
         staff: 'dark:text-yellow-500 text-yellow-500',

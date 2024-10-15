@@ -52,6 +52,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                     elementId={lesson._id}
                     elementType={CollectionTypes.Lesson}
                     redirectTo={`/courses/${owner._id}`}
+                    extraParams={{ courseId: owner._id }}
                 />
 
                 <div className="flex">
