@@ -1,33 +1,21 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-import React, { useState, useRef, useEffect, ComponentType } from "react";
-import {
-    FaChevronRight,
-    FaChevronDown,
-    FaPlayCircle,
-} from "react-icons/fa";
-import FlashcardsModal from "./FlashcardsPage";
-import GrammarModal from "./GrammarPracticeModal/GrammarPracticeModal.tsx"; 
-import { DeckData } from "../data/DeckData.ts";
+import { useState } from "react";
+import { FaSpinner } from "react-icons/fa";
 import DeleteButton from "./DeleteButton";
-import GenerationButton from "./Modals/GenerationButton.tsx";
-import { CourseData, LessonData } from "../data/CourseData.ts";
 import AddContentButton from "./AddContentButton.tsx";
-import LocSpan from "./LocSpan.tsx";
-import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
-import {CollectionTypes} from "../data/CollectionTypes.tsx";
-import Editable from "./ui/text/Editable.tsx";
-import {MembershipRole} from "../data/MembershipData.ts";
+import { MembershipRole } from "../data/MembershipData.ts";
+import { CollectionTypes } from "../data/CollectionTypes.tsx";
+import { useElements } from '../hooks/newHooks/useElements';
+import CollapsibleSection from "./ui/containers/CollapsibleSection";
+import { BaseDeckData } from "../data/DeckData.ts";
 
 interface GenericDeckDisplayProps<T> {
-    courseData: CourseData;
-    lessonData: LessonData;
-    deck: DeckData<T>;
-    renderComponent: ComponentType<{ result: T }>;
-    TableComponent?: ComponentType<{ deck: DeckData<T> }>;
+    deck: BaseDeckData;
+    lessonId: string;
+    courseId: string;
+    renderItem: (element: T, index: number) => JSX.Element;
+    renderTable?: (deckElements: T[]) => JSX.Element;
     columns?: number;
     mobileColumns?: number;
-    enableFlashcards?: boolean;
     enableGeneration?: boolean;
     elementType: CollectionTypes;
     viewMode: "table" | "cards";
@@ -35,149 +23,92 @@ interface GenericDeckDisplayProps<T> {
 }
 
 const GenericDeckDisplay = <T,>({
-                                    enableGeneration,
-                                    courseData,
-                                    lessonData,
                                     deck,
-                                    renderComponent: RenderComponent,
-                                    TableComponent,
+                                    lessonId,
+                                    courseId,
+                                    renderItem,
+                                    renderTable,
                                     columns = 6,
                                     mobileColumns = 1,
-                                    enableFlashcards = true,
                                     elementType,
                                     viewMode,
-                                    viewerRole
+                                    viewerRole,
                                 }: GenericDeckDisplayProps<T>) => {
-    const [flashcardsMode, setFlashcardsMode] = useState(false);
-    const [grammarModalVisible, setGrammarModalVisible] = useState(false); 
     const [expanded, setExpanded] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
-    const contentRef = useRef<HTMLDivElement | null>(null);
+    const { data: elements, isLoading, fetchElementsData } = useElements<T>(deck.elements, elementType);
 
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 640);
-        };
-
-        handleResize();
-        window.addEventListener('resize', handleResize);
-
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    const toggleExpand = () => {
-        setExpanded((prev) => !prev);
-    };
-
-    useEffect(() => {
-        if (contentRef.current) {
-            contentRef.current.style.maxHeight = expanded
-                ? `${contentRef.current.scrollHeight}px`
-                : "0px";
+    const handleExpand = () => {
+        if (!expanded && !elements) {
+            fetchElementsData();
         }
-    }, [expanded, viewMode]);
-
-    const handleFlashcardMode = () => {
-        setFlashcardsMode(true);
-    };
-
-    const handleOpenGrammarModal = () => {
-        setGrammarModalVisible(true);
+        setExpanded(!expanded);
     };
 
     const renderContent = () => {
-        if (viewMode === "cards" || !TableComponent) {
+        if (isLoading) {
             return (
-                <div className={`grid gap-2`} style={{gridTemplateColumns: `repeat(${isMobile ? mobileColumns : columns}, minmax(0, 1fr))`}}>
-                    {deck.elements.map((element, elemIndex) => (
-                        <RenderComponent key={`${deck._id}-${elemIndex}`} result={element} />
-                    ))}
+                <div className="flex justify-center items-center p-4">
+                    <FaSpinner className="animate-spin text-gray-500" size={24} />
                 </div>
             );
-        } else if (viewMode === "table" && TableComponent) {
-            return (<div className={`grid columns-1 gap-2`}>
-                <TableComponent deck={deck} />;
-            </div>)
+        }
+
+        if (!elements || Object.keys(elements).length === 0) {
+            return <p>No se encontraron elementos.</p>;
+        }
+
+        const elementList = Object.values(elements);
+
+        if (viewMode === "cards" || !renderTable) {
+            return (
+                <div
+                    className={`grid gap-2`}
+                    style={{
+                        gridTemplateColumns: `repeat(${window.innerWidth < 640 ? mobileColumns : columns}, minmax(0, 1fr))`,
+                    }}
+                >
+                    {elementList.map((element, index) => renderItem(element, index))}
+                </div>
+            );
+        } else if (viewMode === "table" && renderTable) {
+            return (
+                <div className={`grid columns-1 gap-2`}>
+                    {renderTable(elementList)}
+                </div>
+            );
         }
     };
 
     return (
         <div className="w-full pl-3">
-            {flashcardsMode && (
-                <FlashcardsModal
-                    deck={deck}
-                    onClose={() => setFlashcardsMode(false)}
-                />
-            )}
-
-            {grammarModalVisible && (
-                <GrammarModal
-                    deck={deck}
-                    onClose={() => setGrammarModalVisible(false)}
-                />
-            )}
-
-            <div className="flex justify-between items-center bg-gray-100 dark:bg-gray-900 p-0.5 rounded">
-                <div className="flex items-center gap-2 cursor-pointer" onClick={toggleExpand}>
-                    <button className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200">
-                        {expanded ? <FaChevronDown size={12}/> : <FaChevronRight size={12}/>}
-                    </button>
-
-
-                    <Editable
-                        initialValue={deck.name}
-                        collection={elementType}
-                        documentId={deck._id || ''}
-                        field="name"
-                        className="font-bold text-gray-600 dark:text-gray-300 truncate flex-grow lg:max-w-xl max-w-32"
-                        canEdit={viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei|| viewerRole === MembershipRole.Staff}
-                        maxChar={40}
-                    />
-                    <span className="text-sm text-gray-500 whitespace-nowrap">({deck.elements.length} <LocSpan textKey={"elements"}/>)</span>
-                </div>
-
-                <div className="flex gap-0.5 items-center flex-wrap mt-2 sm:mt-0">
-                    
-                    <AddContentButton
-                        creatorId={deck.creatorId}
-                        courseId={courseData._id}
-                        courseName={courseData.name}
-                        lessonName={lessonData.name}
-                        deckName={deck.name}
+            <CollapsibleSection
+                title={deck.name}
+                label={`(${deck.elements.length} Items)`}
+                onExpand={handleExpand}
+                isEditable={true}
+                documentId={deck._id}
+                field="name"
+                collectionType={elementType}
+                canEdit={viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei || viewerRole === MembershipRole.Staff}
+                actions={(
+                    <>
+                        <AddContentButton
+                            creatorId={deck.creatorId}
+                            courseId={courseId}
+                            courseName={courseId}
+                            lessonName={lessonId}
+                            deckName={deck.name}
                         />
-                    
-                    <DeleteButton
-                        creatorId={deck.creatorId}
-                        elementId={deck._id}
-                        elementType={elementType}
-                    />
-
-                    {enableGeneration && (
-                        <GenerationButton
-                            decks={[deck]}
-                            courseId={courseData._id}
-                            lessonName={lessonData.name}
-                            courseName={courseData.name}
+                        <DeleteButton
+                            creatorId={deck.creatorId}
+                            elementId={deck._id}
+                            elementType={elementType}
                         />
-                    )}
-
-                    {enableFlashcards && elementType !== "grammarDeck" && ( 
-                        <TertiaryButton iconComponent={<FaPlayCircle />} onClick={handleFlashcardMode} />
-                    )}
-
-                    {elementType === "grammarDeck" && (
-                        <TertiaryButton iconComponent={<FaPlayCircle />} onClick={handleOpenGrammarModal} />
-                    )}
-                </div>
-            </div>
-
-            <div
-                ref={contentRef}
-                className="overflow-hidden transition-max-height duration-500 ease-in-out"
-                style={{maxHeight: expanded ? `${contentRef.current?.scrollHeight}px` : "0px"}}
+                    </>
+                )}
             >
-                {renderContent()}
-            </div>
+                {expanded && renderContent()}
+            </CollapsibleSection>
         </div>
     );
 };

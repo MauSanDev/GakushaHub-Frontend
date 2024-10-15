@@ -1,27 +1,13 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-import React, {useState} from "react";
-import {CourseData, LessonData} from "../../data/CourseData.ts";
-import {FaBook, FaBookOpen, FaEye, FaFileAlt, FaTable, FaThLarge,} from "react-icons/fa";
-import GenericDeckDisplay from "./GenericDeckDisplay";
-import SmallKanjiBox from "./SmallKanjiBox";
-import SmallWordBox from "./SmallWordBox";
-import SmallGrammarBox from "./SmallGrammarBox";
-import DeckReadingDataElement from "./DeckReadingDataElement.tsx";
-import KanjiDeckTable from "./Tables/KanjiDeckTable";
-import WordDeckTable from "./Tables/WordDeckTable";
-import {KanjiDeck} from "../data/KanjiData.ts";
-import {WordDeck} from "../data/WordData.ts";
-import {GrammarDeck} from "../data/GrammarData.ts";
-import {GenerationDeck} from "../data/GenerationData.ts";
+import React, { useState } from "react";
+import { CourseData, LessonData } from "../data/CourseData.ts";
+import { FaTable, FaThLarge, FaBookOpen, FaFileAlt, FaBook, FaEye } from "react-icons/fa";
 import DeleteButton from "./DeleteButton";
-import GenerationButton from "./Modals/GenerationButton.tsx";
 import AddContentButton from "./AddContentButton.tsx";
-import LocSpan from "./LocSpan.tsx";
 import Container from "./ui/containers/Container.tsx";
-import {CollectionTypes} from "../data/CollectionTypes.tsx";
 import Editable from "./ui/text/Editable.tsx";
-import {MembershipRole} from "../data/MembershipData.ts";
+import { MembershipRole } from "../data/MembershipData.ts";
+import DeckContainer from "./DeckContainer";
+import { CollectionTypes } from "../data/CollectionTypes.tsx";
 
 interface LessonDataElementProps {
     owner: CourseData;
@@ -34,46 +20,38 @@ interface LessonDataElementProps {
 }
 
 const LessonDataElement: React.FC<LessonDataElementProps> = ({
-                                                 owner,
-                                                 lesson,
-                                                 showKanji,
-                                                 showWord,
-                                                 showGrammar,
-                                                 showReadings,
-                                                 viewerRole,
-                                             }) => {
+                                                                 owner,
+                                                                 lesson,
+                                                                 showKanji,
+                                                                 showWord,
+                                                                 showGrammar,
+                                                                 showReadings,
+                                                                 viewerRole,
+                                                             }) => {
     const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
 
-    const noContentToShow = true;
-    // const noContentToShow = !(
-    //     (showKanji && lesson.kanjiDecks.length > 0) ||
-    //     (showWord && lesson.wordDecks.length > 0) ||
-    //     (showGrammar && lesson.grammarDecks.length > 0) ||
-    //     (showReadings && lesson.readingDecks.length > 0)
-    // );
+    const noContentToShow = !(
+        (showKanji && lesson.kanjiDecks.length > 0) ||
+        (showWord && lesson.wordDecks.length > 0) ||
+        (showGrammar && lesson.grammarDecks.length > 0) ||
+        (showReadings && lesson.readingDecks.length > 0)
+    );
 
     return (
         <Container>
             <div className="absolute top-4 right-4 flex gap-0.5 flex-wrap items-center">
-                <AddContentButton 
+                <AddContentButton
                     creatorId={lesson.creatorId._id}
                     courseId={owner._id}
                     courseName={owner.name}
                     lessonName={lesson.name}
                 />
-                
+
                 <DeleteButton
                     creatorId={lesson.creatorId._id}
                     elementId={lesson._id}
                     elementType={CollectionTypes.Lesson}
                     redirectTo={`/courses/${owner._id}`}
-                />
-
-                <GenerationButton
-                    decks={[...lesson.kanjiDecks, ...lesson.grammarDecks, ...lesson.wordDecks]}
-                    courseId={owner._id}
-                    lessonName={lesson.name}
-                    courseName={owner.name}
                 />
 
                 <div className="flex">
@@ -85,7 +63,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                 : "bg-gray-200 dark:bg-gray-950 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
                         }`}
                     >
-                        <FaThLarge size={12}/>
+                        <FaThLarge size={12} />
                     </button>
                     <button
                         onClick={() => setViewMode("table")}
@@ -95,12 +73,10 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                 : "bg-gray-200 dark:bg-gray-950 text-gray-600 dark:text-gray-300 hover:bg-gray-300"
                         }`}
                     >
-                        <FaTable size={12}/>
+                        <FaTable size={12} />
                     </button>
                 </div>
-
             </div>
-
 
             <Editable
                 initialValue={lesson.name}
@@ -108,7 +84,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                 documentId={lesson._id || ''}
                 field="name"
                 className="lg:text-2xl text-xl font-bold text-blue-400 dark:text-white mb-2 capitalize pt-8"
-                canEdit={viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei|| viewerRole === MembershipRole.Staff}
+                canEdit={viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei || viewerRole === MembershipRole.Staff}
                 maxChar={40}
             />
 
@@ -118,7 +94,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                 documentId={lesson._id || ''}
                 field="description"
                 className="text-gray-700 mb-4 text-sm"
-                canEdit={viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei|| viewerRole === MembershipRole.Staff}
+                canEdit={viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei || viewerRole === MembershipRole.Staff}
                 maxChar={400}
                 placeholder={"Add a Description"}
             />
@@ -127,102 +103,60 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                 <p className="text-gray-500 text-center mt-4">表示するものはありません</p>
             ) : (
                 <>
-                {showKanji && lesson.kanjiDecks.length > 0 && (
-                        <div className="w-full">
-                            <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                <FaBookOpen className="text-blue-400" /><LocSpan textKey={"kanjiDecks"}/>:
-                            </h4>
-
-                            {lesson.kanjiDecks.map((element) => (
-                                <GenericDeckDisplay
-                                    key={element._id}
-                                    deck={element as KanjiDeck}
-                                    renderComponent={SmallKanjiBox}
-                                    TableComponent={KanjiDeckTable}
-                                    elementType={CollectionTypes.KanjiDeck}
-                                    lessonData={lesson}
-                                    courseData={owner}
-                                    enableGeneration={true}
-                                    viewMode={viewMode}
-                                    columns={6}
-                                    mobileColumns={2}
-                                    viewerRole={viewerRole}
-                                />
-                            ))}
-                        </div>
+                    {showKanji && lesson.kanjiDecks.length > 0 && (
+                        <DeckContainer
+                            ids={lesson.kanjiDecks}
+                            collectionType={CollectionTypes.KanjiDeck}
+                            viewMode={viewMode}
+                            viewerRole={viewerRole}
+                            lessonId={lesson._id}
+                            courseId={owner._id}
+                            FaIcon={FaBookOpen}
+                            sectionTitle="kanjiDecks"
+                            iconColor="text-blue-500"
+                        />
                     )}
 
                     {showWord && lesson.wordDecks.length > 0 && (
-                        <div className="mt-4 w-full">
-                            <h4 className="font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                                <FaFileAlt className="text-red-400" /> <LocSpan textKey={"wordDecks"}/>:
-                            </h4>
-
-                            {lesson.wordDecks.map((element) => (
-                                <GenericDeckDisplay
-                                    key={element._id}
-                                    deck={element as WordDeck}
-                                    renderComponent={SmallWordBox}
-                                    TableComponent={WordDeckTable}
-                                    enableGeneration={true}
-                                    elementType={CollectionTypes.WordDeck}
-                                    lessonData={lesson}
-                                    courseData={owner}
-                                    viewMode={viewMode}
-                                    columns={6}
-                                    mobileColumns={2}
-                                    viewerRole={viewerRole}
-                                />
-                            ))}
-                        </div>
+                        <DeckContainer
+                            ids={lesson.wordDecks}
+                            collectionType={CollectionTypes.WordDeck}
+                            viewMode={viewMode}
+                            viewerRole={viewerRole}
+                            lessonId={lesson._id}
+                            courseId={owner._id}
+                            FaIcon={FaFileAlt}
+                            sectionTitle="wordDecks"
+                            iconColor="text-red-500"
+                        />
                     )}
 
                     {showGrammar && lesson.grammarDecks.length > 0 && (
-                        <div className="mt-4 w-full">
-                            <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2 flex items-center gap-2">
-                                <FaBook className="text-green-400" /> <LocSpan textKey={"grammarDecks"}/>:
-                            </h4>
-
-                            {lesson.grammarDecks.map((element) => (
-                                <GenericDeckDisplay
-                                    key={element._id}
-                                    deck={element as GrammarDeck}
-                                    renderComponent={SmallGrammarBox}
-                                    columns={2}
-                                    enableFlashcards={false}
-                                    elementType={CollectionTypes.GrammarDeck}
-                                    lessonData={lesson}
-                                    courseData={owner}
-                                    enableGeneration={true}
-                                    viewMode={viewMode}
-                                    viewerRole={viewerRole}
-                                />
-                            ))}
-                        </div>
+                        <DeckContainer
+                            ids={lesson.grammarDecks}
+                            collectionType={CollectionTypes.GrammarDeck}
+                            viewMode={viewMode}
+                            viewerRole={viewerRole}
+                            lessonId={lesson._id}
+                            courseId={owner._id}
+                            FaIcon={FaBook}
+                            sectionTitle="grammarDecks"
+                            iconColor="text-green-500"
+                        />
                     )}
 
                     {showReadings && lesson.readingDecks.length > 0 && (
-                        <div className="mt-4 w-full">
-                            <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2 flex items-center gap-2">
-                                <FaEye className="text-yellow-400"/>
-                                <LocSpan textKey={"readingDecks"}/>:
-                            </h4>
-
-                            {lesson.readingDecks.map((element) => (
-                                <GenericDeckDisplay
-                                    key={element._id}
-                                    deck={element as GenerationDeck}
-                                    renderComponent={DeckReadingDataElement}
-                                    columns={1}
-                                    enableFlashcards={false}
-                                    elementType={"generation"}
-                                    lessonData={lesson}
-                                    courseData={owner}
-                                    enableGeneration={true}
-                                    viewMode={viewMode}
-                                />
-                            ))}
-                        </div>
+                        <DeckContainer
+                            ids={lesson.readingDecks}
+                            collectionType={CollectionTypes.ReadingDeck}
+                            viewMode={viewMode}
+                            viewerRole={viewerRole}
+                            lessonId={lesson._id}
+                            courseId={owner._id}
+                            FaIcon={FaEye}
+                            sectionTitle="readingDecks"
+                            iconColor="text-yellow-500"
+                        />
                     )}
                 </>
             )}

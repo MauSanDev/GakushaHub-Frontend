@@ -3,6 +3,17 @@ import {KanjiDeck} from "./KanjiData.ts";
 import {WordDeck} from "./WordData.ts";
 import {GrammarDeck} from "./GrammarData.ts";
 
+export interface BaseDeckData {
+    _id: string;
+    name: string;
+    description: string;
+    elements: string[];
+    creatorId: string;
+    isPublic: boolean;
+    examples: ExampleData[];
+    createdAt: string;
+}
+
 export class DeckData<T> {
     _id: string;
     name: string;

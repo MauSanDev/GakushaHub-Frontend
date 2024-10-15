@@ -3,6 +3,7 @@ import {WordDeck} from "./WordData.ts";
 import {GrammarDeck} from "./GrammarData.ts";
 import {GenerationDeck} from "./GenerationData.ts";
 import {UserData} from "./UserData.ts";
+import {BaseDeckData} from "./DeckData.ts";
 
 export interface CourseData {
     _id: string;
@@ -19,10 +20,10 @@ export interface LessonData {
     _id: string;
     name: string;
     description: string;
-    kanjiDecks: KanjiDeck[];
-    wordDecks: WordDeck[];
-    grammarDecks: GrammarDeck[];
-    readingDecks: GenerationDeck[];
+    kanjiDecks: string[];
+    wordDecks: string[];
+    grammarDecks: string[];
+    readingDecks: string[];
     creatorId: UserData;
     isPublic: boolean;
     createdAt: string;

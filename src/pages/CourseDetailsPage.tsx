@@ -288,7 +288,7 @@ const CourseDetailPage: React.FC = () => {
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
                 {lesson ? (
                     <LessonDataElement
-                        key={lesson._id}
+                        key={lessonId}
                         lesson={lesson}
                         showKanji={toggleState[DeckType.Kanji]}
                         showWord={toggleState[DeckType.Word]}

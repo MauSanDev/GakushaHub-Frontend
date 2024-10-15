@@ -11,8 +11,8 @@ interface EditableProps {
     className?: string;
     canEdit?: boolean;
     placeholder?: string;
-    maxChar?: number; // Nuevo parámetro para limitar los caracteres
-    onSave?: (newValue: string) => void; // Callback que se ejecuta cuando se guarda el valor
+    maxChar?: number; 
+    onSave?: (newValue: string) => void; 
 }
 
 const Editable: React.FC<EditableProps> = ({
@@ -23,7 +23,7 @@ const Editable: React.FC<EditableProps> = ({
                                                className = '',
                                                canEdit = true,
                                                placeholder = '',
-                                               maxChar = 140, // Por defecto, el máximo de caracteres es 140
+                                               maxChar = 140, 
                                                onSave
                                            }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -88,7 +88,7 @@ const Editable: React.FC<EditableProps> = ({
         if (e.key === 'Escape') {
             handleCancel();
         } else if (e.key === 'Enter') {
-            e.preventDefault(); // Evita que Enter agregue una nueva línea
+            e.preventDefault(); 
             handleSave();
         }
     };
@@ -103,7 +103,7 @@ const Editable: React.FC<EditableProps> = ({
         }
     };
 
-    // Maneja el onBlur solo si se hace clic fuera de los botones
+    
     const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
         if (containerRef.current && !containerRef.current.contains(e.relatedTarget as Node)) {
             handleCancel();
@@ -111,7 +111,7 @@ const Editable: React.FC<EditableProps> = ({
     };
 
     return (
-        <div ref={containerRef} className={`flex items-start gap-2 w-full ${className}`}>
+        <div ref={containerRef} className={`flex items-start gap-2 w-1/2 ${className}`}>
             {isEditing ? (
                 <>
                     <textarea
