@@ -11,4 +11,5 @@ export enum CollectionTypes {
     ReadingDeck = 'generationDeck',
     Membership = 'membership',
     StudyGroup = 'studyGroup',
+    Institution = 'institution',
 }

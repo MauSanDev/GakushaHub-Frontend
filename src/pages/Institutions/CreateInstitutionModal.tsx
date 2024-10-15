@@ -33,9 +33,7 @@ const CreateInstitutionModal: React.FC<CreateInstitutionModalProps> = ({ onClose
                     if (onCreateSuccess) {
                         onCreateSuccess();
                     }
-                    if (onClose) {
-                        onClose();
-                    }
+                    onClose();
                 },
                 onError: (error: any) => {
                     setError(error.message || "Error creating institution.");
@@ -54,7 +52,7 @@ const CreateInstitutionModal: React.FC<CreateInstitutionModalProps> = ({ onClose
                     value={institutionName}
                     onChange={(e) => {
                         setInstitutionName(e.target.value);
-                        setError(null); // Clear error when typing
+                        setError(null);
                     }}
                     placeholder="Institution name"
                     disabled={isLoading}
@@ -71,9 +69,14 @@ const CreateInstitutionModal: React.FC<CreateInstitutionModalProps> = ({ onClose
                     rows={4}
                 />
 
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">(You will be able to change this values later)</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">(You will be able to change these values later)</p>
 
-                <PrimaryButton label="create" onClick={handleCreateInstitution} disabled={isLoading || institutionName.trim() === ''} className={"w-full"} />
+                <PrimaryButton
+                    label="create"
+                    onClick={handleCreateInstitution}
+                    disabled={isLoading || institutionName.trim() === ''}
+                    className={"w-full"}
+                />
             </Container>
         </ModalWrapper>
     );

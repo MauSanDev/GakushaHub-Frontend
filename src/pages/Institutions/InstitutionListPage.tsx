@@ -10,7 +10,7 @@ import {InstitutionData} from "../../data/Institutions/InstitutionData.ts";
 
 const InstitutionListPage: React.FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
-    const { memberships, refetchMemberships } = useAuth();
+    const { memberships, refetchMemberships, licenseType } = useAuth();
     const [isMembershipsLoading, setIsMembershipsLoading] = useState<boolean>(true);
     const [institutions, setInstitutions] = useState<InstitutionData[]>([]);
     const { data: institutionsData, isLoading: institutionsLoading, fetchInstitutions } = usePaginatedInstitutions(1, 10);
@@ -67,6 +67,8 @@ const InstitutionListPage: React.FC = () => {
     return (
         <SectionContainer title={"私の学校"} isLoading={institutionsLoading || isMembershipsLoading}>
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
+
+                {licenseType === 'sensei' && (
                 <div className="mb-6">
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
                         <LocSpan textKey={"institutionListPage.myInstitution"} />
@@ -92,7 +94,7 @@ const InstitutionListPage: React.FC = () => {
                             </p>
                         </div>
                     )}
-                </div>
+                </div>)}
 
                 <div className="mb-6">
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
