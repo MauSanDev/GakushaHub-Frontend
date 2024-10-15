@@ -24,17 +24,8 @@ interface SaveDeckInputProps {
 
 const MAX_INPUT_LENGTH = 25;
 
-const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
-                                                         kanjiList,
-                                                         wordList,
-                                                         grammarList,
-                                                         readingList,
-                                                         onSaveStatusChange,
-                                                         courseId,
-                                                         courseName,
-                                                         lessonName,
-                                                         deckName
-                                                     }) => {
+const SaveDeckInput: React.FC<SaveDeckInputProps> = ({kanjiList, wordList, grammarList, readingList, onSaveStatusChange, courseId, courseName, lessonName, deckName
+}) => {
     const [selectedCourse, setSelectedCourse] = useState<string>(courseName || '');
     const [selectedLesson, setSelectedLesson] = useState<string>(lessonName || '');
     const [selectedDeck, setSelectedDeck] = useState<string>(deckName || '');
