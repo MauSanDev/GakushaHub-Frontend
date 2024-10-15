@@ -41,14 +41,14 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
         <Container>
             <div className="absolute top-4 right-4 flex gap-0.5 flex-wrap items-center">
                 <AddContentButton
-                    creatorId={lesson.creatorId._id}
+                    creatorId={lesson.creatorId}
                     courseId={owner._id}
                     courseName={owner.name}
                     lessonName={lesson.name}
                 />
 
                 <DeleteButton
-                    creatorId={lesson.creatorId._id}
+                    creatorId={lesson.creatorId}
                     elementId={lesson._id}
                     elementType={CollectionTypes.Lesson}
                     redirectTo={`/courses/${owner._id}`}

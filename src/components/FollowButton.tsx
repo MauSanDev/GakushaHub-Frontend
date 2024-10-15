@@ -12,15 +12,21 @@ const FollowButton: React.FC<FollowButtonProps> = ({ courseId }) => {
     const [isFollowing, setIsFollowing] = useState(false);
     const updateFollow = useUpdateFollow(courseId);
 
+    
     useEffect(() => {
         if (userData?.followedCourses?.includes(courseId)) {
             setIsFollowing(true);
         }
     }, [userData, courseId]);
 
-    const toggleFollow = () => {
-        updateFollow(!isFollowing);
-        setIsFollowing((prevState) => !prevState);
+    const toggleFollow = async () => {
+        try {
+            
+            await updateFollow(isFollowing);  
+            setIsFollowing((prevState) => !prevState); 
+        } catch (error) {
+            console.error("Error toggling follow status:", error);
+        }
     };
 
     return (
