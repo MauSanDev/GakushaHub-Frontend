@@ -8,6 +8,7 @@ import Editable from "./ui/text/Editable.tsx";
 import { MembershipRole } from "../data/MembershipData.ts";
 import DeckContainer from "./DeckContainer";
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
+import DottedBox from "./DottedBox.tsx";
 
 interface LessonDataElementProps {
     owner: CourseData;
@@ -36,6 +37,8 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
         (showGrammar && lesson.grammarDecks.length > 0) ||
         (showReadings && lesson.readingDecks.length > 0)
     );
+    
+    const canEdit = viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei || viewerRole === MembershipRole.Staff;
 
     return (
         <Container>
@@ -85,7 +88,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                 documentId={lesson._id || ''}
                 field="name"
                 className="lg:text-2xl text-xl font-bold text-blue-400 dark:text-white mb-2 capitalize pt-8"
-                canEdit={viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei || viewerRole === MembershipRole.Staff}
+                canEdit={canEdit}
                 maxChar={40}
             />
 
@@ -95,13 +98,19 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                 documentId={lesson._id || ''}
                 field="description"
                 className="text-gray-700 mb-4 text-sm"
-                canEdit={viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei || viewerRole === MembershipRole.Staff}
+                canEdit={canEdit}
                 maxChar={400}
                 placeholder={"Add a Description"}
             />
 
-            {noContentToShow ? (
-                <p className="text-gray-500 text-center mt-4">表示するものはありません</p>
+            {noContentToShow ? canEdit ? (
+                <DottedBox
+                    title="There's no Decks yet"
+                    description="Click here to Create"
+                    onClick={() => {console.log("not implemented yet")}}
+                />
+            ) : (
+                <p className="text-gray-500 text-center mt-4">何もない</p>
             ) : (
                 <>
                     {showKanji && lesson.kanjiDecks.length > 0 && (

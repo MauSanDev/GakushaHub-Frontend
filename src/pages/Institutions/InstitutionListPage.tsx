@@ -6,7 +6,8 @@ import MembershipBox from './Components/MembershipBox';
 import { usePaginatedInstitutions } from '../../hooks/institutionHooks/usePaginatedInstitutions';
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import { useAuth } from '../../context/AuthContext';
-import {InstitutionData} from "../../data/Institutions/InstitutionData.ts";
+import { InstitutionData } from "../../data/Institutions/InstitutionData.ts";
+import DottedBox from '../../components/DottedBox';
 
 const InstitutionListPage: React.FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
@@ -14,15 +15,15 @@ const InstitutionListPage: React.FC = () => {
     const [isMembershipsLoading, setIsMembershipsLoading] = useState<boolean>(true);
     const [institutions, setInstitutions] = useState<InstitutionData[]>([]);
     const { data: institutionsData, isLoading: institutionsLoading, fetchInstitutions } = usePaginatedInstitutions(1, 10);
-    
+
     useEffect(() => {
         if (institutionsData?.documents) {
-            setInstitutions(institutionsData.documents);  
+            setInstitutions(institutionsData.documents);
         }
     }, [institutionsData]);
 
     const ownerInstitution = institutions.length > 0 ? institutions[0] : null;
-    
+
     useEffect(() => {
         const fetchInstitutionsData = async () => {
             try {
@@ -33,9 +34,9 @@ const InstitutionListPage: React.FC = () => {
         };
 
         fetchInstitutionsData();
-    }, []); 
+    }, []);
 
-    
+
     useEffect(() => {
         let isMounted = true;
 
@@ -57,11 +58,11 @@ const InstitutionListPage: React.FC = () => {
         return () => {
             isMounted = false;
         };
-    }, []); 
+    }, []);
 
     const handleCreateInstitutionSuccess = () => {
         setIsCreateModalOpen(false);
-        fetchInstitutions();  
+        fetchInstitutions();
     };
 
     return (
@@ -69,32 +70,28 @@ const InstitutionListPage: React.FC = () => {
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
 
                 {licenseType === 'sensei' && (
-                <div className="mb-6">
-                    <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-                        <LocSpan textKey={"institutionListPage.myInstitution"} />
-                    </h2>
-                    {ownerInstitution ? (
-                        <InstitutionBox
-                            institutionId={ownerInstitution._id}
-                            institutionName={ownerInstitution.name}
-                            institutionDescription={ownerInstitution.description}
-                            members={ownerInstitution.members || 0}
-                            groups={ownerInstitution.groups || 0}
-                            resources={ownerInstitution.resources || 0}
-                            userRole="owner"
-                        />
-                    ) : (
-                        <div
-                            className="p-6 my-10 border-2 border-dashed border-gray-400 dark:border-gray-600 hover:dark:border-green-800 hover:border-green-700 rounded-lg shadow-md text-center cursor-pointer transition-all hover:bg-green-100 dark:hover:bg-green-950 flex items-center justify-center h-48 text-gray-600 dark:text-gray-400 hover:dark:text-green-400 hover:text-green-700 "
-                            onClick={() => setIsCreateModalOpen(true)}
-                        >
-                            <p className="mb-4 text-xl">
-                                You don't have your Institution yet.<br />
-                                <span>Click here to Create</span>
-                            </p>
-                        </div>
-                    )}
-                </div>)}
+                    <div className="mb-6">
+                        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+                            <LocSpan textKey={"institutionListPage.myInstitution"} />
+                        </h2>
+                        {ownerInstitution ? (
+                            <InstitutionBox
+                                institutionId={ownerInstitution._id}
+                                institutionName={ownerInstitution.name}
+                                institutionDescription={ownerInstitution.description}
+                                members={ownerInstitution.members || 0}
+                                groups={ownerInstitution.groups || 0}
+                                resources={ownerInstitution.resources || 0}
+                                userRole="owner"
+                            />
+                        ) : (
+                            <DottedBox
+                                title="You don't have your Institution yet."
+                                description="Click here to Create"
+                                onClick={() => setIsCreateModalOpen(true)}
+                            />
+                        )}
+                    </div>)}
 
                 <div className="mb-6">
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">

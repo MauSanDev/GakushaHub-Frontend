@@ -19,6 +19,7 @@ import { useCourses } from '../hooks/newHooks/Courses/useCourses';
 import { useLessons } from '../hooks/newHooks/Courses/useLessons';
 import DeckToggle from "../components/ui/toggles/DeckToggle.tsx";
 import { useUpdateData } from "../hooks/updateHooks/useUpdateData.ts";
+import DottedBox from "../components/DottedBox.tsx";
 
 enum DeckType {
     Kanji = 'kanji',
@@ -105,6 +106,7 @@ const CourseDetailPage: React.FC = () => {
     };
 
     const isOwner = role === MembershipRole.Owner;
+    const canEdit = role === MembershipRole.Owner || role === MembershipRole.Sensei || role === MembershipRole.Staff;
 
     const handleToggle = (deckType: DeckType) => {
         setToggleState((prevState) => {
@@ -194,7 +196,7 @@ const CourseDetailPage: React.FC = () => {
                         documentId={course._id || ''}
                         field="name"
                         className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize"
-                        canEdit={role === MembershipRole.Owner || role === MembershipRole.Sensei || role === MembershipRole.Staff}
+                        canEdit={canEdit}
                         maxChar={40}
                     />
                 </div>
@@ -207,7 +209,7 @@ const CourseDetailPage: React.FC = () => {
                     documentId={course._id || ''}
                     field="description"
                     className="text-gray-600 dark:text-gray-400 mt-2"
-                    canEdit={role === MembershipRole.Owner || role === MembershipRole.Sensei || role === MembershipRole.Staff}
+                    canEdit={canEdit}
                     maxChar={400}
                     placeholder={"Add a Description..."}
                 />
@@ -235,7 +237,7 @@ const CourseDetailPage: React.FC = () => {
                         </select>
                     </div>
 
-                    <AddLessonButton courseId={course._id} courseName={course.name}/>
+                    {canEdit && (<AddLessonButton courseId={course._id} courseName={course.name}/>)}
 
                     <div className="relative lg:w-full mb-2">
                         <div className="lg:w-full text-center -mb-2">
@@ -296,6 +298,12 @@ const CourseDetailPage: React.FC = () => {
                         showReadings={toggleState[DeckType.Readings]}
                         owner={course}
                         viewerRole={role || MembershipRole.None}
+                    />
+                ) : isOwner ? (
+                    <DottedBox
+                        title="There's no Lessons yet"
+                        description="Click here to Create"
+                        onClick={() => {console.log("not implemented yet")}}
                     />
                 ) : (
                     <p className="text-center text-gray-500">何もない</p>
