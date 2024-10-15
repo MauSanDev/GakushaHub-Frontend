@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { FaSpinner } from "react-icons/fa";
 import DeleteButton from "./DeleteButton";
 import AddContentButton from "./AddContentButton.tsx";
@@ -10,9 +10,9 @@ import { BaseDeckData } from "../data/DeckData.ts";
 import GenericTable from "../components/Tables/GenericTable";
 
 interface ColumnConfig<T> {
-    header: string; // Nombre de la columna
-    key: keyof T;   // Clave del objeto que corresponde a esta columna
-    formatter?: (value: T[keyof T], element: T) => ReactNode; // Función opcional para formatear los datos
+    header: string; 
+    key: keyof T;   
+    formatter?: (value: T[keyof T], element: T) => ReactNode; 
 }
 
 interface GenericDeckDisplayProps<T> {
@@ -22,7 +22,7 @@ interface GenericDeckDisplayProps<T> {
     renderItem: (element: T, index: number) => JSX.Element;
     columns?: number;
     mobileColumns?: number;
-    columnConfig?: ColumnConfig<T>[]; // Configuración de las columnas
+    columnConfig?: ColumnConfig<T>[]; 
     enableGeneration?: boolean;
     deckType: CollectionTypes;
     elementType: CollectionTypes;
@@ -43,14 +43,12 @@ const GenericDeckDisplay = <T,>({
                                     viewMode,
                                     viewerRole,
                                 }: GenericDeckDisplayProps<T>) => {
-    const [expanded, setExpanded] = useState(false);
     const { data: elements, isLoading, fetchElementsData } = useElements<T>(deck.elements, elementType);
 
     const handleExpand = () => {
-        if (!expanded && !elements) {
+        if (!elements) {
             fetchElementsData();
         }
-        setExpanded(!expanded);
     };
 
     const renderContent = () => {
@@ -116,7 +114,7 @@ const GenericDeckDisplay = <T,>({
                     </>
                 )}
             >
-                {expanded && renderContent()}
+                {renderContent()}
             </CollapsibleSection>
         </div>
     );
