@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { FaSpinner } from "react-icons/fa";
 import DeleteButton from "./DeleteButton";
 import AddContentButton from "./AddContentButton.tsx";
@@ -7,16 +7,24 @@ import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import { useElements } from '../hooks/newHooks/useElements';
 import CollapsibleSection from "./ui/containers/CollapsibleSection";
 import { BaseDeckData } from "../data/DeckData.ts";
+import GenericTable from "../components/Tables/GenericTable";
+
+interface ColumnConfig<T> {
+    header: string; // Nombre de la columna
+    key: keyof T;   // Clave del objeto que corresponde a esta columna
+    formatter?: (value: T[keyof T], element: T) => ReactNode; // Función opcional para formatear los datos
+}
 
 interface GenericDeckDisplayProps<T> {
     deck: BaseDeckData;
     lessonId: string;
     courseId: string;
     renderItem: (element: T, index: number) => JSX.Element;
-    renderTable?: (deckElements: T[]) => JSX.Element;
     columns?: number;
     mobileColumns?: number;
+    columnConfig?: ColumnConfig<T>[]; // Configuración de las columnas
     enableGeneration?: boolean;
+    deckType: CollectionTypes;
     elementType: CollectionTypes;
     viewMode: "table" | "cards";
     viewerRole: MembershipRole;
@@ -27,9 +35,10 @@ const GenericDeckDisplay = <T,>({
                                     lessonId,
                                     courseId,
                                     renderItem,
-                                    renderTable,
                                     columns = 6,
                                     mobileColumns = 1,
+                                    columnConfig,
+                                    deckType,
                                     elementType,
                                     viewMode,
                                     viewerRole,
@@ -59,7 +68,7 @@ const GenericDeckDisplay = <T,>({
 
         const elementList = Object.values(elements);
 
-        if (viewMode === "cards" || !renderTable) {
+        if (viewMode === "cards" || !columnConfig) {
             return (
                 <div
                     className={`grid gap-2`}
@@ -70,10 +79,10 @@ const GenericDeckDisplay = <T,>({
                     {elementList.map((element, index) => renderItem(element, index))}
                 </div>
             );
-        } else if (viewMode === "table" && renderTable) {
+        } else if (viewMode === "table" && columnConfig) {
             return (
-                <div className={`grid columns-1 gap-2`}>
-                    {renderTable(elementList)}
+                <div className="grid columns-1 gap-2">
+                    <GenericTable data={elementList} columns={columnConfig} />
                 </div>
             );
         }
@@ -88,7 +97,7 @@ const GenericDeckDisplay = <T,>({
                 isEditable={true}
                 documentId={deck._id}
                 field="name"
-                collectionType={elementType}
+                collectionType={deckType}
                 canEdit={viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei || viewerRole === MembershipRole.Staff}
                 actions={(
                     <>

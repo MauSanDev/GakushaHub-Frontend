@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { CourseData, LessonData } from "../data/CourseData.ts";
 import { FaTable, FaThLarge, FaBookOpen, FaFileAlt, FaBook, FaEye } from "react-icons/fa";
 import DeleteButton from "./DeleteButton";
@@ -29,7 +29,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                                                  viewerRole,
                                                              }) => {
     const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
-
+    
     const noContentToShow = !(
         (showKanji && lesson.kanjiDecks.length > 0) ||
         (showWord && lesson.wordDecks.length > 0) ||

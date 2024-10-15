@@ -11,7 +11,7 @@ import { KanjiData } from "../data/KanjiData.ts";
 import { WordData } from "../data/WordData.ts";
 import { GrammarData } from "../data/GrammarData.ts";
 import { GeneratedData } from "../data/GenerationData.ts";
-import LocSpan from './LocSpan'; // Importar LocSpan para el título
+import LocSpan from './LocSpan'; 
 
 interface DeckContainerProps {
     ids: string[];
@@ -20,9 +20,9 @@ interface DeckContainerProps {
     viewerRole: MembershipRole;
     lessonId: string;
     courseId: string;
-    sectionTitle: string; // Nuevo: Título de la sección
-    FaIcon: React.ComponentType<{ size?: number }>; // Nuevo: Componente del ícono
-    iconColor?: string; // Nuevo: Color del ícono (string de clases CSS como text-blue-500)
+    sectionTitle: string;
+    FaIcon: React.ComponentType<{ size?: number }>;
+    iconColor?: string;
 }
 
 const DeckContainer: React.FC<DeckContainerProps> = ({
@@ -50,35 +50,86 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
         return <p>No se encontraron decks.</p>;
     }
 
-    // Diccionario de configuración basado en el tipo de `collectionType`
     const config = {
         [CollectionTypes.KanjiDeck]: {
             renderItem: (element: KanjiData, index: number) => <SmallKanjiBox key={index} result={element} />,
             elementType: CollectionTypes.Kanji as CollectionTypes.Kanji,
+            deckType: CollectionTypes.KanjiDeck,
             columns: 6,
             mobileColumns: 2,
+            columnConfig: [
+                { header: "漢字", key: "kanji" },
+                {
+                    header: "音読み",
+                    key: "readings", 
+                    formatter: (readings: KanjiData['readings']) => Array.isArray(readings?.onyomi) ? readings.onyomi.join("; ") : ""
+                },
+                {
+                    header: "訓読み",
+                    key: "readings", 
+                    formatter: (readings: KanjiData['readings']) => Array.isArray(readings?.kunyomi) ? readings.kunyomi.join("; ") : ""
+                },
+                {
+                    header: "意味",
+                    key: "meanings",
+                    formatter: (value: { en: string }[] | undefined) =>
+                        Array.isArray(value) ? value.map(v => v.en).join("; ") : ""
+                },
+                { header: "JLPT", key: "jlpt" }
+            ],
         },
         [CollectionTypes.WordDeck]: {
             renderItem: (element: WordData, index: number) => <SmallWordBox key={index} result={element} />,
             elementType: CollectionTypes.Word as CollectionTypes.Word,
+            deckType: CollectionTypes.WordDeck,
             columns: 6,
             mobileColumns: 2,
+            columnConfig: [
+                { header: "言葉", key: "word" },
+                {
+                    header: "読み方",
+                    key: "readings",
+                    formatter: (value: string[] | undefined) => Array.isArray(value) ? value.join("; ") : ""
+                },
+                {
+                    header: "意味",
+                    key: "meanings",
+                    formatter: (value: { en: string }[] | undefined) =>
+                        Array.isArray(value) ? value.map(v => v.en).join("; ") : ""
+                },
+                {
+                    header: "Part of Speech",
+                    key: "part_of_speech",
+                    formatter: (value: string[] | undefined) => Array.isArray(value) ? value.join("; ") : ""
+                }
+            ],
         },
         [CollectionTypes.GrammarDeck]: {
             renderItem: (element: GrammarData, index: number) => <SmallGrammarBox key={index} result={element} />,
             elementType: CollectionTypes.Grammar as CollectionTypes.Grammar,
+            deckType: CollectionTypes.GrammarDeck,
             columns: 2,
             mobileColumns: 1,
+            columnConfig: [ 
+                { header: "Estructura", key: "structure" },
+                { header: "Descripción", key: "description" },
+                { header: "JLPT", key: "jlpt" }
+            ],
         },
         [CollectionTypes.ReadingDeck]: {
             renderItem: (element: GeneratedData, index: number) => <DeckReadingDataElement key={index} result={element} />,
             elementType: CollectionTypes.Generation as CollectionTypes.Generation,
+            deckType: CollectionTypes.ReadingDeck,
             columns: 1,
             mobileColumns: 1,
+            columnConfig: [ 
+                { header: "Texto", key: "text" },
+                { header: "Tipo", key: "type" }
+            ],
         },
     };
 
-    const { renderItem, elementType, columns, mobileColumns } = config[collectionType];
+    const { renderItem, elementType, columns, mobileColumns, columnConfig, deckType } = config[collectionType];
 
     return (
         <div className="mt-4 w-full">
@@ -90,7 +141,6 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
             </div>
 
             {Object.values(data).map((deck) => (
-
                 <GenericDeckDisplay<typeof deck.elements[0]>
                     key={deck._id}
                     deck={deck}
@@ -98,10 +148,12 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
                     courseId={courseId}
                     renderItem={renderItem}
                     elementType={elementType}
+                    deckType={deckType}
                     viewMode={viewMode}
                     viewerRole={viewerRole}
                     columns={columns}
                     mobileColumns={mobileColumns}
+                    columnConfig={columnConfig} 
                 />
             ))}
         </div>
