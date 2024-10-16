@@ -30,7 +30,7 @@ enum DeckType {
 }
 
 const CourseDetailPage: React.FC = () => {
-    const { courseId, lessonId } = useParams<{ courseId: string; lessonId?: string }>();
+    const { courseId, lessonId, institutionId } = useParams<{ courseId: string; lessonId?: string, institutionId?: string }>();
     const [selectedLesson, setSelectedLesson] = useState<string | null>(lessonId || null);
     const { data: courseData, isLoading: courseLoading, fetchCourses } = useCourses([courseId || '']);
     const [lessonsIds, setLessonsIds] = useState<string[]>([]);
@@ -82,7 +82,7 @@ const CourseDetailPage: React.FC = () => {
         if (lessonsData && !selectedLesson) {
             const firstLessonId = Object.keys(lessonsData)[0];
             setSelectedLesson(firstLessonId);
-            if (courseData?.[courseId || '']?.institutionId) {
+            if (institutionId) {
                 navigate(`/institution/${courseData?.[courseId || '']?.institutionId}/courses/${courseId}/${firstLessonId}`);
             } else {
                 navigate(`/courses/${courseId}/${firstLessonId}`);
@@ -189,7 +189,7 @@ const CourseDetailPage: React.FC = () => {
                 className="lg:pl-0 pl-12 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 mb-2 px-4">
                 <div className="flex items-start mb-4 sm:mb-0 w-full">
 
-                    <BackButton onClick={() => navigate(course.institutionId ? `/institution/${course.institutionId}/courses` : "/courses")}/>
+                    <BackButton onClick={() => navigate(institutionId ? `/institution/${institutionId}/courses` : "/courses")}/>
 
                     <Editable
                         initialValue={course.name}

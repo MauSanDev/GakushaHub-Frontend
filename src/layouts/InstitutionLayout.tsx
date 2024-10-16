@@ -46,14 +46,12 @@ const InstitutionRoute: React.FC = () => {
         }
     }, [institutionId, institution, getRole, institutionLoading]);
 
-    // Redirect if not authenticated or doesn't have the right role
     useEffect(() => {
         if (!loadingRole && !loadingInstitution && (!isAuthenticated || (role !== MembershipRole.Owner && role !== MembershipRole.Staff && role !== MembershipRole.Sensei))) {
-            navigate(-1);
+            navigate('/');
         }
     }, [role, isAuthenticated, loadingRole, loadingInstitution, navigate]);
 
-    // Show loading state while fetching institution and role
     if (loadingInstitution || loadingRole || institutionLoading) {
         return <div>Loading...</div>;
     }

@@ -44,7 +44,7 @@ const TextDisplayPage: React.FC = () => {
                         )}
 
                         <div className="flex items-center justify-between mb-4 lg:pl-0 pl-20 mt-4">
-                            <BackButton onClick={() => {navigate(-1)}} />
+                            <BackButton onClick={() => {navigate('/generations')}} />
                         </div>
 
                         <div className="relative">
