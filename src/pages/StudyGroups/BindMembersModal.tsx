@@ -4,7 +4,7 @@ import ModalWrapper from '../ModalWrapper';
 import SelectableMemberBox from './SelectableMemberBox';
 import { usePaginatedMembers } from '../../hooks/institutionHooks/usePaginatedMembers.ts';
 import { MembershipData } from '../../data/MembershipData';
-import { useAddMembersToGroup } from '../../hooks/institutionHooks/useAddMemberToGroup.tsx';
+import { useAddMembersToGroup } from '../../hooks/institutionHooks/useAddMemberToGroup.tsx'; // Hook modificado
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
@@ -25,17 +25,14 @@ const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutio
     const [showSelectedOnly, setShowSelectedOnly] = useState(false);
     const [page, setPage] = useState(1);
 
-    // Llamamos al hook con los parámetros adecuados
     const { data: membersData, isLoading, fetchMemberships } = usePaginatedMembers(page, 10, institutionId, searchTerm);
 
-    const { mutate: addMembersToGroup, isLoading: isAdding } = useAddMembersToGroup();
+    const addMembersToGroup = useAddMembersToGroup(studyGroupId); // Usamos el hook modificado
 
-    // Efecto para actualizar la búsqueda de miembros en función de los parámetros
     useEffect(() => {
-        fetchMemberships(); // Llama al método del hook para obtener los datos
-    }, [page, searchTerm, institutionId]); // Actualizamos cuando cambian el page, searchTerm o institutionId
+        fetchMemberships();
+    }, [page, searchTerm, institutionId]);
 
-    // Efecto para resetear la página cuando el término de búsqueda cambia
     useEffect(() => {
         setPage(1);
     }, [searchTerm]);
@@ -50,21 +47,16 @@ const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutio
         setSelectedMembers(prevSelected => prevSelected.filter(selected => selected._id !== member._id));
     };
 
-    const handleAddMembers = () => {
-        addMembersToGroup(
-            { studyGroupId, memberIds: selectedMembers.map(member => member._id) },
-            {
-                onSuccess: () => {
-                    if (onSaveSuccess) {
-                        onSaveSuccess(selectedMembers);
-                    }
-                    onClose?.();
-                },
-                onError: (error) => {
-                    console.error("Error adding members to group:", error);
-                }
+    const handleAddMembers = async () => {
+        try {
+            await addMembersToGroup(selectedMembers.map(member => member._id)); // Se llama directamente a la función
+            if (onSaveSuccess) {
+                onSaveSuccess(selectedMembers);
             }
-        );
+            onClose?.();
+        } catch (error) {
+            console.error("Error adding members to group:", error);
+        }
     };
 
     return (
@@ -75,7 +67,7 @@ const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutio
 
                         <SearchBar onSearch={setSearchTerm} placeholder={"Search Members..."} />
                         <div className="flex gap-2">
-                            <PrimaryButton iconComponent={<FaPlus />} label={isAdding ? 'Adding...' : 'Add Members'} onClick={handleAddMembers} disabled={selectedMembers.length === 0 || isAdding} className={"text-sm"} />
+                            <PrimaryButton iconComponent={<FaPlus />} label={isLoading ? 'Adding...' : 'Add Members'} onClick={handleAddMembers} disabled={selectedMembers.length === 0 || isLoading} className={"text-sm"} />
                             <ShowSelectionToggle isSelected={showSelectedOnly} onToggle={() => setShowSelectedOnly(!showSelectedOnly)} />
                         </div>
                     </div>

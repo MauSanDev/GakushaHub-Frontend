@@ -22,6 +22,9 @@ export const useMyCourses = (
         searches['search1fields'] = ['name'];
     }
 
+    searches['search2'] = ['null'];
+    searches['search2fields'] = ['institutionId'];
+
     const fetchCourses = async () => {
         setIsLoading(true);
         try {

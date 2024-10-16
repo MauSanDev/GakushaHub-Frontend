@@ -1,23 +1,34 @@
-import { useMutation, useQueryClient } from 'react-query';
-import { ApiClient } from '../../services/ApiClient';
+import { updateList } from '../../services/dataService.ts';
+import { useAuth } from "../../context/AuthContext.tsx";
+import { useQueryClient } from "react-query";
+import {CollectionTypes} from "../../data/CollectionTypes.tsx";
 
-export const useAddMembersToGroup = () => {
+export const useAddMembersToGroup = (studyGroupId: string) => {
+    const { userData } = useAuth();
     const queryClient = useQueryClient();
 
-    return useMutation(
-        async ({ studyGroupId, memberIds }: { studyGroupId: string; memberIds: string[] }) => {
-            return await ApiClient.post('/api/institution/studyGroup/members/add', {
-                studyGroupId,
-                memberIds
-            });
-        },
-        {
-            onSuccess: (_data, variables) => {
-                queryClient.invalidateQueries(`studyGroup_${variables.studyGroupId}`);
-            },
-            onError: (error) => {
-                console.error("Error adding members to group:", error);
-            }
+    const addMembersToGroup = async (memberIds: string[]) => {
+        if (!userData || !userData._id) {
+            console.error("User data not available");
+            return;
         }
-    );
+
+        try {
+            await updateList(
+                CollectionTypes.StudyGroup,
+                studyGroupId,
+                'memberIds',
+                memberIds,
+                'add',
+                queryClient
+            );
+
+            // Invalidar la cache para actualizar los datos del grupo de estudio
+            queryClient.invalidateQueries(`studyGroup_${studyGroupId}`);
+        } catch (error) {
+            console.error("Error adding members to group:", error);
+        }
+    };
+
+    return addMembersToGroup;
 };

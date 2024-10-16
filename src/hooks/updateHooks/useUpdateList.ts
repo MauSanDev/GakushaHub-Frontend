@@ -14,7 +14,7 @@ export const useUpdateList = () => {
 
     return useMutation(
         async ({ collection, documentId, field, value, action }: UpdateListParams) => {
-            return await updateList(collection, documentId, field, value, action, queryClient);
+            return await updateList(collection, documentId, field, [value], action, queryClient);
         },
         {
             onError: (error) => {

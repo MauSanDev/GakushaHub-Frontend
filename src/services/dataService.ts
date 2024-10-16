@@ -37,7 +37,7 @@ export const fetchPaginatedData = async <T>(
     creatorId?: string,
     searches?: Record<string, string[]>,
     extraParams?: Record<string, string>,
-    excludes?: Record<string, string[]> // Nuevo parámetro de excludes
+    excludes?: Record<string, string[]> 
 ): Promise<InferPaginatedData<T>> => {
     const queryKey = [endpoint, page, limit, creatorId, searches, extraParams, excludes];
 
@@ -78,7 +78,7 @@ export const fetchPaginatedData = async <T>(
     const queryString = `?page=${page}&limit=${limit}`
         + (creatorId ? `&creatorId=${creatorId}` : '')
         + (searchQueryString ? `&${searchQueryString}` : '')
-        + (excludeQueryString ? `&${excludeQueryString}` : '') // Incluir excludes en la query string
+        + (excludeQueryString ? `&${excludeQueryString}` : '') 
         + extraQueryString;
 
     const fetchedData = await ApiClient.get<InferPaginatedData<T>>(`${endpoint}/paginate${queryString}`);
@@ -228,17 +228,17 @@ export const updateList = async (
     collection: string,
     documentId: string,
     field: string,
-    value: string,
+    values: string[], 
     action: 'add' | 'remove',
     queryClient: QueryClient
 ): Promise<void> => {
     const updateDataPayload = action === 'add'
-        ? { $addToSet: { [field]: value } }
-        : { $pull: { [field]: value } };
+        ? { $addToSet: { [field]: { $each: values } } } 
+        : { $pull: { [field]: { $in: values } } }; 
 
     try {
         await updateData(collection, documentId, updateDataPayload, queryClient);
-        console.log(`${action === 'add' ? 'Added' : 'Removed'} ${value} from ${field} in ${collection} with ID: ${documentId}`);
+        console.log(`${action === 'add' ? 'Added' : 'Removed'} [${values.join(', ')}] from ${field} in ${collection} with ID: ${documentId}`);
     } catch (error) {
         console.error(`Error modifying list in ${collection} with ID: ${documentId}`, error);
         throw error;

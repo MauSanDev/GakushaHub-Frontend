@@ -13,13 +13,9 @@ interface SectionContainerProps {
 const SectionContainer: React.FC<SectionContainerProps> = ({ title, children, isLoading = false, error = '', className = '' }) => {
     return (
         <div className={`mt-5 flex-1 flex flex-col items-center justify-start h-screen w-full relative overflow-hidden ${className}`}>
-            {/* Title */}
             {title && <SectionTitle title={title} /> }
-
-            {/* Loading Screen */}
             {isLoading && <LoadingScreen isLoading={isLoading} />}
 
-            {/* Error or Children */}
             {error ? (
                 <p className="text-red-500">{error}</p>
             ) : (

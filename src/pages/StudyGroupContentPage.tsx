@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
 import { Link, useParams } from "react-router-dom";
 import { FaBook, FaChalkboardTeacher, FaFolder, FaPlus, FaSchool, FaUser } from "react-icons/fa";
-import { useStudyGroup } from '../hooks/useGetStudyGroup.tsx'; // Cambiado el hook a `useStudyGroup`
+import { useStudyGroup } from '../hooks/useGetStudyGroup.tsx';
 import { useInstitutionById } from '../hooks/institutionHooks/useInstitutionById.ts';
 import BindCoursesModal from './StudyGroups/BindCoursesModal';
 import BindMembersModal from "./StudyGroups/BindMembersModal.tsx";
@@ -21,6 +21,7 @@ import { useStudyMembers } from '../hooks/newHooks/Memberships/useStudyMembers';
 import { useStudyGroupCourses } from '../hooks/newHooks/Courses/useStudyGroupCourses';
 import PaginatedContainer from '../components/ui/containers/PaginatedContainer';
 import StudyGroupCourseDataElement from "../components/StudyGroupCourseDataElement.tsx";
+import NoDataMessage from "../components/NoDataMessage.tsx";
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId } = useParams<{ studyGroupId: string }>();
@@ -32,7 +33,6 @@ const StudyGroupContentPage: React.FC = () => {
     const [page, setPage] = useState<number>(1);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    // Usamos el nuevo hook `useStudyGroup` para obtener el grupo de estudio por ID
     const { data: studyGroup, isLoading, fetchStudyGroup } = useStudyGroup(studyGroupId || '');
     const { data: institution, fetchInstitution } = useInstitutionById(studyGroup?.institutionId || '');
 
@@ -51,7 +51,6 @@ const StudyGroupContentPage: React.FC = () => {
     const { mutate: updateDocument } = useUpdateData<Partial<{ isActive: boolean }>>();
     const { getRole, memberships } = useAuth();
 
-    // Fetch inicial para obtener el grupo de estudio
     useEffect(() => {
         fetchStudyGroup();
     }, [fetchStudyGroup]);
@@ -100,7 +99,7 @@ const StudyGroupContentPage: React.FC = () => {
 
     const handleBindCoursesSuccess = () => {
         setIsBindCoursesModalOpen(false);
-        window.location.reload();
+        // window.location.reload();
     };
 
     const handleBindMembersSuccess = () => {
@@ -212,14 +211,14 @@ const StudyGroupContentPage: React.FC = () => {
                                 )}
                             />
                         ) : (
-                            <p>No courses available</p>
+                            <NoDataMessage />
                         )}
                     </div>
                 )}
 
                 {currentTab === 'resources' && (
                     <div>
-                        <p>No resources available</p>
+                        <NoDataMessage />
                     </div>
                 )}
 
@@ -240,7 +239,7 @@ const StudyGroupContentPage: React.FC = () => {
                                 )}
                             />
                         ) : (
-                            <p>No members available</p>
+                            <NoDataMessage />
                         )}
                     </div>
                 )}

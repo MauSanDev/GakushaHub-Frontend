@@ -3,6 +3,7 @@ import { useQueryClient } from 'react-query';
 import { fetchFullPagination } from '../../../services/dataService.ts';
 import { CourseData } from '../../../data/CourseData';
 import { PaginatedData } from '../../../data/PaginatedData';
+import {CollectionTypes} from "../../../data/CollectionTypes.tsx";
 
 export const useInstitutionCourses = (
     page: number,
@@ -28,7 +29,7 @@ export const useInstitutionCourses = (
             const result = await fetchFullPagination<CourseData>(
                 page,
                 limit,
-                'course',
+                CollectionTypes.Course,
                 queryClient,
                 searches,
                 extraParams

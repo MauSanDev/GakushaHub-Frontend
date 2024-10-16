@@ -15,7 +15,7 @@ export const useUpdateFollow = (courseId: string) => {
         const action = isFollowing ? 'remove' : 'add';
 
         try {
-            await updateList("auth/userInfo", userData._id, 'followedCourses', courseId, action, queryClient);
+            await updateList("auth/userInfo", userData._id, 'followedCourses', [courseId], action, queryClient);
 
             const updatedFollows = action === 'add'
                 ? [...(userData.followedCourses || []), courseId]

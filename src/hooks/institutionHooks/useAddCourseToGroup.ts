@@ -1,23 +1,31 @@
-import { useMutation, useQueryClient } from 'react-query';
-import { ApiClient } from '../../services/ApiClient';
+import { updateList } from '../../services/dataService.ts';
+import { useAuth } from "../../context/AuthContext.tsx";
+import { useQueryClient } from "react-query";
+import {CollectionTypes} from "../../data/CollectionTypes.tsx";
 
-export const useAddCourseToGroup = () => {
+export const useAddCourseToGroup = (studyGroupId: string) => {
+    const { userData } = useAuth();
     const queryClient = useQueryClient();
 
-    return useMutation(
-        async ({ studyGroupId, courseIds }: { studyGroupId: string; courseIds: string[] }) => {
-            return await ApiClient.post('/api/institution/studyGroup/courses/add', {
-                studyGroupId,
-                courseIds
-            });
-        },
-        {
-            onSuccess: (_data, variables) => {
-                queryClient.invalidateQueries(`studyGroup_${variables.studyGroupId}`);
-            },
-            onError: (error) => {
-                console.error("Error adding courses to group:", error);
-            }
+    const addCoursesToGroup = async (courseIds: string[]) => {
+        if (!userData || !userData._id) {
+            console.error("User data not available");
+            return;
         }
-    );
+
+        try {
+            await updateList(
+                CollectionTypes.StudyGroup,
+                studyGroupId,
+                'courseIds',
+                courseIds,
+                'add',
+                queryClient
+            );
+        } catch (error) {
+            console.error("Error adding courses to group:", error);
+        }
+    };
+
+    return addCoursesToGroup;
 };

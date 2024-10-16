@@ -3,6 +3,7 @@ import { useQueryClient } from 'react-query';
 import { fetchFullPagination } from '../../../services/dataService.ts';
 import { CourseData } from '../../../data/CourseData';
 import { PaginatedData } from '../../../data/PaginatedData';
+import {useAuth} from "../../../context/AuthContext.tsx";
 
 export const usePublicCourses = (
     page: number,
@@ -12,6 +13,7 @@ export const usePublicCourses = (
     const queryClient = useQueryClient();
     const [data, setData] = useState<PaginatedData<CourseData> | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const { userData } = useAuth();
 
     const searches: Record<string, string[]> = {};
 
@@ -19,6 +21,13 @@ export const usePublicCourses = (
         searches['search1'] = [search];
         searches['search1fields'] = ['name'];
     }
+
+    if (userData) {
+        searches['exclude1'] = [userData._id];
+        searches['exclude1fields'] = ['creatorId'];
+    }
+
+    searches['exclude2fields'] = ['institutionId'];
 
     const fetchCourses = async () => {
         setIsLoading(true);
