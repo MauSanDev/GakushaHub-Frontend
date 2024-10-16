@@ -19,7 +19,6 @@ import { useCourses } from '../hooks/newHooks/Courses/useCourses';
 import { useLessons } from '../hooks/newHooks/Courses/useLessons';
 import DeckToggle from "../components/ui/toggles/DeckToggle.tsx";
 import { useUpdateData } from "../hooks/updateHooks/useUpdateData.ts";
-import DottedBox from "../components/DottedBox.tsx";
 import NoDataMessage from "../components/NoDataMessage.tsx";
 
 enum DeckType {
@@ -301,11 +300,7 @@ const CourseDetailPage: React.FC = () => {
                         viewerRole={role || MembershipRole.None}
                     />
                 ) : isOwner ? (
-                    <DottedBox
-                        title="There's no Lessons yet"
-                        description="Click here to Create"
-                        onClick={() => {console.log("not implemented yet")}}
-                    />
+                        <AddLessonButton courseId={course._id} courseName={course.name} useDottedBox={true}/>
                 ) : (
                     <NoDataMessage />
                 )}

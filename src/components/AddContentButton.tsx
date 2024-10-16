@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext.tsx';
-import { useNavigate } from 'react-router-dom';  // Importar useNavigate
+import { useNavigate } from 'react-router-dom';
 import SearchModal from '../pages/SearchPage/SearchModal';
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
+import DottedBox from "./DottedBox.tsx";
 
 interface AddContentButtonProps {
     creatorId: string;
@@ -11,9 +12,10 @@ interface AddContentButtonProps {
     courseName?: string;
     lessonName?: string;
     deckName?: string;
+    useDottedBox?: boolean;
 }
 
-const AddContentButton: React.FC<AddContentButtonProps> = ({ creatorId, courseId, courseName, lessonName, deckName }) => {
+const AddContentButton: React.FC<AddContentButtonProps> = ({ creatorId, courseId, courseName, lessonName, deckName, useDottedBox }) => {
     const { user, userData } = useAuth();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();  
@@ -35,7 +37,11 @@ const AddContentButton: React.FC<AddContentButtonProps> = ({ creatorId, courseId
 
     return (
         <>
-            <TertiaryButton iconComponent={<FaPlus />} onClick={openModal} className={"hover:bg-green-600 hover:dark:bg-green-600"}/>
+            {useDottedBox ? 
+                <DottedBox onClick={openModal} title={"There's no content yet."} description={'Click here to Add'}/> 
+                : 
+                <TertiaryButton iconComponent={<FaPlus />} onClick={openModal} className={"hover:bg-green-600 hover:dark:bg-green-600"}/>
+            }
 
             {isModalOpen &&
                 <SearchModal

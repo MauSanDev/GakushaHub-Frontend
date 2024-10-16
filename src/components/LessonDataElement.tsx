@@ -8,7 +8,6 @@ import Editable from "./ui/text/Editable.tsx";
 import { MembershipRole } from "../data/MembershipData.ts";
 import DeckContainer from "./DeckContainer";
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
-import DottedBox from "./DottedBox.tsx";
 import NoDataMessage from "./NoDataMessage.tsx";
 
 interface LessonDataElementProps {
@@ -105,10 +104,12 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
             />
 
             {noContentToShow ? canEdit ? (
-                <DottedBox
-                    title="There's no Decks yet"
-                    description="Click here to Create"
-                    onClick={() => {console.log("not implemented yet")}}
+                <AddContentButton
+                    creatorId={lesson.creatorId}
+                    courseId={owner._id}
+                    courseName={owner.name}
+                    lessonName={lesson.name}
+                    useDottedBox={true}
                 />
             ) : (
                 <NoDataMessage />
