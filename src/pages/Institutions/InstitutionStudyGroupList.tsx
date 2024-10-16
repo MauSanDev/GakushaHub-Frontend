@@ -44,6 +44,10 @@ const InstitutionStudyGroupPage: React.FC = () => {
     useEffect(() => {
         fetchStudyGroups();
     }, [page, searchQuery]);
+    
+    useEffect(() => {
+        setPage(1);
+    }, [searchQuery]);
 
     const handleAddGroupSuccess = () => {
         setIsAddGroupModalOpen(false);

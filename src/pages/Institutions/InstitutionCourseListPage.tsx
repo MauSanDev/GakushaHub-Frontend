@@ -18,6 +18,10 @@ const InstitutionCourseListPage: React.FC = () => {
         fetchCourses();
     }, [page, searchTerm, institutionId]);
 
+    useEffect(() => {
+        setPage(1);
+    }, [searchTerm]);
+
     const handleSearch = (query: string) => {
         setSearchTerm(query);
     };

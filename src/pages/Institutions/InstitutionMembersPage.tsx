@@ -42,6 +42,11 @@ const InstitutionMembersPage: React.FC = () => {
         fetchMemberships();
     }, [page, searchQuery]);
 
+
+    useEffect(() => {
+        setPage(1);
+    }, [searchQuery]);
+
     const handleAddMemberSuccess = () => {
         setIsAddMemberModalOpen(false);
         fetchMemberships();

@@ -35,6 +35,10 @@ const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutio
         triggerFetch();
     }, [page, searchTerm, institutionId]);
 
+
+    useEffect(() => {
+        setPage(1);
+    }, [searchTerm]);
     
     const filteredCourses = showSelectedOnly ? selectedCourses : (data?.documents ?? []);
 

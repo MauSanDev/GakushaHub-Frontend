@@ -11,13 +11,17 @@ const ReadingListPage: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    const { data, isLoading, error, fetchGenerations } = usePaginatedGenerations(page, 20, searchTerm);
+    const { data, isLoading, fetchGenerations } = usePaginatedGenerations(page, 20, searchTerm);
 
     const hasMore = data ? page < (data.totalPages ?? 1) : false;
 
     useEffect(() => {
         fetchGenerations();  
     }, [page, searchTerm]);
+    
+    useEffect(() => {
+        setPage(1);
+    }, [searchTerm]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -43,7 +47,7 @@ const ReadingListPage: React.FC = () => {
 
 
     return (
-        <SectionContainer title={"読みましょう"} isLoading={isLoading} error={error?.message}>
+        <SectionContainer title={"読みましょう"} isLoading={isLoading}>
             <div className="w-full lg:max-w-4xl flex flex-wrap gap-2 text-left px-14 lg:px-0 justify-center">
                 <SearchBar onSearch={setSearchTerm} placeholder="Search Readings..." />
             </div>

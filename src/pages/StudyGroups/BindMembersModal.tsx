@@ -3,13 +3,13 @@ import { FaPlus } from 'react-icons/fa';
 import ModalWrapper from '../ModalWrapper';
 import SelectableMemberBox from './SelectableMemberBox';
 import { usePaginatedMembers } from '../../hooks/institutionHooks/usePaginatedMembers.ts';
-import { MembershipData } from '../../data/Institutions/MembershipData';
+import { MembershipData } from '../../data/MembershipData';
 import { useAddMembersToGroup } from '../../hooks/institutionHooks/useAddMemberToGroup.tsx';
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import SearchBar from "../../components/ui/inputs/SearchBar.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import ShowSelectionToggle from "../../components/ui/toggles/ShowSelectionToggle.tsx";
-import PaginatedContainer from "../../components/ui/containers/PaginatedContainer"; 
+import PaginatedContainer from "../../components/ui/containers/PaginatedContainer";
 
 interface BindMembersModalProps {
     onClose: () => void;
@@ -25,16 +25,21 @@ const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutio
     const [showSelectedOnly, setShowSelectedOnly] = useState(false);
     const [page, setPage] = useState(1);
 
-    const { data: membersData, isLoading, error, fetchMembers } = usePaginatedMembers(page, 10, institutionId, searchTerm);
+    // Llamamos al hook con los parámetros adecuados
+    const { data: membersData, isLoading, fetchMemberships } = usePaginatedMembers(page, 10, institutionId, searchTerm);
 
     const { mutate: addMembersToGroup, isLoading: isAdding } = useAddMembersToGroup();
 
-    
+    // Efecto para actualizar la búsqueda de miembros en función de los parámetros
     useEffect(() => {
-        fetchMembers();
-    }, [page, searchTerm, institutionId, fetchMembers]);
+        fetchMemberships(); // Llama al método del hook para obtener los datos
+    }, [page, searchTerm, institutionId]); // Actualizamos cuando cambian el page, searchTerm o institutionId
 
-    
+    // Efecto para resetear la página cuando el término de búsqueda cambia
+    useEffect(() => {
+        setPage(1);
+    }, [searchTerm]);
+
     const filteredMembers = showSelectedOnly ? selectedMembers : (membersData?.documents ?? []);
 
     const handleSelectMember = (member: MembershipData) => {
@@ -64,7 +69,7 @@ const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutio
 
     return (
         <ModalWrapper onClose={onClose}>
-            <SectionContainer title={"Bind Members to Study Group"} className={"h-[80vh]"} isLoading={isLoading} error={error?.message}>
+            <SectionContainer title={"Bind Members to Study Group"} className={"h-[80vh]"} isLoading={isLoading}>
                 <div className="p-6 max-w-5xl w-full flex flex-col h-[80vh]">
                     <div className="flex gap-2 mb-4 w-full max-w-4xl justify-between items-center">
 
@@ -77,10 +82,10 @@ const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutio
 
                     {!isLoading && membersData && (
                         <PaginatedContainer
-                            documents={filteredMembers} 
+                            documents={filteredMembers}
                             currentPage={page}
                             totalPages={membersData.totalPages}
-                            onPageChange={setPage} 
+                            onPageChange={setPage}
                             RenderComponent={({ document }) => (
                                 <SelectableMemberBox
                                     member={document}

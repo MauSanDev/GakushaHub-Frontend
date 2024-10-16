@@ -20,6 +20,10 @@ const MyStudyGroupsPage: React.FC = () => {
         fetchStudyGroups();  
     }, [page, searchQuery]);
 
+    useEffect(() => {
+        setPage(1);
+    }, [searchQuery]);
+
     const handleSearch = (query: string) => {
         setSearchQuery(query);
     };
