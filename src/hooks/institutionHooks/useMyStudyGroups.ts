@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { useQueryClient } from 'react-query';
-import { fetchFullPagination } from '../../services/dataService.ts';
-import { StudyGroupData } from '../../data/Institutions/StudyGroupData';
-import { useAuth } from "../../context/AuthContext";
+import {useEffect, useState} from 'react';
+import {useQueryClient} from 'react-query';
+import {fetchFullPagination} from '../../services/dataService.ts';
+import {StudyGroupData} from '../../data/Institutions/StudyGroupData';
+import {useAuth} from "../../context/AuthContext";
 import {PaginatedData} from "../../data/PaginatedData.ts";
 
 export const useMyStudyGroups = (
@@ -17,7 +17,7 @@ export const useMyStudyGroups = (
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const searches: Record<string, string[]> = {};
-    const extraParams: Record<string, string> = {};
+    const excludes: Record<string, string[]> = {};
 
     if (memberships && memberships.length > 0) {
         if (keyword) {
@@ -25,14 +25,9 @@ export const useMyStudyGroups = (
             searches['search1fields'] = ['name', 'description'];
         }
 
-        const institutionIds = memberships.map(m => m.institutionId);
-        const membershipIds = memberships.map(m => m._id);
-
-        searches['search2'] = institutionIds;
-        searches['search2fields'] = ['institutionId'];
-
-        searches['search3'] = membershipIds;
-        searches['search3fields'] = ['memberIds'];
+        searches['search2'] = memberships.map(m => m._id);
+        searches['search2fields'] = ['memberIds'];
+        console.log(searches)
     }
 
     const fetchStudyGroups = async () => {
@@ -44,7 +39,8 @@ export const useMyStudyGroups = (
                 'studyGroup',
                 queryClient,
                 searches,
-                extraParams
+                {},
+                excludes
             );
             setData(result || null);
         } catch (error) {
@@ -55,20 +51,23 @@ export const useMyStudyGroups = (
         }
     };
 
+    // Aquí verificamos si no hay memberships para devolver una estructura vacía
     useEffect(() => {
-        if (memberships && memberships.length > 0) {
-            fetchStudyGroups();
+        if (!memberships || memberships.length === 0) {
+            // Si no hay memberships, devolvemos una paginación vacía
+            setData({
+                page,
+                totalPages: 0,
+                limit,
+                totalDocuments: 0,
+                documents: [],
+            });
+            setIsLoading(false);
+            return;
         }
-    }, [page, limit, keyword, memberships]);
 
-    if (!memberships || memberships.length === 0) {
-        return {
-            data: null,
-            isLoading: false,
-            resetQueries: () => {},
-            fetchStudyGroups: () => {},  // Función vacía para evitar ejecución
-        };
-    }
+        fetchStudyGroups();
+    }, [page, limit, keyword, memberships]);
 
     return {
         data,

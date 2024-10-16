@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
 import { Link, useParams } from "react-router-dom";
 import { FaBook, FaChalkboardTeacher, FaFolder, FaPlus, FaSchool, FaUser } from "react-icons/fa";
-import { useStudyGroupById } from '../hooks/useGetStudyGroup.tsx';
+import { useStudyGroup } from '../hooks/useGetStudyGroup.tsx'; // Cambiado el hook a `useStudyGroup`
 import { useInstitutionById } from '../hooks/institutionHooks/useInstitutionById.ts';
 import BindCoursesModal from './StudyGroups/BindCoursesModal';
 import BindMembersModal from "./StudyGroups/BindMembersModal.tsx";
@@ -32,7 +32,8 @@ const StudyGroupContentPage: React.FC = () => {
     const [page, setPage] = useState<number>(1);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-    const { data: studyGroup, error, isLoading } = useStudyGroupById(studyGroupId || '');
+    // Usamos el nuevo hook `useStudyGroup` para obtener el grupo de estudio por ID
+    const { data: studyGroup, isLoading, fetchStudyGroup } = useStudyGroup(studyGroupId || '');
     const { data: institution, fetchInstitution } = useInstitutionById(studyGroup?.institutionId || '');
 
     const { data: membersData, isLoading: membersLoading, fetchStudyMembers } = useStudyMembers(
@@ -49,6 +50,11 @@ const StudyGroupContentPage: React.FC = () => {
 
     const { mutate: updateDocument } = useUpdateData<Partial<{ isActive: boolean }>>();
     const { getRole, memberships } = useAuth();
+
+    // Fetch inicial para obtener el grupo de estudio
+    useEffect(() => {
+        fetchStudyGroup();
+    }, [fetchStudyGroup]);
 
     useEffect(() => {
         fetchInstitution();
@@ -74,11 +80,6 @@ const StudyGroupContentPage: React.FC = () => {
         localStorage.setItem('currentStudyGroupTab', currentTab);
     }, [currentTab]);
 
-    useEffect(() => {
-        if (error) {
-            console.error('Error loading study group:', error);
-        }
-    }, [error]);
 
     useEffect(() => {
         const fetchRole = async () => {
