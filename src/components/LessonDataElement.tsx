@@ -9,6 +9,7 @@ import { MembershipRole } from "../data/MembershipData.ts";
 import DeckContainer from "./DeckContainer";
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import DottedBox from "./DottedBox.tsx";
+import NoDataMessage from "./NoDataMessage.tsx";
 
 interface LessonDataElementProps {
     owner: CourseData;
@@ -110,7 +111,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                     onClick={() => {console.log("not implemented yet")}}
                 />
             ) : (
-                <p className="text-gray-500 text-center mt-4">何もない</p>
+                <NoDataMessage />
             ) : (
                 <>
                     {showKanji && lesson.kanjiDecks.length > 0 && (

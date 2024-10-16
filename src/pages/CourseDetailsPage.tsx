@@ -20,6 +20,7 @@ import { useLessons } from '../hooks/newHooks/Courses/useLessons';
 import DeckToggle from "../components/ui/toggles/DeckToggle.tsx";
 import { useUpdateData } from "../hooks/updateHooks/useUpdateData.ts";
 import DottedBox from "../components/DottedBox.tsx";
+import NoDataMessage from "../components/NoDataMessage.tsx";
 
 enum DeckType {
     Kanji = 'kanji',
@@ -306,7 +307,7 @@ const CourseDetailPage: React.FC = () => {
                         onClick={() => {console.log("not implemented yet")}}
                     />
                 ) : (
-                    <p className="text-center text-gray-500">何もない</p>
+                    <NoDataMessage />
                 )}
             </div>
 
