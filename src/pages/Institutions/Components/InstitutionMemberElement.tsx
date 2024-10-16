@@ -11,10 +11,12 @@ interface InstitutionMemberElementProps {
     onRoleChange: (newRole: string) => void;
     canEditRole: boolean;
     enableRemove?: boolean;
+    userRole: MembershipRole;
 }
 
-const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({member, onRemove, onRoleChange, canEditRole, enableRemove = false
-}) => {
+const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
+                                                                               member, onRemove, onRoleChange, canEditRole, enableRemove = false, userRole
+                                                                           }) => {
     const roleColors: { [key: string]: string } = {
         owner: 'dark:text-purple-500 text-purple-400',
         staff: 'dark:text-yellow-500 text-yellow-500',
@@ -28,8 +30,7 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({memb
     const { fetchUserInfo, data: userInfo } = useUserInfo([member?.userId]);
 
     useEffect(() => {
-        if (member.userId)
-        {
+        if (member.userId) {
             fetchUserInfo();
         }
     }, [member.userId]);
@@ -45,11 +46,10 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({memb
         setSelectedRole(newRole);
         onRoleChange(newRole);
 
-        
         updateMemberRole({
-            collection: 'membership', 
-            documentId: member._id, 
-            newData: { role: newRole } 
+            collection: 'membership',
+            documentId: member._id,
+            newData: { role: newRole }
         });
     };
 
@@ -100,26 +100,26 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({memb
                     </div>
                 )}
 
-                {member.status === MembershipStatus.Approved && (
-                    canEditRole ? (
-                        <select
-                            value={selectedRole}
-                            onChange={handleRoleChange}
-                            className={`uppercase font-bold cursor-pointer focus:outline-none bg-transparent mr-4 ${roleColors[selectedRole]}`}
-                        >
-                            <option value="owner">Master</option>
-                            <option value="staff">Staff</option>
-                            <option value="sensei">Sensei</option>
-                            <option value="student">Student</option>
-                        </select>
-                    ) : (
-                        <span className={`uppercase font-bold mr-4 ${roleColors[selectedRole]}`}>
-                            {selectedRole}
-                        </span>
-                    )
+                {member.status === MembershipStatus.Approved && (member.role !== 'owner' || userRole === 'owner') && 
+                        canEditRole ? (
+                            <select
+                                value={selectedRole}
+                                onChange={handleRoleChange}
+                                className={`uppercase font-bold cursor-pointer focus:outline-none bg-transparent mr-4 ${roleColors[selectedRole]}`}
+                            >
+                                {userRole === 'owner' && <option value="owner">Master</option>}
+                                <option value="staff">Staff</option>
+                                <option value="sensei">Sensei</option>
+                                <option value="student">Student</option>
+                            </select>
+                        ) : (
+                            <span className={`uppercase font-bold mr-4 ${roleColors[selectedRole]}`}>
+                                {selectedRole}
+                            </span>
+                        
                 )}
 
-                {enableRemove && canEditRole && 
+                {enableRemove && canEditRole && (member.role !== 'owner' || userRole === 'owner') &&
                     <button
                         onClick={handleRemoveClick}
                         className="text-red-500 hover:text-red-700"

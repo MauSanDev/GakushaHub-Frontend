@@ -111,6 +111,7 @@ const InstitutionMembersPage: React.FC = () => {
                                 onRoleChange={() => { /* Manejar el cambio de rol si es necesario */ }}
                                 canEditRole={canManageMembers}
                                 enableRemove={true}
+                                userRole={role || MembershipRole.Student}
                             />
                         )}
                     />
