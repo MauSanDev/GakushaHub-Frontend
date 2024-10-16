@@ -82,6 +82,7 @@ const InstitutionStudyGroupPage: React.FC = () => {
                         onPageChange={setPage}
                         RenderComponent={({ document }) => (
                             <StudyGroupDataElement
+                                key={document._id}
                                 studyGroup={document}
                                 canDelete={canModifyStudyGroups}
                             />
