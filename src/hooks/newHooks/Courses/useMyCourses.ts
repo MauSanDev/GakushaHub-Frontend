@@ -32,6 +32,7 @@ export const useMyCourses = (
                 queryClient,
                 searches,
                 {},
+                {},
                 userData?._id
             );
             setData(result);
