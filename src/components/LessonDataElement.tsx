@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { CourseData, LessonData } from "../data/CourseData.ts";
 import { FaTable, FaThLarge, FaBookOpen, FaFileAlt, FaBook, FaEye } from "react-icons/fa";
 import DeleteButton from "./DeleteButton";
@@ -9,6 +9,7 @@ import { MembershipRole } from "../data/MembershipData.ts";
 import DeckContainer from "./DeckContainer";
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import NoDataMessage from "./NoDataMessage.tsx";
+import GenerationButton from "./Modals/GenerationButton.tsx";
 
 interface LessonDataElementProps {
     owner: CourseData;
@@ -30,19 +31,45 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                                                  viewerRole,
                                                              }) => {
     const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
-    
+
+    // Estados para almacenar los elementos de los decks
+    const [kanjiElements, setKanjiElements] = useState<string[]>([]);
+    const [wordElements, setWordElements] = useState<string[]>([]);
+    const [grammarElements, setGrammarElements] = useState<string[]>([]);
+    const [readingElements, setReadingElements] = useState<string[]>([]);
+
     const noContentToShow = !(
         (showKanji && lesson.kanjiDecks.length > 0) ||
         (showWord && lesson.wordDecks.length > 0) ||
         (showGrammar && lesson.grammarDecks.length > 0) ||
         (showReadings && lesson.readingDecks.length > 0)
     );
-    
+
     const canEdit = viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei || viewerRole === MembershipRole.Staff;
+
+    const handleSetElements = (newElements: string[], setElements: React.Dispatch<React.SetStateAction<string[]>>, currentElements: string[]) => {
+        if (JSON.stringify(newElements) !== JSON.stringify(currentElements)) {
+            setElements(newElements);
+        }
+    };
 
     return (
         <Container>
             <div className="absolute top-4 right-4 flex gap-0.5 flex-wrap items-center">
+                {/* Pasamos los elementos obtenidos a GenerationButton */}
+                <GenerationButton
+                    termsDictionary={{
+                        [CollectionTypes.Kanji]: kanjiElements,
+                        [CollectionTypes.Word]: wordElements,
+                        [CollectionTypes.Grammar]: grammarElements,
+                        [CollectionTypes.Generation]: readingElements,
+                    }}
+                    deckName={lesson.name}
+                    courseName={owner.name}
+                    courseId={owner._id}
+                    lessonName={lesson.name}
+                />
+
                 <AddContentButton
                     creatorId={lesson.creatorId}
                     courseId={owner._id}
@@ -126,6 +153,9 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                             FaIcon={FaBookOpen}
                             sectionTitle="kanjiDecks"
                             iconColor="text-blue-500"
+                            onFetchComplete={(fetchedElements) =>
+                                handleSetElements(fetchedElements[CollectionTypes.Kanji], setKanjiElements, kanjiElements)
+                            }
                         />
                     )}
 
@@ -140,6 +170,9 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                             FaIcon={FaFileAlt}
                             sectionTitle="wordDecks"
                             iconColor="text-red-500"
+                            onFetchComplete={(fetchedElements) =>
+                                handleSetElements(fetchedElements[CollectionTypes.Word], setWordElements, wordElements)
+                            }
                         />
                     )}
 
@@ -154,6 +187,9 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                             FaIcon={FaBook}
                             sectionTitle="grammarDecks"
                             iconColor="text-green-500"
+                            onFetchComplete={(fetchedElements) =>
+                                handleSetElements(fetchedElements[CollectionTypes.Grammar], setGrammarElements, grammarElements)
+                            }
                         />
                     )}
 
@@ -168,6 +204,9 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                             FaIcon={FaEye}
                             sectionTitle="readingDecks"
                             iconColor="text-yellow-500"
+                            onFetchComplete={(fetchedElements) =>
+                                handleSetElements(fetchedElements[CollectionTypes.ReadingDeck], setReadingElements, readingElements)
+                            }
                         />
                     )}
                 </>

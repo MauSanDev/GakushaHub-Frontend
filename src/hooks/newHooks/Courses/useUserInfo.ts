@@ -16,6 +16,12 @@ export const useUserInfo = (
 
     const fetchUserInfo = useCallback(async () => {
         setIsLoading(true);
+
+        if (!ids || ids.length === 0) {
+            setData({});
+            return {};
+        }
+        
         try {
             const result = await fetchElements<UserData>(ids, 'auth/userInfo', queryClient, ['name']);
             setData(result);

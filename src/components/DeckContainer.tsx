@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-// @ts-nocheck
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { CollectionTypes } from '../data/CollectionTypes';
 import { useDecks } from '../hooks/newHooks/Courses/useDecks.ts';
 import GenericDeckDisplay from './GenericDeckDisplay';
@@ -13,7 +11,9 @@ import { KanjiData } from "../data/KanjiData.ts";
 import { WordData } from "../data/WordData.ts";
 import { GrammarData } from "../data/GrammarData.ts";
 import { GeneratedData } from "../data/GenerationData.ts";
-import LocSpan from './LocSpan'; 
+import LocSpan from './LocSpan';
+import NoDataMessage from "./NoDataMessage.tsx";
+import LoadingScreen from "./LoadingScreen.tsx";
 
 interface DeckContainerProps {
     ids: string[];
@@ -25,6 +25,7 @@ interface DeckContainerProps {
     sectionTitle: string;
     FaIcon: React.ComponentType<{ size?: number }>;
     iconColor?: string;
+    onFetchComplete?: (fetchedElements: Record<CollectionTypes, string[]>) => void;
 }
 
 const DeckContainer: React.FC<DeckContainerProps> = ({
@@ -36,7 +37,8 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
                                                          courseId,
                                                          sectionTitle,
                                                          FaIcon,
-                                                         iconColor = "text-gray-500"
+                                                         iconColor = "text-gray-500",
+                                                         onFetchComplete,
                                                      }) => {
     const { data, isLoading, fetchDecks } = useDecks(ids, collectionType);
 
@@ -44,12 +46,43 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
         fetchDecks();
     }, [fetchDecks]);
 
+    // Memoriza el callback para evitar que cambie en cada render.
+    const handleFetchComplete = useCallback(() => {
+        if (data && onFetchComplete) {
+            const fetchedElements: Record<CollectionTypes, string[]> = {
+                [CollectionTypes.Kanji]: [],
+                [CollectionTypes.Word]: [],
+                [CollectionTypes.Grammar]: [],
+                [CollectionTypes.ReadingDeck]: [],
+            };
+
+            Object.values(data).forEach(deck => {
+                if (collectionType === CollectionTypes.KanjiDeck) {
+                    fetchedElements[CollectionTypes.Kanji].push(...deck.elements);
+                } else if (collectionType === CollectionTypes.WordDeck) {
+                    fetchedElements[CollectionTypes.Word].push(...deck.elements);
+                } else if (collectionType === CollectionTypes.GrammarDeck) {
+                    fetchedElements[CollectionTypes.Grammar].push(...deck.elements);
+                }
+            });
+
+            onFetchComplete(fetchedElements);
+        }
+    }, [data, collectionType, onFetchComplete]);
+
+    useEffect(() => {
+        // Solo llama a handleFetchComplete si hay datos
+        if (data) {
+            handleFetchComplete();
+        }
+    }, [data, handleFetchComplete]);
+
     if (isLoading) {
-        return <p>Cargando decks...</p>;
+        return <LoadingScreen isLoading={isLoading} />;
     }
 
     if (!data || Object.keys(data).length === 0) {
-        return <p>No se encontraron decks.</p>;
+        return <NoDataMessage />;
     }
 
     const config = {
@@ -65,12 +98,12 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
                 { header: "漢字", key: "kanji" },
                 {
                     header: "音読み",
-                    key: "readings", 
+                    key: "readings",
                     formatter: (readings: KanjiData['readings']) => Array.isArray(readings?.onyomi) ? readings.onyomi.join("; ") : ""
                 },
                 {
                     header: "訓読み",
-                    key: "readings", 
+                    key: "readings",
                     formatter: (readings: KanjiData['readings']) => Array.isArray(readings?.kunyomi) ? readings.kunyomi.join("; ") : ""
                 },
                 {
@@ -116,8 +149,9 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
             deckType: CollectionTypes.GrammarDeck,
             columns: 2,
             mobileColumns: 1,
+            showFlashcards: false,
             showGeneration: true,
-            columnConfig: [ 
+            columnConfig: [
                 { header: "Estructura", key: "structure" },
                 { header: "Descripción", key: "description" },
                 { header: "JLPT", key: "jlpt" }
@@ -129,7 +163,9 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
             deckType: CollectionTypes.ReadingDeck,
             columns: 1,
             mobileColumns: 1,
-            columnConfig: [ 
+            showFlashcards: false,
+            showGeneration: true,
+            columnConfig: [
                 { header: "Texto", key: "text" },
                 { header: "Tipo", key: "type" }
             ],
@@ -160,7 +196,7 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
                     viewerRole={viewerRole}
                     columns={columns}
                     mobileColumns={mobileColumns}
-                    columnConfig={columnConfig} 
+                    columnConfig={columnConfig}
                     showGeneration={showGeneration}
                     showFlashcards={showFlashcards}
                 />

@@ -16,7 +16,6 @@ export const useElements = <T>(
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const fetchElementsData = useCallback(async () => {
-        // Si no hay ids o está vacío, retornamos una estructura vacía directamente
         if (!ids || ids.length === 0) {
             setData({});
             return {};
