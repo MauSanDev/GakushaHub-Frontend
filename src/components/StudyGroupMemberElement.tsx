@@ -34,7 +34,7 @@ const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ membe
                 collection: CollectionTypes.StudyGroup,
                 documentId: studyGroupId,
                 field: 'memberIds',
-                value: member._id,
+                value: [member._id],
                 action: 'remove'
             });
         }

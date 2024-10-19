@@ -1,5 +1,4 @@
 import {DeckData} from "./DeckData.ts";
-import {UserData} from "./UserData.ts";
 
 export interface GeneratedData {
     _id: string, 
@@ -17,7 +16,7 @@ export interface GeneratedData {
         words: string[],
         kanji: string[]
     },
-    creatorId: UserData;
+    creatorId: string;
     createdAt: string
 }
 

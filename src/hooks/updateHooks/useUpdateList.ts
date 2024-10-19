@@ -5,7 +5,7 @@ interface UpdateListParams {
     collection: string;
     documentId: string;
     field: string;
-    value: string;
+    value: string[];
     action: 'add' | 'remove';
 }
 
@@ -14,7 +14,7 @@ export const useUpdateList = () => {
 
     return useMutation(
         async ({ collection, documentId, field, value, action }: UpdateListParams) => {
-            return await updateList(collection, documentId, field, [value], action, queryClient);
+            return await updateList(collection, documentId, field, value, action, queryClient);
         },
         {
             onError: (error) => {

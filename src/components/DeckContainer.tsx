@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, {useEffect, useCallback, useState} from 'react';
 import { CollectionTypes } from '../data/CollectionTypes';
 import { useDecks } from '../hooks/newHooks/Courses/useDecks.ts';
 import GenericDeckDisplay from './GenericDeckDisplay';
@@ -14,6 +14,8 @@ import { GeneratedData } from "../data/GenerationData.ts";
 import LocSpan from './LocSpan';
 import NoDataMessage from "./NoDataMessage.tsx";
 import LoadingScreen from "./LoadingScreen.tsx";
+import {useUpdateList} from "../hooks/updateHooks/useUpdateList.ts";
+import {useNavigate} from "react-router-dom";
 
 interface DeckContainerProps {
     ids: string[];
@@ -43,12 +45,45 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
                                                          onFetchComplete,
                                                      }) => {
     const { data, isLoading, fetchDecks } = useDecks(ids, collectionType);
+    const [selectedItems, setSelectedItems] = useState<{ [deckId: string]: string[] }>({});
+    const { mutate: removeElementsFromDeck } = useUpdateList();
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         fetchDecks();
     }, [fetchDecks]);
+    
+    const onRemoveElements = (deckId: string, collectionType: CollectionTypes) => {
+        const confirmDelete = window.confirm("Are you sure you want to remove elements from the deck? There's no turning back.");
+        if (confirmDelete) {
+            removeElementsFromDeck({
+                collection: collectionType,
+                documentId: deckId,
+                field: 'elements',
+                value: selectedItems[deckId],
+                action: 'remove'
+            });
 
-    // Memoriza el callback para evitar que cambie en cada render.
+            navigate(0);
+        }
+    };
+    
+    const handleItemClick = (deckId: string, elementId: string) => {
+        setSelectedItems(prevSelected => {
+            const deckItems = prevSelected[deckId] || [];
+
+            const updatedDeckItems = deckItems.includes(elementId)
+                ? deckItems.filter(id => id !== elementId)
+                : [...deckItems, elementId];
+
+            return {
+                ...prevSelected,
+                [deckId]: updatedDeckItems,
+            };
+        });
+    };
+
     const handleFetchComplete = useCallback(() => {
         if (data && onFetchComplete) {
             const fetchedElements: Record<CollectionTypes, string[]> = {
@@ -89,7 +124,12 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
 
     const config = {
         [CollectionTypes.KanjiDeck]: {
-            renderItem: (element: KanjiData, index: number) => <SmallKanjiBox key={index} result={element} />,
+            renderItem: (deckId: string, element: KanjiData, index: number, canEdit: boolean) => <SmallKanjiBox 
+                key={index} 
+                result={element}
+                onClick={() => handleItemClick(deckId, element._id)}
+                isSelected={canEdit && selectedItems[deckId]?.includes(element._id) || false}
+            />,
             elementType: CollectionTypes.Kanji as CollectionTypes.Kanji,
             deckType: CollectionTypes.KanjiDeck,
             columns: 6,
@@ -118,7 +158,9 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
             ],
         },
         [CollectionTypes.WordDeck]: {
-            renderItem: (element: WordData, index: number) => <SmallWordBox key={index} result={element} />,
+            renderItem: (deckId: string, element: WordData, index: number, canEdit: boolean) => <SmallWordBox key={index} result={element}
+                                                                                            onClick={() => handleItemClick(deckId, element._id)}
+                                                                                            isSelected={canEdit && selectedItems[deckId]?.includes(element._id) || false}/>,
             elementType: CollectionTypes.Word as CollectionTypes.Word,
             deckType: CollectionTypes.WordDeck,
             columns: 6,
@@ -146,7 +188,9 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
             ],
         },
         [CollectionTypes.GrammarDeck]: {
-            renderItem: (element: GrammarData, index: number) => <SmallGrammarBox key={index} result={element} />,
+            renderItem: (deckId: string, element: GrammarData, index: number, canEdit: boolean) => <SmallGrammarBox key={index} result={element}
+                                                                                                  onClick={() => handleItemClick(deckId, element._id)}
+                                                                                                  isSelected={canEdit && selectedItems[deckId]?.includes(element._id) || false} />,
             elementType: CollectionTypes.Grammar as CollectionTypes.Grammar,
             deckType: CollectionTypes.GrammarDeck,
             columns: 2,
@@ -160,7 +204,9 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
             ],
         },
         [CollectionTypes.ReadingDeck]: {
-            renderItem: (element: GeneratedData, index: number) => <DeckReadingDataElement key={index} result={element} />,
+            renderItem: (deckId: string, element: GeneratedData, index: number, canEdit: boolean) => <DeckReadingDataElement key={index} result={element}
+                                                                                                           onClick={() => handleItemClick(deckId, element._id)}
+                                                                                                           isSelected={canEdit && selectedItems[deckId]?.includes(element._id) || false} />,
             elementType: CollectionTypes.Generation as CollectionTypes.Generation,
             deckType: CollectionTypes.ReadingDeck,
             columns: 1,
@@ -202,6 +248,8 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
                     columnConfig={columnConfig}
                     showGeneration={showGeneration}
                     showFlashcards={showFlashcards}
+                    hasSelectedItems={selectedItems[deck._id]?.length > 0}
+                    onRemoveElements={onRemoveElements}
                 />
             ))}
         </div>

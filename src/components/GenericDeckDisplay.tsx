@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ReactNode } from "react";
-import {FaPlayCircle, FaSpinner} from "react-icons/fa";
+import {FaPlayCircle, FaSpinner, FaTimes} from "react-icons/fa";
 import DeleteButton from "./DeleteButton";
 import AddContentButton from "./AddContentButton.tsx";
 import { MembershipRole } from "../data/MembershipData.ts";
@@ -13,6 +13,7 @@ import { convertArrayToFlashcardDeck } from "../data/FlashcardData.ts";
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
 import FlashcardsModal from "./FlashcardsPage";
 import GenerationButton from "./Modals/GenerationButton.tsx";
+import NoDataMessage from "./NoDataMessage.tsx";
 
 interface ColumnConfig<T> {
     header: string;
@@ -25,7 +26,7 @@ interface GenericDeckDisplayProps<T> {
     lessonName: string;
     courseName: string;
     courseId: string;
-    renderItem: (element: T, index: number) => JSX.Element;
+    renderItem: (deckId: string,  element: T, index: number, canEdit: boolean) => JSX.Element;
     columns?: number;
     mobileColumns?: number;
     columnConfig?: ColumnConfig<T>[];
@@ -36,6 +37,8 @@ interface GenericDeckDisplayProps<T> {
     viewerRole: MembershipRole;
     showGeneration: boolean;
     showFlashcards: boolean;
+    hasSelectedItems: boolean;
+    onRemoveElements: (deckId: string, collectionType: CollectionTypes) => void;
 }
 
 const GenericDeckDisplay = <T,>({
@@ -53,6 +56,8 @@ const GenericDeckDisplay = <T,>({
                                     viewerRole,
                                     showGeneration,
                                     showFlashcards,
+                                    hasSelectedItems,
+                                    onRemoveElements
                                 }: GenericDeckDisplayProps<T>) => {
     const { data: elements, isLoading, fetchElementsData } = useElements<T>(deck.elements, elementType);
     const [isFlashcardLoading, setIsFlashcardLoading] = useState(false); 
@@ -84,7 +89,7 @@ const GenericDeckDisplay = <T,>({
         }
 
         if (!elements || Object.keys(elements).length === 0) {
-            return <p>No se encontraron elementos.</p>;
+            return <NoDataMessage />;
         }
 
         const elementList = Object.values(elements);
@@ -97,7 +102,7 @@ const GenericDeckDisplay = <T,>({
                         gridTemplateColumns: `repeat(${window.innerWidth < 640 ? mobileColumns : columns}, minmax(0, 1fr))`,
                     }}
                 >
-                    {elementList.map((element, index) => renderItem(element, index))}
+                    {elementList.map((element, index) => renderItem(deck._id,element, index, canEdit))}
                 </div>
             );
         } else if (viewMode === "table" && columnConfig) {
@@ -108,6 +113,8 @@ const GenericDeckDisplay = <T,>({
             );
         }
     };
+    
+    const canEdit = viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei || viewerRole === MembershipRole.Staff;
 
     return (
         <div className="w-full pl-3">
@@ -119,10 +126,17 @@ const GenericDeckDisplay = <T,>({
                 documentId={deck._id}
                 field="name"
                 collectionType={deckType}
-                canEdit={viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei || viewerRole === MembershipRole.Staff}
+                canEdit={canEdit}
                 actions={(
                     <>
 
+                        {canEdit && hasSelectedItems && <TertiaryButton
+                            iconComponent={isFlashcardLoading ?  <FaSpinner className="animate-spin text-gray-500" /> : <FaTimes />}
+                            onClick={() => onRemoveElements(deck._id, deckType)}
+                            className={"bg-transparent dark:bg-transparent text-red-600 dark:text-red-800"}
+                            label={"Remove Selected"}
+                        />}
+                        
                         {showFlashcards && 
                         <TertiaryButton 
                             iconComponent={isFlashcardLoading ?  <FaSpinner className="animate-spin text-gray-500" /> : <FaPlayCircle />}

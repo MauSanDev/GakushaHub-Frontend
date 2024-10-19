@@ -32,7 +32,7 @@ const StudyGroupCourseDataElement: React.FC<StudyGroupCourseDataElementProps> = 
                 collection: CollectionTypes.StudyGroup,
                 documentId: studyGroupId,
                 field: 'courseIds',
-                value: course._id,
+                value: [course._id],
                 action: 'remove'
             });
         }
