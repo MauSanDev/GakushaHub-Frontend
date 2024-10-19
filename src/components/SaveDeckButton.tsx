@@ -1,10 +1,26 @@
-import React, { useState } from 'react';
-import { FaSave} from 'react-icons/fa';
-import SaveDeckModal from "./SaveDeckInput/SaveDeckModal.tsx";
+import React, {useState} from 'react';
+import {FaCheck, FaSave} from 'react-icons/fa';
+import SaveDeckModal from "./SaveDeckModal.tsx";
+import {SaveStatus} from "../utils/SaveStatus.ts";
+import PrimaryButton from "./ui/buttons/PrimaryButton.tsx";
 
-const SaveDeckButton: React.FC = () => {
+interface SaveDeckButtonProps {
+    kanjiIds?: string[],
+    grammarIds?: string[],
+    wordIds?: string[],
+    readingIds?: string[],
+    courseId?: string;
+    courseName?: string;
+    lessonName?: string;
+    deckName?: string;
+    onSaveStatusChange?: (status: SaveStatus, error?: string) => void;
+}
+
+
+const SaveDeckButton: React.FC<SaveDeckButtonProps> = ({ kanjiIds, wordIds, grammarIds, readingIds, onSaveStatusChange }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    
+    const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
+
     const openModal = () => {
         setIsModalOpen(true);
     };
@@ -13,24 +29,38 @@ const SaveDeckButton: React.FC = () => {
         setIsModalOpen(false);
     };
 
-    return (
-        <>
+    const onSave = (status: SaveStatus) => {
+        setSaveStatus(status);
 
-            <button onClick={openModal} className={`w-full flex gap-2 items-center justify-center px-4 py-2 mt-2 rounded bg-gray-300 dark:bg-gray-600 text-gray-400 cursor-not-allowed hover:bg-blue-600 dark:hover:bg-blue-600 transition-transform duration-300`}>
-                <FaSave/> Save
-            </button>
-            
+        if (status === SaveStatus.Success)
+        {
+            onSaveStatusChange?.(status)
+        }
+    };
+    
+    const haveContent = (kanjiIds?.length || 0) > 0 || (grammarIds?.length || 0) > 0 || (wordIds?.length || 0) > 0 || (readingIds?.length || 0) > 0;
 
-            {isModalOpen &&
-                <SaveDeckModal
-                    onClose={closeModal}
-                    // courseId={"courseId"}
-                    courseName={"courseName"}
-                    lessonName={"lessonName"}
-                    deckName={"deckName"}
-                />}
-        </>
-    );
+    const saved = saveStatus === SaveStatus.Success;
+
+return (
+    <>
+        <PrimaryButton onClick={openModal} iconComponent={saved ? <FaCheck /> : <FaSave />} label={saved ? "save" : "saved"} disabled={saved || !haveContent}/>
+
+        {isModalOpen &&
+            <SaveDeckModal
+                onClose={closeModal}
+                courseId={"courseId"}
+                courseName={"courseName"}
+                lessonName={"lessonName"}
+                deckName={"deckName"}
+                kanjiIds={kanjiIds}
+                readingIds={readingIds}
+                wordIds={wordIds}
+                grammarIds={grammarIds}
+                onSaveStatusChange={onSave}
+            />}
+    </>
+);
 };
 
 export default SaveDeckButton;

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import GrammarDataElement from '../components/GrammarDataElement.tsx';
 import { usePaginatedGrammar } from "../hooks/usePaginatedGrammar.ts";
-import SaveDeckInput from '../components/SaveDeckInput';
 import { SaveStatus } from "../utils/SaveStatus.ts";
 import { useAuth } from "../context/AuthContext.tsx";
 import SectionContainer from "../components/ui/containers/SectionContainer.tsx";
 import ShowSelectionToggle from "../components/ui/toggles/ShowSelectionToggle.tsx";
 import SearchBar from "../components/ui/inputs/SearchBar.tsx";
 import PaginatedContainer from '../components/ui/containers/PaginatedContainer.tsx';
+import SaveDeckButton from "../components/SaveDeckButton.tsx";
 
 const GrammarListPage: React.FC = () => {
     const [page, setPage] = useState(1);
@@ -73,8 +73,8 @@ const GrammarListPage: React.FC = () => {
 
             {isAuthenticated && selectedGrammarIds.length > 0 && (
                 <div className="fixed top-4 right-4">
-                    <SaveDeckInput
-                        grammarList={selectedGrammarIds}
+                    <SaveDeckButton
+                        grammarIds={selectedGrammarIds}
                         onSaveStatusChange={onSaveStatusChanged}
                     />
                 </div>

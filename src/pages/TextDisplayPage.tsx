@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import TextReaderElement from '../components/TextReader';
 import { GeneratedData } from "../data/GenerationData.ts";
-import SaveDeckInput from '../components/SaveDeckInput';
 import { useAuth } from "../context/AuthContext.tsx";
 import SectionContainer from "../components/ui/containers/SectionContainer.tsx";
 import BackButton from "../components/ui/buttons/BackButton.tsx";
 import { useElements } from '../hooks/newHooks/useElements';  // Importa el nuevo hook
 import { CollectionTypes } from '../data/CollectionTypes.tsx';
+import SaveDeckButton from "../components/SaveDeckButton.tsx";
 
 const TextDisplayPage: React.FC = () => {
     const { elementId } = useParams<{ elementId: string }>();
@@ -34,11 +34,8 @@ const TextDisplayPage: React.FC = () => {
                     <>
                         {isAuthenticated && (
                             <div className="absolute top-0 right-0 flex gap-2">
-                                <SaveDeckInput
-                                    kanjiList={[]}
-                                    wordList={[]}
-                                    grammarList={[]}
-                                    readingList={[elementData._id]}
+                                <SaveDeckButton
+                                    readingIds={[elementData._id]}
                                 />
                             </div>
                         )}

@@ -6,7 +6,8 @@ import { CollectionTypes } from '../../../data/CollectionTypes';
 
 export const useDecks = (
     ids: string[],
-    collectionType: CollectionTypes
+    collectionType: CollectionTypes,
+    fields: string[] = [],
 ): {
     data: Record<string, BaseDeckData> | undefined,
     isLoading: boolean,
@@ -25,7 +26,7 @@ export const useDecks = (
                 collectionType === CollectionTypes.ReadingDeck ||
                 collectionType === CollectionTypes.GrammarDeck
             ) {
-                const result = await fetchElements<BaseDeckData>(ids, collectionType, queryClient);
+                const result = await fetchElements<BaseDeckData>(ids, collectionType, queryClient, fields);
                 setData(result);
             } else {
                 throw new Error(`Invalid collection type: ${collectionType}`);

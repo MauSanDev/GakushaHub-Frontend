@@ -8,7 +8,8 @@ import { useAuth } from "../../../context/AuthContext";
 export const useMyCourses = (
     page: number,
     limit: number,
-    search: string = ''
+    search: string = '',
+    fields: string[] = []
 ): { fetchCourses: () => Promise<void>, isLoading: boolean, data?: PaginatedData<CourseData>, resetQueries: () => void } => {
     const { userData } = useAuth();
     const queryClient = useQueryClient();
@@ -36,7 +37,8 @@ export const useMyCourses = (
                 searches,
                 {},
                 {},
-                userData?._id
+                userData?._id,
+                fields
             );
             setData(result);
         } catch (error) {

@@ -93,7 +93,8 @@ export const fetchFullPagination = async <T>(
     searches: Record<string, string[]> = {},
     extraParams?: Record<string, string>,
     excludes?: Record<string, string[]>,
-    creatorId?: string
+    creatorId?: string,
+    fields?: string[]
 ): Promise<PaginatedData<T> | undefined> => {
     try {
         const paginatedData = await fetchPaginatedData<string>(
@@ -108,7 +109,7 @@ export const fetchFullPagination = async <T>(
         );
         
         if (paginatedData?.documents && paginatedData.documents.length > 0) {
-            const elementsData = await fetchElements<T>(paginatedData.documents, key, queryClient);
+            const elementsData = await fetchElements<T>(paginatedData.documents, key, queryClient, fields);
 
             const combinedData: PaginatedData<T> = {
                 ...paginatedData,

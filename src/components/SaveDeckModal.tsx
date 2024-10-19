@@ -1,41 +1,49 @@
 import React, {useEffect, useState} from 'react';
-import DropdownInput from "../DropdownInput/DropdownInput.tsx";
+import DropdownInput from "./DropdownInput/DropdownInput.tsx";
 import {useTranslation} from "react-i18next";
-import ModalWrapper from "../../pages/ModalWrapper.tsx";
-import SectionTitle from "../ui/text/SectionTitle.tsx";
-import Container from "../ui/containers/Container.tsx";
-import {useMyCourses} from "../../hooks/newHooks/Courses/useMyCourses";
-import {useLessons} from "../../hooks/newHooks/Courses/useLessons";
-import {useDecks} from "../../hooks/newHooks/Courses/useDecks.ts";
-import {CollectionTypes} from "../../data/CollectionTypes.tsx";
-import PrimaryButton from "../ui/buttons/PrimaryButton.tsx";
+import ModalWrapper from "../pages/ModalWrapper.tsx";
+import SectionTitle from "./ui/text/SectionTitle.tsx";
+import Container from "./ui/containers/Container.tsx";
+import {useMyCourses} from "../hooks/newHooks/Courses/useMyCourses";
+import {useLessons} from "../hooks/newHooks/Courses/useLessons";
+import {useDecks} from "../hooks/newHooks/Courses/useDecks.ts";
+import {CollectionTypes} from "../data/CollectionTypes.tsx";
+import PrimaryButton from "./ui/buttons/PrimaryButton.tsx";
 import {FaCheck, FaClock, FaSave} from "react-icons/fa";
-import { SaveStatus } from "../../utils/SaveStatus.ts";
+import { SaveStatus } from "../utils/SaveStatus.ts";
+import {parseDecks, useBuildCourse} from "../hooks/useBuildCourse.ts";
 
 interface SaveDeckDropdownModalProps {
+    kanjiIds?: string[],
+    grammarIds?: string[],
+    wordIds?: string[],
+    readingIds?: string[],
+    courseId?: string;
     courseName?: string;
     lessonName?: string;
     deckName?: string;
     onClose: () => void;
+    onSaveStatusChange?: (status: SaveStatus, error?: string) => void;
 }
 
 const MAX_INPUT_LENGTH = 25;
 
-const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose }) => {
+const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose, kanjiIds, wordIds, grammarIds, readingIds, onSaveStatusChange }) => {
     const { t } = useTranslation();
     const [courseSearchValue, setCourseSearchValue] = useState<string>('');
     const [lessonSearchValue, setLessonSearchValue] = useState<string>('');
     const [selectedCourseId, setSelectedCourseId] = useState<string>('');
     const [selectedLessonId, setSelectedLessonId] = useState<string>('');
-    const [selectedDeck, setSelectedDeck] = useState<string>('');
+    const [searchDeckValue, setSearchDeckValue] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
-    const { data: courseData, fetchCourses } = useMyCourses(1, 10);
-    const { data: lessonsData, fetchLessons } = useLessons(selectedCourseId ? courseData?.documents?.find((x) => x._id === selectedCourseId)?.lessons || [] : []);
-    const { data: kanjiDeckData, fetchDecks: fetchKanjiDecks } = useDecks(selectedLessonId ? Object.values(lessonsData ?? []).find((x) => x._id === selectedLessonId)?.kanjiDecks || [] : [], CollectionTypes.KanjiDeck);
-    const { data: wordDeckData, fetchDecks: fetchWordDecks } = useDecks(selectedLessonId ? Object.values(lessonsData ?? []).find((x) => x._id === selectedLessonId)?.wordDecks || [] : [], CollectionTypes.WordDeck);
-    const { data: grammarDeckData, fetchDecks: fetchGrammarDecks } = useDecks(selectedLessonId ? Object.values(lessonsData ?? []).find((x) => x._id === selectedLessonId)?.grammarDecks || [] : [], CollectionTypes.GrammarDeck);
-    const { data: readingDeckData, fetchDecks: fetchReadingDecks } = useDecks(selectedLessonId ? Object.values(lessonsData ?? []).find((x) => x._id === selectedLessonId)?.readingDecks || [] : [], CollectionTypes.ReadingDeck);
+    const { data: courseData, fetchCourses } = useMyCourses(1, 99);
+    const { data: lessonsData, fetchLessons } = useLessons(selectedCourseId ? courseData?.documents?.find((x) => x._id === selectedCourseId)?.lessons || [] : [], ["name"]);
+    const { data: kanjiDeckData, fetchDecks: fetchKanjiDecks } = useDecks(selectedLessonId ? Object.values(lessonsData ?? []).find((x) => x._id === selectedLessonId)?.kanjiDecks || [] : [], CollectionTypes.KanjiDeck, ["name"]);
+    const { data: wordDeckData, fetchDecks: fetchWordDecks } = useDecks(selectedLessonId ? Object.values(lessonsData ?? []).find((x) => x._id === selectedLessonId)?.wordDecks || [] : [], CollectionTypes.WordDeck, ["name"]);
+    const { data: grammarDeckData, fetchDecks: fetchGrammarDecks } = useDecks(selectedLessonId ? Object.values(lessonsData ?? []).find((x) => x._id === selectedLessonId)?.grammarDecks || [] : [], CollectionTypes.GrammarDeck, ["name"]);
+    const { data: readingDeckData, fetchDecks: fetchReadingDecks } = useDecks(selectedLessonId ? Object.values(lessonsData ?? []).find((x) => x._id === selectedLessonId)?.readingDecks || [] : [], CollectionTypes.ReadingDeck, ["name"]);
+    const { mutate: buildCourse, isLoading: isSaving, isSuccess: saveSuccess } = useBuildCourse();
 
     useEffect(() => {
         fetchCourses();
@@ -56,6 +64,10 @@ const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose }
     }, [selectedCourseId]);
 
     useEffect(() => {
+        onSaveStatusChange?.(saveStatus);
+    }, [saveStatus]);
+
+    useEffect(() => {
         fetchKanjiDecks();
         fetchWordDecks();
         fetchGrammarDecks();
@@ -67,14 +79,14 @@ const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose }
     };
 
     const handleSave = () => {
-        if (!validateInputLength(courseSearchValue) || !validateInputLength(lessonSearchValue) || !validateInputLength(selectedDeck)) {
+        if (!validateInputLength(courseSearchValue) || !validateInputLength(lessonSearchValue) || !validateInputLength(searchDeckValue)) {
             const errorMsg = t("saveDeckInput.charLimitExceeded").replace("{0}", MAX_INPUT_LENGTH.toString());
             setError(errorMsg);
             setSaveStatus(SaveStatus.Error);
             return;
         }
 
-        if (!selectedDeck) {
+        if (!searchDeckValue) {
             const errorMsg = t("saveDeckInput.deckInputEmpty");
             setError(errorMsg);
             setSaveStatus(SaveStatus.Error);
@@ -96,9 +108,23 @@ const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose }
         setError(null);
         setSaveStatus(SaveStatus.Saving);
 
-        // Aquí puedes poner la lógica para guardar el contenido
 
-        setSaveStatus(SaveStatus.Success); // Cambia a Success cuando finalice correctamente
+        buildCourse(
+            {
+                courseId: selectedCourseId || '',
+                courseName: courseSearchValue.trim(),
+                lessonName: lessonSearchValue.trim(),
+                decks: parseDecks(searchDeckValue.trim(), kanjiIds ?? [], wordIds ?? [], grammarIds ?? [], readingIds ?? []),
+            },
+            {
+                onSuccess: () => {
+                    setSaveStatus(SaveStatus.Success);
+                },
+                onError: () => {
+                    setSaveStatus(SaveStatus.Error);
+                },
+            }
+        );
     };
 
     const courseOptions = courseData?.documents.map((course) => course.name) || [];
@@ -129,14 +155,14 @@ const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose }
             return t("saveDeckInput.lessonWillBeCreated").replace("{0}", lessonSearchValue).replace("{1}", courseSearchValue);
         }
 
-        if (!selectedDeck) return null;
+        if (!searchDeckValue) return null;
 
         const availableDecks = deckOptions;
-        if (!availableDecks.includes(selectedDeck)) {
-            return t("saveDeckInput.deckWillBeCreated").replace("{0}", selectedDeck).replace("{1}", lessonSearchValue);
+        if (!availableDecks.includes(searchDeckValue)) {
+            return t("saveDeckInput.deckWillBeCreated").replace("{0}", searchDeckValue).replace("{1}", lessonSearchValue);
         }
 
-        return t("saveDeckInput.contentWillBeAdded").replace("{0}", selectedDeck);
+        return t("saveDeckInput.contentWillBeAdded").replace("{0}", searchDeckValue);
     };
 
     return (
@@ -162,8 +188,8 @@ const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose }
                     />
 
                     <DropdownInput
-                        value={selectedDeck}
-                        onChange={setSelectedDeck}
+                        value={searchDeckValue}
+                        onChange={setSearchDeckValue}
                         placeholder={t("deck")}
                         options={deckOptions}
                         disabled={false}
@@ -182,7 +208,7 @@ const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose }
                                 saveStatus === SaveStatus.Saving ? <FaClock /> : <FaSave />
                         }
                         onClick={handleSave}
-                        disabled={saveStatus === SaveStatus.Saving || !courseSearchValue || !lessonSearchValue || !selectedDeck}
+                        disabled={saveStatus === SaveStatus.Saving || !courseSearchValue || !lessonSearchValue || !searchDeckValue || isSaving || saveSuccess}
                     />
                 </div>
             </Container>

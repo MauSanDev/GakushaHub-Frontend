@@ -4,7 +4,8 @@ import { fetchElements } from '../../../services/dataService';
 import { LessonData } from '../../../data/CourseData';
 import {CollectionTypes} from "../../../data/CollectionTypes.tsx";
 
-export const useLessons = (ids: string[]): {
+export const useLessons = (ids: string[],
+                           fields: string[] = [],): {
     data: Record<string, LessonData> | undefined,
     isLoading: boolean,
     fetchLessons: () => void 
@@ -16,7 +17,7 @@ export const useLessons = (ids: string[]): {
     const fetchLessons = useCallback(async () => {
         setIsLoading(true);
         try {
-            const result = await fetchElements<LessonData>(ids, CollectionTypes.Lesson, queryClient);
+            const result = await fetchElements<LessonData>(ids, CollectionTypes.Lesson, queryClient, fields);
             setData(result);
         } catch (error) {
             console.error('Error fetching lessons:', error);

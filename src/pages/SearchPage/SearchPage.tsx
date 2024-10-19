@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from '../../components/SearchBar';
-import SaveDeckInput from '../../components/SaveDeckInput';
 import KanjiDataElement from '../../components/KanjiDataElement.tsx';
 import WordDataElement from '../../components/WordDataElement.tsx';
 import GrammarDataElement from '../../components/GrammarDataElement.tsx';
@@ -205,7 +204,16 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
 
             {isAuthenticated && (
                 <div className="absolute top-0 right-0 flex gap-2">
-                    <SaveDeckButton />
+                    <SaveDeckButton
+                        kanjiIds={kanjiResults.map((x) => x._id)}
+                        grammarIds={grammarResults.map((g) => g._id)}
+                        wordIds={wordResults.map((w) => w._id)}
+                        courseName={courseName}
+                        courseId={courseId}
+                        lessonName={lessonName}
+                        deckName={deckName}
+                        onSaveStatusChange={onSaveStatusChanged}
+                    />
                     
                     
                     {/*<SaveDeckInput*/}
