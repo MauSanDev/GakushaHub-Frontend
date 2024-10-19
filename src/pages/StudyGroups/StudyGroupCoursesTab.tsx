@@ -1,77 +1,67 @@
-import React, { useState, useEffect, useRef } from 'react';
-import CourseDataElement from '../../components/CourseDataElement.tsx';
-import { CourseData } from "../../data/CourseData.ts";
-import LoadingScreen from "../../components/LoadingScreen";
+import React, {useEffect, useState} from 'react';
 import { Link } from "react-router-dom";
 import { StudyGroupData } from '../../data/Institutions/StudyGroupData'; 
-import { ApiClient } from '../../services/ApiClient'; 
+import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
+import {FaPlus} from "react-icons/fa";
+import PaginatedContainer from "../../components/ui/containers/PaginatedContainer.tsx";
+import StudyGroupCourseDataElement from "../../components/StudyGroupCourseDataElement.tsx";
+import NoDataMessage from "../../components/NoDataMessage.tsx";
+import {useStudyGroupCourses} from "../../hooks/newHooks/Courses/useStudyGroupCourses.ts";
+import BindCoursesModal from "./BindCoursesModal.tsx";
+import LoadingScreen from "../../components/LoadingScreen.tsx"; 
 
 interface StudyGroupCoursesTabProps {
     studyGroup: StudyGroupData;  
+    canEdit: boolean;
 }
 
-const StudyGroupCoursesTab: React.FC<StudyGroupCoursesTabProps> = ({ studyGroup }) => {
-    const [courses, setCourses] = useState<CourseData[]>([]);
-    const [page, setPage] = useState(1);
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
-    const [hasMore, setHasMore] = useState<boolean>(false);
+const StudyGroupCoursesTab: React.FC<StudyGroupCoursesTabProps> = ({ studyGroup, canEdit }) => {
+    const [page, setPage] = useState<number>(1);
+    const [isBindCoursesModalOpen, setIsBindCoursesModalOpen] = useState(false);
+
+    const { data: coursesData, isLoading: coursesLoading, fetchStudyCourses } = useStudyGroupCourses(studyGroup?.courseIds || [], page, 10);
+
+    useEffect(() => {
+        fetchStudyCourses();
+    }, [fetchStudyCourses]);
     
-    const fetchCourses = async (page: number) => {
-        setIsLoading(true);
-        try {
-            const response = await ApiClient.get(`/api/courses/paginated?page=${page}&ids=${studyGroup.courseIds.join(',')}`);
-            setCourses(prevCourses => [...prevCourses, ...response.data.documents]);
-            setHasMore(page < response.data.totalPages);
-            setIsLoading(false);
-        } catch (error) {
-            setError('Error fetching courses.');
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchCourses(page);
-    }, [page, studyGroup.courseIds]);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrollContainer = scrollContainerRef.current;
-            if (scrollContainer) {
-                const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
-                if (scrollTop + clientHeight >= scrollHeight - 100 && hasMore) {
-                    setPage(prevPage => prevPage + 1);
-                }
-            }
-        };
-
-        const scrollContainer = scrollContainerRef.current;
-        if (scrollContainer) {
-            scrollContainer.addEventListener('scroll', handleScroll);
-        }
-        return () => {
-            if (scrollContainer) {
-                scrollContainer.removeEventListener('scroll', handleScroll);
-            }
-        };
-    }, [hasMore]);
 
     return (
-        <div ref={scrollContainerRef} className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-            <LoadingScreen isLoading={isLoading} />
-            {error && <p className="text-red-500">{error}</p>}
-            <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
-                {courses.length > 0 ? (
-                    courses.map((course, index) => (
-                        <Link key={index} to={`/courses/${course._id}`} className="page-fade-enter page-fade-enter-active">
-                            <CourseDataElement course={course} />
+        <div>
+            
+            <LoadingScreen isLoading={coursesLoading} />
+            
+            {canEdit &&
+                <PrimaryButton label={'bindCourses'} iconComponent={<FaPlus/>}
+                               onClick={() => setIsBindCoursesModalOpen(true)} className={'w-40 text-xs mb-2'}/>
+            }
+
+            {coursesData && coursesData.documents.length > 0 ? (
+                <PaginatedContainer
+                    documents={coursesData.documents}
+                    currentPage={page}
+                    totalPages={coursesData.totalPages}
+                    onPageChange={setPage}
+                    RenderComponent={({document}) => (
+                        <Link key={document.name} to={`/courses/${document._id}`}
+                              className="page-fade-enter page-fade-enter-active">
+                            <StudyGroupCourseDataElement studyGroupId={studyGroup?._id || ''} course={document} key={document._id} canDelete={canEdit}/>
                         </Link>
-                    ))
-                ) : (
-                    !isLoading && <p className="text-center text-gray-500">No courses available</p>
-                )}
-            </div>
+                    )}
+                />
+            ) : (
+                <NoDataMessage/>
+            )}
+
+
+            {isBindCoursesModalOpen && (
+                <BindCoursesModal
+                    onClose={() => setIsBindCoursesModalOpen(false)}
+                    studyGroupId={studyGroup._id || ''}
+                    institutionId={studyGroup?.institutionId || ''}
+                    onSaveSuccess={() => setIsBindCoursesModalOpen(false)}
+                />
+            )}
         </div>
     );
 };

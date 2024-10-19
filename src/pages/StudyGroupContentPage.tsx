@@ -1,52 +1,32 @@
 import React, { useEffect, useRef, useState } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
-import { Link, useParams } from "react-router-dom";
-import { FaBook, FaChalkboardTeacher, FaFolder, FaPlus, FaSchool, FaUser } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import { FaBook, FaChalkboardTeacher, FaFolder, FaSchool, FaUser } from "react-icons/fa";
 import { useStudyGroup } from '../hooks/useGetStudyGroup.tsx';
 import { useInstitutionById } from '../hooks/institutionHooks/useInstitutionById.ts';
-import BindCoursesModal from './StudyGroups/BindCoursesModal';
-import BindMembersModal from "./StudyGroups/BindMembersModal.tsx";
-import PrimaryButton from "../components/ui/buttons/PrimaryButton.tsx";
 import Tabs from "../components/ui/toggles/Tabs.tsx";
 import Editable from "../components/ui/text/Editable";
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
-import StudyGroupMemberElement from "../components/StudyGroupMemberElement.tsx";
 import LocSpan from "../components/LocSpan";
 import SelectionToggle from "../components/ui/toggles/SelectionToggle.tsx";
 import { useUpdateData } from '../hooks/updateHooks/useUpdateData.ts';
 import RoundedTag from "../components/ui/text/RoundedTag.tsx";
 import { MembershipRole } from "../data/MembershipData.ts";
 import { useAuth } from '../context/AuthContext';
-import { useStudyMembers } from '../hooks/newHooks/Memberships/useStudyMembers';
-import { useStudyGroupCourses } from '../hooks/newHooks/Courses/useStudyGroupCourses';
-import PaginatedContainer from '../components/ui/containers/PaginatedContainer';
-import StudyGroupCourseDataElement from "../components/StudyGroupCourseDataElement.tsx";
 import NoDataMessage from "../components/NoDataMessage.tsx";
+import {FaMessage} from "react-icons/fa6";
+import StudyGroupCoursesTab from "./StudyGroups/StudyGroupCoursesTab.tsx";
+import StudyGroupMembersTab from "./StudyGroups/StudyGroupMembersTab.tsx";
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId } = useParams<{ studyGroupId: string }>();
     const [currentTab, setCurrentTab] = useState<string>('courses');
-    const [isBindCoursesModalOpen, setIsBindCoursesModalOpen] = useState(false);
-    const [isBindMembersModalOpen, setIsBindMembersModalOpen] = useState(false);
     const [isArchived, setIsArchived] = useState<boolean>(false);
     const [role, setRole] = useState<MembershipRole>(MembershipRole.None);
-    const [page, setPage] = useState<number>(1);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: studyGroup, isLoading, fetchStudyGroup } = useStudyGroup(studyGroupId || '');
     const { data: institution, fetchInstitution } = useInstitutionById(studyGroup?.institutionId || '');
-
-    const { data: membersData, isLoading: membersLoading, fetchStudyMembers } = useStudyMembers(
-        studyGroup?.memberIds || [],
-        page,
-        10
-    );
-
-    const { data: coursesData, isLoading: coursesLoading, fetchStudyCourses } = useStudyGroupCourses(
-        studyGroup?.courseIds || [],
-        page,
-        10
-    );
 
     const { mutate: updateDocument } = useUpdateData<Partial<{ isActive: boolean }>>();
     const { getRole, memberships } = useAuth();
@@ -62,11 +42,6 @@ const StudyGroupContentPage: React.FC = () => {
     useEffect(() => {
         setIsArchived(!(studyGroup?.isActive ?? false));
     }, [studyGroup]);
-
-    useEffect(() => {
-        fetchStudyMembers();
-        fetchStudyCourses();
-    }, [currentTab]);
 
     useEffect(() => {
         const savedTab = localStorage.getItem('currentStudyGroupTab');
@@ -97,16 +72,6 @@ const StudyGroupContentPage: React.FC = () => {
         setCurrentTab(view);
     };
 
-    const handleBindCoursesSuccess = () => {
-        setIsBindCoursesModalOpen(false);
-        // window.location.reload();
-    };
-
-    const handleBindMembersSuccess = () => {
-        setIsBindMembersModalOpen(false);
-        window.location.reload();
-    };
-
     const handleToggleArchive = () => {
         if (!isArchived) {
             const confirmArchive = window.confirm(
@@ -130,20 +95,38 @@ const StudyGroupContentPage: React.FC = () => {
         { label: 'institutionPage.courses', view: 'courses', icon: <FaBook /> },
         { label: 'institutionPage.resources', view: 'resources', icon: <FaFolder /> },
         { label: 'institutionPage.members', view: 'members', icon: <FaUser /> },
+        { label: 'institutionPage.chat', view: 'chat', icon: <FaMessage /> },
     ];
+
+    const renderTabContent = () => {
+        if (!studyGroup)
+        {
+            return (<div><NoDataMessage /></div>);
+        }
+        switch (currentTab) {
+            case 'courses':
+                return <StudyGroupCoursesTab studyGroup={studyGroup} canEdit={canEdit} />;
+            case 'members':
+                return <StudyGroupMembersTab studyGroup={studyGroup} canEdit={canEdit} role={role} />;
+            default:
+                return (<div><NoDataMessage /></div>);
+        }
+    };
 
     const senseis = studyGroup?.memberIds?.filter((member: any) => member.role === 'sensei') || [];
 
     return (
-        <div ref={scrollContainerRef} className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
-            <LoadingScreen isLoading={isLoading || membersLoading || coursesLoading} />
+        <div ref={scrollContainerRef}
+             className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
+            <LoadingScreen isLoading={isLoading}/>
             {studyGroup && (
-                <div className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
+                <div
+                    className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
                     <div className="flex flex-col items-start mb-4 sm:mb-0 w-full">
 
-                        <div className={"flex justify-end w-full"} >
+                        <div className={"flex justify-end w-full"}>
 
-                            {!studyGroup.isActive && (<RoundedTag textKey={"archived"} />)}
+                            {!studyGroup.isActive && (<RoundedTag textKey={"archived"}/>)}
 
                             {(role === MembershipRole.Staff || role === MembershipRole.Owner) &&
                                 <SelectionToggle
@@ -174,13 +157,14 @@ const StudyGroupContentPage: React.FC = () => {
 
                         {senseis.length > 0 && (
                             <p className="inline-flex text-xs text-gray-500 gap-2">
-                                <FaChalkboardTeacher />
-                                <LocSpan textKey={'professors'} />: {senseis.map((sensei: any) => sensei.userId?.name).join(', ')}
+                                <FaChalkboardTeacher/>
+                                <LocSpan
+                                    textKey={'professors'}/>: {senseis.map((sensei: any) => sensei.userId?.name).join(', ')}
                             </p>
                         )}
 
                         <p className="inline-flex text-xs text-gray-500 mb-2 gap-2">
-                            <FaSchool />
+                            <FaSchool/>
                             {institution?.name}
                         </p>
                     </div>
@@ -188,80 +172,13 @@ const StudyGroupContentPage: React.FC = () => {
             )}
 
             <div className="flex gap-2 mb-4">
-                <Tabs tabs={tabs} onTabChange={handleTabChange} currentTab={currentTab} />
+                <Tabs tabs={tabs} onTabChange={handleTabChange} currentTab={currentTab}/>
             </div>
 
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24 text-white">
-                {currentTab === 'courses' && (
-                    <div>
-                        {canEdit &&
-                            <PrimaryButton label={'bindCourses'} iconComponent={<FaPlus />} onClick={() => setIsBindCoursesModalOpen(true)} className={'w-40 text-xs mb-2'} />
-                        }
-
-                        {coursesData && coursesData.documents.length > 0 ? (
-                            <PaginatedContainer
-                                documents={coursesData.documents}
-                                currentPage={page}
-                                totalPages={coursesData.totalPages}
-                                onPageChange={setPage}
-                                RenderComponent={({ document }) => (
-                                    <Link key={document.name} to={`/courses/${document._id}`} className="page-fade-enter page-fade-enter-active">
-                                        <StudyGroupCourseDataElement studyGroupId={studyGroup?._id || ''} course={document} canDelete={canEdit} />
-                                    </Link>
-                                )}
-                            />
-                        ) : (
-                            <NoDataMessage />
-                        )}
-                    </div>
-                )}
-
-                {currentTab === 'resources' && (
-                    <div>
-                        <NoDataMessage />
-                    </div>
-                )}
-
-                {currentTab === 'members' && (
-                    <div>
-                        {canEdit &&
-                            <PrimaryButton label={'addMembers'} iconComponent={<FaPlus />} onClick={() => setIsBindMembersModalOpen(true)} className={'w-40 text-xs'} />
-                        }
-
-                        {membersData && membersData.documents.length > 0 ? (
-                            <PaginatedContainer
-                                documents={membersData.documents}
-                                currentPage={page}
-                                totalPages={membersData.totalPages}
-                                onPageChange={setPage}
-                                RenderComponent={({ document }) => (
-                                    <StudyGroupMemberElement member={document} studyGroupId={studyGroupId || ''} viewerRole={role} />
-                                )}
-                            />
-                        ) : (
-                            <NoDataMessage />
-                        )}
-                    </div>
-                )}
+                {renderTabContent()}
             </div>
 
-            {isBindCoursesModalOpen && (
-                <BindCoursesModal
-                    onClose={() => setIsBindCoursesModalOpen(false)}
-                    studyGroupId={studyGroupId || ''}
-                    institutionId={studyGroup?.institutionId || ''}
-                    onSaveSuccess={handleBindCoursesSuccess}
-                />
-            )}
-
-            {isBindMembersModalOpen && (
-                <BindMembersModal
-                    onClose={() => setIsBindMembersModalOpen(false)}
-                    studyGroupId={studyGroupId || ''}
-                    institutionId={studyGroup?.institutionId || ''}
-                    onSaveSuccess={handleBindMembersSuccess}
-                />
-            )}
         </div>
     );
 };
