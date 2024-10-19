@@ -73,7 +73,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 );
 
                 if (result?.documents) {
-                    console.log('Fetched memberships:', result.documents);
                     setMemberships(result.documents);
                     localStorage.setItem('memberships', JSON.stringify(result.documents));
                 }

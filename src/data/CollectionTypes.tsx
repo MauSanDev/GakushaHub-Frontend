@@ -8,7 +8,7 @@ export enum CollectionTypes {
     KanjiDeck = 'kanjiDeck',
     GrammarDeck = 'grammarDeck',
     WordDeck = 'wordDeck',
-    ReadingDeck = 'generationDeck',
+    ReadingDeck = 'readingDeck',
     Membership = 'membership',
     StudyGroup = 'studyGroup',
     Institution = 'institution',

@@ -27,7 +27,6 @@ export const useMyStudyGroups = (
 
         searches['search2'] = memberships.map(m => m._id);
         searches['search2fields'] = ['memberIds'];
-        console.log(searches)
     }
 
     const fetchStudyGroups = async () => {

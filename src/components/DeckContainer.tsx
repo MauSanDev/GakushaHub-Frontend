@@ -59,6 +59,8 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
             deckType: CollectionTypes.KanjiDeck,
             columns: 6,
             mobileColumns: 2,
+            showFlashcards: true,
+            showGeneration: true,
             columnConfig: [
                 { header: "漢字", key: "kanji" },
                 {
@@ -86,6 +88,8 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
             deckType: CollectionTypes.WordDeck,
             columns: 6,
             mobileColumns: 2,
+            showFlashcards: true,
+            showGeneration: true,
             columnConfig: [
                 { header: "言葉", key: "word" },
                 {
@@ -112,6 +116,7 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
             deckType: CollectionTypes.GrammarDeck,
             columns: 2,
             mobileColumns: 1,
+            showGeneration: true,
             columnConfig: [ 
                 { header: "Estructura", key: "structure" },
                 { header: "Descripción", key: "description" },
@@ -131,7 +136,7 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
         },
     };
 
-    const { renderItem, elementType, columns, mobileColumns, columnConfig, deckType } = config[collectionType];
+    const { renderItem, elementType, columns, mobileColumns, columnConfig, deckType, showGeneration, showFlashcards } = config[collectionType];
 
     return (
         <div className="mt-4 w-full">
@@ -156,6 +161,8 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
                     columns={columns}
                     mobileColumns={mobileColumns}
                     columnConfig={columnConfig} 
+                    showGeneration={showGeneration}
+                    showFlashcards={showFlashcards}
                 />
             ))}
         </div>

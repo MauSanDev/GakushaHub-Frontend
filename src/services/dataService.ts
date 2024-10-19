@@ -10,10 +10,8 @@ export const createElement = async <T>(
     data: Record<string, unknown>,
     queryClient: QueryClient
 ): Promise<T> => {
-    console.log(`Creating new element in ${collection}`);
     try {
         const response = await ApiClient.post<T, Record<string, unknown>>(`api/${collection}/create`, data);
-        console.log("Element created successfully:", response);
         
         const newElementId = (response as { _id?: string })._id;
         
@@ -43,7 +41,6 @@ export const fetchPaginatedData = async <T>(
 
     const cachedData = queryClient.getQueryData<InferPaginatedData<T>>(queryKey);
     if (cachedData) {
-        console.log('Returning cached data for query:', queryKey);
         return cachedData;
     }
 
@@ -109,12 +106,8 @@ export const fetchFullPagination = async <T>(
             extraParams,
             excludes
         );
-
-        console.log('Paginated data received:', paginatedData);
-
+        
         if (paginatedData?.documents && paginatedData.documents.length > 0) {
-            console.log(`Fetching full ${key} for IDs:`, paginatedData.documents);
-
             const elementsData = await fetchElements<T>(paginatedData.documents, key, queryClient);
 
             const combinedData: PaginatedData<T> = {
@@ -124,7 +117,6 @@ export const fetchFullPagination = async <T>(
 
             return combinedData;
         } else {
-            console.log(`No IDs found to fetch ${key}.`);
             return undefined;
         }
     } catch (error) {
@@ -141,7 +133,6 @@ export const resetPaginationQueries = (key: string, queryClient: QueryClient) =>
 const fetchElementsByIds = async <T>(ids: string[], key: string, fields?: string[]): Promise<Record<string, Partial<T>>> => {
     const idsParam = ids.join(',');
     const fieldsParam = fields ? `?fields=${fields.join(',')}` : '';
-    console.log(`Fetching ${key} for IDs: ${idsParam}, with fields: ${fields || 'full'}`);
     return ApiClient.get<Record<string, Partial<T>>>(`/api/${key}/get/${idsParam}${fieldsParam}`);
 };
 
@@ -153,9 +144,7 @@ export const fetchElements = async <T>(
 ): Promise<Record<string, T>> => {
     const cachedData: Record<string, T> = {};
     const idsToFetch: string[] = [];
-
-    console.log(`Received IDs for fetching ${key}:`, ids);
-
+    
     ids.forEach(id => {
         const cachedElement = queryClient.getQueryData<Partial<T>>([key, id]);
 
@@ -163,31 +152,24 @@ export const fetchElements = async <T>(
             
             const missingFields = fields && fields.some(field => !(field in cachedElement));
             if (!missingFields) {
-                console.log(`${key} with ID ${id} found in cache and has all required fields`);
                 cachedData[id] = cachedElement as T;  
             } else {
-                console.log(`${key} with ID ${id} missing some fields, adding to fetch list`);
                 idsToFetch.push(id);
             }
         } else {
-            console.log(`${key} with ID ${id} not found in cache, adding to fetch list`);
             idsToFetch.push(id);  
         }
     });
     
     if (idsToFetch.length === 0) {
-        console.log(`All ${key} found in cache with required fields, no need to fetch`);
         return cachedData;
     }
     
-    console.log(`Fetching ${key} for IDs:`, idsToFetch);
     const fetchedData = await fetchElementsByIds<T>(idsToFetch, key, fields);
     
     Object.entries(fetchedData).forEach(([id, fetchedElement]) => {
         const cachedElement = cachedData[id] || {};
-        const updatedElement = { ...cachedElement, ...fetchedElement };  
-        console.log(`Updating cache for ${key} with ID ${id}`);
-
+        const updatedElement = { ...cachedElement, ...fetchedElement };
         
         queryClient.setQueryData([key, id], updatedElement);
         cachedData[id] = updatedElement as T;
@@ -208,13 +190,10 @@ export const updateData = async (
     data: unknown,
     queryClient: QueryClient
 ): Promise<unknown> => {
-    console.log(`Updating document with ID: ${documentId} at ${collection}`);
     try {
         
         const response = await ApiClient.put<unknown, unknown>(`api/${collection}/update/${documentId}`, data);
-        console.log("Document updated successfully:", response);
 
-        
         queryClient.setQueryData([collection, documentId], response);
 
         return response;
@@ -238,9 +217,7 @@ export const updateList = async (
 
     try {
         await updateData(collection, documentId, updateDataPayload, queryClient);
-        console.log(`${action === 'add' ? 'Added' : 'Removed'} [${values.join(', ')}] from ${field} in ${collection} with ID: ${documentId}`);
     } catch (error) {
-        console.error(`Error modifying list in ${collection} with ID: ${documentId}`, error);
         throw error;
     }
 };
@@ -263,9 +240,6 @@ export const deleteData = async (
         const response = await ApiClient.delete<{ message: string }>(`/api/${elementType}/delete`, {
             data: requestData
         });
-
-        console.log(`Successfully deleted elements from ${elementType}:`, elementIds);
-
         
         elementIds.forEach(id => {
             queryClient.removeQueries([elementType, id]);
@@ -276,7 +250,6 @@ export const deleteData = async (
 
         return response.message;
     } catch (error) {
-        console.error(`Error deleting elements from ${elementType}:`, error);
         throw error;
     }
 };

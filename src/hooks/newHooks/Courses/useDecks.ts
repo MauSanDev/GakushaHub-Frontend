@@ -22,6 +22,7 @@ export const useDecks = (
             if (
                 collectionType === CollectionTypes.KanjiDeck ||
                 collectionType === CollectionTypes.WordDeck ||
+                collectionType === CollectionTypes.ReadingDeck ||
                 collectionType === CollectionTypes.GrammarDeck
             ) {
                 const result = await fetchElements<BaseDeckData>(ids, collectionType, queryClient);

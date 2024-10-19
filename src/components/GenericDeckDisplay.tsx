@@ -12,6 +12,7 @@ import GenericTable from "../components/Tables/GenericTable";
 import { convertArrayToFlashcardDeck } from "../data/FlashcardData.ts";
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
 import FlashcardsModal from "./FlashcardsPage";
+import GenerationButton from "./Modals/GenerationButton.tsx";
 
 interface ColumnConfig<T> {
     header: string;
@@ -32,6 +33,8 @@ interface GenericDeckDisplayProps<T> {
     elementType: CollectionTypes;
     viewMode: "table" | "cards";
     viewerRole: MembershipRole;
+    showGeneration: boolean;
+    showFlashcards: boolean;
 }
 
 const GenericDeckDisplay = <T,>({
@@ -46,9 +49,11 @@ const GenericDeckDisplay = <T,>({
                                     elementType,
                                     viewMode,
                                     viewerRole,
+                                    showGeneration,
+                                    showFlashcards
                                 }: GenericDeckDisplayProps<T>) => {
     const { data: elements, isLoading, fetchElementsData } = useElements<T>(deck.elements, elementType);
-    const [isFlashcardLoading, setIsFlashcardLoading] = useState(false); // Estado para manejar la carga de flashcards
+    const [isFlashcardLoading, setIsFlashcardLoading] = useState(false); 
     const [flashcardModeEnabled, setFlashcardModeEnabled] = useState(false);
 
     const handleExpand = () => {
@@ -59,9 +64,9 @@ const GenericDeckDisplay = <T,>({
 
     const handleFlashcardClick = async () => {
         if (!elements) {
-            setIsFlashcardLoading(true); // Mostrar indicador de carga si no hay elementos
-            await fetchElementsData(); // Ahora podemos esperar a que los datos se carguen
-            setIsFlashcardLoading(false); // Ocultar el indicador una vez que se carguen
+            setIsFlashcardLoading(true); 
+            await fetchElementsData(); 
+            setIsFlashcardLoading(false); 
         }
         
         setFlashcardModeEnabled(true)
@@ -116,11 +121,21 @@ const GenericDeckDisplay = <T,>({
                 actions={(
                     <>
 
+                        {showFlashcards && 
                         <TertiaryButton 
                             iconComponent={isFlashcardLoading ?  <FaSpinner className="animate-spin text-gray-500" /> : <FaPlayCircle />}
                             onClick={handleFlashcardClick} 
                             className={"hover:bg-green-600 hover:dark:bg-green-600"}
-                        />
+                        />}
+
+                        {showGeneration && 
+                        <GenerationButton
+                            termsDictionary={{[elementType]: deck.elements,}}
+                            deckName={deck.name}
+                            courseName={''}
+                            courseId={''}
+                            lessonName={''}
+                        />}
 
                         <AddContentButton
                             creatorId={deck.creatorId}

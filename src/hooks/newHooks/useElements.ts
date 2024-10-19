@@ -4,25 +4,33 @@ import { fetchElements } from '../../services/dataService';
 import { CollectionTypes } from '../../data/CollectionTypes';
 
 export const useElements = <T>(
-    ids: string[],
+    ids: string[] | null | undefined,
     collectionType: CollectionTypes
 ): {
     data: Record<string, T> | undefined,
     isLoading: boolean,
-    fetchElementsData: () => Promise<void>
+    fetchElementsData: () => Promise<Record<string, T> | undefined>
 } => {
     const queryClient = useQueryClient();
     const [data, setData] = useState<Record<string, T> | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const fetchElementsData = useCallback(async () => {
+        // Si no hay ids o está vacío, retornamos una estructura vacía directamente
+        if (!ids || ids.length === 0) {
+            setData({});
+            return {};
+        }
+
         setIsLoading(true);
         try {
             const result = await fetchElements<T>(ids, collectionType, queryClient);
             setData(result);
+            return result;
         } catch (error) {
             console.error('Error fetching elements:', error);
             setData(undefined);
+            return undefined;
         } finally {
             setIsLoading(false);
         }
@@ -31,6 +39,6 @@ export const useElements = <T>(
     return {
         data,
         isLoading,
-        fetchElementsData,  // Ahora es una promesa que se puede await
+        fetchElementsData,
     };
 };
