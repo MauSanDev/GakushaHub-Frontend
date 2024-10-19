@@ -4,11 +4,10 @@ import DropdownInput from "../DropdownInput/DropdownInput.tsx";
 import { parseDecks, useBuildCourse } from "../../hooks/useBuildCourse.ts";
 import { SaveStatus } from "../../utils/SaveStatus.ts";
 import { useAuth } from "../../context/AuthContext.tsx";
-import TooltipButton from "../TooltipButton.tsx";
 import { useOwnerCourses } from "../../hooks/coursesHooks/useOwnerCourses.ts";
-import { createPortal } from 'react-dom';
 import LocSpan from "../LocSpan.tsx";
 import { useTranslation } from "react-i18next";
+import ModalWrapper from '../../pages/ModalWrapper.tsx';
 
 interface SaveDeckInputProps {
     courseId?: string;
@@ -20,12 +19,25 @@ interface SaveDeckInputProps {
     grammarList?: string[];
     readingList?: string[];
     onSaveStatusChange?: (status: SaveStatus, error?: string) => void;
+    isOpen: boolean; 
+    onClose: () => void; 
 }
 
 const MAX_INPUT_LENGTH = 25;
 
-const SaveDeckInput: React.FC<SaveDeckInputProps> = ({kanjiList, wordList, grammarList, readingList, onSaveStatusChange, courseId, courseName, lessonName, deckName
-}) => {
+const SaveDeckInput: React.FC<SaveDeckInputProps> = ({
+                                                         kanjiList,
+                                                         wordList,
+                                                         grammarList,
+                                                         readingList,
+                                                         onSaveStatusChange,
+                                                         courseId,
+                                                         courseName,
+                                                         lessonName,
+                                                         deckName,
+                                                         isOpen,
+                                                         onClose,
+                                                     }) => {
     const [selectedCourse, setSelectedCourse] = useState<string>(courseName || '');
     const [selectedLesson, setSelectedLesson] = useState<string>(lessonName || '');
     const [selectedDeck, setSelectedDeck] = useState<string>(deckName || '');
@@ -33,11 +45,10 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({kanjiList, wordList, gramm
     const { t } = useTranslation();
     const { userData } = useAuth();
 
-    // Llamamos al hook useOwnerCourses al montar el componente
     const { data, fetchCourses } = useOwnerCourses(1, 99);
 
     useEffect(() => {
-        fetchCourses(); // Llamamos al hook para obtener los cursos
+        fetchCourses(); 
     }, [fetchCourses]);
 
     const { mutate: buildCourse, isLoading: isSaving, isSuccess: saveSuccess } = useBuildCourse();
@@ -162,59 +173,54 @@ const SaveDeckInput: React.FC<SaveDeckInputProps> = ({kanjiList, wordList, gramm
     };
 
     const dropdownContent = (
-        <div className="absolute top-0 right-0 z-50 flex flex-col gap-2 p-4 rounded-md">
-            <TooltipButton
-                autoClose={false}
-                baseColor={"bg-blue-700 hover:bg-blue-500 dark:bg-blue-700 dark:hover:bg-blue-500"}
-                items={[
-                    <h1 className={"text-gray-500 text-xs"}><LocSpan textKey={"saveDeckInput.saveInto"} /></h1>,
-                    <DropdownInput
-                        value={selectedCourse}
-                        onChange={setSelectedCourse}
-                        placeholder={t("course")}
-                        options={getAvailableCourses()}
-                        disabled={saveSuccess || isSaving || isCourseFixed}
-                    />,
-                    <DropdownInput
-                        value={selectedLesson}
-                        onChange={setSelectedLesson}
-                        placeholder={t("lesson")}
-                        options={getAvailableLessons()}
-                        disabled={saveSuccess || isSaving || isLessonFixed}
-                    />,
-                    <DropdownInput
-                        value={selectedDeck}
-                        onChange={setSelectedDeck}
-                        placeholder={t("deck")}
-                        options={getAvailableDecks()}
-                        disabled={saveSuccess || isSaving || isDeckFixed}
-                    />,
-                    error ? (
-                        <p className="text-red-500 text-xs text-right">{error}</p>
-                    ) : (
-                        <p className="text-gray-500 text-xs text-right">{getContextMessage()}</p>
-                    ),
-                    <button
-                        onClick={handleSave}
-                        className={`w-full flex items-center justify-center px-4 py-2 mt-2 rounded ${
-                            !hasContent || saveSuccess || isSaving
-                                ? 'bg-gray-300 dark:bg-gray-600 text-gray-400 cursor-not-allowed'
-                                : 'bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600 dark:hover:bg-blue-600'
-                        } transition-transform duration-300`}
-                        disabled={!hasContent || saveSuccess || isSaving}
-                    >
-                        {saveSuccess ? <FaCheck /> : isSaving ? <FaClock /> : <FaSave />}
-                    </button>
-                ]}
-                icon={<FaSave />}
-                buttonSize="text-xl"
+        <>
+            <h1 className={"text-gray-500 text-xs"}><LocSpan textKey={"saveDeckInput.saveInto"} /></h1>
+            <DropdownInput
+                value={selectedCourse}
+                onChange={setSelectedCourse}
+                placeholder={t("course")}
+                options={getAvailableCourses()}
+                disabled={saveSuccess || isSaving || isCourseFixed}
             />
-        </div>
+            <DropdownInput
+                value={selectedLesson}
+                onChange={setSelectedLesson}
+                placeholder={t("lesson")}
+                options={getAvailableLessons()}
+                disabled={saveSuccess || isSaving || isLessonFixed}
+            />
+            <DropdownInput
+                value={selectedDeck}
+                onChange={setSelectedDeck}
+                placeholder={t("deck")}
+                options={getAvailableDecks()}
+                disabled={saveSuccess || isSaving || isDeckFixed}
+            />
+            {error ? (
+                <p className="text-red-500 text-xs text-right">{error}</p>
+            ) : (
+                <p className="text-gray-500 text-xs text-right">{getContextMessage()}</p>
+            )}
+            <button
+                onClick={handleSave}
+                className={`w-full flex items-center justify-center px-4 py-2 mt-2 rounded ${
+                    !hasContent || saveSuccess || isSaving
+                        ? 'bg-gray-300 dark:bg-gray-600 text-gray-400 cursor-not-allowed'
+                        : 'bg-blue-500 dark:bg-blue-700 text-white hover:bg-blue-600 dark:hover:bg-blue-600'
+                } transition-transform duration-300`}
+                disabled={!hasContent || saveSuccess || isSaving}
+            >
+                {saveSuccess ? <FaCheck /> : isSaving ? <FaClock /> : <FaSave />}
+            </button>
+        </>
     );
 
-    return createPortal(
-        dropdownContent,
-        document.getElementById("modal-root")!
+    if (!isOpen) return null;
+
+    return (
+        <ModalWrapper onClose={onClose}>
+            {dropdownContent}
+        </ModalWrapper>
     );
 };
 

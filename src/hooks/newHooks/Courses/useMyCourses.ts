@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 import { fetchFullPagination } from '../../../services/dataService.ts';
 import { CourseData } from '../../../data/CourseData';
@@ -9,7 +9,7 @@ export const useMyCourses = (
     page: number,
     limit: number,
     search: string = ''
-): { fetchCourses: () => void, isLoading: boolean, data?: PaginatedData<CourseData>, resetQueries: () => void } => {
+): { fetchCourses: () => Promise<void>, isLoading: boolean, data?: PaginatedData<CourseData>, resetQueries: () => void } => {
     const { userData } = useAuth();
     const queryClient = useQueryClient();
     const [data, setData] = useState<PaginatedData<CourseData> | undefined>(undefined);
@@ -47,16 +47,15 @@ export const useMyCourses = (
         }
     };
 
-    useEffect(() => {
-        if (userData?._id) {
-            fetchCourses();
-        }
-    }, [page, limit, search, userData?._id]);
+    // Permite invalidar la caché de React Query para los cursos
+    const resetQueries = () => {
+        queryClient.invalidateQueries('courses');
+    };
 
     return {
         data,
         isLoading,
-        resetQueries: () => queryClient.invalidateQueries('course'),
-        fetchCourses,
+        fetchCourses,  // Mantengo la función para llamarla manualmente
+        resetQueries,  // Permite resetear la caché
     };
 };

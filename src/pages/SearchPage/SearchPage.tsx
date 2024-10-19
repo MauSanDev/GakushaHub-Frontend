@@ -13,6 +13,7 @@ import LocSpan from "../../components/LocSpan.tsx";
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import SelectionToggle from "../../components/ui/toggles/SelectionToggle.tsx";
 import SecondaryButton from "../../components/ui/buttons/SecondaryButton.tsx";
+import SaveDeckButton from "../../components/SaveDeckButton.tsx";
 
 interface SearchPageProps {
     courseId?: string;
@@ -93,10 +94,6 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
             default:
                 break;
         }
-
-        console.log(selectedKanjiIds)
-        console.log(selectedGrammarIds)
-        console.log(selectedWordIds)
     };
 
     return (
@@ -208,16 +205,19 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
 
             {isAuthenticated && (
                 <div className="absolute top-0 right-0 flex gap-2">
-                    <SaveDeckInput
-                        kanjiList={selectedKanjiIds} 
-                        wordList={selectedWordIds} 
-                        grammarList={selectedGrammarIds} 
-                        onSaveStatusChange={onSaveStatusChanged}
-                        courseId={courseId}
-                        courseName={courseName}
-                        lessonName={lessonName}
-                        deckName={deckName}
-                    />
+                    <SaveDeckButton />
+                    
+                    
+                    {/*<SaveDeckInput*/}
+                    {/*    kanjiList={selectedKanjiIds} */}
+                    {/*    wordList={selectedWordIds} */}
+                    {/*    grammarList={selectedGrammarIds} */}
+                    {/*    onSaveStatusChange={onSaveStatusChanged}*/}
+                    {/*    courseId={courseId}*/}
+                    {/*    courseName={courseName}*/}
+                    {/*    lessonName={lessonName}*/}
+                    {/*    deckName={deckName}*/}
+                    {/*/>*/}
                 </div>
             )}
         </SectionContainer>
