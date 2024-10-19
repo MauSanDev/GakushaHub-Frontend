@@ -111,7 +111,7 @@ const Editable: React.FC<EditableProps> = ({
     };
 
     return (
-        <div ref={containerRef} className={`flex items-start gap-2 w-1/2 ${className}`}>
+        <div ref={containerRef} className={`flex items-start gap-2 ${className}`}>
             {isEditing ? (
                 <>
                     <textarea
@@ -121,7 +121,7 @@ const Editable: React.FC<EditableProps> = ({
                         onBlur={handleBlur}
                         onKeyDown={handleKeyDown}
                         rows={1}
-                        className={`transparent-input-field 
+                        className={`transparent-input-field
                             ${isMaxCharReached ? 'border-red-500' : 'border-gray-600 focus:border-blue-500'}`}
                         placeholder={placeholder}
                     />

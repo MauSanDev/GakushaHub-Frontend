@@ -12,7 +12,7 @@ interface SectionContainerProps {
 
 const SectionContainer: React.FC<SectionContainerProps> = ({ title, children, isLoading = false, error = '', className = '' }) => {
     return (
-        <div className={`mt-5 flex-1 flex flex-col items-center justify-start h-screen w-full relative overflow-hidden ${className}`}>
+        <div className={`mt-5  max-w-4xl flex-1 flex flex-col items-center justify-start h-screen w-full relative overflow-hidden ${className}`}>
             {title && <SectionTitle title={title} /> }
             {isLoading && <LoadingScreen isLoading={isLoading} />}
 
