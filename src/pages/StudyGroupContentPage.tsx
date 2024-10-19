@@ -17,6 +17,7 @@ import NoDataMessage from "../components/NoDataMessage.tsx";
 import {FaMessage} from "react-icons/fa6";
 import StudyGroupCoursesTab from "./StudyGroups/StudyGroupCoursesTab.tsx";
 import StudyGroupMembersTab from "./StudyGroups/StudyGroupMembersTab.tsx";
+import StudyGroupChatTab from "./StudyGroups/StudyGroupChatTab.tsx";
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId } = useParams<{ studyGroupId: string }>();
@@ -108,6 +109,8 @@ const StudyGroupContentPage: React.FC = () => {
                 return <StudyGroupCoursesTab studyGroup={studyGroup} canEdit={canEdit} />;
             case 'members':
                 return <StudyGroupMembersTab studyGroup={studyGroup} canEdit={canEdit} role={role} />;
+            case 'chat':
+                return <StudyGroupChatTab studyGroup={studyGroup} canEdit={canEdit} role={role} />;
             default:
                 return (<div><NoDataMessage /></div>);
         }
@@ -117,7 +120,7 @@ const StudyGroupContentPage: React.FC = () => {
 
     return (
         <div ref={scrollContainerRef}
-             className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
+             className="flex-1 flex flex-col items-center justify-start h-full w-full fixed">
             <LoadingScreen isLoading={isLoading}/>
             {studyGroup && (
                 <div
@@ -175,7 +178,7 @@ const StudyGroupContentPage: React.FC = () => {
                 <Tabs tabs={tabs} onTabChange={handleTabChange} currentTab={currentTab}/>
             </div>
 
-            <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24 text-white">
+            <div className="w-full max-w-4xl flex flex-grow flex-col gap-6 text-left pb-24 text-white">
                 {renderTabContent()}
             </div>
 
