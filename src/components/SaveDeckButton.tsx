@@ -17,7 +17,7 @@ interface SaveDeckButtonProps {
 }
 
 
-const SaveDeckButton: React.FC<SaveDeckButtonProps> = ({ kanjiIds, wordIds, grammarIds, readingIds, onSaveStatusChange }) => {
+const SaveDeckButton: React.FC<SaveDeckButtonProps> = ({ kanjiIds, wordIds, grammarIds, readingIds, onSaveStatusChange, deckName, lessonName, courseId, courseName }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
 
@@ -49,10 +49,10 @@ return (
         {isModalOpen &&
             <SaveDeckModal
                 onClose={closeModal}
-                courseId={"courseId"}
-                courseName={"courseName"}
-                lessonName={"lessonName"}
-                deckName={"deckName"}
+                courseId={courseId}
+                courseName={courseName}
+                lessonName={lessonName}
+                deckName={deckName}
                 kanjiIds={kanjiIds}
                 readingIds={readingIds}
                 wordIds={wordIds}

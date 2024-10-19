@@ -214,18 +214,6 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                         deckName={deckName}
                         onSaveStatusChange={onSaveStatusChanged}
                     />
-                    
-                    
-                    {/*<SaveDeckInput*/}
-                    {/*    kanjiList={selectedKanjiIds} */}
-                    {/*    wordList={selectedWordIds} */}
-                    {/*    grammarList={selectedGrammarIds} */}
-                    {/*    onSaveStatusChange={onSaveStatusChanged}*/}
-                    {/*    courseId={courseId}*/}
-                    {/*    courseName={courseName}*/}
-                    {/*    lessonName={lessonName}*/}
-                    {/*    deckName={deckName}*/}
-                    {/*/>*/}
                 </div>
             )}
         </SectionContainer>

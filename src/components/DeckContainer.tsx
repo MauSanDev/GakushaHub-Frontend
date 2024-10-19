@@ -20,7 +20,8 @@ interface DeckContainerProps {
     collectionType: CollectionTypes.KanjiDeck | CollectionTypes.WordDeck | CollectionTypes.GrammarDeck | CollectionTypes.ReadingDeck;
     viewMode: "table" | "cards";
     viewerRole: MembershipRole;
-    lessonId: string;
+    lessonName: string;
+    courseName: string;
     courseId: string;
     sectionTitle: string;
     FaIcon: React.ComponentType<{ size?: number }>;
@@ -33,7 +34,8 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
                                                          collectionType,
                                                          viewMode,
                                                          viewerRole,
-                                                         lessonId,
+                                                         lessonName,
+                                                         courseName,
                                                          courseId,
                                                          sectionTitle,
                                                          FaIcon,
@@ -187,7 +189,8 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
                 <GenericDeckDisplay<typeof deck.elements[0]>
                     key={deck._id}
                     deck={deck}
-                    lessonId={lessonId}
+                    lessonName={lessonName}
+                    courseName={courseName}
                     courseId={courseId}
                     renderItem={renderItem}
                     elementType={elementType}

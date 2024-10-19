@@ -28,7 +28,7 @@ interface SaveDeckDropdownModalProps {
 
 const MAX_INPUT_LENGTH = 25;
 
-const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose, kanjiIds, wordIds, grammarIds, readingIds, onSaveStatusChange }) => {
+const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose, kanjiIds, wordIds, grammarIds, readingIds, onSaveStatusChange, courseId, courseName, lessonName, deckName }) => {
     const { t } = useTranslation();
     const [courseSearchValue, setCourseSearchValue] = useState<string>('');
     const [lessonSearchValue, setLessonSearchValue] = useState<string>('');
@@ -73,6 +73,40 @@ const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose, 
         fetchGrammarDecks();
         fetchReadingDecks();
     }, [selectedLessonId]);
+
+
+    useEffect(() => {
+        if (courseId)
+        {
+            setSelectedCourseId(courseId);
+        }
+        if (courseName)
+        {
+            setCourseSearchValue(courseName)
+        }
+        
+    }, [courseId]);
+
+    useEffect(() => {
+        if (lessonName)
+        {
+            setLessonSearchValue(lessonName);
+        }
+    }, [lessonName]);
+
+    useEffect(() => {
+        if (deckName)
+        {
+            setSearchDeckValue(deckName);
+        }
+    }, [deckName]);
+
+    useEffect(() => {
+        if (courseId)
+        {
+            setSelectedCourseId(courseId)
+        }
+    }, [courseId]);
 
     const validateInputLength = (input: string): boolean => {
         return input.length <= MAX_INPUT_LENGTH;
@@ -176,7 +210,7 @@ const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose, 
                         onChange={setCourseSearchValue}
                         placeholder={t("course")}
                         options={courseOptions}
-                        disabled={false}
+                        disabled={courseName !== undefined}
                     />
 
                     <DropdownInput
@@ -184,7 +218,7 @@ const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose, 
                         onChange={setLessonSearchValue}
                         placeholder={t("lesson")}
                         options={lessonOptions}
-                        disabled={false}
+                        disabled={lessonName !== undefined}
                     />
 
                     <DropdownInput
@@ -192,7 +226,7 @@ const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose, 
                         onChange={setSearchDeckValue}
                         placeholder={t("deck")}
                         options={deckOptions}
-                        disabled={false}
+                        disabled={deckName !== undefined}
                     />
 
                     {error ? (

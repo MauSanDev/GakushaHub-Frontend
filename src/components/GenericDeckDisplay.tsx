@@ -22,7 +22,8 @@ interface ColumnConfig<T> {
 
 interface GenericDeckDisplayProps<T> {
     deck: BaseDeckData;
-    lessonId: string;
+    lessonName: string;
+    courseName: string;
     courseId: string;
     renderItem: (element: T, index: number) => JSX.Element;
     columns?: number;
@@ -39,7 +40,8 @@ interface GenericDeckDisplayProps<T> {
 
 const GenericDeckDisplay = <T,>({
                                     deck,
-                                    lessonId,
+                                    lessonName,
+                                    courseName,
                                     courseId,
                                     renderItem,
                                     columns = 6,
@@ -50,7 +52,7 @@ const GenericDeckDisplay = <T,>({
                                     viewMode,
                                     viewerRole,
                                     showGeneration,
-                                    showFlashcards
+                                    showFlashcards,
                                 }: GenericDeckDisplayProps<T>) => {
     const { data: elements, isLoading, fetchElementsData } = useElements<T>(deck.elements, elementType);
     const [isFlashcardLoading, setIsFlashcardLoading] = useState(false); 
@@ -140,8 +142,8 @@ const GenericDeckDisplay = <T,>({
                         <AddContentButton
                             creatorId={deck.creatorId}
                             courseId={courseId}
-                            courseName={courseId}
-                            lessonName={lessonId}
+                            courseName={courseName}
+                            lessonName={lessonName}
                             deckName={deck.name}
                         />
                         <DeleteButton
