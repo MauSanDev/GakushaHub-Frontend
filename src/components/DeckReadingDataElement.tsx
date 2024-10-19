@@ -17,25 +17,31 @@ const DeckReadingDataElement: React.FC<DeckReadingDataElementProps> = ({ result,
     return (
         <div className={`relative p-4 border bg-white dark:bg-gray-950 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800 rounded-md shadow-md 
             ${isSelected ? 'dark:border-green-800 dark:hover:border-green-600 border-green-500 hover:border-green-300' : ''}`}
-
              onClick={onClick}
         >
 
             <div
-                className={`absolute top-2 right-10 w-6 h-6 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 ${
+                className={`absolute bottom-2 right-2 w-6 h-6 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 ${
                     isSelected ? 'text-green-500' : ''
                 }`}
             >
                 {isSelected && <FaCheck/>}
             </div>
             
-            <div className="absolute top-2 right-2">
+            <div className="absolute top-2 right-2 flex flex-wrap gap-2">
                 <DeleteButton
                     creatorId={result.creatorId}
                     elementId={result._id}
                     elementType={CollectionTypes.Generation}
                     deleteRelations={deleteRelations}
                 />
+                
+                <Link
+                    to={`/generation/${result._id}`}
+                    className="ml-auto bg-blue-500 dark:bg-gray-700 text-white text-xs font-semibold px-3 py-1 rounded-full hover:bg-blue-600 dark:hover:bg-gray-600 transition-colors flex items-center gap-1"
+                >
+                    <FaEye/> Read
+                </Link>
             </div>
             <div className="dark:border-gray-800">
 
@@ -65,13 +71,6 @@ const DeckReadingDataElement: React.FC<DeckReadingDataElementProps> = ({ result,
                             ))}
                         </div>
                     </div>
-
-                    <Link
-                        to={`/generation/${result._id}`}
-                        className="ml-auto bg-blue-500 dark:bg-gray-700 text-white text-xs font-semibold px-3 py-1 rounded-full hover:bg-blue-600 dark:hover:bg-gray-600 transition-colors flex items-center gap-1"
-                    >
-                        <FaEye/> Read
-                    </Link>
                 </div>
             </div>
         </div>

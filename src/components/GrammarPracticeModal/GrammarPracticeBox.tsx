@@ -13,28 +13,28 @@ interface Sentence {
 }
 
 const GrammarPracticeBox = ({ element }: GrammarPracticeBoxProps) => {
-    const [sentences, setSentences] = useState<Sentence[]>([{ id: Date.now() }]); // Lista de inputs para este elemento
-    const [showDetails, setShowDetails] = useState(false); // Controlar si mostramos la descripción y ejemplos
+    const [sentences, setSentences] = useState<Sentence[]>([{ id: Date.now() }]); 
+    const [showDetails, setShowDetails] = useState(false); 
 
     const handleAddSentence = () => {
-        setSentences((prev) => [...prev, { id: Date.now() }]); // Agregamos un nuevo input con un id único
+        setSentences((prev) => [...prev, { id: Date.now() }]);
     };
 
     const handleRemoveSentence = (id: number) => {
         if (sentences.length > 1) {
-            setSentences((prev) => prev.filter((sentence) => sentence.id !== id)); // Eliminamos el input con el id seleccionado
+            setSentences((prev) => prev.filter((sentence) => sentence.id !== id));
         }
     };
 
     const handleToggleDetails = () => {
-        setShowDetails((prev) => !prev); // Toggle para expandir o colapsar el contenido
+        setShowDetails((prev) => !prev);
     };
 
     return (
         <div className="w-full mb-4 border-b border-gray-800 pt-10">
             <div
                 className="flex items-center cursor-pointer p-2"
-                onClick={handleToggleDetails} // Al hacer clic se expande o colapsa
+                onClick={handleToggleDetails}
             >
                 <h2 className="text-2xl font-semibold text-white hover:text-blue-400 transition-all">
                     {element.structure}
@@ -44,7 +44,6 @@ const GrammarPracticeBox = ({ element }: GrammarPracticeBoxProps) => {
                 </button>
             </div>
 
-            {/* Contenedor con la transición de expandir/colapsar */}
             <div
                 className={`transition-all duration-500 ease-in-out overflow-hidden ${
                     showDetails ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'

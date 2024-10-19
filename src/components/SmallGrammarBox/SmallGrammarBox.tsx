@@ -104,7 +104,7 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result, isSelected = 
         >
 
             <div
-                className={`absolute top-2 right-2 w-6 h-6 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 ${
+                className={`absolute bottom-2 right-2 w-6 h-6 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 ${
                     isSelected ? 'text-green-500' : ''
                 }`}
             >

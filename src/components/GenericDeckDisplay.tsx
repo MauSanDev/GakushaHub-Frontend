@@ -1,19 +1,20 @@
-import { useState } from "react";
-import { ReactNode } from "react";
-import {FaPlayCircle, FaSpinner, FaTimes} from "react-icons/fa";
+import {ReactNode, useState} from "react";
+import {FaPen, FaPlayCircle, FaSpinner, FaTimes} from "react-icons/fa";
 import DeleteButton from "./DeleteButton";
 import AddContentButton from "./AddContentButton.tsx";
-import { MembershipRole } from "../data/MembershipData.ts";
-import { CollectionTypes } from "../data/CollectionTypes.tsx";
-import { useElements } from '../hooks/newHooks/useElements';
+import {MembershipRole} from "../data/MembershipData.ts";
+import {CollectionTypes} from "../data/CollectionTypes.tsx";
+import {useElements} from '../hooks/newHooks/useElements';
 import CollapsibleSection from "./ui/containers/CollapsibleSection";
-import { BaseDeckData } from "../data/DeckData.ts";
+import {BaseDeckData} from "../data/DeckData.ts";
 import GenericTable from "../components/Tables/GenericTable";
 import { convertArrayToFlashcardDeck } from "../data/FlashcardData.ts";
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
 import FlashcardsModal from "./FlashcardsPage";
 import GenerationButton from "./Modals/GenerationButton.tsx";
 import NoDataMessage from "./NoDataMessage.tsx";
+import GrammarPracticeModal from "./GrammarPracticeModal/GrammarPracticeModal.tsx";
+import {GrammarData} from "../data/GrammarData.ts";
 
 interface ColumnConfig<T> {
     header: string;
@@ -62,6 +63,8 @@ const GenericDeckDisplay = <T,>({
     const { data: elements, isLoading, fetchElementsData } = useElements<T>(deck.elements, elementType);
     const [isFlashcardLoading, setIsFlashcardLoading] = useState(false); 
     const [flashcardModeEnabled, setFlashcardModeEnabled] = useState(false);
+    const [isGrammarLoading, setIsGrammarLoading] = useState(false); 
+    const [grammarModeEnabled, setGrammarModeEnabled] = useState(false);
 
     const handleExpand = () => {
         if (!elements) {
@@ -77,6 +80,16 @@ const GenericDeckDisplay = <T,>({
         }
         
         setFlashcardModeEnabled(true)
+    };
+    
+    const handleGrammarPracticeClick = async () => {
+        if (!elements) {
+            setIsGrammarLoading(true); 
+            await fetchElementsData(); 
+            setIsGrammarLoading(false); 
+        }
+        
+        setGrammarModeEnabled(true)
     };
 
     const renderContent = () => {
@@ -136,12 +149,17 @@ const GenericDeckDisplay = <T,>({
                             className={"bg-transparent dark:bg-transparent text-red-600 dark:text-red-800"}
                             label={"Remove Selected"}
                         />}
+
+                        {deckType === CollectionTypes.GrammarDeck &&
+                            <TertiaryButton
+                                iconComponent={isGrammarLoading ?  <FaSpinner className="animate-spin text-gray-500" /> : <FaPen />}
+                                onClick={handleGrammarPracticeClick}
+                            />}
                         
                         {showFlashcards && 
                         <TertiaryButton 
                             iconComponent={isFlashcardLoading ?  <FaSpinner className="animate-spin text-gray-500" /> : <FaPlayCircle />}
                             onClick={handleFlashcardClick} 
-                            className={"hover:bg-green-600 hover:dark:bg-green-600"}
                         />}
 
                         {showGeneration && 
@@ -177,7 +195,13 @@ const GenericDeckDisplay = <T,>({
                     deck={convertArrayToFlashcardDeck<T>(Object.values(elements), deck.name, elementType)}
                 />
             }
-                
+
+            {grammarModeEnabled && elements &&
+                <GrammarPracticeModal
+                    onClose={() => {setGrammarModeEnabled(false)}}
+                    elements={Object.values(elements) as GrammarData[]}
+                />
+            }
             </CollapsibleSection>
         </div>
     );

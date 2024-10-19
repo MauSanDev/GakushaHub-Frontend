@@ -1,22 +1,22 @@
 import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import { GrammarDeck } from "../../data/GrammarData.ts";
+import {GrammarData} from "../../data/GrammarData.ts";
 import GrammarElement from "./GrammarPracticeBox.tsx";
 import BackButton from "../ui/buttons/BackButton.tsx";
 
 interface GrammarPracticeModalProps {
-    deck: GrammarDeck;
+    elements: GrammarData[];
     onClose: () => void;
 }
 
-const GrammarPracticeModal = ({ deck, onClose }: GrammarPracticeModalProps) => {
+const GrammarPracticeModal = ({ elements, onClose }: GrammarPracticeModalProps) => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        if (deck) {
+        if (elements) {
             setIsVisible(true);
         }
-    }, [deck]);
+    }, [elements]);
 
     useEffect(() => {
         if (isVisible) {
@@ -30,13 +30,13 @@ const GrammarPracticeModal = ({ deck, onClose }: GrammarPracticeModalProps) => {
         };
     }, [isVisible]);
 
-    // Función para manejar el cierre con confirmación
+    
     const handleClose = () => {
         const confirmClose = window.confirm(
             "Close the Grammar Practice? The practice will be discarded. Do you want to continue?"
         );
         if (confirmClose) {
-            onClose(); // Si el usuario confirma, se cierra el modal
+            onClose(); 
         }
     };
 
@@ -52,7 +52,7 @@ const GrammarPracticeModal = ({ deck, onClose }: GrammarPracticeModalProps) => {
                     文法を練習しましょう！
                 </h1>
 
-                {deck.elements.map((element, elementIndex) => (
+                {elements.map((element, elementIndex) => (
                     <GrammarElement key={elementIndex} element={element} />
                 ))}
             </div>
