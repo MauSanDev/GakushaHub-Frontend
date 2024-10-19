@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { ReactNode } from "react";
-import { FaSpinner } from "react-icons/fa";
+import {FaPlayCircle, FaSpinner} from "react-icons/fa";
 import DeleteButton from "./DeleteButton";
 import AddContentButton from "./AddContentButton.tsx";
 import { MembershipRole } from "../data/MembershipData.ts";
@@ -8,11 +9,14 @@ import { useElements } from '../hooks/newHooks/useElements';
 import CollapsibleSection from "./ui/containers/CollapsibleSection";
 import { BaseDeckData } from "../data/DeckData.ts";
 import GenericTable from "../components/Tables/GenericTable";
+import { convertArrayToFlashcardDeck } from "../data/FlashcardData.ts";
+import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
+import FlashcardsModal from "./FlashcardsPage";
 
 interface ColumnConfig<T> {
-    header: string; 
-    key: keyof T;   
-    formatter?: (value: T[keyof T], element: T) => ReactNode; 
+    header: string;
+    key: keyof T;
+    formatter?: (value: T[keyof T], element: T) => ReactNode;
 }
 
 interface GenericDeckDisplayProps<T> {
@@ -22,7 +26,7 @@ interface GenericDeckDisplayProps<T> {
     renderItem: (element: T, index: number) => JSX.Element;
     columns?: number;
     mobileColumns?: number;
-    columnConfig?: ColumnConfig<T>[]; 
+    columnConfig?: ColumnConfig<T>[];
     enableGeneration?: boolean;
     deckType: CollectionTypes;
     elementType: CollectionTypes;
@@ -44,11 +48,23 @@ const GenericDeckDisplay = <T,>({
                                     viewerRole,
                                 }: GenericDeckDisplayProps<T>) => {
     const { data: elements, isLoading, fetchElementsData } = useElements<T>(deck.elements, elementType);
+    const [isFlashcardLoading, setIsFlashcardLoading] = useState(false); // Estado para manejar la carga de flashcards
+    const [flashcardModeEnabled, setFlashcardModeEnabled] = useState(false);
 
     const handleExpand = () => {
         if (!elements) {
             fetchElementsData();
         }
+    };
+
+    const handleFlashcardClick = async () => {
+        if (!elements) {
+            setIsFlashcardLoading(true); // Mostrar indicador de carga si no hay elementos
+            await fetchElementsData(); // Ahora podemos esperar a que los datos se carguen
+            setIsFlashcardLoading(false); // Ocultar el indicador una vez que se carguen
+        }
+        
+        setFlashcardModeEnabled(true)
     };
 
     const renderContent = () => {
@@ -99,6 +115,13 @@ const GenericDeckDisplay = <T,>({
                 canEdit={viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei || viewerRole === MembershipRole.Staff}
                 actions={(
                     <>
+
+                        <TertiaryButton 
+                            iconComponent={isFlashcardLoading ?  <FaSpinner className="animate-spin text-gray-500" /> : <FaPlayCircle />}
+                            onClick={handleFlashcardClick} 
+                            className={"hover:bg-green-600 hover:dark:bg-green-600"}
+                        />
+
                         <AddContentButton
                             creatorId={deck.creatorId}
                             courseId={courseId}
@@ -115,6 +138,15 @@ const GenericDeckDisplay = <T,>({
                 )}
             >
                 {renderContent()}
+
+
+            {flashcardModeEnabled && elements &&
+                <FlashcardsModal
+                    onClose={() => {setFlashcardModeEnabled(false)}}
+                    deck={convertArrayToFlashcardDeck<T>(Object.values(elements), deck.name, elementType)}
+                />
+            }
+                
             </CollapsibleSection>
         </div>
     );

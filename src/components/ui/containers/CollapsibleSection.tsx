@@ -1,7 +1,7 @@
 import React, { useState, MouseEvent } from 'react';
 import { FaChevronRight, FaChevronDown } from 'react-icons/fa';
 import LocSpan from "../../LocSpan.tsx";
-import Editable from "../text/Editable.tsx";  // Asumo que tienes este componente disponible
+import Editable from "../text/Editable.tsx";  
 
 interface CollapsibleSectionProps {
     title: string;
@@ -13,7 +13,7 @@ interface CollapsibleSectionProps {
     collectionType?: string;
     canEdit?: boolean;
     children: React.ReactNode;
-    actions?: React.ReactNode;  // Nueva prop para pasar los botones o acciones adicionales
+    actions?: React.ReactNode;  
 }
 
 const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
@@ -26,7 +26,7 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                                                                    collectionType,
                                                                    canEdit = false,
                                                                    children,
-                                                                   actions  // Pasamos los botones o acciones adicionales aquí
+                                                                   actions  
                                                                }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -35,7 +35,7 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
         setIsOpen((prevIsOpen) => {
             const nextIsOpen = !prevIsOpen;
             if (nextIsOpen && onExpand) {
-                onExpand();  // Llamamos a onExpand cuando se abre el colapsable
+                onExpand();  
             }
             return nextIsOpen;
         });
@@ -66,8 +66,7 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                     {label && <span className="ml-2 text-sm text-gray-500 font-normal whitespace-nowrap">{label}</span>}
                 </div>
 
-                {/* Se renderizan las acciones como botones al lado derecho del header */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-0.5">
                     {actions}
                 </div>
             </div>

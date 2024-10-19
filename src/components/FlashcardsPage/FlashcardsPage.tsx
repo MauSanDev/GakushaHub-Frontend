@@ -3,13 +3,12 @@ import { FaEye, FaUndo, FaCheck } from "react-icons/fa";
 import SwipeableCard from "../SwipeableCard";
 import SummaryModal from "../SummaryModal";
 import SettingsTooltip from "../SettingsTooltip";
-import { convertToFlashcardDeck, FlashcardData } from "../../data/FlashcardData.ts";
-import { DeckType } from "../../data/DeckData.ts";
+import {FlashcardData, FlashcardDeck} from "../../data/FlashcardData.ts";
 import ReactDOM from "react-dom";
 import BackButton from "../ui/buttons/BackButton.tsx";
 
 interface FlashcardsModalProps {
-    deck: DeckType;
+    deck: FlashcardDeck;
     onClose: () => void;
 }
 
@@ -40,9 +39,8 @@ const FlashcardsModal = ({ deck, onClose }: FlashcardsModalProps) => {
     }, [isVisible]);
 
     useEffect(() => {
-        const flashcardDeck = convertToFlashcardDeck(deck);
-        setFilteredCards(flashcardDeck.elements);
-        setAllCards(flashcardDeck.elements);
+        setFilteredCards(deck.elements);
+        setAllCards(deck.elements);
         setIsVisible(true);
     }, [deck]);
 

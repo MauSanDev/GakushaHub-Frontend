@@ -9,7 +9,7 @@ export const useElements = <T>(
 ): {
     data: Record<string, T> | undefined,
     isLoading: boolean,
-    fetchElementsData: () => void
+    fetchElementsData: () => Promise<void>
 } => {
     const queryClient = useQueryClient();
     const [data, setData] = useState<Record<string, T> | undefined>(undefined);
@@ -31,6 +31,6 @@ export const useElements = <T>(
     return {
         data,
         isLoading,
-        fetchElementsData,
+        fetchElementsData,  // Ahora es una promesa que se puede await
     };
 };
