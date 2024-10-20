@@ -5,7 +5,7 @@ import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import InputField from "../../components/ui/inputs/InputField";
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Importar los estilos por defecto de Quill
+import 'react-quill/dist/quill.snow.css';
 import TagSelector from "../../components/ui/containers/TagSelector.tsx";
 import { FaPaperPlane } from "react-icons/fa";
 
@@ -19,6 +19,8 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSucc
     const [content, setContent] = useState<string>(''); // Usamos este estado para el contenido del editor
     const [tags, setTags] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
+
+    const availableTags = ['News', 'Update', 'Important', 'Event', 'Announcement'];
 
     const handleCreateNews = () => {
         if (newsTitle.trim() === '') {
@@ -54,7 +56,6 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSucc
                 />
 
                 {/* Quill Editor */}
-
                 <div className="my-4 w-full">
                     <ReactQuill
                         value={content}
@@ -66,15 +67,16 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSucc
                 {/* Selector de etiquetas */}
                 <TagSelector
                     selectedTags={tags}
+                    availableTags={availableTags} // Pasa las etiquetas disponibles
                     onChange={setTags}
-                    placeholder="Select Tags"
+                    placeholder="Add Tags"
                     disabled={false}
                 />
 
                 <PrimaryButton
                     label="Create"
                     onClick={handleCreateNews}
-                    iconComponent={<FaPaperPlane/>}
+                    iconComponent={<FaPaperPlane />}
                     disabled={newsTitle.trim() === ''} // Añadir estado de isLoading si tienes
                     className="w-full mt-4"
                 />

@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
-import { FaTimes, FaPlus } from 'react-icons/fa';
+import {FaTimes, FaPlus, FaCheck, FaDotCircle} from 'react-icons/fa';
+import {FaCircleDot} from "react-icons/fa6";
 
 interface TagSelectorProps {
     selectedTags: string[];
+    availableTags?: string[];
     onChange: (tags: string[]) => void;
     placeholder?: string;
     disabled?: boolean;
 }
 
-const availableTags = ['News', 'Update', 'Important', 'Event', 'Announcement']; // Etiquetas predefinidas, puedes modificarlas
-
-const TagSelector: React.FC<TagSelectorProps> = ({ selectedTags, onChange, placeholder = "Add a tag", disabled = false }) => {
+// Componente TagSelector
+const TagSelector: React.FC<TagSelectorProps> = ({
+                                                     selectedTags,
+                                                     availableTags = ['News', 'Update', 'Important', 'Event', 'Announcement'], // Etiquetas predefinidas por defecto
+                                                     onChange,
+                                                     placeholder = "Add a tag",
+                                                     disabled = false,
+                                                 }) => {
     const [inputValue, setInputValue] = useState<string>('');
 
     const handleAddTag = () => {
@@ -35,7 +42,8 @@ const TagSelector: React.FC<TagSelectorProps> = ({ selectedTags, onChange, place
         <div className="w-full">
             <div className="flex flex-wrap gap-2 mb-2">
                 {selectedTags.map(tag => (
-                    <div key={tag} className="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full">
+                    <div key={tag} 
+                         className="flex items-center bg-blue-400 dark:bg-blue-700 dark:bg-opacity-50 border border-blue-300 dark:border-blue-800 hover:bg-blue-500 transition-all text-white px-2 py-1 text-xs rounded-full">
                         <span>{tag}</span>
                         <button
                             type="button"
@@ -69,19 +77,19 @@ const TagSelector: React.FC<TagSelectorProps> = ({ selectedTags, onChange, place
                 </button>
             </div>
 
-            {/* Etiquetas disponibles */}
-            <div className="mt-3">
-                <p className="text-sm text-gray-600 mb-2">Suggested Tags:</p>
-                <div className="flex gap-2">
+            <div className="mt-3 flex flex-wrap items-center justify-end gap-2">
+                <p className="text-xs text-gray-600 mb-2 text-right">Suggested Tags:</p>
+                <div className="flex gap-1 flex-wrap justify-end">
                     {availableTags.map(tag => (
                         <button
                             key={tag}
                             type="button"
                             onClick={() => !selectedTags.includes(tag) && onChange([...selectedTags, tag])}
-                            className={`px-3 py-1 rounded-full ${selectedTags.includes(tag) ? 'bg-gray-300' : 'bg-blue-100 hover:bg-blue-200 text-blue-700'}`}
+                            className={`flex items-center justify-center relative text-xs border dark:border-gray-700 rounded-full px-2 py-1 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md text-gray-600 dark:text-gray-300 hover:bg-blue-500 dark:hover:bg-gray-700 hover:text-white 
+                            ${selectedTags.includes(tag) ? 'border-green-500 dark:border-green-500 border-2 text-green-800' : 'bg-gray-200 dark:bg-gray-900'}`}
                             disabled={selectedTags.includes(tag) || disabled}
                         >
-                            {tag}
+                            <span>{tag}</span>
                         </button>
                     ))}
                 </div>
