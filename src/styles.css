@@ -81,13 +81,11 @@
     @apply text-gray-800;
 }
 
-/* Hover effect en botones de la toolbar en modo claro */
 .custom-quill-editor .ql-toolbar button:hover,
 .custom-quill-editor .ql-toolbar button:focus {
     @apply text-blue-500;
 }
 
-/* Estilos para el dark mode (cuando la clase dark esté aplicada) */
 .dark .custom-quill-editor .ql-toolbar {
     @apply bg-gray-800 text-white border-none rounded-t-md;
 }
@@ -125,4 +123,42 @@
 .dark .custom-quill-editor .ql-toolbar button:hover,
 .dark .custom-quill-editor .ql-toolbar button:focus {
     @apply text-blue-400;
+}
+
+
+/* Schedule */
+
+/* Día normal */
+.normalDay {
+    @apply bg-transparent text-black dark:text-white;
+}
+
+/* Día con evento */
+.eventDay {
+    @apply bg-blue-500 text-white dark:bg-blue-700;
+}
+
+/* Día de hoy */
+.today {
+    @apply bg-green-500 text-white dark:bg-green-700;
+}
+
+/* Día con evento y es hoy */
+.eventToday {
+    @apply bg-green-400 text-white dark:bg-green-800;
+}
+
+/* Día pasado */
+.pastDay {
+    @apply text-gray-400 dark:text-gray-500;
+}
+
+/* Día fuera de rango */
+.outOfRangeDay {
+    @apply text-gray-300 dark:text-gray-600 pointer-events-none;
+}
+
+/* Día de fin de semana */
+.weekendDay {
+    @apply bg-gray-100 text-black dark:bg-gray-900 dark:text-white;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
 import { useParams } from "react-router-dom";
-import { FaBook, FaChalkboardTeacher, FaFolder, FaSchool, FaUser } from "react-icons/fa";
+import {FaBook, FaCalendar, FaChalkboardTeacher, FaCog, FaFolder, FaPenAlt, FaSchool, FaUser} from "react-icons/fa";
 import { useStudyGroup } from '../hooks/useGetStudyGroup.tsx';
 import { useInstitutionById } from '../hooks/institutionHooks/useInstitutionById.ts';
 import Tabs from "../components/ui/toggles/Tabs.tsx";
@@ -18,6 +18,7 @@ import {FaMessage} from "react-icons/fa6";
 import StudyGroupCoursesTab from "./StudyGroups/StudyGroupCoursesTab.tsx";
 import StudyGroupMembersTab from "./StudyGroups/StudyGroupMembersTab.tsx";
 import StudyGroupChatTab from "./StudyGroups/StudyGroupChatTab.tsx";
+import StudyGroupSchedule from "./StudyGroups/StudyGroupScheduleTab.tsx";
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId } = useParams<{ studyGroupId: string }>();
@@ -93,10 +94,13 @@ const StudyGroupContentPage: React.FC = () => {
     const canEdit = role === MembershipRole.Owner || role === MembershipRole.Staff || role === MembershipRole.Sensei;
 
     const tabs = [
-        { label: 'institutionPage.courses', view: 'courses', icon: <FaBook /> },
-        { label: 'institutionPage.resources', view: 'resources', icon: <FaFolder /> },
-        { label: 'institutionPage.members', view: 'members', icon: <FaUser /> },
-        { label: 'institutionPage.chat', view: 'chat', icon: <FaMessage /> },
+        { label: 'schedule', view: 'schedule', icon: <FaCalendar /> },
+        { label: 'courses', view: 'courses', icon: <FaBook /> },
+        { label: 'resources', view: 'resources', icon: <FaFolder /> },
+        { label: 'chat', view: 'chat', icon: <FaMessage /> },
+        { label: 'homework', view: 'homework', icon: <FaPenAlt /> },
+        { label: 'members', view: 'members', icon: <FaUser /> },
+        { label: 'settings', view: 'settings', icon: <FaCog /> },
     ];
 
     const renderTabContent = () => {
@@ -111,6 +115,8 @@ const StudyGroupContentPage: React.FC = () => {
                 return <StudyGroupMembersTab studyGroup={studyGroup} canEdit={canEdit} role={role} />;
             case 'chat':
                 return <StudyGroupChatTab studyGroup={studyGroup} canEdit={canEdit} role={role} />;
+            case 'schedule':
+                return <StudyGroupSchedule />;
             default:
                 return (<div><NoDataMessage /></div>);
         }
