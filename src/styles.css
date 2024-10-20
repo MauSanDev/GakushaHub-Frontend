@@ -34,3 +34,95 @@
 .transparent-input-field {
     @apply w-full px-2 py-1 border-b bg-transparent outline-none focus:outline-none resize-none overflow-hidden border-gray-600 focus:border-blue-500 text-black dark:text-white;
 }
+/* Estilos para la toolbar y el editor en modo claro */
+.custom-quill-editor .ql-toolbar {
+    @apply bg-gray-200 text-black border-none rounded-t-md;
+}
+
+.custom-quill-editor .ql-container {
+    @apply text-gray-800 border-gray-200 rounded-b-md;
+}
+
+.custom-quill-editor .ql-editor {
+    @apply bg-white text-gray-800 p-4 min-h-[200px] border-none focus:outline-none;
+}
+
+/* Estilos de párrafos, strong y links en el editor */
+.custom-quill-editor .ql-editor p {
+    @apply mb-2 border-none;
+}
+
+.custom-quill-editor .ql-editor strong {
+    @apply font-bold;
+}
+
+.custom-quill-editor .ql-editor a {
+    @apply text-blue-500 underline;
+}
+
+/* Cambiar color de los íconos de la toolbar en modo claro */
+.custom-quill-editor .ql-toolbar .ql-stroke {
+    stroke: black;
+}
+
+.custom-quill-editor .ql-toolbar .ql-fill {
+    fill: black;
+}
+
+.custom-quill-editor .ql-toolbar .ql-picker {
+    @apply text-black;
+}
+
+.custom-quill-editor .ql-toolbar .ql-picker-options {
+    @apply bg-white text-gray-800;
+}
+
+.custom-quill-editor .ql-toolbar .ql-picker-label {
+    @apply text-gray-800;
+}
+
+/* Hover effect en botones de la toolbar en modo claro */
+.custom-quill-editor .ql-toolbar button:hover,
+.custom-quill-editor .ql-toolbar button:focus {
+    @apply text-blue-500;
+}
+
+/* Estilos para el dark mode (cuando la clase dark esté aplicada) */
+.dark .custom-quill-editor .ql-toolbar {
+    @apply bg-gray-800 text-white border-none rounded-t-md;
+}
+
+.dark .custom-quill-editor .ql-container {
+    @apply text-white border-gray-800 rounded-b-md;
+}
+
+.dark .custom-quill-editor .ql-editor {
+    @apply bg-gray-900 text-white p-4 min-h-[200px] border-none focus:outline-none;
+}
+
+/* Cambiar color de los íconos de la toolbar en modo oscuro */
+.dark .custom-quill-editor .ql-toolbar .ql-stroke {
+    stroke: white;
+}
+
+.dark .custom-quill-editor .ql-toolbar .ql-fill {
+    fill: white;
+}
+
+.dark .custom-quill-editor .ql-toolbar .ql-picker {
+    @apply text-white;
+}
+
+.dark .custom-quill-editor .ql-toolbar .ql-picker-options {
+    @apply bg-gray-800 text-white;
+}
+
+.dark .custom-quill-editor .ql-toolbar .ql-picker-label {
+    @apply text-white;
+}
+
+/* Hover effect en botones de la toolbar en modo oscuro */
+.dark .custom-quill-editor .ql-toolbar button:hover,
+.dark .custom-quill-editor .ql-toolbar button:focus {
+    @apply text-blue-400;
+}

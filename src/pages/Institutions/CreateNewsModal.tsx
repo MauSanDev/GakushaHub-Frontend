@@ -4,7 +4,8 @@ import Container from "../../components/ui/containers/Container.tsx";
 import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import InputField from "../../components/ui/inputs/InputField";
-import TextArea from "../../components/ui/inputs/TextArea";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Importar los estilos por defecto de Quill
 import TagSelector from "../../components/ui/containers/TagSelector.tsx";
 import { FaPaperPlane } from "react-icons/fa";
 
@@ -15,19 +16,17 @@ interface CreateNewsModalProps {
 
 const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSuccess }) => {
     const [newsTitle, setNewsTitle] = useState<string>('');
-    const [description, setDescription] = useState<string>('');
+    const [content, setContent] = useState<string>(''); // Usamos este estado para el contenido del editor
     const [tags, setTags] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
 
-    // Simulación de creación de noticias
     const handleCreateNews = () => {
         if (newsTitle.trim() === '') {
             setError("Title cannot be empty.");
             return;
         }
 
-        // Simulación de llamada a API para crear la noticia
-        // Aquí puedes integrar tu hook de creación de noticias
+        // Simulación de creación de noticia
         setTimeout(() => {
             if (onCreateSuccess) {
                 onCreateSuccess();
@@ -38,8 +37,8 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSucc
 
     return (
         <ModalWrapper onClose={onClose}>
-            <Container className="w-full flex flex-col space-y-4"> {/* Cambié flex-row por flex-col y añadí space-y-4 para espaciar los elementos */}
-                <SectionTitle title={"Create a News Item"} className="text-center pb-4" />
+            <Container className="w-full">
+                <SectionTitle title={"Create a News Item"} className="text-center pb-4"/>
 
                 <InputField
                     id="newsTitle"
@@ -51,32 +50,33 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSucc
                     placeholder="Title"
                     disabled={false} // Cambiar esto por isLoading si tienes un estado de carga
                     error={error}
+                    className={"w-full"}
                 />
 
-                <TextArea
-                    id="newsDescription"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Description"
-                    disabled={false} // Cambiar esto por isLoading si tienes un estado de carga
-                    error={null}
-                    rows={4}
-                />
+                {/* Quill Editor */}
+
+                <div className="my-4 w-full">
+                    <ReactQuill
+                        value={content}
+                        onChange={setContent}
+                        className="custom-quill-editor" // Aplica tu propia clase para controlar el estilo
+                    />
+                </div>
 
                 {/* Selector de etiquetas */}
                 <TagSelector
                     selectedTags={tags}
                     onChange={setTags}
                     placeholder="Select Tags"
-                    disabled={false} // Cambiar esto por isLoading si tienes un estado de carga
+                    disabled={false}
                 />
 
                 <PrimaryButton
                     label="Create"
                     onClick={handleCreateNews}
-                    iconComponent={<FaPaperPlane />}
+                    iconComponent={<FaPaperPlane/>}
                     disabled={newsTitle.trim() === ''} // Añadir estado de isLoading si tienes
-                    className="w-full"
+                    className="w-full mt-4"
                 />
             </Container>
         </ModalWrapper>
