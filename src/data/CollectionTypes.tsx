@@ -13,4 +13,5 @@ export enum CollectionTypes {
     StudyGroup = 'studyGroup',
     Institution = 'institution',
     News = 'news',
+    Resources = 'resources',
 }

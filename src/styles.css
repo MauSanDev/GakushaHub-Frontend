@@ -28,7 +28,7 @@
     @apply flex items-center gap-2 px-2 py-1 text-sm rounded transition-colors duration-300;
 }
 .input-field {
-    @apply flex-1 min-w-[200px] border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 text-sm;
+    @apply flex-1 min-w-[200px] border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-800 text-black dark:text-gray-300 text-sm;
 }
 
 .transparent-input-field {

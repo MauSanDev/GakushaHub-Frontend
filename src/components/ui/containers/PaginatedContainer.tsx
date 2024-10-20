@@ -109,7 +109,7 @@ const PaginatedContainer = <T,>({
                 )}
             </div>
 
-            <div className="document-list flex flex-col gap-2 py-1 overflow-y-auto h-full pb-24"
+            <div className="document-list flex flex-col gap-2 py-1 overflow-y-auto h-full pb-80"
                  style={{maxHeight: 'calc(100vh)'}}>
                 {documents.map((document) => (
                     <RenderComponent
