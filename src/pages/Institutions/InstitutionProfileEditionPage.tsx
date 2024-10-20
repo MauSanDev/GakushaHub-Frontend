@@ -122,25 +122,23 @@ const EditProfilePage: React.FC = () => {
                 initialValue={data?.name ||''}
                 collection="institution"
                 documentId={institutionId || ''}
-                field="description"
+                field="name"
                 className="text-left text-white text-3xl font-bold"
-                placeholder="Enter a description"
+                placeholder="Enter School Name"
                 canEdit={true}
                 maxChar={400}
             />
-            
-            {/* Editable Name and Description */}
-            <div className="flex justify-between w-full max-w-4xl mx-auto mt-6">
 
-                
+            <div className="flex flex-col lg:flex-row justify-between w-full max-w-4xl mx-auto mt-6">
+
                 {/* Left Column: Description */}
-                <div className="flex-1 text-gray-800 dark:text-white">
+                <div className="flex-1 text-gray-800 dark:text-white px-10 pb-24">
                     <Editable
                         initialValue={data?.description ||''}
                         collection="institution"
                         documentId={institutionId || ''}
                         field="description"
-                        className="text-left mt-2 text-gray-400"
+                        className="text-left mt-2 text-gray-400 w-full"
                         placeholder="Enter a description"
                         canEdit={true}
                         maxChar={400}

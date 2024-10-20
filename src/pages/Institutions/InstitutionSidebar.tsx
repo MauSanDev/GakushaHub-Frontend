@@ -30,6 +30,7 @@ const InstitutionSidebar: React.FC = () => {
 
     const menuItems = [
         { label: 'profile', path: `/institution/${institutionId}/editProfile`, roles: [MembershipRole.Owner, MembershipRole.Staff] },
+        { label: 'news', path: `/institution/${institutionId}/news`, roles: [MembershipRole.Owner, MembershipRole.Staff] },
         { label: 'studyGroups', path: `/institution/${institutionId}/studyGroups`, roles: null },
         { label: 'members', path: `/institution/${institutionId}/members`, roles: null },
         { label: 'courses', path: `/institution/${institutionId}/courses`, roles: null },
