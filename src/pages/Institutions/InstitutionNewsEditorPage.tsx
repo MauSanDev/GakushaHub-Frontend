@@ -7,31 +7,41 @@ import SearchBar from '../../components/ui/inputs/SearchBar.tsx';
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import CreateNewsModal from "./CreateNewsModal.tsx";
 import { useNews } from "../../hooks/newHooks/News/useNews";
+import {NewsData} from "../../data/NewsData.ts";
 
 const NewsPage: React.FC = () => {
     const [page, setPage] = useState(1);
-    const [searchQuery, setSearchQuery] = useState(''); // Para manejar la búsqueda
-    const [isModalOpen, setIsModalOpen] = useState(false); // Para manejar el modal
-
-    // Usamos el hook personalizado useNews
+    const [searchQuery, setSearchQuery] = useState(''); 
+    const [isModalOpen, setIsModalOpen] = useState(false); 
+    const [selectedNews, setSelectedNews] = useState<NewsData | null>(null); 
+    
     const { fetchNews, isLoading, data: newsData } = useNews(page, 10, searchQuery, []);
-
-    // Llamamos la función fetchNews cuando cambie la página o el query de búsqueda
+    
     useEffect(() => {
         fetchNews();
     }, [page, searchQuery]);
 
-    // Filtrado de noticias basado en la búsqueda (si es necesario, aunque ya lo manejamos con el hook)
+    
     const filteredNews = newsData?.documents || [];
 
-    // Función de búsqueda
+    
     const handleSearch = (query: string) => {
         setSearchQuery(query);
     };
 
-    // Función para abrir y cerrar el modal
-    const handleOpenModal = () => setIsModalOpen(true);
-    const handleCloseModal = () => setIsModalOpen(false);
+    
+    const handleOpenModal = (news?: NewsData) => {
+        if (news) {
+            setSelectedNews(news); 
+        } else {
+            setSelectedNews(null); 
+        }
+        setIsModalOpen(true);
+    };
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedNews(null); 
+    };
 
     return (
         <SectionContainer title={"ニュース"}>
@@ -52,7 +62,7 @@ const NewsPage: React.FC = () => {
                             label="Add News"
                             iconComponent={<FaPlus />}
                             className="ml-2"
-                            onClick={handleOpenModal} // Abre el modal al hacer clic
+                            onClick={() => handleOpenModal()} 
                         />
                     </div>
                 </div>
@@ -65,7 +75,12 @@ const NewsPage: React.FC = () => {
                         totalPages={newsData?.totalPages || 1}
                         onPageChange={setPage}
                         RenderComponent={({ document }) => (
-                            <NewsDataElement key={document._id} newsData={document} canDelete={true} />
+                            <NewsDataElement
+                                key={document._id}
+                                newsData={document}
+                                canDelete={true}
+                                onClick={handleOpenModal} 
+                            />
                         )}
                     />
                 )}
@@ -73,13 +88,13 @@ const NewsPage: React.FC = () => {
                 {isLoading && <p>Loading news...</p>}
             </div>
 
-            {/* Modal para crear noticias */}
             {isModalOpen && (
                 <CreateNewsModal
                     onClose={handleCloseModal}
+                    newsData={selectedNews} 
                     onCreateSuccess={() => {
                         handleCloseModal();
-                        fetchNews(); // Actualizamos las noticias después de crear una nueva
+                        fetchNews(); 
                     }}
                 />
             )}

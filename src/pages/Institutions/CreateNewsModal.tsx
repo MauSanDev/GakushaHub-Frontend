@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import ModalWrapper from '../ModalWrapper';
 import Container from "../../components/ui/containers/Container.tsx";
 import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
@@ -7,64 +7,106 @@ import InputField from "../../components/ui/inputs/InputField";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import TagSelector from "../../components/ui/containers/TagSelector.tsx";
-import { FaPaperPlane } from "react-icons/fa";
-import { useCreateNews } from "../../hooks/newHooks/News/useCreateNews";
+import {FaPaperPlane} from "react-icons/fa";
+import {useCreateNews} from "../../hooks/newHooks/News/useCreateNews";
+import {useUpdateData} from "../../hooks/updateHooks/useUpdateData.ts";
+import {NewsData} from "../../data/NewsData.ts";
 
 interface CreateNewsModalProps {
     onClose: () => void;
     onCreateSuccess?: () => void;
+    newsData?: NewsData | null;
 }
 
-const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSuccess }) => {
-    const [newsTitle, setNewsTitle] = useState<string>('');
-    const [content, setContent] = useState<string>('');
-    const [tags, setTags] = useState<string[]>([]);
+const CreateNewsModal: React.FC<CreateNewsModalProps> = ({onClose, onCreateSuccess, newsData, newsData}) => {
+    const [newsTitle, setNewsTitle] = useState<string>(newsData?.title || '');
+    const [content, setContent] = useState<string>(newsData?.text || '');
+    const [tags, setTags] = useState<string[]>(newsData?.tags || []);
     const [error, setError] = useState<string | null>(null);
 
     const availableTags = ['News', 'Update', 'Important', 'Event', 'Announcement'];
 
-    // Usamos el hook useCreateNews
-    const { mutate: createNews, isLoading } = useCreateNews();
+    const {mutate: createNews, isLoading: isCreating} = useCreateNews();
+    const {mutate: updateNews, isLoading: isUpdating} = useUpdateData<NewsData>();
 
-    const handleCreateNews = () => {
-        // Validaciones para el título y el cuerpo del mensaje
+    useEffect(() => {
+
+        if (newsData) {
+            setNewsTitle(newsData.title);
+            setContent(newsData.text);
+            setTags(newsData.tags);
+        }
+    }, [newsData]);
+
+    const handleSaveNews = () => {
+
         if (newsTitle.trim() === '' || content.trim() === '') {
             setError("Both the title and the content are required.");
             return;
         }
 
-        createNews(
-            {
-                title: newsTitle,
-                text: content,
-                tags: tags,
-            },
-            {
-                onSuccess: () => {
-                    if (onCreateSuccess) {
-                        onCreateSuccess();
-                    }
-                    onClose();
+        if (newsData) {
+            updateNews(
+                {
+                    collection: 'news',
+                    documentId: newsData._id,
+                    newData: {
+                        title: newsTitle,
+                        text: content,
+                        tags: tags,
+                    },
                 },
-                onError: (error) => {
-                    console.error("Error creating news:", error);
-                    setError("Failed to create news.");
+                {
+                    onSuccess: () => {
+                        if (onCreateSuccess) {
+                            onCreateSuccess();
+                        }
+                        onClose();
+                    },
+                    onError: (error) => {
+                        console.error("Error updating news:", error);
+                        setError("Failed to update news.");
+                    },
                 }
-            }
-        );
+            );
+        } else {
+
+            createNews(
+                {
+                    title: newsTitle,
+                    text: content,
+                    tags: tags,
+                },
+                {
+                    onSuccess: () => {
+                        if (onCreateSuccess) {
+                            onCreateSuccess();
+                        }
+                        onClose();
+                    },
+                    onError: (error) => {
+                        console.error("Error creating news:", error);
+                        setError("Failed to create news.");
+                    },
+                }
+            );
+        }
     };
 
     return (
         <ModalWrapper onClose={onClose}>
             <Container className="w-full">
-                <SectionTitle title={"Create a News Item"} className="text-center pb-4"/>
+                <SectionTitle
+                    title={newsData ? "Edit News Item" : "Create a News Item"}
+                    className="text-center pb-4"
+                />
 
                 <InputField
                     id="newsTitle"
                     value={newsTitle}
                     onChange={(e) => {
                         setNewsTitle(e.target.value);
-                        setError(null); // Limpiamos el error si se está editando
+                        setError(null);
                     }}
                     placeholder="Title"
                     disabled={false}
@@ -77,7 +119,7 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSucc
                         value={content}
                         onChange={(value) => {
                             setContent(value);
-                            setError(null); // Limpiamos el error si se está editando
+                            setError(null);
                         }}
                         className="custom-quill-editor"
                     />
@@ -94,10 +136,14 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSucc
                 {error && <p className="text-red-500">{error}</p>} {/* Mostramos el mensaje de error si existe */}
 
                 <PrimaryButton
-                    label="Create"
-                    onClick={handleCreateNews}
-                    iconComponent={<FaPaperPlane />}
-                    disabled={isLoading || newsTitle.trim() === '' || content.trim() === ''} // Deshabilitamos si falta el título o el cuerpo
+                    label={newsData ? "Update" : "Create"}
+                    onClick={handleSaveNews}
+                    iconComponent={<FaPaperPlane/>}
+                    disabled={
+                        (newsData ? isUpdating : isCreating) ||
+                        newsTitle.trim() === '' ||
+                        content.trim() === ''
+                    }
                     className="w-full mt-4"
                 />
             </Container>

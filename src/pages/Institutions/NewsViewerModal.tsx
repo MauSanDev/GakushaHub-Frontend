@@ -4,9 +4,9 @@ import Container from "../../components/ui/containers/Container.tsx";
 import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
 import { FaClock, FaTags } from 'react-icons/fa';
 import RoundedTag from "../../components/ui/text/RoundedTag.tsx";
-import { NewsData } from './Components/NewsDataElement'; // Importa la interfaz NewsData si está en el mismo archivo
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
-import CreatorLabel from "../../components/ui/text/CreatorLabel.tsx"; // Por si quieres agregar botones de acción
+import CreatorLabel from "../../components/ui/text/CreatorLabel.tsx";
+import {NewsData} from "../../data/NewsData.ts";
 
 interface NewsViewerModalProps {
     newsData: NewsData;
