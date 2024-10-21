@@ -16,7 +16,7 @@ interface CreateNewsModalProps {
 
 const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSuccess }) => {
     const [newsTitle, setNewsTitle] = useState<string>('');
-    const [content, setContent] = useState<string>(''); // Usamos este estado para el contenido del editor
+    const [content, setContent] = useState<string>('');
     const [tags, setTags] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
 
@@ -28,7 +28,6 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSucc
             return;
         }
 
-        // Simulación de creación de noticia
         setTimeout(() => {
             if (onCreateSuccess) {
                 onCreateSuccess();
@@ -50,24 +49,22 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSucc
                         setError(null);
                     }}
                     placeholder="Title"
-                    disabled={false} // Cambiar esto por isLoading si tienes un estado de carga
+                    disabled={false}
                     error={error}
                     className={"w-full"}
                 />
 
-                {/* Quill Editor */}
                 <div className="my-4 w-full">
                     <ReactQuill
                         value={content}
                         onChange={setContent}
-                        className="custom-quill-editor" // Aplica tu propia clase para controlar el estilo
+                        className="custom-quill-editor"
                     />
                 </div>
 
-                {/* Selector de etiquetas */}
                 <TagSelector
                     selectedTags={tags}
-                    availableTags={availableTags} // Pasa las etiquetas disponibles
+                    availableTags={availableTags}
                     onChange={setTags}
                     placeholder="Add Tags"
                     disabled={false}
@@ -77,7 +74,7 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSucc
                     label="Create"
                     onClick={handleCreateNews}
                     iconComponent={<FaPaperPlane />}
-                    disabled={newsTitle.trim() === ''} // Añadir estado de isLoading si tienes
+                    disabled={newsTitle.trim() === ''}
                     className="w-full mt-4"
                 />
             </Container>

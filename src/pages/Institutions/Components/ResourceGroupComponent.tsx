@@ -55,20 +55,14 @@ const ResourceGroupComponent: React.FC<ResourceGroupProps> = ({ resourceGroup })
     };
 
     return (
-        <CollapsibleSection
-            title={`${resourceGroup.name} (${resourceGroup.resources.length})`} // Mostrar cantidad de elementos
-            className="text-xl font-bold"
-        >
+        <CollapsibleSection title={`${resourceGroup.name} (${resourceGroup.resources.length})`}>
             <div className="mt-2 ml-4 flex flex-col gap-2 border-l-4 border-gray-300 border-dotted dark:border-gray-800 pl-4">
-                {/* Mini header */}
                 <div className="flex justify-between items-center mb-2">
-                    {/* Barra de búsqueda */}
                     <SearchBar
                         placeholder="Search in group..."
                         onSearch={handleSearch}
                     />
 
-                    {/* Botón de ordenamiento */}
                     <button
                         className="flex items-center p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                         onClick={handleSortChange}
@@ -78,7 +72,6 @@ const ResourceGroupComponent: React.FC<ResourceGroupProps> = ({ resourceGroup })
                     </button>
                 </div>
 
-                {/* Lista de recursos */}
                 {sortedAndFilteredResources.map((resource) => (
                     <ResourceDataElement key={resource._id} resourceData={resource} canDelete={true} />
                 ))}

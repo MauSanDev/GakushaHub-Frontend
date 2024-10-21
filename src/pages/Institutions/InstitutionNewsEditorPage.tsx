@@ -59,23 +59,26 @@ const NewsPage: React.FC = () => {
 
     return (
         <SectionContainer title={"ニュース"}>
-
             <div className="w-full max-w-4xl mx-auto mt-6">
+                {/* Contenedor de búsqueda y botón */}
                 <div className="flex justify-between items-center mb-4">
-                    <PrimaryButton
-                        label="Add News"
-                        iconComponent={<FaPlus />}
-                        className="ml-2"
-                        onClick={handleOpenModal} // Abre el modal al hacer clic
-                    />
-                </div>
+                    {/* SearchBar */}
+                    <div className="w-3/4">
+                        <SearchBar
+                            placeholder="Search news..."
+                            onSearch={handleSearch}
+                        />
+                    </div>
 
-                {/* SearchBar */}
-                <div className="mb-4">
-                    <SearchBar
-                        placeholder="Search news..."
-                        onSearch={handleSearch}
-                    />
+                    {/* Botón al lado derecho */}
+                    <div className="w-1/4 flex justify-end">
+                        <PrimaryButton
+                            label="Add News"
+                            iconComponent={<FaPlus />}
+                            className="ml-2"
+                            onClick={handleOpenModal} // Abre el modal al hacer clic
+                        />
+                    </div>
                 </div>
 
                 {/* PaginatedContainer con los datos de noticias filtradas */}

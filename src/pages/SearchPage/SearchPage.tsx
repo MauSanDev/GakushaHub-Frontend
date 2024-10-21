@@ -202,7 +202,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                 </>
             )}
 
-            {isAuthenticated && (
+            {isAuthenticated && searchExecuted && (
                 <div className="absolute top-0 right-0 flex gap-2">
                     <SaveDeckButton
                         kanjiIds={kanjiResults.map((x) => x._id)}
