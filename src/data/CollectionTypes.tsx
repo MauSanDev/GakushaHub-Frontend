@@ -14,4 +14,5 @@ export enum CollectionTypes {
     Institution = 'institution',
     News = 'news',
     Resources = 'resources',
+    Chat = 'chat',
 }

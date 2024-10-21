@@ -1,4 +1,4 @@
-import { QueryClient } from 'react-query';
+import {QueryClient, QueryKey} from 'react-query';
 import { ApiClient } from './ApiClient';
 import {PaginatedData} from "../data/PaginatedData.ts";
 import {CollectionTypes} from "../data/CollectionTypes.tsx";
@@ -35,13 +35,18 @@ export const fetchPaginatedData = async <T>(
     creatorId?: string,
     searches?: Record<string, string[]>,
     extraParams?: Record<string, string>,
-    excludes?: Record<string, string[]> 
+    excludes?: Record<string, string[]>, 
+    forceFetch?: boolean
 ): Promise<InferPaginatedData<T>> => {
-    const queryKey = [endpoint, page, limit, creatorId, searches, extraParams, excludes];
+    const queryKey = [endpoint, page, limit, creatorId, searches, extraParams, excludes, forceFetch = true];
 
-    const cachedData = queryClient.getQueryData<InferPaginatedData<T>>(queryKey);
-    if (cachedData) {
-        return cachedData;
+    if (forceFetch) {
+        resetPaginationQueries(queryKey, queryClient)}
+    else {
+        const cachedData = queryClient.getQueryData<InferPaginatedData<T>>(queryKey);
+        if (cachedData) {
+            return cachedData;
+        }
     }
 
     const searchQueryString = searches
@@ -94,7 +99,8 @@ export const fetchFullPagination = async <T>(
     extraParams?: Record<string, string>,
     excludes?: Record<string, string[]>,
     creatorId?: string,
-    fields?: string[]
+    fields?: string[],
+    forceFetch?: boolean
 ): Promise<PaginatedData<T> | undefined> => {
     try {
         const paginatedData = await fetchPaginatedData<string>(
@@ -105,7 +111,8 @@ export const fetchFullPagination = async <T>(
             creatorId,
             searches,
             extraParams,
-            excludes
+            excludes,
+            forceFetch
         );
         
         if (paginatedData?.documents && paginatedData.documents.length > 0) {
@@ -126,7 +133,7 @@ export const fetchFullPagination = async <T>(
     }
 };
 
-export const resetPaginationQueries = (key: string, queryClient: QueryClient) => {
+export const resetPaginationQueries = (key: QueryKey, queryClient: QueryClient) => {
     console.log(`Invalidating queries for pagination of ${key}`);
     queryClient.invalidateQueries([key]);
 };

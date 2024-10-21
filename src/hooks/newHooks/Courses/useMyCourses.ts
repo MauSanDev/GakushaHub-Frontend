@@ -48,8 +48,7 @@ export const useMyCourses = (
             setIsLoading(false);
         }
     };
-
-    // Permite invalidar la caché de React Query para los cursos
+    
     const resetQueries = () => {
         queryClient.invalidateQueries('courses');
     };
@@ -57,7 +56,7 @@ export const useMyCourses = (
     return {
         data,
         isLoading,
-        fetchCourses,  // Mantengo la función para llamarla manualmente
-        resetQueries,  // Permite resetear la caché
+        fetchCourses,  
+        resetQueries,  
     };
 };

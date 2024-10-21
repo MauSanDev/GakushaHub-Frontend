@@ -18,7 +18,7 @@ interface CreateNewsModalProps {
     newsData?: NewsData | null;
 }
 
-const CreateNewsModal: React.FC<CreateNewsModalProps> = ({onClose, onCreateSuccess, newsData, newsData}) => {
+const CreateNewsModal: React.FC<CreateNewsModalProps> = ({onClose, onCreateSuccess, newsData}) => {
     const [newsTitle, setNewsTitle] = useState<string>(newsData?.title || '');
     const [content, setContent] = useState<string>(newsData?.text || '');
     const [tags, setTags] = useState<string[]>(newsData?.tags || []);
