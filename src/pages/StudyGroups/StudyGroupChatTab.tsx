@@ -83,10 +83,8 @@ const StudyGroupChat: React.FC<StudyGroupChatProps> = ({ studyGroup, canEdit, ro
                                 <React.Fragment key={msg._id}>
                                     {currentDate !== prevDate && <ChatDaySeparator date={currentDate} />}
                                     <ChatMessageBox
-                                        userId={msg.userId}
-                                        avatarUrl={'https://via.placeholder.com/150'}
-                                        message={msg.message}
-                                        timestamp={msg.timestamp}
+                                        messageData={msg}
+                                        viewerRole={role}
                                     />
                                 </React.Fragment>
                             );

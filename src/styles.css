@@ -162,3 +162,29 @@
 .weekendDay {
     @apply bg-gray-100 text-black dark:bg-gray-900 dark:text-white;
 }
+
+.guest-message {
+    @apply flex items-start gap-1 dark:bg-gray-800 dark:text-gray-300 bg-gray-100 text-gray-500 px-3 py-2 rounded-lg;
+}
+.guest-message-header {
+    @apply flex gap-2 items-center;
+}
+.guest-message-name {
+    @apply font-bold text-sm;
+}
+.guest-message-timestamp {
+    @apply text-xs text-gray-400 mt-1;
+}
+
+.user-message {
+    @apply flex items-start gap-1 flex-row-reverse dark:bg-blue-700 dark:bg-opacity-40 text-right bg-blue-500 px-3 py-2 rounded-lg;
+}
+.user-message-header {
+    @apply flex gap-2 items-center flex-row-reverse;
+}
+.user-message-name {
+    @apply font-bold text-sm;
+}
+.user-message-timestamp {
+    @apply text-xs text-white dark:text-gray-400 mt-1;
+}

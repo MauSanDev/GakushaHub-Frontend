@@ -45,8 +45,23 @@ export const useChatMessages = (
             );
 
             setData((prevData) => {
-                const newMessages = result?.documents.filter(msg => !prevData?.documents.some(prev => prev._id === msg._id));
-                return prevData ? { ...prevData, documents: [...prevData.documents, ...newMessages] } : result;
+                if (!prevData) {
+                    return result;
+                }
+
+                const updatedDocuments = prevData.documents.map(prevMsg => {
+                    const newMsg = result?.documents.find(newMsg => newMsg._id === prevMsg._id);
+                    return newMsg || prevMsg; 
+                });
+                
+                const additionalNewMessages = result?.documents.filter(newMsg =>
+                    !prevData.documents.some(prevMsg => prevMsg._id === newMsg._id)
+                );
+
+                return {
+                    ...prevData,
+                    documents: [...updatedDocuments, ...additionalNewMessages], 
+                };
             });
         } catch (error) {
             console.error('Error fetching messages:', error);
@@ -68,7 +83,7 @@ export const useChatMessages = (
             };
 
             await createElement(CollectionTypes.Chat, newMessage, queryClient);
-            fetchMessages();
+            fetchMessages(); 
         } catch (error) {
             console.error('Error sending message:', error);
         } finally {
