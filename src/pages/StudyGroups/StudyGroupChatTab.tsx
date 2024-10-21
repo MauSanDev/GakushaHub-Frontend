@@ -16,31 +16,48 @@ interface StudyGroupChatProps {
 
 const StudyGroupChat: React.FC<StudyGroupChatProps> = ({ studyGroup, canEdit, role }) => {
     const [newMessage, setNewMessage] = useState<string>('');
+    const [page, setPage] = useState<number>(1);  
+    const [maxPage, setMaxPage] = useState<number>(1);  
+    const [isFetchingMore, setIsFetchingMore] = useState<boolean>(false); 
+
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
+    const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
-    const { data, isLoading, fetchMessages, sendMessage, isSending } = useChatMessages(studyGroup._id, 1, 10);
+    const { data, isLoading, fetchMessages, sendMessage, isSending } = useChatMessages(studyGroup._id, page, 10);
 
-    
     useEffect(() => {
-        fetchMessages(); 
-    }, []);
+        fetchMessages();
+    }, [newMessage]);
 
     
     useEffect(() => {
         const interval = setInterval(() => {
-            fetchMessages(); 
+            fetchMessages(1);  
         }, 5000);
 
-        return () => clearInterval(interval); 
+        return () => clearInterval(interval);
     }, []);
 
+    
+    const handleScroll = () => {
+        if (chatContainerRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+            
+            if (scrollTop  <= clientHeight - scrollHeight && !isFetchingMore && (maxPage > page)) {
+                setIsFetchingMore(true);
+                const valToFetch =  Math.min(page + 1, maxPage);
+                setPage(valToFetch);
+                fetchMessages(valToFetch).finally(() => setIsFetchingMore(false)); 
+            }
+        }
+    };
     
     const handleSendMessage = async () => {
         if (newMessage.trim()) {
             try {
-                await sendMessage(newMessage); 
+                await sendMessage(newMessage);
                 setNewMessage('');
-                fetchMessages(); 
+                fetchMessages(1);  
             } catch (error) {
                 console.error("Error sending message:", error);
             }
@@ -54,13 +71,33 @@ const StudyGroupChat: React.FC<StudyGroupChatProps> = ({ studyGroup, canEdit, ro
     };
 
     const formatDate = (timestamp: string) => {
-        return timestamp.slice(0, 10); 
+        return timestamp.slice(0, 10);
     };
+
+    useEffect(() => {
+        if (data) {
+            setMaxPage(data.totalPages)
+        }
+    }, [data]);
+    
+    useEffect(() => {
+        if (page === 1 && messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [data, page]);
 
     
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [data]);
+        if (chatContainerRef.current) {
+            chatContainerRef.current.addEventListener('scroll', handleScroll);
+        }
+
+        return () => {
+            if (chatContainerRef.current) {
+                chatContainerRef.current.removeEventListener('scroll', handleScroll);
+            }
+        };
+    }, [chatContainerRef]);
 
     return (
         <div className="flex flex-col w-full max-w-4xl text-white p-4 rounded-lg h-full relative">
@@ -71,8 +108,18 @@ const StudyGroupChat: React.FC<StudyGroupChatProps> = ({ studyGroup, canEdit, ro
                 </div>
             )}
 
-            <div className="flex-grow overflow-y-auto p-4 flex flex-col-reverse" style={{ height: 'calc(80vh - 160px)' }}>
+            <div
+                className="flex-grow overflow-y-auto p-4 flex flex-col-reverse"
+                ref={chatContainerRef}
+                onScroll={handleScroll} 
+                style={{ height: 'calc(80vh - 160px)', overflowY: 'auto' }} 
+            >
                 <div className="flex flex-col space-y-1">
+                    {isFetchingMore && ( 
+                        <div className="flex justify-center">
+                            <FaSpinner className="animate-spin text-gray-400" />
+                        </div>
+                    )}
                     {data && data.documents.length > 0 ? (
                         data.documents.map((msg, index) => {
                             const prevMessage = data.documents[index - 1];
@@ -80,7 +127,7 @@ const StudyGroupChat: React.FC<StudyGroupChatProps> = ({ studyGroup, canEdit, ro
                             const prevDate = prevMessage ? formatDate(prevMessage.timestamp) : '';
 
                             return (
-                                <React.Fragment key={msg._id}>  {/* La clave única debe ser el `_id` */}
+                                <React.Fragment key={msg._id}>
                                     {currentDate !== prevDate && <ChatDaySeparator date={currentDate} />}
                                     <ChatMessageBox
                                         messageData={msg}

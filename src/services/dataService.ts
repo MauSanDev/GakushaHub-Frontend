@@ -38,7 +38,7 @@ export const fetchFullPagination = async <T>(
     creatorId?: string,
     fields?: string[],
     forceFetch?: boolean,
-    sortingOptions?: Record<string, number>,  // Añadimos sortingOptions como parámetro
+    sortingOptions?: Record<string, number>,  
 ): Promise<PaginatedData<T> | undefined> => {
     try {
         const paginatedData = await fetchPaginatedData<string>(
@@ -50,7 +50,7 @@ export const fetchFullPagination = async <T>(
             searches,
             extraParams,
             excludes,
-            sortingOptions,  // Pasamos sortingOptions aquí
+            sortingOptions,  
             forceFetch
         );
 
@@ -81,7 +81,7 @@ export const fetchPaginatedData = async <T>(
     searches?: Record<string, string[]>,
     extraParams?: Record<string, string>,
     excludes?: Record<string, string[]>,
-    sortingOptions?: Record<string, number>,  // Añadimos sortingOptions como parámetro
+    sortingOptions?: Record<string, number>,  
     forceFetch?: boolean
 ): Promise<InferPaginatedData<T>> => {
     const queryKey = [endpoint, page, limit, creatorId, searches, extraParams, excludes, sortingOptions, forceFetch = true];
@@ -123,7 +123,7 @@ export const fetchPaginatedData = async <T>(
         ? '&' + new URLSearchParams(extraParams).toString()
         : '';
 
-    // Convertir sortingOptions en un query string
+    
     const sortingQueryString = sortingOptions
         ? Object.entries(sortingOptions)
             .map(([field, order]) => `sortOptions=${field}:${order}`)
@@ -134,7 +134,7 @@ export const fetchPaginatedData = async <T>(
         + (creatorId ? `&creatorId=${creatorId}` : '')
         + (searchQueryString ? `&${searchQueryString}` : '')
         + (excludeQueryString ? `&${excludeQueryString}` : '')
-        + (sortingQueryString ? `&${sortingQueryString}` : '') // Añadimos el sortingOptions al queryString
+        + (sortingQueryString ? `&${sortingQueryString}` : '') 
         + extraQueryString;
 
     const fetchedData = await ApiClient.get<InferPaginatedData<T>>(`${endpoint}/paginate${queryString}`);
@@ -145,7 +145,6 @@ export const fetchPaginatedData = async <T>(
 };
 
 export const resetPaginationQueries = (key: QueryKey, queryClient: QueryClient) => {
-    console.log(`Invalidating queries for pagination of ${key}`);
     queryClient.invalidateQueries([key]);
 };
 

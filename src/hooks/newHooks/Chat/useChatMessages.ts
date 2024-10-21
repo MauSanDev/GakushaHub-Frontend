@@ -11,7 +11,7 @@ export const useChatMessages = (
     page: number,
     limit: number
 ): {
-    fetchMessages: () => Promise<void>,
+    fetchMessages: (page?: number) => Promise<void>,
     sendMessage: (messageContent: string) => Promise<void>,
     isLoading: boolean,
     isSending: boolean,
@@ -24,20 +24,19 @@ export const useChatMessages = (
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isSending, setIsSending] = useState<boolean>(false);
 
-    const fetchMessages = async () => {
+    const fetchMessages = async (requestedPage: number = page) => {
         setIsLoading(true);
         try {
             const filters = {
                 studyGroupId: [studyGroupId]
             };
 
-            // Añadimos las sortingOptions para ordenar por 'timestamp' en orden descendente
             const sortingOptions = {
                 timestamp: -1
             };
 
             const result = await fetchFullPagination<ChatMessageData>(
-                page,
+                requestedPage, 
                 limit,
                 CollectionTypes.Chat,
                 queryClient,
@@ -46,9 +45,9 @@ export const useChatMessages = (
                 {},
                 userData?._id,
                 [],
-                true,
+                page === 1,
                 sortingOptions
-        );
+            );
 
             setData(prevData => {
                 if (!result) return prevData;
@@ -95,7 +94,7 @@ export const useChatMessages = (
             };
 
             await createElement(CollectionTypes.Chat, newMessage, queryClient);
-            fetchMessages(); // Refrescar mensajes después de enviar
+            fetchMessages(1); // Refrescar mensajes más recientes (página 1) después de enviar
         } catch (error) {
             console.error('Error sending message:', error);
         } finally {
