@@ -31,6 +31,11 @@ export const useChatMessages = (
                 studyGroupId: [studyGroupId]
             };
 
+            // Añadimos las sortingOptions para ordenar por 'timestamp' en orden descendente
+            const sortingOptions = {
+                timestamp: -1
+            };
+
             const result = await fetchFullPagination<ChatMessageData>(
                 page,
                 limit,
@@ -41,26 +46,33 @@ export const useChatMessages = (
                 {},
                 userData?._id,
                 [],
-                true
-            );
+                true,
+                sortingOptions
+        );
 
-            setData((prevData) => {
-                if (!prevData) {
-                    return result;
-                }
+            setData(prevData => {
+                if (!result) return prevData;
 
-                const updatedDocuments = prevData.documents.map(prevMsg => {
-                    const newMsg = result?.documents.find(newMsg => newMsg._id === prevMsg._id);
-                    return newMsg || prevMsg; 
-                });
-                
-                const additionalNewMessages = result?.documents.filter(newMsg =>
-                    !prevData.documents.some(prevMsg => prevMsg._id === newMsg._id)
+                const updatedDocuments = prevData?.documents.map(prevMsg => {
+                    const newMsg = result.documents.find(newMsg => newMsg._id === prevMsg._id);
+                    return newMsg || prevMsg;
+                }) || [];
+
+                const additionalNewMessages = result.documents.filter(newMsg =>
+                    !prevData?.documents.some(prevMsg => prevMsg._id === newMsg._id)
                 );
 
+                const allMessages = [...updatedDocuments, ...additionalNewMessages];
+
+                // Ordenar los mensajes por timestamp
+                allMessages.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+
                 return {
-                    ...prevData,
-                    documents: [...updatedDocuments, ...additionalNewMessages], 
+                    documents: allMessages,
+                    page: result.page,
+                    totalPages: result.totalPages,
+                    limit: result.limit,
+                    totalDocuments: result.totalDocuments,
                 };
             });
         } catch (error) {
@@ -83,7 +95,7 @@ export const useChatMessages = (
             };
 
             await createElement(CollectionTypes.Chat, newMessage, queryClient);
-            fetchMessages(); 
+            fetchMessages(); // Refrescar mensajes después de enviar
         } catch (error) {
             console.error('Error sending message:', error);
         } finally {

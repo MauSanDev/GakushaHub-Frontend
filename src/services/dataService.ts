@@ -27,6 +27,51 @@ export const createElement = async <T>(
     }
 };
 
+export const fetchFullPagination = async <T>(
+    page: number,
+    limit: number,
+    key: string,
+    queryClient: QueryClient,
+    searches: Record<string, string[]> = {},
+    extraParams?: Record<string, string>,
+    excludes?: Record<string, string[]>,
+    creatorId?: string,
+    fields?: string[],
+    forceFetch?: boolean,
+    sortingOptions?: Record<string, number>,  // Añadimos sortingOptions como parámetro
+): Promise<PaginatedData<T> | undefined> => {
+    try {
+        const paginatedData = await fetchPaginatedData<string>(
+            `api/${key}`,
+            page,
+            limit,
+            queryClient,
+            creatorId,
+            searches,
+            extraParams,
+            excludes,
+            sortingOptions,  // Pasamos sortingOptions aquí
+            forceFetch
+        );
+
+        if (paginatedData?.documents && paginatedData.documents.length > 0) {
+            const elementsData = await fetchElements<T>(paginatedData.documents, key, queryClient, fields);
+
+            const combinedData: PaginatedData<T> = {
+                ...paginatedData,
+                documents: paginatedData.documents.map(id => elementsData[id])
+            };
+
+            return combinedData;
+        } else {
+            return undefined;
+        }
+    } catch (error) {
+        console.error('Error fetching full pagination:', error);
+        return undefined;
+    }
+};
+
 export const fetchPaginatedData = async <T>(
     endpoint: string,
     page: number,
@@ -35,14 +80,15 @@ export const fetchPaginatedData = async <T>(
     creatorId?: string,
     searches?: Record<string, string[]>,
     extraParams?: Record<string, string>,
-    excludes?: Record<string, string[]>, 
+    excludes?: Record<string, string[]>,
+    sortingOptions?: Record<string, number>,  // Añadimos sortingOptions como parámetro
     forceFetch?: boolean
 ): Promise<InferPaginatedData<T>> => {
-    const queryKey = [endpoint, page, limit, creatorId, searches, extraParams, excludes, forceFetch = true];
+    const queryKey = [endpoint, page, limit, creatorId, searches, extraParams, excludes, sortingOptions, forceFetch = true];
 
     if (forceFetch) {
-        resetPaginationQueries(queryKey, queryClient)}
-    else {
+        resetPaginationQueries(queryKey, queryClient);
+    } else {
         const cachedData = queryClient.getQueryData<InferPaginatedData<T>>(queryKey);
         if (cachedData) {
             return cachedData;
@@ -77,10 +123,18 @@ export const fetchPaginatedData = async <T>(
         ? '&' + new URLSearchParams(extraParams).toString()
         : '';
 
+    // Convertir sortingOptions en un query string
+    const sortingQueryString = sortingOptions
+        ? Object.entries(sortingOptions)
+            .map(([field, order]) => `sortOptions=${field}:${order}`)
+            .join('&')
+        : '';
+
     const queryString = `?page=${page}&limit=${limit}`
         + (creatorId ? `&creatorId=${creatorId}` : '')
         + (searchQueryString ? `&${searchQueryString}` : '')
-        + (excludeQueryString ? `&${excludeQueryString}` : '') 
+        + (excludeQueryString ? `&${excludeQueryString}` : '')
+        + (sortingQueryString ? `&${sortingQueryString}` : '') // Añadimos el sortingOptions al queryString
         + extraQueryString;
 
     const fetchedData = await ApiClient.get<InferPaginatedData<T>>(`${endpoint}/paginate${queryString}`);
@@ -88,49 +142,6 @@ export const fetchPaginatedData = async <T>(
     queryClient.setQueryData(queryKey, fetchedData);
 
     return fetchedData;
-};
-
-export const fetchFullPagination = async <T>(
-    page: number,
-    limit: number,
-    key: string,
-    queryClient: QueryClient,
-    searches: Record<string, string[]> = {},
-    extraParams?: Record<string, string>,
-    excludes?: Record<string, string[]>,
-    creatorId?: string,
-    fields?: string[],
-    forceFetch?: boolean
-): Promise<PaginatedData<T> | undefined> => {
-    try {
-        const paginatedData = await fetchPaginatedData<string>(
-            `api/${key}`,
-            page,
-            limit,
-            queryClient,
-            creatorId,
-            searches,
-            extraParams,
-            excludes,
-            forceFetch
-        );
-        
-        if (paginatedData?.documents && paginatedData.documents.length > 0) {
-            const elementsData = await fetchElements<T>(paginatedData.documents, key, queryClient, fields);
-
-            const combinedData: PaginatedData<T> = {
-                ...paginatedData,
-                documents: paginatedData.documents.map(id => elementsData[id])
-            };
-
-            return combinedData;
-        } else {
-            return undefined;
-        }
-    } catch (error) {
-        console.error('Error fetching full pagination:', error);
-        return undefined;
-    }
 };
 
 export const resetPaginationQueries = (key: QueryKey, queryClient: QueryClient) => {

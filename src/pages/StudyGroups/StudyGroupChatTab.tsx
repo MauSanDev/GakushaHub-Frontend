@@ -18,7 +18,7 @@ const StudyGroupChat: React.FC<StudyGroupChatProps> = ({ studyGroup, canEdit, ro
     const [newMessage, setNewMessage] = useState<string>('');
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-    const { data, isLoading, fetchMessages, sendMessage, isSending } = useChatMessages(studyGroup._id, 1, 50);
+    const { data, isLoading, fetchMessages, sendMessage, isSending } = useChatMessages(studyGroup._id, 1, 10);
 
     
     useEffect(() => {
@@ -80,7 +80,7 @@ const StudyGroupChat: React.FC<StudyGroupChatProps> = ({ studyGroup, canEdit, ro
                             const prevDate = prevMessage ? formatDate(prevMessage.timestamp) : '';
 
                             return (
-                                <React.Fragment key={msg._id}>
+                                <React.Fragment key={msg._id}>  {/* La clave única debe ser el `_id` */}
                                     {currentDate !== prevDate && <ChatDaySeparator date={currentDate} />}
                                     <ChatMessageBox
                                         messageData={msg}
