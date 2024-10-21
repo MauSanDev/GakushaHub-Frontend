@@ -2,10 +2,11 @@ import React from 'react';
 import ModalWrapper from '../ModalWrapper';
 import Container from "../../components/ui/containers/Container.tsx";
 import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
-import { FaClock, FaUser, FaTags } from 'react-icons/fa';
+import { FaClock, FaTags } from 'react-icons/fa';
 import RoundedTag from "../../components/ui/text/RoundedTag.tsx";
 import { NewsData } from './Components/NewsDataElement'; // Importa la interfaz NewsData si está en el mismo archivo
-import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx"; // Por si quieres agregar botones de acción
+import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
+import CreatorLabel from "../../components/ui/text/CreatorLabel.tsx"; // Por si quieres agregar botones de acción
 
 interface NewsViewerModalProps {
     newsData: NewsData;
@@ -21,8 +22,7 @@ const NewsViewerModal: React.FC<NewsViewerModalProps> = ({ newsData, onClose }) 
                 {/* Info sobre el creador y la fecha */}
                 <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
                     <span className="flex items-center">
-                        <FaUser className="mr-1" />
-                        <span>{newsData.creatorId || 'Unknown Creator'}</span>
+                        <CreatorLabel creatorId={newsData.creatorId} />
                     </span>
                     <span className="flex items-center">
                         <FaClock className="mr-1" />
@@ -30,10 +30,11 @@ const NewsViewerModal: React.FC<NewsViewerModalProps> = ({ newsData, onClose }) 
                     </span>
                 </div>
 
-                {/* Contenido completo de la noticia */}
-                <div className="mb-6 text-gray-800 dark:text-gray-200">
-                    <p>{newsData.text}</p>
-                </div>
+                {/* Contenido completo de la noticia tratado como HTML */}
+                <div
+                    className="mb-6 text-gray-800 dark:text-gray-200"
+                    dangerouslySetInnerHTML={{ __html: newsData.text }} // Aquí tratamos el contenido como HTML
+                />
 
                 {/* Tags */}
                 {newsData.tags && newsData.tags.length > 0 && (
@@ -47,8 +48,8 @@ const NewsViewerModal: React.FC<NewsViewerModalProps> = ({ newsData, onClose }) 
                     </div>
                 )}
 
-                {/* Botón para cerrar */}
-                <div className="text-center">
+                {/* Botón para cerrar con padding de 24 */}
+                <div className="text-center pt-24"> {/* Padding agregado aquí */}
                     <PrimaryButton label="Close" onClick={onClose} className="w-full" />
                 </div>
             </Container>

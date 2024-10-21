@@ -8,6 +8,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import TagSelector from "../../components/ui/containers/TagSelector.tsx";
 import { FaPaperPlane } from "react-icons/fa";
+import { useCreateNews } from "../../hooks/newHooks/News/useCreateNews";
 
 interface CreateNewsModalProps {
     onClose: () => void;
@@ -22,18 +23,35 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSucc
 
     const availableTags = ['News', 'Update', 'Important', 'Event', 'Announcement'];
 
+    // Usamos el hook useCreateNews
+    const { mutate: createNews, isLoading } = useCreateNews();
+
     const handleCreateNews = () => {
-        if (newsTitle.trim() === '') {
-            setError("Title cannot be empty.");
+        // Validaciones para el título y el cuerpo del mensaje
+        if (newsTitle.trim() === '' || content.trim() === '') {
+            setError("Both the title and the content are required.");
             return;
         }
 
-        setTimeout(() => {
-            if (onCreateSuccess) {
-                onCreateSuccess();
+        createNews(
+            {
+                title: newsTitle,
+                text: content,
+                tags: tags,
+            },
+            {
+                onSuccess: () => {
+                    if (onCreateSuccess) {
+                        onCreateSuccess();
+                    }
+                    onClose();
+                },
+                onError: (error) => {
+                    console.error("Error creating news:", error);
+                    setError("Failed to create news.");
+                }
             }
-            onClose();
-        }, 1000);
+        );
     };
 
     return (
@@ -46,7 +64,7 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSucc
                     value={newsTitle}
                     onChange={(e) => {
                         setNewsTitle(e.target.value);
-                        setError(null);
+                        setError(null); // Limpiamos el error si se está editando
                     }}
                     placeholder="Title"
                     disabled={false}
@@ -57,7 +75,10 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSucc
                 <div className="my-4 w-full">
                     <ReactQuill
                         value={content}
-                        onChange={setContent}
+                        onChange={(value) => {
+                            setContent(value);
+                            setError(null); // Limpiamos el error si se está editando
+                        }}
                         className="custom-quill-editor"
                     />
                 </div>
@@ -70,11 +91,13 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({ onClose, onCreateSucc
                     disabled={false}
                 />
 
+                {error && <p className="text-red-500">{error}</p>} {/* Mostramos el mensaje de error si existe */}
+
                 <PrimaryButton
                     label="Create"
                     onClick={handleCreateNews}
                     iconComponent={<FaPaperPlane />}
-                    disabled={newsTitle.trim() === ''}
+                    disabled={isLoading || newsTitle.trim() === '' || content.trim() === ''} // Deshabilitamos si falta el título o el cuerpo
                     className="w-full mt-4"
                 />
             </Container>

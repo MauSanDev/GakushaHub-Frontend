@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { FaNewspaper, FaUser, FaClock, FaTags } from 'react-icons/fa';
+import { FaNewspaper, FaClock, FaTags } from 'react-icons/fa';
 import Container from "../../../components/ui/containers/Container.tsx";
 import DeleteButton from "../../../components/DeleteButton.tsx";
 import RoundedTag from "../../../components/ui/text/RoundedTag.tsx";
 import { CollectionTypes } from "../../../data/CollectionTypes.tsx";
 import NewsViewerModal from "../NewsViewerModal";
+import CreatorLabel from "../../../components/ui/text/CreatorLabel.tsx";
 
 export interface NewsData {
     _id: string;
@@ -31,6 +32,14 @@ const NewsDataElement: React.FC<NewsDataElementProps> = ({ newsData, canDelete =
         setIsModalOpen(false);
     };
 
+    // Función para truncar el contenido de la descripción
+    const truncateText = (text: string, limit: number) => {
+        if (text.length > limit) {
+            return text.substring(0, limit) + '...'; // Agrega elipsis si excede el límite
+        }
+        return text;
+    };
+
     return (
         <>
             <div onClick={openModal} className="cursor-pointer">
@@ -50,9 +59,13 @@ const NewsDataElement: React.FC<NewsDataElementProps> = ({ newsData, canDelete =
                         <h2 className="text-lg font-bold text-gray-800 dark:text-white">
                             {newsData.title || 'News Title'}
                         </h2>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm">
-                            {newsData.text || 'News Content Preview...'}
-                        </p>
+                        {/* Mostramos el contenido como HTML truncado */}
+                        <div
+                            className="text-gray-600 dark:text-gray-400 text-sm"
+                            dangerouslySetInnerHTML={{
+                                __html: truncateText(newsData.text || 'News Content Preview...', 150),
+                            }}
+                        />
 
                         {/* Tags */}
                         {newsData.tags && newsData.tags.length > 0 && (
@@ -70,8 +83,7 @@ const NewsDataElement: React.FC<NewsDataElementProps> = ({ newsData, canDelete =
                         <div className="flex items-center justify-between mt-3 text-sm text-gray-500 dark:text-gray-400">
                             <div className="flex items-center gap-4">
                                 <span className="flex items-center">
-                                    <FaUser className="mr-1" />
-                                    <span>{newsData.creatorId || 'Unknown Creator'}</span>
+                                    <CreatorLabel creatorId={newsData.creatorId} />
                                 </span>
                                 <span className="flex items-center">
                                     <FaClock className="mr-1" />

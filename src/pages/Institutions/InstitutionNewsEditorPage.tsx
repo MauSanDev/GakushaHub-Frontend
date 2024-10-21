@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import NewsDataElement from "./Components/NewsDataElement.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
@@ -6,52 +6,28 @@ import PaginatedContainer from "../../components/ui/containers/PaginatedContaine
 import SearchBar from '../../components/ui/inputs/SearchBar.tsx';
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import CreateNewsModal from "./CreateNewsModal.tsx";
+import { useNews } from "../../hooks/newHooks/News/useNews";
 
 const NewsPage: React.FC = () => {
-    // Datos de ejemplo para las noticias
-    const newsData = [
-        {
-            _id: '1',
-            title: 'New Course Available',
-            text: 'We have added a new course about advanced JavaScript techniques. Enroll now!',
-            tags: ['Course', 'JavaScript', 'Advanced'],
-            creatorId: 'admin123',
-            createdAt: '2023-10-20T10:30:00Z',
-        },
-        {
-            _id: '2',
-            title: 'Upcoming Event: React Workshop',
-            text: 'Join us for a hands-on workshop on React. Learn how to build modern web apps with React.',
-            tags: ['Event', 'React', 'Workshop'],
-            creatorId: 'admin456',
-            createdAt: '2023-10-18T09:00:00Z',
-        },
-        {
-            _id: '3',
-            title: 'Monthly Newsletter',
-            text: 'Catch up on all the latest news and updates from our institution in this month’s newsletter.',
-            tags: ['Newsletter', 'Update'],
-            creatorId: 'admin789',
-            createdAt: '2023-10-15T12:00:00Z',
-        },
-    ];
-
-    // Estado para la paginación y búsqueda
     const [page, setPage] = useState(1);
-    const totalPages = 1; // Total de páginas simulado
     const [searchQuery, setSearchQuery] = useState(''); // Para manejar la búsqueda
     const [isModalOpen, setIsModalOpen] = useState(false); // Para manejar el modal
 
-    // Función de búsqueda simulada
+    // Usamos el hook personalizado useNews
+    const { fetchNews, isLoading, data: newsData } = useNews(page, 10, searchQuery, []);
+
+    // Llamamos la función fetchNews cuando cambie la página o el query de búsqueda
+    useEffect(() => {
+        fetchNews();
+    }, [page, searchQuery]);
+
+    // Filtrado de noticias basado en la búsqueda (si es necesario, aunque ya lo manejamos con el hook)
+    const filteredNews = newsData?.documents || [];
+
+    // Función de búsqueda
     const handleSearch = (query: string) => {
         setSearchQuery(query);
     };
-
-    // Filtrado de noticias basado en la búsqueda
-    const filteredNews = newsData.filter((news) =>
-        news.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        news.text.toLowerCase().includes(searchQuery.toLowerCase())
-    );
 
     // Función para abrir y cerrar el modal
     const handleOpenModal = () => setIsModalOpen(true);
@@ -82,15 +58,19 @@ const NewsPage: React.FC = () => {
                 </div>
 
                 {/* PaginatedContainer con los datos de noticias filtradas */}
-                <PaginatedContainer
-                    documents={filteredNews}
-                    currentPage={page}
-                    totalPages={totalPages}
-                    onPageChange={setPage}
-                    RenderComponent={({ document }) => (
-                        <NewsDataElement key={document._id} newsData={document} canDelete={true} />
-                    )}
-                />
+                {!isLoading && (
+                    <PaginatedContainer
+                        documents={filteredNews}
+                        currentPage={page}
+                        totalPages={newsData?.totalPages || 1}
+                        onPageChange={setPage}
+                        RenderComponent={({ document }) => (
+                            <NewsDataElement key={document._id} newsData={document} canDelete={true} />
+                        )}
+                    />
+                )}
+
+                {isLoading && <p>Loading news...</p>}
             </div>
 
             {/* Modal para crear noticias */}
@@ -99,6 +79,7 @@ const NewsPage: React.FC = () => {
                     onClose={handleCloseModal}
                     onCreateSuccess={() => {
                         handleCloseModal();
+                        fetchNews(); // Actualizamos las noticias después de crear una nueva
                     }}
                 />
             )}
