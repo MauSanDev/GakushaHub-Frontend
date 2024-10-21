@@ -20,7 +20,7 @@ export const useNews = (
 
     if (search) {
         searches['search1'] = [search];
-        searches['search1fields'] = ['title'];
+        searches['search1fields'] = ['title', 'text', 'tags'];
     }
 
     const fetchNews = async () => {
