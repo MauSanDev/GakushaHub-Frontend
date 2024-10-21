@@ -8,14 +8,16 @@ import SectionContainer from "../../components/ui/containers/SectionContainer.ts
 import CreateNewsModal from "./CreateNewsModal.tsx";
 import { useNews } from "../../hooks/newHooks/News/useNews";
 import {NewsData} from "../../data/NewsData.ts";
+import {useParams} from "react-router-dom";
 
 const NewsPage: React.FC = () => {
+    const { institutionId } = useParams<{ institutionId: string }>();
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState(''); 
     const [isModalOpen, setIsModalOpen] = useState(false); 
     const [selectedNews, setSelectedNews] = useState<NewsData | null>(null); 
     
-    const { fetchNews, isLoading, data: newsData } = useNews(page, 10, searchQuery, []);
+    const { fetchNews, isLoading, data: newsData } = useNews(page, 10, searchQuery, institutionId, []);
     
     useEffect(() => {
         fetchNews();
