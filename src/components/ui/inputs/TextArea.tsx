@@ -29,7 +29,7 @@ const TextArea: React.FC<TextAreaProps> = ({
                 onChange={onChange}
                 placeholder={placeholder}
                 disabled={disabled}
-                className={`input-field mb-2 ${error ? 'border-red-500' : ''} ${className}`}
+                className={`input-field w-full mb-2 ${error ? 'border-red-500' : ''} ${className}`}
                 rows={rows}
             />
             {error && (

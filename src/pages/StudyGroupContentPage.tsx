@@ -8,8 +8,6 @@ import Tabs from "../components/ui/toggles/Tabs.tsx";
 import Editable from "../components/ui/text/Editable";
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import LocSpan from "../components/LocSpan";
-import SelectionToggle from "../components/ui/toggles/SelectionToggle.tsx";
-import { useUpdateData } from '../hooks/updateHooks/useUpdateData.ts';
 import RoundedTag from "../components/ui/text/RoundedTag.tsx";
 import { MembershipRole } from "../data/MembershipData.ts";
 import { useAuth } from '../context/AuthContext';
@@ -19,18 +17,17 @@ import StudyGroupCoursesTab from "./StudyGroups/StudyGroupCoursesTab.tsx";
 import StudyGroupMembersTab from "./StudyGroups/StudyGroupMembersTab.tsx";
 import StudyGroupChatTab from "./StudyGroups/StudyGroupChatTab.tsx";
 import StudyGroupSchedule from "./StudyGroups/StudyGroupScheduleTab.tsx";
+import StudyGroupSettingsTab from "./StudyGroups/StudyGroupSettingsTab.tsx";
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId } = useParams<{ studyGroupId: string }>();
-    const [currentTab, setCurrentTab] = useState<string>('schedule');
-    const [isArchived, setIsArchived] = useState<boolean>(false);
+    const [currentTab, setCurrentTab] = useState<string>('courses');
     const [role, setRole] = useState<MembershipRole>(MembershipRole.None);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const { data: studyGroup, isLoading, fetchStudyGroup } = useStudyGroup(studyGroupId || '');
     const { data: institution, fetchInstitution } = useInstitutionById(studyGroup?.institutionId || '');
 
-    const { mutate: updateDocument } = useUpdateData<Partial<{ isActive: boolean }>>();
     const { getRole, memberships } = useAuth();
 
     useEffect(() => {
@@ -41,9 +38,6 @@ const StudyGroupContentPage: React.FC = () => {
         fetchInstitution();
     }, [fetchInstitution]);
 
-    useEffect(() => {
-        setIsArchived(!(studyGroup?.isActive ?? false));
-    }, [studyGroup]);
 
     useEffect(() => {
         const savedTab = localStorage.getItem('currentStudyGroupTab');
@@ -55,7 +49,6 @@ const StudyGroupContentPage: React.FC = () => {
     useEffect(() => {
         localStorage.setItem('currentStudyGroupTab', currentTab);
     }, [currentTab]);
-
 
     useEffect(() => {
         const fetchRole = async () => {
@@ -74,38 +67,26 @@ const StudyGroupContentPage: React.FC = () => {
         setCurrentTab(view);
     };
 
-    const handleToggleArchive = () => {
-        if (!isArchived) {
-            const confirmArchive = window.confirm(
-                'You are going to archive this Course. Assigned Students will still be able to access to it. Do you want to continue?'
-            );
-            if (!confirmArchive) return;
-        }
-
-        setIsArchived(!isArchived);
-
-        updateDocument({
-            collection: CollectionTypes.StudyGroup,
-            documentId: studyGroupId || '',
-            newData: { isActive: isArchived },
-        });
-    };
-
     const canEdit = role === MembershipRole.Owner || role === MembershipRole.Staff || role === MembershipRole.Sensei;
 
-    const tabs = [
-        { label: 'schedule', view: 'schedule', icon: <FaCalendar /> },
+    const defaultTabs = [
         { label: 'courses', view: 'courses', icon: <FaBook /> },
         { label: 'resources', view: 'resources', icon: <FaFolder /> },
-        { label: 'chat', view: 'chat', icon: <FaMessage /> },
-        { label: 'homework', view: 'homework', icon: <FaPenAlt /> },
         { label: 'members', view: 'members', icon: <FaUser /> },
-        { label: 'settings', view: 'settings', icon: <FaCog /> },
+    ];
+
+    const enabledTabs = studyGroup?.viewsEnabled || [];
+
+    const tabs = [
+        ...(enabledTabs.includes('schedule') ? [{ label: 'schedule', view: 'schedule', icon: <FaCalendar /> }] : []),
+        ...(enabledTabs.includes('chat') ? [{ label: 'chat', view: 'chat', icon: <FaMessage /> }] : []),
+        ...(enabledTabs.includes('homework') ? [{ label: 'homework', view: 'homework', icon: <FaPenAlt /> }] : []),
+        ...defaultTabs,
+        ...(canEdit ? [{ label: 'settings', view: 'settings', icon: <FaCog /> }] : []),
     ];
 
     const renderTabContent = () => {
-        if (!studyGroup)
-        {
+        if (!studyGroup) {
             return (<div><NoDataMessage /></div>);
         }
         switch (currentTab) {
@@ -116,7 +97,9 @@ const StudyGroupContentPage: React.FC = () => {
             case 'chat':
                 return <StudyGroupChatTab studyGroup={studyGroup} canEdit={canEdit} role={role} />;
             case 'schedule':
-                return <StudyGroupSchedule studyGroup={studyGroup} canEdit={canEdit} role={role} />;
+                return <StudyGroupSchedule studyGroup={studyGroup} canEdit={canEdit} />;
+            case 'settings':
+                return <StudyGroupSettingsTab studyGroup={studyGroup} canEdit={canEdit} />;
             default:
                 return (<div><NoDataMessage /></div>);
         }
@@ -134,15 +117,7 @@ const StudyGroupContentPage: React.FC = () => {
                     <div className="flex flex-col items-start mb-4 sm:mb-0 w-full">
 
                         <div className={"flex justify-end w-full"}>
-
                             {!studyGroup.isActive && (<RoundedTag textKey={"archived"}/>)}
-
-                            {(role === MembershipRole.Staff || role === MembershipRole.Owner) &&
-                                <SelectionToggle
-                                    isSelected={isArchived}
-                                    onToggle={handleToggleArchive}
-                                    textKey={"Archive"}
-                                />}
                         </div>
 
                         <Editable
