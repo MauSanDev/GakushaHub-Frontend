@@ -116,7 +116,7 @@ const StudyGroupContentPage: React.FC = () => {
             case 'chat':
                 return <StudyGroupChatTab studyGroup={studyGroup} canEdit={canEdit} role={role} />;
             case 'schedule':
-                return <StudyGroupSchedule />;
+                return <StudyGroupSchedule studyGroup={studyGroup} canEdit={canEdit} role={role} />;
             default:
                 return (<div><NoDataMessage /></div>);
         }

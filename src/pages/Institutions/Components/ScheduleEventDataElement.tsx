@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FaClock, FaUser, FaCalendarAlt, FaEdit, FaSave, FaTimes, FaTrash } from 'react-icons/fa';
-import {ScheduleEventData} from "../../../data/ScheduleEventData.ts";
+import { ScheduleEventData } from "../../../data/ScheduleEventData.ts";
+import {useSchedule} from "../../../hooks/newHooks/Courses/useSchedule.ts";
+import {useAuth} from "../../../context/AuthContext.tsx";
 
 interface ScheduleEventDataElementProps {
     eventData: ScheduleEventData;
@@ -8,16 +10,22 @@ interface ScheduleEventDataElementProps {
     onCancel: (eventId: string) => void;
     onDelete: (eventId: string) => void;
     isNew?: boolean;
+    institutionId: string;
+    studyGroupId?: string;
+    canEdit: boolean;
 }
 
-const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({eventData, onSave, onCancel, onDelete, isNew = false
-}) => {
-    const [isEditing, setIsEditing] = useState(isNew); 
+const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({ eventData, onSave, onCancel, onDelete, isNew = false, institutionId, studyGroupId, canEdit
+                                                                           }) => {
+    const { userData } = useAuth();
+    const [isEditing, setIsEditing] = useState(isNew);
     const [editedEvent, setEditedEvent] = useState<ScheduleEventData>({
         ...eventData,
-        name: isNew ? '' : eventData.name, 
-        desc: isNew ? '' : eventData.desc 
+        name: isNew ? '' : eventData.name,
+        desc: isNew ? '' : eventData.desc
     });
+
+    const { createScheduleEvent, isCreating } = useSchedule(eventData.studyGroupId, eventData.institutionId, eventData.timestamp, 1, 10); 
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -27,25 +35,42 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({even
         }));
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (editedEvent.name.trim() === '') {
             alert('Title cannot be empty');
             return;
         }
-        onSave(editedEvent); 
-        setIsEditing(false); 
+
+        if (isNew) {
+            try {
+                await createScheduleEvent({
+                    name: editedEvent.name,
+                    desc: editedEvent.desc,
+                    timestamp: editedEvent.timestamp,
+                    studyGroupId: studyGroupId || '',
+                    institutionId: institutionId,
+                    creatorId: userData?._id || '',
+                });
+                setIsEditing(false);
+            } catch (error) {
+                console.error("Error creating schedule event:", error);
+            }
+        } else {
+            onSave(editedEvent);
+            setIsEditing(false);
+        }
     };
 
     const handleCancel = () => {
         if (isNew) {
-            onCancel(eventData._id); 
+            onCancel(eventData._id);
         } else {
-            setIsEditing(false); 
+            setIsEditing(false);
         }
     };
 
     const handleDelete = () => {
-        onDelete(eventData._id); 
+        onDelete(eventData._id);
     };
 
     return (
@@ -70,20 +95,19 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({even
                     )}
                 </div>
 
-                {/* Fecha y Botones */}
                 <div className="flex items-center gap-2">
                     <span className="flex items-center text-gray-500 text-xs">
                         <FaClock className="mr-1" />
                         {isEditing ? (
                             <input
-                                type="date" 
+                                type="date"
                                 name="timestamp"
-                                value={new Date(editedEvent.timestamp).toISOString().slice(0, 10)} 
+                                value={new Date(editedEvent.timestamp).toISOString().slice(0, 10)}
                                 onChange={handleInputChange}
                                 className="text-xs text-gray-400 dark:text-gray-700 bg-transparent border-b-2 border-gray-300 focus:outline-none"
                             />
                         ) : (
-                            <span>{new Date(eventData.timestamp).toLocaleDateString()}</span> 
+                            <span>{new Date(eventData.timestamp).toLocaleDateString()}</span>
                         )}
                     </span>
 
@@ -91,6 +115,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({even
                         <>
                             <button
                                 onClick={handleSave}
+                                disabled={isCreating} 
                                 className="text-green-500 hover:text-green-700 focus:outline-none"
                             >
                                 <FaSave />
@@ -104,12 +129,12 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({even
                         </>
                     ) : (
                         <>
-                            <button
+                            {canEdit && <button
                                 onClick={() => setIsEditing(true)}
                                 className="text-blue-500 hover:text-blue-700 focus:outline-none"
                             >
-                                <FaEdit />
-                            </button>
+                                <FaEdit/>
+                            </button>}
                             {!isNew && (
                                 <button
                                     onClick={handleDelete}
@@ -138,7 +163,6 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({even
                 />
             )}
 
-            {/* Detalles del evento */}
             <div className="flex items-center text-xs text-gray-400 dark:text-gray-700 gap-4">
                 <span className="flex items-center">
                     <FaUser className="mr-1" />

@@ -1,53 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ModalWrapper from '../ModalWrapper';
 import Container from "../../components/ui/containers/Container";
 import SectionTitle from "../../components/ui/text/SectionTitle";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
 import ScheduleEventDataElement from "./Components/ScheduleEventDataElement";
-import {FaPlus} from "react-icons/fa";
-import {ScheduleEventData} from "../../data/ScheduleEventData.ts";
+import { FaPlus } from "react-icons/fa";
+import { ScheduleEventData } from "../../data/ScheduleEventData.ts";
+import NoDataMessage from "../../components/NoDataMessage.tsx";
 
 interface ScheduleEventsModalProps {
     onClose: () => void;
+    selectedEvents: ScheduleEventData[]; 
+    institutionId: string;
+    studyGroupId?: string;
+    date: string;
+    canEdit: boolean;
 }
 
-const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({ onClose }) => {
-    const [events, setEvents] = useState<ScheduleEventData[]>([
-        {
-            _id: '1',
-            name: 'Event 1',
-            desc: 'Description for event 1',
-            timestamp: '2024-10-22T14:00:00',
-            creatorId: 'user1',
-            institutionId: 'inst1',
-            studyGroupId: 'group1',
-        },
-        {
-            _id: '2',
-            name: 'Event 2',
-            desc: 'Description for event 2',
-            timestamp: '2024-10-23T16:00:00',
-            creatorId: 'user2',
-            institutionId: 'inst2',
-            studyGroupId: 'group2',
-        },
-    ]);
+const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({ onClose, selectedEvents, studyGroupId, institutionId, date, canEdit }) => {
+    const [events, setEvents] = useState<ScheduleEventData[]>(selectedEvents); 
+    
+    useEffect(() => {
+        setEvents(selectedEvents);
+    }, [selectedEvents]);
 
-    // Añadir un nuevo evento y abrir en modo edición
     const handleAddEvent = () => {
         const newEvent: ScheduleEventData = {
             _id: (events.length + 1).toString(),
-            name: '', // Forzar vacío
-            desc: '', // Forzar vacío
-            timestamp: new Date().toISOString(),
-            creatorId: 'user1', // Ejemplo de ID de usuario
-            institutionId: 'inst1',
-            studyGroupId: 'group1',
+            name: '',
+            desc: '',
+            timestamp: new Date(date).toISOString(),
+            creatorId: 'user1', 
+            institutionId: 'inst1', 
+            studyGroupId: 'group1', 
         };
-        setEvents([...events, newEvent]); // Agregar el nuevo evento a la lista
+        setEvents([...events, newEvent]);
     };
 
-    // Guardar cambios del evento
     const handleSaveEvent = (updatedEvent: ScheduleEventData) => {
         setEvents((prevEvents) =>
             prevEvents.map((event) =>
@@ -56,12 +45,10 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({ onClose }) =>
         );
     };
 
-    // Eliminar evento
     const handleCancelEvent = (eventId: string) => {
         setEvents((prevEvents) => prevEvents.filter((event) => event._id !== eventId));
     };
 
-    // Eliminar evento de la base de datos
     const handleDeleteEvent = (eventId: string) => {
         setEvents((prevEvents) => prevEvents.filter((event) => event._id !== eventId));
     };
@@ -72,15 +59,15 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({ onClose }) =>
                 <div className="flex justify-between items-center">
                     <SectionTitle title={"Scheduled Events"} className="text-left pt-6" />
 
-                    <PrimaryButton
+                    {canEdit && <PrimaryButton
                         iconComponent={<FaPlus />}
                         label="Add Event"
                         onClick={handleAddEvent}
                         className="mt-4 text-nowrap"
-                    />
+                    />}
                 </div>
 
-                <ul>
+                {events.length > 0 ? (<ul>
                     {events.map((event) => (
                         <li key={event._id}>
                             <ScheduleEventDataElement
@@ -88,11 +75,18 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({ onClose }) =>
                                 onSave={handleSaveEvent}
                                 onCancel={handleCancelEvent}
                                 onDelete={handleDeleteEvent}
-                                isNew={event.name === ''} // Solo abrir en modo edición si el nombre está vacío
+                                isNew={event.name === ''}
+                                institutionId={institutionId}
+                                studyGroupId={studyGroupId}
+                                canEdit={canEdit}
                             />
                         </li>
                     ))}
-                </ul>
+                </ul>) : (
+                    <div className={'py-8'}>
+                        <NoDataMessage />
+                    </div>
+                )}
             </Container>
         </ModalWrapper>
     );

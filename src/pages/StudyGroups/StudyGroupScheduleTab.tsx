@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { FaArrowLeft, FaArrowRight, FaCalendarDay } from 'react-icons/fa';
 import NoDataMessage from "../../components/NoDataMessage.tsx";
 import ScheduleEventsModal from "../Institutions/ScheduleEventsModal.tsx";
-
-interface Event {
-    date: string;
-    event: string;
-}
+import { useSchedule } from "../../hooks/newHooks/Courses/useSchedule.ts";
+import { ScheduleEventData } from "../../data/ScheduleEventData.ts";
+import { StudyGroupData } from "../../data/Institutions/StudyGroupData.ts";
+import { MembershipRole } from "../../data/MembershipData.ts";
 
 const months = [
     "January", "February", "March", "April", "May", "June",
@@ -15,17 +14,27 @@ const months = [
 
 const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
 
-const StudyGroupSchedule: React.FC = () => {
+interface StudyGroupScheduleProps {
+    studyGroup: StudyGroupData;
+    canEdit: boolean;
+    role: MembershipRole;
+}
+
+const StudyGroupSchedule: React.FC<StudyGroupScheduleProps> = ({ studyGroup, canEdit, role }) => {
     const startDate = new Date('2024-09-01');
     const endDate = new Date('2024-12-15');
-    const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
-    const [selectedEventDay, setSelectedEventDay] = useState<Event[]>([]); // Eventos del día seleccionado
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedDate, setSelectedDate] = useState<string>();
+    const [selectedEventDay, setSelectedEventDay] = useState<ScheduleEventData[]>([]);
 
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
-    const [events, setEvents] = useState<Event[]>([
-        { date: '2024-10-20', event: 'Study group meeting' },
-        { date: '2024-10-25', event: 'Final exam' },
-    ]);
+    const [timestamp, setTimestamp] = useState<string>(`${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`);
+
+    const { fetchSchedule, data } = useSchedule(studyGroup._id, studyGroup.institutionId, timestamp, 1, 10);
+
+    useEffect(() => {
+        fetchSchedule();
+    }, [timestamp]);
 
     useEffect(() => {
         const today = new Date();
@@ -42,6 +51,11 @@ const StudyGroupSchedule: React.FC = () => {
         return new Date(year, month + 1, 0).getDate();
     };
 
+    const onModalClosed = () => {
+        setIsModalOpen(false);
+        fetchSchedule();
+    };
+
     const getFirstDayOfMonth = (month: number, year: number) => {
         return new Date(year, month, 1).getDay();
     };
@@ -53,6 +67,7 @@ const StudyGroupSchedule: React.FC = () => {
         } else {
             setCurrentDate(new Date(startDate));
         }
+        setTimestamp(`${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart(2, '0')}`);
     };
 
     const nextMonth = () => {
@@ -62,25 +77,37 @@ const StudyGroupSchedule: React.FC = () => {
         } else {
             setCurrentDate(new Date(endDate));
         }
+        setTimestamp(`${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart(2, '0')}`);
     };
 
     const handleDayClick = (day: number) => {
         const selectedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const dayEvents = events.filter(e => e.date === selectedDate);
+        const dayEvents = data?.documents.filter(e => new Date(e.timestamp).toISOString().split('T')[0] === selectedDate) || [];
 
-        console.log("pressed")
-        setSelectedEventDay(dayEvents); // Pasa los eventos del día seleccionado
-        setIsModalOpen(true); // Abre el modal
+        setSelectedEventDay(dayEvents);
+        setSelectedDate(selectedDate)
+        setIsModalOpen(true);
     };
 
     const isEventDay = (day: number): boolean => {
         const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        return events.some(e => e.date === formattedDate);
+        return data?.documents.some(e => new Date(e.timestamp).toISOString().split('T')[0] === formattedDate) || false;
     };
 
-    const getEventForDay = (day: number) => {
+    const getEventsForDay = (day: number): ScheduleEventData[] => {
         const formattedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        return events.filter(e => e.date === formattedDate);
+        return data?.documents.filter(e => new Date(e.timestamp).toISOString().split('T')[0] === formattedDate) || [];
+    };
+
+    const getDayClass = (day: number): string => {
+        if (isOutOfRangeDay(day)) return 'text-gray-200 dark:text-gray-700 pointer-events-none';
+        if (isToday(day) && isEventDay(day)) return 'bg-green-500 dark:bg-green-800 text-black dark:text-white';
+        if (isToday(day)) return 'bg-green-500 dark:bg-green-800 text-black dark:text-white';
+        if (isEventDay(day)) return 'bg-blue-500 dark:bg-blue-800 text-white';
+        if (isPastDay(day) && isWeekend((day))) return 'text-gray-400 dark:text-gray-600 bg-gray-100 dark:bg-gray-900 dark:bg-opacity-50';
+        if (isPastDay(day)) return 'text-gray-400 dark:text-gray-600';
+        if (isWeekend(day)) return 'bg-gray-100 dark:bg-gray-900 dark:bg-opacity-50 text-black dark:text-white';
+        return 'hover:bg-blue-200 dark:hover:bg-gray-800 text-black dark:text-white';
     };
 
     const isToday = (day: number): boolean => {
@@ -131,19 +158,8 @@ const StudyGroupSchedule: React.FC = () => {
 
     const calendar = generateCalendar();
 
-    const oldEvents = events.filter(event => new Date(event.date) < new Date());
-    const upcomingEvents = events.filter(event => new Date(event.date) >= new Date());
-
-    const getDayClass = (day: number): string => {
-        if (isOutOfRangeDay(day)) return 'text-gray-200 dark:text-gray-700 pointer-events-none';
-        if (isToday(day) && isEventDay(day)) return 'bg-green-500 dark:bg-green-800 text-black dark:text-white';
-        if (isToday(day)) return 'bg-green-500 dark:bg-green-800 text-black dark:text-white';
-        if (isEventDay(day)) return 'bg-blue-500 dark:bg-blue-800 text-white';
-        if (isPastDay(day) && isWeekend((day))) return 'text-gray-400 dark:text-gray-600 bg-gray-100 dark:bg-gray-900 dark:bg-opacity-50';
-        if (isPastDay(day)) return 'text-gray-400 dark:text-gray-600';
-        if (isWeekend(day)) return 'bg-gray-100 dark:bg-gray-900 dark:bg-opacity-50 text-black dark:text-white';
-        return 'hover:bg-blue-200 dark:hover:bg-gray-800 text-black dark:text-white';
-    };
+    const upcomingEvents = data?.documents.filter(event => new Date(event.timestamp) >= new Date()) || [];
+    const oldEvents = data?.documents.filter(event => new Date(event.timestamp) < new Date()) || [];
 
     return (
         <div className="flex flex-col items-center overflow-y-scroll h-2/3 m-4">
@@ -154,15 +170,13 @@ const StudyGroupSchedule: React.FC = () => {
             </div>
 
             <div className="flex justify-center mb-4 gap-2 w-full max-w-3xl text-black dark:text-white text-lg">
-                <button onClick={prevMonth} className="px-4 py-2"
-                        disabled={currentDate <= startDate}>
+                <button onClick={prevMonth} className="px-4 py-2" disabled={currentDate <= startDate}>
                     <FaArrowLeft />
                 </button>
 
                 <h3>{months[currentDate.getMonth()]} {currentDate.getFullYear()}</h3>
 
-                <button onClick={nextMonth} className="px-4 py-2"
-                        disabled={currentDate >= endDate}>
+                <button onClick={nextMonth} className="px-4 py-2" disabled={currentDate >= endDate}>
                     <FaArrowRight />
                 </button>
             </div>
@@ -195,15 +209,12 @@ const StudyGroupSchedule: React.FC = () => {
                                         </>
                                     ) : ''}
                                 </div>
-                                {day !== 0 && isEventDay(day) && (
-                                    <div className="flex flex-col gap-1 mt-1">
-                                        {getEventForDay(day).map((event, index) => (
-                                            <div key={index} className="border border-gray-300 dark:border-gray-600 rounded p-1 text-xs overflow-hidden text-ellipsis whitespace-nowrap">
-                                                {event.event}
-                                            </div>
-                                        ))}
+                                {/* Mostrar los eventos del día */}
+                                {getEventsForDay(day).map(event => (
+                                    <div key={event._id} className="text-xs text-gray-500 dark:text-gray-300 truncate mt-1">
+                                        {event.name}
                                     </div>
-                                )}
+                                ))}
                             </td>
                         ))}
                     </tr>
@@ -211,14 +222,13 @@ const StudyGroupSchedule: React.FC = () => {
                 </tbody>
             </table>
 
-            {/* Lista de eventos futuros */}
             <div className="mt-8 w-full max-w-3xl text-black dark:text-white ">
                 <h3 className="text-lg font-semibold mb-2">Upcoming Events:</h3>
                 {upcomingEvents.length > 0 ? (
                     <ul>
                         {upcomingEvents.map((event, index) => (
                             <li key={index} className="mb-1">
-                                {event.date}: {event.event}
+                                {new Date(event.timestamp).toLocaleDateString()}: {event.name}
                             </li>
                         ))}
                     </ul>
@@ -234,7 +244,7 @@ const StudyGroupSchedule: React.FC = () => {
                     <ul>
                         {oldEvents.map((event, index) => (
                             <li key={index} className="mb-1">
-                                {event.date}: {event.event}
+                                {new Date(event.timestamp).toLocaleDateString()}: {event.name}
                             </li>
                         ))}
                     </ul>
@@ -245,8 +255,12 @@ const StudyGroupSchedule: React.FC = () => {
 
             {isModalOpen && (
                 <ScheduleEventsModal
-                    onClose={() => setIsModalOpen(false)}
-                    // events={selectedEventDay} // Pasa los eventos al modal
+                    onClose={onModalClosed}
+                    selectedEvents={selectedEventDay}
+                    institutionId={studyGroup.institutionId}
+                    studyGroupId={studyGroup._id}
+                    date={selectedDate || new Date().toISOString()}
+                    canEdit={canEdit}
                 />
             )}
         </div>

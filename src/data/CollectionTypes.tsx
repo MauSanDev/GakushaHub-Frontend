@@ -15,4 +15,5 @@ export enum CollectionTypes {
     News = 'news',
     Resources = 'resources',
     Chat = 'chat',
+    Schedule = 'schedule',
 }
