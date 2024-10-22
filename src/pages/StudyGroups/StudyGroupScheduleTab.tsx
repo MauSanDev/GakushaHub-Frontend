@@ -101,8 +101,8 @@ const StudyGroupSchedule: React.FC<StudyGroupScheduleProps> = ({ studyGroup, can
 
     const getDayClass = (day: number): string => {
         if (isOutOfRangeDay(day)) return 'text-gray-200 dark:text-gray-700 pointer-events-none';
-        if (isToday(day) && isEventDay(day)) return 'bg-green-500 dark:bg-green-800 text-black dark:text-white';
-        if (isToday(day)) return 'bg-green-500 dark:bg-green-800 text-black dark:text-white';
+        if (isToday(day) && isEventDay(day)) return 'bg-green-500 dark:bg-green-800 text-white dark:text-white';
+        if (isToday(day)) return 'bg-green-500 dark:bg-green-800 text-white dark:text-white';
         if (isEventDay(day)) return 'bg-blue-500 dark:bg-blue-800 text-white';
         if (isPastDay(day) && isWeekend((day))) return 'text-gray-400 dark:text-gray-600 bg-gray-100 dark:bg-gray-900 dark:bg-opacity-50';
         if (isPastDay(day)) return 'text-gray-400 dark:text-gray-600';
@@ -224,10 +224,12 @@ const StudyGroupSchedule: React.FC<StudyGroupScheduleProps> = ({ studyGroup, can
                                 </div>
                                 {/* Mostrar los eventos del día */}
                                 {getEventsForDay(day).map(event => (
+                                    <>
                                     <div key={event._id}
-                                         className="text-xs text-gray-500 dark:text-gray-300 truncate mt-1">
+                                         className="text-xs dark:text-gray-300 truncate mt-1 border  rounded border-opacity-50">
                                         {event.name}
                                     </div>
+                                    </>
                                 ))}
                             </td>
                         ))}

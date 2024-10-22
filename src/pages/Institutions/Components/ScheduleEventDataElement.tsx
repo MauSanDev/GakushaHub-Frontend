@@ -161,7 +161,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
                             >
                                 <FaEdit />
                             </button>}
-                            {!isNew && (
+                            {!isNew && canEdit && (
                                 <button
                                     onClick={handleDelete}
                                     className="text-red-500 hover:text-red-700 focus:outline-none"

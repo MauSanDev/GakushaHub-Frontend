@@ -57,7 +57,6 @@ export const useSchedule = (
                 searches,
                 {},
                 {},
-                userData?._id
             );
             setData(result);
         } catch (error) {

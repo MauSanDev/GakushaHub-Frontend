@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import NoDataMessage from "../../NoDataMessage.tsx";
 
 interface PaginatedContainerProps<T> {
     documents: T[];
@@ -105,7 +106,7 @@ const PaginatedContainer = <T,>({
                         {renderPageNumbers()}
                     </>
                 ) : (
-                    <span className="text-gray-400 dark:text-gray-600 text-xs">No elements found</span>
+                    <NoDataMessage />
                 )}
             </div>
 

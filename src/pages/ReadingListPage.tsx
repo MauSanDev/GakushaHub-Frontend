@@ -52,21 +52,19 @@ const ReadingListPage: React.FC = () => {
                 <SearchBar onSearch={setSearchTerm} placeholder="Search Readings..." />
             </div>
 
-            {!isLoading && data && (
-                <PaginatedContainer
-                    documents={data.documents}
-                    currentPage={page}
-                    totalPages={data.totalPages}
-                    onPageChange={setPage}
-                    RenderComponent={({ document }) => (
-                        <Link to={`/generation/${document._id}`} className="page-fade-enter page-fade-enter-active">
-                            <ReadingDataElement
-                                data={document}
-                            />
-                        </Link>
-                    )}
-                />
-            )}
+            <PaginatedContainer
+                documents={data?.documents || []}
+                currentPage={page}
+                totalPages={data?.totalPages || 0}
+                onPageChange={setPage}
+                RenderComponent={({ document }) => (
+                    <Link to={`/generation/${document._id}`} className="page-fade-enter page-fade-enter-active">
+                        <ReadingDataElement
+                            data={document}
+                        />
+                    </Link>
+                )}
+            />
         </SectionContainer>
     );
 };

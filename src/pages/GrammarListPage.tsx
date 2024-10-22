@@ -80,21 +80,19 @@ const GrammarListPage: React.FC = () => {
                 </div>
             )}
 
-            {!isLoading && data && (
-                <PaginatedContainer
-                    documents={data.documents}
-                    currentPage={page}
-                    totalPages={data.totalPages}
-                    onPageChange={setPage}
-                    RenderComponent={({ document }) => (
-                        <GrammarDataElement
-                            result={document}
-                            isSelected={selectedGrammarIds.includes(document._id)}
-                            onSelect={(isSelected) => handleItemSelect(document._id, isSelected)}
-                        />
-                    )}
-                />
-            )}
+            <PaginatedContainer
+                documents={data?.documents || []}
+                currentPage={page}
+                totalPages={data?.totalPages || 0}
+                onPageChange={setPage}
+                RenderComponent={({ document }) => (
+                    <GrammarDataElement
+                        result={document}
+                        isSelected={selectedGrammarIds.includes(document._id)}
+                        onSelect={(isSelected) => handleItemSelect(document._id, isSelected)}
+                    />
+                )}
+            />
         </SectionContainer>
     );
 };

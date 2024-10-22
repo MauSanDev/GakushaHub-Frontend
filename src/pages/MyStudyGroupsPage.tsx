@@ -38,22 +38,18 @@ const MyStudyGroupsPage: React.FC = () => {
                     />
                 </div>
 
-                {!isLoading && studyGroupsData && studyGroupsData.documents.length > 0 ? (
-                    <PaginatedContainer
-                        documents={studyGroupsData.documents}  
-                        currentPage={page}  
-                        totalPages={studyGroupsData.totalPages}  
-                        onPageChange={setPage}  
-                        RenderComponent={({ document }) => (
-                            <StudyGroupDataElement
-                                key={document._id}
-                                studyGroup={document}
-                            />
-                        )}
-                    />
-                ) : (
-                    <p className="text-center text-gray-500">No study groups found</p>
-                )}
+                <PaginatedContainer
+                    documents={studyGroupsData?.documents || []}  
+                    currentPage={page}  
+                    totalPages={studyGroupsData?.totalPages || 0}  
+                    onPageChange={setPage}  
+                    RenderComponent={({ document }) => (
+                        <StudyGroupDataElement
+                            key={document._id}
+                            studyGroup={document}
+                        />
+                    )}
+                />
             </div>
         </SectionContainer>
     );

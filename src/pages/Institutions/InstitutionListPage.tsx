@@ -14,7 +14,7 @@ const InstitutionListPage: React.FC = () => {
     const { memberships, refetchMemberships, licenseType } = useAuth();
     const [isMembershipsLoading, setIsMembershipsLoading] = useState<boolean>(true);
     const [institutions, setInstitutions] = useState<InstitutionData[]>([]);
-    const { data: institutionsData, isLoading: institutionsLoading, fetchInstitutions } = usePaginatedInstitutions(1, 10);
+    const { data: institutionsData, isLoading: institutionsLoading, fetchInstitutions } = usePaginatedInstitutions(1, 1);
 
     useEffect(() => {
         if (institutionsData?.documents) {
