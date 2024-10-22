@@ -1,18 +1,5 @@
 import React, { useState } from 'react';
-import {
-    FaFileAlt,
-    FaMusic,
-    FaFilm,
-    FaLink,
-    FaYoutube,
-    FaImage,
-    FaFileArchive,
-    FaStickyNote,
-    FaClock,
-    FaUser,
-    FaTags,
-    FaDownload
-} from 'react-icons/fa';
+import { FaFileAlt,  FaMusic,  FaFilm,  FaLink,  FaYoutube,  FaImage,  FaFileArchive,  FaStickyNote,  FaClock,  FaUser,  FaTags,  FaDownload} from 'react-icons/fa';
 import DeleteButton from "../../../components/DeleteButton";
 import { CollectionTypes } from "../../../data/CollectionTypes";
 import RoundedTag from "../../../components/ui/text/RoundedTag.tsx";

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaArrowLeft, FaArrowRight, FaCalendarDay } from 'react-icons/fa';
+import NoDataMessage from "../../components/NoDataMessage.tsx";
+import ScheduleEventsModal from "../Institutions/ScheduleEventsModal.tsx";
 
 interface Event {
     date: string;
@@ -16,6 +18,8 @@ const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
 const StudyGroupSchedule: React.FC = () => {
     const startDate = new Date('2024-09-01');
     const endDate = new Date('2024-12-15');
+    const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
+    const [selectedEventDay, setSelectedEventDay] = useState<Event[]>([]); // Eventos del día seleccionado
 
     const [currentDate, setCurrentDate] = useState<Date>(new Date());
     const [events, setEvents] = useState<Event[]>([
@@ -62,16 +66,11 @@ const StudyGroupSchedule: React.FC = () => {
 
     const handleDayClick = (day: number) => {
         const selectedDate = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-        const event = events.find(e => e.date === selectedDate);
+        const dayEvents = events.filter(e => e.date === selectedDate);
 
-        if (event) {
-            alert(`Event: ${event.event}`);
-        } else {
-            const newEvent = prompt(`Add event for ${selectedDate}:`);
-            if (newEvent) {
-                setEvents([...events, { date: selectedDate, event: newEvent }]);
-            }
-        }
+        console.log("pressed")
+        setSelectedEventDay(dayEvents); // Pasa los eventos del día seleccionado
+        setIsModalOpen(true); // Abre el modal
     };
 
     const isEventDay = (day: number): boolean => {
@@ -240,9 +239,16 @@ const StudyGroupSchedule: React.FC = () => {
                         ))}
                     </ul>
                 ) : (
-                    <p>No old events</p>
+                    <NoDataMessage />
                 )}
             </div>
+
+            {isModalOpen && (
+                <ScheduleEventsModal
+                    onClose={() => setIsModalOpen(false)}
+                    // events={selectedEventDay} // Pasa los eventos al modal
+                />
+            )}
         </div>
     );
 };
