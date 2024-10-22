@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { FaClock, FaUser, FaCalendarAlt, FaEdit, FaSave, FaTimes, FaTrash } from 'react-icons/fa';
 import { ScheduleEventData } from "../../../data/ScheduleEventData.ts";
-import {useSchedule} from "../../../hooks/newHooks/Courses/useSchedule.ts";
-import {useAuth} from "../../../context/AuthContext.tsx";
+import { useSchedule } from "../../../hooks/newHooks/Courses/useSchedule.ts";
+import { useAuth } from "../../../context/AuthContext.tsx";
 
 interface ScheduleEventDataElementProps {
     eventData: ScheduleEventData;
@@ -15,7 +15,15 @@ interface ScheduleEventDataElementProps {
     canEdit: boolean;
 }
 
-const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({ eventData, onSave, onCancel, onDelete, isNew = false, institutionId, studyGroupId, canEdit
+const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
+                                                                               eventData,
+                                                                               onSave,
+                                                                               onCancel,
+                                                                               onDelete,
+                                                                               isNew = false,
+                                                                               institutionId,
+                                                                               studyGroupId,
+                                                                               canEdit
                                                                            }) => {
     const { userData } = useAuth();
     const [isEditing, setIsEditing] = useState(isNew);
@@ -25,14 +33,30 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({ eve
         desc: isNew ? '' : eventData.desc
     });
 
-    const { createScheduleEvent, isCreating } = useSchedule(eventData.studyGroupId, eventData.institutionId, eventData.timestamp, 1, 10); 
+    const { createScheduleEvent, isCreating } = useSchedule(eventData.studyGroupId, eventData.institutionId, eventData.timestamp, 1, 10);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setEditedEvent((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+
+        if (name === 'timestamp') {
+            // Solo actualizamos si la fecha es válida
+            const isValidDate = !isNaN(Date.parse(value));  // Verifica si el valor es una fecha válida
+
+            if (isValidDate) {
+                setEditedEvent((prev) => ({
+                    ...prev,
+                    [name]: value,
+                }));
+            } else {
+                // Opcional: Podrías mostrar un mensaje de error o solo ignorar la entrada inválida
+                console.warn("Invalid date entered");
+            }
+        } else {
+            setEditedEvent((prev) => ({
+                ...prev,
+                [name]: value,
+            }));
+        }
     };
 
     const handleSave = async () => {
@@ -43,6 +67,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({ eve
 
         if (isNew) {
             try {
+                // Crea un nuevo evento y luego actualiza la lista de eventos
                 await createScheduleEvent({
                     name: editedEvent.name,
                     desc: editedEvent.desc,
@@ -51,12 +76,13 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({ eve
                     institutionId: institutionId,
                     creatorId: userData?._id || '',
                 });
+                onSave(editedEvent); // Asegúrate de pasar el evento actualizado al padre
                 setIsEditing(false);
             } catch (error) {
                 console.error("Error creating schedule event:", error);
             }
         } else {
-            onSave(editedEvent);
+            onSave(editedEvent); // Guarda el evento editado
             setIsEditing(false);
         }
     };
@@ -85,7 +111,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({ eve
                             name="name"
                             value={editedEvent.name}
                             onChange={handleInputChange}
-                            className="text-md font-bold text-gray-600 dark:text-white bg-transparent border-b-2 border-gray-300 focus:outline-none"
+                            className="text-md font-bold w-full text-gray-600 dark:text-white bg-transparent border-b-2 border-gray-300 dark:border-gray-800 focus:outline-none"
                             placeholder="Event Title"
                         />
                     ) : (
@@ -104,7 +130,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({ eve
                                 name="timestamp"
                                 value={new Date(editedEvent.timestamp).toISOString().slice(0, 10)}
                                 onChange={handleInputChange}
-                                className="text-xs text-gray-400 dark:text-gray-700 bg-transparent border-b-2 border-gray-300 focus:outline-none"
+                                className="text-xs text-gray-400 dark:text-gray-700 bg-transparent border-b-2 border-gray-300 focus:outline-none dark:border-gray-800"
                             />
                         ) : (
                             <span>{new Date(eventData.timestamp).toLocaleDateString()}</span>
@@ -115,7 +141,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({ eve
                         <>
                             <button
                                 onClick={handleSave}
-                                disabled={isCreating} 
+                                disabled={isCreating}
                                 className="text-green-500 hover:text-green-700 focus:outline-none"
                             >
                                 <FaSave />
@@ -133,7 +159,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({ eve
                                 onClick={() => setIsEditing(true)}
                                 className="text-blue-500 hover:text-blue-700 focus:outline-none"
                             >
-                                <FaEdit/>
+                                <FaEdit />
                             </button>}
                             {!isNew && (
                                 <button
@@ -158,7 +184,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({ eve
                     name="desc"
                     value={editedEvent.desc || ''}
                     onChange={handleInputChange}
-                    className="text-sm text-gray-600 dark:text-white bg-transparent border-b-2 border-gray-300 focus:outline-none w-full"
+                    className="text-sm text-gray-600 dark:text-white bg-transparent border-b-2 border-gray-300 focus:outline-none w-full  dark:border-gray-800"
                     placeholder="Event description (optional)"
                 />
             )}

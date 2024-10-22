@@ -8,7 +8,8 @@ import { FaPlus } from "react-icons/fa";
 import { ScheduleEventData } from "../../data/ScheduleEventData.ts";
 import NoDataMessage from "../../components/NoDataMessage.tsx";
 import { useDeleteElement } from '../../hooks/useDeleteElement';
-import {CollectionTypes} from "../../data/CollectionTypes.tsx"; // Importar el hook
+import {useUpdateData} from "../../hooks/updateHooks/useUpdateData.ts";
+import {CollectionTypes} from "../../data/CollectionTypes.tsx";
 
 interface ScheduleEventsModalProps {
     onClose: () => void;
@@ -25,11 +26,12 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
                                                                      studyGroupId,
                                                                      institutionId,
                                                                      date,
-                                                                     canEdit,
+                                                                     canEdit
                                                                  }) => {
     const [events, setEvents] = useState<ScheduleEventData[]>(selectedEvents);
 
-    const deleteElementMutation = useDeleteElement(); // Inicializar el hook
+    const updateMutation = useUpdateData<ScheduleEventData>(); // Hook de actualización
+    const deleteMutation = useDeleteElement(); // Hook de eliminación
 
     useEffect(() => {
         setEvents(selectedEvents);
@@ -42,18 +44,39 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
             desc: '',
             timestamp: new Date(date).toISOString(),
             creatorId: 'user1',
-            institutionId: institutionId,
-            studyGroupId: studyGroupId || 'group1',
+            institutionId,
+            studyGroupId: studyGroupId || '',
         };
         setEvents([...events, newEvent]);
     };
 
     const handleSaveEvent = (updatedEvent: ScheduleEventData) => {
-        setEvents((prevEvents) =>
-            prevEvents.map((event) =>
-                event._id === updatedEvent._id ? updatedEvent : event
-            )
-        );
+        const eventDate = new Date(updatedEvent.timestamp).toISOString().split('T')[0]; // Formateamos la fecha a 'YYYY-MM-DD'
+
+        if (eventDate !== date) {
+            // Confirmación nativa del navegador si la fecha cambia
+            const confirmMessage = `This event will be moved to ${new Date(updatedEvent.timestamp).toLocaleDateString()}. Do you want to continue?`;
+            if (window.confirm(confirmMessage)) {
+                updateMutation.mutate({
+                    collection: 'schedule',
+                    documentId: updatedEvent._id,
+                    newData: updatedEvent,
+                });
+                setEvents((prevEvents) =>
+                    prevEvents.filter((event) => event._id !== updatedEvent._id)
+                );
+            }
+        } else {
+            // Si la fecha no cambia, guardar directamente
+            updateMutation.mutate({
+                collection: 'schedule',
+                documentId: updatedEvent._id,
+                newData: updatedEvent,
+            });
+            setEvents((prevEvents) =>
+                prevEvents.map((event) => (event._id === updatedEvent._id ? updatedEvent : event))
+            );
+        }
     };
 
     const handleCancelEvent = (eventId: string) => {
@@ -62,20 +85,9 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
 
     const handleDeleteEvent = (eventId: string) => {
         if (window.confirm('Are you sure you want to delete this event?')) {
-            deleteElementMutation.mutate({
-                elementIds: [eventId],
-                elementType: CollectionTypes.Schedule,
-            }, {
-                onSuccess: () => {
-                    // Eliminar del estado local
-                    setEvents((prevEvents) => prevEvents.filter((event) => event._id !== eventId));
-                },
-                onError: (error) => {
-                    console.error('Error deleting event:', error);
-                }
-            });
+            deleteMutation.mutate({ elementIds: [eventId], elementType: CollectionTypes.Schedule });
+            setEvents((prevEvents) => prevEvents.filter((event) => event._id !== eventId));
         }
-        setEvents((prevEvents) => prevEvents.filter((event) => event._id !== eventId));
     };
 
     return (

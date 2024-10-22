@@ -159,10 +159,21 @@ const StudyGroupSchedule: React.FC<StudyGroupScheduleProps> = ({ studyGroup, can
     const calendar = generateCalendar();
 
     const upcomingEvents = data?.documents.filter(event => new Date(event.timestamp) >= new Date()) || [];
-    const oldEvents = data?.documents.filter(event => new Date(event.timestamp) < new Date()) || [];
+    const todayEvents = data?.documents.filter(event => {
+        const eventDate = new Date(event.timestamp);
+        const today = new Date();
+        return eventDate.toDateString() === today.toDateString();
+    }) || [];
 
+    const oldEvents = data?.documents.filter(event => {
+        const eventDate = new Date(event.timestamp);
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        return eventDate < yesterday;
+    }) || [];
+    
     return (
-        <div className="flex flex-col items-center overflow-y-scroll h-2/3 m-4">
+        <div className="flex flex-col items-center overflow-y-scroll h-2/3 m-4 pb-80">
             <div className="mb-4 text-gray-600 dark:text-gray-600 text-sm ">
                 <span>From: {startDate.toDateString()}</span>
                 {' | '}
@@ -171,13 +182,13 @@ const StudyGroupSchedule: React.FC<StudyGroupScheduleProps> = ({ studyGroup, can
 
             <div className="flex justify-center mb-4 gap-2 w-full max-w-3xl text-black dark:text-white text-lg">
                 <button onClick={prevMonth} className="px-4 py-2" disabled={currentDate <= startDate}>
-                    <FaArrowLeft />
+                    <FaArrowLeft/>
                 </button>
 
                 <h3>{months[currentDate.getMonth()]} {currentDate.getFullYear()}</h3>
 
                 <button onClick={nextMonth} className="px-4 py-2" disabled={currentDate >= endDate}>
-                    <FaArrowRight />
+                    <FaArrowRight/>
                 </button>
             </div>
 
@@ -199,19 +210,22 @@ const StudyGroupSchedule: React.FC<StudyGroupScheduleProps> = ({ studyGroup, can
                                 className={`w-16 text-center transition-all align-top h-24 ${getDayClass(day)}`}
                                 onClick={() => !isOutOfRangeDay(day) && handleDayClick(day)}
                             >
-                                <div className={`rounded-full w-full flex items-center justify-center ${isToday(day) ? 'relative' : ''}`}>
+                                <div
+                                    className={`rounded-full w-full flex items-center justify-center ${isToday(day) ? 'relative' : ''}`}>
                                     {day !== 0 ? (
                                         <>
                                             {day}
                                             {isToday(day) && (
-                                                <FaCalendarDay className="absolute bottom-1 right-1 text-white-300 text-xs" />
+                                                <FaCalendarDay
+                                                    className="absolute bottom-1 right-1 text-white-300 text-xs"/>
                                             )}
                                         </>
                                     ) : ''}
                                 </div>
                                 {/* Mostrar los eventos del día */}
                                 {getEventsForDay(day).map(event => (
-                                    <div key={event._id} className="text-xs text-gray-500 dark:text-gray-300 truncate mt-1">
+                                    <div key={event._id}
+                                         className="text-xs text-gray-500 dark:text-gray-300 truncate mt-1">
                                         {event.name}
                                     </div>
                                 ))}
@@ -221,6 +235,21 @@ const StudyGroupSchedule: React.FC<StudyGroupScheduleProps> = ({ studyGroup, can
                 ))}
                 </tbody>
             </table>
+
+            <div className="mt-8 w-full max-w-3xl text-black dark:text-white ">
+                <h3 className="text-lg font-semibold mb-2">Today Events:</h3>
+                {todayEvents.length > 0 ? (
+                    <ul>
+                        {todayEvents.map((event, index) => (
+                            <li key={index} className="mb-1">
+                                {new Date(event.timestamp).toLocaleDateString()}: {event.name}
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <NoDataMessage />
+                )}
+            </div>
 
             <div className="mt-8 w-full max-w-3xl text-black dark:text-white ">
                 <h3 className="text-lg font-semibold mb-2">Upcoming Events:</h3>
@@ -233,7 +262,7 @@ const StudyGroupSchedule: React.FC<StudyGroupScheduleProps> = ({ studyGroup, can
                         ))}
                     </ul>
                 ) : (
-                    <p>No upcoming events</p>
+                    <NoDataMessage />
                 )}
             </div>
 
@@ -249,7 +278,7 @@ const StudyGroupSchedule: React.FC<StudyGroupScheduleProps> = ({ studyGroup, can
                         ))}
                     </ul>
                 ) : (
-                    <NoDataMessage />
+                    <NoDataMessage/>
                 )}
             </div>
 
