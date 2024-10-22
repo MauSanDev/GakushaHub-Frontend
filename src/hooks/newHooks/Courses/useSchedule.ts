@@ -16,11 +16,11 @@ interface CreateSchedulePayload {
 }
 
 export const useSchedule = (
-    studyGroupId: string,
     institutionId: string,
     timestamp: string,
     page: number,
-    limit: number
+    limit: number,
+    studyGroupId?: string,
 ): {
     fetchSchedule: () => Promise<void>,
     createScheduleEvent: (payload: CreateSchedulePayload) => Promise<ScheduleEventData>,
@@ -35,6 +35,11 @@ export const useSchedule = (
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const searches: Record<string, string[]> = {};
+
+    if (studyGroupId) {
+        searches['search2'] = [studyGroupId];
+        searches['search2fields'] = ['studyGroupId'];
+    }
 
     if (studyGroupId) {
         searches['search1'] = [studyGroupId, institutionId];
@@ -52,7 +57,7 @@ export const useSchedule = (
             const result = await fetchFullPagination<ScheduleEventData>(
                 page,
                 limit,
-                'schedule',
+                CollectionTypes.Schedule,
                 queryClient,
                 searches,
                 {},
@@ -82,10 +87,14 @@ export const useSchedule = (
                 name: payload.name,
                 desc: payload.desc || '',
                 timestamp: payload.timestamp,
-                studyGroupId: payload.studyGroupId,
                 institutionId: payload.institutionId,
                 creatorId: userData._id
             };
+            
+            if (studyGroupId)
+            {
+                data[studyGroupId] = payload.studyGroupId;
+            }
 
             return await createElement(CollectionTypes.Schedule, data, queryClient) as ScheduleEventData;
         },

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { FaClock, FaUser, FaCalendarAlt, FaEdit, FaSave, FaTimes, FaTrash } from 'react-icons/fa';
+import {FaClock, FaCalendarAlt, FaEdit, FaSave, FaTimes, FaTrash, FaSchool} from 'react-icons/fa';
 import { ScheduleEventData } from "../../../data/ScheduleEventData.ts";
 import { useSchedule } from "../../../hooks/newHooks/Courses/useSchedule.ts";
 import { useAuth } from "../../../context/AuthContext.tsx";
+import CreatorLabel from "../../../components/ui/text/CreatorLabel.tsx";
 
 interface ScheduleEventDataElementProps {
     eventData: ScheduleEventData;
@@ -33,14 +34,13 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
         desc: isNew ? '' : eventData.desc
     });
 
-    const { createScheduleEvent, isCreating } = useSchedule(eventData.studyGroupId, eventData.institutionId, eventData.timestamp, 1, 10);
+    const { createScheduleEvent, isCreating } = useSchedule(eventData.institutionId, eventData.timestamp, 1, 10, eventData.studyGroupId);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
 
         if (name === 'timestamp') {
-            // Solo actualizamos si la fecha es válida
-            const isValidDate = !isNaN(Date.parse(value));  // Verifica si el valor es una fecha válida
+            const isValidDate = !isNaN(Date.parse(value));
 
             if (isValidDate) {
                 setEditedEvent((prev) => ({
@@ -48,7 +48,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
                     [name]: value,
                 }));
             } else {
-                // Opcional: Podrías mostrar un mensaje de error o solo ignorar la entrada inválida
+                
                 console.warn("Invalid date entered");
             }
         } else {
@@ -67,7 +67,6 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
 
         if (isNew) {
             try {
-                // Crea un nuevo evento y luego actualiza la lista de eventos
                 await createScheduleEvent({
                     name: editedEvent.name,
                     desc: editedEvent.desc,
@@ -76,13 +75,13 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
                     institutionId: institutionId,
                     creatorId: userData?._id || '',
                 });
-                onSave(editedEvent); // Asegúrate de pasar el evento actualizado al padre
+                onSave(editedEvent); 
                 setIsEditing(false);
             } catch (error) {
                 console.error("Error creating schedule event:", error);
             }
         } else {
-            onSave(editedEvent); // Guarda el evento editado
+            onSave(editedEvent); 
             setIsEditing(false);
         }
     };
@@ -104,7 +103,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
 
             <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
-                    <FaCalendarAlt className="text-blue-500" />
+                    {!studyGroupId ? <FaSchool className="text-orange-400"/> : <FaCalendarAlt className="text-blue-500"/>}
                     {isEditing ? (
                         <input
                             type="text"
@@ -116,7 +115,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
                         />
                     ) : (
                         <h2 className="text-md font-bold text-gray-600 dark:text-white">
-                            {eventData.name || 'Event Title'}
+                            {eventData.name || 'Event Title'} {!studyGroupId && <span className={'font-normal text-xs text-gray-400'}>(School Event)</span>}
                         </h2>
                     )}
                 </div>
@@ -191,8 +190,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
 
             <div className="flex items-center text-xs text-gray-400 dark:text-gray-700 gap-4">
                 <span className="flex items-center">
-                    <FaUser className="mr-1" />
-                    <span>{eventData.creatorId || 'Unknown Creator'}</span>
+                    <CreatorLabel creatorId={eventData.creatorId} />
                 </span>
             </div>
         </div>

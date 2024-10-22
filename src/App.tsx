@@ -31,6 +31,7 @@ import StudyGroupContentPage from "./pages/StudyGroupContentPage.tsx";
 import MyStudyGroupsPage from "./pages/MyStudyGroupsPage.tsx";
 import InstitutionNewsEditorPage from "./pages/Institutions/InstitutionNewsEditorPage.tsx";
 import InstitutionResourcesPage from "./pages/Institutions/InstitutionResourcesPage.tsx";
+import InstitutionSchedulePage from "./pages/Institutions/InstitutionSchedulePage.tsx";
 
 function App() {
     const { isAuthenticated, hasLicense } = useAuth();
@@ -87,6 +88,7 @@ function App() {
                     <Route path="institution/:institutionId/members" element={<InstitutionMembersPage />} />
                     <Route path="institution/:institutionId/studyGroups" element={<InstitutionStudyGroupList />} />
                     <Route path="institution/:institutionId/resources" element={<InstitutionResourcesPage />} />
+                    <Route path="institution/:institutionId/schedule" element={<InstitutionSchedulePage />} />
                     <Route path="institution/:institutionId/courses/:courseId" element={<CourseDetailPage />} />
                     <Route path="institution/:institutionId/courses/:courseId/:lessonId" element={<CourseDetailPage />} />
                     <Route path="institution/:institutionId/studyGroup/:studyGroupId" element={<StudyGroupContentPage />} />

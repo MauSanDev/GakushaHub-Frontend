@@ -30,8 +30,8 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
                                                                  }) => {
     const [events, setEvents] = useState<ScheduleEventData[]>(selectedEvents);
 
-    const updateMutation = useUpdateData<ScheduleEventData>(); // Hook de actualización
-    const deleteMutation = useDeleteElement(); // Hook de eliminación
+    const updateMutation = useUpdateData<ScheduleEventData>(); 
+    const deleteMutation = useDeleteElement(); 
 
     useEffect(() => {
         setEvents(selectedEvents);
@@ -45,16 +45,16 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
             timestamp: new Date(date).toISOString(),
             creatorId: 'user1',
             institutionId,
-            studyGroupId: studyGroupId || '',
+            studyGroupId: studyGroupId,
         };
         setEvents([...events, newEvent]);
     };
 
     const handleSaveEvent = (updatedEvent: ScheduleEventData) => {
-        const eventDate = new Date(updatedEvent.timestamp).toISOString().split('T')[0]; // Formateamos la fecha a 'YYYY-MM-DD'
+        const eventDate = new Date(updatedEvent.timestamp).toISOString().split('T')[0]; 
 
         if (eventDate !== date) {
-            // Confirmación nativa del navegador si la fecha cambia
+            
             const confirmMessage = `This event will be moved to ${new Date(updatedEvent.timestamp).toLocaleDateString()}. Do you want to continue?`;
             if (window.confirm(confirmMessage)) {
                 updateMutation.mutate({
@@ -67,7 +67,7 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
                 );
             }
         } else {
-            // Si la fecha no cambia, guardar directamente
+            
             updateMutation.mutate({
                 collection: 'schedule',
                 documentId: updatedEvent._id,
@@ -116,9 +116,9 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
                                     onCancel={handleCancelEvent}
                                     onDelete={handleDeleteEvent}
                                     isNew={event.name === ''}
-                                    institutionId={institutionId}
-                                    studyGroupId={studyGroupId}
-                                    canEdit={canEdit}
+                                    institutionId={event.institutionId}
+                                    studyGroupId={event.studyGroupId}
+                                    canEdit={!!canEdit && !!event.studyGroupId}
                                 />
                             </li>
                         ))}

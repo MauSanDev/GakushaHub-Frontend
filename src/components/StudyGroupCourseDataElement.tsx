@@ -54,9 +54,7 @@ const StudyGroupCourseDataElement: React.FC<StudyGroupCourseDataElementProps> = 
 
             <CreatorLabel creatorId={course.creatorId} createdAt={course.createdAt} />
 
-            {/* Mostrar las lecciones cargadas */}
-            {lessonsLoading && <p>Loading lessons...</p>}
-            {!lessonsLoading && lessonsData ? (
+            {!lessonsLoading && lessonsData  &&(
                 Object.values(lessonsData).map((lesson: LessonData) => (
                     <div key={lesson._id} className="mb-1 px-2 py-1 rounded dark:bg-gray-950">
                         <div className="flex items-center justify-between capitalize">
@@ -92,8 +90,6 @@ const StudyGroupCourseDataElement: React.FC<StudyGroupCourseDataElementProps> = 
                         </div>
                     </div>
                 ))
-            ) : (
-                <p>No lessons available</p>
             )}
         </Container>
     );

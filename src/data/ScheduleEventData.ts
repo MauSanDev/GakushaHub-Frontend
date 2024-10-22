@@ -6,5 +6,5 @@ export interface ScheduleEventData {
     timestamp: string;
     creatorId: string;
     institutionId: string;
-    studyGroupId: string;
+    studyGroupId?: string;
 }

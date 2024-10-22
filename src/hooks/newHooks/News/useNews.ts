@@ -16,7 +16,7 @@ export const useNews = (
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const searches: Record<string, string[]> = {};
-w
+
     if (search) {
         searches['search1'] = [search];
         searches['search1fields'] = ['title', 'text', 'tags'];

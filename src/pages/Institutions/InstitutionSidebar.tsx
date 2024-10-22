@@ -35,6 +35,7 @@ const InstitutionSidebar: React.FC = () => {
         { label: 'resources', path: `/institution/${institutionId}/resources`, roles: null },
         { label: 'members', path: `/institution/${institutionId}/members`, roles: null },
         { label: 'courses', path: `/institution/${institutionId}/courses`, roles: null },
+        { label: 'schedule', path: `/institution/${institutionId}/schedule`, roles: null },
     ];
 
     return (

@@ -22,7 +22,7 @@ import StudyGroupSchedule from "./StudyGroups/StudyGroupScheduleTab.tsx";
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId } = useParams<{ studyGroupId: string }>();
-    const [currentTab, setCurrentTab] = useState<string>('courses');
+    const [currentTab, setCurrentTab] = useState<string>('schedule');
     const [isArchived, setIsArchived] = useState<boolean>(false);
     const [role, setRole] = useState<MembershipRole>(MembershipRole.None);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -48,7 +48,7 @@ const StudyGroupContentPage: React.FC = () => {
     useEffect(() => {
         const savedTab = localStorage.getItem('currentStudyGroupTab');
         if (savedTab) {
-            setCurrentTab(savedTab as 'courses' | 'resources' | 'members');
+            setCurrentTab(savedTab as 'courses' | 'resources' | 'members' | 'schedule' | 'chat' | 'settings' | 'homework');
         }
     }, []);
 
