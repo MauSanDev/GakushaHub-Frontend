@@ -4,8 +4,10 @@ import Tabs from "../../components/ui/toggles/Tabs";
 import InstitutionResourcesTab from "./Components/InstitutionResourcesTab";
 import InstitutionResourcesGroupTab from "./Components/InstitutionResourcesGroupTab";
 import {FaFolder} from "react-icons/fa";
+import {useParams} from "react-router-dom";
 
 const InstitutionResourcesPage: React.FC = () => {
+    const { institutionId } = useParams<{ institutionId: string }>();
     const [currentTab, setCurrentTab] = useState('resources');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -26,6 +28,7 @@ const InstitutionResourcesPage: React.FC = () => {
             case 'resources':
                 return (
                     <InstitutionResourcesTab
+                        institutionId={institutionId as string}
                         onOpenModal={handleOpenModal}
                         isModalOpen={isModalOpen}
                         handleCloseModal={handleCloseModal}
@@ -41,12 +44,10 @@ const InstitutionResourcesPage: React.FC = () => {
     return (
         <SectionContainer title={"リソース"}>
             <div className="w-full max-w-4xl mx-auto mt-6">
-                {/* Componente de Tabs */}
                 <div className="mb-4">
                     <Tabs tabs={tabs} onTabChange={handleTabChange} currentTab={currentTab} />
                 </div>
 
-                {/* Renderizar el contenido basado en la pestaña actual */}
                 {renderTabContent()}
             </div>
         </SectionContainer>

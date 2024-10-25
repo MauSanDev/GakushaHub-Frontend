@@ -6,7 +6,7 @@ import SearchBar from '../../../components/ui/inputs/SearchBar';
 import CreateResourceModal from "./../CreateResourceModal";
 import ResourceDataElement from "./../Components/ResourceDataElement";
 
-const InstitutionResourcesTab: React.FC<{ onOpenModal: () => void, isModalOpen: boolean, handleCloseModal: () => void }> = ({ onOpenModal, isModalOpen, handleCloseModal }) => {
+const InstitutionResourcesTab: React.FC<{ onOpenModal: () => void, isModalOpen: boolean, handleCloseModal: () => void, institutionId: string }> = ({ onOpenModal, isModalOpen, handleCloseModal, institutionId }) => {
     // Ejemplo de recursos
     const resourcesData = [
         {
@@ -128,9 +128,7 @@ const InstitutionResourcesTab: React.FC<{ onOpenModal: () => void, isModalOpen: 
             {isModalOpen && (
                 <CreateResourceModal
                     onClose={handleCloseModal}
-                    onSaveSuccess={() => {
-                        handleCloseModal();
-                    }}
+                    institutionId={institutionId}
                 />
             )}
         </>

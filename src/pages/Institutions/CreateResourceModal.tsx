@@ -12,10 +12,11 @@ export interface NewResourceData {
 }
 
 interface CreateResourceModalProps {
+    institutionId: string, 
     onClose: () => void;
 }
 
-const CreateResourceModal: React.FC<CreateResourceModalProps> = ({ onClose }) => {
+const CreateResourceModal: React.FC<CreateResourceModalProps> = ({ onClose, institutionId }) => {
     const [resources, setResources] = useState<NewResourceData[]>([]);
     const [showDropdown, setShowDropdown] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -116,7 +117,7 @@ const CreateResourceModal: React.FC<CreateResourceModalProps> = ({ onClose }) =>
                             resource.file ? (
                                 <FileResourceComponent key={resource._id} file={resource.file} instanceId={resource._id} onDelete={() => handleDeleteResource(resource._id)} />
                             ) : (
-                                <LinkTextResourceComponent key={resource._id} instanceId={resource._id} onDelete={() => handleDeleteResource(resource._id)} />
+                                <LinkTextResourceComponent key={resource._id} institutionId={institutionId} instanceId={resource._id} onDelete={() => handleDeleteResource(resource._id)} />
                             )
                         ))}
                     </div>

@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { FaTrash, FaLink, FaYoutube, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 import Container from "../../../components/ui/containers/Container.tsx";
+import { useResources } from '../../../hooks/newHooks/useResources';
+import { useUpdateData } from '../../../hooks/updateHooks/useUpdateData';
+
+interface LinkTextResourceComponentProps {
+    instanceId: string;
+    institutionId: string;
+    onDelete: () => void;
+}
 
 export interface LinkTextResourceData {
+    _id?: string, 
     title: string;
     description?: string;
     type: string;
@@ -10,45 +19,22 @@ export interface LinkTextResourceData {
     tags?: string[];
 }
 
-interface LinkTextResourceComponentProps {
-    instanceId: string;
-    onDelete: () => void;
-}
 
-const useFetchResourceData = (instanceId: string): LinkTextResourceData | null => {
-    const [resource, setResource] = useState<LinkTextResourceData | null>(null);
+const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({institutionId, onDelete}) => {
+    const { createResource } = useResources(institutionId, 1, 10); 
+    const { mutateAsync: updateResource } = useUpdateData<LinkTextResourceData>(); 
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const fakeData: LinkTextResourceData = {
-                title: "",
-                description: "",
-                type: "Note",
-                url: "",
-                tags: []
-            };
-            setResource(fakeData);
-        };
-
-        fetchData();
-    }, [instanceId]);
-
-    return resource;
-};
-
-const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({ instanceId, onDelete }) => {
-    const resource = useFetchResourceData(instanceId);
-
-    const [localResource, setLocalResource] = useState<LinkTextResourceData | null>(resource);
-    const [isEditing, setIsEditing] = useState<boolean>(true); // Empieza en modo de edición siempre
+    const [localResource, setLocalResource] = useState<LinkTextResourceData>({
+        title: '',
+        description: '',
+        type: 'Note',
+        url: '',
+        tags: [],
+    });
+    const [isEditing, setIsEditing] = useState<boolean>(true); 
     const [error, setError] = useState<string | null>(null);
     const [isValidUrl, setIsValidUrl] = useState<boolean>(true);
-
-    useEffect(() => {
-        if (resource) {
-            setLocalResource(resource);
-        }
-    }, [resource]);
+    const [isCreated, setIsCreated] = useState<boolean>(false); 
 
     useEffect(() => {
         if (localResource?.url) {
@@ -66,7 +52,7 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({ i
         }
     }, [localResource?.url]);
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!localResource?.title.trim()) {
             setError("Title cannot be empty");
             return;
@@ -77,9 +63,39 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({ i
         }
         setError(null);
 
-        console.log("Recurso guardado:", localResource);
+        try {
+            if (!isCreated) {
+                
+                const createdResource = await createResource({
+                    title: localResource.title,
+                    description: localResource.description,
+                    type: localResource.type,
+                    url: localResource.url,
+                    tags: localResource.tags,
+                    institutionId,
+                });
+                setLocalResource((prev) => ({ ...prev, _id: createdResource._id }));
+                setIsCreated(true);
+            } else {
+                
+                console.log("update");
+                await updateResource({
+                    collection: 'resources',
+                    documentId: localResource._id as string,
+                    newData: {
+                        title: localResource.title,
+                        description: localResource.description,
+                        url: localResource.url,
+                        tags: localResource.tags,
+                    }
+                });
+            }
 
-        setIsEditing(false);
+            setIsEditing(false);
+        } catch (err) {
+            setError("Error saving resource");
+            console.error(err);
+        }
     };
 
     const handleCancel = () => {
@@ -87,20 +103,14 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({ i
             setError("Title cannot be empty to cancel");
             return;
         }
-        setLocalResource(resource); // Revertimos los cambios al original
+        
         setIsEditing(false);
         setError(null);
     };
 
     const handleChange = (field: keyof LinkTextResourceData, value: string) => {
-        if (localResource) {
-            setLocalResource((prev) => prev ? { ...prev, [field]: value } : null);
-        }
+        setLocalResource((prev) => ({ ...prev, [field]: value }));
     };
-
-    if (!localResource) {
-        return <div>Loading...</div>;
-    }
 
     return (
         <Container className="relative p-4 mb-4 flex flex-col border border-gray-300 dark:border-gray-600 bg-transparent rounded-lg my-2">

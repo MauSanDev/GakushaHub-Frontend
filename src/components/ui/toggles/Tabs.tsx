@@ -24,12 +24,12 @@ const Tabs: React.FC<TabsProps> = ({ tabs, onTabChange, currentTab }) => {
                     onSelected={{
                         text: tab.label,
                         icon: tab.icon,
-                        className: 'bg-blue-500 dark:bg-gray-600 description-white dark:border-gray-800',
+                        className: 'bg-blue-500 text-gray-200 dark:bg-gray-600 description-white dark:border-gray-800',
                     }}
                     onDeselected={{
                         text: tab.label,
                         icon: tab.icon,
-                        className: 'description-gray-500 bg-gray-200 dark:bg-gray-800 dark:description-gray-400 dark:border-gray-700',
+                        className: 'description-gray-500 text-gray-800 dark:text-gray-200 bg-gray-200 dark:bg-gray-800 dark:description-gray-400 dark:border-gray-700',
                     }}
                 />
             ))}
