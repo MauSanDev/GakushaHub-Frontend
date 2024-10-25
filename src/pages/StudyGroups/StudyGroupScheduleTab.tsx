@@ -10,7 +10,7 @@ interface StudyGroupScheduleProps {
 const StudyGroupSchedule: React.FC<StudyGroupScheduleProps> = ({ studyGroup, canEdit }) => {
 
     return (
-        <div className="flex flex-col items-center overflow-y-scroll h-2/3 m-4 pb-80">
+        <div className="flex flex-col items-center overflow-y-scroll h-screen m-4 pb-80">
             <ScheduleCalendar
                 institutionId={studyGroup.institutionId}
                 studyGroupId={studyGroup._id}

@@ -146,7 +146,7 @@ const GenericDeckDisplay = <T,>({
                         {canEdit && hasSelectedItems && <TertiaryButton
                             iconComponent={isFlashcardLoading ?  <FaSpinner className="animate-spin text-gray-500" /> : <FaTimes />}
                             onClick={() => onRemoveElements(deck._id, deckType)}
-                            className={"bg-transparent dark:bg-transparent text-red-600 dark:text-red-800"}
+                            className={"bg-transparent dark:bg-transparent description-red-600 dark:description-red-800"}
                             label={"Remove Selected"}
                         />}
 

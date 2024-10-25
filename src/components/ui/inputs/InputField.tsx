@@ -8,7 +8,7 @@ interface InputFieldProps {
     disabled?: boolean;
     error?: string | null;
     className?: string;
-    type?: 'text' | 'date'; // Agregué esta opción para aceptar 'date' o 'text'
+    type?: 'text' | 'date'; // Agregué esta opción para aceptar 'date' o 'description'
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -19,12 +19,12 @@ const InputField: React.FC<InputFieldProps> = ({
                                                    disabled = false,
                                                    error = null,
                                                    className = '',
-                                                   type = 'text', // Establezco el valor por defecto a 'text'
+                                                   type = 'text', // Establezco el valor por defecto a 'description'
                                                }) => {
     return (
         <>
             <input
-                type={type} // Usa el tipo 'text' o 'date' dependiendo del prop pasado
+                type={type} // Usa el tipo 'description' o 'date' dependiendo del prop pasado
                 id={id}
                 value={value}
                 onChange={onChange}

@@ -14,7 +14,7 @@ interface TooltipButtonProps {
 const TooltipButton: React.FC<TooltipButtonProps> = ({
                                                          items,
                                                          icon,
-                                                         buttonSize = 'text-lg',
+                                                         buttonSize = 'description-lg',
                                                          baseColor = 'bg-blue-500 dark:bg-gray-700',
                                                          hoverColor = 'hover:bg-blue-600 dark:hover:bg-gray-600',
                                                          autoClose = true,

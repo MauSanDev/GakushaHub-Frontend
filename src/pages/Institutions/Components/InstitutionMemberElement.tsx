@@ -18,10 +18,10 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
                                                                                member, onRemove, onRoleChange, canEditRole, enableRemove = false, userRole
                                                                            }) => {
     const roleColors: { [key: string]: string } = {
-        owner: 'dark:text-purple-500 text-purple-400',
-        staff: 'dark:text-yellow-500 text-yellow-500',
-        sensei: 'dark:text-blue-400 text-blue-400',
-        student: 'dark:text-green-500 text-green-400',
+        owner: 'dark:description-purple-500 description-purple-400',
+        staff: 'dark:description-yellow-500 description-yellow-500',
+        sensei: 'dark:description-blue-400 description-blue-400',
+        student: 'dark:description-green-500 description-green-400',
     };
 
     const [selectedRole, setSelectedRole] = useState<MembershipRole>(member.role || MembershipRole.Student);

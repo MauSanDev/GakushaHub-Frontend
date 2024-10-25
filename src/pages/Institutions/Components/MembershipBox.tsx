@@ -12,10 +12,10 @@ interface MembershipBoxProps {
 }
 
 const roleColors: { [key: string]: string } = {
-    owner: 'text-purple-400 dark:text-purple-500',
-    staff: 'text-yellow-500 dark:text-yellow-500',
-    sensei: 'text-blue-400 dark:text-blue-400',
-    student: 'text-green-500 dark:text-green-400',
+    owner: 'description-purple-400 dark:description-purple-500',
+    staff: 'description-yellow-500 dark:description-yellow-500',
+    sensei: 'description-blue-400 dark:description-blue-400',
+    student: 'description-green-500 dark:description-green-400',
 };
 
 const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {

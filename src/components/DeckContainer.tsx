@@ -41,7 +41,7 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
                                                          courseId,
                                                          sectionTitle,
                                                          FaIcon,
-                                                         iconColor = "text-gray-500",
+                                                         iconColor = "description-gray-500",
                                                          onFetchComplete,
                                                      }) => {
     const { data, isLoading, fetchDecks } = useDecks(ids, collectionType);

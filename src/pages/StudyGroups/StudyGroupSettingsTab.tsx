@@ -5,6 +5,7 @@ import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import SelectionToggle from "../../components/ui/toggles/SelectionToggle.tsx";
 import InputField from "../../components/ui/inputs/InputField.tsx";
 import {CollectionTypes} from "../../data/CollectionTypes.tsx";
+import {useNavigate} from "react-router-dom";
 
 interface StudyGroupSettingsProps {
     studyGroup: StudyGroupData;
@@ -23,6 +24,7 @@ const StudyGroupSettings: React.FC<StudyGroupSettingsProps> = ({ studyGroup, can
     const [fromDate, setFromDate] = useState<string>(studyGroup.fromDate ? new Date(studyGroup.fromDate).toISOString().slice(0, 10) : '');
     const [toDate, setToDate] = useState<string>(studyGroup.toDate ? new Date(studyGroup.toDate).toISOString().slice(0, 10) : '');
     const [isActive, setIsActive] = useState<boolean>(studyGroup.isActive);
+    const navigate = useNavigate();
 
     const handleToggleView = (view: string) => {
         setViewsEnabled((prevViews) =>
@@ -45,6 +47,8 @@ const StudyGroupSettings: React.FC<StudyGroupSettingsProps> = ({ studyGroup, can
             documentId: studyGroup._id,
             newData: updatedData,
         });
+
+        navigate(0);
     };
     
 

@@ -11,5 +11,5 @@ export interface StudyGroupData {
     isActive: boolean;
     fromDate?: string;
     toDate?: string;
-    viewsEnabled: ('schedule' | 'courses' | 'resources' | 'chat' | 'homework' | 'members' | 'settings')[];  // Array que sigue el enum
+    viewsEnabled: ('schedule' | 'courses' | 'resources' | 'chat' | 'homework' | 'members' | 'settings')[];
 }

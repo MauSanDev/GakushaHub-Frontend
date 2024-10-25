@@ -5,20 +5,7 @@ import { CollectionTypes } from "../../../data/CollectionTypes";
 import RoundedTag from "../../../components/ui/text/RoundedTag.tsx";
 import PrimaryButton from "../../../components/ui/buttons/PrimaryButton";
 import ModalWrapper from '../../../pages/ModalWrapper';
-
-export interface ResourceData {
-    _id: string;
-    title: string;
-    type: string;
-    path: string;
-    extension: string;
-    size: string;
-    url?: string;
-    text?: string;
-    tags: string[];
-    creatorId: string;
-    createdAt: string;
-}
+import {ResourceData} from "../../../data/Institutions/ResourceData.ts";
 
 interface ResourceDataElementProps {
     resourceData: ResourceData;
@@ -37,11 +24,9 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
     };
 
     const handleClick = () => {
-        // Si el recurso es un link, simplemente lo redirige
         if (resourceData.url && (resourceData.type === 'Link' || resourceData.type === 'YouTube Links')) {
             window.open(resourceData.url, '_blank');
         } else {
-            // Para archivos como audio, video, imágenes, notas o project files, abre el modal
             openModal();
         }
     };
@@ -135,13 +120,12 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
                         </div>
                     )}
 
-                    {resourceData.type === 'Notes/Text' && resourceData.text && (
+                    {resourceData.type === 'Notes/Text' && resourceData.description && (
                         <div className="text-sm text-gray-700 dark:text-gray-300 mb-4">
-                            <p>{resourceData.text}</p>
+                            <p>{resourceData.description}</p>
                         </div>
                     )}
 
-                    {/* Para archivos como Project Files (rar, zip), muestra detalles y botón de descarga */}
                     {(resourceData.type === 'Files (rar)' || resourceData.type === 'Documents') && (
                         <div className="text-sm text-gray-700 dark:text-gray-300">
                             <p><strong>File Name:</strong> {resourceData.title}</p>
@@ -149,7 +133,6 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
                         </div>
                     )}
 
-                    {/* Botón de descarga para todos los tipos menos notas */}
                     {(resourceData.type !== 'Notes/Text') && (
                         <PrimaryButton
                             label="Download"

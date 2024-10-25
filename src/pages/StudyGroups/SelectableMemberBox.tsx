@@ -21,10 +21,10 @@ const SelectableMemberBox: React.FC<SelectableMemberBoxProps> = ({ member, isSel
     const isRegisteredUser = !!member.userId;
 
     const roleColors: { [key: string]: string } = {
-        owner: 'text-purple-500',
-        staff: 'text-yellow-500',
-        sensei: 'text-blue-400',
-        student: 'text-green-500',
+        owner: 'description-purple-500',
+        staff: 'description-yellow-500',
+        sensei: 'description-blue-400',
+        student: 'description-green-500',
     };
 
     return (
