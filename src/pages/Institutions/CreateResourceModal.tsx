@@ -5,16 +5,10 @@ import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
 import { FaPlus, FaFileImport, FaLink } from 'react-icons/fa';
 import FileResourceComponent from './Components/FileResourceComponent';
 import LinkTextResourceComponent from './Components/LinkTextResourceComponent';
-import NoDataMessage from "../../components/NoDataMessage.tsx";
 
 export interface NewResourceData {
     _id: string;
-    title: string;
-    description: string;
-    type: string;
-    url?: string;
     file?: File;
-    readyForSave: boolean;
 }
 
 interface CreateResourceModalProps {
@@ -72,10 +66,6 @@ const CreateResourceModal: React.FC<CreateResourceModalProps> = ({ onClose }) =>
     const handleAddLinkOrText = () => {
         const newResource: NewResourceData = {
             _id: Math.random().toString(),
-            title: '',
-            description: '',
-            type: 'LinkOrText',
-            readyForSave: true
         };
         setResources(prev => [...prev, newResource]);
     };
@@ -123,11 +113,10 @@ const CreateResourceModal: React.FC<CreateResourceModalProps> = ({ onClose }) =>
                 ) : (
                     <div className="flex-col w-full">
                         {resources.map(resource => (
-                            resource.type === 'File' ? (
-                                <NoDataMessage />
-                                // <FileResourceComponent key={resource._id} resource={resource} onDelete={() => handleDeleteResource(resource._id)} />
+                            resource.file ? (
+                                <FileResourceComponent key={resource._id} file={resource.file} instanceId={resource._id} onDelete={() => handleDeleteResource(resource._id)} />
                             ) : (
-                                <LinkTextResourceComponent key={resource._id} resource={resource} onDelete={() => handleDeleteResource(resource._id)} />
+                                <LinkTextResourceComponent key={resource._id} instanceId={resource._id} onDelete={() => handleDeleteResource(resource._id)} />
                             )
                         ))}
                     </div>
