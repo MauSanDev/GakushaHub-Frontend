@@ -115,7 +115,7 @@ const CreateResourceModal: React.FC<CreateResourceModalProps> = ({ onClose, inst
                     <div className="flex-col w-full">
                         {resources.map(resource => (
                             resource.file ? (
-                                <FileResourceComponent key={resource._id} file={resource.file} instanceId={resource._id} onDelete={() => handleDeleteResource(resource._id)} />
+                                <FileResourceComponent key={resource._id} file={resource.file} institutionId={institutionId} onDelete={() => handleDeleteResource(resource._id)} />
                             ) : (
                                 <LinkTextResourceComponent key={resource._id} institutionId={institutionId} instanceId={resource._id} onDelete={() => handleDeleteResource(resource._id)} />
                             )

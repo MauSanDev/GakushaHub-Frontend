@@ -3,6 +3,7 @@ import { FaTrash, FaLink, FaYoutube, FaEdit, FaSave, FaTimes } from 'react-icons
 import Container from "../../../components/ui/containers/Container.tsx";
 import { useResources } from '../../../hooks/newHooks/useResources';
 import { useUpdateData } from '../../../hooks/updateHooks/useUpdateData';
+import {CollectionTypes} from "../../../data/CollectionTypes.tsx";
 
 interface LinkTextResourceComponentProps {
     instanceId: string;
@@ -80,7 +81,7 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
                 
                 console.log("update");
                 await updateResource({
-                    collection: 'resources',
+                    collection: CollectionTypes.Resources,
                     documentId: localResource._id as string,
                     newData: {
                         title: localResource.title,
