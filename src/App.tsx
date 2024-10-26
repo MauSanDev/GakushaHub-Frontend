@@ -1,4 +1,4 @@
-import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useAuth } from './context/AuthContext';
 import SearchPage from './pages/SearchPage/SearchPage.tsx';
@@ -33,6 +33,7 @@ import InstitutionNewsEditorPage from "./pages/Institutions/InstitutionNewsEdito
 import InstitutionResourcesPage from "./pages/Institutions/InstitutionResourcesPage.tsx";
 import InstitutionSchedulePage from "./pages/Institutions/InstitutionSchedulePage.tsx";
 import InstitutionProfilePage from "./pages/Institutions/InstitutionProfilePage.tsx";
+import LandingPage from "./pages/LandingPage/LandingPage.tsx";
 
 function App() {
     const { isAuthenticated, hasLicense } = useAuth();
@@ -52,6 +53,7 @@ function App() {
         <LanguageProvider>
             <Routes>
                 <Route element={<FullScreenLayout />}>
+                    <Route path="/" element={<LandingPage />} />
                     <Route path="/signin" element={<SignInPage />} />
                     <Route path="/signup" element={<SignUpPage />} />
                     <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
@@ -62,7 +64,7 @@ function App() {
                 </Route>
 
                 <Route element={<MainLayout />}>
-                    <Route path="/" element={<Navigate to="/search" replace />} />
+                    {/*<Route path="/" element={<Navigate to="/search" replace />} />*/}
                     <Route path="/search" element={<SearchPage />} />
                     <Route path="/grammar" element={<GrammarListPage />} />
                     <Route path="/groups" element={<MyStudyGroupsPage />} />
