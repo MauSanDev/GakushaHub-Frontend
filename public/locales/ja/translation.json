@@ -353,5 +353,26 @@
   "remove": "削除",
   "bindCourses": "コースをバインド",
   "addMembers": "メンバーを追加",
-  "select": "選択"
+  "select": "選択",
+  "licensesPage": {
+    "title": "ライセンス",
+    "freeUserTitle": "無料ユーザー",
+    "freeUserDescription": "初心者向け。セルフスタディ用のリソースを検索して選択。",
+    "freeUserRecommendedFor": "日本語でリソースを検索し、確認したい学生向け。",
+    "freeUserPrice": "0円",
+    "premiumTitle": "プレミアム",
+    "premiumDescription": "セルフスタディ用のコースとリソースを作成。\n練習とリソース生成を強化するためのIA機能を使用（ドリル、テキスト、修正など）。",
+    "premiumRecommendedFor": "レベルアップしたい学生、IAで練習し、練習用リソースを作成したい学生向け。",
+    "premiumPrice": "1500円",
+    "premiumTag": "おすすめ",
+    "senseiTitle": "先生",
+    "senseiDescription": "学生グループと共に学校を作成。コースの共有リソースを作成し、学生や他の先生を招待。",
+    "senseiRecommendedFor": "学生にリソースを提供し管理したい個人の先生、学校や団体向け。",
+    "senseiPrice": "21,970円",
+    "recommendedForLabel": "おすすめ対象:",
+    "alreadyHaveLicense": "すでにライセンスをお持ちです！",
+    "alreadyHavePremium": "すでにプレミアムライセンスをお持ちです！",
+    "alreadyHaveSensei": "すでに先生ライセンスをお持ちです！",
+    "selectButton": "選択"
+  }
 }

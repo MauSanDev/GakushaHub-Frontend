@@ -364,5 +364,26 @@
   "remove": "Remove",
   "bindCourses": "Bind Courses",
   "addMembers": "Add Members",
-  "select": "Select"
+  "select": "Select",
+  "licensesPage": {
+    "title": "Licenses",
+    "freeUserTitle": "Free User",
+    "freeUserDescription": "For starters. Search and select your resources for self studying.",
+    "freeUserRecommendedFor": "For students that want to search and check resources in Japanese.",
+    "freeUserPrice": "0 JPY",
+    "premiumTitle": "Premium",
+    "premiumDescription": "Create courses and resources for self studying. \nUse IA features to boost your practice and resources generation (Drills, Texts, Correction, and more).",
+    "premiumRecommendedFor": "For students that want to go to the next level, practice with focused IA and generate resources for practice.",
+    "premiumPrice": "1500 JPY",
+    "premiumTag": "Best",
+    "senseiTitle": "Sensei",
+    "senseiDescription": "Create your School with your group of students. Create shared resources for your courses and invite your students and other Senseis to participate.",
+    "senseiRecommendedFor": "For particular Senseis, Schools and Organizations that want to manage and provide resources for their students.",
+    "senseiPrice": "21,970 JPY",
+    "recommendedForLabel": "Recommended for:",
+    "alreadyHaveLicense": "You already have a License!",
+    "alreadyHavePremium": "You already have a Premium License!",
+    "alreadyHaveSensei": "You already have a Sensei License!",
+    "selectButton": "Select"
+  }
 }
