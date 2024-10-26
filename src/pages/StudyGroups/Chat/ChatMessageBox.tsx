@@ -6,6 +6,9 @@ import { MembershipRole } from "../../../data/MembershipData.ts";
 import { useUpdateData } from "../../../hooks/updateHooks/useUpdateData.ts";
 import { CollectionTypes } from "../../../data/CollectionTypes.tsx";
 import { ChatMessageData } from "../../../data/ChatMessageData.ts";
+import { useCachedImage } from '../../../hooks/newHooks/Resources/useCachedImage.ts';
+
+const DEFAULT_PROFILE_IMAGE = 'https://via.placeholder.com/150';
 
 interface ChatMessageBoxProps {
     messageData: ChatMessageData;
@@ -24,16 +27,20 @@ const ChatMessageBox: React.FC<ChatMessageBoxProps> = ({ messageData, viewerRole
 
     const { mutate: updateMessage } = useUpdateData();
 
+    // Hook de imagen de perfil para el usuario del mensaje
+    const { imageUrl: userImage } = useCachedImage({
+        path: `users/${messageData.userId}/profileImage`,
+        defaultImage: DEFAULT_PROFILE_IMAGE,
+    });
+
     useEffect(() => {
         if (messageData.userId === userData?._id) {
             return;
         }
-
         fetchUserInfo();
     }, [messageData]);
 
     const isFromUser = messageData.userId === userData?._id;
-
     const canEditOrDelete = viewerRole !== MembershipRole.None && viewerRole !== MembershipRole.Student;
 
     const saveMessage = () => {
@@ -77,18 +84,14 @@ const ChatMessageBox: React.FC<ChatMessageBoxProps> = ({ messageData, viewerRole
         }
     };
 
-    // Cerrar el dropdown al hacer clic fuera
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setShowDropdown(false);
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
+        return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
     useEffect(() => {
@@ -97,11 +100,8 @@ const ChatMessageBox: React.FC<ChatMessageBoxProps> = ({ messageData, viewerRole
                 saveMessage();
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
+        return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [isEditing, editedMessage]);
 
     const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -117,9 +117,9 @@ const ChatMessageBox: React.FC<ChatMessageBoxProps> = ({ messageData, viewerRole
         <div className={`flex ${isFromUser ? 'justify-end' : 'justify-start'} items-start gap-2`}>
             {!isFromUser && (
                 <img
-                    src={'https://via.placeholder.com/150'}
+                    src={userImage}
                     alt="avatar"
-                    className="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-800"
+                    className="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-800 object-cover"
                 />
             )}
 
@@ -131,7 +131,6 @@ const ChatMessageBox: React.FC<ChatMessageBoxProps> = ({ messageData, viewerRole
                         {new Date(localMessageData.timestamp).getMinutes().toString().padStart(2, '0')}
                     </span>
 
-                    {/* Botón de 3 puntos al costado de la fecha */}
                     {canEditOrDelete && localMessageData.status !== 'deleted' && (
                         <button
                             onClick={() => setShowDropdown(!showDropdown)}
@@ -142,7 +141,6 @@ const ChatMessageBox: React.FC<ChatMessageBoxProps> = ({ messageData, viewerRole
                     )}
                 </div>
 
-                {/* Mostrar el textarea si está en modo edición */}
                 {isEditing ? (
                     <textarea
                         ref={messageInputRef}
@@ -159,7 +157,6 @@ const ChatMessageBox: React.FC<ChatMessageBoxProps> = ({ messageData, viewerRole
                     </div>
                 )}
 
-                {/* Dropdown de acciones */}
                 {canEditOrDelete && showDropdown && (
                     <div
                         ref={dropdownRef}
@@ -189,9 +186,9 @@ const ChatMessageBox: React.FC<ChatMessageBoxProps> = ({ messageData, viewerRole
 
             {isFromUser && (
                 <img
-                    src={'https://via.placeholder.com/150'}
+                    src={userImage}
                     alt="avatar"
-                    className="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-800"
+                    className="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-800 object-cover"
                 />
             )}
         </div>

@@ -13,26 +13,31 @@ export const useCachedImage = ({ path, defaultImage }: UseCachedImageProps) => {
 
     const localStorageKey = `imageCache_${path}`;
 
-    // Carga de imagen desde localStorage o Firebase
+    // Función para cargar la imagen desde localStorage o Firebase
     const loadImage = async () => {
         const cachedUrl = localStorage.getItem(localStorageKey);
         if (cachedUrl) {
             setImageUrl(cachedUrl);
         } else {
-            try {
-                const storage = getStorage();
-                const imageRef = ref(storage, path);
-                const url = await getDownloadURL(imageRef);
-                setImageUrl(url);
-                localStorage.setItem(localStorageKey, url); // Guarda en cache
-            } catch (error) {
-                console.error("Error fetching image from Firebase:", error);
-                setImageUrl(defaultImage); // Usa la imagen por defecto en caso de error
-            }
+            await reloadImage();
         }
     };
 
-    // Subir una nueva imagen a Firebase y actualizar la caché
+    // Función para recargar la imagen desde Firebase y actualizar la cache
+    const reloadImage = async () => {
+        try {
+            const storage = getStorage();
+            const imageRef = ref(storage, path);
+            const url = await getDownloadURL(imageRef);
+            setImageUrl(url);
+            localStorage.setItem(localStorageKey, url); // Actualiza en cache
+        } catch (error) {
+            console.error("Error fetching image from Firebase:", error);
+            setImageUrl(defaultImage); // Usa la imagen por defecto en caso de error
+        }
+    };
+
+    // Función para subir una nueva imagen a Firebase y actualizar la caché
     const uploadImage = (file: File) => {
         setIsUploading(true);
         const storage = getStorage();
@@ -53,7 +58,7 @@ export const useCachedImage = ({ path, defaultImage }: UseCachedImageProps) => {
                 setIsUploading(false);
                 const url = await getDownloadURL(uploadTask.snapshot.ref);
                 setImageUrl(url);
-                localStorage.setItem(localStorageKey, url); // Actualiza la cache
+                localStorage.setItem(localStorageKey, url); // Actualiza en cache
             }
         );
     };
@@ -63,5 +68,5 @@ export const useCachedImage = ({ path, defaultImage }: UseCachedImageProps) => {
         loadImage();
     }, [path]);
 
-    return { imageUrl, isUploading, uploadProgress, uploadImage, loadImage };
+    return { imageUrl, isUploading, uploadProgress, uploadImage, reloadImage };
 };

@@ -97,14 +97,14 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
     };
 
     const getDayClass = (day: number): string => {
-        if (isOutOfRangeDay(day)) return 'description-gray-200 dark:description-gray-700 pointer-events-none';
-        if (isToday(day) && isEventDay(day)) return 'bg-green-500 dark:bg-green-800 description-white';
-        if (isToday(day)) return 'bg-green-500 dark:bg-green-800 description-white';
-        if (isEventDay(day)) return 'bg-blue-500 dark:bg-blue-800 description-white';
-        if (isPastDay(day) && isWeekend(day)) return 'description-gray-400 dark:description-gray-600 bg-gray-100 dark:bg-gray-900 dark:bg-opacity-50';
-        if (isPastDay(day)) return 'description-gray-400 dark:description-gray-600';
-        if (isWeekend(day)) return 'bg-gray-100 dark:bg-gray-900 dark:bg-opacity-50 description-black dark:description-white';
-        return 'hover:bg-blue-200 dark:hover:bg-gray-800 description-black dark:description-white';
+        if (isOutOfRangeDay(day)) return 'text-gray-200 dark:text-gray-700 pointer-events-none';
+        if (isToday(day) && isEventDay(day)) return 'bg-green-500 dark:bg-green-800 text-white';
+        if (isToday(day)) return 'bg-green-500 dark:bg-green-800 text-white';
+        if (isEventDay(day)) return 'bg-blue-500 dark:bg-blue-800 text-white';
+        if (isPastDay(day) && isWeekend(day)) return 'text-gray-400 dark:text-gray-600 bg-gray-100 dark:bg-gray-900 dark:bg-opacity-50';
+        if (isPastDay(day)) return 'text-gray-400 dark:text-gray-600';
+        if (isWeekend(day)) return 'bg-gray-100 dark:bg-gray-900 dark:bg-opacity-50 text-black dark:text-white';
+        return 'hover:bg-blue-200 dark:hover:bg-gray-800 text-black dark:text-white';
     };
 
     const isToday = (day: number): boolean => {

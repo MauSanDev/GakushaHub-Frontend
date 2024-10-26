@@ -3,6 +3,7 @@ import { useQueryClient } from 'react-query';
 import { fetchFullPagination } from '../../services/dataService.ts';
 import { MembershipData } from '../../data/MembershipData';
 import {PaginatedData} from "../../data/PaginatedData.ts";
+import {CollectionTypes} from "../../data/CollectionTypes.tsx";
 
 export const usePaginatedMembers = (
     page: number,
@@ -19,7 +20,7 @@ export const usePaginatedMembers = (
 
     if (keyword) {
         searches['search1'] = [keyword];
-        searches['search1fields'] = ['structure', 'keywords'];
+        searches['search1fields'] = ['email'];
     }
 
     const fetchMemberships = async () => {
@@ -28,7 +29,7 @@ export const usePaginatedMembers = (
             const result = await fetchFullPagination<MembershipData>(
                 page,
                 limit,
-                'membership',
+                CollectionTypes.Membership,
                 queryClient,
                 searches,
                 extraParams

@@ -2,6 +2,7 @@ export interface UserData {
     _id: string;
     uid: string;
     name: string;
+    nickname: string;
     email: string;
     country: string;
     createdAt: Date;

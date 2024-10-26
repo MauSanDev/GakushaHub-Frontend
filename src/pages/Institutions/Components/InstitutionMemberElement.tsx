@@ -3,7 +3,10 @@ import { FaTrash, FaUndo } from 'react-icons/fa';
 import { MembershipRole, MembershipData, MembershipStatus } from "../../../data/MembershipData.ts";
 import { useChangeMembershipStatus } from "../../../hooks/institutionHooks/useChangeMembershipStatus";
 import { useUpdateData } from "../../../hooks/updateHooks/useUpdateData.ts";
-import {useUserInfo} from "../../../hooks/newHooks/Courses/useUserInfo.ts";
+import { useUserInfo } from "../../../hooks/newHooks/Courses/useUserInfo.ts";
+import { useCachedImage } from '../../../hooks/newHooks/Resources/useCachedImage.ts';
+
+const DEFAULT_USER_IMAGE = 'https://via.placeholder.com/40';
 
 interface InstitutionMemberElementProps {
     member: MembershipData;
@@ -18,16 +21,21 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
                                                                                member, onRemove, onRoleChange, canEditRole, enableRemove = false, userRole
                                                                            }) => {
     const roleColors: { [key: string]: string } = {
-        owner: 'dark:description-purple-500 description-purple-400',
-        staff: 'dark:description-yellow-500 description-yellow-500',
-        sensei: 'dark:description-blue-400 description-blue-400',
-        student: 'dark:description-green-500 description-green-400',
+        owner: 'dark:text-purple-500 text-purple-400',
+        staff: 'dark:text-yellow-500 text-yellow-500',
+        sensei: 'dark:text-blue-400 text-blue-400',
+        student: 'dark:text-green-500 text-green-400',
     };
 
     const [selectedRole, setSelectedRole] = useState<MembershipRole>(member.role || MembershipRole.Student);
     const { mutate: changeMembershipStatus } = useChangeMembershipStatus();
     const { mutate: updateMemberRole } = useUpdateData<Partial<MembershipData>>();
     const { fetchUserInfo, data: userInfo } = useUserInfo([member?.userId]);
+
+    const { imageUrl: userImage } = useCachedImage({
+        path: `users/${member.userId}/profileImage`,
+        defaultImage: DEFAULT_USER_IMAGE,
+    });
 
     useEffect(() => {
         if (member.userId) {
@@ -69,17 +77,26 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
     return (
         <div className="flex items-center p-4 border-b border-gray-300 dark:border-gray-600 hover:dark:bg-gray-800 hover:bg-blue-100 transition-all">
             <img
-                src={isRegisteredUser ? 'https://via.placeholder.com/40' : 'https://via.placeholder.com/40?text=?'}
+                src={isRegisteredUser ? userImage : 'https://via.placeholder.com/40?text=?'}
                 alt={isRegisteredUser ? userInfo?.[member.userId]?.name || member.email : member.email}
-                className="w-10 h-10 rounded-full mr-4"
+                className="w-10 h-10 rounded-full object-cover mr-4"
             />
             <div className="flex-1">
-                <p className="text-md font-bold text-gray-800 dark:text-gray-200">
-                    {isRegisteredUser ? userInfo?.[member.userId]?.name || member.email : member.email}
-                </p>
-                {isRegisteredUser && (<p className="text-sm text-gray-500">
-                    {member.email}
-                </p>)}
+                {isRegisteredUser ? (
+                    <p className="text-md font-bold text-gray-800 dark:text-gray-200">
+                        {userInfo?.[member.userId]?.name || userInfo?.[member.userId]?.email} {userInfo?.[member.userId]?.nickname && <span className="text-sm text-gray-400 dark:text-gray-500"> ({userInfo?.[member.userId]?.nickname})</span>}
+                    </p>
+                ) : (
+                    <p className="text-md font-bold text-gray-800 dark:text-gray-200">
+                        {member.email}
+                    </p>
+                )}
+                
+                {isRegisteredUser && (
+                    <p className="text-sm text-gray-500">
+                        {member.email}
+                    </p>
+                )}
                 {member.status === MembershipStatus.Pending && (
                     <span className="italic text-yellow-700 text-xs">Pending approval</span>
                 )}
@@ -100,26 +117,24 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
                     </div>
                 )}
 
-                {member.status === MembershipStatus.Approved && (member.role !== 'owner' || userRole === 'owner') && 
-                        canEditRole ? (
-                            <select
-                                value={selectedRole}
-                                onChange={handleRoleChange}
-                                className={`uppercase font-bold cursor-pointer focus:outline-none bg-transparent mr-4 ${roleColors[selectedRole]}`}
-                            >
-                                {userRole === 'owner' && <option value="owner">Master</option>}
-                                <option value="staff">Staff</option>
-                                <option value="sensei">Sensei</option>
-                                <option value="student">Student</option>
-                            </select>
-                        ) : (
-                            <span className={`uppercase font-bold mr-4 ${roleColors[selectedRole]}`}>
-                                {selectedRole}
-                            </span>
-                        
+                {member.status === MembershipStatus.Approved && (member.role !== 'owner' || userRole === 'owner') && canEditRole ? (
+                    <select
+                        value={selectedRole}
+                        onChange={handleRoleChange}
+                        className={`uppercase font-bold cursor-pointer focus:outline-none bg-transparent mr-4 ${roleColors[selectedRole]}`}
+                    >
+                        {userRole === 'owner' && <option value="owner">Master</option>}
+                        <option value="staff">Staff</option>
+                        <option value="sensei">Sensei</option>
+                        <option value="student">Student</option>
+                    </select>
+                ) : (
+                    <span className={`uppercase font-bold mr-4 ${roleColors[selectedRole]}`}>
+                        {selectedRole}
+                    </span>
                 )}
 
-                {enableRemove && canEditRole && (member.role !== 'owner' || userRole === 'owner') &&
+                {enableRemove && canEditRole && (member.role !== 'owner' || userRole === 'owner') && (
                     <button
                         onClick={handleRemoveClick}
                         className="text-red-500 hover:text-red-700"
@@ -127,7 +142,7 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
                     >
                         <FaTrash size={16} />
                     </button>
-                }
+                )}
             </div>
         </div>
     );

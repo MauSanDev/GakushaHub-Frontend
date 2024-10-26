@@ -89,10 +89,6 @@ const EditProfilePage: React.FC = () => {
         });
     };
 
-    if (isLoading) {
-        return <div>Loading...</div>; // Pantalla de carga mientras los datos se fetchan
-    }
-
     return (
         <SectionContainer title={"学校のプロファイル"} isLoading={isLoading}>
             {/* Banner */}

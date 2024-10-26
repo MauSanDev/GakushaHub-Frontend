@@ -42,7 +42,7 @@ const Sidebar: React.FC = () => {
                 <div className="flex flex-col p-4 space-y-4">
 
                     {menuItems.map((item, index) =>
-                            // Verificar si necesita autenticación y/o un rol específico
+
                             (!item.requiresAuth || isAuthenticated) &&
                             hasRequiredRole(item.requiresRole) && (
                                 <Link

@@ -13,6 +13,7 @@ interface EditableProps {
     placeholder?: string;
     maxChar?: number; 
     onSave?: (newValue: string) => void; 
+    canBeNull?: boolean
 }
 
 const Editable: React.FC<EditableProps> = ({
@@ -24,7 +25,8 @@ const Editable: React.FC<EditableProps> = ({
                                                canEdit = true,
                                                placeholder = '',
                                                maxChar = 140, 
-                                               onSave
+                                               onSave,
+                                               canBeNull = false
                                            }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [value, setValue] = useState<string>(initialValue);
@@ -62,7 +64,7 @@ const Editable: React.FC<EditableProps> = ({
     };
 
     const handleSave = () => {
-        if (value.trim().length > 0) {
+        if (value.trim().length > 0 || canBeNull) {
             setIsSaving(true);
             updateDocument({
                 collection,

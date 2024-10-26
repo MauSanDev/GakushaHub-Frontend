@@ -23,7 +23,7 @@ export const useUserInfo = (
         }
         
         try {
-            const result = await fetchElements<UserData>(ids, 'auth/userInfo', queryClient, ['name']);
+            const result = await fetchElements<UserData>(ids, 'auth/userInfo', queryClient, ['name', 'nickname']);
             setData(result);
         } catch (error) {
             console.error('Error fetching user info:', error);
