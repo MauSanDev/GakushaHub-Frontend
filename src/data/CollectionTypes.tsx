@@ -9,6 +9,7 @@ export enum CollectionTypes {
     GrammarDeck = 'grammarDeck',
     WordDeck = 'wordDeck',
     ReadingDeck = 'readingDeck',
+    ResourcesGroup = 'resourceGroups',
     Membership = 'membership',
     StudyGroup = 'studyGroup',
     Institution = 'institution',

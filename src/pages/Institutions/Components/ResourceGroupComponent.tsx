@@ -1,67 +1,130 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { FaSortAlphaDown, FaSortAlphaUp, FaSortAmountDown, FaPlus, FaTrash } from 'react-icons/fa';
 import CollapsibleSection from '../../../components/ui/containers/CollapsibleSection';
-import ResourceDataElement from './../Components/ResourceDataElement';
 import SearchBar from '../../../components/ui/inputs/SearchBar';
-import { FaSortAlphaDown, FaSortAlphaUp, FaSortAmountDown } from 'react-icons/fa';
-
-interface Resource {
-    _id: string;
-    title: string;
-    type: string;
-    url?: string;
-    text?: string;
-}
+import { useElements } from '../../../hooks/newHooks/useElements';
+import { useUpdateList } from '../../../hooks/updateHooks/useUpdateList';
+import { BaseDeckData } from "../../../data/DeckData.ts";
+import { CollectionTypes } from "../../../data/CollectionTypes";
+import { ResourceData } from "../../../data/Institutions/ResourceData.ts";
+import NoDataMessage from "../../../components/NoDataMessage.tsx";
+import ResourceListElement from "./ResourceListElement.tsx";
+import AddResourcesToGroupModal from "../AddResourcesToGroupModal.tsx";
+import TertiaryButton from "../../../components/ui/buttons/TertiaryButton.tsx";
 
 interface ResourceGroupProps {
-    resourceGroup: {
-        _id: string;
-        name: string;
-        resources: Resource[];
-    };
+    resourceGroup: BaseDeckData;
+    institutionId: string;
+    isEditable: boolean;
+    canDelete: boolean;
+    onAdd: () => void;
+    onDelete: () => void;
 }
 
-const ResourceGroupComponent: React.FC<ResourceGroupProps> = ({ resourceGroup }) => {
+const ResourceGroupComponent: React.FC<ResourceGroupProps> = ({ resourceGroup, onAdd, onDelete, institutionId, isEditable, canDelete }) => {
     const [searchQuery, setSearchQuery] = useState('');
-    const [sortOrder, setSortOrder] = useState<'az' | 'za' | 'type'>('az'); // Orden predeterminado: A -> Z
+    const [sortOrder, setSortOrder] = useState<'az' | 'za' | 'type'>('az');
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [selectedResources, setSelectedResources] = useState<string[]>([]);
 
-    const handleSearch = (query: string) => {
-        setSearchQuery(query);
-    };
+    const { data: elements, isLoading, fetchElementsData } = useElements<ResourceData>(resourceGroup.elements, CollectionTypes.Resources);
+    const { mutate: updateList } = useUpdateList();
+
+    useEffect(() => {
+        if (resourceGroup.elements && resourceGroup.elements.length > 0) {
+            fetchElementsData();
+        }
+    }, [resourceGroup]);
+
+    const handleSearch = (query: string) => setSearchQuery(query);
 
     const handleSortChange = () => {
-        if (sortOrder === 'az') setSortOrder('za');
-        else if (sortOrder === 'za') setSortOrder('type');
-        else setSortOrder('az');
+        setSortOrder((prev) => (prev === 'az' ? 'za' : prev === 'za' ? 'type' : 'az'));
     };
 
-    const sortedAndFilteredResources = resourceGroup.resources
-        .filter((resource) =>
-            resource.title.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-        .sort((a, b) => {
-            if (sortOrder === 'az') {
-                return a.title.localeCompare(b.title);
-            } else if (sortOrder === 'za') {
-                return b.title.localeCompare(a.title);
-            } else {
+    const handleAddResource = () => setIsAddModalOpen(true);
+
+    const handleCloseModal = () => setIsAddModalOpen(false);
+
+    const handleResourceSelect = (resourceId: string) => {
+        if (!isEditable) return;
+        setSelectedResources((prevSelected) =>
+            prevSelected.includes(resourceId)
+                ? prevSelected.filter((id) => id !== resourceId)
+                : [...prevSelected, resourceId]
+        );
+    };
+
+    const handleRemoveSelected = () => {
+        const isConfirmed = window.confirm("Are you sure you want to remove the selected resources?");
+        if (isConfirmed && selectedResources.length > 0) {
+            updateList(
+                {
+                    collection: CollectionTypes.ResourcesGroup,
+                    documentId: resourceGroup._id,
+                    field: "elements",
+                    value: selectedResources,
+                    action: "remove",
+                },
+                {
+                    onSuccess: () => {
+                        fetchElementsData();
+                        setSelectedResources([]);
+                    },
+                }
+            );
+        }
+    };
+
+    const sortedAndFilteredResources = elements
+        ? Object.values(elements)
+            .filter((resource) => resource.title.toLowerCase().includes(searchQuery.toLowerCase()))
+            .sort((a, b) => {
+                if (sortOrder === 'az') return a.title.localeCompare(b.title);
+                if (sortOrder === 'za') return b.title.localeCompare(a.title);
                 return a.type.localeCompare(b.type);
-            }
-        });
+            })
+        : [];
 
     const getSortIcon = () => {
         if (sortOrder === 'az') return <FaSortAlphaDown />;
         if (sortOrder === 'za') return <FaSortAlphaUp />;
         return <FaSortAmountDown />;
     };
+    
+    const onExpanded = () => 
+    {
+        setSelectedResources([])
+    }
 
     return (
-        <CollapsibleSection title={`${resourceGroup.name} (${resourceGroup.resources.length})`}>
-            <div className="mt-2 ml-4 flex flex-col gap-2 border-l-4 border-gray-300 border-dotted dark:border-gray-800 pl-4">
+        <div className={'border-t border-gray-200 dark:border-gray-800 py-3'}>
+        <CollapsibleSection
+            onExpand={onExpanded}
+            title={`${resourceGroup.name} (${resourceGroup.elements?.length || 0} Items)`}
+            actions={(
+                <>
+                    {isEditable && (
+                        <TertiaryButton label={"Add Resources"} iconComponent={<FaPlus />} onClick={handleAddResource}/>
+                    )}
+
+                    {canDelete && (
+                        <TertiaryButton label={"Delete Group"} iconComponent={<FaTrash />} onClick={onDelete} />
+                    )}
+
+                    {selectedResources.length > 0 && isEditable && (
+                        <TertiaryButton label={"Remove Selected"} iconComponent={<FaPlus />} onClick={handleRemoveSelected} />
+                    )}
+                </>
+            )}
+        >
+            <div className="mt-2 ml-4 flex flex-col gap-2 border-l-4 border-gray-300 border-dotted dark:border-gray-800 pl-4 pb-16">
+
+                {resourceGroup.elements && resourceGroup.elements.length > 0 ?
+                
+                (<>
                 <div className="flex justify-between items-center mb-2">
-                    <SearchBar
-                        placeholder="Search in group..."
-                        onSearch={handleSearch}
-                    />
+                    <SearchBar placeholder="Search in group..." onSearch={handleSearch} />
 
                     <button
                         className="flex items-center p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
@@ -72,11 +135,36 @@ const ResourceGroupComponent: React.FC<ResourceGroupProps> = ({ resourceGroup })
                     </button>
                 </div>
 
-                {sortedAndFilteredResources.map((resource) => (
-                    <ResourceDataElement key={resource._id} resourceData={resource} canDelete={true} />
-                ))}
+                {isLoading ? (
+                    <div className="text-center text-gray-500">Loading...</div>
+                ) :  (
+                    sortedAndFilteredResources.map((resource) => (
+                        <ResourceListElement
+                            key={resource._id}
+                            resourceData={resource}
+                            isSelected={selectedResources.includes(resource._id)}
+                            onSelect={() => handleResourceSelect(resource._id)}
+                            canOpen={true}
+                        />
+                    ))
+                )}
+                </>
+                ) : (<NoDataMessage />)}
             </div>
+
+            {isAddModalOpen && (
+                <AddResourcesToGroupModal
+                    groupId={resourceGroup._id}
+                    institutionId={institutionId}
+                    onClose={handleCloseModal}
+                    onAddResourcesSuccess={() => {
+                        onAdd();
+                        handleCloseModal();
+                    }}
+                />
+            )}
         </CollapsibleSection>
+        </div>
     );
 };
 

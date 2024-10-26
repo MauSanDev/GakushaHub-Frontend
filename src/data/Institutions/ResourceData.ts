@@ -1,3 +1,5 @@
+import {DeckData} from "../DeckData.ts";
+import {KanjiData} from "../KanjiData.ts";
 
 export interface ResourceData {
     _id: string;
@@ -21,3 +23,6 @@ export enum ResourceTypes {
     LinkText = 'link_text',
     File = 'file',
 }
+
+
+export class ResourcesGroup extends DeckData<ResourceData> {}

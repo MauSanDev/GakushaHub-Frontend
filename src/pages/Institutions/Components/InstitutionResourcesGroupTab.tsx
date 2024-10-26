@@ -1,49 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import PrimaryButton from "../../../components/ui/buttons/PrimaryButton";
 import PaginatedContainer from "../../../components/ui/containers/PaginatedContainer";
 import SearchBar from '../../../components/ui/inputs/SearchBar';
-// import CreateGroupModal from "./CreateGroupModal"; // Asumiendo que tienes un modal similar para crear grupos
 import ResourceGroupComponent from './ResourceGroupComponent';
+import { useResourceGroups } from "../../../hooks/newHooks/Resources/useResourceGroups.ts";
+import CreateResourceGroupModal from "../CreateResourceGroupModal.tsx";
+import { useDeleteElement } from "../../../hooks/useDeleteElement";
+import { CollectionTypes } from "../../../data/CollectionTypes";
+import {MembershipRole} from "../../../data/MembershipData.ts";
 
-const InstitutionResourcesGroupTab: React.FC<{ onOpenModal: () => void, isModalOpen: boolean, handleCloseModal: () => void }> = ({ onOpenModal, isModalOpen, handleCloseModal }) => {
+const InstitutionResourcesGroupTab: React.FC<{ institutionId: string, role: MembershipRole  }> = ({ institutionId, role }) => {
     const [page, setPage] = useState(1);
-    const totalPages = 1; // Páginas simuladas
     const [searchQuery, setSearchQuery] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Placeholder para un grupo de recursos
-    const resourceGroups = [
-        {
-            _id: 'group1',
-            name: 'Frontend Resources',
-            institutionId: 'institution123',
-            creatorId: 'admin123',
-            resources: [
-                { _id: '1', title: 'JavaScript Audio', type: 'Audio', url: 'https://example.com/audio.mp3' },
-                { _id: '2', title: 'React Video', type: 'Video', url: 'https://example.com/video.mp4' },
-                { _id: '3', title: 'CSS Notes', type: 'Notes/Text', text: 'CSS notes for beginners...' }
-            ]
-        },
-        {
-            _id: 'group2',
-            name: 'Backend Resources',
-            institutionId: 'institution123',
-            creatorId: 'admin456',
-            resources: [
-                { _id: '4', title: 'Node.js Tutorial', type: 'Video', url: 'https://example.com/nodejs.mp4' },
-                { _id: '5', title: 'Database PDF', type: 'Documents', url: '/documents/database.pdf' }
-            ]
-        }
-    ];
+    const { data, fetchResourceGroups, resetQueries } = useResourceGroups(page, 10, searchQuery);
+    const { mutate: deleteGroup } = useDeleteElement();
+
+    useEffect(() => {
+        fetchResourceGroups();
+    }, [page, searchQuery]);
 
     const handleSearch = (query: string) => {
         setSearchQuery(query);
+        setPage(1);
     };
 
-    // Filtrar los grupos de recursos según la búsqueda
-    const filteredGroups = resourceGroups.filter((group) =>
-        group.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCreateSuccess = () => {
+        handleCloseModal();
+        resetQueries();
+        fetchResourceGroups();
+    };
+
+    const isSensei =  role === MembershipRole.Sensei;
+    const isMaster = role === MembershipRole.Owner || role === MembershipRole.Staff;
+
+    const handleDeleteGroup = (groupId: string) => {
+        const isConfirmed = window.confirm("Are you sure you want to delete this group?");
+        if (isConfirmed) {
+            deleteGroup(
+                { elementIds: [groupId], elementType: CollectionTypes.ResourcesGroup },
+                {
+                    onSuccess: () => {
+                        resetQueries();
+                        fetchResourceGroups();
+                    },
+                }
+            );
+        }
+    };
 
     return (
         <>
@@ -56,28 +70,36 @@ const InstitutionResourcesGroupTab: React.FC<{ onOpenModal: () => void, isModalO
                     label="Create Group"
                     iconComponent={<FaPlus />}
                     className="ml-4"
-                    onClick={onOpenModal}
+                    onClick={handleOpenModal}
                 />
             </div>
 
             <PaginatedContainer
-                documents={filteredGroups}
+                documents={data?.documents || []}
                 currentPage={page}
-                totalPages={totalPages}
+                totalPages={data?.totalPages || 1}
                 onPageChange={setPage}
                 RenderComponent={({ document }) => (
-                    <ResourceGroupComponent key={document._id} resourceGroup={document} />
+                    <ResourceGroupComponent
+                        key={document._id}
+                        resourceGroup={document}
+                        institutionId={institutionId}
+                        isEditable={isMaster}
+                        canDelete={isSensei || isMaster}
+                        onAdd={fetchResourceGroups}
+                        onDelete={() => handleDeleteGroup(document._id)}
+                    />
                 )}
             />
 
-            {/*{isModalOpen && (*/}
-            {/*    <CreateGroupModal*/}
-            {/*        onClose={handleCloseModal}*/}
-            {/*        onSaveSuccess={() => {*/}
-            {/*            handleCloseModal();*/}
-            {/*        }}*/}
-            {/*    />*/}
-            {/*)}*/}
+            {isModalOpen && (
+                <CreateResourceGroupModal
+                    onClose={handleCloseModal}
+                    onCreateSuccess={handleCreateSuccess}
+                    page={page}
+                    limit={10}
+                />
+            )}
         </>
     );
 };

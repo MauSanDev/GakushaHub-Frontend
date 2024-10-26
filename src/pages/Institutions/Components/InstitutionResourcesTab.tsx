@@ -6,12 +6,14 @@ import SearchBar from '../../../components/ui/inputs/SearchBar';
 import CreateResourceModal from "./../CreateResourceModal";
 import ResourceDataElement from "./../Components/ResourceDataElement";
 import { useResources } from '../../../hooks/newHooks/useResources';
+import {MembershipRole} from "../../../data/MembershipData.ts";
 
-const InstitutionResourcesTab: React.FC<{ onOpenModal: () => void, isModalOpen: boolean, handleCloseModal: () => void, institutionId: string }> = ({ onOpenModal, isModalOpen, handleCloseModal, institutionId }) => {
+const InstitutionResourcesTab: React.FC<{ institutionId: string, role: MembershipRole }> = ({ institutionId, role }) => {
     const [page, setPage] = useState(1);
+    const [isModalOpen, setModalOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
 
-    const { data, isLoading, fetchResources, resetQueries } = useResources(institutionId, page, 10, searchQuery);
+    const { data, isLoading, fetchResources } = useResources(institutionId, page, 10, searchQuery);
 
     useEffect(() => {
         fetchResources();
@@ -25,6 +27,13 @@ const InstitutionResourcesTab: React.FC<{ onOpenModal: () => void, isModalOpen: 
     const onItemDeleted = () => {
         fetchResources();
     };
+    
+    const onModalClose = () =>
+    {
+        setModalOpen(false);
+        fetchResources();
+    }
+    const canEdit = role === MembershipRole.Owner || role === MembershipRole.Staff || role === MembershipRole.Sensei; 
 
     const filteredResources = data?.documents.filter((resource) =>
         resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -42,7 +51,7 @@ const InstitutionResourcesTab: React.FC<{ onOpenModal: () => void, isModalOpen: 
                     label="Add Resource"
                     iconComponent={<FaPlus />}
                     className="ml-4"
-                    onClick={onOpenModal}
+                    onClick={() => setModalOpen(true)}
                 />
             </div>
 
@@ -52,16 +61,13 @@ const InstitutionResourcesTab: React.FC<{ onOpenModal: () => void, isModalOpen: 
                 totalPages={data?.totalPages || 1}
                 onPageChange={setPage}
                 RenderComponent={({ document }) => (
-                    <ResourceDataElement key={document._id} resourceData={document} canDelete={true} onDelete={onItemDeleted}/>
+                    <ResourceDataElement key={document._id} resourceData={document} canEdit={canEdit} onDelete={onItemDeleted}/>
                 )}
             />
 
             {isModalOpen && (
                 <CreateResourceModal
-                    onClose={() => {
-                        handleCloseModal();
-                        resetQueries();  
-                    }}
+                    onClose={onModalClose}
                     institutionId={institutionId}
                 />
             )}

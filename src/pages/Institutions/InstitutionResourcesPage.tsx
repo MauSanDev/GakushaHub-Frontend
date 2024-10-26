@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import SectionContainer from "../../components/ui/containers/SectionContainer";
 import Tabs from "../../components/ui/toggles/Tabs";
 import InstitutionResourcesTab from "./Components/InstitutionResourcesTab";
 import InstitutionResourcesGroupTab from "./Components/InstitutionResourcesGroupTab";
 import {FaFolder} from "react-icons/fa";
 import {useParams} from "react-router-dom";
+import {MembershipRole} from "../../data/MembershipData.ts";
+import {useAuth} from "../../context/AuthContext.tsx";
 
 const InstitutionResourcesPage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
     const [currentTab, setCurrentTab] = useState('resources');
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [role, setRole] = useState<MembershipRole>();
+    const { getRole } = useAuth();
+    
+    useEffect(() => {
+        const fetchUserRole = async () => {
+            const fetchedRole = await getRole(institutionId || "", "");
+            setRole(fetchedRole);
+        };
 
-    const handleOpenModal = () => setIsModalOpen(true);
-    const handleCloseModal = () => setIsModalOpen(false);
-
+        fetchUserRole();
+    }, [getRole]);
+    
     const handleTabChange = (view: string) => {
         setCurrentTab(view);
     };
@@ -27,15 +36,10 @@ const InstitutionResourcesPage: React.FC = () => {
         switch (currentTab) {
             case 'resources':
                 return (
-                    <InstitutionResourcesTab
-                        institutionId={institutionId as string}
-                        onOpenModal={handleOpenModal}
-                        isModalOpen={isModalOpen}
-                        handleCloseModal={handleCloseModal}
-                    />
+                    <InstitutionResourcesTab institutionId={institutionId as string} role={role as MembershipRole} />
                 );
             case 'resourceGroups':
-                return <InstitutionResourcesGroupTab />;
+                return <InstitutionResourcesGroupTab institutionId={institutionId as string} role={role as MembershipRole} />;
             default:
                 return null;
         }

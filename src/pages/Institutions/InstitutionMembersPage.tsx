@@ -28,10 +28,8 @@ const InstitutionMembersPage: React.FC = () => {
 
     useEffect(() => {
         const fetchUserRole = async () => {
-            console.log(institutionId);
             const fetchedRole = await getRole(institutionId || "", "");
             setRole(fetchedRole);
-            console.log(fetchedRole);
         };
 
         fetchUserRole();

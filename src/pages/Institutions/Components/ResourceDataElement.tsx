@@ -1,19 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {FaClock, FaDownload, FaEdit, FaFileAlt, FaFileArchive, FaFilm, FaFolderOpen, FaImage, FaLink, FaMusic, FaSave, FaStickyNote, FaTags, FaTimes, FaTrash, FaYoutube} from 'react-icons/fa';
+import {FaClock, FaEdit, FaFileAlt, FaFileArchive, FaFilm, FaFolderOpen, FaImage, FaLink, FaMusic, FaSave, FaStickyNote, FaTags, FaTimes, FaTrash, FaYoutube} from 'react-icons/fa';
 import {CollectionTypes} from "../../../data/CollectionTypes";
 import RoundedTag from "../../../components/ui/text/RoundedTag.tsx";
-import PrimaryButton from "../../../components/ui/buttons/PrimaryButton";
-import ModalWrapper from '../../../pages/ModalWrapper';
 import {ResourceData, ResourceTypes} from "../../../data/Institutions/ResourceData.ts";
 import useUploadFile from "../../../hooks/newHooks/Resources/useUploadFile.ts";
 import {useUpdateData} from '../../../hooks/updateHooks/useUpdateData';
 import TertiaryButton from "../../../components/ui/buttons/TertiaryButton.tsx";
 import {useDeleteElement} from "../../../hooks/useDeleteElement.ts";
+import ResourceDisplayModal from "../ResourceDisplayModal.tsx";
 
 interface ResourceDataElementProps {
     resourceData: ResourceData;
-    canDelete?: boolean;
-    onDelete: () => void;
+    canEdit?: boolean;
+    onDelete?: () => void;
 }
 
 export const getResourceIcon = (type: ResourceTypes, url: string = "") => {
@@ -38,28 +37,19 @@ export const getResourceIcon = (type: ResourceTypes, url: string = "") => {
     }
 };
 
-const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData, canDelete = false, onDelete}) => {
+const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData, onDelete, canEdit}) => {
     const { mutateAsync: updateResource } = useUpdateData<ResourceData>();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [resourceUrl, setResourceUrl] = useState<string | null>(null);
-    const [loadingUrl, setLoadingUrl] = useState(false);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [localResource, setLocalResource] = useState<ResourceData>(resourceData);
     const [isValidUrl, setIsValidUrl] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
     const { mutate: deleteResource} = useDeleteElement();
 
 
-    const { getTemporaryURL, error: uploadError, deleteFile } = useUploadFile({
+    const { deleteFile } = useUploadFile({
         path: resourceData.url || ''
     });
-
-    useEffect(() => {
-        if (isModalOpen && resourceData.url) {
-            fetchResourceUrl();
-        }
-    }, [isModalOpen]);
 
     useEffect(() => {
         if (localResource?.url) {
@@ -77,27 +67,11 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
         }
     }, [localResource?.url]);
 
-    const fetchResourceUrl = async () => {
-        setLoadingUrl(true);
-        try {
-            const tempUrl = await getTemporaryURL();
-            setResourceUrl(tempUrl);
-        } catch (err) {
-            console.error('Error fetching resource URL:', err);
-        }
-        setLoadingUrl(false);
-    };
 
     const handleSave = async () => {
-        if (!localResource?.title.trim()) {
-            setError("Title cannot be empty");
+        if (!localResource?.title.trim() || (localResource.type === ResourceTypes.LinkText && !isValidUrl)) {
             return;
         }
-        if (localResource.type === ResourceTypes.LinkText && !isValidUrl) {
-            setError("Url format is invalid");
-            return;
-        }
-        setError(null);
 
         try {
             await updateResource({
@@ -112,7 +86,6 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
             });
             setIsEditing(false);
         } catch (err) {
-            setError("Error saving resource");
             console.error(err);
         }
     };
@@ -120,7 +93,6 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
     const handleCancel = () => {
         setLocalResource(resourceData);
         setIsEditing(false);
-        setError(null);
     };
 
     const handleChange = (field: keyof ResourceData, value: string) => {
@@ -138,10 +110,6 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
         }
 
         setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
     };
 
     const handleDelete = async () => {
@@ -254,10 +222,8 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
                                 </>
                             ) : (
                                 <>
-                                    <TertiaryButton iconComponent={<FaEdit />} onClick={() => setIsEditing(true)} />
-                                    {canDelete && (
-                                            <TertiaryButton iconComponent={<FaTrash />} onClick={handleDelete} className="hover:text-red-500"/>
-                                        )}
+                                    {canEdit && <TertiaryButton iconComponent={<FaEdit />} onClick={() => setIsEditing(true)} />}
+                                    {canEdit && <TertiaryButton iconComponent={<FaTrash />} onClick={handleDelete} className="hover:text-red-500"/>}
                                     <TertiaryButton iconComponent={<FaFolderOpen />} label={"Open"} onClick={openModal} />
                                 </>
                         )}
@@ -268,56 +234,9 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
                 </div>
             </div>
 
+
             {isModalOpen && (
-                <ModalWrapper onClose={closeModal}>
-                    <h2 className="text-lg font-bold mb-4 text-gray-800 dark:text-white">{localResource.title}</h2>
-
-                    {resourceData.type === ResourceTypes.Audio && resourceUrl && (
-                        <audio controls className="w-full mb-4">
-                            <source src={resourceUrl} />
-                            Your browser does not support the audio element.
-                        </audio>
-                    )}
-
-                    {resourceData.type === ResourceTypes.Video && resourceUrl && (
-                        <video controls className="w-full mb-4">
-                            <source src={resourceUrl} />
-                            Your browser does not support the video tag.
-                        </video>
-                    )}
-
-                    {resourceData.type === ResourceTypes.Image && resourceUrl && (
-                        <div className="flex flex-col items-center">
-                            <img src={resourceUrl} alt={localResource.title} className="mb-4 max-w-full h-auto" />
-                        </div>
-                    )}
-
-                    {resourceData.type === ResourceTypes.LinkText && localResource.description && (
-                        <div className="text-sm text-gray-700 dark:text-gray-300 mb-4">
-                            <p>{localResource.description}</p>
-                        </div>
-                    )}
-
-                    {(resourceData.type === ResourceTypes.Compressed || resourceData.type === ResourceTypes.Document) && (
-                        <div className="text-sm text-gray-700 dark:text-gray-300">
-                            <p><strong>File Name:</strong> {localResource.title}</p>
-                            <p><strong>Size:</strong> {resourceData.size}</p>
-                        </div>
-                    )}
-
-                    {(resourceData.type !== ResourceTypes.LinkText && resourceUrl) && (
-                        <PrimaryButton
-                            label="Download"
-                            iconComponent={<FaDownload />}
-                            className="mt-4"
-                            onClick={() => window.open(resourceUrl, '_blank')}
-                        />
-                    )}
-
-                    {loadingUrl && <p>Loading resource...</p>}
-                    {uploadError && <p>Error fetching URL: {uploadError}</p>}
-                    {error && <p>Error fetching URL: {error}</p>}
-                </ModalWrapper>
+                <ResourceDisplayModal resourceData={resourceData} onClose={() => setIsModalOpen(false)}/>
             )}
         </>
     );
