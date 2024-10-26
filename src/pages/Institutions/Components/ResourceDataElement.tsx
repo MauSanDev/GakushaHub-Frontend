@@ -128,12 +128,15 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
     };
 
     const openModal = () => {
-        
-        if (resourceData.type === ResourceTypes.LinkText)
-        {
+        if (resourceData.type === ResourceTypes.LinkText && resourceData.url) {
+            const parsedUrl = resourceData.url.startsWith('http://') || resourceData.url.startsWith('https://')
+                ? resourceData.url
+                : `http://${resourceData.url}`;
+
+            window.open(parsedUrl, '_blank');
             return;
         }
-        
+
         setIsModalOpen(true);
     };
 
@@ -144,32 +147,30 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
     const handleDelete = async () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this resource?");
 
-        if (resourceData.type !== ResourceTypes.LinkText)
-        {
-            await deleteFile();
-        }
-        
-        deleteResource(
-            {
-                elementIds: [resourceData._id],
-                elementType: CollectionTypes.Resources,
-                deleteRelations: true,
-            },
-            {
-                onSuccess: () => {
-                    if (onDelete)
-                    {
-                        onDelete();
-                    }
-                },
-                onError: (error) => {
-                    console.error('Error deleting member:', error);
-                },
-            }
-        );
-        
         if (confirmDelete) {
-            console.log('Resource deleted:', resourceData._id);
+            if (resourceData.type !== ResourceTypes.LinkText)
+            {
+                await deleteFile();
+            }
+            
+            deleteResource(
+                {
+                    elementIds: [resourceData._id],
+                    elementType: CollectionTypes.Resources,
+                    deleteRelations: true,
+                },
+                {
+                    onSuccess: () => {
+                        if (onDelete)
+                        {
+                            onDelete();
+                        }
+                    },
+                    onError: (error) => {
+                        console.error('Error deleting member:', error);
+                    },
+                }
+            );
         }
     };
 
