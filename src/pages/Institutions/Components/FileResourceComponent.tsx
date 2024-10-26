@@ -32,22 +32,19 @@ const getFileType = (file: File) => {
     const compressedExtensions = ['zip', 'rar', '7z', 'tar', 'gz', 'bz2'];
     const documentExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'odt', 'ods', 'pages', 'numbers', 'key', 'ibooks'];
 
-    let toReturn = ResourceTypes.File;
     if (audioExtensions.includes(extension)) {
-        toReturn = ResourceTypes.Audio;
+        return ResourceTypes.Audio;
     } else if (videoExtensions.includes(extension)) {
-        toReturn = ResourceTypes.Video;
+        return ResourceTypes.Video;
     } else if (imageExtensions.includes(extension)) {
-        toReturn = ResourceTypes.Image;
+        return ResourceTypes.Image;
     } else if (compressedExtensions.includes(extension)) {
-        toReturn = ResourceTypes.Compressed;
+        return ResourceTypes.Compressed;
     } else if (documentExtensions.includes(extension)) {
-        toReturn = ResourceTypes.Document;
+        return ResourceTypes.Document;
     } else {
-        toReturn = ResourceTypes.File;
+        return ResourceTypes.File;
     }
-    console.log(toReturn)
-    return toReturn;
 };
 
 const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, institutionId, onDelete }) => {

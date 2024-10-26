@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaFileAlt,  FaMusic,  FaFilm,  FaLink,  FaYoutube,  FaImage,  FaFileArchive,  FaStickyNote,  FaClock,  FaUser,  FaTags,  FaDownload} from 'react-icons/fa';
+import { FaFileAlt,  FaMusic,  FaFilm,  FaLink,  FaYoutube,  FaImage,  FaFileArchive,  FaStickyNote,  FaClock,  FaTags,  FaDownload} from 'react-icons/fa';
 import DeleteButton from "../../../components/DeleteButton";
 import { CollectionTypes } from "../../../data/CollectionTypes";
 import RoundedTag from "../../../components/ui/text/RoundedTag.tsx";
@@ -12,8 +12,6 @@ interface ResourceDataElementProps {
     canDelete?: boolean;
 }
 export const getResourceIcon = (type: ResourceTypes) => {
-    
-    console.log(type)
     switch (type) {
         case ResourceTypes.Audio: return <FaMusic className="text-purple-500" />;
         case ResourceTypes.Video: return <FaFilm className="text-red-500" />;
@@ -73,10 +71,6 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
                     {/* Contenido a la derecha */}
                     <div className="flex items-center text-xs text-gray-400 dark:text-gray-700 gap-4">
                         <span className="flex items-center">
-                            <FaUser className="mr-1" />
-                            <span>{resourceData.creatorId || 'Unknown Creator'}</span>
-                        </span>
-                        <span className="flex items-center">
                             <FaClock className="mr-1" />
                             <span>{new Date(resourceData.createdAt).toLocaleDateString()}</span>
                         </span>
@@ -100,7 +94,6 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
                 <ModalWrapper onClose={closeModal}>
                     <h2 className="text-lg font-bold mb-4 text-gray-800 dark:text-white">{resourceData.title}</h2>
 
-                    {/* Renderizar el contenido basado en el tipo */}
                     {resourceData.type === ResourceTypes.Audio && resourceData.url && (
                         <audio controls className="w-full mb-4">
                             <source src={resourceData.url} />
