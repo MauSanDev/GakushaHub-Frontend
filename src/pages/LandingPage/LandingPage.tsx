@@ -185,7 +185,7 @@ const LandingPage: React.FC = () => {
                 {/* Sección de imagen del app */}
                 <motion.section
                     id="app-screenshot"
-                    className="relative flex flex-col items-center justify-center text-center px-6 mb-12 space-y-6"
+                    className="relative lg:max-w-4xl flex flex-col items-center justify-center text-center px-6 mb-12 space-y-6"
                     initial="hidden"
                     animate="visible"
                     variants={sectionVariants}
@@ -194,7 +194,7 @@ const LandingPage: React.FC = () => {
                     <img
                         src={appScreenshot}
                         alt="Manabu Mori en dispositivos"
-                        className="max-w-4xl rounded-lg shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+                        className="rounded-lg shadow-[0_0_30px_rgba(255,255,255,0.1)]"
                     />
                 </motion.section>
 
