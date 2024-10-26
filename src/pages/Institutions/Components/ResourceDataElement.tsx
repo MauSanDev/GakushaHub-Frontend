@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
-import { FaFileAlt,  FaMusic,  FaFilm,  FaLink,  FaYoutube,  FaImage,  FaFileArchive,  FaStickyNote,  FaClock,  FaTags,  FaDownload} from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaFileAlt, FaMusic, FaFilm, FaLink, FaYoutube, FaImage, FaFileArchive, FaStickyNote, FaClock, FaTags, FaDownload } from 'react-icons/fa';
 import DeleteButton from "../../../components/DeleteButton";
 import { CollectionTypes } from "../../../data/CollectionTypes";
 import RoundedTag from "../../../components/ui/text/RoundedTag.tsx";
 import PrimaryButton from "../../../components/ui/buttons/PrimaryButton";
 import ModalWrapper from '../../../pages/ModalWrapper';
-import {ResourceData, ResourceTypes} from "../../../data/Institutions/ResourceData.ts";
+import { ResourceData, ResourceTypes } from "../../../data/Institutions/ResourceData.ts";
+import useUploadFile from "../../../hooks/newHooks/Resources/useUploadFile.ts";
 
 interface ResourceDataElementProps {
     resourceData: ResourceData;
     canDelete?: boolean;
 }
+
 export const getResourceIcon = (type: ResourceTypes) => {
     switch (type) {
         case ResourceTypes.Audio: return <FaMusic className="text-purple-500" />;
@@ -27,6 +29,31 @@ export const getResourceIcon = (type: ResourceTypes) => {
 
 const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData, canDelete = false }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [resourceUrl, setResourceUrl] = useState<string | null>(null);
+    const [loadingUrl, setLoadingUrl] = useState(false);
+
+    // Usamos el hook useUploadFile para obtener la URL temporal
+    const { getTemporaryURL, error } = useUploadFile({
+        path: resourceData.url || ''
+    });
+
+    // Efecto para obtener la URL cuando el modal se abre o cuando se necesita
+    useEffect(() => {
+        if (isModalOpen && resourceData.url) {
+            fetchResourceUrl();
+        }
+    }, [isModalOpen]);
+
+    const fetchResourceUrl = async () => {
+        setLoadingUrl(true);
+        try {
+            const tempUrl = await getTemporaryURL();
+            setResourceUrl(tempUrl);
+        } catch (err) {
+            console.error('Error fetching resource URL:', err);
+        }
+        setLoadingUrl(false);
+    };
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -43,7 +70,6 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
             openModal();
         }
     };
-
 
     return (
         <>
@@ -94,23 +120,23 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
                 <ModalWrapper onClose={closeModal}>
                     <h2 className="text-lg font-bold mb-4 text-gray-800 dark:text-white">{resourceData.title}</h2>
 
-                    {resourceData.type === ResourceTypes.Audio && resourceData.url && (
+                    {resourceData.type === ResourceTypes.Audio && resourceUrl && (
                         <audio controls className="w-full mb-4">
-                            <source src={resourceData.url} />
+                            <source src={resourceUrl} />
                             Your browser does not support the audio element.
                         </audio>
                     )}
 
-                    {resourceData.type === ResourceTypes.Video && resourceData.url && (
+                    {resourceData.type === ResourceTypes.Video && resourceUrl && (
                         <video controls className="w-full mb-4">
-                            <source src={resourceData.url} />
+                            <source src={resourceUrl} />
                             Your browser does not support the video tag.
                         </video>
                     )}
 
-                    {resourceData.type === ResourceTypes.Image && resourceData.url && (
+                    {resourceData.type === ResourceTypes.Image && resourceUrl && (
                         <div className="flex flex-col items-center">
-                            <img src={resourceData.url} alt={resourceData.title} className="mb-4 max-w-full h-auto" />
+                            <img src={resourceUrl} alt={resourceData.title} className="mb-4 max-w-full h-auto" />
                         </div>
                     )}
 
@@ -127,14 +153,17 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
                         </div>
                     )}
 
-                    {(resourceData.type !== ResourceTypes.NoteText) && (
+                    {(resourceData.type !== ResourceTypes.NoteText && resourceUrl) && (
                         <PrimaryButton
                             label="Download"
                             iconComponent={<FaDownload />}
                             className="mt-4"
-                            onClick={() => window.open(resourceData.url, '_blank')}
+                            onClick={() => window.open(resourceUrl, '_blank')}
                         />
                     )}
+
+                    {loadingUrl && <p>Loading resource...</p>}
+                    {error && <p>Error fetching URL: {error}</p>}
                 </ModalWrapper>
             )}
         </>

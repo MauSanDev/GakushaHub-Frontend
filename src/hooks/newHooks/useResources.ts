@@ -19,7 +19,7 @@ export const useResources = (
     institutionId: string,
     page: number,
     limit: number,
-    type?: string,
+    searchQuery?: string,
 ): {
     fetchResources: () => Promise<void>,
     createResource: (payload: CreateResourcePayload) => Promise<ResourceData>,
@@ -35,9 +35,9 @@ export const useResources = (
 
     const searches: Record<string, string[]> = {};
 
-    if (type) {
-        searches['search1'] = [type];
-        searches['search1fields'] = ['type'];
+    if (searchQuery) {
+        searches['search1'] = [searchQuery];
+        searches['search1fields'] = ['title', 'description', 'type'];
     }
 
     searches['search2'] = [institutionId];

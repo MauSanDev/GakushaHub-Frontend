@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {FaTrash, FaSpinner, FaCheck, FaTimes, FaEdit, FaSave,} from 'react-icons/fa';
+import { FaTrash, FaSpinner, FaCheck, FaTimes, FaEdit, FaSave } from 'react-icons/fa';
 import Container from '../../../components/ui/containers/Container';
 import useUploadFile from "../../../hooks/newHooks/Resources/useUploadFile.ts";
 import { useResources } from '../../../hooks/newHooks/useResources';
 import { useUpdateData } from '../../../hooks/updateHooks/useUpdateData';
-import {CollectionTypes} from "../../../data/CollectionTypes.tsx";
-import {ResourceTypes} from "../../../data/Institutions/ResourceData.ts";
-import {getResourceIcon} from "./ResourceDataElement.tsx";
+import { CollectionTypes } from "../../../data/CollectionTypes.tsx";
+import { ResourceTypes } from "../../../data/Institutions/ResourceData.ts";
+import { getResourceIcon } from "./ResourceDataElement.tsx";
 
 export interface FileResourceData {
     _id?: string;
@@ -55,24 +55,31 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
         title: file.name,
         description: "",
         type: getFileType(file),
-        url: "",
+        url: ``,
         tags: [],
     });
     const [isEditing, setIsEditing] = useState<boolean>(true);
     const [isCreated, setIsCreated] = useState<boolean>(false);
     const [isConfirmedCancelled, setIsConfirmedCancelled] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [resourcePath, setResourcePath] = useState<string>(`institutions/${institutionId}/resources/${file.name}`);
 
-    const { uploadProgress, isUploading, cancelOrDelete, error: uploadError, downloadURL } = useUploadFile(file);
-
-    
-    
-    useEffect(() => {
-        if (downloadURL) {
-            setLocalResource((prev) => ({ ...prev, url: downloadURL }));
-            handleSave();
+    const { uploadProgress, isUploading, cancelOrDelete, error: uploadError, uploadFile } = useUploadFile({
+        path: `institutions/${institutionId}/resources/${file.name}`, // Path completo, incluyendo el nombre del archivo
+        onUploadFinished: (fullPath) => {
+            if (fullPath) {
+                setResourcePath(fullPath);
+                setLocalResource((prev) => ({ ...prev, url: fullPath }));
+                handleSave()
+            }
         }
-    }, [downloadURL]);
+    });
+
+    // Iniciamos la subida de archivos solo cuando el componente se monta
+    useEffect(() => {
+        uploadFile(file); // Se llama al método de subida pasando el archivo
+    }, [file, uploadFile]);
+
 
     useEffect(() => {
         if (isConfirmedCancelled) {
@@ -89,12 +96,10 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
             return;
         }
 
-        if (!downloadURL && !isCreated) {
+        if (isUploading) {
             setIsEditing(false);
             return;
         }
-
-        setError(null);
 
         try {
             if (!isCreated) {
@@ -102,7 +107,7 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
                     title: localResource.title,
                     description: localResource.description,
                     type: localResource.type,
-                    url: localResource.url || downloadURL || '',
+                    url: localResource.url || resourcePath,
                     tags: localResource.tags,
                     institutionId,
                 });
@@ -115,7 +120,6 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
                     newData: {
                         title: localResource.title,
                         description: localResource.description,
-                        url: localResource.url,
                         tags: localResource.tags,
                     }
                 });

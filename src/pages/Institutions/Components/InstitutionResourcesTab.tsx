@@ -11,13 +11,14 @@ const InstitutionResourcesTab: React.FC<{ onOpenModal: () => void, isModalOpen: 
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
 
-    const { data, isLoading, fetchResources, resetQueries } = useResources(institutionId, page, 10);
+    const { data, isLoading, fetchResources, resetQueries } = useResources(institutionId, page, 10, searchQuery);
 
     useEffect(() => {
         fetchResources();
-    }, [page, institutionId]);  // Fetch resources on page or institutionId change
+    }, [page, institutionId, searchQuery]);
 
     const handleSearch = (query: string) => {
+        setPage(1);
         setSearchQuery(query);
     };
 
