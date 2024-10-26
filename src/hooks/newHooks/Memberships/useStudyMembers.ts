@@ -7,8 +7,6 @@ export const useStudyMembers = (
     limit: number         
 ) => {
 
-    // console.log('members', memberIds);
-    
     const { mutate, isLoading, data, resetQueries } = useFakePagination<MembershipData>(
         memberIds,
         page,

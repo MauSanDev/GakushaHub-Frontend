@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FaTrash } from 'react-icons/fa';
+import {FaChalkboardTeacher, FaTrash} from 'react-icons/fa';
 import { MembershipData, MembershipRole, MembershipStatus } from "../data/MembershipData.ts";
 import { useUpdateList } from "../hooks/updateHooks/useUpdateList.ts";
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
@@ -77,13 +77,16 @@ const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ membe
                 )}
             </div>
 
-            <div className="flex items-center">
-                <span className={`uppercase font-bold mr-4 ${roleColors[member.role]}`}>
-                    {member.role}
-                </span>
+            <div className="flex items-center gap-2">
 
+                {(member.role === MembershipRole.Owner || member.role === MembershipRole.Staff || member.role === MembershipRole.Sensei) &&
+                    <div className="flex items-center gap-2 text-2xl text-blue-500 dark:text-gray-300">
+                        <FaChalkboardTeacher/>
+                        <span className="text-sm">Professor</span>
+                    </div>
+                }
                 {canEdit &&
-                    <TertiaryButton onClick={handleRemoveClick} iconComponent={<FaTrash />} label={"Remove"} />
+                    <TertiaryButton onClick={handleRemoveClick} iconComponent={<FaTrash/>} label={"Remove"}/>
                 }
             </div>
         </div>

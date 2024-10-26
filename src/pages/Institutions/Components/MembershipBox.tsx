@@ -88,28 +88,35 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
                         onClick={handleAccept}
                         label="accept"
                         className="text-xs w-40 bg-green-500 hover:bg-green-600 dark:bg-green-500 hover:dark:bg-green-600"
-                        iconComponent={<FaCheck />}
+                        iconComponent={<FaCheck/>}
                     />
                     <PrimaryButton
                         onClick={handleReject}
                         label="reject"
                         className="text-xs w-40 bg-red-500 hover:bg-red-600 dark:bg-red-600 hover:dark:bg-red-600"
-                        iconComponent={<FaTimes />}
+                        iconComponent={<FaTimes/>}
                     />
                 </div>
             )}
-
-            {(membership.role === MembershipRole.Owner || membership.role === MembershipRole.Sensei || membership.role === MembershipRole.Staff) && (
-                <div className="mt-4 flex justify-end">
+            
+            <div className="mt-4 flex justify-end gap-4">
+                <PrimaryButton
+                    className="w-40"
+                    label="See Profile"
+                    onClick={() => {
+                        navigate(`/institution/${membership.institutionId}`);
+                    }}
+                />
+                {(membership.role === MembershipRole.Owner || membership.role === MembershipRole.Sensei || membership.role === MembershipRole.Staff) && (
                     <PrimaryButton
-                        className={"w-40"}
-                        label={"enter"}
+                        className="w-40"
+                        label="enter"
                         onClick={() => {
                             navigate(`/institution/${membership.institutionId}/studyGroups`);
                         }}
                     />
-                </div>
-            )}
+                )}
+            </div>
         </Container>
     );
 };

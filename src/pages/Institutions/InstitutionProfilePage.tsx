@@ -43,22 +43,21 @@ const InstitutionProfilePage: React.FC = () => {
 
     const tabs = [
         { label: 'News', view: 'news', icon: <FaNewspaper /> },
-        { label: 'Information', view: 'information', icon: <FaInfoCircle /> },
         { label: 'Schedule', view: 'schedule', icon: <FaCalendarAlt /> },
+        { label: 'Information', view: 'information', icon: <FaInfoCircle /> },
     ];
 
     const renderTabContent = () => {
         if (currentTab === 'information') {
             return (
                 <div className="flex flex-col lg:flex-row justify-center w-full max-w-4xl mx-auto mt-6">
-                    {/* Description */}
+
                     <div className={`flex-1 text-gray-800 dark:text-white px-10 ${links.length === 0 ? 'text-center' : ''}`}>
                         <p className="mt-2 text-gray-400">
                             {data?.description || 'No description available'}
                         </p>
                     </div>
 
-                    {/* Social Links */}
                     {links.length > 0 && (
                         <div className="flex-1 ml-8">
                             <h3 className="text-lg font-bold mb-4 text-white">Social Links</h3>
@@ -107,7 +106,6 @@ const InstitutionProfilePage: React.FC = () => {
                     />
                 </div>
 
-                {/* Profile Picture */}
                 <div className="relative -mt-20 mb-8 group">
                     <img
                         src={profileImage}
@@ -116,12 +114,10 @@ const InstitutionProfilePage: React.FC = () => {
                     />
                 </div>
 
-                {/* Institution Name */}
                 <h2 className="text-center text-white text-3xl font-bold mb-4">
                     {data?.name || 'Institution Name'}
                 </h2>
 
-                {/* Tabs */}
                 <div className="flex gap-2 mb-4">
                     <Tabs tabs={tabs} onTabChange={handleTabChange} currentTab={currentTab}/>
                 </div>

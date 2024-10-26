@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import LoadingScreen from '../components/LoadingScreen';
 import { useParams } from "react-router-dom";
-import {FaBook, FaCalendar, FaChalkboardTeacher, FaCog, FaFolder, FaPenAlt, FaSchool, FaUser} from "react-icons/fa";
+import { FaBook, FaCalendar, FaChalkboardTeacher, FaCog, FaFolder, FaPenAlt, FaSchool, FaUser } from "react-icons/fa";
 import { useStudyGroup } from '../hooks/useGetStudyGroup.tsx';
 import { useInstitutionById } from '../hooks/institutionHooks/useInstitutionById.ts';
 import Tabs from "../components/ui/toggles/Tabs.tsx";
@@ -9,16 +9,18 @@ import Editable from "../components/ui/text/Editable";
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import LocSpan from "../components/LocSpan";
 import RoundedTag from "../components/ui/text/RoundedTag.tsx";
-import { MembershipRole } from "../data/MembershipData.ts";
+import { MembershipRole, MembershipData } from "../data/MembershipData.ts";
 import { useAuth } from '../context/AuthContext';
 import NoDataMessage from "../components/NoDataMessage.tsx";
-import {FaMessage} from "react-icons/fa6";
+import { FaMessage } from "react-icons/fa6";
 import StudyGroupCoursesTab from "./StudyGroups/StudyGroupCoursesTab.tsx";
 import StudyGroupMembersTab from "./StudyGroups/StudyGroupMembersTab.tsx";
 import StudyGroupChatTab from "./StudyGroups/StudyGroupChatTab.tsx";
 import StudyGroupSchedule from "./StudyGroups/StudyGroupScheduleTab.tsx";
 import StudyGroupSettingsTab from "./StudyGroups/StudyGroupSettingsTab.tsx";
 import StudyGroupResourcesTab from "./StudyGroups/StudyGroupResourcesTab.tsx";
+import {useElements} from "../hooks/newHooks/useElements.ts";
+import {useUserInfo} from "../hooks/newHooks/Courses/useUserInfo.ts";
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId } = useParams<{ studyGroupId: string }>();
@@ -31,6 +33,17 @@ const StudyGroupContentPage: React.FC = () => {
 
     const { getRole, memberships } = useAuth();
 
+    const { data: memberData, isLoading: membersLoading, fetchElementsData } = useElements<MembershipData>(
+        studyGroup?.memberIds || [],
+        CollectionTypes.Membership
+    );
+
+    const senseiUserIds = Object.values(memberData || {})
+        .filter((member) => ['owner', 'sensei', 'staff'].includes(member.role))
+        .map((member) => member.userId);
+
+    const { data: userInfo, isLoading: usersLoading, fetchUserInfo } = useUserInfo(senseiUserIds);
+
     useEffect(() => {
         fetchStudyGroup();
     }, [fetchStudyGroup]);
@@ -39,6 +52,13 @@ const StudyGroupContentPage: React.FC = () => {
         fetchInstitution();
     }, [fetchInstitution]);
 
+    useEffect(() => {
+        fetchElementsData();
+    }, [studyGroup?.memberIds]);
+
+    useEffect(() => {
+        fetchUserInfo();
+    }, [memberData]);
 
     useEffect(() => {
         const savedTab = localStorage.getItem('currentStudyGroupTab');
@@ -58,7 +78,6 @@ const StudyGroupContentPage: React.FC = () => {
                 setRole(fetchedRole);
             }
         };
-
         if (studyGroup) {
             fetchRole();
         }
@@ -108,19 +127,15 @@ const StudyGroupContentPage: React.FC = () => {
         }
     };
 
-    const senseis = studyGroup?.memberIds?.filter((member: any) => member.role === 'sensei') || [];
-
     return (
-        <div ref={scrollContainerRef}
-             className="flex-1 flex flex-col items-center justify-start h-full w-full fixed">
-            <LoadingScreen isLoading={isLoading}/>
+        <div ref={scrollContainerRef} className="flex-1 flex flex-col items-center justify-start h-full w-full fixed">
+            <LoadingScreen isLoading={isLoading || membersLoading || usersLoading} />
             {studyGroup && (
-                <div
-                    className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
+                <div className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
                     <div className="flex flex-col items-start mb-4 sm:mb-0 w-full">
 
                         <div className={"flex justify-end w-full"}>
-                            {!studyGroup.isActive && (<RoundedTag textKey={"archived"}/>)}
+                            {!studyGroup.isActive && (<RoundedTag textKey={"archived"} />)}
                         </div>
 
                         <Editable
@@ -142,30 +157,31 @@ const StudyGroupContentPage: React.FC = () => {
                             maxChar={400}
                         />
 
-                        {senseis.length > 0 && (
+                        {senseiUserIds.length > 0 && (
                             <p className="inline-flex text-xs text-gray-500 gap-2">
-                                <FaChalkboardTeacher/>
-                                <LocSpan
-                                    textKey={'professors'}/>: {senseis.map((sensei: any) => sensei.userId?.name).join(', ')}
+                                <FaChalkboardTeacher />
+                                <LocSpan textKey={'professors'} />: {senseiUserIds.map(userId => userInfo?.[userId]?.name).join(', ')}
                             </p>
                         )}
 
-                        <p className="inline-flex text-xs text-gray-500 mb-2 gap-2">
-                            <FaSchool/>
+                        <a
+                            className="inline-flex text-xs text-gray-500 mb-2 gap-2 hover:underline"
+                            href={`/institution/${studyGroup.institutionId}`}
+                        >
+                            <FaSchool />
                             {institution?.name}
-                        </p>
+                        </a>
                     </div>
                 </div>
             )}
 
             <div className="flex gap-2 mb-4">
-                <Tabs tabs={tabs} onTabChange={handleTabChange} currentTab={currentTab}/>
+                <Tabs tabs={tabs} onTabChange={handleTabChange} currentTab={currentTab} />
             </div>
 
             <div className="w-full max-w-4xl flex flex-grow flex-col gap-6 text-left pb-24 text-white">
                 {renderTabContent()}
             </div>
-
         </div>
     );
 };

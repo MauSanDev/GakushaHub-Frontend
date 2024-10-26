@@ -59,25 +59,39 @@ const InstitutionSidebar: React.FC = () => {
                     isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
                 }`}
             >
-                <div className="flex items-center space-x-4 p-4 dark:hover:text-white dark:text-gray-300 lg:w-64 w-full">
-                    <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-blue-400 dark:border-gray-600">
-                        <img src={profileImage} alt="Profile" className="object-cover w-full h-full" />
+                <div
+                    className="flex items-center space-x-4 p-4 dark:hover:text-white dark:text-gray-300 lg:w-64 w-full">
+                    <div
+                        className="w-10 h-10 rounded-full overflow-hidden border-2 border-blue-400 dark:border-gray-600">
+                        <img src={profileImage} alt="Profile" className="object-cover w-full h-full"/>
                     </div>
                     <div className="flex flex-col items-start">
                         <span className="text-sm font-bold">{data?.name}</span>
-                        <Link to={"/institutions"} className="text-xs text-gray-400 hover:text-blue-400 hover:underline self-start">
-                            Go back
-                        </Link>
+                        <div className="flex space-x-2 text-xs text-gray-400 hover:text-blue-400">
+                            <Link
+                                to="/institutions"
+                                className=" hover:underline"
+                            >
+                                Go back
+                            </Link>
+                            <span>|</span>
+                            <Link
+                                to={`/institution/${institutionId}`}
+                                className=" hover:underline"
+                            >
+                                See Profile
+                            </Link>
+                        </div>
                     </div>
                 </div>
 
                 <div className="flex flex-col p-4 space-y-4">
                     {menuItems.map((item, index) =>
-                            (!item.roles || (role && item.roles.includes(role))) && isAuthenticated && (
-                                <Link
-                                    key={index}
-                                    to={item.path}
-                                    className="text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-blue-400 hover:dark:text-white py-2 border-b border-gray-300 dark:border-gray-700 text-left hover:pl-2 transition-all"
+                        (!item.roles || (role && item.roles.includes(role))) && isAuthenticated && (
+                            <Link
+                                key={index}
+                                to={item.path}
+                                className="text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-blue-400 hover:dark:text-white py-2 border-b border-gray-300 dark:border-gray-700 text-left hover:pl-2 transition-all"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     <LocSpan textKey={item.label} />
