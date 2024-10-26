@@ -6,6 +6,7 @@ import {useUpdateData} from '../../../hooks/updateHooks/useUpdateData';
 import {CollectionTypes} from "../../../data/CollectionTypes.tsx";
 import {ResourceTypes} from "../../../data/Institutions/ResourceData.ts";
 import {getResourceIcon} from "./ResourceDataElement.tsx";
+import {useDeleteElement} from "../../../hooks/useDeleteElement.ts";
 
 interface LinkTextResourceComponentProps {
     instanceId: string;
@@ -29,14 +30,15 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
     const [localResource, setLocalResource] = useState<LinkTextResourceData>({
         title: '',
         description: '',
-        type: ResourceTypes.NoteText,
+        type: ResourceTypes.LinkText,
         url: '',
         tags: [],
     });
     const [isEditing, setIsEditing] = useState<boolean>(true); 
     const [error, setError] = useState<string | null>(null);
     const [isValidUrl, setIsValidUrl] = useState<boolean>(true);
-    const [isCreated, setIsCreated] = useState<boolean>(false); 
+    const [isCreated, setIsCreated] = useState<boolean>(false);
+    const { mutate: deleteResource} = useDeleteElement();
 
     useEffect(() => {
         if (localResource?.url) {
@@ -108,12 +110,34 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
         setError(null);
     };
 
+    const handleDelete = () => {
+        if (isCreated)
+        {
+            deleteResource(
+                {
+                    elementIds: [localResource._id as string],
+                    elementType: CollectionTypes.Resources,
+                    deleteRelations: true,
+                },
+                {
+                    onSuccess: () => {
+                        onDelete();
+                    },
+                    onError: (error) => {
+                        console.error('Error deleting member:', error);
+                    },
+                }
+            );
+        }
+        else
+        {
+            onDelete();
+        }
+    };
+
     const handleChange = (field: keyof LinkTextResourceData, value: string) => {
         
         const updatedResource = { ...localResource, [field]: value }
-        
-        updatedResource['type'] = localResource.url ? localResource.url.includes("youtube") ? ResourceTypes.YouTube : ResourceTypes.Link : ResourceTypes.NoteText ;
-        
         setLocalResource(updatedResource);
     };
 
@@ -121,7 +145,7 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
         <Container className="relative p-4 mb-4 flex flex-col border border-gray-300 dark:border-gray-600 bg-transparent rounded-lg my-2">
             <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-2">
-                    {getResourceIcon(localResource.type)}
+                    {getResourceIcon(localResource.type, localResource.url)}
                     {isEditing ? (
                         <input
                             value={localResource.title}
@@ -151,7 +175,7 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
                             <FaEdit />
                         </button>
                     )}
-                    <button onClick={onDelete} className="text-red-500 hover:text-red-700">
+                    <button onClick={handleDelete} className="text-red-500 hover:text-red-700">
                         <FaTrash />
                     </button>
                 </div>

@@ -22,6 +22,10 @@ const InstitutionResourcesTab: React.FC<{ onOpenModal: () => void, isModalOpen: 
         setSearchQuery(query);
     };
 
+    const onItemDeleted = () => {
+        fetchResources();
+    };
+
     const filteredResources = data?.documents.filter((resource) =>
         resource.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (resource.description || '').toLowerCase().includes(searchQuery.toLowerCase())
@@ -48,7 +52,7 @@ const InstitutionResourcesTab: React.FC<{ onOpenModal: () => void, isModalOpen: 
                 totalPages={data?.totalPages || 1}
                 onPageChange={setPage}
                 RenderComponent={({ document }) => (
-                    <ResourceDataElement key={document._id} resourceData={document} canDelete={true} />
+                    <ResourceDataElement key={document._id} resourceData={document} canDelete={true} onDelete={onItemDeleted}/>
                 )}
             />
 
@@ -56,7 +60,7 @@ const InstitutionResourcesTab: React.FC<{ onOpenModal: () => void, isModalOpen: 
                 <CreateResourceModal
                     onClose={() => {
                         handleCloseModal();
-                        resetQueries();  // Reseteamos la cache para mostrar el nuevo recurso
+                        resetQueries();  
                     }}
                     institutionId={institutionId}
                 />

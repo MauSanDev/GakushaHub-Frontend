@@ -7,6 +7,7 @@ import { useUpdateData } from '../../../hooks/updateHooks/useUpdateData';
 import { CollectionTypes } from "../../../data/CollectionTypes.tsx";
 import { ResourceTypes } from "../../../data/Institutions/ResourceData.ts";
 import { getResourceIcon } from "./ResourceDataElement.tsx";
+import {useDeleteElement} from "../../../hooks/useDeleteElement.ts";
 
 export interface FileResourceData {
     _id?: string;
@@ -63,9 +64,10 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
     const [isConfirmedCancelled, setIsConfirmedCancelled] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [resourcePath, setResourcePath] = useState<string>(`institutions/${institutionId}/resources/${file.name}`);
+    const { mutate: deleteResource} = useDeleteElement();
 
     const { uploadProgress, isUploading, cancelOrDelete, error: uploadError, uploadFile } = useUploadFile({
-        path: `institutions/${institutionId}/resources/${file.name}`, // Path completo, incluyendo el nombre del archivo
+        path: `institutions/${institutionId}/resources/${file.name}`, 
         onUploadFinished: (fullPath) => {
             if (fullPath) {
                 setResourcePath(fullPath);
@@ -74,13 +76,11 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
             }
         }
     });
-
-    // Iniciamos la subida de archivos solo cuando el componente se monta
+    
     useEffect(() => {
-        uploadFile(file); // Se llama al método de subida pasando el archivo
+        uploadFile(file); 
     }, [file, uploadFile]);
-
-
+    
     useEffect(() => {
         if (isConfirmedCancelled) {
             const timer = setTimeout(() => {
@@ -149,8 +149,33 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
         const confirmCancel = window.confirm("Are you sure you want to cancel this upload?");
         if (confirmCancel) {
             cancelOrDelete();
+
+            if (isCreated)
+            {
+                deleteResource(
+                    {
+                        elementIds: [localResource._id as string],
+                        elementType: CollectionTypes.Resources,
+                        deleteRelations: true,
+                    },
+                    {
+                        onSuccess: () => {
+                            onDelete();
+                        },
+                        onError: (error) => {
+                            console.error('Error deleting member:', error);
+                        },
+                    }
+                );
+            }
+            else
+            {
+                onDelete();
+            }
+            
             setIsConfirmedCancelled(true);
         }
+
     };
 
     const formatFileSize = (size: number) => {
@@ -162,7 +187,7 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
     if (isConfirmedCancelled) {
         return (
             <Container className="flex flex-col p-4 mb-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md my-2">
-                <p className="text-orange-500">{localResource.title} Cancelled</p>
+                <p className="text-orange-500">Upload of {localResource.title} was cancelled</p>
             </Container>
         );
     }

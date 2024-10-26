@@ -15,11 +15,9 @@ export interface ResourceData {
 export enum ResourceTypes {
     Audio = 'audio',
     Video = 'video',
-    Link = 'link',
-    YouTube = 'youtube',
     Image = 'image',
     Document = 'document',
     Compressed = 'rar',
-    NoteText = 'note_text',
+    LinkText = 'link_text',
     File = 'file',
 }
