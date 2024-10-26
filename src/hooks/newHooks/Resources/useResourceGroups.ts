@@ -9,6 +9,7 @@ import { useAuth } from '../../../context/AuthContext.tsx';
 interface CreateResourceGroupPayload {
     name: string;
     description: string;
+    institutionId: string;
     elements: string[];
     isPublic: boolean;
 }
@@ -60,7 +61,7 @@ export const useResourceGroups = (
         }
     };
 
-    const createResourceGroup = async ({ name, description, elements, isPublic }: CreateResourceGroupPayload): Promise<BaseDeckData | undefined> => {
+    const createResourceGroup = async ({ name, description, elements, isPublic, institutionId }: CreateResourceGroupPayload): Promise<BaseDeckData | undefined> => {
         if (!userData || !userData._id) {
             console.error("User data not available");
             return;
@@ -71,6 +72,7 @@ export const useResourceGroups = (
             description,
             elements,
             creatorId: userData._id,
+            institutionId,
             isPublic,
         };
 

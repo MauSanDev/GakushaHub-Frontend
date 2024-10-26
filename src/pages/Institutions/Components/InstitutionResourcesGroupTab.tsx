@@ -96,8 +96,7 @@ const InstitutionResourcesGroupTab: React.FC<{ institutionId: string, role: Memb
                 <CreateResourceGroupModal
                     onClose={handleCloseModal}
                     onCreateSuccess={handleCreateSuccess}
-                    page={page}
-                    limit={10}
+                    institutionId={institutionId}
                 />
             )}
         </>

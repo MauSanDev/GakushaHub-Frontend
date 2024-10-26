@@ -10,17 +10,16 @@ import {useResourceGroups} from "../../hooks/newHooks/Resources/useResourceGroup
 interface CreateResourceGroupModalProps {
     onClose: () => void;
     onCreateSuccess?: () => void;
-    page: number;
-    limit: number;
+    institutionId: string;
 }
 
-const CreateResourceGroupModal: React.FC<CreateResourceGroupModalProps> = ({ onClose, onCreateSuccess, page, limit }) => {
+const CreateResourceGroupModal: React.FC<CreateResourceGroupModalProps> = ({ onClose, onCreateSuccess, institutionId}) => {
     const [title, setTitle] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [isPublic, setIsPublic] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    const { createResourceGroup, isLoading, resetQueries } = useResourceGroups(page, limit);
+    const { createResourceGroup, isLoading, resetQueries } = useResourceGroups(1, 20);
 
     const handleCreateResourceGroup = async () => {
         if (title.trim() === '') {
@@ -30,7 +29,7 @@ const CreateResourceGroupModal: React.FC<CreateResourceGroupModalProps> = ({ onC
 
         try {
             await createResourceGroup(
-                { name: title, description, elements: [], isPublic }
+                { name: title, description, elements: [], isPublic , institutionId}
             );
             resetQueries(); // Refresca la caché después de crear el grupo
             setError(null);

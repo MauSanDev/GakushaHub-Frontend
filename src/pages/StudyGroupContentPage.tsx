@@ -18,6 +18,7 @@ import StudyGroupMembersTab from "./StudyGroups/StudyGroupMembersTab.tsx";
 import StudyGroupChatTab from "./StudyGroups/StudyGroupChatTab.tsx";
 import StudyGroupSchedule from "./StudyGroups/StudyGroupScheduleTab.tsx";
 import StudyGroupSettingsTab from "./StudyGroups/StudyGroupSettingsTab.tsx";
+import StudyGroupResourcesTab from "./StudyGroups/StudyGroupResourcesTab.tsx";
 
 const StudyGroupContentPage: React.FC = () => {
     const { studyGroupId } = useParams<{ studyGroupId: string }>();
@@ -100,6 +101,8 @@ const StudyGroupContentPage: React.FC = () => {
                 return <StudyGroupSchedule studyGroup={studyGroup} canEdit={canEdit} />;
             case 'settings':
                 return <StudyGroupSettingsTab studyGroup={studyGroup} canEdit={canEdit} />;
+            case 'resources':
+                return <StudyGroupResourcesTab studyGroup={studyGroup} canEdit={canEdit} />;
             default:
                 return (<div><NoDataMessage /></div>);
         }

@@ -114,7 +114,7 @@ const PaginatedContainer = <T,>({
                  style={{maxHeight: 'calc(100vh)'}}>
                 {documents.map((document) => (
                     <RenderComponent
-                        // key={document._id }
+                        key={document._id }
                         document={document}
                     />
                 ))}

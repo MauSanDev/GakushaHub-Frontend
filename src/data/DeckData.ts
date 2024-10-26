@@ -7,6 +7,7 @@ export interface BaseDeckData {
     _id: string;
     name: string;
     description: string;
+    institutionId: string;
     elements: string[];
     creatorId: string;
     isPublic: boolean;
