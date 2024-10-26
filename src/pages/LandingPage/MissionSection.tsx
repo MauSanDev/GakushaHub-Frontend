@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaGlobe } from 'react-icons/fa';
 
-const MissionSection: React.FC = () => {
+const MissionSection: React.FC<{id: string}> = ({id}) => {
     const points = [
         { top: '30%', left: '40%' },
         { top: '50%', left: '60%' },
@@ -13,7 +13,7 @@ const MissionSection: React.FC = () => {
 
     return (
         <motion.section
-            className="relative flex flex-col items-center text-center py-20 px-6 to-black text-white max-w-4xl mx-auto"
+            className="relative flex flex-col items-center text-center py-20 px-6 to-black text-white max-w-4xl mx-auto" id={id} 
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}

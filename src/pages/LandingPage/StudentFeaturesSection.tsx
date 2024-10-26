@@ -13,10 +13,10 @@ const features = [
     { icon: <FaGlobe />, label: 'Readings' },
 ];
 
-const StudentFeaturesSection: React.FC = () => {
+const StudentFeaturesSection: React.FC<{id: string}> = ({id}) => {
     return (
         <motion.section
-            className="flex flex-col md:flex-row items-center md:items-start justify-center py-20 px-6 text-white max-w-4xl mx-auto"
+            className="flex flex-col md:flex-row items-center md:items-start justify-center py-20 px-6 text-white max-w-4xl mx-auto" id={id}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}

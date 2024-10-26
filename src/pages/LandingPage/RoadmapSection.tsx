@@ -13,10 +13,10 @@ const roadmapData = [
     { date: "Q1 2023", title: "Lanzamiento de Beta", description: "Lanzamiento de la versión beta de la plataforma para un grupo limitado de usuarios.", completed: true },
 ];
 
-const RoadmapSection: React.FC = () => {
+const RoadmapSection: React.FC<{id: string}> = ({id}) => {
     return (
         
-        <section className="relative py-20 px-6 text-white">
+        <section className="relative py-20 px-6 text-white" id={id}>
             <div className="max-w-4xl mx-auto text-center mb-12">
                 <h2 className="text-4xl font-bold mb-4">Roadmap</h2>
                 <p className="text-gray-300 text-lg">Nuestro plan de desarrollo para ofrecer una experiencia cada vez más completa.</p>

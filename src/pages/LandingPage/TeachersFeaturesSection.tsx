@@ -12,7 +12,7 @@ const teacherFeatures = [
     { icon: <FaUsers />, title: 'Gestión de Alumnos', description: 'Administra alumnos, realiza seguimientos y organiza grupos.' },
 ];
 
-const TeacherFeaturesSection: React.FC = () => {
+const TeacherFeaturesSection: React.FC<{id: string}> = ({id}) => {
     const [selectedFeature, setSelectedFeature] = useState<string | null>(null);
     const [hovered, setHovered] = useState(false); // Estado para controlar si el usuario está haciendo hover
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -39,7 +39,7 @@ const TeacherFeaturesSection: React.FC = () => {
     };
 
     return (
-        <section className="flex flex-col md:flex-row py-20 px-6 text-white max-w-5xl mx-auto">
+        <section className="flex flex-col md:flex-row py-20 px-6 text-white max-w-5xl mx-auto" id={id}>
             {/* Lista de características a la izquierda */}
             <div className="md:w-1/2 flex flex-col space-y-6">
                 <motion.h2
