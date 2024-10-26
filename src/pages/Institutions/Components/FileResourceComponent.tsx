@@ -4,6 +4,7 @@ import Container from '../../../components/ui/containers/Container';
 import useUploadFile from "../../../hooks/newHooks/Resources/useUploadFile.ts";
 import { useResources } from '../../../hooks/newHooks/useResources';
 import { useUpdateData } from '../../../hooks/updateHooks/useUpdateData';
+import {CollectionTypes} from "../../../data/CollectionTypes.tsx";
 
 export interface FileResourceData {
     _id?: string;

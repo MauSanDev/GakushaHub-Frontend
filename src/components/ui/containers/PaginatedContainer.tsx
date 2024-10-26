@@ -61,8 +61,8 @@ const PaginatedContainer = <T,>({
                     key={i}
                     className={`${
                         i === currentPage
-                            ? 'bg-blue-500 description-white description-xs px-2 py-1 mx-0.5 rounded dark:bg-gray-700 hover:dark:bg-gray-600'
-                            : 'bg-gray-100 description-xs description-gray-700 dark:description-white px-2 py-1 mx-0.5 rounded hover:bg-gray-200 dark:bg-gray-950 hover:dark:bg-gray-800'
+                            ? 'bg-blue-500 text-white text-xs px-2 py-1 mx-0.5 rounded dark:bg-gray-700 hover:dark:bg-gray-600'
+                            : 'bg-gray-100 text-xs text-gray-700 dark:text-white px-2 py-1 mx-0.5 rounded hover:bg-gray-200 dark:bg-gray-950 hover:dark:bg-gray-800'
                     } flex items-center transition-all`}
                     onClick={() => handlePageClick(i)}
                 >
