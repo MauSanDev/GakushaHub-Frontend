@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { FaTrash, FaLink, FaYoutube, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
+import React, {useEffect, useState} from 'react';
+import {FaEdit, FaSave, FaTimes, FaTrash} from 'react-icons/fa';
 import Container from "../../../components/ui/containers/Container.tsx";
-import { useResources } from '../../../hooks/newHooks/useResources';
-import { useUpdateData } from '../../../hooks/updateHooks/useUpdateData';
+import {useResources} from '../../../hooks/newHooks/useResources';
+import {useUpdateData} from '../../../hooks/updateHooks/useUpdateData';
 import {CollectionTypes} from "../../../data/CollectionTypes.tsx";
+import {ResourceTypes} from "../../../data/Institutions/ResourceData.ts";
+import {getResourceIcon} from "./ResourceDataElement.tsx";
 
 interface LinkTextResourceComponentProps {
     instanceId: string;
@@ -15,11 +17,10 @@ export interface LinkTextResourceData {
     _id?: string, 
     title: string;
     description?: string;
-    type: string;
+    type: ResourceTypes;
     url?: string;
     tags?: string[];
 }
-
 
 const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({institutionId, onDelete}) => {
     const { createResource } = useResources(institutionId, 1, 10); 
@@ -28,7 +29,7 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
     const [localResource, setLocalResource] = useState<LinkTextResourceData>({
         title: '',
         description: '',
-        type: 'Note',
+        type: ResourceTypes.NoteText,
         url: '',
         tags: [],
     });
@@ -66,7 +67,6 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
 
         try {
             if (!isCreated) {
-                
                 const createdResource = await createResource({
                     title: localResource.title,
                     description: localResource.description,
@@ -79,7 +79,6 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
                 setIsCreated(true);
             } else {
                 
-                console.log("update");
                 await updateResource({
                     collection: CollectionTypes.Resources,
                     documentId: localResource._id as string,
@@ -110,14 +109,19 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
     };
 
     const handleChange = (field: keyof LinkTextResourceData, value: string) => {
-        setLocalResource((prev) => ({ ...prev, [field]: value }));
+        
+        const updatedResource = { ...localResource, [field]: value }
+        
+        updatedResource['type'] = localResource.url ? localResource.url.includes("youtube") ? ResourceTypes.YouTube : ResourceTypes.Link : ResourceTypes.NoteText ;
+        
+        setLocalResource(updatedResource);
     };
 
     return (
         <Container className="relative p-4 mb-4 flex flex-col border border-gray-300 dark:border-gray-600 bg-transparent rounded-lg my-2">
             <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-2">
-                    {localResource.url?.includes('youtube') ? <FaYoutube className="text-red-600" /> : <FaLink className="text-blue-500" />}
+                    {getResourceIcon(localResource.type)}
                     {isEditing ? (
                         <input
                             value={localResource.title}
@@ -167,7 +171,7 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
                         value={localResource.description || ''}
                         onChange={(e) => handleChange('description', e.target.value)}
                         placeholder="Description (optional)"
-                        className="w-full p-1 bg-transparent border-b border-gray-200 dark:border-gray-200 focus:outline-none text-sm dark:text-white resize-vertical overflow-hidden"
+                        className="w-full p-1 bg-transparent border-b border-gray-200 dark:border-gray-700 focus:outline-none text-sm dark:text-white resize-vertical overflow-hidden"
                         rows={1}
                     />
                 </>

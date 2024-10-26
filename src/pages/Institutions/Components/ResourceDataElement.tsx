@@ -5,12 +5,27 @@ import { CollectionTypes } from "../../../data/CollectionTypes";
 import RoundedTag from "../../../components/ui/text/RoundedTag.tsx";
 import PrimaryButton from "../../../components/ui/buttons/PrimaryButton";
 import ModalWrapper from '../../../pages/ModalWrapper';
-import {ResourceData} from "../../../data/Institutions/ResourceData.ts";
+import {ResourceData, ResourceTypes} from "../../../data/Institutions/ResourceData.ts";
 
 interface ResourceDataElementProps {
     resourceData: ResourceData;
     canDelete?: boolean;
 }
+export const getResourceIcon = (type: ResourceTypes) => {
+    
+    console.log(type)
+    switch (type) {
+        case ResourceTypes.Audio: return <FaMusic className="text-purple-500" />;
+        case ResourceTypes.Video: return <FaFilm className="text-red-500" />;
+        case ResourceTypes.Link: return <FaLink className="text-blue-500" />;
+        case ResourceTypes.YouTube: return <FaYoutube className="text-red-600" />;
+        case ResourceTypes.Image: return <FaImage className="text-green-500" />;
+        case ResourceTypes.Document: return <FaFileAlt className="text-orange-500" />;
+        case ResourceTypes.Compressed: return <FaFileArchive className="text-yellow-500" />;
+        case ResourceTypes.NoteText: return <FaStickyNote className="text-teal-500" />;
+        default: return <FaFileAlt className="text-gray-500" />;
+    }
+};
 
 const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData, canDelete = false }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,27 +39,13 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
     };
 
     const handleClick = () => {
-        if (resourceData.url && (resourceData.type === 'Link' || resourceData.type === 'YouTube Links')) {
+        if (resourceData.url && (resourceData.type === ResourceTypes.Link || resourceData.type === ResourceTypes.YouTube)) {
             window.open(resourceData.url, '_blank');
         } else {
             openModal();
         }
     };
 
-    // Asignar íconos y colores según el tipo de recurso
-    const getResourceIcon = (type: string) => {
-        switch (type) {
-            case 'Audio': return <FaMusic className="text-purple-500" />;
-            case 'Video': return <FaFilm className="text-red-500" />;
-            case 'Link': return <FaLink className="text-blue-500" />;
-            case 'YouTube Links': return <FaYoutube className="text-red-600" />;
-            case 'Images': return <FaImage className="text-green-500" />;
-            case 'Documents': return <FaFileAlt className="text-orange-500" />;
-            case 'Files (rar)': return <FaFileArchive className="text-yellow-500" />;
-            case 'Notes/Text': return <FaStickyNote className="text-teal-500" />;
-            default: return <FaFileAlt className="text-gray-500" />;
-        }
-    };
 
     return (
         <>
@@ -100,40 +101,40 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
                     <h2 className="text-lg font-bold mb-4 text-gray-800 dark:text-white">{resourceData.title}</h2>
 
                     {/* Renderizar el contenido basado en el tipo */}
-                    {resourceData.type === 'Audio' && resourceData.url && (
+                    {resourceData.type === ResourceTypes.Audio && resourceData.url && (
                         <audio controls className="w-full mb-4">
                             <source src={resourceData.url} />
                             Your browser does not support the audio element.
                         </audio>
                     )}
 
-                    {resourceData.type === 'Video' && resourceData.url && (
+                    {resourceData.type === ResourceTypes.Video && resourceData.url && (
                         <video controls className="w-full mb-4">
                             <source src={resourceData.url} />
                             Your browser does not support the video tag.
                         </video>
                     )}
 
-                    {resourceData.type === 'Images' && resourceData.url && (
+                    {resourceData.type === ResourceTypes.Image && resourceData.url && (
                         <div className="flex flex-col items-center">
                             <img src={resourceData.url} alt={resourceData.title} className="mb-4 max-w-full h-auto" />
                         </div>
                     )}
 
-                    {resourceData.type === 'Notes/Text' && resourceData.description && (
+                    {resourceData.type === ResourceTypes.NoteText && resourceData.description && (
                         <div className="text-sm text-gray-700 dark:text-gray-300 mb-4">
                             <p>{resourceData.description}</p>
                         </div>
                     )}
 
-                    {(resourceData.type === 'Files (rar)' || resourceData.type === 'Documents') && (
+                    {(resourceData.type === ResourceTypes.Compressed || resourceData.type === ResourceTypes.Document) && (
                         <div className="text-sm text-gray-700 dark:text-gray-300">
                             <p><strong>File Name:</strong> {resourceData.title}</p>
                             <p><strong>Size:</strong> {resourceData.size}</p>
                         </div>
                     )}
 
-                    {(resourceData.type !== 'Notes/Text') && (
+                    {(resourceData.type !== ResourceTypes.NoteText) && (
                         <PrimaryButton
                             label="Download"
                             iconComponent={<FaDownload />}

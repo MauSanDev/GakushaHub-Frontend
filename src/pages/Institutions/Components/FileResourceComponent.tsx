@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { FaMusic, FaFilm, FaImage, FaFileAlt, FaFileArchive, FaTrash, FaSpinner, FaCheck, FaTimes, FaEdit, FaSave } from 'react-icons/fa';
+import {FaTrash, FaSpinner, FaCheck, FaTimes, FaEdit, FaSave,} from 'react-icons/fa';
 import Container from '../../../components/ui/containers/Container';
 import useUploadFile from "../../../hooks/newHooks/Resources/useUploadFile.ts";
 import { useResources } from '../../../hooks/newHooks/useResources';
 import { useUpdateData } from '../../../hooks/updateHooks/useUpdateData';
 import {CollectionTypes} from "../../../data/CollectionTypes.tsx";
+import {ResourceTypes} from "../../../data/Institutions/ResourceData.ts";
+import {getResourceIcon} from "./ResourceDataElement.tsx";
 
 export interface FileResourceData {
     _id?: string;
     title: string;
     description?: string;
-    type: string;
+    type: ResourceTypes;
     url?: string;
     tags?: string[];
 }
@@ -21,6 +23,33 @@ interface FileResourceComponentProps {
     onDelete: () => void;
 }
 
+const getFileType = (file: File) => {
+    const extension = file.name.split('.').pop()?.toLowerCase() || 'unknown';
+
+    const audioExtensions = ['mp3', 'wav', 'flac', 'aac', 'ogg', 'm4a'];
+    const videoExtensions = ['mp4', 'avi', 'mkv', 'mov', 'wmv', 'flv', 'webm'];
+    const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'svg', 'webp'];
+    const compressedExtensions = ['zip', 'rar', '7z', 'tar', 'gz', 'bz2'];
+    const documentExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'odt', 'ods', 'pages', 'numbers', 'key', 'ibooks'];
+
+    let toReturn = ResourceTypes.File;
+    if (audioExtensions.includes(extension)) {
+        toReturn = ResourceTypes.Audio;
+    } else if (videoExtensions.includes(extension)) {
+        toReturn = ResourceTypes.Video;
+    } else if (imageExtensions.includes(extension)) {
+        toReturn = ResourceTypes.Image;
+    } else if (compressedExtensions.includes(extension)) {
+        toReturn = ResourceTypes.Compressed;
+    } else if (documentExtensions.includes(extension)) {
+        toReturn = ResourceTypes.Document;
+    } else {
+        toReturn = ResourceTypes.File;
+    }
+    console.log(toReturn)
+    return toReturn;
+};
+
 const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, institutionId, onDelete }) => {
     const { createResource } = useResources(institutionId, 1, 10);
     const { mutateAsync: updateResource } = useUpdateData<FileResourceData>();
@@ -28,17 +57,19 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
     const [localResource, setLocalResource] = useState<FileResourceData>({
         title: file.name,
         description: "",
-        type: "File",
+        type: getFileType(file),
         url: "",
         tags: [],
     });
-    const [isEditing, setIsEditing] = useState<boolean>(true); // Inicia en modo edición
-    const [isCreated, setIsCreated] = useState<boolean>(false); // Indica si el recurso ya fue creado
+    const [isEditing, setIsEditing] = useState<boolean>(true);
+    const [isCreated, setIsCreated] = useState<boolean>(false);
     const [isConfirmedCancelled, setIsConfirmedCancelled] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
     const { uploadProgress, isUploading, cancelOrDelete, error: uploadError, downloadURL } = useUploadFile(file);
 
+    
+    
     useEffect(() => {
         if (downloadURL) {
             setLocalResource((prev) => ({ ...prev, url: downloadURL }));
@@ -121,14 +152,6 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
         }
     };
 
-    const getFileIcon = (fileType: string) => {
-        if (fileType.startsWith('audio')) return <FaMusic className="text-purple-500" />;
-        if (fileType.startsWith('video')) return <FaFilm className="text-red-500" />;
-        if (fileType.startsWith('image')) return <FaImage className="text-green-500" />;
-        if (fileType.includes('zip') || fileType.includes('rar')) return <FaFileArchive className="text-yellow-500" />;
-        return <FaFileAlt className="text-gray-500" />;
-    };
-
     const formatFileSize = (size: number) => {
         if (size < 1024) return `${size} bytes`;
         if (size < 1048576) return `${(size / 1024).toFixed(2)} KB`;
@@ -146,7 +169,7 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
     return (
         <Container className="flex flex-col p-4 mb-4 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md my-2">
             <div className="flex items-center mb-2 relative">
-                {getFileIcon(file.type)}
+                {getResourceIcon(localResource.type)}
                 <div className="flex-1 ml-4">
                     {isEditing ? (
                         <input
