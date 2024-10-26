@@ -34,7 +34,7 @@ const MyStudyGroupsPage: React.FC = () => {
                 <div className="flex items-center justify-between mb-4">
                     <SearchBar
                         onSearch={handleSearch}
-                        placeholder="Search study groups..."
+                        placeholder="searchPlaceholder"
                     />
                 </div>
 

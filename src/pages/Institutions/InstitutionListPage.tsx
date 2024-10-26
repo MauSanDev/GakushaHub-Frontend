@@ -8,6 +8,7 @@ import SectionContainer from "../../components/ui/containers/SectionContainer.ts
 import { useAuth } from '../../context/AuthContext';
 import { InstitutionData } from "../../data/Institutions/InstitutionData.ts";
 import DottedBox from '../../components/DottedBox';
+import {MembershipRole} from "../../data/MembershipData.ts";
 
 const InstitutionListPage: React.FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
@@ -72,17 +73,14 @@ const InstitutionListPage: React.FC = () => {
                 {licenseType === 'sensei' && (
                     <div className="mb-6">
                         <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-                            <LocSpan textKey={"institutionListPage.myInstitution"} />
+                            <LocSpan textKey={"institution.myInstitution"} />
                         </h2>
                         {ownerInstitution ? (
                             <InstitutionBox
                                 institutionId={ownerInstitution._id}
                                 institutionName={ownerInstitution.name}
                                 institutionDescription={ownerInstitution.description}
-                                members={ownerInstitution.members || 0}
-                                groups={ownerInstitution.groups || 0}
-                                resources={ownerInstitution.resources || 0}
-                                userRole="owner"
+                                userRole={MembershipRole.Owner}
                             />
                         ) : (
                             <DottedBox
@@ -95,7 +93,7 @@ const InstitutionListPage: React.FC = () => {
 
                 <div className="mb-6">
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
-                        <LocSpan textKey={"institutionListPage.myMemberships"} />
+                        <LocSpan textKey={"institution.myMemberships"} />
                     </h2>
                     {memberships?.length ? (
                         memberships.map((membership) => (

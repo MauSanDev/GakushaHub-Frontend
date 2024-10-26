@@ -216,5 +216,29 @@
       "target7": "2023年 第1四半期 - ベータ版ローンチ",
       "target7desc": "限られたユーザーグループ向けにプラットフォームのベータ版をリリース。"
     }
-  }
+  },
+  "studyGroups": "勉強グループ",
+  "searchPlaceholder": "検索...",
+  "addDescriptionPlaceholder": "説明を追加...",
+  "allLevels": "すべてのレベル",
+  "showAll": "すべて表示",
+  "examples": "例",
+  "showSelected": "選択を表示",
+  "pagesAmount": "ページ数:",
+  "institutions": "学校",
+  "institution": {
+    "myInstitution": "私の学校",
+    "myMemberships": "私の会員権",
+    "editSchool": "学校を編集",
+    "seeProfile": "プロフィールを見る",
+    "membershipTypes": {
+      "owner": "オーナー",
+      "staff": "スタッフ",
+      "sensei": "先生",
+      "student": "生徒",
+      "none": "なし"
+    }
+  },
+  "saved": "保存完了",
+  "save": "保存する"
 }

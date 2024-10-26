@@ -211,7 +211,7 @@ const CourseDetailPage: React.FC = () => {
                     className="text-gray-600 dark:text-gray-400 mt-2"
                     canEdit={canEdit}
                     maxChar={400}
-                    placeholder={"Add a Description..."}
+                    placeholder={"addDescriptionPlaceholder"}
                 />
 
                 <div className="flex items-center gap-4 overflow-x-auto w-full sm:w-auto flex-grow">

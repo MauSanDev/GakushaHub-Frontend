@@ -22,7 +22,7 @@ const SignInPage: React.FC = () => {
 
         try {
             await signIn(email, password);
-            navigate("/");
+            navigate("/search");
         } catch (error: any) {
             const code = error.code?.trim();
             switch (code) {

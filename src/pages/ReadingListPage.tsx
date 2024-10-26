@@ -49,7 +49,7 @@ const ReadingListPage: React.FC = () => {
     return (
         <SectionContainer title={"読みましょう"} isLoading={isLoading}>
             <div className="w-full lg:max-w-4xl flex flex-wrap gap-2 text-left px-14 lg:px-0 justify-center">
-                <SearchBar onSearch={setSearchTerm} placeholder="Search Readings..." />
+                <SearchBar onSearch={setSearchTerm} placeholder="searchPlaceholder" />
             </div>
 
             <PaginatedContainer

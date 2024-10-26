@@ -1,8 +1,9 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import PrimaryButton from "../../../components/ui/buttons/PrimaryButton.tsx";
 import RoundedTag from "../../../components/ui/text/RoundedTag.tsx";
-import { useCachedImage } from '../../../hooks/newHooks/Resources/useCachedImage.ts';
+import {useCachedImage} from '../../../hooks/newHooks/Resources/useCachedImage.ts';
+import {MembershipRole} from "../../../data/MembershipData.ts";
 
 const DEFAULT_INSTITUTION_IMAGE = 'https://via.placeholder.com/150';
 
@@ -10,25 +11,18 @@ interface MyInstitutionProps {
     institutionId: string;
     institutionName?: string;
     institutionDescription?: string;
-    members?: number;
-    groups?: number;
-    resources?: number;
-    userRole?: string;
+    userRole?: MembershipRole;
 }
 
 const InstitutionBox: React.FC<MyInstitutionProps> = ({
                                                           institutionId,
                                                           institutionName,
                                                           institutionDescription,
-                                                          members = 0,
-                                                          groups = 0,
-                                                          resources = 0,
-                                                          userRole = 'member'
+                                                          userRole = MembershipRole.Owner
                                                       }) => {
-    const isOwner = userRole === 'owner';
+    const isOwner = userRole === MembershipRole.Owner;
     const navigate = useNavigate();
 
-    // Cargar la imagen de la institución
     const { imageUrl: institutionImage } = useCachedImage({
         path: `institutions/${institutionId}/profileImage`,
         defaultImage: DEFAULT_INSTITUTION_IMAGE,
@@ -46,7 +40,7 @@ const InstitutionBox: React.FC<MyInstitutionProps> = ({
                     className="w-24 h-24 sm:w-40 sm:h-40 rounded-lg object-cover mr-6 dark:bg-gray-900"
                 />
 
-                <RoundedTag textKey={userRole} className={`absolute top-2 right-2 ${isOwner ? 'bg-green-600 dark:bg-green-700' : 'bg-blue-400 dark:bg-gray-600'}`} />
+                <RoundedTag textKey={`institution.membershipTypes.${userRole}`} className={`absolute top-2 right-2 ${isOwner ? 'bg-green-600 dark:bg-green-700' : 'bg-blue-400 dark:bg-gray-600'}`} />
 
                 <div className="flex-1">
                     <h2 className="text-xl font-bold text-gray-800 dark:text-white">
@@ -55,12 +49,9 @@ const InstitutionBox: React.FC<MyInstitutionProps> = ({
                     <p className="text-gray-600 dark:text-gray-400">
                         {institutionDescription || 'Institution Description'}
                     </p>
-                    <div className="text-gray-500 dark:text-gray-400 mt-2">
-                        {members} Members - {groups} Groups - {resources} Resources
-                    </div>
 
                     <div className="mt-4 flex justify-end">
-                        <PrimaryButton className={"w-40"} label={"enter"} onClick={() => {
+                        <PrimaryButton className={"w-40"} label={"institution.editSchool"} onClick={() => {
                             navigate(`/institution/${institutionId}/studyGroups`);
                         }} />
                     </div>

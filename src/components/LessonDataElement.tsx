@@ -127,7 +127,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                 className="text-gray-700 mb-4 text-sm"
                 canEdit={canEdit}
                 maxChar={400}
-                placeholder={"Add a Description"}
+                placeholder={"addDescriptionPlaceholder"}
             />
 
             {noContentToShow ? canEdit ? (

@@ -216,5 +216,29 @@
       "target7": "T1 2023 - Lanzamiento Beta",
       "target7desc": "Lanzamiento de la versión beta de la plataforma para un grupo limitado de usuarios."
     }
-  }
+  },
+  "studyGroups": "Mis Grupos",
+  "searchPlaceholder": "Buscar...",
+  "addDescriptionPlaceholder": "Agregar una Descripción...",
+  "allLevels": "Todos los Niveles",
+  "showAll": "Mostrar Todo",
+  "examples": "Ejemplos",
+  "showSelected": "Mostrar Seleccionado",
+  "pagesAmount": "Páginas:",
+  "institutions": "Escuelas",
+  "institution": {
+    "myInstitution": "Mi Escuela",
+    "myMemberships": "Mis Membresías",
+    "editSchool": "Editar Escuela",
+    "seeProfile": "Ver Perfil",
+    "membershipTypes": {
+      "owner": "Propietario",
+      "staff": "Personal",
+      "sensei": "Sensei",
+      "student": "Estudiante",
+      "none": "Ninguno"
+    }
+  },
+  "saved": "Guardado",
+  "save": "Guardar"
 }

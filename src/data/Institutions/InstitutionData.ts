@@ -7,9 +7,4 @@ export interface InstitutionData {
     lastUpdated: string;
     active: boolean;
     links: string[];
-    //debug
-    members: number;
-    groups: number;
-    resources: number;
-    role: string
 }

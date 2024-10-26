@@ -102,7 +102,7 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
             <div className="mt-4 flex justify-end gap-4">
                 <PrimaryButton
                     className="w-40"
-                    label="See Profile"
+                    label="institution.seeProfile"
                     onClick={() => {
                         navigate(`/institution/${membership.institutionId}`);
                     }}
@@ -110,7 +110,7 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
                 {(membership.role === MembershipRole.Owner || membership.role === MembershipRole.Sensei || membership.role === MembershipRole.Staff) && (
                     <PrimaryButton
                         className="w-40"
-                        label="enter"
+                        label="institution.editSchool"
                         onClick={() => {
                             navigate(`/institution/${membership.institutionId}/studyGroups`);
                         }}

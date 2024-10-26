@@ -216,5 +216,29 @@
       "target7": "2023年第一季度 - Beta测试版上线",
       "target7desc": "为一小部分用户推出平台Beta测试版。"
     }
-  }
+  },
+  "studyGroups": "学习小组",
+  "searchPlaceholder": "搜索...",
+  "addDescriptionPlaceholder": "添加描述...",
+  "allLevels": "所有级别",
+  "showAll": "显示全部",
+  "examples": "示例",
+  "showSelected": "显示已选",
+  "pagesAmount": "页数:",
+  "institutions": "学校",
+  "institution": {
+    "myInstitution": "我的学校",
+    "myMemberships": "我的会员",
+    "editSchool": "编辑学校",
+    "seeProfile": "查看资料",
+    "membershipTypes": {
+      "owner": "拥有者",
+      "staff": "员工",
+      "sensei": "老师",
+      "student": "学生",
+      "none": "无"
+    }
+  },
+  "saved": "已保存",
+  "save": "保存"
 }

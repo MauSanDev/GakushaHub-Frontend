@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaCheck, FaTimes, FaEdit, FaSpinner } from 'react-icons/fa';
 import { useUpdateData } from '../../../hooks/updateHooks/useUpdateData.ts';
 import TertiaryButton from "../buttons/TertiaryButton.tsx";
+import LocSpan from "../../LocSpan.tsx";
 
 interface EditableProps {
     initialValue: string;
@@ -137,7 +138,7 @@ const Editable: React.FC<EditableProps> = ({
             ) : (
                 <>
                     {value ? (
-                        <span>{value}</span>
+                        <LocSpan textKey={value} key={value} />
                     ) : (
                         canEdit ? (
                             <span className="text-gray-400 italic">{placeholder}</span>

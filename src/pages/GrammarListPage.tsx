@@ -8,6 +8,7 @@ import ShowSelectionToggle from "../components/ui/toggles/ShowSelectionToggle.ts
 import SearchBar from "../components/ui/inputs/SearchBar.tsx";
 import PaginatedContainer from '../components/ui/containers/PaginatedContainer.tsx';
 import SaveDeckButton from "../components/SaveDeckButton.tsx";
+import {useTranslation} from "react-i18next";
 
 const GrammarListPage: React.FC = () => {
     const [page, setPage] = useState(1);
@@ -16,6 +17,7 @@ const GrammarListPage: React.FC = () => {
     const { isAuthenticated } = useAuth();
     const [selectedGrammarIds, setSelectedGrammarIds] = useState<string[]>([]);
     const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
+    const { t } = useTranslation();
 
     const { data, isLoading, fetchGrammarData } = usePaginatedGrammar(page, 20, searchTerm, selectedJLPTLevel);
 
@@ -46,7 +48,7 @@ const GrammarListPage: React.FC = () => {
     return (
         <SectionContainer title={"文法"} isLoading={isLoading || isSaving}>
             <div className="w-full lg:max-w-4xl flex flex-wrap gap-2 text-left px-14 lg:px-0 justify-center">
-                <SearchBar onSearch={setSearchTerm} placeholder="Search Grammar..." />
+                <SearchBar onSearch={setSearchTerm} placeholder="searchPlaceholder" />
 
                 <div className="flex flex-wrap justify-center gap-0.5 pb-2">
                     <div className="relative">
@@ -55,7 +57,7 @@ const GrammarListPage: React.FC = () => {
                             onChange={handleJLPTLevelChange}  
                             className="pl-2 pr-2 py-1.5 border rounded text-sm dark:bg-gray-900 dark:text-white dark:border-gray-700 w-[180px] lg:w-[220px] truncate flex-grow"
                         >
-                            <option value={-1}>All Levels</option> 
+                            <option value={-1}>{t('allLevels')}</option> 
                             {[5, 4, 3, 2, 1].map(level => (
                                 <option key={level} value={level}>
                                     JLPT{level}

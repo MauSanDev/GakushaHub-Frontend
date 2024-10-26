@@ -27,7 +27,7 @@ const GrammarDataElement: React.FC<GrammarDataElementProps> = ({ result, isSelec
 
             <p className="text-gray-600 dark:text-gray-400 mb-4"><LocSpan textKey={result.description} namespace={"grammar_jlpt"+result.jlpt} /></p>
 
-            <CollapsibleSection title="Examples">
+            <CollapsibleSection title="examples">
                 {result.examples.map((example, index) => (
                     <div key={index} className="mt-4">
                         <span className="text-sm text-gray-600 dark:text-gray-300 mr-2">例:</span>

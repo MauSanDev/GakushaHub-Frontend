@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import NoDataMessage from "../../NoDataMessage.tsx";
+import LocSpan from "../../LocSpan.tsx";
 
 interface PaginatedContainerProps<T> {
     documents: T[];
@@ -9,13 +10,7 @@ interface PaginatedContainerProps<T> {
     RenderComponent: FC<{ document: T }>;
 }
 
-const PaginatedContainer = <T,>({
-                                    documents,
-                                    currentPage,
-                                    totalPages,
-                                    onPageChange,
-                                    RenderComponent,
-                                }: PaginatedContainerProps<T>) => {
+const PaginatedContainer = <T,>({documents, currentPage, totalPages, onPageChange, RenderComponent,}: PaginatedContainerProps<T>) => {
     const handlePageClick = (page: number) => {
         if (page >= 1 && page <= totalPages) {
             onPageChange(page);
@@ -102,7 +97,7 @@ const PaginatedContainer = <T,>({
             <div className="pagination-controls flex gapx-2 mx-0.5 w-full justify-center items-center mt-2">
                 {totalPages > 0 ? (
                     <>
-                        <span className="text-gray-400 dark:text-gray-600 text-xs pr-3">Pages:</span>
+                        <LocSpan className="text-gray-400 dark:text-gray-600 text-xs pr-3" textKey={"pagesAmount"} />
                         {renderPageNumbers()}
                     </>
                 ) : (

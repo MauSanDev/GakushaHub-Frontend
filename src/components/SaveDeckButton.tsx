@@ -22,6 +22,7 @@ const SaveDeckButton: React.FC<SaveDeckButtonProps> = ({ kanjiIds, wordIds, gram
     const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
 
     const openModal = () => {
+        if (saved) return;
         setIsModalOpen(true);
     };
 
@@ -31,7 +32,7 @@ const SaveDeckButton: React.FC<SaveDeckButtonProps> = ({ kanjiIds, wordIds, gram
 
     const onSave = (status: SaveStatus) => {
         setSaveStatus(status);
-
+        
         if (status === SaveStatus.Success)
         {
             onSaveStatusChange?.(status)
@@ -44,7 +45,7 @@ const SaveDeckButton: React.FC<SaveDeckButtonProps> = ({ kanjiIds, wordIds, gram
 
 return (
     <>
-        <PrimaryButton onClick={openModal} iconComponent={saved ? <FaCheck /> : <FaSave />} label={saved ? "save" : "saved"} disabled={saved || !haveContent}/>
+        <PrimaryButton onClick={openModal} iconComponent={saved ? <FaCheck /> : <FaSave />} label={saved ? "saved" : "save"} disabled={saved || !haveContent}/>
 
         {isModalOpen &&
             <SaveDeckModal

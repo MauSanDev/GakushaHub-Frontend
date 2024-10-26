@@ -219,5 +219,31 @@
       "target7": "Q1 2023 - Beta Launch",
       "target7desc": "Launch of the beta version of the platform for a limited group of users."
     }
-  }
+  },
+  "studyGroups": "Study Groups",
+  "searchPlaceholder": "Search...",
+  "addDescriptionPlaceholder": "Add a Description...",
+  "allLevels": "All Levels",
+  "showAll": "Show All",
+  "examples": "Examples",
+  "showSelected": "Show Selected",
+  "pagesAmount": "Pages:",
+  "institutions": "Schools",
+  "institution":
+  {
+    "myInstitution": "My School",
+    "myMemberships": "My Memberships",
+    "editSchool": "Edit School",
+    "seeProfile": "See Profile",
+    "membershipTypes":
+    {
+      "owner": "Owner",
+      "staff": "Staff",
+      "sensei": "Sensei",
+      "student": "Student",
+      "none": "None"
+    }
+  },
+  "saved": "Saved",
+  "save": "Save"
 }

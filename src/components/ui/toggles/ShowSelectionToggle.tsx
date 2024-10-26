@@ -14,12 +14,12 @@ const ShowSelectionToggle: React.FC<ShowSelectionToggleProps> = ({ isSelected, o
             onToggle={onToggle}
             onSelected={{
                 icon: <FaEyeSlash />,
-                text: "Show All",
+                text: "showAll",
                 className: "toggle-selected"
             }}
             onDeselected={{
                 icon: <FaEye />,
-                text: "Show Selected",
+                text: "showSelected",
                 className: "toggle-deselected"
             }}
         />
