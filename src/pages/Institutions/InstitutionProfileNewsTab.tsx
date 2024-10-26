@@ -43,7 +43,7 @@ const InstitutionProfileNewsTab: React.FC = () => {
             {/* Search and Button Container */}
             <div className="flex justify-between items-center mb-4">
                     <SearchBar
-                        placeholder="Search news..."
+                        placeholder="searchPlaceholder"
                         onSearch={handleSearch}
                     />
             </div>

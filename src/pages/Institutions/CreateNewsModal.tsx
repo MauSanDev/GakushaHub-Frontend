@@ -97,7 +97,7 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({onClose, onCreateSucce
         <ModalWrapper onClose={onClose}>
             <Container className="w-full">
                 <SectionTitle
-                    title={newsData ? "Edit News Item" : "Create a News Item"}
+                    title={newsData ? "newsKeys.editNews" : "newsKeys.createNews"}
                     className="text-center pb-4"
                 />
 
@@ -129,14 +129,14 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({onClose, onCreateSucce
                     selectedTags={tags}
                     availableTags={availableTags}
                     onChange={setTags}
-                    placeholder="Add Tags"
+                    placeholder="newsKeys.addTags"
                     disabled={false}
                 />
 
                 {error && <p className="text-red-500">{error}</p>} {/* Mostramos el mensaje de error si existe */}
 
                 <PrimaryButton
-                    label={newsData ? "Update" : "Create"}
+                    label={newsData ? "update" : "create"}
                     onClick={handleSaveNews}
                     iconComponent={<FaPaperPlane/>}
                     disabled={

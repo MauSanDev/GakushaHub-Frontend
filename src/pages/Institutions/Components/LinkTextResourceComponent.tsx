@@ -7,6 +7,7 @@ import {CollectionTypes} from "../../../data/CollectionTypes.tsx";
 import {ResourceTypes} from "../../../data/Institutions/ResourceData.ts";
 import {getResourceIcon} from "./ResourceDataElement.tsx";
 import {useDeleteElement} from "../../../hooks/useDeleteElement.ts";
+import {useTranslation} from "react-i18next";
 
 interface LinkTextResourceComponentProps {
     instanceId: string;
@@ -25,7 +26,8 @@ export interface LinkTextResourceData {
 
 const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({institutionId, onDelete}) => {
     const { createResource } = useResources(institutionId, 1, 10); 
-    const { mutateAsync: updateResource } = useUpdateData<LinkTextResourceData>(); 
+    const { mutateAsync: updateResource } = useUpdateData<LinkTextResourceData>();
+    const { t } = useTranslation();
 
     const [localResource, setLocalResource] = useState<LinkTextResourceData>({
         title: '',
@@ -58,11 +60,11 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
 
     const handleSave = async () => {
         if (!localResource?.title.trim()) {
-            setError("Title cannot be empty");
+            setError(t("resourcesKeys.emptyTitle"));
             return;
         }
         if (!isValidUrl) {
-            setError("Url format is invalid");
+            setError(t("resourcesKeys.invalidUrl"));
             return;
         }
         setError(null);
@@ -95,14 +97,14 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
 
             setIsEditing(false);
         } catch (err) {
-            setError("Error saving resource");
+            setError(t("resourcesKeys.saveError"));
             console.error(err);
         }
     };
 
     const handleCancel = () => {
         if (!localResource?.title.trim()) {
-            setError("Title cannot be empty to cancel");
+            setError(t("resourcesKeys.emptyTitle"));
             return;
         }
         
@@ -150,7 +152,7 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
                         <input
                             value={localResource.title}
                             onChange={(e) => handleChange('title', e.target.value)}
-                            placeholder="Title"
+                            placeholder={t("title")}
                             className="w-full p-1 bg-transparent border-b border-gray-200 dark:border-gray-700 focus:outline-none text-lg font-semibold dark:text-white"
                         />
                     ) : (
@@ -194,7 +196,7 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
                     <textarea
                         value={localResource.description || ''}
                         onChange={(e) => handleChange('description', e.target.value)}
-                        placeholder="Description (optional)"
+                        placeholder={t("addDescriptionPlaceholder")}
                         className="w-full p-1 bg-transparent border-b border-gray-200 dark:border-gray-700 focus:outline-none text-sm dark:text-white resize-vertical overflow-hidden"
                         rows={1}
                     />

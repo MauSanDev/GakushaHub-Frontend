@@ -42,7 +42,7 @@ const StudyGroupCourseDataElement: React.FC<StudyGroupCourseDataElementProps> = 
         <Container>
             {canDelete &&
                 <div className="absolute top-2 right-2">
-                    <TertiaryButton onClick={handleRemoveCourse} iconComponent={<FaTrash />} label={"Remove"} />
+                    <TertiaryButton onClick={handleRemoveCourse} iconComponent={<FaTrash />} label={"remove"} />
                 </div>
             }
 

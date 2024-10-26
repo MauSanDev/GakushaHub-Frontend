@@ -7,6 +7,7 @@ import LinkInput from '../../components/ui/text/LinkInput.tsx';
 import { useInstitutionById } from "../../hooks/institutionHooks/useInstitutionById.ts";
 import { useCachedImage } from "../../hooks/newHooks/Resources/useCachedImage.ts";
 import { useUpdateData } from "../../hooks/updateHooks/useUpdateData.ts";
+import LocSpan from "../../components/LocSpan.tsx";
 
 const DEFAULT_PROFILE_IMAGE = 'https://via.placeholder.com/150';
 const DEFAULT_BANNER_IMAGE = 'https://via.placeholder.com/600x200';
@@ -152,7 +153,7 @@ const EditProfilePage: React.FC = () => {
             </div>
 
             <Editable
-                initialValue={data?.name || 'Institution Name'}
+                initialValue={data?.name || 'institution.profileEdition.institutionName'}
                 collection="institution"
                 documentId={institutionId || ''}
                 field="name"
@@ -165,7 +166,7 @@ const EditProfilePage: React.FC = () => {
             <div className="flex flex-col lg:flex-row justify-between w-full max-w-4xl mx-auto mt-6">
                 <div className="flex-1 text-gray-800 dark:text-white px-10 pb-24">
                     <Editable
-                        initialValue={data?.description || 'Add a description'}
+                        initialValue={data?.description || 'addDescriptionPlaceholder'}
                         collection="institution"
                         documentId={institutionId || ''}
                         field="description"
@@ -177,7 +178,7 @@ const EditProfilePage: React.FC = () => {
                 </div>
 
                 <div className="flex-1 ml-8">
-                    <h3 className="text-lg font-bold mb-4 text-white">Social Links</h3>
+                    <h3 className="text-lg font-bold mb-4 text-white"><LocSpan textKey={'institution.profileEdition.socialLinks'} /></h3>
                     {links.map((link, index) => (
                         <div key={index} className="flex items-center mb-2">
                             <LinkInput
@@ -199,7 +200,7 @@ const EditProfilePage: React.FC = () => {
                         onClick={handleAddLink}
                         className="mt-2 flex items-center text-blue-500 hover:text-blue-700"
                     >
-                        <FaPlus className="mr-1" /> Add Link
+                        <FaPlus className="mr-1" /> <LocSpan textKey={'institution.profileEdition.addLink'} />
                     </button>
                 </div>
             </div>

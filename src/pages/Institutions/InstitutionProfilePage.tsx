@@ -42,9 +42,9 @@ const InstitutionProfilePage: React.FC = () => {
     };
 
     const tabs = [
-        { label: 'News', view: 'news', icon: <FaNewspaper /> },
-        { label: 'Schedule', view: 'schedule', icon: <FaCalendarAlt /> },
-        { label: 'Information', view: 'information', icon: <FaInfoCircle /> },
+        { label: 'news', view: 'news', icon: <FaNewspaper /> },
+        { label: 'schedule', view: 'schedule', icon: <FaCalendarAlt /> },
+        { label: 'info', view: 'information', icon: <FaInfoCircle /> },
     ];
 
     const renderTabContent = () => {

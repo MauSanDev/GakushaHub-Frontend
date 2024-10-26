@@ -7,6 +7,7 @@ import NoDataMessage from "../../components/NoDataMessage.tsx";
 import ChatMessageBox from './Chat/ChatMessageBox.tsx';
 import ChatDaySeparator from './Chat/ChatDaySeparator.tsx';
 import { useChatMessages } from '../../hooks/newHooks/Chat/useChatMessages';
+import {useTranslation} from "react-i18next";
 
 interface StudyGroupChatProps {
     studyGroup: StudyGroupData;
@@ -22,6 +23,7 @@ const StudyGroupChat: React.FC<StudyGroupChatProps> = ({ studyGroup, canEdit, ro
 
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
     const chatContainerRef = useRef<HTMLDivElement | null>(null);
+    const { t } = useTranslation();
 
     const { data, isLoading, fetchMessages, sendMessage, isSending } = useChatMessages(studyGroup._id, page, 10);
 
@@ -150,12 +152,12 @@ const StudyGroupChat: React.FC<StudyGroupChatProps> = ({ studyGroup, canEdit, ro
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyPress={handleKeyPress}
                     className="input-field"
-                    placeholder="Write your message..."
+                    placeholder={t("institution.chatKeys.writeMessage")}
                     disabled={!canEdit || isSending}
                 />
                 <PrimaryButton
                     onClick={handleSendMessage}
-                    label="Send"
+                    label="institution.chatKeys.send"
                     iconComponent={<FaPaperPlane />}
                     className="ml-2"
                     disabled={!canEdit || isSending || newMessage.trim() === ''}

@@ -9,6 +9,7 @@ import CreateResourceGroupModal from "../CreateResourceGroupModal.tsx";
 import { useDeleteElement } from "../../../hooks/useDeleteElement";
 import { CollectionTypes } from "../../../data/CollectionTypes";
 import {MembershipRole} from "../../../data/MembershipData.ts";
+import {useTranslation} from "react-i18next";
 
 const InstitutionResourcesGroupTab: React.FC<{ institutionId: string, role: MembershipRole  }> = ({ institutionId, role }) => {
     const [page, setPage] = useState(1);
@@ -17,6 +18,7 @@ const InstitutionResourcesGroupTab: React.FC<{ institutionId: string, role: Memb
 
     const { data, fetchResourceGroups, resetQueries } = useResourceGroups(page, 10, searchQuery);
     const { mutate: deleteGroup } = useDeleteElement();
+    const { t } = useTranslation();
 
     useEffect(() => {
         fetchResourceGroups();
@@ -45,7 +47,7 @@ const InstitutionResourcesGroupTab: React.FC<{ institutionId: string, role: Memb
     const isMaster = role === MembershipRole.Owner || role === MembershipRole.Staff;
 
     const handleDeleteGroup = (groupId: string) => {
-        const isConfirmed = window.confirm("Are you sure you want to delete this group?");
+        const isConfirmed = window.confirm(t("resourcesKeys.removeGroupConfirm"));
         if (isConfirmed) {
             deleteGroup(
                 { elementIds: [groupId], elementType: CollectionTypes.ResourcesGroup },
@@ -63,11 +65,11 @@ const InstitutionResourcesGroupTab: React.FC<{ institutionId: string, role: Memb
         <>
             <div className="flex justify-between items-center mb-4">
                 <SearchBar
-                    placeholder="Search resource groups..."
+                    placeholder="searchPlaceholder"
                     onSearch={handleSearch}
                 />
                 <PrimaryButton
-                    label="Create Group"
+                    label="resourcesKeys.createGroup"
                     iconComponent={<FaPlus />}
                     className="ml-4"
                     onClick={handleOpenModal}

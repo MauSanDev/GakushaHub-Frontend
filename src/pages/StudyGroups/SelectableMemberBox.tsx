@@ -1,6 +1,12 @@
-import React from 'react';
-import { MembershipData, MembershipStatus } from '../../data/MembershipData.ts';
-import SelectableContainer from "../../components/ui/containers/SelectableContainer.tsx";
+import React, { useEffect, useMemo } from 'react';
+import { FaCheck, FaTimes } from 'react-icons/fa';
+import { MembershipData, MembershipStatus } from '../../data/MembershipData';
+import SelectableContainer from "../../components/ui/containers/SelectableContainer";
+import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
+import { useUserInfo } from "../../hooks/newHooks/Courses/useUserInfo";
+import { useCachedImage } from "../../hooks/newHooks/Resources/useCachedImage";
+
+const DEFAULT_USER_IMAGE = 'https://via.placeholder.com/40';
 
 interface SelectableMemberBoxProps {
     member: MembershipData;
@@ -9,52 +15,85 @@ interface SelectableMemberBoxProps {
     onDeselectMember: (member: MembershipData) => void;
 }
 
+const roleColors: { [key: string]: string } = {
+    owner: 'text-purple-500 dark:text-purple-500',
+    staff: 'text-yellow-500 dark:text-yellow-500',
+    sensei: 'text-blue-400 dark:text-blue-400',
+    student: 'text-green-500 dark:text-green-400',
+};
+
 const SelectableMemberBox: React.FC<SelectableMemberBoxProps> = ({ member, isSelected, onSelectMember, onDeselectMember }) => {
+    const { fetchUserInfo, data: userInfo } = useUserInfo([member.userId]);
+    const { imageUrl: userImage } = useCachedImage({
+        path: `users/${member.userId}/profileImage`,
+        defaultImage: DEFAULT_USER_IMAGE,
+    });
+
+    useEffect(() => {
+        if (member.userId) fetchUserInfo();
+    }, [member.userId]);
+
     const toggleSelection = () => {
-        if (isSelected) {
-            onDeselectMember(member);
-        } else {
-            onSelectMember(member);
-        }
+        isSelected ? onDeselectMember(member) : onSelectMember(member);
     };
 
-    const isRegisteredUser = !!member.userId;
+    // Memoize computed values to avoid re-computation on each render
+    const displayName = useMemo(() => {
+        return userInfo?.[member.userId]?.name || member.email;
+    }, [userInfo, member.email, member.userId]);
 
-    const roleColors: { [key: string]: string } = {
-        owner: 'description-purple-500',
-        staff: 'description-yellow-500',
-        sensei: 'description-blue-400',
-        student: 'description-green-500',
-    };
+    const nickname = useMemo(() => {
+        return userInfo?.[member.userId]?.nickname || '';
+    }, [userInfo, member.userId]);
+
+    const isPending = member.status === MembershipStatus.Pending;
+    const isRejected = member.status === MembershipStatus.Rejected;
 
     return (
-        <SelectableContainer isSelected={isSelected} onClick={toggleSelection} className={`flex items-center`}>
-            <img
-                src={isRegisteredUser ? 'https://via.placeholder.com/40' : 'https://via.placeholder.com/40?text=?'}
-                alt={isRegisteredUser ? member.userId?.name : member.email}
-                className="w-10 h-10 rounded-full mr-4"
-            />
-            <div className="flex-1">
-                {isRegisteredUser ? (
-                    <p className="text-md font-bold text-gray-800 dark:text-gray-200">
-                        {member.userId?.name} <span className="pl-4 text-sm text-gray-500 font-normal">{member.email}</span>
-                    </p>
-                ) : (
-                    <p className="text-md font-bold text-gray-800 dark:text-gray-200">{member.email}</p>
-                )}
+        <SelectableContainer isSelected={isSelected} onClick={toggleSelection} className="w-full max-w-4xl my-2">
+            <div className="flex items-center gap-4">
+                <img
+                    src={userImage || DEFAULT_USER_IMAGE}
+                    alt={displayName}
+                    className="w-10 h-10 rounded-full object-cover"
+                />
+
+                <div className="flex-1">
+                    <h3 className="text-md font-bold text-gray-800 dark:text-white">
+                        {displayName}
+                        {nickname && <span className="text-sm text-gray-400 dark:text-gray-500"> ({nickname})</span>}
+                    </h3>
+                    {userInfo && (
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{member.email}</p>
+                    )}
+                </div>
+
+                <span className={`uppercase font-bold ml-4 ${roleColors[member.role]}`}>
+                    {member.role}
+                </span>
             </div>
 
-            {member.status === MembershipStatus.Pending && (
-                <span className="italic text-gray-400 mr-4">Pending approval</span>
+            {isPending && (
+                <div className="flex gap-2 mt-2 sm:mt-0 justify-end">
+                    <span className="italic text-yellow-500 mr-4">Pending approval</span>
+                    <PrimaryButton
+                        onClick={() => onSelectMember(member)}
+                        label="Accept"
+                        className="text-xs w-32 bg-green-500 hover:bg-green-600 dark:bg-green-500 hover:dark:bg-green-600"
+                        iconComponent={<FaCheck />}
+                    />
+                    <PrimaryButton
+                        onClick={() => onDeselectMember(member)}
+                        label="Reject"
+                        className="text-xs w-32 bg-red-500 hover:bg-red-600 dark:bg-red-600 hover:dark:bg-red-600"
+                        iconComponent={<FaTimes />}
+                    />
+                </div>
             )}
 
-            {member.status === MembershipStatus.Rejected && (
-                <span className="italic text-red-400 mr-4">Rejected</span>
+            {isRejected && (
+                <span className="italic text-red-400 mt-4 text-right">Rejected</span>
             )}
-
-            <span className={`uppercase font-bold ml-4 ${roleColors[member.role]}`}>
-                {member.role}
-            </span>
         </SelectableContainer>
     );
 };

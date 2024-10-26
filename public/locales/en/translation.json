@@ -242,8 +242,127 @@
       "sensei": "Sensei",
       "student": "Student",
       "none": "None"
+    },
+    "addStudyGroup": "Create Study Group",
+    "profileEdition":
+    {
+      "institutionName": "Institution Name",
+      "socialLinks": "Social Links",
+      "addLink": "Add Link"
+    },
+    "studyGroupKeys":
+    {
+      "createNewGroup": "Create a new Study Group",
+      "timeBased": "Create time-based course",
+      "optionalFeatures": "Select optional features:",
+      "changeLater": "(You will be able to change these values later)",
+      "enabledSections": "Enabled Sections",
+      "courseDates": "Course Dates",
+      "archive": "Archive"
+    },
+    "chatKeys":
+    {
+      "writeMessage": "Write your message...",
+      "send": "Send",
+      "deletedMessage": "This message was deleted",
+      "editedMessage": "(Edited)",
+      "confirmDelete": "Are you sure you want to delete this message?"
     }
   },
   "saved": "Saved",
-  "save": "Save"
+  "save": "Save",
+  "members": "Members",
+  "resources": "Resources",
+  "resourcesGroups": "Resources Groups",
+  "title": "Title",
+  "update": "Update",
+  "create": "Create",
+  "open": "Open",
+  "goBack": "Go Back",
+  "seeProfile": "See Profile",
+  "editProfile": "Edit Profile",
+  "news": "News",
+  "clearAll": "Clear All",
+  "schedule": "Schedule",
+  "newsKeys": {
+    "createNews": "Create News",
+    "editNews": "Edit News",
+    "addTags": "Add Tags...",
+    "suggestedTags": "Suggested tags"
+  },
+  "resourcesKeys":
+  {
+    "addResources": "Add Resources",
+    "addNewResources": "Add New Resources",
+    "dragAndDrop": "Add or Drag and Drop Resources to upload them",
+    "importFiles": "Import Files",
+    "linkOrText": "Link or Text",
+    "sureToCancel": "Are you sure you want to cancel this upload?",
+    "emptyTitle": "Title cannot be empty",
+    "invalidUrl": "Url format is invalid",
+    "saveError": "Error saving resource",
+    "sureToDelete": "Are you sure you want to delete this resource?",
+    "createGroup": "Create Group",
+    "deleteGroup": "Delete Group",
+    "removeSelected": "Remove Selected",
+    "sort": "Sort",
+    "removeGroupConfirm": "Are you sure you want to remove the selected Group?",
+    "removeSelectedConfirm": "Are you sure you want to remove the selected resources?",
+    "createNewGroup": "Create a New Resource Group",
+    "publicToggle": "If public, all the Members of your Institution will be able to see this group"
+  },
+  "membersKeys":
+  {
+    "addMembers": "Add Members",
+    "enterEmails": "Enter email addresses",
+    "addMembersToInstitution": "Add Members to Institution"
+  },
+  "createCourseKeys": {
+    "title": "Create a new Course for {0}",
+    "courseName": "Enter Course name"
+  },
+  "createLessonKeys": {
+    "title": "Create a new Lesson for {0}",
+    "lessonName": "Enter Lesson name"
+  },
+  "scheduleKeys":
+  {
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    },
+    "weekdays": {
+      "monday": "M",
+      "tuesday": "T",
+      "wednesday": "W",
+      "thursday": "T",
+      "friday": "F",
+      "saturday": "S",
+      "sunday": "S"
+    },
+    "todayEvents": "Today Events:",
+    "upcomingEvents": "Upcoming Events:",
+    "pastEvents": "Past Events:",
+    "scheduledEvents": "Scheduled Events",
+    "addEvent": "Add Event"
+  },
+  "info": "Information",
+  "chat": "Chat",
+  "homework": "Homework",
+  "settings": "Settings",
+  "professor": "Professor",
+  "remove": "Remove",
+  "bindCourses": "Bind Courses",
+  "addMembers": "Add Members",
+  "select": "Select"
 }

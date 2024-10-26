@@ -67,15 +67,15 @@ const AddResourcesGroupToStudyGroupModal: React.FC<AddResourcesGroupToStudyGroup
     return (
         <ModalWrapper onClose={onClose}>
             <Container className="w-full">
-                <SectionTitle title="Add Resource Groups to Study Group" className="text-center pb-4" />
+                <SectionTitle title="resourcesKeys.addResources" className="text-center pb-4" />
 
                 <div className="flex justify-between items-center mb-4">
                     <SearchBar
-                        placeholder="Search resource groups..."
+                        placeholder="searchPlaceholder"
                         onSearch={handleSearch}
                     />
                     <PrimaryButton
-                        label="Add Groups"
+                        label="resourcesKeys.addResources"
                         iconComponent={<FaPlus />}
                         className="ml-4"
                         onClick={handleAddGroups}

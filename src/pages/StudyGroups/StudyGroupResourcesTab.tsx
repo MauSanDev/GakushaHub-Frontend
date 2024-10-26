@@ -56,7 +56,7 @@ const StudyGroupResourcesTab: React.FC<StudyGroupResourcesTabProps> = ({ studyGr
 
             {canEdit && (
                 <PrimaryButton
-                    label="Add Resources"
+                    label="resourcesKeys.addResources"
                     iconComponent={<FaPlus />}
                     onClick={() => setIsAddResourcesModalOpen(true)}
                     className="w-40 text-xs"

@@ -94,12 +94,12 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
         <ModalWrapper onClose={onClose}>
             <Container className={"w-full"}>
                 <div className="flex justify-between items-center">
-                    <SectionTitle title={"Scheduled Events"} className="text-left pt-6" />
+                    <SectionTitle title={"scheduleKeys.scheduledEvents"} className="text-left pt-6" />
 
                     {canEdit && (
                         <PrimaryButton
                             iconComponent={<FaPlus />}
-                            label="Add Event"
+                            label="scheduleKeys.addEvent"
                             onClick={handleAddEvent}
                             className="mt-4 text-nowrap"
                         />

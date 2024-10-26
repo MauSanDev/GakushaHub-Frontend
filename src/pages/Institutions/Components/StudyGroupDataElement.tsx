@@ -1,11 +1,12 @@
 import React from 'react';
-import { FaUser, FaChalkboardTeacher, FaBook, FaFolder } from 'react-icons/fa'; 
+import { FaUser, FaBook, FaFolder } from 'react-icons/fa'; 
 import { StudyGroupData } from '../../../data/Institutions/StudyGroupData.ts';
 import {Link, useParams} from "react-router-dom";
 import Container from "../../../components/ui/containers/Container.tsx";
 import DeleteButton from "../../../components/DeleteButton.tsx";
 import { CollectionTypes } from "../../../data/CollectionTypes.tsx";
 import RoundedTag from "../../../components/ui/text/RoundedTag.tsx";
+import LocSpan from "../../../components/LocSpan.tsx";
 
 interface StudyGroupDataElementProps {
     studyGroup: StudyGroupData;
@@ -44,26 +45,21 @@ const StudyGroupDataElement: React.FC<StudyGroupDataElementProps> = ({ studyGrou
                     </p>
 
                     <div className="flex items-center justify-between mt-1 text-sm text-gray-500 dark:text-gray-400">
-                        <div className="flex items-center gap-4">
-                            <span className="flex items-center">
+                        <div className="flex items-center gap-2">
+                            <span className="flex items-center gap-0.5">
                                 <FaUser className="mr-1"/>
                                 <span>{studyGroup.memberIds?.length}</span>
-                                <span className="hidden sm:inline">Members</span>
+                                <LocSpan textKey={'members'} className="hidden sm:inline" />
                             </span>
-                            <span className="flex items-center">
-                                <FaChalkboardTeacher className="mr-1"/>
-                                <span>{studyGroup.memberIds?.length}</span>
-                                <span className="hidden sm:inline">Teachers</span>
-                            </span>
-                            <span className="flex items-center">
+                            <span className="flex items-center gap-0.5">
                                 <FaBook className="mr-1"/>
                                 <span>{studyGroup.courseIds?.length}</span>
-                                <span className="hidden sm:inline">Courses</span>
+                                <LocSpan textKey={'courses'} className="hidden sm:inline" />
                             </span>
-                            <span className="flex items-center">
+                            <span className="flex items-center gap-0.5">
                                 <FaFolder className="mr-1"/>
                                 <span>{studyGroup.resourcesIds?.length}</span>
-                                <span className="hidden sm:inline">Resources</span>
+                                <LocSpan textKey={'resources'} className="hidden sm:inline" />
                             </span>
                         </div>
 

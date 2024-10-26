@@ -44,11 +44,11 @@ const InstitutionResourcesTab: React.FC<{ institutionId: string, role: Membershi
         <>
             <div className="flex justify-between items-center mb-4">
                 <SearchBar
-                    placeholder="Search resources..."
+                    placeholder="searchPlaceholder"
                     onSearch={handleSearch}
                 />
                 <PrimaryButton
-                    label="Add Resource"
+                    label="resourcesKeys.addResources"
                     iconComponent={<FaPlus />}
                     className="ml-4"
                     onClick={() => setModalOpen(true)}

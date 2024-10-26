@@ -6,6 +6,7 @@ import SelectionToggle from "../../components/ui/toggles/SelectionToggle.tsx";
 import InputField from "../../components/ui/inputs/InputField.tsx";
 import {CollectionTypes} from "../../data/CollectionTypes.tsx";
 import {useNavigate} from "react-router-dom";
+import LocSpan from "../../components/LocSpan.tsx";
 
 interface StudyGroupSettingsProps {
     studyGroup: StudyGroupData;
@@ -58,12 +59,12 @@ const StudyGroupSettings: React.FC<StudyGroupSettingsProps> = ({ studyGroup, can
                 <SelectionToggle
                     isSelected={!isActive}
                     onToggle={() => setIsActive(!isActive)}
-                    textKey={"Archive"}
+                    textKey={"institution.studyGroupKeys.archive"}
                 />
             </div>
             
             <div className="flex flex-col items-start w-full max-w-3xl mt-4">
-                <h3 className="text-lg font-semibold mb-2">Enabled Sections:</h3>
+                <h3 className="text-lg font-semibold mb-2"><LocSpan textKey={"institution.studyGroupKeys.enabledSections"} /></h3>
                 <div className="grid grid-cols-4 gap-4">
                     {sectionOptions.map((section) => (
                         <SelectionToggle
@@ -79,7 +80,7 @@ const StudyGroupSettings: React.FC<StudyGroupSettingsProps> = ({ studyGroup, can
 
             {/* Date Inputs */}
             <div className="flex flex-col items-start w-full max-w-3xl mt-4">
-                <h3 className="text-lg font-semibold mb-2">Course Dates:</h3>
+                <h3 className="text-lg font-semibold mb-2"><LocSpan textKey={"institution.studyGroupKeys.courseDates"} /></h3>
                 <div className="grid grid-cols-2 gap-4">
                     <InputField
                         id="fromDate"
@@ -103,7 +104,7 @@ const StudyGroupSettings: React.FC<StudyGroupSettingsProps> = ({ studyGroup, can
             {/* Save Button */}
             <div className="flex items-center justify-center w-full max-w-3xl mt-6">
                 <PrimaryButton
-                    label="Save"
+                    label="save"
                     onClick={handleSave}
                     disabled={!canEdit}
                     className="w-full"

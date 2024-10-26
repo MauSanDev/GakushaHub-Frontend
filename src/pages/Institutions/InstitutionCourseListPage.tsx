@@ -33,7 +33,7 @@ const InstitutionCourseListPage: React.FC = () => {
             <div className="flex gap-2 mb-4 w-full max-w-4xl justify-between items-center">
                 <SearchBar
                     onSearch={handleSearch}
-                    placeholder="Search courses..."
+                    placeholder="searchPlaceholder"
                 />
                 <div className="ml-4 text-center">
                     <AddCourseButton institutionId={institutionId}/>

@@ -66,12 +66,12 @@ const InstitutionStudyGroupPage: React.FC = () => {
                 <div className="flex items-center justify-between mb-4">
                     <SearchBar
                         onSearch={handleSearch}
-                        placeholder="Search study groups..."
+                        placeholder="searchPlaceholder"
                     />
                     {canModifyStudyGroups && (
                         <PrimaryButton
                             onClick={() => setIsAddGroupModalOpen(true)}
-                            label={"addStudyGroup"}
+                            label={"institution.addStudyGroup"}
                             iconComponent={<FaPlus />}
                             className={"text-xs"}
                         />

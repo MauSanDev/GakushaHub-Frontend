@@ -160,7 +160,7 @@ const StudyGroupContentPage: React.FC = () => {
                         {senseiUserIds.length > 0 && (
                             <p className="inline-flex text-xs text-gray-500 gap-2">
                                 <FaChalkboardTeacher />
-                                <LocSpan textKey={'professors'} />: {senseiUserIds.map(userId => userInfo?.[userId]?.name).join(', ')}
+                                <LocSpan textKey={'professor'} />: {senseiUserIds.map(userId => userInfo?.[userId]?.name).join(', ')}
                             </p>
                         )}
 

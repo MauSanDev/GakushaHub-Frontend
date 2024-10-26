@@ -11,6 +11,8 @@ import NoDataMessage from "../../../components/NoDataMessage.tsx";
 import ResourceListElement from "./ResourceListElement.tsx";
 import AddResourcesToGroupModal from "../AddResourcesToGroupModal.tsx";
 import TertiaryButton from "../../../components/ui/buttons/TertiaryButton.tsx";
+import LocSpan from "../../../components/LocSpan.tsx";
+import {useTranslation} from "react-i18next";
 
 interface ResourceGroupProps {
     resourceGroup: BaseDeckData;
@@ -29,6 +31,7 @@ const ResourceGroupComponent: React.FC<ResourceGroupProps> = ({ resourceGroup, o
 
     const { data: elements, isLoading, fetchElementsData } = useElements<ResourceData>(resourceGroup.elements, CollectionTypes.Resources);
     const { mutate: updateList } = useUpdateList();
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (resourceGroup.elements && resourceGroup.elements.length > 0) {
@@ -56,7 +59,7 @@ const ResourceGroupComponent: React.FC<ResourceGroupProps> = ({ resourceGroup, o
     };
 
     const handleRemoveSelected = () => {
-        const isConfirmed = window.confirm("Are you sure you want to remove the selected resources?");
+        const isConfirmed = window.confirm(t("resourcesKeys.removeSelectedConfirm"));
         if (isConfirmed && selectedResources.length > 0) {
             updateList(
                 {
@@ -103,19 +106,19 @@ const ResourceGroupComponent: React.FC<ResourceGroupProps> = ({ resourceGroup, o
             className={'text-xl'}
             onExpand={onExpanded}
             title={`${resourceGroup.name}`}
-            label={`(${resourceGroup.elements?.length || 0} Resources)`}
+            label={`(${resourceGroup.elements?.length || 0} Items)`}
             actions={(
                 <>
                     {isEditable && (
-                        <TertiaryButton label={"Add Resources"} iconComponent={<FaPlus />} onClick={handleAddResource} className={'text-black'}/>
+                        <TertiaryButton label={"resourcesKeys.addResources"} iconComponent={<FaPlus />} onClick={handleAddResource} className={'text-black'}/>
                     )}
 
                     {canDelete && (
-                        <TertiaryButton label={"Delete Group"} iconComponent={<FaTrash />} onClick={onDelete} className={'text-black'} />
+                        <TertiaryButton label={"resourcesKeys.deleteGroup"} iconComponent={<FaTrash />} onClick={onDelete} className={'text-black'} />
                     )}
 
                     {selectedResources.length > 0 && isEditable && (
-                        <TertiaryButton label={"Remove Selected"} iconComponent={<FaPlus />} onClick={handleRemoveSelected} />
+                        <TertiaryButton label={"resourcesKeys.removeSelected"} iconComponent={<FaPlus />} onClick={handleRemoveSelected} />
                     )}
                 </>
             )}
@@ -126,14 +129,14 @@ const ResourceGroupComponent: React.FC<ResourceGroupProps> = ({ resourceGroup, o
                 
                 (<>
                 <div className="flex justify-between items-center mb-2">
-                    <SearchBar placeholder="Search in group..." onSearch={handleSearch} />
+                    <SearchBar placeholder="searchPlaceholder" onSearch={handleSearch} />
 
                     <button
                         className="flex items-center p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
                         onClick={handleSortChange}
                     >
                         {getSortIcon()}
-                        <span className="ml-1">Sort</span>
+                        <LocSpan textKey={"resourcesKeys.sort"} className="ml-1" />
                     </button>
                 </div>
 

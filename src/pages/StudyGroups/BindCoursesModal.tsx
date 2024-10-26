@@ -61,14 +61,14 @@ const BindCoursesModal: React.FC<BindCoursesModalProps> = ({ onClose, institutio
 
     return (
         <ModalWrapper onClose={onClose}>
-            <SectionContainer title={"Bind Courses to Study Group"} className={"h-[80vh]"} isLoading={isLoading} error={undefined}>
+            <SectionContainer title={"bindCourses"} className={"h-[80vh]"} isLoading={isLoading} error={undefined}>
                 <div className="p-6 max-w-5xl w-full flex flex-col h-[80vh]">
 
                     <div className="flex gap-2 mb-4 w-full max-w-4xl justify-between items-center">
 
-                        <SearchBar onSearch={setSearchTerm} placeholder={"Search Courses..."} />
+                        <SearchBar onSearch={setSearchTerm} placeholder={"searchPlaceholder"} />
                         <div className="flex gap-2">
-                            <PrimaryButton iconComponent={<FaPlus/>} label={isLoading ? 'Adding...' : 'Add Courses'}
+                            <PrimaryButton iconComponent={<FaPlus/>} label={isLoading ? 'loading' : 'bindCourses'}
                                            onClick={handleAddCourses}
                                            disabled={selectedCourses.length === 0 || isLoading} className={"text-sm"}/>
                             <ShowSelectionToggle isSelected={showSelectedOnly}

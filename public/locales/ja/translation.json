@@ -235,10 +235,123 @@
       "owner": "オーナー",
       "staff": "スタッフ",
       "sensei": "先生",
-      "student": "生徒",
+      "student": "学生",
       "none": "なし"
+    },
+    "addStudyGroup": "勉強グループを作成",
+    "profileEdition": {
+      "institutionName": "学校名",
+      "socialLinks": "ソーシャルリンク",
+      "addLink": "リンクを追加"
+    },
+    "studyGroupKeys": {
+      "createNewGroup": "新しい勉強グループを作成",
+      "timeBased": "時間ベースのコースを作成",
+      "optionalFeatures": "オプション機能を選択：",
+      "changeLater": "（これらの値は後で変更できます）",
+      "enabledSections": "有効なセクション",
+      "courseDates": "コースの日程",
+      "archive": "アーカイブ"
+    },
+    "chatKeys": {
+      "writeMessage": "メッセージを入力...",
+      "send": "送信",
+      "deletedMessage": "このメッセージは削除されました",
+      "editedMessage": "（編集済み）",
+      "confirmDelete": "このメッセージを削除してもよろしいですか？"
     }
   },
   "saved": "保存完了",
-  "save": "保存する"
+  "save": "保存する",
+  "members": "メンバー",
+  "resources": "リソース",
+  "resourcesGroups": "リソースグループ",
+  "title": "タイトル",
+  "update": "更新",
+  "create": "作成",
+  "open": "開く",
+  "goBack": "戻る",
+  "seeProfile": "プロフィールを見る",
+  "editProfile": "プロフィール",
+  "news": "ニュース",
+  "clearAll": "すべてクリア",
+  "schedule": "スケジュール",
+  "newsKeys": {
+    "createNews": "ニュースを作成",
+    "editNews": "ニュースを編集",
+    "addTags": "タグを追加...",
+    "suggestedTags": "おすすめのタグ"
+  },
+  "resourcesKeys": {
+    "addResources": "リソースを追加",
+    "addNewResources": "新しいリソースを追加",
+    "dragAndDrop": "リソースを追加またはドラッグ＆ドロップでアップロード",
+    "importFiles": "ファイルをインポート",
+    "linkOrText": "リンクまたはテキスト",
+    "sureToCancel": "本当にこのアップロードをキャンセルしますか？",
+    "emptyTitle": "タイトルは空にできません",
+    "invalidUrl": "URL形式が無効です",
+    "saveError": "リソースの保存エラー",
+    "sureToDelete": "本当にこのリソースを削除しますか？",
+    "createGroup": "グループを作成",
+    "deleteGroup": "グループを削除",
+    "removeSelected": "選択を削除",
+    "sort": "並べ替え",
+    "removeGroupConfirm": "本当に選択したグループを削除しますか？",
+    "removeSelectedConfirm": "本当に選択したリソースを削除しますか？",
+    "createNewGroup": "新しいリソースグループを作成",
+    "publicToggle": "公開の場合、学校の全メンバーがこのグループを見ることができます"
+  },
+  "membersKeys": {
+    "addMembers": "メンバーを追加",
+    "enterEmails": "メールアドレスを入力",
+    "addMembersToInstitution": "学校にメンバーを追加"
+  },
+  "createCourseKeys": {
+    "title": "{0}の新しいコースを作成",
+    "courseName": "コース名を入力"
+  },
+  "createLessonKeys": {
+    "title": "{0}の新しいレッスンを作成",
+    "lessonName": "レッスン名を入力"
+  },
+  "scheduleKeys": {
+    "months": {
+      "january": "1月",
+      "february": "2月",
+      "march": "3月",
+      "april": "4月",
+      "may": "5月",
+      "june": "6月",
+      "july": "7月",
+      "august": "8月",
+      "september": "9月",
+      "october": "10月",
+      "november": "11月",
+      "december": "12月"
+    },
+    "weekdays": {
+      "monday": "月",
+      "tuesday": "火",
+      "wednesday": "水",
+      "thursday": "木",
+      "friday": "金",
+      "saturday": "土",
+      "sunday": "日"
+    },
+    "todayEvents": "今日のイベント:",
+    "upcomingEvents": "今後のイベント:",
+    "pastEvents": "過去のイベント:",
+    "scheduledEvents": "予定されたイベント",
+    "addEvent": "イベントを追加"
+  },
+  "info": "情報",
+  "chat": "チャット",
+  "homework": "宿題",
+  "settings": "設定",
+  "professor": "教授",
+  "remove": "削除",
+  "bindCourses": "コースをバインド",
+  "addMembers": "メンバーを追加",
+  "select": "選択"
 }

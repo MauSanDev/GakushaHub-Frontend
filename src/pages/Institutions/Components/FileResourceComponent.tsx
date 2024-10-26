@@ -8,6 +8,7 @@ import { CollectionTypes } from "../../../data/CollectionTypes.tsx";
 import { ResourceTypes } from "../../../data/Institutions/ResourceData.ts";
 import { getResourceIcon } from "./ResourceDataElement.tsx";
 import {useDeleteElement} from "../../../hooks/useDeleteElement.ts";
+import {useTranslation} from "react-i18next";
 
 export interface FileResourceData {
     _id?: string;
@@ -65,6 +66,7 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
     const [error, setError] = useState<string | null>(null);
     const [resourcePath, setResourcePath] = useState<string>(`institutions/${institutionId}/resources/${file.name}`);
     const { mutate: deleteResource} = useDeleteElement();
+    const { t } = useTranslation();
 
     const { uploadProgress, isUploading, cancelOrDelete, error: uploadError, uploadFile } = useUploadFile({
         path: `institutions/${institutionId}/resources/${file.name}`, 
@@ -146,7 +148,7 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
     };
 
     const handleCancelUpload = () => {
-        const confirmCancel = window.confirm("Are you sure you want to cancel this upload?");
+        const confirmCancel = window.confirm(t("resourcesKeys.sureToCancel"));
         if (confirmCancel) {
             cancelOrDelete();
 
@@ -237,7 +239,7 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
             {isEditing ? (
                 <textarea
                     className="w-full p-2 bg-transparent border-b border-gray-200 dark:border-gray-700 focus:outline-none text-sm dark:text-white resize-vertical"
-                    placeholder="Description (optional)"
+                    placeholder={t(`addDescriptionPlaceholder`)}
                     value={localResource.description || ''}
                     onChange={(e) => handleChange('description', e.target.value)}
                     rows={1}

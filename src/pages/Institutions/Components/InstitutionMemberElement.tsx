@@ -5,6 +5,7 @@ import { useChangeMembershipStatus } from "../../../hooks/institutionHooks/useCh
 import { useUpdateData } from "../../../hooks/updateHooks/useUpdateData.ts";
 import { useUserInfo } from "../../../hooks/newHooks/Courses/useUserInfo.ts";
 import { useCachedImage } from '../../../hooks/newHooks/Resources/useCachedImage.ts';
+import {useTranslation} from "react-i18next";
 
 const DEFAULT_USER_IMAGE = 'https://via.placeholder.com/40';
 
@@ -31,6 +32,8 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
     const { mutate: changeMembershipStatus } = useChangeMembershipStatus();
     const { mutate: updateMemberRole } = useUpdateData<Partial<MembershipData>>();
     const { fetchUserInfo, data: userInfo } = useUserInfo([member?.userId]);
+    const { t } = useTranslation();
+
 
     const { imageUrl: userImage } = useCachedImage({
         path: `users/${member.userId}/profileImage`,
@@ -123,10 +126,10 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
                         onChange={handleRoleChange}
                         className={`uppercase font-bold cursor-pointer focus:outline-none bg-transparent mr-4 ${roleColors[selectedRole]}`}
                     >
-                        {userRole === 'owner' && <option value="owner">Master</option>}
-                        <option value="staff">Staff</option>
-                        <option value="sensei">Sensei</option>
-                        <option value="student">Student</option>
+                        {userRole === 'owner' && <option value="owner">{t("institution.membershipTypes.owner")}</option>}
+                        <option value="staff">{t("institution.membershipTypes.staff")}</option>
+                        <option value="sensei">{t("institution.membershipTypes.sensei")}</option>
+                        <option value="student">{t("institution.membershipTypes.student")}</option>
                     </select>
                 ) : (
                     <span className={`uppercase font-bold mr-4 ${roleColors[selectedRole]}`}>

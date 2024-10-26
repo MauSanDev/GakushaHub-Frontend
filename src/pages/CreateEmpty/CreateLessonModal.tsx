@@ -3,7 +3,7 @@ import ModalWrapper from '../ModalWrapper';
 import { useCreateLesson } from '../../hooks/coursesHooks/useCreateLesson';
 import InputField from "../../components/ui/inputs/InputField";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
-import SectionTitle from "../../components/ui/text/SectionTitle";
+import LocSpan from "../../components/LocSpan.tsx";
 
 interface CreateLessonModalProps {
     onClose: () => void;
@@ -44,8 +44,9 @@ const CreateLessonModal: React.FC<CreateLessonModalProps> = ({ onClose, onCreate
     return (
         <ModalWrapper onClose={onClose}>
             <div className="relative w-full mt-2 p-6 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
-                <SectionTitle title={`Create a New Lesson in 「${courseName}`} className="text-center pb-4" />
-
+                <h2 className="text-2xl font-bold mb-4 text-blue-900 dark:text-white text-center">
+                    <LocSpan textKey={"createLessonKeys.title"} replacements={[courseName as string]}/>
+                </h2>
                 <InputField
                     id="lessonName"
                     value={lessonName}
@@ -53,7 +54,7 @@ const CreateLessonModal: React.FC<CreateLessonModalProps> = ({ onClose, onCreate
                         setLessonName(e.target.value);
                         setError(null); 
                     }}
-                    placeholder="Enter lesson name"
+                    placeholder="lessonName"
                     disabled={isLoading}
                     error={error}
                 />
@@ -62,7 +63,7 @@ const CreateLessonModal: React.FC<CreateLessonModalProps> = ({ onClose, onCreate
 
                 <div className="flex justify-center mt-4">
                     <PrimaryButton
-                        label="Create"
+                        label="create"
                         onClick={handleCreateLesson}
                         disabled={isLoading || lessonName.trim() === ''}
                         className={`w-full ${isLoading || lessonName.trim() === '' ? 'opacity-50 cursor-not-allowed' : ''}`}

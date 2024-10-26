@@ -8,6 +8,7 @@ import {useUpdateData} from '../../../hooks/updateHooks/useUpdateData';
 import TertiaryButton from "../../../components/ui/buttons/TertiaryButton.tsx";
 import {useDeleteElement} from "../../../hooks/useDeleteElement.ts";
 import ResourceDisplayModal from "../ResourceDisplayModal.tsx";
+import {useTranslation} from "react-i18next";
 
 interface ResourceDataElementProps {
     resourceData: ResourceData;
@@ -45,6 +46,7 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
     const [localResource, setLocalResource] = useState<ResourceData>(resourceData);
     const [isValidUrl, setIsValidUrl] = useState<boolean>(true);
     const { mutate: deleteResource} = useDeleteElement();
+    const { t } = useTranslation();
 
 
     const { deleteFile } = useUploadFile({
@@ -113,7 +115,7 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
     };
 
     const handleDelete = async () => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this resource?");
+        const confirmDelete = window.confirm(t("resourcesKeys.sureToDelete"));
 
         if (confirmDelete) {
             if (resourceData.type !== ResourceTypes.LinkText)
@@ -155,7 +157,7 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
                                     <input
                                         value={localResource.title}
                                         onChange={(e) => handleChange('title', e.target.value)}
-                                        placeholder="Title"
+                                        placeholder={t("title")}
                                         className="w-full p-1 bg-transparent border-b border-gray-200 dark:border-gray-700 focus:outline-none text-lg font-semibold dark:text-white"
                                     />
 
@@ -171,7 +173,7 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
                                     <textarea
                                         value={localResource.description || ''}
                                         onChange={(e) => handleChange('description', e.target.value)}
-                                        placeholder="Description"
+                                        placeholder={t("addDescriptionPlaceholder")}
                                         className="w-full p-1 bg-transparent border-b border-gray-200 dark:border-gray-700 focus:outline-none text-sm dark:text-white resize-vertical"
                                         rows={2}
                                     />
@@ -224,7 +226,7 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
                                 <>
                                     {canEdit && <TertiaryButton iconComponent={<FaEdit />} onClick={() => setIsEditing(true)} />}
                                     {canEdit && <TertiaryButton iconComponent={<FaTrash />} onClick={handleDelete} className="hover:text-red-500"/>}
-                                    <TertiaryButton iconComponent={<FaFolderOpen />} label={"Open"} onClick={openModal} />
+                                    <TertiaryButton iconComponent={<FaFolderOpen />} label={"open"} onClick={openModal} />
                                 </>
                         )}
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from "react-i18next";
 
 interface TextAreaProps {
     id: string;
@@ -21,13 +22,15 @@ const TextArea: React.FC<TextAreaProps> = ({
                                                rows = 4,
                                                className = '',
                                            }) => {
+    const { t } = useTranslation();
+
     return (
         <>
             <textarea
                 id={id}
                 value={value}
                 onChange={onChange}
-                placeholder={placeholder}
+                placeholder={t(placeholder)}
                 disabled={disabled}
                 className={`input-field w-full mb-2 ${error ? 'border-red-500' : ''} ${className}`}
                 rows={rows}

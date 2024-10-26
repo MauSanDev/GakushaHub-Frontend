@@ -4,6 +4,7 @@ import { ScheduleEventData } from "../../../data/ScheduleEventData.ts";
 import { useSchedule } from "../../../hooks/newHooks/Courses/useSchedule.ts";
 import { useAuth } from "../../../context/AuthContext.tsx";
 import CreatorLabel from "../../../components/ui/text/CreatorLabel.tsx";
+import {useTranslation} from "react-i18next";
 
 interface ScheduleEventDataElementProps {
     eventData: ScheduleEventData;
@@ -35,6 +36,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
     });
 
     const { createScheduleEvent, isCreating } = useSchedule(eventData.institutionId, eventData.timestamp, 1, 10, eventData.studyGroupId);
+    const { t } = useTranslation();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -111,7 +113,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
                             value={editedEvent.name}
                             onChange={handleInputChange}
                             className="text-md font-bold w-full text-gray-600 dark:text-white bg-transparent border-b-2 border-gray-300 dark:border-gray-800 focus:outline-none"
-                            placeholder="Event Title"
+                            placeholder={t("title")}
                         />
                     ) : (
                         <h2 className="text-md font-bold text-gray-600 dark:text-white">
@@ -184,7 +186,7 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
                     value={editedEvent.desc || ''}
                     onChange={handleInputChange}
                     className="text-sm text-gray-600 dark:text-white bg-transparent border-b-2 border-gray-300 focus:outline-none w-full  dark:border-gray-800"
-                    placeholder="Event description (optional)"
+                    placeholder={t("addDescriptionPlaceholder")}
                 />
             )}
 

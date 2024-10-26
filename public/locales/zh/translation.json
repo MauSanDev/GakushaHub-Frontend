@@ -237,8 +237,122 @@
       "sensei": "老师",
       "student": "学生",
       "none": "无"
+    },
+    "addStudyGroup": "创建学习小组",
+    "profileEdition": {
+      "institutionName": "机构名称",
+      "socialLinks": "社交链接",
+      "addLink": "添加链接"
+    },
+    "studyGroupKeys": {
+      "createNewGroup": "创建新的学习小组",
+      "timeBased": "创建基于时间的课程",
+      "optionalFeatures": "选择可选功能：",
+      "changeLater": "（稍后可以更改这些值）",
+      "enabledSections": "启用的部分",
+      "courseDates": "课程日期",
+      "archive": "归档"
+    },
+    "chatKeys": {
+      "writeMessage": "写下你的消息...",
+      "send": "发送",
+      "deletedMessage": "此消息已被删除",
+      "editedMessage": "（已编辑）",
+      "confirmDelete": "确定要删除此消息吗？"
     }
   },
   "saved": "已保存",
-  "save": "保存"
+  "save": "保存",
+  "members": "成员",
+  "resources": "资源",
+  "resourcesGroups": "资源组",
+  "title": "标题",
+  "update": "更新",
+  "create": "创建",
+  "open": "打开",
+  "goBack": "返回",
+  "seeProfile": "查看资料",
+  "editProfile": "编辑资料",
+  "news": "新闻",
+  "clearAll": "清除全部",
+  "schedule": "日程",
+  "newsKeys": {
+    "createNews": "创建新闻",
+    "editNews": "编辑新闻",
+    "addTags": "添加标签...",
+    "suggestedTags": "推荐标签"
+  },
+  "resourcesKeys": {
+    "addResources": "添加资源",
+    "addNewResources": "添加新资源",
+    "dragAndDrop": "添加或拖放资源以上传",
+    "importFiles": "导入文件",
+    "linkOrText": "链接或文本",
+    "sureToCancel": "确定要取消此上传吗？",
+    "emptyTitle": "标题不能为空",
+    "invalidUrl": "URL格式无效",
+    "saveError": "保存资源出错",
+    "sureToDelete": "确定要删除此资源吗？",
+    "createGroup": "创建组",
+    "deleteGroup": "删除组",
+    "removeSelected": "移除所选项",
+    "sort": "排序",
+    "removeGroupConfirm": "确定要删除选定的组吗？",
+    "removeSelectedConfirm": "确定要移除选定的资源吗？",
+    "createNewGroup": "创建新资源组",
+    "publicToggle": "如果设为公开，您的机构内所有成员将能够查看该组"
+  },
+  "membersKeys": {
+    "addMembers": "添加成员",
+    "enterEmails": "输入电子邮件地址",
+    "addMembersToInstitution": "将成员添加到机构"
+  },
+  "createCourseKeys": {
+    "title": "为 {0} 创建新课程",
+    "courseName": "输入课程名称"
+  },
+  "createLessonKeys": {
+    "title": "为 {0} 创建新课程",
+    "lessonName": "输入课程名称"
+  },
+  "scheduleKeys": {
+    "months": {
+      "january": "一月",
+      "february": "二月",
+      "march": "三月",
+      "april": "四月",
+      "may": "五月",
+      "june": "六月",
+      "july": "七月",
+      "august": "八月",
+      "september": "九月",
+      "october": "十月",
+      "november": "十一月",
+      "december": "十二月"
+    },
+    "weekdays": {
+      "monday": "一",
+      "tuesday": "二",
+      "wednesday": "三",
+      "thursday": "四",
+      "friday": "五",
+      "saturday": "六",
+      "sunday": "日"
+    },
+    "todayEvents": "今日事件:",
+    "upcomingEvents": "即将到来的事件:",
+    "pastEvents": "过去的事件:",
+    "scheduledEvents": "计划的事件",
+    "addEvent": "添加事件"
+  },
+  "info": "信息",
+  "chat": "聊天",
+  "homework": "作业",
+  "settings": "设置",
+  "professor": "教授",
+  "remove": "移除",
+  "bindCourses": "绑定课程",
+  "addMembers": "添加成员",
+  "select": "选择"
+
 }

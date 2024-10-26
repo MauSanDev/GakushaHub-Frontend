@@ -53,7 +53,7 @@ const NewsPage: React.FC = () => {
                     {/* SearchBar */}
                     <div className="w-3/4">
                         <SearchBar
-                            placeholder="Search news..."
+                            placeholder="searchPlaceholder"
                             onSearch={handleSearch}
                         />
                     </div>
@@ -61,7 +61,7 @@ const NewsPage: React.FC = () => {
                     {/* Botón al lado derecho */}
                     <div className="w-1/4 flex justify-end">
                         <PrimaryButton
-                            label="Add News"
+                            label="news.createNews"
                             iconComponent={<FaPlus />}
                             className="ml-2"
                             onClick={() => handleOpenModal()} 

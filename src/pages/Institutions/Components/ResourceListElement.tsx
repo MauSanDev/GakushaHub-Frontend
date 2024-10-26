@@ -84,7 +84,7 @@ const ResourceListElement: React.FC<ResourceListElementProps> = ({ resourceData,
                         </div>
                     )}
                     <div className="flex items-center space-x-0.5">
-                        {canOpen && <TertiaryButton iconComponent={<FaFolderOpen />} label="Open" onClick={openModal} />}
+                        {canOpen && <TertiaryButton iconComponent={<FaFolderOpen />} label="open" onClick={openModal} />}
                         {isSelected && (
                             <FaCheck className="text-green-500 ml-2" />
                         )}

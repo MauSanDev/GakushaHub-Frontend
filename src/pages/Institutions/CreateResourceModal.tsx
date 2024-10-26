@@ -5,6 +5,7 @@ import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
 import { FaPlus, FaFileImport, FaLink } from 'react-icons/fa';
 import FileResourceComponent from './Components/FileResourceComponent';
 import LinkTextResourceComponent from './Components/LinkTextResourceComponent';
+import LocSpan from "../../components/LocSpan.tsx";
 
 export interface NewResourceData {
     _id: string;
@@ -83,11 +84,11 @@ const CreateResourceModal: React.FC<CreateResourceModalProps> = ({ onClose, inst
                  onDragLeave={() => setIsDragging(false)}
                  onDrop={(e) => { e.preventDefault(); setIsDragging(false); handleFileImport(e as any); }}>
 
-                <SectionTitle title="Add New Resources" className="text-center pb-4" />
+                <SectionTitle title="resourcesKeys.addNewResources" className="text-center pb-4" />
 
                 <div className="flex justify-between items-center mb-4 w-full">
                     <div className="relative">
-                        <PrimaryButton label="Add Resource" iconComponent={<FaPlus />} className="mr-2" onClick={() => setShowDropdown(!showDropdown)} />
+                        <PrimaryButton label="resourcesKeys.addResources" iconComponent={<FaPlus />} className="mr-2" onClick={() => setShowDropdown(!showDropdown)} />
                         {showDropdown && (
                             <div className="flex flex-col items-start justify-center text-wrap text-xs absolute bg-white dark:bg-gray-800 border dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded shadow-lg p-2 z-10">
                                 <button className="w-full flex items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-600" onClick={() => { setShowDropdown(false); fileInputRef.current?.click(); }}>
@@ -110,7 +111,7 @@ const CreateResourceModal: React.FC<CreateResourceModalProps> = ({ onClose, inst
                 )}
 
                 {resources.length === 0 ? (
-                    <p className="text-center text-gray-500 mt-6">Add or Drag and Drop Resources to upload them</p>
+                    <p className="text-center text-gray-500 mt-6"><LocSpan textKey={'resourcesKeys.dragAndDrop'} /></p>
                 ) : (
                     <div className="flex-col w-full">
                         {resources.map(resource => (

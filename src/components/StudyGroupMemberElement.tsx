@@ -6,6 +6,7 @@ import { CollectionTypes } from "../data/CollectionTypes.tsx";
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
 import { useUserInfo } from "../hooks/newHooks/Courses/useUserInfo.ts";
 import { useCachedImage } from "../hooks/newHooks/Resources/useCachedImage.ts";
+import LocSpan from "./LocSpan.tsx";
 
 const DEFAULT_USER_IMAGE = 'https://via.placeholder.com/40';
 
@@ -82,11 +83,11 @@ const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ membe
                 {(member.role === MembershipRole.Owner || member.role === MembershipRole.Staff || member.role === MembershipRole.Sensei) &&
                     <div className="flex items-center gap-2 text-2xl text-blue-500 dark:text-gray-300">
                         <FaChalkboardTeacher/>
-                        <span className="text-sm">Professor</span>
+                        <LocSpan textKey={'professor'} className="text-sm" />
                     </div>
                 }
                 {canEdit &&
-                    <TertiaryButton onClick={handleRemoveClick} iconComponent={<FaTrash/>} label={"Remove"}/>
+                    <TertiaryButton onClick={handleRemoveClick} iconComponent={<FaTrash/>} label={"remove"}/>
                 }
             </div>
         </div>

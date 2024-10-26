@@ -84,12 +84,12 @@ const InstitutionMembersPage: React.FC = () => {
                 <div className="flex items-center justify-between mb-4">
                     <SearchBar
                         onSearch={handleSearch}
-                        placeholder="Search members..."
+                        placeholder="searchPlaceholder"
                     />
                     {canManageMembers && (
                         <PrimaryButton
                             onClick={() => setIsAddMemberModalOpen(true)}
-                            label={"addMember"}
+                            label={"membersKeys.addMembers"}
                             iconComponent={<FaPlus />}
                             className={"text-xs"}
                         />

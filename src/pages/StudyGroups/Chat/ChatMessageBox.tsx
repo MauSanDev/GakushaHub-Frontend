@@ -7,6 +7,8 @@ import { useUpdateData } from "../../../hooks/updateHooks/useUpdateData.ts";
 import { CollectionTypes } from "../../../data/CollectionTypes.tsx";
 import { ChatMessageData } from "../../../data/ChatMessageData.ts";
 import { useCachedImage } from '../../../hooks/newHooks/Resources/useCachedImage.ts';
+import {useTranslation} from "react-i18next";
+import LocSpan from "../../../components/LocSpan.tsx";
 
 const DEFAULT_PROFILE_IMAGE = 'https://via.placeholder.com/150';
 
@@ -24,6 +26,7 @@ const ChatMessageBox: React.FC<ChatMessageBoxProps> = ({ messageData, viewerRole
     const [localMessageData, setLocalMessageData] = useState<ChatMessageData>(messageData);
     const messageInputRef = useRef<HTMLTextAreaElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const { t } = useTranslation();
 
     const { mutate: updateMessage } = useUpdateData();
 
@@ -65,7 +68,7 @@ const ChatMessageBox: React.FC<ChatMessageBoxProps> = ({ messageData, viewerRole
     };
 
     const handleDeleteMessage = () => {
-        const confirmed = window.confirm("Are you sure you want to delete this message?");
+        const confirmed = window.confirm(t("institution.chatKeys.confirmDelete"));
         if (confirmed) {
             updateMessage({
                 collection: CollectionTypes.Chat,
@@ -111,7 +114,7 @@ const ChatMessageBox: React.FC<ChatMessageBoxProps> = ({ messageData, viewerRole
         }
     };
 
-    const message = localMessageData.status === 'edited' ? "(Edited)" : localMessageData.status === 'deleted' ? "This message was deleted" : '';
+    const message = localMessageData.status === 'edited' ? "institution.chatKeys.editedMessage" : localMessageData.status === 'deleted' ? "institution.chatKeys.deletedMessage" : '';
 
     return (
         <div className={`flex ${isFromUser ? 'justify-end' : 'justify-start'} items-start gap-2`}>
@@ -152,9 +155,17 @@ const ChatMessageBox: React.FC<ChatMessageBoxProps> = ({ messageData, viewerRole
                         style={{ resize: 'none' }}
                     />
                 ) : (
+                    <>
                     <div className="text-sm">
-                        <span>{messageData.status !== 'deleted' ? localMessageData.message : ''}</span> <span className="text-xs italic">{message}</span>
+
+                        {messageData.status !== 'deleted' &&
+                            (
+                                <span className={'px-1'}>{localMessageData.message}</span>
+                            )
+                        }
+                        <LocSpan textKey={message} className="text-xs italic" />
                     </div>
+                    </>
                 )}
 
                 {canEditOrDelete && showDropdown && (

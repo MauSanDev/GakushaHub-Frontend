@@ -31,7 +31,7 @@ const SelectableResourceGroupComponent: React.FC<SelectableResourceGroupProps> =
                 label={`(${resourceGroup.elements?.length || 0} Resources)`}
                 actions={(
                     <TertiaryButton
-                        label={"Select"}
+                        label={"select"}
                         iconComponent={isSelected ? <FaCheck /> : ""}
                         onClick={() => onSelected(resourceGroup._id)}
                     />

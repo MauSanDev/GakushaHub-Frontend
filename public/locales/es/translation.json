@@ -233,12 +233,124 @@
     "seeProfile": "Ver Perfil",
     "membershipTypes": {
       "owner": "Propietario",
-      "staff": "Personal",
+      "staff": "Staff",
       "sensei": "Sensei",
       "student": "Estudiante",
-      "none": "Ninguno"
+      "none": "Ninguno",
+      "addStudyGroup": "Crear Grupo de Estudio",
+      "profileEdition": {
+        "institutionName": "Nombre de la Institución",
+        "socialLinks": "Enlaces Sociales",
+        "addLink": "Agregar Enlace"
+      }
+    },
+    "studyGroupKeys": {
+      "createNewGroup": "Crear un nuevo Grupo de Estudio",
+      "timeBased": "Crear curso basado en tiempo",
+      "optionalFeatures": "Seleccionar características opcionales:",
+      "changeLater": "(Podrás cambiar estos valores más adelante)",
+      "enabledSections": "Secciones Habilitadas",
+      "courseDates": "Fechas del Curso",
+      "archive": "Archivo"
+    },
+    "chatKeys": {
+      "writeMessage": "Escribe tu mensaje...",
+      "send": "Enviar",
+      "deletedMessage": "Este mensaje fue eliminado",
+      "editedMessage": "(Editado)",
+      "confirmDelete": "¿Estás seguro de que deseas eliminar este mensaje?"
     }
   },
   "saved": "Guardado",
-  "save": "Guardar"
+  "save": "Guardar",  "members": "Miembros",
+  "resources": "Recursos",
+  "resourcesGroups": "Grupos de Recursos",
+  "title": "Título",
+  "update": "Actualizar",
+  "create": "Crear",
+  "open": "Abrir",
+  "goBack": "Regresar",
+  "seeProfile": "Ver Perfil",
+  "editProfile": "Editar Perfil",
+  "news": "Noticias",
+  "clearAll": "Limpiar Todo",
+  "schedule": "Horario",
+  "newsKeys": {
+    "createNews": "Crear Noticia",
+    "editNews": "Editar Noticia",
+    "addTags": "Agregar Etiquetas...",
+    "suggestedTags": "Etiquetas sugeridas"
+  },
+  "resourcesKeys": {
+    "addResources": "Agregar Recursos",
+    "addNewResources": "Agregar Nuevos Recursos",
+    "dragAndDrop": "Agregar o Arrastrar y Soltar Recursos para subirlos",
+    "importFiles": "Importar Archivos",
+    "linkOrText": "Enlace o Texto",
+    "sureToCancel": "¿Estás seguro de que deseas cancelar esta subida?",
+    "emptyTitle": "El título no puede estar vacío",
+    "invalidUrl": "El formato de la URL no es válido",
+    "saveError": "Error al guardar el recurso",
+    "sureToDelete": "¿Estás seguro de que deseas eliminar este recurso?",
+    "createGroup": "Crear Grupo",
+    "deleteGroup": "Eliminar Grupo",
+    "removeSelected": "Eliminar Seleccionado",
+    "sort": "Ordenar",
+    "removeGroupConfirm": "¿Estás seguro de que deseas eliminar el Grupo seleccionado?",
+    "removeSelectedConfirm": "¿Estás seguro de que deseas eliminar los recursos seleccionados?",
+    "createNewGroup": "Crear un Nuevo Grupo de Recursos",
+    "publicToggle": "Si es público, todos los miembros de tu institución podrán ver este grupo"
+  },
+  "membersKeys": {
+    "addMembers": "Agregar Miembros",
+    "enterEmails": "Ingresar direcciones de correo electrónico",
+    "addMembersToInstitution": "Agregar Miembros a la Institución"
+  },
+  "createCourseKeys": {
+    "title": "Crear un nuevo Curso para {0}",
+    "courseName": "Ingresa el nombre del Curso"
+  },
+  "createLessonKeys": {
+    "title": "Crear una nueva Lección para {0}",
+    "lessonName": "Ingresa el nombre de la Lección"
+  },
+  "scheduleKeys": {
+    "months": {
+      "january": "Enero",
+      "february": "Febrero",
+      "march": "Marzo",
+      "april": "Abril",
+      "may": "Mayo",
+      "june": "Junio",
+      "july": "Julio",
+      "august": "Agosto",
+      "september": "Septiembre",
+      "october": "Octubre",
+      "november": "Noviembre",
+      "december": "Diciembre"
+    },
+    "weekdays": {
+      "monday": "L",
+      "tuesday": "M",
+      "wednesday": "M",
+      "thursday": "J",
+      "friday": "V",
+      "saturday": "S",
+      "sunday": "D"
+    },
+    "todayEvents": "Eventos de Hoy:",
+    "upcomingEvents": "Próximos Eventos:",
+    "pastEvents": "Eventos Pasados:",
+    "scheduledEvents": "Eventos Programados",
+    "addEvent": "Agregar Evento"
+  },
+  "info": "Información",
+  "chat": "Chat",
+  "homework": "Tarea",
+  "settings": "Configuración",
+  "professor": "Profesor",
+  "remove": "Eliminar",
+  "bindCourses": "Vincular Cursos",
+  "addMembers": "Agregar Miembros",
+  "select": "Seleccionar"
 }

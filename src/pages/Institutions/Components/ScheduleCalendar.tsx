@@ -4,20 +4,21 @@ import { ScheduleEventData } from "../../../data/ScheduleEventData.ts";
 import { useSchedule } from "../../../hooks/newHooks/Courses/useSchedule.ts";
 import NoDataMessage from "../../../components/NoDataMessage.tsx";
 import ScheduleEventsModal from "../ScheduleEventsModal.tsx";
+import LocSpan from "../../../components/LocSpan.tsx";
 
 const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "january", "february", "march", "april", "may", "june",
+    "july", "august", "september", "october", "November", "december"
 ];
 
-const weekDays = ["S", "M", "T", "W", "T", "F", "S"];
+const weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
 
 interface ScheduleCalendarProps {
     institutionId: string;
     studyGroupId?: string;
     canEdit: boolean;
-    startDate?: Date; // Opcional
-    endDate?: Date; // Opcional
+    startDate?: Date;
+    endDate?: Date;
 }
 
 const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
@@ -199,7 +200,7 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
                     <FaArrowLeft/>
                 </button>
 
-                <h3>{months[currentDate.getMonth()]} {currentDate.getFullYear()}</h3>
+                <h3><LocSpan textKey={`scheduleKeys.months.${months[currentDate.getMonth()]}`} /> {currentDate.getFullYear()}</h3>
 
                 <button
                     onClick={nextMonth}
@@ -214,7 +215,7 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
                 <thead>
                 <tr>
                     {weekDays.map((day, index) => (
-                        <th key={index} className="w-16 h-24 text-center text-gray-700 dark:text-gray-300">{day}</th>
+                        <th key={index} className="w-16 h-24 text-center text-gray-700 dark:text-gray-300"><LocSpan textKey={`scheduleKeys.weekdays.${day}`} /></th>
                     ))}
                 </tr>
                 </thead>
@@ -254,7 +255,7 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
 
             {/* Eventos del día */}
             <div className="mt-8 w-full max-w-3xl text-black dark:text-white ">
-                <h3 className="text-lg font-semibold mb-2">Today Events:</h3>
+                <h3 className="text-lg font-semibold mb-2"><LocSpan textKey={"scheduleKeys.todayEvents"} /></h3>
                 {todayEvents.length > 0 ? (
                     <ul>
                         {todayEvents.map((event, index) => (
@@ -273,7 +274,7 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
 
             {/* Próximos eventos */}
             <div className="mt-8 w-full max-w-3xl text-black dark:text-white ">
-                <h3 className="text-lg font-semibold mb-2">Upcoming Events:</h3>
+                <h3 className="text-lg font-semibold mb-2"><LocSpan textKey={"scheduleKeys.upcomingEvents"} /></h3>
                 {upcomingEvents.length > 0 ? (
                     <ul>
                         {upcomingEvents.map((event, index) => (
@@ -292,7 +293,7 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
 
             {/* Eventos antiguos */}
             <div className="mt-8 w-full max-w-3xl text-black dark:text-white ">
-                <h3 className="text-lg font-semibold mb-2">Past Events:</h3>
+                <h3 className="text-lg font-semibold mb-2"><LocSpan textKey={"scheduleKeys.pastEvents"} /></h3>
                 {oldEvents.length > 0 ? (
                     <ul>
                         {oldEvents.map((event, index) => (

@@ -3,7 +3,9 @@ import ModalWrapper from '../ModalWrapper';
 import { useAddInstitutionMembers } from '../../hooks/institutionHooks/useAddInstitutionMembers';
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import Container from "../../components/ui/containers/Container.tsx";
-import SectionTitle from "../../components/ui/text/SectionTitle.tsx"; 
+import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
+import LocSpan from "../../components/LocSpan.tsx";
+import {useTranslation} from "react-i18next"; 
 
 interface AddInstitutionMembersModalProps {
     institutionId: string;
@@ -15,6 +17,7 @@ const AddInstitutionMembersModal: React.FC<AddInstitutionMembersModalProps> = ({
     const [tags, setTags] = useState<string[]>([]);
     const [inputValue, setInputValue] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
+    const { t } = useTranslation();
 
     const { mutate: addMembers, isLoading } = useAddInstitutionMembers();  // Utilizamos el hook para agregar miembros
 
@@ -112,13 +115,13 @@ const AddInstitutionMembersModal: React.FC<AddInstitutionMembersModalProps> = ({
     return (
         <ModalWrapper onClose={onClose}>
             <Container className={"w-full"}>
-                <SectionTitle title={"Add Members to Institution"} className="text-center pb-4" />
+                <SectionTitle title={"membersKeys.addMembersToInstitution"} className="text-center pb-4" />
                 
                 <button
                     onClick={clearAllEmails}
                     className="mb-4 text-sm text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 focus:outline-none"
                 >
-                    Clear All
+                    <LocSpan textKey={"clearAll"} />
                 </button>
 
                 <div
@@ -140,7 +143,7 @@ const AddInstitutionMembersModal: React.FC<AddInstitutionMembersModalProps> = ({
                             onChange={(e) => setInputValue(e.target.value)}
                             onKeyDown={onKeyDown}
                             onPaste={onPaste}
-                            placeholder="Enter email addresses"
+                            placeholder={t(`membersKeys.enterEmails`)}
                             className="flex-1 min-w-0 focus:outline-none bg-transparent text-gray-900 dark:text-gray-300"
                             disabled={isLoading}
                         />

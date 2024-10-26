@@ -3,7 +3,7 @@ import SectionContainer from "../../components/ui/containers/SectionContainer";
 import Tabs from "../../components/ui/toggles/Tabs";
 import InstitutionResourcesTab from "./Components/InstitutionResourcesTab";
 import InstitutionResourcesGroupTab from "./Components/InstitutionResourcesGroupTab";
-import {FaFolder} from "react-icons/fa";
+import {FaFolder, FaLayerGroup } from "react-icons/fa";
 import {useParams} from "react-router-dom";
 import {MembershipRole} from "../../data/MembershipData.ts";
 import {useAuth} from "../../context/AuthContext.tsx";
@@ -28,8 +28,8 @@ const InstitutionResourcesPage: React.FC = () => {
     };
 
     const tabs = [
-        { label: 'Resources', view: 'resources', icon: <FaFolder /> },
-        { label: 'Resource Groups', view: 'resourceGroups', icon: <FaFolder /> },
+        { label: 'resources', view: 'resources', icon: <FaFolder /> },
+        { label: 'resourcesGroups', view: 'resourceGroups', icon: <FaLayerGroup /> },
     ];
 
     const renderTabContent = () => {

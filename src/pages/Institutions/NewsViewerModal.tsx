@@ -4,7 +4,6 @@ import Container from "../../components/ui/containers/Container.tsx";
 import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
 import { FaClock, FaTags } from 'react-icons/fa';
 import RoundedTag from "../../components/ui/text/RoundedTag.tsx";
-import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import CreatorLabel from "../../components/ui/text/CreatorLabel.tsx";
 import {NewsData} from "../../data/NewsData.ts";
 
@@ -47,11 +46,6 @@ const NewsViewerModal: React.FC<NewsViewerModalProps> = ({ newsData, onClose }) 
                         </div>
                     </div>
                 )}
-
-                {/* Botón para cerrar con padding de 24 */}
-                <div className="text-center pt-24"> {/* Padding agregado aquí */}
-                    <PrimaryButton label="Close" onClick={onClose} className="w-full" />
-                </div>
             </Container>
         </ModalWrapper>
     );

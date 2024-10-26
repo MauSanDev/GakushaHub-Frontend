@@ -7,6 +7,7 @@ import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import InputField from "../../components/ui/inputs/InputField";
 import TextArea from "../../components/ui/inputs/TextArea";
 import SelectionToggle from "../../components/ui/toggles/SelectionToggle.tsx";
+import LocSpan from "../../components/LocSpan.tsx";
 
 interface CreateStudyGroupModalProps {
     institutionId: string;
@@ -72,7 +73,7 @@ const AddStudyGroupModal: React.FC<CreateStudyGroupModalProps> = ({ institutionI
     return (
         <ModalWrapper onClose={onClose}>
             <Container className={"w-full"}>
-                <SectionTitle title={"Create a New Study Group"} className="text-center pb-4" />
+                <SectionTitle title={"institution.studyGroupKeys.createNewGroup"} className="text-center pb-4" />
 
                 <InputField
                     id="groupName"
@@ -81,7 +82,7 @@ const AddStudyGroupModal: React.FC<CreateStudyGroupModalProps> = ({ institutionI
                         setGroupName(e.target.value);
                         setError(null); // Clear error when typing
                     }}
-                    placeholder="Study group name"
+                    placeholder="title"
                     disabled={isLoading}
                     error={error}
                 />
@@ -94,7 +95,7 @@ const AddStudyGroupModal: React.FC<CreateStudyGroupModalProps> = ({ institutionI
                     id="groupDescription"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Description"
+                    placeholder="addDescriptionPlaceholder"
                     disabled={isLoading}
                     error={error}
                     rows={4}
@@ -108,7 +109,7 @@ const AddStudyGroupModal: React.FC<CreateStudyGroupModalProps> = ({ institutionI
                             checked={useTimeBased}
                             onChange={() => setUseTimeBased(!useTimeBased)}
                         />
-                        <span className={'text-sm text-gray-400 dark:text-gray-500'}>Create time-based course</span>
+                        <LocSpan textKey={"institution.studyGroupKeys.timeBased"} className={'text-sm text-gray-400 dark:text-gray-500'} />
                     </label>
                 </div>
 
@@ -134,7 +135,7 @@ const AddStudyGroupModal: React.FC<CreateStudyGroupModalProps> = ({ institutionI
                 )}
 
                 <div className="mt-4">
-                    <span className={'text-sm text-gray-400 dark:text-gray-500'}>Select optional features:</span>
+                    <LocSpan textKey={"institution.studyGroupKeys.optionalFeatures"} className={'text-sm text-gray-400 dark:text-gray-500'} />
                     <div className="flex flex-wrap gap-2">
                         {['schedule', 'chat', 'homework'].map(tab => (
                             <SelectionToggle
@@ -147,10 +148,10 @@ const AddStudyGroupModal: React.FC<CreateStudyGroupModalProps> = ({ institutionI
                     </div>
                 </div>
 
-                <p className="text-sm text-gray-500 dark:text-gray-400 my-4">(You will be able to change these values later)</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 my-4"><LocSpan textKey={"institution.studyGroupKeys.changeLater"} /></p>
 
                 <PrimaryButton
-                    label="Create"
+                    label="create"
                     onClick={handleCreateStudyGroup}
                     disabled={isLoading || groupName.trim() === ''}
                     className="w-full"

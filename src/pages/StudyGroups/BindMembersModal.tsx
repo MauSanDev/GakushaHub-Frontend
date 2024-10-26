@@ -61,13 +61,13 @@ const BindMembersModal: React.FC<BindMembersModalProps> = ({ onClose, institutio
 
     return (
         <ModalWrapper onClose={onClose}>
-            <SectionContainer title={"Bind Members to Study Group"} className={"h-[80vh]"} isLoading={isLoading}>
+            <SectionContainer title={"addMembers"} className={"h-[80vh]"} isLoading={isLoading}>
                 <div className="p-6 max-w-5xl w-full flex flex-col h-[80vh]">
                     <div className="flex gap-2 mb-4 w-full max-w-4xl justify-between items-center">
 
-                        <SearchBar onSearch={setSearchTerm} placeholder={"Search Members..."} />
+                        <SearchBar onSearch={setSearchTerm} placeholder={"searchPlaceholder"} />
                         <div className="flex gap-2">
-                            <PrimaryButton iconComponent={<FaPlus />} label={isLoading ? 'Adding...' : 'Add Members'} onClick={handleAddMembers} disabled={selectedMembers.length === 0 || isLoading} className={"text-sm"} />
+                            <PrimaryButton iconComponent={<FaPlus />} label={isLoading ? 'Adding...' : 'addMembers'} onClick={handleAddMembers} disabled={selectedMembers.length === 0 || isLoading} className={"text-sm"} />
                             <ShowSelectionToggle isSelected={showSelectedOnly} onToggle={() => setShowSelectedOnly(!showSelectedOnly)} />
                         </div>
                     </div>

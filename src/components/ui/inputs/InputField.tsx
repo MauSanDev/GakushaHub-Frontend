@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from "react-i18next";
 
 interface InputFieldProps {
     id: string;
@@ -21,6 +22,8 @@ const InputField: React.FC<InputFieldProps> = ({
                                                    className = '',
                                                    type = 'text', // Establezco el valor por defecto a 'description'
                                                }) => {
+    const { t } = useTranslation();
+
     return (
         <>
             <input
@@ -28,7 +31,7 @@ const InputField: React.FC<InputFieldProps> = ({
                 id={id}
                 value={value}
                 onChange={onChange}
-                placeholder={placeholder}
+                placeholder={t(placeholder)}
                 disabled={disabled}
                 className={`input-field mb-2 w-full ${error ? 'border-red-500' : ''} ${className}`}
             />

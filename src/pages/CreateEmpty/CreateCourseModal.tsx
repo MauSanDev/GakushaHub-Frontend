@@ -4,6 +4,7 @@ import { useCreateCourse } from '../../hooks/coursesHooks/useCreateCourse.ts';
 import { useInstitutionById } from "../../hooks/institutionHooks/useInstitutionById.ts";
 import InputField from "../../components/ui/inputs/InputField";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
+import LocSpan from "../../components/LocSpan.tsx";
 
 interface CreateCourseModalProps {
     institutionId?: string;
@@ -50,7 +51,7 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ institutionId, on
         <ModalWrapper onClose={onClose}>
             <div className="relative p-6 w-full mt-2 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
                 <h2 className="text-2xl font-bold mb-4 text-blue-900 dark:text-white text-center">
-                    {institutionLoading ? "Loading institution..." : `Create a New Course ${data ? `for ${data.name}` : ''}`}
+                    <LocSpan textKey={"createCourseKeys.title"} replacements={[data?.name as string]} />
                 </h2>
 
                 {/* Input para el nombre del curso */}
@@ -61,7 +62,7 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ institutionId, on
                         setCourseName(e.target.value);
                         setError(null);
                     }}
-                    placeholder="Enter course name"
+                    placeholder="createCourseKeys.courseName"
                     disabled={isLoading || institutionLoading}
                     error={error}
                 />
@@ -70,7 +71,7 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ institutionId, on
 
                 <div className="flex justify-center mt-4">
                     <PrimaryButton
-                        label="Create"
+                        label="create"
                         onClick={handleCreateCourse}
                         disabled={isLoading || institutionLoading || courseName.trim() === ''}
                         className={`w-full ${isLoading || courseName.trim() === '' ? 'opacity-50 cursor-not-allowed' : ''}`}

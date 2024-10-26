@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import {FaTimes, FaPlus, FaCheck, FaDotCircle} from 'react-icons/fa';
-import {FaCircleDot} from "react-icons/fa6";
+import {FaTimes, FaPlus} from 'react-icons/fa';
+import LocSpan from "../../LocSpan.tsx";
 
 interface TagSelectorProps {
     selectedTags: string[];
@@ -78,7 +78,7 @@ const TagSelector: React.FC<TagSelectorProps> = ({
             </div>
 
             <div className="mt-3 flex flex-wrap items-center justify-end gap-2">
-                <p className="text-xs text-gray-600 mb-2 text-right">Suggested Tags:</p>
+                <p className="text-xs text-gray-600 mb-2 text-right"><LocSpan textKey={'newsKeys.suggestedTags'} /></p>
                 <div className="flex gap-1 flex-wrap justify-end">
                     {availableTags.map(tag => (
                         <button

@@ -36,7 +36,7 @@ const InstitutionSidebar: React.FC = () => {
     }, [institutionId, data, getRole]);
 
     const menuItems = [
-        { label: 'profile', path: `/institution/${institutionId}/editProfile`, roles: [MembershipRole.Owner, MembershipRole.Staff] },
+        { label: 'editProfile', path: `/institution/${institutionId}/editProfile`, roles: [MembershipRole.Owner, MembershipRole.Staff] },
         { label: 'news', path: `/institution/${institutionId}/news`, roles: [MembershipRole.Owner, MembershipRole.Staff] },
         { label: 'studyGroups', path: `/institution/${institutionId}/studyGroups`, roles: null },
         { label: 'resources', path: `/institution/${institutionId}/resources`, roles: null },
@@ -72,14 +72,14 @@ const InstitutionSidebar: React.FC = () => {
                                 to="/institutions"
                                 className=" hover:underline"
                             >
-                                Go back
+                                <LocSpan textKey={"goBack"} />
                             </Link>
                             <span>|</span>
                             <Link
                                 to={`/institution/${institutionId}`}
                                 className=" hover:underline"
                             >
-                                See Profile
+                                <LocSpan textKey={"seeProfile"} />
                             </Link>
                         </div>
                     </div>

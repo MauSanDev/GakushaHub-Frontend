@@ -7,7 +7,7 @@ const InstitutionSchedulePage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
 
     return (
-        <SectionContainer title={"Institution Schedule"}>
+        <SectionContainer title={"スチェドル"}>
 
             <div className="document-list flex flex-col gap-2 py-1 overflow-y-auto h-full pb-80"
                  style={{maxHeight: 'calc(100vh)'}}>
