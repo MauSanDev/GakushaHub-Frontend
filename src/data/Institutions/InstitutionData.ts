@@ -6,6 +6,7 @@ export interface InstitutionData {
     createdAt: string;
     lastUpdated: string;
     active: boolean;
+    links: string[];
     //debug
     members: number;
     groups: number;

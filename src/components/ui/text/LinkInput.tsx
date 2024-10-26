@@ -12,7 +12,7 @@ import {
     FaPhone,
     FaMapMarkerAlt,
     FaLink,
-    FaFileAlt 
+    FaFileAlt
 } from 'react-icons/fa';
 import TertiaryButton from "../buttons/TertiaryButton.tsx";
 
@@ -34,12 +34,12 @@ const socialIcons: { [key: string]: React.ReactElement } = {
     email: <FaEnvelope />,
     phone: <FaPhone />,
     address: <FaMapMarkerAlt />,
-    default: <FaLink />,  
-    text: <FaFileAlt /> 
+    default: <FaLink />,
+    text: <FaFileAlt />
 };
 
 const isValidUrl = (value: string) => {
-    const pattern = /^([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/; 
+    const pattern = /^([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/;
     return pattern.test(value);
 };
 
@@ -49,7 +49,7 @@ const isAddress = (value: string): boolean => {
         lowerCaseValue.includes('号') || lowerCaseValue.includes('city') ||
         lowerCaseValue.includes('street') || lowerCaseValue.includes('road') ||
         lowerCaseValue.includes('avenue') || value.includes(',') ||
-        !!lowerCaseValue.match(/\b(prefecture|区|町|村|州|県)\b/); 
+        !!lowerCaseValue.match(/\b(prefecture|区|町|村|州|県)\b/);
 };
 
 const getSocialIcon = (value: string): React.ReactElement => {
@@ -64,9 +64,9 @@ const getSocialIcon = (value: string): React.ReactElement => {
     if (lowerCaseValue.match(/^\+?[0-9\s\-()]+$/)) return socialIcons.phone;
     if (isAddress(lowerCaseValue)) return socialIcons.address;
 
-    if (isValidUrl(value)) return socialIcons.default; 
+    if (isValidUrl(value)) return socialIcons.default;
 
-    return socialIcons.text; 
+    return socialIcons.text;
 };
 
 const LinkInput: React.FC<LinkInputProps> = ({
@@ -81,6 +81,11 @@ const LinkInput: React.FC<LinkInputProps> = ({
     const [isSaving, setIsSaving] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+
+    // Sincronizar `value` con `initialValue` cuando cambie
+    useEffect(() => {
+        setValue(initialValue);
+    }, [initialValue]);
 
     const handleEdit = () => {
         if (canEdit) {
@@ -98,7 +103,7 @@ const LinkInput: React.FC<LinkInputProps> = ({
 
     const handleCancel = () => {
         setIsEditing(false);
-        setValue(initialValue);
+        setValue(initialValue);  // Restaurar al valor inicial
     };
 
     const handleSave = () => {
