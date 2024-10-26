@@ -1,35 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaChalkboardTeacher, FaCalendarAlt, FaFolderOpen, FaEdit, FaUsers } from 'react-icons/fa';
-import {SectionTemplate} from "./SectionTemplate.tsx";
+import { SectionTemplate } from "./SectionTemplate";
 import missionImage from '../../assets/pc-mobile.webp';
+import LocSpan from "../../components/LocSpan";
 
 const teacherFeatures = [
-    { icon: <FaChalkboardTeacher />, title: 'Gestión de Clases', description: 'Organiza y monitorea tus clases en un solo lugar.' },
-    { icon: <FaCalendarAlt />, title: 'Calendario de Clases', description: 'Administra horarios y fechas importantes con facilidad.' },
-    { icon: <FaFolderOpen />, title: 'Recursos Compartidos', description: 'Comparte materiales y recursos con tus alumnos.' },
-    { icon: <FaEdit />, title: 'Creación de Contenido', description: 'Crea contenido exclusivo asistido por IA para tus alumnos.' },
-    { icon: <FaUsers />, title: 'Gestión de Alumnos', description: 'Administra alumnos, realiza seguimientos y organiza grupos.' },
+    { icon: <FaChalkboardTeacher />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle1', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription1' },
+    { icon: <FaCalendarAlt />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle2', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription2' },
+    { icon: <FaFolderOpen />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle3', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription3' },
+    { icon: <FaEdit />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle4', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription4' },
+    { icon: <FaUsers />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle5', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription5' },
 ];
 
 const TeacherFeaturesSection: React.FC<{id: string}> = ({id}) => {
     const [selectedFeature, setSelectedFeature] = useState<string | null>(null);
-    const [hovered, setHovered] = useState(false); // Estado para controlar si el usuario está haciendo hover
+    const [hovered, setHovered] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        if (!hovered) { 
+        if (!hovered) {
             const interval = setInterval(() => {
                 const nextIndex = (currentIndex + 1) % teacherFeatures.length;
-                setSelectedFeature(teacherFeatures[nextIndex].title);
+                setSelectedFeature(teacherFeatures[nextIndex].titleKey);
                 setCurrentIndex(nextIndex);
             }, 3000);
-            return () => clearInterval(interval); 
+            return () => clearInterval(interval);
         }
     }, [hovered, currentIndex]);
 
-    const handleMouseEnter = (title: string, index: number) => {
-        setSelectedFeature(title);
+    const handleMouseEnter = (titleKey: string, index: number) => {
+        setSelectedFeature(titleKey);
         setHovered(true);
         setCurrentIndex(index);
     };
@@ -40,7 +41,6 @@ const TeacherFeaturesSection: React.FC<{id: string}> = ({id}) => {
 
     return (
         <section className="flex flex-col md:flex-row py-20 px-6 text-white max-w-5xl mx-auto" id={id}>
-            {/* Lista de características a la izquierda */}
             <div className="md:w-1/2 flex flex-col space-y-6">
                 <motion.h2
                     className="text-4xl font-bold mb-8 text-center md:text-left"
@@ -49,19 +49,19 @@ const TeacherFeaturesSection: React.FC<{id: string}> = ({id}) => {
                     viewport={{ once: true, amount: 0.2 }}
                     transition={{ duration: 0.8 }}
                 >
-                    Para Profesores
+                    <LocSpan textKey="landingPage.teacherFeaturesSection.title" />
                 </motion.h2>
                 <p className="text-lg text-gray-300 mb-12 text-center md:text-left">
-                    Herramientas avanzadas para gestionar tus clases, alumnos y contenido de manera centralizada y efectiva.
+                    <LocSpan textKey="landingPage.teacherFeaturesSection.description" />
                 </p>
 
                 {teacherFeatures.map((feature, index) => (
                     <motion.div
                         key={index}
-                        onMouseEnter={() => handleMouseEnter(feature.title, index)}
+                        onMouseEnter={() => handleMouseEnter(feature.titleKey, index)}
                         onMouseLeave={handleMouseLeave}
                         className={`flex items-center bg-white bg-opacity-10 rounded-lg p-4 shadow-lg transition transform 
-                                    ${selectedFeature === feature.title ? 'scale-105 bg-opacity-20' : ''}`}
+                                    ${selectedFeature === feature.titleKey ? 'scale-105 bg-opacity-20' : ''}`}
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, amount: 0.2 }}
@@ -71,19 +71,24 @@ const TeacherFeaturesSection: React.FC<{id: string}> = ({id}) => {
                             {feature.icon}
                         </div>
                         <div className="flex flex-col">
-                            <h3 className="text-xl font-semibold text-white">{feature.title}</h3>
-                            <p className="text-gray-300 text-sm">{feature.description}</p>
+                            <h3 className="text-xl font-semibold text-white">
+                                <LocSpan textKey={feature.titleKey} />
+                            </h3>
+                            <p className="text-gray-300 text-sm">
+                                <LocSpan textKey={feature.descriptionKey} />
+                            </p>
                         </div>
                     </motion.div>
                 ))}
             </div>
 
-            {/* Contenedor de imágenes a la derecha */}
             <div className="md:w-1/2 flex items-center justify-center mt-10 md:mt-0">
                 {selectedFeature ? (
                     <SectionTemplate className={'h-full'}>
-                        <h3 className="text-2xl font-bold text-white">{selectedFeature}</h3>
-                        <img src={missionImage} alt={selectedFeature}/>
+                        <h3 className="text-2xl font-bold text-white">
+                            <LocSpan textKey={selectedFeature} />
+                        </h3>
+                        <img src={missionImage} alt={selectedFeature} />
                     </SectionTemplate>
                 ) : (
                     <motion.div
@@ -91,7 +96,9 @@ const TeacherFeaturesSection: React.FC<{id: string}> = ({id}) => {
                         initial={{ opacity: 0.5 }}
                         animate={{ opacity: 0.8 }}
                     >
-                        <p className="text-lg text-gray-400">Selecciona una característica</p>
+                        <p className="text-lg text-gray-400">
+                            <LocSpan textKey="landingPage.teacherFeaturesSection.selectFeaturePrompt" />
+                        </p>
                     </motion.div>
                 )}
             </div>

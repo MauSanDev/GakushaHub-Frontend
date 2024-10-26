@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaGlobe } from 'react-icons/fa';
+import LocSpan from "../../components/LocSpan";  // Assuming LocSpan is located here
 
 const MissionSection: React.FC<{id: string}> = ({id}) => {
     const points = [
@@ -13,21 +14,22 @@ const MissionSection: React.FC<{id: string}> = ({id}) => {
 
     return (
         <motion.section
-            className="relative flex flex-col items-center text-center py-20 px-6 to-black text-white max-w-4xl mx-auto" id={id} 
+            className="relative flex flex-col items-center text-center py-20 px-6 to-black text-white max-w-4xl mx-auto" id={id}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
         >
-            <h2 className="text-4xl font-bold mb-8">Nuestra Misión</h2>
+            <h2 className="text-4xl font-bold mb-8">
+                <LocSpan textKey="landingPage.missionSection.missionTitle" />
+            </h2>
             <p className="text-lg text-gray-300 mb-8 max-w-2xl">
-                Nuestra misión es ayudar a estudiantes y profesores a simplificar el aprendizaje del japonés y, en el futuro,
-                expandirnos al aprendizaje de otros idiomas, conectando culturas y personas en todo el mundo.
+                <LocSpan textKey="landingPage.missionSection.missionDescription" />
             </p>
 
-            {/* Mapa de expansión con puntos animados */}
+            {/* Animated Expansion Map with Points */}
             <div className="relative w-full h-64 max-w-xl bg-transparent overflow-hidden">
-                <FaGlobe className="absolute w-full h-full opacity-10" />
+                <FaGlobe className="absolute w-full h-full opacity-10 text-gray-400" />
 
                 {points.map((point, index) => (
                     <motion.div
@@ -46,7 +48,6 @@ const MissionSection: React.FC<{id: string}> = ({id}) => {
                     />
                 ))}
             </div>
-
         </motion.section>
     );
 };

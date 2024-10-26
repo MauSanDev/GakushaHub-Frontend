@@ -10,6 +10,7 @@ import ObjectiveSection from "./ObjectiveSection";
 import bgImage from '../../assets/bg-dark-mode.jpg';
 import appScreenshot from '../../assets/app-screenshot.png';
 import LanguageDropdown from "../../components/LanguageDropdown";
+import LocSpan from '../../components/LocSpan';
 
 const sectionVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -54,7 +55,9 @@ const LandingPage: React.FC = () => {
             {/* Header de navegación flotante */}
             <header
                 className="fixed top-4 left-1/2 transform -translate-x-1/2 py-3 px-10 rounded-lg bg-gray-500 bg-opacity-10 backdrop-blur-md z-20 shadow-md flex space-x-2 items-center w-full max-w-6xl justify-between">
-                <h1 className="text-xl font-bold text-white">Manabu Mori</h1>
+                <h1 className="text-xl font-bold text-white">
+                    <LocSpan textKey="landingPage.title" />
+                </h1>
 
                 {/* Menú hamburguesa para pantallas pequeñas */}
                 <div className={'w-32'}>
@@ -68,29 +71,29 @@ const LandingPage: React.FC = () => {
                 <nav className="hidden md:flex space-x-4 text-gray-400 text-sm">
                     <button onClick={() => handleScrollToSection('objective')}
                             className="hover:text-blue-500 transition">
-                        Objetivo
+                        <LocSpan textKey="landingPage.objective" />
                     </button>
                     <button onClick={() => handleScrollToSection('students')}
                             className="hover:text-blue-500 transition">
-                        Estudiantes
+                        <LocSpan textKey="landingPage.forStudents" />
                     </button>
                     <button onClick={() => handleScrollToSection('teachers')}
                             className="hover:text-blue-500 transition">
-                        Profesores
+                        <LocSpan textKey="landingPage.forTeachers" />
                     </button>
                     <button onClick={() => handleScrollToSection('mission')} className="hover:text-blue-500 transition">
-                        Misión
+                        <LocSpan textKey="landingPage.mission" />
                     </button>
                     <button onClick={() => handleScrollToSection('roadmap')} className="hover:text-blue-500 transition">
-                        Roadmap
+                        <LocSpan textKey="landingPage.roadmap" />
                     </button>
                     <Link to={'/signup'}
                           className="px-4 py-1 bg-blue-700 text-white rounded-full font-semibold hover:bg-blue-600 transition">
-                        Get Started
+                        <LocSpan textKey="landingPage.getStarted" />
                     </Link>
                     <Link to={"/signin"}
                           className="px-4 py-1 bg-gray-700 text-white rounded-full font-semibold hover:bg-blue-600 transition">
-                        Log in
+                        <LocSpan textKey="landingPage.logIn" />
                     </Link>
                 </nav>
             </header>
@@ -108,27 +111,27 @@ const LandingPage: React.FC = () => {
 
                     <nav className="flex flex-col space-y-6">
                         <button onClick={() => handleScrollToSection('objective')} className="hover:text-blue-400 transition">
-                            Objetivo
+                            <LocSpan textKey="landingPage.objective" />
                         </button>
                         <button onClick={() => handleScrollToSection('students')} className="hover:text-blue-400 transition">
-                            Estudiantes
+                            <LocSpan textKey="landingPage.forStudents" />
                         </button>
                         <button onClick={() => handleScrollToSection('teachers')} className="hover:text-blue-400 transition">
-                            Profesores
+                            <LocSpan textKey="landingPage.forTeachers" />
                         </button>
                         <button onClick={() => handleScrollToSection('mission')} className="hover:text-blue-400 transition">
-                            Misión
+                            <LocSpan textKey="landingPage.mission" />
                         </button>
                         <button onClick={() => handleScrollToSection('roadmap')} className="hover:text-blue-400 transition">
-                            Roadmap
+                            <LocSpan textKey="landingPage.roadmap" />
                         </button>
                     </nav>
                     <div className="flex space-x-4 mt-8">
                         <Link to={'/signup'} className="px-6 py-2 bg-blue-500 text-white rounded-full font-semibold hover:bg-blue-600 transition">
-                            Get Started
+                            <LocSpan textKey="landingPage.getStarted" />
                         </Link>
                         <Link to={"/signin"} className="px-6 py-2 bg-gray-700 text-white rounded-full font-semibold hover:bg-blue-600 transition">
-                            Log in
+                            <LocSpan textKey="landingPage.logIn" />
                         </Link>
                     </div>
                 </div>
@@ -148,10 +151,10 @@ const LandingPage: React.FC = () => {
                         className="text-5xl md:text-7xl font-bold leading-tight bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent drop-shadow-lg"
                         style={{ WebkitBackgroundClip: 'text', backgroundClip: 'text' }}
                     >
-                        Learn one language <br /> Use one app
+                        <LocSpan textKey="landingPage.heroTitle" />
                     </h1>
                     <p className="text-lg text-gray-300 max-w-3xl mb-8">
-                        An all-in-one Japanese learning platform for Students and Teachers.<br /> Dictionaries, flashcards, AI-powered exercises, resources and everything you need.<br />
+                        <LocSpan textKey="landingPage.heroDescription" />
                     </p>
 
                     <div className="flex space-x-4 justify-center mt-8">
@@ -162,7 +165,7 @@ const LandingPage: React.FC = () => {
                                 animate={{opacity: 1, scale: 1}}
                                 transition={{duration: 1.2}}
                             >
-                                Get Started
+                                <LocSpan textKey="landingPage.getStarted" />
                             </motion.button>
                         </Link>
 
@@ -173,7 +176,7 @@ const LandingPage: React.FC = () => {
                                 animate={{opacity: 1, scale: 1}}
                                 transition={{duration: 1.2}}
                             >
-                                Log in
+                                <LocSpan textKey="landingPage.logIn" />
                             </motion.button>
                         </Link>
                     </div>
@@ -203,9 +206,9 @@ const LandingPage: React.FC = () => {
 
                 <footer className="relative bg-gray-950 text-white text-center py-12">
                     <div className="max-w-4xl mx-auto text-gray-300">
-                        <p>©2024 Manabu Mori - Optimizing learning - 学習を最適化する</p>
+                        <p><LocSpan textKey="landingPage.footerText" /></p>
                         <p className="mt-2 text-sm text-gray-400">
-                            Contact us <a href="mailto:maurosanchez.work@gmail.com" className="text-blue-400">maurosanchez.work@gmail.com</a>
+                            <LocSpan textKey="landingPage.contactUs" /> <a href="mailto:maurosanchez.work@gmail.com" className="text-blue-400">maurosanchez.work@gmail.com</a>
                         </p>
                     </div>
                 </footer>

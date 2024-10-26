@@ -156,5 +156,68 @@
     "orientation": "Orientation",
     "termReading": "Term -> Reading",
     "readingTerm": "Reading -> Term"
+  },
+
+  "landingPage": {
+    "title": "Manabu Mori",
+    "objective": "Objective",
+    "forStudents": "For Students",
+    "forTeachers": "For Teachers",
+    "mission": "Mission",
+    "roadmap": "Roadmap",
+    "getStarted": "Get Started",
+    "logIn": "Log in",
+    "heroTitle": "Learn one language\nUse one app",
+    "heroDescription": "An all-in-one Japanese learning platform for Students and Teachers.\nDictionaries, flashcards, AI-powered exercises, resources and everything you need.",
+    "contactUs": "Contact us",
+    "footerText": "©2024 Manabu Mori - Optimizing learning - 学習を最適化する",
+    "objectiveTitle": "Our Objective",
+    "objectiveDescription": "Our objective is to offer an all-in-one study solution that centralizes all the needs of students and teachers for learning Japanese. We’ve created an easy-to-use, fast, and accessible platform from any device, eliminating the need to rely on multiple applications.",
+    "studentToolsDescription": "Centralized tools for every student to improve their Japanese with artificial intelligence. Discover features like flashcards, AI corrections, a kanji dictionary, and grammar tests, all in one place.",
+    "flashcards": "Flashcards",
+    "grammar": "Grammar",
+    "kanji": "Kanji",
+    "words": "Words",
+    "ia": "AI",
+    "tests": "Tests",
+    "practices": "Practices",
+    "readings": "Readings",
+    "missionSection": {
+      "missionTitle": "Our Mission",
+      "missionDescription": "Our mission is to help students and teachers simplify Japanese learning and, in the future, expand to other languages, connecting cultures and people around the world."
+    },
+    "teacherFeaturesSection": {
+      "title": "For Teachers",
+      "description": "Advanced tools to centrally and effectively manage your classes, students, and content.",
+      "selectFeaturePrompt": "Select a feature",
+      "featureTitle1": "Class Management",
+      "featureDescription1": "Organize and monitor your classes in one place.",
+      "featureTitle2": "Class Calendar",
+      "featureDescription2": "Easily manage schedules and important dates.",
+      "featureTitle3": "Shared Resources",
+      "featureDescription3": "Share materials and resources with your students.",
+      "featureTitle4": "Content Creation",
+      "featureDescription4": "Create exclusive content assisted by AI for your students.",
+      "featureTitle5": "Student Management",
+      "featureDescription5": "Manage students, track progress, and organize groups."
+    },
+    "roadmapSection": {
+      "title": "Roadmap",
+      "description": "Our development plan to provide an increasingly complete experience.",
+      "target1": "Q3 2024 - Full Launch",
+      "target1desc": "Complete platform launch with all features.",
+      "target2": "Q2 2024 - AI Content Generation",
+      "target2desc": "Support for AI-assisted study content generation.",
+      "target3": "Q1 2024 - Gamification System",
+      "target3desc": "Add gamification elements like points and achievements to motivate learning.",
+      "target4": "Q4 2023 - Teacher Platform",
+      "target4desc": "Special features for teachers to manage their classes and students.",
+      "target5": "Q3 2023 - AI Text Correction",
+      "target5desc": "Integration of AI for written text correction.",
+      "target6": "Q2 2023 - Flashcard Functionality",
+      "target6desc": "Implementation of flashcard decks for vocabulary and kanji.",
+      "target7": "Q1 2023 - Beta Launch",
+      "target7desc": "Launch of the beta version of the platform for a limited group of users."
+    }
   }
 }

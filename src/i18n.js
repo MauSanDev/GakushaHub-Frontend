@@ -19,7 +19,7 @@ i18n
         backend: {
             loadPath: '/locales/{{lng}}/{{ns}}.json',
         },
-        ns: ['translation', 'grammar_jlpt2', 'grammar_jlpt3'],
+        ns: ['translation', 'grammar_jlpt2', 'grammar_jlpt3', 'newTranslations'],
         defaultNS: 'translation',
     });
 
