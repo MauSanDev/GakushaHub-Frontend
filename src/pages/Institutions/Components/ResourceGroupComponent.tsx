@@ -98,18 +98,20 @@ const ResourceGroupComponent: React.FC<ResourceGroupProps> = ({ resourceGroup, o
     }
 
     return (
-        <div className={'border-t border-gray-200 dark:border-gray-800 py-3'}>
+        <div className={'border-t border-gray-200 dark:border-gray-800 py-3 dark:text-white text-black'}>
         <CollapsibleSection
+            className={'text-xl'}
             onExpand={onExpanded}
-            title={`${resourceGroup.name} (${resourceGroup.elements?.length || 0} Items)`}
+            title={`${resourceGroup.name}`}
+            label={`(${resourceGroup.elements?.length || 0} Resources)`}
             actions={(
                 <>
                     {isEditable && (
-                        <TertiaryButton label={"Add Resources"} iconComponent={<FaPlus />} onClick={handleAddResource}/>
+                        <TertiaryButton label={"Add Resources"} iconComponent={<FaPlus />} onClick={handleAddResource} className={'text-black'}/>
                     )}
 
                     {canDelete && (
-                        <TertiaryButton label={"Delete Group"} iconComponent={<FaTrash />} onClick={onDelete} />
+                        <TertiaryButton label={"Delete Group"} iconComponent={<FaTrash />} onClick={onDelete} className={'text-black'} />
                     )}
 
                     {selectedResources.length > 0 && isEditable && (

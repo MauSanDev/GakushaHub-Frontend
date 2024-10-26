@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { FaSortAlphaDown, FaSortAmountDown } from 'react-icons/fa';
+import {FaCheck} from 'react-icons/fa';
 import CollapsibleSection from '../../../components/ui/containers/CollapsibleSection';
 import { useElements } from '../../../hooks/newHooks/useElements';
 import { BaseDeckData } from "../../../data/DeckData.ts";
@@ -27,11 +27,12 @@ const SelectableResourceGroupComponent: React.FC<SelectableResourceGroupProps> =
     return (
         <div className={'border-t border-gray-200 dark:border-gray-800 py-3'}>
             <CollapsibleSection
-                title={`${resourceGroup.name} (${resourceGroup.elements?.length || 0} Items)`}
+                title={`${resourceGroup.name}`}
+                label={`(${resourceGroup.elements?.length || 0} Resources)`}
                 actions={(
                     <TertiaryButton
-                        label={isSelected ? "Deselect Group" : "Select Group"}
-                        iconComponent={isSelected ? <FaSortAmountDown /> : <FaSortAlphaDown />}
+                        label={"Select"}
+                        iconComponent={isSelected ? <FaCheck /> : ""}
                         onClick={() => onSelected(resourceGroup._id)}
                     />
                 )}
@@ -47,9 +48,7 @@ const SelectableResourceGroupComponent: React.FC<SelectableResourceGroupProps> =
                                     <ResourceListElement
                                         key={resource._id}
                                         resourceData={resource}
-                                        isSelected={isSelected}
-                                        onSelect={() => onSelected(resource._id)}
-                                        canOpen={true}
+                                        canOpen={false}
                                     />
                                 ))
                             )}

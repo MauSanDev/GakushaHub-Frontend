@@ -14,6 +14,7 @@ interface CollapsibleSectionProps {
     canEdit?: boolean;
     children: React.ReactNode;
     actions?: React.ReactNode;  
+    className?: string;
 }
 
 const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
@@ -26,7 +27,8 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                                                                    collectionType,
                                                                    canEdit = false,
                                                                    children,
-                                                                   actions  
+                                                                   actions  ,
+                                                                   className
                                                                }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -44,7 +46,7 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
     return (
         <div>
             <div className="flex justify-between items-center w-full cursor-pointer dark:text-white font-semibold">
-                <div onClick={handleToggle} className="flex items-center w-auto">
+                <div onClick={handleToggle} className={`flex items-center w-auto ${className}`}>
                     <span className="mr-2">
                         {isOpen ? <FaChevronDown /> : <FaChevronRight />}
                     </span>
@@ -60,7 +62,7 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
                             maxChar={40}
                         />
                     ) : (
-                        <LocSpan textKey={title} />
+                        <LocSpan textKey={title}/>
                     )}
 
                     {label && <span className="ml-2 text-sm text-gray-500 font-normal whitespace-nowrap">{label}</span>}

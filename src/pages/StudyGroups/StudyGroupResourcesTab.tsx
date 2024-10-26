@@ -7,7 +7,9 @@ import NoDataMessage from "../../components/NoDataMessage.tsx";
 import LoadingScreen from "../../components/LoadingScreen.tsx";
 import ResourceGroupComponent from "../Institutions/Components/ResourceGroupComponent.tsx";
 import AddResourcesGroupToStudyGroupModal from "../Institutions/AddResourcesGroupToStudyGroupModal.tsx";
-import {useStudyGroupResources} from "../../hooks/newHooks/Resources/useStudyGroupResources.ts";
+import { useStudyGroupResources } from "../../hooks/newHooks/Resources/useStudyGroupResources.ts";
+import { useUpdateList } from "../../hooks/updateHooks/useUpdateList.ts";
+import { CollectionTypes } from "../../data/CollectionTypes.tsx";
 
 interface StudyGroupResourcesTabProps {
     studyGroup: StudyGroupData;
@@ -18,15 +20,35 @@ const StudyGroupResourcesTab: React.FC<StudyGroupResourcesTabProps> = ({ studyGr
     const [page, setPage] = useState<number>(1);
     const [isAddResourcesModalOpen, setIsAddResourcesModalOpen] = useState(false);
 
+    // Hook para obtener y gestionar los recursos del grupo de estudio
     const { data: resourcesData, isLoading: resourcesLoading, fetchStudyGroupResources } = useStudyGroupResources(
         studyGroup.resourcesIds || [],
         page,
         10
     );
 
+    // Hook para actualizar la lista de recursos asociados al grupo de estudio
+    const { mutate: updateList } = useUpdateList();
+
+    // Cargar recursos al montar y cuando cambie el hook
     useEffect(() => {
         fetchStudyGroupResources();
-    }, [fetchStudyGroupResources]); 
+    }, [fetchStudyGroupResources]);
+
+    // Manejo de eliminación de recurso
+    const handleDeleteResource = (resourceId: string) => {
+        updateList({
+            collection: CollectionTypes.StudyGroup,
+            documentId: studyGroup._id,
+            field: "resourcesIds",
+            value: [resourceId],
+            action: "remove",
+        }, {
+            onSuccess: () => {
+                fetchStudyGroupResources();
+            }
+        });
+    };
 
     return (
         <div>
@@ -51,8 +73,8 @@ const StudyGroupResourcesTab: React.FC<StudyGroupResourcesTabProps> = ({ studyGr
                         <ResourceGroupComponent
                             key={document._id}
                             resourceGroup={document}
-                            canDelete={false}
-                            onDelete={() => {}}
+                            canDelete={canEdit}
+                            onDelete={() => handleDeleteResource(document._id)}
                             institutionId={document.institutionId}
                             isEditable={false}
                             onAdd={() => {}}
@@ -62,7 +84,7 @@ const StudyGroupResourcesTab: React.FC<StudyGroupResourcesTabProps> = ({ studyGr
             ) : (
                 <NoDataMessage />
             )}
-            
+
             {isAddResourcesModalOpen && (
                 <AddResourcesGroupToStudyGroupModal
                     onClose={() => setIsAddResourcesModalOpen(false)}
