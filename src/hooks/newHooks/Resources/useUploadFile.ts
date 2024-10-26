@@ -26,10 +26,12 @@ const useUploadFile = ({ path, onUploadFinished }: UseUploadFileProps) => {
 
         setIsUploading(true);
         const storage = getStorage();
-        const storageRef = ref(storage, path); // Usamos el path completo que se pasa al hook
+        const storageRef = ref(storage, path);
         const uploadTask = uploadBytesResumable(storageRef, file);
         uploadTaskRef.current = uploadTask;
 
+
+        hasStarted.current = true;
         uploadTask.on(
             'state_changed',
             (snapshot) => {
@@ -53,14 +55,13 @@ const useUploadFile = ({ path, onUploadFinished }: UseUploadFileProps) => {
                 } catch (err) {
                     setError("Failed to get download URL");
                     setIsUploading(false);
+                    hasStarted.current = false;
                     if (onUploadFinished) {
                         onUploadFinished(null);
                     }
                 }
             }
         );
-
-        hasStarted.current = true; // Aseguramos que no se suba más de una vez
     };
 
     useEffect(() => {

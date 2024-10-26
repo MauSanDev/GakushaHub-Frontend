@@ -1,58 +1,61 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { useParams } from 'react-router-dom';
-import {FaCamera, FaPlus, FaTimes, FaUpload} from 'react-icons/fa';
+import { FaCamera, FaPlus, FaTimes, FaUpload, FaSpinner } from 'react-icons/fa';
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import Editable from "../../components/ui/text/Editable.tsx";
-import LinkInput from '../../components/ui/text/LinkInput.tsx'; // Nuevo componente importado
+import LinkInput from '../../components/ui/text/LinkInput.tsx';
 import { useInstitutionById } from "../../hooks/institutionHooks/useInstitutionById.ts";
+import {useCachedImage} from "../../hooks/newHooks/Resources/useCachedImage.ts";
+
+const DEFAULT_PROFILE_IMAGE = 'https://via.placeholder.com/150';
+const DEFAULT_BANNER_IMAGE = 'https://via.placeholder.com/600x200';
 
 const EditProfilePage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
     const { data, isLoading, fetchInstitution } = useInstitutionById(institutionId || "");
 
-    const [profileImage, setProfileImage] = useState<string>('https://via.placeholder.com/150');
-    const [bannerImage, setBannerImage] = useState<string>('https://via.placeholder.com/600x200');
     const [links, setLinks] = useState<string[]>(['']);
 
     const profileInputRef = useRef<HTMLInputElement>(null);
     const bannerInputRef = useRef<HTMLInputElement>(null);
 
+    // Cargar imágenes con el hook useCachedImage
+    const { imageUrl: profileImage, isUploading: isProfileUploading, uploadImage: uploadProfileImage } = useCachedImage({
+        path: `institutions/${institutionId}/profileImage`,
+        defaultImage: DEFAULT_PROFILE_IMAGE,
+    });
+
+    const { imageUrl: bannerImage, isUploading: isBannerUploading, uploadImage: uploadBannerImage } = useCachedImage({
+        path: `institutions/${institutionId}/bannerImage`,
+        defaultImage: DEFAULT_BANNER_IMAGE,
+    });
+    
     useEffect(() => {
         fetchInstitution();
     }, [fetchInstitution]);
 
     const handleProfileImageUpload = () => {
         if (profileInputRef.current?.files && profileInputRef.current.files[0]) {
-            const file = profileInputRef.current.files[0];
-            const imageUrl = URL.createObjectURL(file);
-            setProfileImage(imageUrl);
+            uploadProfileImage(profileInputRef.current.files[0]);
+            profileInputRef.current.value = ''; // Limpiar para futuros cambios
         }
     };
 
     const handleBannerImageUpload = () => {
         if (bannerInputRef.current?.files && bannerInputRef.current.files[0]) {
-            const file = bannerInputRef.current.files[0];
-            const imageUrl = URL.createObjectURL(file);
-            setBannerImage(imageUrl);
+            uploadBannerImage(bannerInputRef.current.files[0]);
+            bannerInputRef.current.value = ''; // Limpiar para futuros cambios
         }
     };
 
-    const handleAddLink = () => {
-        setLinks([...links, '']);
-    };
-
+    const handleAddLink = () => setLinks([...links, '']);
     const handleLinkChange = (index: number, value: string) => {
         const updatedLinks = [...links];
         updatedLinks[index] = value;
         setLinks(updatedLinks);
     };
+    const handleRemoveLink = (index: number) => setLinks(links.filter((_, i) => i !== index));
 
-    const handleRemoveLink = (index: number) => {
-        const updatedLinks = links.filter((_, i) => i !== index);
-        setLinks(updatedLinks);
-    };
-
-    // Ordenar los enlaces (primero enlaces, luego emails, teléfonos y direcciones)
     const sortLinks = (links: string[]) => {
         const urlLinks = links.filter(link => link.includes('.') && !link.includes('@') && !link.match(/^\+?[0-9\s\-()]+$/));
         const emailLinks = links.filter(link => link.includes('@'));
@@ -75,6 +78,11 @@ const EditProfilePage: React.FC = () => {
                     alt="Banner"
                     className="object-cover w-full h-full rounded-md"
                 />
+                {isBannerUploading && (
+                    <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center rounded-md">
+                        <FaSpinner className="text-white text-3xl animate-spin" />
+                    </div>
+                )}
                 <input
                     type="file"
                     ref={bannerInputRef}
@@ -100,6 +108,11 @@ const EditProfilePage: React.FC = () => {
                     alt="Profile"
                     className="w-32 h-32 rounded-full object-cover shadow-lg border-4 dark:border-black border-white mx-auto"
                 />
+                {isProfileUploading && (
+                    <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center rounded-full">
+                        <FaSpinner className="text-white text-3xl animate-spin" />
+                    </div>
+                )}
                 <input
                     type="file"
                     ref={profileInputRef}
@@ -130,8 +143,6 @@ const EditProfilePage: React.FC = () => {
             />
 
             <div className="flex flex-col lg:flex-row justify-between w-full max-w-4xl mx-auto mt-6">
-
-                {/* Left Column: Description */}
                 <div className="flex-1 text-gray-800 dark:text-white px-10 pb-24">
                     <Editable
                         initialValue={data?.description ||''}
@@ -145,7 +156,7 @@ const EditProfilePage: React.FC = () => {
                     />
                 </div>
 
-                {/* Right Column: Links */}
+                {/* Links */}
                 <div className="flex-1 ml-8">
                     <h3 className="text-lg font-bold mb-4 text-white">Social Links</h3>
                     {sortLinks(links).map((link, index) => (
@@ -155,7 +166,7 @@ const EditProfilePage: React.FC = () => {
                                 canEdit={true}
                                 placeholder="Add a link..."
                                 onSave={(value) => handleLinkChange(index, value)}
-                                className={"text-gray-300 text-sm"}
+                                className="text-gray-300 text-sm"
                             />
                             <button
                                 onClick={() => handleRemoveLink(index)}
