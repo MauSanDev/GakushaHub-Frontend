@@ -1,49 +1,30 @@
-import { useUpdateDocument } from './useUpdateDocument';
+import { updateList } from '../../services/dataService.ts';
 import { useAuth } from "../../context/AuthContext.tsx";
 import {useQueryClient} from "react-query";
-import {FOLLOWED_COURSES_ENDPOINT} from "../coursesHooks/useFollowedCourses.ts";
-
-interface UpdateFollowParams {
-    $push?: { followedCourses: string };
-    $pull?: { followedCourses: string };
-}
 
 export const useUpdateFollow = (courseId: string) => {
-    const updateDocument = useUpdateDocument<UpdateFollowParams>();
     const { userData, updateUserData } = useAuth();
     const queryClient = useQueryClient();
 
-
-    const updateFollow = (addFollow: boolean) => {
+    const updateFollow = async (isFollowing: boolean) => {
         if (!userData || !userData._id) {
             console.error("User data not available");
             return;
         }
 
-        const updateData = addFollow
-            ? { $push: { followedCourses: courseId } }
-            : { $pull: { followedCourses: courseId } };
+        const action = isFollowing ? 'remove' : 'add';
 
-        updateDocument.mutate(
-            {
-                collection: 'users',
-                documentId: userData._id,
-                updateData,
-            },
-            {
-                onSuccess: () => {
-                    const updatedFollows = addFollow
-                        ? [...(userData.followedCourses || []), courseId]
-                        : (userData.followedCourses || []).filter((id) => id !== courseId);
+        try {
+            await updateList("auth/userInfo", userData._id, 'followedCourses', [courseId], action, queryClient);
 
-                    queryClient.invalidateQueries(FOLLOWED_COURSES_ENDPOINT)
-                    updateUserData({ followedCourses: updatedFollows });
-                },
-                onError: (error) => {
-                    console.error("Error updating followed courses:", error);
-                },
-            }
-        );
+            const updatedFollows = action === 'add'
+                ? [...(userData.followedCourses || []), courseId]
+                : (userData.followedCourses || []).filter((id) => id !== courseId);
+
+            updateUserData({ followedCourses: updatedFollows });
+        } catch (error) {
+            console.error("Error updating followed courses:", error);
+        }
     };
 
     return updateFollow;

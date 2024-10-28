@@ -12,14 +12,15 @@ const Sidebar: React.FC = () => {
         { label: 'search', path: '/search' },
         { label: 'grammar', path: '/grammar' },
         { label: 'courses', path: '/courses', requiresAuth: true },
-        { label: 'texts', path: '/generations' },
-        { label: 'generate', path: '/generate', requiresAuth: true },
+        { label: 'texts', path: '/generations'},
+        { label: 'studyGroups', path: '/groups', requiresAuth: true},
+        { label: 'institutions', path: '/institutions' },
     ];
 
     return (
         <>
             <button
-                className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white dark:bg-black dark:text-white rounded text-3xl"
+                className="lg:hidden fixed top-1 left-1 z-50 p-2 bg-white dark:bg-black dark:text-white rounded text-3xl"
                 onClick={() => setIsOpen(!isOpen)}
             >
                 ☰
@@ -31,9 +32,10 @@ const Sidebar: React.FC = () => {
                 }`}
             >
                 <div className="flex flex-col p-4 space-y-4">
-                    
+
                     {menuItems.map((item, index) =>
-                            (!item.requiresAuth || isAuthenticated) && (
+
+                            (!item.requiresAuth || isAuthenticated) &&(
                                 <Link
                                     key={index}
                                     to={item.path}
@@ -54,7 +56,7 @@ const Sidebar: React.FC = () => {
 
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black opacity-50 z-30 lg:hidden"
+                    className="fixed inset-0 bg-black dark:bg-black z-30 lg:hidden"
                     onClick={() => setIsOpen(false)}
                 ></div>
             )}

@@ -1,33 +1,59 @@
-import { useMutation, useQueryClient } from 'react-query';
-import { ApiClient } from '../../services/ApiClient';
+import {QueryClient, useMutation, useQueryClient} from 'react-query';
 import { useAuth } from "../../context/AuthContext.tsx";
 import { MY_COURSES_ENDPOINT } from "./useOwnerCourses.ts";
-import { GET_COURSE_BY_ID_ENDPOINT } from "./useCourseById.ts";
+import { CourseData } from "../../data/CourseData.ts";
+import { createElement } from '../../services/dataService';
+import {CollectionTypes} from "../../data/CollectionTypes.tsx";
 
-const CREATE_COURSE_ENDPOINT = '/api/course/createEmptyCourse';
+interface CreateCoursePayload {
+    name: string;
+    creatorId: string;
+    institutionId?: string;
+}
 
-const createEmptyCourse = async (courseName: string, creatorId: string): Promise<any> => {
-    return await ApiClient.post(CREATE_COURSE_ENDPOINT, { courseName, creatorId });
+const createEmptyCourse = async ({name, creatorId, institutionId,}: CreateCoursePayload, queryClient: QueryClient): Promise<CourseData> => {
+    const data: Record<string, unknown> = {
+        name,
+        creatorId,
+    };
+
+    if (institutionId) {
+        data.institutionId = institutionId;
+    }
+
+    
+    return await createElement(CollectionTypes.Course, data, queryClient) as CourseData;
 };
 
 export const useCreateCourse = () => {
     const { userData } = useAuth();
     const queryClient = useQueryClient();
 
-    return useMutation(async (courseName: string) => {
-        if (!userData || !userData._id) {
-            throw new Error("User data not available");
-        }
+    return useMutation(
+        async ({ courseName, institutionId }: { courseName: string; institutionId?: string }) => {
+            
+            if (!courseName || courseName.trim() === '') {
+                throw new Error("Course name is required");
+            }
+            
+            if (!userData || !userData._id) {
+                throw new Error("User data not available");
+            }
 
-        return await createEmptyCourse(courseName, userData._id);
-    }, {
-        onSuccess: (course) => {
-            // Invalidating the courses queries to refresh the list
-            queryClient.invalidateQueries(MY_COURSES_ENDPOINT);
-            queryClient.invalidateQueries(GET_COURSE_BY_ID_ENDPOINT + course._id);
+            return await createEmptyCourse({
+                name: courseName,
+                creatorId: userData._id,
+                institutionId,
+            }, queryClient);
         },
-        onError: (error) => {
-            console.error("Error creating course:", error);
+        {
+            onSuccess: () => {
+                
+                queryClient.invalidateQueries(MY_COURSES_ENDPOINT);
+            },
+            onError: (error) => {
+                console.error("Error creating course:", error);
+            },
         }
-    });
+    );
 };

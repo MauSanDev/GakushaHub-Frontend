@@ -1,33 +1,54 @@
-import { useMutation, useQueryClient } from 'react-query';
-import { ApiClient } from '../../services/ApiClient';
+import {QueryClient, useMutation, useQueryClient} from 'react-query';
 import { useAuth } from "../../context/AuthContext.tsx";
-import { GET_COURSE_BY_ID_ENDPOINT } from "./useCourseById.ts";
-import { GET_LESSON_BY_ID_ENDPOINT } from "./useLessonById.ts";
+import { createElement } from '../../services/dataService';
+import { CollectionTypes } from "../../data/CollectionTypes.tsx";
+import {LessonData} from "../../data/CourseData.ts";
 
-const CREATE_LESSON_ENDPOINT = '/api/course/createEmptyLesson';
+interface CreateLessonPayload {
+    courseId: string;
+    name: string;
+    creatorId: string;
+}
 
-const createEmptyLesson = async (courseId: string, lessonName: string, creatorId: string): Promise<any> => {
-    return await ApiClient.post(CREATE_LESSON_ENDPOINT, { courseId, lessonName, creatorId });
+const createEmptyLesson = async ({ courseId, name, creatorId }: CreateLessonPayload, queryClient: QueryClient): Promise<LessonData> => {
+    const data: Record<string, unknown> = {
+        courseId,
+        name,
+        creatorId,
+    };
+
+    return await createElement(CollectionTypes.Lesson, data, queryClient) as LessonData;
 };
 
 export const useCreateLesson = () => {
     const { userData } = useAuth();
     const queryClient = useQueryClient();
 
-    return useMutation(async ({ courseId, lessonName }: { courseId: string, lessonName: string }) => {
-        if (!userData || !userData._id) {
-            throw new Error("User data not available");
-        }
+    return useMutation(
+        async ({ courseId, lessonName }: { courseId: string; lessonName: string }) => {
+            // Validación: Verifica si el nombre de la lección está presente
+            if (!lessonName || lessonName.trim() === '') {
+                throw new Error("Lesson name is required");
+            }
 
-        return await createEmptyLesson(courseId, lessonName, userData._id);
-    }, {
-        onSuccess: (lesson, { courseId }) => {
-            // Invalidating the course and lesson queries to refresh the list
-            queryClient.invalidateQueries(GET_COURSE_BY_ID_ENDPOINT + courseId);
-            queryClient.invalidateQueries(GET_LESSON_BY_ID_ENDPOINT + lesson._id);
+            // Verifica si la información del usuario está disponible
+            if (!userData || !userData._id) {
+                throw new Error("User data not available");
+            }
+
+            return await createEmptyLesson({
+                courseId,
+                name: lessonName,
+                creatorId: userData._id,
+            }, queryClient);
         },
-        onError: (error) => {
-            console.error("Error creating lesson:", error);
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries('lessons');
+            },
+            onError: (error) => {
+                console.error("Error creating lesson:", error);
+            },
         }
-    });
+    );
 };

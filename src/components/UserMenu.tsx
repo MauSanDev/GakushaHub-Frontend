@@ -1,16 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FaSignOutAlt, FaUser, FaEnvelope, FaRedoAlt } from 'react-icons/fa';
+import {
+    FaSignOutAlt,
+    FaEnvelope,
+    FaRedoAlt, FaUser
+} from 'react-icons/fa';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import LanguageDropdown from './LanguageDropdown';
 import DarkModeToggle from './DarkModeToggle';
 import LocSpan from "./LocSpan.tsx";
+import UserProfileEditorModal from "../pages/Institutions/UserProfileEditorModal.tsx";
+import { useCachedImage } from '../hooks/newHooks/Resources/useCachedImage.ts';
 
 const UserMenu: React.FC = () => {
-    const { user, logout, isEmailVerified, resendEmailVerification } = useAuth();
+    const { userData, user, logout, isEmailVerified, resendEmailVerification, isPremium, isSensei } = useAuth();
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isUserProfileOpen, setIsUserProfileOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+
+    const { imageUrl: profileImage, reloadImage: reloadProfileImage } = useCachedImage({
+        path: `users/${userData?._id}/profileImage`,});
 
     const handleLogout = async () => {
         await logout();
@@ -42,17 +52,46 @@ const UserMenu: React.FC = () => {
         };
     }, []);
 
+    const getLicenseTag = () => {
+        if (isSensei) {
+            return "Sensei";
+        } else if (isPremium) {
+            return "Premium";
+        } else {
+            return "Free";
+        }
+    };
+
+    const handleLicenseClick = () => {
+        navigate('/license');
+    };
+
+    const handleProfileEditorClose = () => {
+        setIsUserProfileOpen(false);
+        reloadProfileImage(); // Refresca la imagen cuando se cierra el modal de edición
+    };
+
     return (
         <div className="lg:fixed lg:top-0 lg:left-0 lg:p-1 z-50">
             <div ref={menuRef} className="relative">
-                {user ? (
+                {userData ? (
                     <>
                         <button
                             onClick={toggleMenu}
-                            className="p-2 bg-white dark:bg-black text-gray-800 font-bold text-sm hover:text-blue-400 dark:text-white focus:outline-none"
+                            className="p-2 bg-white dark:bg-black text-gray-800 font-bold text-sm hover:text-blue-400 dark:text-white focus:outline-none flex items-center"
                         >
-                            <FaUser className="inline-block mr-2" />
-                            {user.displayName || user.email}
+                            {/* Imagen de perfil en miniatura */}
+                            <div className="w-6 h-6 rounded-full overflow-hidden mr-2">
+                                <img src={profileImage} alt="User Profile" className="object-cover w-full h-full" />
+                            </div>
+                            {userData.name || user?.email}
+                            {/* Tag de licencia */}
+                            <span
+                                onClick={handleLicenseClick}
+                                className="ml-2 text-xs font-semibold px-2 py-1 bg-blue-200 dark:bg-gray-600 text-blue-800 dark:text-white rounded cursor-pointer hover:bg-blue-300 dark:hover:bg-gray-700 transition"
+                            >
+                                {getLicenseTag()}
+                            </span>
                         </button>
                         {!isEmailVerified && (
                             <div className="text-red-500 text-sm mt-2 flex items-center">
@@ -69,6 +108,13 @@ const UserMenu: React.FC = () => {
                         )}
                         {isMenuOpen && (
                             <div className="lg:absolute transition-all left-0 mt-1 w-48 z-50 pl-3">
+                                <button
+                                    onClick={() => setIsUserProfileOpen(true)}
+                                    className="block w-full text-left px-2 py-1 text-sm font-bold text-gray-800 dark:text-gray-200 hover:bg-gray-800 hover:text-white rounded"
+                                >
+                                    <FaUser className="inline-block mr-2" />
+                                    <LocSpan textKey={"editProfile"} />
+                                </button>
                                 <button
                                     onClick={handleLogout}
                                     className="block w-full text-left px-2 py-1 text-sm font-bold text-gray-800 dark:text-gray-200 hover:bg-gray-800 hover:text-white rounded"
@@ -88,13 +134,10 @@ const UserMenu: React.FC = () => {
                     </>
                 ) : (
                     <div className="p-2 flex flex-col lg:flex-row justify-evenly lg:fixed lg:top-0 lg:left-0 lg:w-auto lg:z-50 lg:bg-transparent space-y-2 lg:space-y-0 lg:space-x-4 w-full">
-
                         <div className="flex space-x-2">
                             <button
                                 onClick={handleSignIn}
-                                className="px-4 py-2
-
- bg-white dark:bg-black text-gray-800 font-bold text-sm hover:text-blue-400 dark:text-white dark:hover:bg-gray-800 transition-all focus:outline-none rounded"
+                                className="px-4 py-2 bg-white dark:bg-black text-gray-800 font-bold text-sm hover:text-blue-400 dark:text-white dark:hover:bg-gray-800 transition-all focus:outline-none rounded"
                             >
                                 <LocSpan textKey={"loginFlow.logIn"} />
                             </button>
@@ -106,13 +149,19 @@ const UserMenu: React.FC = () => {
                             </button>
                         </div>
 
-                        {/* Dropdown y DarkModeToggle */}
                         <div className="flex flex-col lg:flex-row items-start lg:items-center space-y-2 lg:space-y-0 lg:space-x-4 ">
                             <DarkModeToggle />
                             <LanguageDropdown />
                         </div>
                     </div>
                 )}
+
+                {isUserProfileOpen &&
+                    <UserProfileEditorModal
+                        onClose={handleProfileEditorClose}
+                        userId={userData?._id || ''}
+                    />
+                }
             </div>
         </div>
     );

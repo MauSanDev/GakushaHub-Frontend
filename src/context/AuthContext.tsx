@@ -1,17 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import {
-    getAuth,
-    onAuthStateChanged,
-    signOut,
-    User,
-    createUserWithEmailAndPassword,
-    updateProfile,
-    sendEmailVerification,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail
-} from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut, User, createUserWithEmailAndPassword, updateProfile, sendEmailVerification, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { ApiClient } from '../services/ApiClient';
 import { UserData } from '../data/UserData';
+import { MembershipRole, MembershipData } from '../data/MembershipData';
+import { fetchFullPagination } from '../services/dataService.ts';
+import { useQueryClient } from 'react-query';
+
+type LicenseType = 'none' | 'free' | 'premium' | 'sensei';
 
 interface AuthContextType {
     user: User | null;
@@ -19,12 +14,21 @@ interface AuthContextType {
     loading: boolean;
     isAuthenticated: boolean;
     isEmailVerified: boolean;
+    hasLicense: boolean;
+    isPremium: boolean;
+    isSensei: boolean;
+    licenseType: LicenseType;
+    memberships: MembershipData[] | null;
+    membershipsLoading: boolean;
+    getRole: (institutionId: string, creatorId: string) => Promise<MembershipRole>;
+    refetchMemberships: () => void;
     signUp: (email: string, password: string, name: string, country: string) => Promise<void>;
     signIn: (email: string, password: string) => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
     logout: () => Promise<void>;
     resendEmailVerification: () => Promise<void>;
     updateUserData: (updatedFields: Partial<UserData>) => void;
+    setupLicense: (licenseType: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -36,8 +40,49 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return storedUserData ? JSON.parse(storedUserData) : null;
     });
     const [loading, setLoading] = useState(true);
+    const [membershipsLoading, setMembershipsLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isEmailVerified, setIsEmailVerified] = useState(false);
+    const [memberships, setMemberships] = useState<MembershipData[] | null>(null);
+    const queryClient = useQueryClient();  
+    const [roleCache] = useState(new Map<string, MembershipRole>());
+
+    const licenseType: LicenseType = userData?.licenses?.some(license => license.type === 'sensei' && license.isActive)
+        ? 'sensei'
+        : userData?.licenses?.some(license => license.type === 'premium' && license.isActive)
+            ? 'premium'
+            : userData?.licenses?.some(license => license.type === 'free' && license.isActive)
+                ? 'free'
+                : 'none';
+
+    const hasLicense = licenseType !== 'none';
+    const isPremium = licenseType === 'premium' || licenseType === 'sensei';
+    const isSensei = licenseType === 'sensei';
+
+    const fetchMemberships = async () => {
+        if (userData?._id) {
+            setMembershipsLoading(true);
+            try {
+                const result = await fetchFullPagination<MembershipData>(
+                    1,  
+                    99, 
+                    'membership',
+                    queryClient,
+                    {},  
+                    { userId: userData._id } 
+                );
+
+                if (result?.documents) {
+                    setMemberships(result.documents);
+                    localStorage.setItem('memberships', JSON.stringify(result.documents));
+                }
+            } catch (error) {
+                console.error('Error fetching memberships:', error);
+            } finally {
+                setMembershipsLoading(false);
+            }
+        }
+    };
 
     useEffect(() => {
         const auth = getAuth();
@@ -56,6 +101,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     setUserData(data);
                     localStorage.setItem('userData', JSON.stringify(data));
                 }
+
+                fetchMemberships();
             } else {
                 setIsAuthenticated(false);
                 setIsEmailVerified(false);
@@ -66,6 +113,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         return () => unsubscribe();
     }, [userData]);
+
+    useEffect(() => {
+        if (!memberships && userData?._id) {
+            fetchMemberships();  
+        }
+    }, [userData, memberships]);
 
     const handleTokenRefresh = async (user: User) => {
         try {
@@ -109,6 +162,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             const data = await ApiClient.post<UserData, {}>('api/auth/login', {});
             setUserData(data);
             localStorage.setItem('userData', JSON.stringify(data));
+
+            fetchMemberships();
         }
 
         setUser(user);
@@ -126,11 +181,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUserData(null);
         setIsAuthenticated(false);
         setIsEmailVerified(false);
+        setMemberships(null);
         localStorage.removeItem('userData');
         localStorage.removeItem('authToken');
+        localStorage.removeItem('memberships');
     };
 
-    // Función para reenviar el correo de verificación
     const resendEmailVerification = async () => {
         if (user) {
             await sendEmailVerification(user);
@@ -149,8 +205,96 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.setItem('userData', JSON.stringify(updatedUserData));
     };
 
+    const setupLicense = async (licenseType: string) => {
+        if (!userData) {
+            console.error("No user data available to set license");
+            return;
+        }
+
+        try {
+            const updatedUserData = await ApiClient.post<UserData, { type: string }>('api/auth/license', { type: licenseType });
+
+            setUserData(updatedUserData);
+            localStorage.setItem('userData', JSON.stringify(updatedUserData));
+        } catch (error) {
+            console.error('Error setting up license:', error);
+        }
+    };
+
+    const createCacheKey = (institutionId: string | null, creatorId: string): string => {
+        return `${institutionId || 'null'}_${creatorId}`;
+    };
+
+    const getRole = async (institutionId: string | null, creatorId: string): Promise<MembershipRole> => {
+        const cacheKey = createCacheKey(institutionId, creatorId);
+
+        if (roleCache.has(cacheKey)) {
+            return roleCache.get(cacheKey)!;
+        }
+
+        if (creatorId === userData?._id) {
+            roleCache.set(cacheKey, MembershipRole.Owner);
+            return MembershipRole.Owner;
+        }
+
+        if (institutionId) {
+            const membership = memberships?.find(m =>
+                m.institutionId === institutionId && m.userId === userData?._id
+            );
+
+            let newRole: MembershipRole = MembershipRole.None;
+
+            if (membership) {
+                switch (membership.role) {
+                    case 'owner':
+                        newRole = MembershipRole.Owner;
+                        break;
+                    case 'staff':
+                        newRole = MembershipRole.Staff;
+                        break;
+                    case 'sensei':
+                        newRole = MembershipRole.Sensei;
+                        break;
+                    case 'student':
+                        newRole = MembershipRole.Student;
+                        break;
+                    default:
+                        newRole = MembershipRole.None;
+                        break;
+                }
+            }
+
+            roleCache.set(cacheKey, newRole);
+            return newRole;
+        }
+
+        roleCache.set(cacheKey, MembershipRole.None);
+        return MembershipRole.None;
+    };
+
     return (
-        <AuthContext.Provider value={{ user, userData, loading, isAuthenticated, isEmailVerified, signUp, signIn, resetPassword, logout, resendEmailVerification, updateUserData }}>
+        <AuthContext.Provider value={{
+            user,
+            userData,
+            loading,
+            isAuthenticated,
+            isEmailVerified,
+            hasLicense,
+            isPremium,
+            isSensei,
+            licenseType,
+            memberships,
+            membershipsLoading,
+            getRole,
+            refetchMemberships: fetchMemberships,
+            signUp,
+            signIn,
+            resetPassword,
+            logout,
+            resendEmailVerification,
+            updateUserData,
+            setupLicense
+        }}>
             {!loading && children}
         </AuthContext.Provider>
     );

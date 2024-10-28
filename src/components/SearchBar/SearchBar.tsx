@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import LocSpan from "../LocSpan.tsx";
 import {useTranslation} from "react-i18next";
+import PrimaryButton from "../ui/buttons/PrimaryButton.tsx";
 
 interface SearchBarProps {
     onSearch: (tagsMap: { [tag: string]: boolean }) => void;
@@ -19,7 +19,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, interactable: enabled }
     }, [enabled]);
 
     const onSearchPressed = () => {
-        addTag();
+        if (inputValue)
+        {
+            addTag();
+            return;
+        }
         onSearch(tagsMap);
     };
 
@@ -77,7 +81,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, interactable: enabled }
 
     return (
         <div className="p-2 mb-4 w-full gap-2 relative">
-            <div className="border border-gray-300 bg-white rounded p-2 mb-4 w-full flex items-center gap-2 relative">
+            <div className="input-field border border-gray-300 bg-white rounded p-2 mb-4 w-full flex items-center gap-2 relative">
                 <div className="flex flex-wrap gap-1 flex-1">
                     {Object.entries(tagsMap).map(([tag, isValid], index) => (
                         <div
@@ -97,7 +101,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, interactable: enabled }
                         onCompositionEnd={() => setIsComposing(false)}
                         onPaste={onPaste}
                         placeholder={t("searchPage.inputPlaceholder")}
-                        className="flex-1 min-w-0 focus:outline-none"
+                        className="outline-none border-none bg-transparent w-full flex-1 min-w-0 focus:outline-none text-lg"
+
                     />
                 </div>
                 <button
@@ -107,14 +112,8 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, interactable: enabled }
                     ×
                 </button>
             </div>
-
-            <button
-                className={`bg-blue-500 dark:bg-gray-700 text-white rounded p-2 w-full hover:bg-blue-600 dark:hover:bg-gray-600`}
-                onClick={onSearchPressed}
-                disabled={!interactable}
-            >
-                <LocSpan textKey={"search"} />
-            </button>
+            
+            <PrimaryButton label={"search"} onClick={onSearchPressed} disabled={!interactable} className={"w-full"} />
         </div>
     );
 };

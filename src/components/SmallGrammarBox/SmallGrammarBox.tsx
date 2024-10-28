@@ -1,15 +1,17 @@
 import React from 'react';
 import { GrammarData } from '../../data/GrammarData';
-import { FaQuestionCircle } from 'react-icons/fa';
-import ConfigDropdown from "../ConfigDropdown";
+import {FaCheck, FaQuestionCircle} from 'react-icons/fa';
+import TooltipButton from "../TooltipButton.tsx";
 import LocSpan from "../LocSpan.tsx";
 import i18n from "i18next"; 
 
 interface SmallGrammarBoxProps {
     result: GrammarData | null;
+    isSelected: boolean;
+    onClick: () => void;
 }
 
-const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
+const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result, isSelected = true, onClick }) => {
     if (!result) return null;
 
     const dropdownItems = [
@@ -94,14 +96,28 @@ const SmallGrammarBox: React.FC<SmallGrammarBoxProps> = ({ result }) => {
 
     return (
         <div
-            className="bp-2 rounded-md shadow-sm border px-4 py-2 bg-white dark:bg-gray-950 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800 w-full relative">
+            className={`bp-2 rounded-md shadow-sm border px-4 py-2 bg-white dark:bg-gray-950 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800 w-full relative
+            ${
+                isSelected ? 'dark:border-green-800 dark:hover:border-green-600 border-green-500 hover:border-green-300' : ''
+            }`}
+            onClick={onClick}
+        >
+
+            <div
+                className={`absolute bottom-2 right-2 w-6 h-6 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300 ${
+                    isSelected ? 'text-green-500' : ''
+                }`}
+            >
+                {isSelected && <FaCheck/>}
+            </div>
+            
             <div className="flex justify-between items-center">
                 <h1 className="text-lg font-bold text-blue-400 dark:text-white">{result.structure}</h1>
                 <div className="flex items-center space-x-2">
                     <span className="bg-blue-400 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded">
                         JLPT{result.jlpt}
                     </span>
-                    <ConfigDropdown items={dropdownItems} icon={<FaQuestionCircle/>} buttonSize="text-xs"/>
+                    <TooltipButton items={dropdownItems} icon={<FaQuestionCircle/>} buttonSize="text-xs"/>
                 </div>
             </div>
             <LocSpan textKey={result.hint} namespace={"grammar_jlpt" + result.jlpt}

@@ -1,26 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
-import GrammarBox from '../components/GrammarStructureBox';
-import { GrammarData } from "../data/GrammarData.ts";
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import GrammarDataElement from '../components/GrammarDataElement.tsx';
 import { usePaginatedGrammar } from "../hooks/usePaginatedGrammar.ts";
-import LoadingScreen from "../components/LoadingScreen";
-import SaveDeckInput from '../components/SaveDeckInput';
-import {SaveStatus} from "../utils/SaveStatus.ts";
-import {useAuth} from "../context/AuthContext.tsx";
-
+import { SaveStatus } from "../utils/SaveStatus.ts";
+import { useAuth } from "../context/AuthContext.tsx";
+import SectionContainer from "../components/ui/containers/SectionContainer.tsx";
+import ShowSelectionToggle from "../components/ui/toggles/ShowSelectionToggle.tsx";
+import SearchBar from "../components/ui/inputs/SearchBar.tsx";
+import PaginatedContainer from '../components/ui/containers/PaginatedContainer.tsx';
+import SaveDeckButton from "../components/SaveDeckButton.tsx";
+import { useTranslation } from "react-i18next";
+import { GrammarData } from "../data/GrammarData.ts";
+import { useFakePagination } from "../hooks/newHooks/useFakePagination.ts";
 
 const GrammarListPage: React.FC = () => {
-    const [allResults, setAllResults] = useState<GrammarData[]>([]);
-    const [selectedGrammar, setSelectedGrammar] = useState<GrammarData[]>([]);
     const [page, setPage] = useState(1);
-    const [selectedJLPTLevels, setSelectedJLPTLevels] = useState<number[]>([5, 4, 3, 2, 1]);
-    const [showSelectedOnly, setShowSelectedOnly] = useState(false);
-    const [searchTerm, setSearchTerm] = useState(''); 
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
-    const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
+    const [selectedJLPTLevel, setSelectedJLPTLevel] = useState<number>(-1);
+    const [searchTerm, setSearchTerm] = useState('');
     const { isAuthenticated } = useAuth();
+    const [selectedGrammarIds, setSelectedGrammarIds] = useState<string[]>([]);
+    const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
+    const { t } = useTranslation();
+    const [showSelected, setShowSelected] = useState(false);
+    const [hasFetchedSelected, setHasFetchedSelected] = useState(false);
 
-    const { data, isLoading, error } = usePaginatedGrammar(page, 20);
+    const { data, isLoading, fetchGrammarData } = usePaginatedGrammar();
+    const { data: selectedData, mutate, isLoading: isLoadingSelected } = useFakePagination<GrammarData>(selectedGrammarIds, page, 10, "grammar");
 
     const isSaving = saveStatus === SaveStatus.Saving;
 
@@ -28,151 +32,84 @@ const GrammarListPage: React.FC = () => {
         setSaveStatus(status);
     };
 
-    useEffect(() => {
-        if (data) {
-            setAllResults(prev => [...prev, ...data.documents]);
+    // Fetch `mutate` solo la primera vez que se activa `showSelected`
+    const handleToggleShowSelected = () => {
+        if (!showSelected && selectedGrammarIds.length > 0 && !hasFetchedSelected) {
+            mutate();
+            setHasFetchedSelected(true); // Marca como "fetched"
         }
-    }, [data]);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrollContainer = scrollContainerRef.current;
-            if (scrollContainer) {
-                const { scrollTop, scrollHeight, clientHeight } = scrollContainer;
-                if (scrollTop + clientHeight >= scrollHeight - 100 && !isLoading && page < (data?.totalPages ?? 1)) {
-                    setPage(prevPage => prevPage + 1);
-                }
-            }
-        };
-
-        const scrollContainer = scrollContainerRef.current;
-        if (scrollContainer) {
-            scrollContainer.addEventListener('scroll', handleScroll);
-        }
-        return () => {
-            if (scrollContainer) {
-                scrollContainer.removeEventListener('scroll', handleScroll);
-            }
-        };
-    }, [isLoading, page, data]);
-
-    const toggleJLPTLevel = (level: number) => {
-        if (selectedJLPTLevels.includes(level)) {
-            setSelectedJLPTLevels(selectedJLPTLevels.filter(l => l !== level));
-        } else {
-            setSelectedJLPTLevels([...selectedJLPTLevels, level]);
-        }
+        setShowSelected(!showSelected);
     };
 
-    const toggleSelectedGrammar = (grammar: GrammarData, isSelected: boolean) => {
-        setSelectedGrammar(prevSelected => {
-            if (isSelected) {
-                return [...prevSelected, grammar];
-            } else {
-                return prevSelected.filter(item => item._id !== grammar._id);
-            }
-        });
+    useEffect(() => {
+        // Solo cargamos `fetchGrammarData` al inicio y cuando se desactiva `showSelected`
+        if (!showSelected) {
+            fetchGrammarData(page, 20, [searchTerm], selectedJLPTLevel);
+            setHasFetchedSelected(false); // Reset fetch para el próximo cambio
+        }
+    }, [showSelected, page, searchTerm, selectedJLPTLevel]);
+
+    const handleJLPTLevelChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedJLPTLevel(Number(event.target.value));
     };
 
-    const contentToShow = () => {
-        let toShow = allResults;
-        toShow = toShow.filter(x => selectedJLPTLevels.includes(x.jlpt));
-
-        if (searchTerm) {
-            const lowercasedTerm = searchTerm.toLowerCase();
-            toShow = toShow.filter(x =>
-                x.structure.toLowerCase().includes(lowercasedTerm) ||
-                x.hint?.toLowerCase().includes(lowercasedTerm) ||
-                x.description.toLowerCase().includes(lowercasedTerm) ||
-                x.example_contexts.some(keyword => keyword.toLowerCase().includes(lowercasedTerm))
-            );
-        }
-
-        return showSelectedOnly ? toShow.filter(x => selectedGrammar.includes(x)) : toShow;
+    const handleItemSelect = (id: string, isSelected: boolean) => {
+        setSelectedGrammarIds(prev =>
+            isSelected ? [...prev, id] : prev.filter(selectedId => selectedId !== id)
+        );
     };
 
     return (
-        <div ref={scrollContainerRef}
-             className="flex-1 flex flex-col items-center justify-start h-full w-full relative overflow-y-auto">
+        <SectionContainer title={"文法"} isLoading={isLoading || isSaving || isLoadingSelected}>
+            <div className="w-full lg:max-w-4xl flex flex-wrap gap-2 text-left px-14 lg:px-0 justify-center">
+                <SearchBar onSearch={setSearchTerm} placeholder="searchPlaceholder" />
 
-            <div
-                className="lg:pl-0 pl-20 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
-                <div className="flex items-start mb-4 sm:mb-0">
-                    <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-200 capitalize">
-                        文法
-                    </h1>
+                <div className="flex flex-wrap justify-center gap-0.5 pb-2">
+                    <div className="relative">
+                        <select
+                            value={selectedJLPTLevel}
+                            onChange={handleJLPTLevelChange}
+                            className="pl-2 pr-2 py-1.5 border rounded text-sm dark:bg-gray-900 dark:text-white dark:border-gray-700 w-[180px] lg:w-[220px] truncate flex-grow"
+                        >
+                            <option value={-1}>{t('allLevels')}</option>
+                            {[5, 4, 3, 2, 1].map(level => (
+                                <option key={level} value={level}>
+                                    JLPT{level}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
-            </div>
-            
-            <div className=" w-full lg:max-w-4xl flex flex-wrap gap-2 text-left px-14 lg:px-0 justify-center">
-                <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search Grammar..."
-                    className="flex-1 min-w-[200px] w-full border rounded px-3 py-2 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300"
+
+                <ShowSelectionToggle
+                    isSelected={showSelected}
+                    onToggle={handleToggleShowSelected}
                 />
-
-                <div className="flex justify-center gap-0.5 pb-2">
-                    {[5, 4, 3, 2, 1].map(level => (
-                        <button
-                            key={level}
-                            onClick={() => toggleJLPTLevel(level)}
-                            className={`border dark:border-gray-600 rounded-full px-2 py-2 lg:text-sm text-xs transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center ${
-                                selectedJLPTLevels.includes(level)
-                                    ? 'bg-blue-500 dark:bg-gray-700 text-white'
-                                    : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 dark:hover:bg-gray-900 hover:text-white'
-                            }`}
-                        >
-                            JLPT{level}
-                        </button>
-                    ))}
-                </div>
-
-
-                <button
-                    onClick={() => setShowSelectedOnly(!showSelectedOnly)}
-                    className={`whitespace-nowrap text-xs border dark:border-gray-700 rounded-full px-3 py-1 transition-all duration-300 transform lg:hover:scale-105 hover:shadow-md flex items-center gap-2 ${
-                        showSelectedOnly
-                            ? 'bg-blue-500 dark:bg-green-900 text-white'
-                            : 'bg-gray-200 dark:bg-gray-900 text-gray-600 dark:text-gray-300 hover:bg-blue-300 hover:text-white'
-                    }`}
-                >
-                    {showSelectedOnly ? <FaEyeSlash/> : <FaEye/>}
-                    {showSelectedOnly ? 'Show All' : 'Show Selected'}
-                </button>
             </div>
 
-            {isAuthenticated && (selectedGrammar.length > 0 && (
+            {isAuthenticated && selectedGrammarIds.length > 0 && (
                 <div className="fixed top-4 right-4">
-                    <SaveDeckInput kanjiList={[]} wordList={[]} grammarList={selectedGrammar} readingList={[]}
-                                   onSaveStatusChange={onSaveStatusChanged}/>
+                    <SaveDeckButton
+                        grammarIds={selectedGrammarIds}
+                        onSaveStatusChange={onSaveStatusChanged}
+                    />
                 </div>
-            ))}
+            )}
 
-            <LoadingScreen isLoading={isLoading || isSaving}/>
-
-            {error && <p className="text-red-500">{String(error)}</p>}
-
-            <div className="mt-4 w-full max-w-4xl flex flex-col gap-4 text-left pb-24">
-                {contentToShow().length > 0 ? (
-                    contentToShow().map((grammarData, index) => (
-                        <div
-                            key={index}
-                            className="page-fade-enter page-fade-enter-active"
-                        >
-                            <GrammarBox
-                                result={grammarData}
-                                isSelected={selectedGrammar.includes(grammarData)}
-                                onSelect={(selected) => toggleSelectedGrammar(grammarData, selected)}
-                            />
-                        </div>
-                    ))
-                ) : (
-                    <p className="text-center text-gray-500">何もない</p>
+            <PaginatedContainer
+                documents={showSelected ? selectedData?.documents || [] : data?.documents || []}
+                currentPage={page}
+                totalPages={showSelected ? selectedData?.totalPages || 0 : data?.totalPages || 0}
+                onPageChange={setPage}
+                RenderComponent={({ document }) => (
+                    document ? <GrammarDataElement
+                        result={document}
+                        isSelected={selectedGrammarIds.includes(document._id)}
+                        onSelect={(isSelected) => handleItemSelect(document._id, isSelected)}
+                    /> : null
                 )}
-            </div>
-        </div>
+            />
+        </SectionContainer>
     );
 };
 

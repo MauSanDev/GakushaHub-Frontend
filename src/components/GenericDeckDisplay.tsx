@@ -1,186 +1,213 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import { useState, useRef, useEffect, ComponentType } from "react";
-import {
-    FaChevronRight,
-    FaChevronDown,
-    FaPlayCircle,
-} from "react-icons/fa";
-import FlashcardsModal from "./FlashcardsPage";
-import GrammarModal from "./GrammarPracticeModal/GrammarPracticeModal.tsx"; 
-import { DeckData } from "../data/DeckData.ts";
+import {ReactNode, useState} from "react";
+import {FaPen, FaPlayCircle, FaSpinner, FaTimes} from "react-icons/fa";
 import DeleteButton from "./DeleteButton";
-import GenerationButton from "./Modals/GenerationButton.tsx";
-import { CourseData, LessonData } from "../data/CourseData.ts";
 import AddContentButton from "./AddContentButton.tsx";
-import LocSpan from "./LocSpan.tsx";
+import {MembershipRole} from "../data/MembershipData.ts";
+import {CollectionTypes} from "../data/CollectionTypes.tsx";
+import {useElements} from '../hooks/newHooks/useElements';
+import CollapsibleSection from "./ui/containers/CollapsibleSection";
+import {BaseDeckData} from "../data/DeckData.ts";
+import GenericTable from "../components/Tables/GenericTable";
+import { convertArrayToFlashcardDeck } from "../data/FlashcardData.ts";
+import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
+import FlashcardsModal from "./FlashcardsPage";
+import GenerationButton from "./Modals/GenerationButton.tsx";
+import NoDataMessage from "./NoDataMessage.tsx";
+import GrammarPracticeModal from "./GrammarPracticeModal/GrammarPracticeModal.tsx";
+import {GrammarData} from "../data/GrammarData.ts";
+
+interface ColumnConfig<T> {
+    header: string;
+    key: keyof T;
+    formatter?: (value: T[keyof T], element: T) => ReactNode;
+}
 
 interface GenericDeckDisplayProps<T> {
-    courseData: CourseData;
-    lessonData: LessonData;
-    deck: DeckData<T>;
-    renderComponent: ComponentType<{ result: T }>;
-    TableComponent?: ComponentType<{ deck: DeckData<T> }>;
+    deck: BaseDeckData;
+    lessonName: string;
+    courseName: string;
+    courseId: string;
+    renderItem: (deckId: string,  element: T, index: number, canEdit: boolean) => JSX.Element;
     columns?: number;
     mobileColumns?: number;
-    enableFlashcards?: boolean;
+    columnConfig?: ColumnConfig<T>[];
     enableGeneration?: boolean;
-    elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation' | 'kanjiDeck' | 'grammarDeck' | 'wordDeck';
+    deckType: CollectionTypes;
+    elementType: CollectionTypes;
     viewMode: "table" | "cards";
+    viewerRole: MembershipRole;
+    showGeneration: boolean;
+    showFlashcards: boolean;
+    hasSelectedItems: boolean;
+    onRemoveElements: (deckId: string, collectionType: CollectionTypes) => void;
+    onDelete?: (elementId: string, collectionType: CollectionTypes) => void;
 }
 
 const GenericDeckDisplay = <T,>({
-                                    enableGeneration,
-                                    courseData,
-                                    lessonData,
                                     deck,
-                                    renderComponent: RenderComponent,
-                                    TableComponent,
+                                    lessonName,
+                                    courseName,
+                                    courseId,
+                                    renderItem,
                                     columns = 6,
                                     mobileColumns = 1,
-                                    enableFlashcards = true,
+                                    columnConfig,
+                                    deckType,
                                     elementType,
                                     viewMode,
+                                    viewerRole,
+                                    showGeneration,
+                                    showFlashcards,
+                                    hasSelectedItems,
+                                    onRemoveElements,
+                                    onDelete
                                 }: GenericDeckDisplayProps<T>) => {
-    const [flashcardsMode, setFlashcardsMode] = useState(false);
-    const [grammarModalVisible, setGrammarModalVisible] = useState(false); 
-    const [expanded, setExpanded] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
-    const contentRef = useRef<HTMLDivElement | null>(null);
+    const { data: elements, isLoading, fetchElementsData } = useElements<T>(deck.elements, elementType);
+    const [isFlashcardLoading, setIsFlashcardLoading] = useState(false); 
+    const [flashcardModeEnabled, setFlashcardModeEnabled] = useState(false);
+    const [isGrammarLoading, setIsGrammarLoading] = useState(false); 
+    const [grammarModeEnabled, setGrammarModeEnabled] = useState(false);
 
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 640);
-        };
-
-        handleResize();
-        window.addEventListener('resize', handleResize);
-
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    const toggleExpand = () => {
-        setExpanded((prev) => !prev);
-    };
-
-    useEffect(() => {
-        if (contentRef.current) {
-            contentRef.current.style.maxHeight = expanded
-                ? `${contentRef.current.scrollHeight}px`
-                : "0px";
+    const handleExpand = () => {
+        if (!elements) {
+            fetchElementsData();
         }
-    }, [expanded, viewMode]);
-
-    const handleFlashcardMode = () => {
-        setFlashcardsMode(true);
     };
 
-    const handleOpenGrammarModal = () => {
-        setGrammarModalVisible(true);
+    const handleFlashcardClick = async () => {
+        if (!elements) {
+            setIsFlashcardLoading(true); 
+            await fetchElementsData(); 
+            setIsFlashcardLoading(false); 
+        }
+        
+        setFlashcardModeEnabled(true)
+    };
+    
+    const handleGrammarPracticeClick = async () => {
+        if (!elements) {
+            setIsGrammarLoading(true); 
+            await fetchElementsData(); 
+            setIsGrammarLoading(false); 
+        }
+        
+        setGrammarModeEnabled(true)
     };
 
     const renderContent = () => {
-        if (viewMode === "cards" || !TableComponent) {
+        if (isLoading) {
             return (
-                <div className={`grid gap-2`} style={{gridTemplateColumns: `repeat(${isMobile ? mobileColumns : columns}, minmax(0, 1fr))`}}>
-                    {deck.elements.map((element, elemIndex) => (
-                        <RenderComponent key={`${deck._id}-${elemIndex}`} result={element} />
-                    ))}
+                <div className="flex justify-center items-center p-4">
+                    <FaSpinner className="animate-spin text-gray-500" size={24} />
                 </div>
             );
-        } else if (viewMode === "table" && TableComponent) {
-            return (<div className={`grid columns-1 gap-2`}>
-                <TableComponent deck={deck} />;
-            </div>)
+        }
+
+        if (!elements || Object.keys(elements).length === 0) {
+            return <NoDataMessage />;
+        }
+
+        const elementList = Object.values(elements);
+
+        if (viewMode === "cards" || !columnConfig) {
+            return (
+                <div
+                    className={`grid gap-2`}
+                    style={{
+                        gridTemplateColumns: `repeat(${window.innerWidth < 640 ? mobileColumns : columns}, minmax(0, 1fr))`,
+                    }}
+                >
+                    {elementList.map((element, index) => renderItem(deck._id,element, index, canEdit))}
+                </div>
+            );
+        } else if (viewMode === "table" && columnConfig) {
+            return (
+                <div className="grid columns-1 gap-2">
+                    <GenericTable data={elementList} columns={columnConfig} />
+                </div>
+            );
         }
     };
+    
+    const canEdit = viewerRole === MembershipRole.Owner || viewerRole === MembershipRole.Sensei || viewerRole === MembershipRole.Staff;
 
     return (
         <div className="w-full pl-3">
-            {flashcardsMode && (
-                <FlashcardsModal
-                    deck={deck}
-                    onClose={() => setFlashcardsMode(false)}
-                />
-            )}
+            <CollapsibleSection
+                title={deck.name}
+                label={`(${deck.elements.length} Items)`}
+                onExpand={handleExpand}
+                isEditable={true}
+                documentId={deck._id}
+                field="name"
+                collectionType={deckType}
+                canEdit={canEdit}
+                actions={(
+                    <>
 
-            {grammarModalVisible && (
-                <GrammarModal
-                    deck={deck}
-                    onClose={() => setGrammarModalVisible(false)}
-                />
-            )}
+                        {canEdit && hasSelectedItems && <TertiaryButton
+                            iconComponent={isFlashcardLoading ?  <FaSpinner className="animate-spin text-gray-500" /> : <FaTimes />}
+                            onClick={() => onRemoveElements(deck._id, deckType)}
+                            className={"bg-transparent dark:bg-transparent description-red-600 dark:description-red-800"}
+                            label={"Remove Selected"}
+                        />}
 
-            <div className="flex justify-between items-center bg-gray-100 dark:bg-gray-900 p-0.5 rounded">
-                <div className="flex items-center gap-2 cursor-pointer" onClick={toggleExpand}>
-                    <button className="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200">
-                        {expanded ? <FaChevronDown size={12}/> : <FaChevronRight size={12}/>}
-                    </button>
-                    <div
-                        className="font-bold text-gray-600 dark:text-gray-300 truncate flex-grow lg:max-w-xl max-w-32">
-                        {deck.name}
-                    </div>
-                    <span className="text-sm text-gray-500">({deck.elements.length} <LocSpan textKey={"elements"}/>)</span>
-                </div>
+                        {deckType === CollectionTypes.GrammarDeck &&
+                            <TertiaryButton
+                                iconComponent={isGrammarLoading ?  <FaSpinner className="animate-spin text-gray-500" /> : <FaPen />}
+                                onClick={handleGrammarPracticeClick}
+                            />}
+                        
+                        {showFlashcards && 
+                        <TertiaryButton 
+                            iconComponent={isFlashcardLoading ?  <FaSpinner className="animate-spin text-gray-500" /> : <FaPlayCircle />}
+                            onClick={handleFlashcardClick} 
+                        />}
 
-                <div className="flex gap-0.5 items-center flex-wrap mt-2 sm:mt-0">
-                    
-                    <AddContentButton
-                        creatorId={deck.creatorId}
-                        courseId={courseData._id}
-                        courseName={courseData.name}
-                        lessonName={lessonData.name}
-                        deckName={deck.name}
-                        />
-                    
-                    <DeleteButton
-                        creatorId={deck.creatorId}
-                        elementId={deck._id}
-                        elementType={elementType}
-                    />
-
-                    {enableGeneration && (
+                        {showGeneration && 
                         <GenerationButton
-                            decks={[deck]}
-                            courseId={courseData._id}
-                            lessonName={lessonData.name}
-                            courseName={courseData.name}
+                            termsDictionary={{[elementType]: deck.elements,}}
+                            deckName={deck.name}
+                            courseName={''}
+                            courseId={''}
+                            lessonName={''}
+                        />}
+
+                        <AddContentButton
+                            creatorId={deck.creatorId}
+                            courseId={courseId}
+                            courseName={courseName}
+                            lessonName={lessonName}
+                            deckName={deck.name}
                         />
-                    )}
-
-                    {enableFlashcards && elementType !== "grammarDeck" && ( 
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleFlashcardMode();
-                            }}
-                            className="p-2 bg-blue-500 dark:bg-gray-950 text-white rounded shadow hover:bg-blue-600 dark:hover:bg-gray-800"
-                        >
-                            <FaPlayCircle size={12}/>
-                        </button>
-                    )}
-
-                    {elementType === "grammarDeck" && ( 
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                handleOpenGrammarModal();
-                            }}
-                            className="p-2 bg-green-500 dark:bg-gray-950 text-white rounded shadow hover:bg-green-600 dark:hover:bg-gray-800"
-                        >
-                            <FaPlayCircle size={12}/>
-                        </button>
-                    )}
-                </div>
-            </div>
-
-            <div
-                ref={contentRef}
-                className="overflow-hidden transition-max-height duration-500 ease-in-out"
-                style={{maxHeight: expanded ? `${contentRef.current?.scrollHeight}px` : "0px"}}
+                        <DeleteButton
+                            creatorId={deck.creatorId}
+                            elementId={deck._id}
+                            elementType={deckType}
+                            onDelete={onDelete}
+                        />
+                    </>
+                )}
             >
                 {renderContent()}
-            </div>
+
+
+            {flashcardModeEnabled && elements &&
+                <FlashcardsModal
+                    onClose={() => {setFlashcardModeEnabled(false)}}
+                    deck={convertArrayToFlashcardDeck<T>(Object.values(elements), deck.name, elementType)}
+                />
+            }
+
+            {grammarModeEnabled && elements &&
+                <GrammarPracticeModal
+                    onClose={() => {setGrammarModeEnabled(false)}}
+                    elements={Object.values(elements) as GrammarData[]}
+                />
+            }
+            </CollapsibleSection>
         </div>
     );
 };

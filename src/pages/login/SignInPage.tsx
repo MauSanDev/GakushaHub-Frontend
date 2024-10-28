@@ -4,7 +4,7 @@ import { FaSpinner } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
 import AuthLayout from './AuthLayout.tsx';
 import LocSpan from "../../components/LocSpan.tsx";
-import {useTranslation} from "react-i18next"; // Importa el AuthLayout
+import {useTranslation} from "react-i18next";
 
 const SignInPage: React.FC = () => {
     const { signIn } = useAuth();
@@ -22,7 +22,7 @@ const SignInPage: React.FC = () => {
 
         try {
             await signIn(email, password);
-            navigate('/');
+            navigate("/search");
         } catch (error: any) {
             const code = error.code?.trim();
             switch (code) {
@@ -58,7 +58,7 @@ const SignInPage: React.FC = () => {
                         type="email"
                         required
                         disabled={loading}
-                        className="w-full text-black px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        className="input-field"
                         placeholder={t("loginFlow.email")}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -68,7 +68,7 @@ const SignInPage: React.FC = () => {
                         type="password"
                         required
                         disabled={loading}
-                        className="w-full text-black px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        className="input-field"
                         placeholder={t("loginFlow.password")}
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -81,13 +81,13 @@ const SignInPage: React.FC = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        className={`w-full bg-blue-500 dark:bg-blue-800 text-white rounded py-2 px-4 hover:bg-blue-600 dark:hover:bg-blue-700 text-sm transition-all`}
                     >
                         {loading ? <FaSpinner className="animate-spin"/> : <LocSpan textKey={"loginFlow.logIn"}/>}
                     </button>
                     {error && <p className="text-red-500 text-center mt-4">{error}</p>}
                 </form>
-                <div className="text-center text-sm text-gray-600 dark:text-gray-300">
+                <div className="text-center text-sm text-gray-600 dark:text-gray-300 py-4">
                     <LocSpan textKey={"loginFlow.dontHaveAccount"}/>
                     {' '}
                     <Link to="/signup" className="font-medium text-blue-600 hover:text-blue-500">

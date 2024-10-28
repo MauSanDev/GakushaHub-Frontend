@@ -1,7 +1,7 @@
 import { FaMinus, FaClipboardCheck, FaCommentDots, FaSpinner } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { GrammarData } from "../../data/GrammarData.ts";
-import ConfigDropdown from "../ConfigDropdown.tsx";
+import TooltipButton from "../TooltipButton.tsx";
 import { useCorrectGrammar } from "../../hooks/useCorrectGrammar";
 import i18n from "i18next";
 
@@ -100,7 +100,7 @@ const SentenceInput = ({ index, onRemove, isLast, grammarData }: SentenceInputPr
                             style={{ backgroundColor: getScoreColor(score!) }}
                         >
                             <span className={"font-bold"}>{score}/10</span>
-                            <ConfigDropdown
+                            <TooltipButton
                                 items={dropdownItems}
                                 icon={<FaCommentDots />}
                                 buttonSize="text-xs"

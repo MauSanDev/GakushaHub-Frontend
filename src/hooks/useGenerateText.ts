@@ -36,7 +36,7 @@ export const useGenerateText = () => {
             resetQueries();
         },
         onError: (error) => {
-            console.error("Error generating text:", error);
+            console.error("Error generating description:", error);
         }
     });
 };

@@ -1,22 +1,22 @@
 import { useState, useEffect } from "react";
-import { FaArrowLeft } from "react-icons/fa";
 import ReactDOM from "react-dom";
-import { GrammarDeck } from "../../data/GrammarData.ts";
+import {GrammarData} from "../../data/GrammarData.ts";
 import GrammarElement from "./GrammarPracticeBox.tsx";
+import BackButton from "../ui/buttons/BackButton.tsx";
 
 interface GrammarPracticeModalProps {
-    deck: GrammarDeck;
+    elements: GrammarData[];
     onClose: () => void;
 }
 
-const GrammarPracticeModal = ({ deck, onClose }: GrammarPracticeModalProps) => {
+const GrammarPracticeModal = ({ elements, onClose }: GrammarPracticeModalProps) => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        if (deck) {
+        if (elements) {
             setIsVisible(true);
         }
-    }, [deck]);
+    }, [elements]);
 
     useEffect(() => {
         if (isVisible) {
@@ -30,13 +30,13 @@ const GrammarPracticeModal = ({ deck, onClose }: GrammarPracticeModalProps) => {
         };
     }, [isVisible]);
 
-    // Función para manejar el cierre con confirmación
+    
     const handleClose = () => {
         const confirmClose = window.confirm(
             "Close the Grammar Practice? The practice will be discarded. Do you want to continue?"
         );
         if (confirmClose) {
-            onClose(); // Si el usuario confirma, se cierra el modal
+            onClose(); 
         }
     };
 
@@ -46,18 +46,13 @@ const GrammarPracticeModal = ({ deck, onClose }: GrammarPracticeModalProps) => {
                 className="relative w-11/12 md:w-80 pr-8 lg:w-1/2 h-auto p-4 flex flex-col overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-700"
                 style={{ maxHeight: "90vh" }}
             >
-                <button
-                    onClick={handleClose} // Usamos handleClose en lugar de onClose directamente
-                    className="absolute top-2 left-2 text-white p-2 rounded-full shadow-lg bg-gray-800 hover:bg-gray-600"
-                >
-                    <FaArrowLeft />
-                </button>
+                <BackButton onClick={handleClose} className={"absolute top-2 left-2 "}/>
 
                 <h1 className="text-4xl font-bold text-white mb-6 text-center">
                     文法を練習しましょう！
                 </h1>
 
-                {deck.elements.map((element, elementIndex) => (
+                {elements.map((element, elementIndex) => (
                     <GrammarElement key={elementIndex} element={element} />
                 ))}
             </div>

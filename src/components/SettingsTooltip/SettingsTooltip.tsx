@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import { FaCog, FaRedo, FaRandom, FaAlignLeft } from "react-icons/fa";
-import LocSpan from "../LocSpan.tsx";
+import React from 'react';
+import {FaRedo, FaRandom, FaAlignLeft, FaCog} from 'react-icons/fa';
+import TooltipButton from "../TooltipButton.tsx";
+import LabelButton from "../ui/buttons/LabelButton.tsx";
 
 interface SettingsTooltipProps {
     onReset: () => void;
@@ -10,77 +11,28 @@ interface SettingsTooltipProps {
     isTermFirst: boolean;
 }
 
-const SettingsTooltip = ({
-                             onReset,
-                             onToggleShuffle,
-                             isShuffleEnabled,
-                             onToggleOrientation,
-                             isTermFirst,
-                         }: SettingsTooltipProps) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const tooltipRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        function handleClickOutside(event: MouseEvent) {
-            if (tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
-                setIsOpen(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
+const SettingsTooltip: React.FC<SettingsTooltipProps> = ({
+                                                             onReset,
+                                                             onToggleShuffle,
+                                                             isShuffleEnabled,
+                                                             onToggleOrientation,
+                                                             isTermFirst,
+                                                         }) => {
+    const items = [
+        
+        <LabelButton iconComponent={<FaRedo />} label={"flashcardsModal.resetDeck"} onClick={onReset} />,
+        <LabelButton iconComponent={<FaRandom />} label={"flashcardsModal.shuffle"} onClick={onToggleShuffle} value={isShuffleEnabled ? "on" : "off"}/>,
+        <LabelButton iconComponent={<FaAlignLeft />} label={"flashcardsModal.orientation"} onClick={onToggleOrientation} value={isTermFirst ? "flashcardsModal.termReading" : "flashcardsModal.readingTerm"}/>,
+    ];
 
     return (
-        <div className="relative" ref={tooltipRef}>
-            <button
-                onClick={() => setIsOpen((prev) => !prev)}
-                className="text-white p-2 rounded-full shadow-lg bg-gray-800 hover:bg-gray-600"
-            >
-                <FaCog />
-            </button>
-
-            {isOpen && (
-                <div
-                    className={`absolute top-12 right-0 w-48 bg-gray-900 text-white rounded-lg shadow-lg p-4 z-50 transition-transform duration-300 ease-in-out transform ${
-                        isOpen ? "scale-100" : "scale-0"
-                    }`}
-                >
-                    <button
-                        onClick={onReset}
-                        className="flex items-center gap-2 w-full py-2 px-4 hover:bg-gray-800 rounded text-xs"
-                    >
-                        <FaRedo />
-                        <LocSpan textKey={"flashcardsModal.resetDeck"} />
-                    </button>
-                    <button
-                        onClick={onToggleShuffle}
-                        className="flex items-center gap-2 w-full py-2 px-4 hover:bg-gray-800 rounded text-xs"
-                    >
-                        <FaRandom />
-                        <LocSpan textKey={"flashcardsModal.shuffle"} />:{" "}
-                        {isShuffleEnabled ? (
-                            <LocSpan textKey={"on"} />
-                        ) : (
-                            <LocSpan textKey={"off"} />
-                        )}
-                    </button>
-                    <button
-                        onClick={onToggleOrientation}
-                        className="flex items-center gap-2 w-full py-2 px-4 hover:bg-gray-800 rounded text-xs leading-tight"
-                    >
-                        <FaAlignLeft />
-                        <LocSpan textKey={"flashcardsModal.orientation"} />:{" "}
-                        {isTermFirst ? (
-                            <LocSpan textKey={"flashcardsModal.termReading"} />
-                        ) : (
-                            <LocSpan textKey={"flashcardsModal.readingTerm"} />
-                        )}
-                    </button>
-                </div>
-            )}
-        </div>
+        <TooltipButton
+            items={items}
+            icon={<FaCog />}
+            buttonSize="text-lg"
+            baseColor="bg-gray-800"
+            hoverColor="hover:bg-gray-600"
+        />
     );
 };
 

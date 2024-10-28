@@ -1,37 +1,38 @@
 import React from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { useDeleteElement } from '../hooks/useDeleteElement';
-import { useNavigate } from 'react-router-dom';
-import {useAuth} from "../context/AuthContext.tsx";
+import { useAuth } from "../context/AuthContext.tsx";
+import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
+import { CollectionTypes } from "../data/CollectionTypes.tsx";
 
 interface DeleteButtonProps {
-    creatorId: string
+    creatorId: string;
     elementId: string;
-    elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation' | 'kanjiDeck' | 'grammarDeck' | 'wordDeck';
+    elementType: CollectionTypes;
     deleteRelations?: boolean;
-    redirectTo?: string;
+    onDelete?: (elementId: string, collectionType: CollectionTypes) => void;
+    extraParams?: Record<string, unknown>;
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({ creatorId, elementId, elementType, deleteRelations = false, redirectTo }) => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({ creatorId, elementId, elementType, deleteRelations = false, onDelete, extraParams }) => {
     const mutation = useDeleteElement();
-    const navigate = useNavigate();
     const { user, userData } = useAuth();
-    
-    if (!user || (creatorId && userData?._id != creatorId)) return ;
 
-    const handleDelete = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        event.preventDefault();
-        event.stopPropagation();
+    if (!user || (creatorId && userData?._id != creatorId)) return null;
 
+    const handleDelete = () => {
         if (window.confirm(`Are you sure you want to delete this ${elementType}?`)) {
             mutation.mutate(
-                { elementId, elementType, deleteRelations },
                 {
-                    onSuccess: () => {
-                        if (redirectTo) {
-                            navigate(redirectTo);
-                        } else {
-                            navigate(0);
+                    elementIds: [elementId],
+                    elementType,
+                    deleteRelations,
+                    extraParams
+                },
+                {
+                    onSuccess: (deleted) => {
+                        if (onDelete) {
+                            onDelete(deleted[0], elementType);
                         }
                     },
                 }
@@ -40,13 +41,12 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ creatorId, elementId, eleme
     };
 
     return (
-        <button
+        <TertiaryButton
+            iconComponent={<FaTrash />}
+            className="hover:bg-red-500 hover:dark:bg-red-500"
             onClick={handleDelete}
             disabled={mutation.isLoading}
-            className="flex items-center gap-1 text-gray-700 bg-gray-300 dark:text-gray-300 dark:bg-gray-950 hover:text-white hover:bg-red-500 dark:hover:bg-red-500 px-2 py-2 rounded transition-colors duration-200 text-sm"
-        >
-            <FaTrash size={12} className="text-inherit transition-colors duration-75" />
-        </button>
+        />
     );
 };
 

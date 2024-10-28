@@ -1,35 +1,30 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { ApiClient } from '../services/ApiClient';
-
-interface DeleteElementParams {
-    elementId: string;
-    elementType: 'course' | 'lesson' | 'kanji' | 'word' | 'grammar' | 'generation' | 'kanjiDeck' | 'grammarDeck' | 'wordDeck';
-    deleteRelations?: boolean;
-}
-
-interface DeleteResponse {
-    elementId: string;
-    message: string;
-}
-
-const deleteElement = async ({ elementId, elementType, deleteRelations = false }: DeleteElementParams): Promise<DeleteResponse> => {
-    return ApiClient.delete<DeleteResponse>(`/api/delete/${elementType}`, {
-        data: {
-            elementId,
-            deleteRelations,
-        },
-    });
-};
+import { deleteData } from '../services/dataService';
+import { CollectionTypes } from "../data/CollectionTypes.tsx";
 
 export const useDeleteElement = () => {
     const queryClient = useQueryClient();
 
-    return useMutation(deleteElement, {
-        onSuccess: () => {
-            queryClient.invalidateQueries('parsedText'); // TODO: Modify this as necessary
-        },
-        onError: (error: Error) => {
-            console.error('Error deleting element:', error.message);
-        },
-    });
+    return useMutation(
+        ({
+             elementIds,
+             elementType,
+             deleteRelations = false,
+             extraParams = {}
+         }: {
+            elementIds: string[],
+            elementType: CollectionTypes,
+            deleteRelations?: boolean,
+            extraParams?: Record<string, unknown>
+        }) => deleteData(elementIds, elementType, queryClient, deleteRelations, extraParams),
+        {
+            onSuccess: () => {
+                // realiza cualquier acción secundaria sin devolver nada
+                console.log("Elemento eliminado exitosamente.");
+            },
+            onError: (error: Error) => {
+                console.error('Error deleting element:', error.message);
+            },
+        }
+    );
 };

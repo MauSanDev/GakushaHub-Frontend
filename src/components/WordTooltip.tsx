@@ -19,7 +19,7 @@ const WordTooltip: React.FC<WordTooltipProps> = ({ word, targetElement, onClose 
         if (!tooltipRef.current) {
             const tooltip = document.createElement('span');
             tooltip.className =
-                'tooltip-content border-gray-300 dark:border-gray-700 border indent-0 absolute left-0 top-full mb-2 p-2 bg-white dark:bg-gray-800 text-black dark:text-white rounded transition-opacity duration-300 whitespace-normal z-50';
+                'tooltip-content border-gray-300 dark:border-gray-700 border indent-0 absolute left-0 top-full mb-2 p-2 bg-white dark:bg-gray-800 description-black dark:description-white rounded transition-opacity duration-300 whitespace-normal z-50';
             tooltip.style.width = '300px';
             tooltip.style.letterSpacing = '1';
             tooltip.style.lineHeight = '1';
@@ -58,7 +58,7 @@ const WordTooltip: React.FC<WordTooltipProps> = ({ word, targetElement, onClose 
     useEffect(() => {
         if (isLoading && tooltipRef.current) {
             const loadingText = document.createElement('span');
-            loadingText.className = 'text-gray-500 dark:text-gray-300 text-xs';
+            loadingText.className = 'description-gray-500 dark:description-gray-300 description-xs';
             loadingText.textContent = `${t("loading")}...`;
 
             tooltipRef.current.innerHTML = ''; // Limpiar el contenido previo
@@ -70,15 +70,15 @@ const WordTooltip: React.FC<WordTooltipProps> = ({ word, targetElement, onClose 
             const wordData = wordDataList[0];
 
             const wordText = document.createElement('span');
-            wordText.className = 'font-bold text-blue-400 dark:text-white text-m';
+            wordText.className = 'font-bold description-blue-400 dark:description-white description-m';
             wordText.textContent = wordData.word;
 
             const readingsText = document.createElement('span');
-            readingsText.className = 'text-gray-500 dark:text-gray-300 text-xs';
+            readingsText.className = 'description-gray-500 dark:description-gray-300 description-xs';
             readingsText.textContent = `(${wordData.readings.join(';')})`;
 
             const meaningsText = document.createElement('span');
-            meaningsText.className = 'text-gray-800 dark:text-gray-200 text-xs';
+            meaningsText.className = 'description-gray-800 dark:description-gray-200 description-xs';
             meaningsText.textContent = wordData.meanings.map((meaning) => meaning.en).slice(0, 3).join('; ');
 
             tooltipRef.current.innerHTML = ''; // Limpiar el contenido previo
@@ -91,7 +91,7 @@ const WordTooltip: React.FC<WordTooltipProps> = ({ word, targetElement, onClose 
 
         if (error && tooltipRef.current) {
             const errorText = document.createElement('span');
-            errorText.className = 'text-red-500 dark:text-red-300 text-xs';
+            errorText.className = 'description-red-500 dark:description-red-300 description-xs';
             errorText.textContent = 'Error loading data';
 
             tooltipRef.current.innerHTML = ''; // Limpiar el contenido previo

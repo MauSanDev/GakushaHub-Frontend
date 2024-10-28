@@ -156,5 +156,248 @@
     "orientation": "Orientation",
     "termReading": "Term -> Reading",
     "readingTerm": "Reading -> Term"
+  },
+
+  "landingPage": {
+    "title": "Manabu Mori",
+    "objective": "Objective",
+    "forStudents": "For Students",
+    "forTeachers": "For Teachers",
+    "mission": "Mission",
+    "roadmap": "Roadmap",
+    "getStarted": "Get Started",
+    "logIn": "Log in",
+    "heroTitle": "Learn one language\nUse one app",
+    "heroDescription": "An all-in-one Japanese learning platform for Students and Teachers.\nDictionaries, flashcards, AI-powered exercises, resources and everything you need.",
+    "contactUs": "Contact us",
+    "footerText": "©2024 Manabu Mori - Optimizing learning - 学習を最適化する",
+    "objectiveTitle": "Our Objective",
+    "objectiveDescription": "Our goal is to offer an all-in-one study solution that centralizes all students' and teachers' needs on a user-friendly platform, fast and accessible from any device, eliminating the need to rely on multiple applications. We aim to optimize time so it is used to study, not to prepare or search for resources.",
+    "studentToolsDescription": "Centralized tools for each student to improve their Japanese in various ways. Discover features such as Flashcards, Kanji, Word, Grammar Dictionaries, and use Generative AI to generate texts, practices, exams, and more.",
+    "tool1": "Flashcards",
+    "tool2": "Grammar",
+    "tool3": "Kanji",
+    "tool4": "Words",
+    "tool5": "Text Editor",
+    "tool6": "Practices and Exams",
+    "tool7": "Readings",
+    "tool8": "Text Generation",
+    "tool9": "Contextual Corrector",
+    "tool10": "Personal Notes",
+    "tool11": "Examples and Explanations",
+    "missionSection": {
+      "missionTitle": "Our Mission",
+      "missionDescription": "Our mission is to help students and teachers simplify learning Japanese and, in the future, expand to other languages. We want to optimize study time so it is truly used for learning and not wasted searching for resources."
+    },
+    "teacherFeaturesSection": {
+      "title": "For Teachers",
+      "description": "Tools to manage your classes, students, and content in a centralized and effective way.",
+      "selectFeaturePrompt": "Select a feature",
+      "featureTitle1": "Group Management",
+      "featureDescription1": "Organize and monitor multiple groups in one place.",
+      "featureTitle2": "Class Calendar",
+      "featureDescription2": "Easily manage schedules and important dates by group or organization.",
+      "featureTitle3": "Shared Resources",
+      "featureDescription3": "Upload and share materials and resources with your student groups.",
+      "featureTitle4": "Content Creation",
+      "featureDescription4": "Easily create exclusive content with our automations and Generative AI.",
+      "featureTitle5": "Group Chat",
+      "featureDescription5": "Communicate with your students through Group Chats.",
+      "featureTitle6": "Student Management",
+      "featureDescription6": "Manage your students, track them, and organize custom groups."
+    },
+    "roadmapSection": {
+      "title": "Development Plan",
+      "description": "Our development plan to offer an increasingly complete experience.",
+      "target1": "The Goal - Expansion to Other Languages",
+      "target1desc": "The ultimate goal is to provide a similar experience to Manabu Mori for studying other languages.",
+      "target2": "Phase 7 - Global v1 Launch",
+      "target2desc": "Launch and marketing campaign to make the platform accessible to all users.",
+      "target3": "Phase 6 - Resource Generation for Classes",
+      "target3desc": "Features for generating PDFs, presentations, and exporting information to other platforms.",
+      "target4": "Phase 5 - Notes, Editors, and Audio",
+      "target4desc": "Additional features for students: personal notes, text editor, shadowing, and speech-to-voice.",
+      "target5": "Phase 4 - Definition of Plans and Users",
+      "target5desc": "Provide structured support to allow different users to interact with tools and memberships.",
+      "target6": "Phase 3 - Platform for Teachers",
+      "target6desc": "Special features for teachers to manage their classes and students.",
+      "target7": "Phase 2 - Generative AI Features",
+      "target7desc": "Implementation of correction and content generation using Generative AI.",
+      "target8": "Phase 1 - Basic Features",
+      "target8desc": "Initial features such as dictionaries, grammar, flashcards, search, and resource management."
+    }
+  },
+  "studyGroups": "Study Groups",
+  "searchPlaceholder": "Search...",
+  "addDescriptionPlaceholder": "Add a Description...",
+  "allLevels": "All Levels",
+  "showAll": "Show All",
+  "examples": "Examples",
+  "showSelected": "Show Selected",
+  "pagesAmount": "Pages:",
+  "institutions": "Schools",
+  "institution":
+  {
+    "myInstitution": "My School",
+    "myMemberships": "My Memberships",
+    "editSchool": "Edit School",
+    "seeProfile": "See Profile",
+    "membershipTypes":
+    {
+      "owner": "Owner",
+      "staff": "Staff",
+      "sensei": "Sensei",
+      "student": "Student",
+      "none": "None"
+    },
+    "addStudyGroup": "Create Study Group",
+    "profileEdition":
+    {
+      "institutionName": "Institution Name",
+      "socialLinks": "Social Links",
+      "addLink": "Add Link"
+    },
+    "studyGroupKeys":
+    {
+      "createNewGroup": "Create a new Study Group",
+      "timeBased": "Create time-based course",
+      "optionalFeatures": "Select optional features:",
+      "changeLater": "(You will be able to change these values later)",
+      "enabledSections": "Enabled Sections",
+      "courseDates": "Course Dates",
+      "archive": "Archive"
+    },
+    "chatKeys":
+    {
+      "writeMessage": "Write your message...",
+      "send": "Send",
+      "deletedMessage": "This message was deleted",
+      "editedMessage": "(Edited)",
+      "confirmDelete": "Are you sure you want to delete this message?"
+    }
+  },
+  "saved": "Saved",
+  "save": "Save",
+  "members": "Members",
+  "resources": "Resources",
+  "resourcesGroups": "Resources Groups",
+  "title": "Title",
+  "update": "Update",
+  "create": "Create",
+  "open": "Open",
+  "goBack": "Go Back",
+  "seeProfile": "See Profile",
+  "editProfile": "Edit Profile",
+  "news": "News",
+  "clearAll": "Clear All",
+  "schedule": "Schedule",
+  "newsKeys": {
+    "createNews": "Create News",
+    "editNews": "Edit News",
+    "addTags": "Add Tags...",
+    "suggestedTags": "Suggested tags"
+  },
+  "resourcesKeys":
+  {
+    "addResources": "Add Resources",
+    "addNewResources": "Add New Resources",
+    "dragAndDrop": "Add or Drag and Drop Resources to upload them",
+    "importFiles": "Import Files",
+    "linkOrText": "Link or Text",
+    "sureToCancel": "Are you sure you want to cancel this upload?",
+    "emptyTitle": "Title cannot be empty",
+    "invalidUrl": "Url format is invalid",
+    "saveError": "Error saving resource",
+    "sureToDelete": "Are you sure you want to delete this resource?",
+    "createGroup": "Create Group",
+    "deleteGroup": "Delete Group",
+    "removeSelected": "Remove Selected",
+    "sort": "Sort",
+    "removeGroupConfirm": "Are you sure you want to remove the selected Group?",
+    "removeSelectedConfirm": "Are you sure you want to remove the selected resources?",
+    "createNewGroup": "Create a New Resource Group",
+    "publicToggle": "If public, all the Members of your Institution will be able to see this group"
+  },
+  "membersKeys":
+  {
+    "addMembers": "Add Members",
+    "enterEmails": "Enter email addresses",
+    "addMembersToInstitution": "Add Members to Institution"
+  },
+  "createCourseKeys": {
+    "title": "Create a new Course for {0}",
+    "courseName": "Enter Course name"
+  },
+  "createLessonKeys": {
+    "title": "Create a new Lesson for {0}",
+    "lessonName": "Enter Lesson name"
+  },
+  "scheduleKeys":
+  {
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    },
+    "weekdays": {
+      "monday": "M",
+      "tuesday": "T",
+      "wednesday": "W",
+      "thursday": "T",
+      "friday": "F",
+      "saturday": "S",
+      "sunday": "S"
+    },
+    "todayEvents": "Today Events:",
+    "upcomingEvents": "Upcoming Events:",
+    "pastEvents": "Past Events:",
+    "scheduledEvents": "Scheduled Events",
+    "addEvent": "Add Event"
+  },
+  "info": "Information",
+  "chat": "Chat",
+  "homework": "Homework",
+  "settings": "Settings",
+  "professor": "Professor",
+  "remove": "Remove",
+  "bindCourses": "Bind Courses",
+  "addMembers": "Add Members",
+  "select": "Select",
+  "licensesPage": {
+    "title": "Licenses",
+    "freeUserTitle": "Free User",
+    "freeUserDescription": "For starters. Search and select your resources for self studying.",
+    "freeUserRecommendedFor": "For students that want to search and check resources in Japanese.",
+    "freeUserPrice": "0 JPY",
+    "premiumTitle": "Premium",
+    "premiumDescription": "Create courses and resources for self studying. \nUse IA features to boost your practice and resources generation (Drills, Texts, Correction, and more).",
+    "premiumRecommendedFor": "For students that want to go to the next level, practice with focused IA and generate resources for practice.",
+    "premiumPrice": "1500 JPY",
+    "premiumTag": "Best",
+    "senseiTitle": "Sensei",
+    "senseiDescription": "Create your School with your group of students. Create shared resources for your courses and invite your students and other Senseis to participate.",
+    "senseiRecommendedFor": "For particular Senseis, Schools and Organizations that want to manage and provide resources for their students.",
+    "senseiPrice": "21,970 JPY",
+    "recommendedForLabel": "Recommended for:",
+    "alreadyHaveLicense": "You already have a License!",
+    "alreadyHavePremium": "You already have a Premium License!",
+    "alreadyHaveSensei": "You already have a Sensei License!",
+    "selectButton": "Select"
+  },
+  "profileKeys":
+  {
+    "name": "Name",
+    "nickname": "Nickname",
+    "editProfile": "Edit Profile",
+    "nicknameFooter": "Write it in Japanese so other users know how to call you!"
   }
 }

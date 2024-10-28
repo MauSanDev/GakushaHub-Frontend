@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalWrapper from '../ModalWrapper';
 import { useCreateCourse } from '../../hooks/coursesHooks/useCreateCourse.ts';
+import { useInstitutionById } from "../../hooks/institutionHooks/useInstitutionById.ts";
+import InputField from "../../components/ui/inputs/InputField";
+import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
+import LocSpan from "../../components/LocSpan.tsx";
 
 interface CreateCourseModalProps {
-    onClose?: () => void;
-    onCreateSuccess?: () => void;
+    institutionId?: string;
+    onClose: () => void;
+    onCreateSuccess?: (courseId: string) => void;
 }
 
-const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ onClose, onCreateSuccess }) => {
+const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ institutionId, onClose, onCreateSuccess }) => {
     const [courseName, setCourseName] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const { mutate: createCourse, isLoading } = useCreateCourse();
+    const { data, fetchInstitution, isLoading: institutionLoading } = useInstitutionById(institutionId || "");
+    
+    useEffect(() => {
+        if (institutionId) {
+            fetchInstitution();
+        }
+    }, [institutionId, fetchInstitution]);
 
     const handleCreateCourse = () => {
         if (courseName.trim() === '') {
@@ -18,11 +30,11 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ onClose, onCreate
             return;
         }
 
-        createCourse(courseName, {
-            onSuccess: () => {
-                setError(null); // Clear error on success
+        createCourse({ courseName, institutionId }, {
+            onSuccess: (x) => {
+                setError(null);
                 if (onCreateSuccess) {
-                    onCreateSuccess();
+                    onCreateSuccess(x._id);
                 }
                 if (onClose) {
                     onClose();
@@ -38,38 +50,32 @@ const CreateCourseModal: React.FC<CreateCourseModalProps> = ({ onClose, onCreate
     return (
         <ModalWrapper onClose={onClose}>
             <div className="relative p-6 w-full mt-2 rounded-lg shadow-md text-left border-2 transform transition-transform duration-300 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800">
-                <h2 className="text-2xl font-bold mb-4 text-blue-900 dark:text-white text-center">Create a New Course</h2>
+                <h2 className="text-2xl font-bold mb-4 text-blue-900 dark:text-white text-center">
+                    <LocSpan textKey={"createCourseKeys.title"} replacements={[data?.name as string]} />
+                </h2>
 
-                <div className="mb-4">
-                    <input
-                        type="text"
-                        id="courseName"
-                        value={courseName}
-                        onChange={(e) => {
-                            setCourseName(e.target.value);
-                            setError(null); // Clear error when typing
-                        }}
-                        placeholder="Enter course name"
-                        disabled={isLoading}
-                        className={`mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-300 ${
-                            error ? 'border-red-500' : ''
-                        }`}
-                    />
-                    {error && (
-                        <p className="text-red-500 text-sm mt-2">{error}</p>
-                    )}
-                </div>
+                {/* Input para el nombre del curso */}
+                <InputField
+                    id="courseName"
+                    value={courseName}
+                    onChange={(e) => {
+                        setCourseName(e.target.value);
+                        setError(null);
+                    }}
+                    placeholder="createCourseKeys.courseName"
+                    disabled={isLoading || institutionLoading}
+                    error={error}
+                />
 
-                <div className="flex justify-center">
-                    <button
+                {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+
+                <div className="flex justify-center mt-4">
+                    <PrimaryButton
+                        label="create"
                         onClick={handleCreateCourse}
-                        disabled={isLoading || courseName.trim() === ''}
-                        className={`inline-flex w-full justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-500 hover:bg-blue-400 dark:bg-blue-800 dark:hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${
-                            isLoading || courseName.trim() === '' ? 'opacity-50 cursor-not-allowed' : ''
-                        }`}
-                    >
-                        {isLoading ? 'Creating...' : 'Create'}
-                    </button>
+                        disabled={isLoading || institutionLoading || courseName.trim() === ''}
+                        className={`w-full ${isLoading || courseName.trim() === '' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    />
                 </div>
             </div>
         </ModalWrapper>
