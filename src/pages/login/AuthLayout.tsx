@@ -7,12 +7,15 @@ import LanguageDropdown from '../../components/LanguageDropdown';
 import DarkModeToggle from '../../components/DarkModeToggle';
 import LocSpan from "../../components/LocSpan.tsx";
 import Container from "../../components/ui/containers/Container.tsx";
+import {useAuth} from "../../context/AuthContext.tsx";
 
 interface AuthLayoutProps {
     children: React.ReactNode;
 }
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
+    const { isAuthenticated } = useAuth();
+
     return (
         <div className="relative flex h-screen w-full bg-black">
             <div
@@ -27,7 +30,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
 
             <div className="absolute top-4 left-4 z-20">
                 <Link
-                    to="/"
+                    to={isAuthenticated ? `/search` : '/'}
                     className="flex items-center text-white font-medium py-2 px-4 rounded-md shadow"
                 >
                     <FaArrowLeft className="mr-2" />
