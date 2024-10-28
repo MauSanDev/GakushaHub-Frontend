@@ -16,7 +16,7 @@ const InstitutionResourcesGroupTab: React.FC<{ institutionId: string, role: Memb
     const [searchQuery, setSearchQuery] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { data, fetchResourceGroups, resetQueries } = useResourceGroups(page, 10, searchQuery);
+    const { data, fetchResourceGroups, resetQueries } = useResourceGroups(page, 10, searchQuery, [], institutionId);
     const { mutate: deleteGroup } = useDeleteElement();
     const { t } = useTranslation();
 

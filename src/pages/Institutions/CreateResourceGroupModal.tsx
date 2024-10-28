@@ -20,7 +20,7 @@ const CreateResourceGroupModal: React.FC<CreateResourceGroupModalProps> = ({ onC
     const [isPublic, setIsPublic] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    const { createResourceGroup, isLoading, resetQueries } = useResourceGroups(1, 20);
+    const { createResourceGroup, isLoading, resetQueries } = useResourceGroups(1, 20, '', [], institutionId);
 
     const handleCreateResourceGroup = async () => {
         if (title.trim() === '') {

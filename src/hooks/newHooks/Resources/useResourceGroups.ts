@@ -18,7 +18,8 @@ export const useResourceGroups = (
     page: number,
     limit: number,
     search: string = '',
-    fields: string[] = []
+    fields: string[] = [],
+    institutionId: string, 
 ): {
     data: PaginatedData<BaseDeckData> | undefined,
     isLoading: boolean,
@@ -47,7 +48,7 @@ export const useResourceGroups = (
                 CollectionTypes.ResourcesGroup,
                 queryClient,
                 searches,
-                {},
+                {institutionId},
                 {},
                 userData?._id,
                 fields

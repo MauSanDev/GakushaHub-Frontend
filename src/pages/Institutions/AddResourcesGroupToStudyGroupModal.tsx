@@ -16,14 +16,15 @@ interface AddResourcesGroupToStudyGroupModalProps {
     onClose: () => void;
     onAddGroupsSuccess?: () => void;
     studyGroupId: string;
+    institutionId: string;
 }
 
-const AddResourcesGroupToStudyGroupModal: React.FC<AddResourcesGroupToStudyGroupModalProps> = ({ onClose, onAddGroupsSuccess, studyGroupId }) => {
+const AddResourcesGroupToStudyGroupModal: React.FC<AddResourcesGroupToStudyGroupModalProps> = ({ onClose, onAddGroupsSuccess, studyGroupId, institutionId }) => {
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
 
-    const { data, isLoading, fetchResourceGroups } = useResourceGroups(page, 10, searchQuery);
+    const { data, isLoading, fetchResourceGroups } = useResourceGroups(page, 10, searchQuery, [], institutionId);
     const { mutateAsync: updateList } = useUpdateList();
 
     useEffect(() => {
