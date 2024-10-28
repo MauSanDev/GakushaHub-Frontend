@@ -10,7 +10,7 @@ interface DeleteButtonProps {
     elementId: string;
     elementType: CollectionTypes;
     deleteRelations?: boolean;
-    onDelete?: () => void;  // Callback ejecutado tras la eliminación
+    onDelete?: (elementId: string, collectionType: CollectionTypes) => void;
     extraParams?: Record<string, unknown>;
 }
 
@@ -30,9 +30,9 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ creatorId, elementId, eleme
                     extraParams
                 },
                 {
-                    onSuccess: () => {
+                    onSuccess: (deleted) => {
                         if (onDelete) {
-                            onDelete();  // Llama al callback personalizado tras la eliminación
+                            onDelete(deleted[0], elementType);
                         }
                     },
                 }

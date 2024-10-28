@@ -21,7 +21,11 @@ const InstitutionCourseListPage: React.FC = () => {
     useEffect(() => {
         setPage(1);
     }, [searchTerm]);
-
+    
+    const handleDelete = () => {
+        fetchCourses();
+    };
+    
     const handleSearch = (query: string) => {
         setSearchTerm(query);
     };
@@ -48,7 +52,7 @@ const InstitutionCourseListPage: React.FC = () => {
                     onPageChange={setPage}
                     RenderComponent={({ document }) => (
                         <Link key={document._id} to={`${document._id}`} className="page-fade-enter page-fade-enter-active">
-                            <CourseDataElement course={document}/>
+                            <CourseDataElement course={document} onDelete={handleDelete}/>
                         </Link>
                     )}
                 />

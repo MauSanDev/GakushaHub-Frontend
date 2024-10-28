@@ -22,6 +22,11 @@ const ReadingListPage: React.FC = () => {
     useEffect(() => {
         setPage(1);
     }, [searchTerm]);
+    
+    const handleDelete = () =>
+    {
+        fetchGenerations();
+    }
 
     useEffect(() => {
         const handleScroll = () => {
@@ -61,6 +66,7 @@ const ReadingListPage: React.FC = () => {
                     <Link to={`/generation/${document._id}`} className="page-fade-enter page-fade-enter-active">
                         <ReadingDataElement
                             data={document}
+                            onDelete={handleDelete}
                         />
                     </Link>
                 )}

@@ -11,7 +11,7 @@ import { useLessons } from '../hooks/newHooks/Courses/useLessons';
 
 interface CourseDataElementProps {
     course: CourseData;
-    onDelete?: () => void;  // Nueva prop para manejar la eliminación
+    onDelete?: () => void;
 }
 
 const CourseDataElement: React.FC<CourseDataElementProps> = ({ course, onDelete }) => {
@@ -30,7 +30,7 @@ const CourseDataElement: React.FC<CourseDataElementProps> = ({ course, onDelete 
                     elementId={course._id}
                     elementType={CollectionTypes.Course}
                     deleteRelations={true}
-                    onDelete={onDelete}  // Pasamos el callback de eliminación al botón
+                    onDelete={onDelete}
                 />
             </div>
 

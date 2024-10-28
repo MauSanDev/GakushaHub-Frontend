@@ -29,6 +29,7 @@ interface DeckContainerProps {
     FaIcon: React.ComponentType<{ size?: number }>;
     iconColor?: string;
     onFetchComplete?: (fetchedElements: Record<CollectionTypes, string[]>) => void;
+    onDelete?: (elementId: string, collectionType: CollectionTypes) => void;
 }
 
 const DeckContainer: React.FC<DeckContainerProps> = ({
@@ -43,6 +44,7 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
                                                          FaIcon,
                                                          iconColor = "description-gray-500",
                                                          onFetchComplete,
+                                                         onDelete
                                                      }) => {
     const { data, isLoading, fetchDecks } = useDecks(ids, collectionType);
     const [selectedItems, setSelectedItems] = useState<{ [deckId: string]: string[] }>({});
@@ -68,6 +70,16 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
             navigate(0);
         }
     };
+    
+    const handleRemoveReading = (deckId: string,  readingId: string) => {
+        removeElementsFromDeck({
+            collection: CollectionTypes.ReadingDeck,
+            documentId: deckId,
+            field: 'elements',
+            value: [readingId],
+            action: 'remove'
+        });
+    }
     
     const handleItemClick = (deckId: string, elementId: string) => {
         setSelectedItems(prevSelected => {
@@ -206,7 +218,8 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
         [CollectionTypes.ReadingDeck]: {
             renderItem: (deckId: string, element: GeneratedData, index: number, canEdit: boolean) => <DeckReadingDataElement key={index} result={element}
                                                                                                            onClick={() => handleItemClick(deckId, element._id)}
-                                                                                                           isSelected={canEdit && selectedItems[deckId]?.includes(element._id) || false} />,
+                                                                                                           isSelected={canEdit && selectedItems[deckId]?.includes(element._id) || false} 
+                                                                                                           onDelete={(x) => handleRemoveReading(deckId, x)}/>,
             elementType: CollectionTypes.Generation as CollectionTypes.Generation,
             deckType: CollectionTypes.ReadingDeck,
             columns: 1,
@@ -250,6 +263,7 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
                     showFlashcards={showFlashcards}
                     hasSelectedItems={selectedItems[deck._id]?.length > 0}
                     onRemoveElements={onRemoveElements}
+                    onDelete={onDelete}
                 />
             ))}
         </div>

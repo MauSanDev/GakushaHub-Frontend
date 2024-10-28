@@ -9,23 +9,25 @@ import {CollectionTypes} from "../data/CollectionTypes.tsx";
 interface ReadingDataElementProps {
     data: GeneratedData;
     deleteRelations?: boolean;
+    onDelete?: (elementId: string, collectionType: CollectionTypes) => void;
 }
 
-const ReadingDataElement: React.FC<ReadingDataElementProps> = ({ data, deleteRelations }) => {
+const ReadingDataElement: React.FC<ReadingDataElementProps> = ({ data, deleteRelations, onDelete }) => {
     
     return (
         <Container>
             <div className="absolute top-2 right-2">
                 <DeleteButton
-                    creatorId={data.creatorId?._id ?? ''}
+                    creatorId={data.creatorId}
                     elementId={data._id}
                     elementType={CollectionTypes.Generation}
                     deleteRelations={deleteRelations}
+                    onDelete={onDelete}
                 />
             </div>
             <h1 className="text-2xl font-bold mb-2 dark:text-white">{data.title}</h1>
             
-            <CreatorLabel isAnonymous={data.isAnonymous} name={data.creatorId?.name} createdAt={data.createdAt} />
+            <CreatorLabel isAnonymous={data.isAnonymous} creatorId={data.creatorId} createdAt={data.createdAt} />
             
             <h2 className="text-xs text-gray-600 dark:text-gray-300 mb-2"><LocSpan textKey={"topic"}/>: "{data.topic}"</h2>
 

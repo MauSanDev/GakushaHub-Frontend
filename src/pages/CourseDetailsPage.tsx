@@ -94,6 +94,11 @@ const CourseDetailPage: React.FC = () => {
         setSelectedLesson(lessonId);
         navigate(`/courses/${courseId}/${lessonId}`);
     };
+    
+    const handleLessonDelete = () => {
+        navigate(`/courses/${courseId}`);
+        navigate(0)
+    }
 
     const handleToggleChange = () => {
         const newIsPublic = !isPublic;
@@ -117,6 +122,10 @@ const CourseDetailPage: React.FC = () => {
                 : newState;
         });
     };
+    
+    const handleCourseDelete = () => {
+        navigate('/courses');
+    }
 
     if (courseLoading || lessonsLoading) {
         return <LoadingScreen isLoading={courseLoading || lessonsLoading} />;
@@ -138,7 +147,7 @@ const CourseDetailPage: React.FC = () => {
                     elementId={courseId || ''}
                     elementType={CollectionTypes.Course}
                     deleteRelations={true}
-                    redirectTo="/courses"
+                    onDelete={handleCourseDelete}
                 />
             </div>
         ),
@@ -298,6 +307,7 @@ const CourseDetailPage: React.FC = () => {
                         showReadings={toggleState[DeckType.Readings]}
                         owner={course}
                         viewerRole={role || MembershipRole.None}
+                        onDelete={handleLessonDelete}
                     />
                 ) : isOwner ? (
                         <AddLessonButton courseId={course._id} courseName={course.name} useDottedBox={true}/>

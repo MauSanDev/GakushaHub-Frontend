@@ -34,7 +34,7 @@ const CourseListPage: React.FC = () => {
     };
 
     const handleDelete = () => {
-        fetchCourses(); // Refetch courses after deletion
+        fetchCourses();
     };
 
     const tabs = [

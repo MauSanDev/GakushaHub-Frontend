@@ -23,6 +23,10 @@ const NewsPage: React.FC = () => {
         fetchNews();
     }, [page, searchQuery]);
 
+    const handleNewsDelete = () => {
+        fetchNews();
+    }
+    
     
     const filteredNews = newsData?.documents || [];
 
@@ -82,6 +86,7 @@ const NewsPage: React.FC = () => {
                                 newsData={document}
                                 canDelete={true}
                                 onClick={handleOpenModal} 
+                                onDelete={handleNewsDelete}
                             />
                         )}
                     />

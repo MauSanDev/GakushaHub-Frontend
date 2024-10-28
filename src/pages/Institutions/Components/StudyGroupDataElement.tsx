@@ -11,9 +11,10 @@ import LocSpan from "../../../components/LocSpan.tsx";
 interface StudyGroupDataElementProps {
     studyGroup: StudyGroupData;
     canDelete?: boolean
+    onDelete?: (elementId: string, collectionType: CollectionTypes) => void;
 }
 
-const StudyGroupDataElement: React.FC<StudyGroupDataElementProps> = ({ studyGroup, canDelete = false }) => {
+const StudyGroupDataElement: React.FC<StudyGroupDataElementProps> = ({ studyGroup, canDelete = false, onDelete }) => {
     const { institutionId } = useParams<{ institutionId: string }>();
 
     return (
@@ -33,6 +34,7 @@ const StudyGroupDataElement: React.FC<StudyGroupDataElementProps> = ({ studyGrou
                         elementId={studyGroup._id}
                         elementType={CollectionTypes.StudyGroup}
                         deleteRelations={true}
+                        onDelete={onDelete}
                     />
                 </div>}
                 

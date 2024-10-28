@@ -18,10 +18,10 @@ export const useDeleteElement = () => {
             extraParams?: Record<string, unknown> 
         }) =>
             
-            deleteData(elementIds, elementType, queryClient, deleteRelations, extraParams),
+        deleteData(elementIds, elementType, queryClient, deleteRelations, extraParams),
         {
-            onSuccess: () => {
-                queryClient.invalidateQueries('parsedText');
+            onSuccess: (x) => {
+                return x;
             },
             onError: (error: Error) => {
                 console.error('Error deleting element:', error.message);

@@ -40,6 +40,7 @@ interface GenericDeckDisplayProps<T> {
     showFlashcards: boolean;
     hasSelectedItems: boolean;
     onRemoveElements: (deckId: string, collectionType: CollectionTypes) => void;
+    onDelete?: (elementId: string, collectionType: CollectionTypes) => void;
 }
 
 const GenericDeckDisplay = <T,>({
@@ -58,7 +59,8 @@ const GenericDeckDisplay = <T,>({
                                     showGeneration,
                                     showFlashcards,
                                     hasSelectedItems,
-                                    onRemoveElements
+                                    onRemoveElements,
+                                    onDelete
                                 }: GenericDeckDisplayProps<T>) => {
     const { data: elements, isLoading, fetchElementsData } = useElements<T>(deck.elements, elementType);
     const [isFlashcardLoading, setIsFlashcardLoading] = useState(false); 
@@ -182,6 +184,7 @@ const GenericDeckDisplay = <T,>({
                             creatorId={deck.creatorId}
                             elementId={deck._id}
                             elementType={deckType}
+                            onDelete={onDelete}
                         />
                     </>
                 )}

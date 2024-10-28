@@ -44,6 +44,10 @@ const InstitutionStudyGroupPage: React.FC = () => {
     useEffect(() => {
         fetchStudyGroups();
     }, [page, searchQuery]);
+
+    const handleDelete = () => {
+        fetchStudyGroups();
+    }
     
     useEffect(() => {
         setPage(1);
@@ -89,6 +93,7 @@ const InstitutionStudyGroupPage: React.FC = () => {
                                 key={document._id}
                                 studyGroup={document}
                                 canDelete={canModifyStudyGroups}
+                                onDelete={handleDelete}
                             />
                         )}
                     />

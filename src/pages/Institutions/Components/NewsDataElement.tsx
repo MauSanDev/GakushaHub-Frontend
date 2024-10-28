@@ -10,10 +10,11 @@ import { NewsData } from "../../../data/NewsData.ts";
 interface NewsDataElementProps {
     newsData: NewsData;
     canDelete?: boolean;
-    onClick?: (news: NewsData) => void; 
+    onClick?: (news: NewsData) => void;
+    onDelete?: (elementId: string, collectionType: CollectionTypes) => void;
 }
 
-const NewsDataElement: React.FC<NewsDataElementProps> = ({ newsData, canDelete = false, onClick }) => {
+const NewsDataElement: React.FC<NewsDataElementProps> = ({ newsData, canDelete = false, onClick, onDelete }) => {
     
     const truncateText = (text: string, limit: number) => {
         if (text.length > limit) {
@@ -33,6 +34,7 @@ const NewsDataElement: React.FC<NewsDataElementProps> = ({ newsData, canDelete =
                                 elementId={newsData._id}
                                 elementType={CollectionTypes.News}
                                 deleteRelations={false} 
+                                onDelete={onDelete}
                             />
                         </div>
                     )}

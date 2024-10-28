@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import { CourseData, LessonData } from "../data/CourseData.ts";
-import { FaTable, FaThLarge, FaBookOpen, FaFileAlt, FaBook, FaEye } from "react-icons/fa";
+import React, {useState} from "react";
+import {CourseData, LessonData} from "../data/CourseData.ts";
+import {FaBook, FaBookOpen, FaEye, FaFileAlt, FaTable, FaThLarge} from "react-icons/fa";
 import DeleteButton from "./DeleteButton";
 import AddContentButton from "./AddContentButton.tsx";
 import Container from "./ui/containers/Container.tsx";
 import Editable from "./ui/text/Editable.tsx";
-import { MembershipRole } from "../data/MembershipData.ts";
+import {MembershipRole} from "../data/MembershipData.ts";
 import DeckContainer from "./DeckContainer";
-import { CollectionTypes } from "../data/CollectionTypes.tsx";
+import {CollectionTypes} from "../data/CollectionTypes.tsx";
 import NoDataMessage from "./NoDataMessage.tsx";
 import GenerationButton from "./Modals/GenerationButton.tsx";
+import {useUpdateList} from "../hooks/updateHooks/useUpdateList.ts";
 
 interface LessonDataElementProps {
     owner: CourseData;
@@ -19,6 +20,7 @@ interface LessonDataElementProps {
     showGrammar: boolean;
     showReadings: boolean;
     viewerRole: MembershipRole;
+    onDelete?: (elementId: string, collectionType: CollectionTypes) => void;
 }
 
 const LessonDataElement: React.FC<LessonDataElementProps> = ({
@@ -29,14 +31,16 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                                                                  showGrammar,
                                                                  showReadings,
                                                                  viewerRole,
+                                                                 onDelete
                                                              }) => {
     const [viewMode, setViewMode] = useState<"table" | "cards">("cards");
 
-    // Estados para almacenar los elementos de los decks
     const [kanjiElements, setKanjiElements] = useState<string[]>([]);
     const [wordElements, setWordElements] = useState<string[]>([]);
     const [grammarElements, setGrammarElements] = useState<string[]>([]);
     const [readingElements, setReadingElements] = useState<string[]>([]);
+    const { mutate: removeDeckFromLesson } = useUpdateList();
+
 
     const noContentToShow = !(
         (showKanji && lesson.kanjiDecks.length > 0) ||
@@ -52,6 +56,44 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
             setElements(newElements);
         }
     };
+    
+    const handleDeckDeleted = (deckId: string,  collectionType: CollectionTypes) => {
+
+        let fieldName = 'kanjiDecks'; 
+        switch (collectionType) {
+            case CollectionTypes.KanjiDeck:
+                fieldName = 'kanjiDecks'
+                break;
+            case CollectionTypes.GrammarDeck:
+                fieldName = 'grammarDecks'
+                break;
+            case CollectionTypes.ReadingDeck:
+                fieldName = 'readingDecks'
+                break;
+            case CollectionTypes.WordDeck:
+                fieldName = 'wordDecks'
+                break;
+        }
+        
+        const payload = {
+            collection: CollectionTypes.Lesson,
+            documentId: lesson._id,
+            field: fieldName,
+            value: [deckId],
+            action: 'remove'
+        }
+        
+        removeDeckFromLesson({
+            collection: CollectionTypes.Lesson,
+            documentId: lesson._id,
+            field: fieldName,
+            value: [deckId],
+            action: 'remove'
+        });
+        
+        if (onDelete)
+            onDelete(deckId, collectionType);
+    }
 
     return (
         <Container>
@@ -81,7 +123,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                     creatorId={lesson.creatorId}
                     elementId={lesson._id}
                     elementType={CollectionTypes.Lesson}
-                    redirectTo={`/courses/${owner._id}`}
+                    onDelete={onDelete}
                     extraParams={{ courseId: owner._id }}
                 />
 
@@ -157,6 +199,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                             onFetchComplete={(fetchedElements) =>
                                 handleSetElements(fetchedElements[CollectionTypes.Kanji], setKanjiElements, kanjiElements)
                             }
+                            onDelete={handleDeckDeleted}
                         />
                     )}
 
@@ -175,6 +218,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                             onFetchComplete={(fetchedElements) =>
                                 handleSetElements(fetchedElements[CollectionTypes.Word], setWordElements, wordElements)
                             }
+                            onDelete={handleDeckDeleted}
                         />
                     )}
 
@@ -193,6 +237,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                             onFetchComplete={(fetchedElements) =>
                                 handleSetElements(fetchedElements[CollectionTypes.Grammar], setGrammarElements, grammarElements)
                             }
+                            onDelete={handleDeckDeleted}
                         />
                     )}
 
@@ -211,6 +256,7 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
                             onFetchComplete={(fetchedElements) =>
                                 handleSetElements(fetchedElements[CollectionTypes.ReadingDeck], setReadingElements, readingElements)
                             }
+                            onDelete={handleDeckDeleted}
                         />
                     )}
                 </>

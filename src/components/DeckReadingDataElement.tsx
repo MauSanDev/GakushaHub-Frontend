@@ -11,9 +11,10 @@ interface DeckReadingDataElementProps {
     deleteRelations?: boolean;
     isSelected: boolean;
     onClick: () => void;
+    onDelete?: (elementId: string, collectionType: CollectionTypes) => void;
 }
 
-const DeckReadingDataElement: React.FC<DeckReadingDataElementProps> = ({ result, deleteRelations, isSelected = true, onClick }) => {
+const DeckReadingDataElement: React.FC<DeckReadingDataElementProps> = ({ result, deleteRelations, isSelected = true, onClick, onDelete }) => {
     return (
         <div className={`relative p-4 border bg-white dark:bg-gray-950 hover:border-blue-300 hover:dark:border-gray-700 border-gray-200 dark:border-gray-800 rounded-md shadow-md 
             ${isSelected ? 'dark:border-green-800 dark:hover:border-green-600 border-green-500 hover:border-green-300' : ''}`}
@@ -34,6 +35,7 @@ const DeckReadingDataElement: React.FC<DeckReadingDataElementProps> = ({ result,
                     elementId={result._id}
                     elementType={CollectionTypes.Generation}
                     deleteRelations={deleteRelations}
+                    onDelete={onDelete}
                 />
                 
                 <Link

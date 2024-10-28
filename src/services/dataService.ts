@@ -246,7 +246,7 @@ export const deleteData = async (
     queryClient: QueryClient,
     deleteRelations: boolean = false,
     extraParams?: Record<string, unknown>
-): Promise<string> => {
+): Promise<string[]> => {
     try {
         const requestData = {
             elementIds,
@@ -255,7 +255,7 @@ export const deleteData = async (
         };
 
         
-        const response = await ApiClient.delete<{ message: string }>(`/api/${elementType}/delete`, {
+        await ApiClient.delete<{ message: string }>(`/api/${elementType}/delete`, {
             data: requestData
         });
         
@@ -266,7 +266,7 @@ export const deleteData = async (
         
         queryClient.invalidateQueries([elementType]);
 
-        return response.message;
+        return elementIds;
     } catch (error) {
         throw error;
     }
