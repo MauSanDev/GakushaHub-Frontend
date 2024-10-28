@@ -39,7 +39,11 @@ export const useMyStudyGroups = (
                 queryClient,
                 searches,
                 {},
-                excludes
+                excludes,
+                '',
+                [],
+                false,
+                { createdAt: -1}
             );
             setData(result || null);
         } catch (error) {

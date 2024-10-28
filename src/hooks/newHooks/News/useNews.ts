@@ -38,6 +38,8 @@ export const useNews = (
                 {},
                 '',
                 fields,
+                false,
+                { createdAt: -1}
             );
             setData(result);
         } catch (error) {

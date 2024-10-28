@@ -32,7 +32,12 @@ export const usePaginatedMembers = (
                 CollectionTypes.Membership,
                 queryClient,
                 searches,
-                extraParams
+                extraParams,
+                {},
+                '',
+                [],
+                false,
+                { joinedAt: -1}
             );
             setData(result || null);
         } catch (error) {

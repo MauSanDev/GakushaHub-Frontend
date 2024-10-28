@@ -32,7 +32,12 @@ export const useInstitutionCourses = (
                 CollectionTypes.Course,
                 queryClient,
                 searches,
-                extraParams
+                extraParams,
+                {},
+                '',
+                [],
+                false,
+                { createdAt: -1}
             );
             setData(result);
         } catch (error) {

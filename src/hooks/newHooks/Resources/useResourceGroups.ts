@@ -51,7 +51,9 @@ export const useResourceGroups = (
                 {institutionId},
                 {},
                 userData?._id,
-                fields
+                fields,
+                false,
+                { createdAt: -1}
             );
             setData(result);
         } catch (error) {

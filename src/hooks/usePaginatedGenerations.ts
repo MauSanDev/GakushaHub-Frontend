@@ -28,7 +28,13 @@ export const usePaginatedGenerations = (
                 limit,
                 'generation',
                 queryClient,
-                searches
+                searches,
+                {},
+                {},
+                '',
+                [],
+                false,
+                { createdAt: -1}
             );
             setData(result);
         } catch (error) {

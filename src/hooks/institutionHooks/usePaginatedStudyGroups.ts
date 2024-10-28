@@ -31,7 +31,12 @@ export const usePaginatedStudyGroups = (
                 'studyGroup',
                 queryClient,
                 searches,
-                extraParams
+                extraParams,
+                {},
+                '',
+                [],
+                false,
+                { createdAt: -1}
             );
             setData(result || null);
         } catch (error) {
