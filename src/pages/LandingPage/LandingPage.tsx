@@ -25,7 +25,7 @@ const LandingPage: React.FC = () => {
     const handleScrollToSection = (id: string) => {
         const section = document.getElementById(id);
         section?.scrollIntoView({ behavior: 'smooth' });
-        setMenuOpen(false); // Cierra el menú después de hacer clic
+        setMenuOpen(false);
     };
 
     useEffect(() => {

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import {FC} from 'react';
 import NoDataMessage from "../../NoDataMessage.tsx";
 import LocSpan from "../../LocSpan.tsx";
 
@@ -109,7 +109,7 @@ const PaginatedContainer = <T,>({documents, currentPage, totalPages, onPageChang
                  style={{maxHeight: 'calc(100vh)'}}>
                 {documents.map((document) => (
                     <RenderComponent
-                        key={document._id }
+                        // key={document._id}
                         document={document}
                     />
                 ))}
