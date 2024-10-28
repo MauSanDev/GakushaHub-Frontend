@@ -31,7 +31,7 @@ const StudyGroupContentPage: React.FC = () => {
     const { data: studyGroup, isLoading, fetchStudyGroup } = useStudyGroup(studyGroupId || '');
     const { data: institution, fetchInstitution } = useInstitutionById(studyGroup?.institutionId || '');
 
-    const { getRole, memberships } = useAuth();
+    const { getRole, memberships, userData } = useAuth();
 
     const { data: memberData, isLoading: membersLoading, fetchElementsData } = useElements<MembershipData>(
         studyGroup?.memberIds || [],
@@ -74,7 +74,7 @@ const StudyGroupContentPage: React.FC = () => {
     useEffect(() => {
         const fetchRole = async () => {
             if (studyGroup?.institutionId) {
-                const fetchedRole = await getRole(studyGroup.institutionId, '');
+                const fetchedRole = await getRole(studyGroup.institutionId, userData?._id || '');
                 setRole(fetchedRole);
             }
         };
