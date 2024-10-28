@@ -145,16 +145,16 @@ const LandingPage: React.FC = () => {
                     initial="hidden"
                     animate="visible"
                     variants={sectionVariants}
-                    transition={{ duration: 1 }}
+                    transition={{duration: 1}}
                 >
                     <h1
                         className="text-5xl md:text-7xl font-bold leading-tight bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent drop-shadow-lg"
-                        style={{ WebkitBackgroundClip: 'text', backgroundClip: 'text' }}
+                        style={{WebkitBackgroundClip: 'text', backgroundClip: 'text'}}
                     >
-                        <LocSpan textKey="landingPage.heroTitle" />
+                        <LocSpan textKey="landingPage.heroTitle"/>
                     </h1>
                     <p className="text-lg text-gray-300 max-w-3xl mb-8">
-                        <LocSpan textKey="landingPage.heroDescription" />
+                        <LocSpan textKey="landingPage.heroDescription"/>
                     </p>
 
                     <div className="flex space-x-4 justify-center mt-8">
@@ -165,7 +165,7 @@ const LandingPage: React.FC = () => {
                                 animate={{opacity: 1, scale: 1}}
                                 transition={{duration: 1.2}}
                             >
-                                <LocSpan textKey="landingPage.getStarted" />
+                                <LocSpan textKey="landingPage.getStarted"/>
                             </motion.button>
                         </Link>
 
@@ -176,39 +176,39 @@ const LandingPage: React.FC = () => {
                                 animate={{opacity: 1, scale: 1}}
                                 transition={{duration: 1.2}}
                             >
-                                <LocSpan textKey="landingPage.logIn" />
+                                <LocSpan textKey="landingPage.logIn"/>
                             </motion.button>
                         </Link>
                     </div>
                 </motion.section>
 
-                {/* Sección de imagen del app */}
                 <motion.section
                     id="app-screenshot"
-                    className="relative lg:max-w-4xl flex flex-col items-center justify-center text-center px-6 mb-12 space-y-6"
+                    className="relative flex items-center justify-center lg:max-w-4xl mx-auto text-center px-6 mb-12 space-y-6"
                     initial="hidden"
                     animate="visible"
                     variants={sectionVariants}
-                    transition={{ duration: 1 }}
+                    transition={{duration: 1}}
                 >
                     <img
                         src={appScreenshot}
                         alt="Manabu Mori en dispositivos"
-                        className="rounded-lg shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+                        className="rounded-lg shadow-[0_0_40px_rgba(255,255,255,0.2)] mx-auto"
                     />
                 </motion.section>
 
-                <ObjectiveSection id="objective" />
-                <StudentFeaturesSection id="students" />
-                <TeacherFeaturesSection id="teachers" />
-                <MissionSection id="mission" />
-                <RoadmapSection id="roadmap" />
+                <ObjectiveSection id="objective"/>
+                <StudentFeaturesSection id="students"/>
+                <TeacherFeaturesSection id="teachers"/>
+                <MissionSection id="mission"/>
+                <RoadmapSection id="roadmap"/>
 
                 <footer className="relative bg-gray-950 text-white text-center py-12">
                     <div className="max-w-4xl mx-auto text-gray-300">
-                        <p><LocSpan textKey="landingPage.footerText" /></p>
+                        <p><LocSpan textKey="landingPage.footerText"/></p>
                         <p className="mt-2 text-sm text-gray-400">
-                            <LocSpan textKey="landingPage.contactUs" /> <a href="mailto:maurosanchez.work@gmail.com" className="text-blue-400">maurosanchez.work@gmail.com</a>
+                            <LocSpan textKey="landingPage.contactUs"/> <a href="mailto:maurosanchez.work@gmail.com"
+                                                                          className="text-blue-400">maurosanchez.work@gmail.com</a>
                         </p>
                     </div>
                 </footer>
