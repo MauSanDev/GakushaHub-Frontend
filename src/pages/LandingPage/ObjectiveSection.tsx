@@ -11,11 +11,11 @@ const ObjectiveSection: React.FC<{ id: string }> = ({ id }) => {
             <h2 className="text-4xl font-bold mb-8">
                 <LocSpan textKey="landingPage.objectiveTitle" />
             </h2>
-            <p className="text-lg text-gray-300 mb-8">
+            <p className="text-lg text-gray-300">
                 <LocSpan textKey="landingPage.objectiveDescription" />
             </p>
 
-            <div className="flex justify-center -mt-24">
+            <div className="flex justify-center">
                 <img
                     src={missionImage}
                     alt="Manabu Mori en dispositivos"
