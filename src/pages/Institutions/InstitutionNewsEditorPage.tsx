@@ -97,6 +97,7 @@ const NewsPage: React.FC = () => {
 
             {isModalOpen && (
                 <CreateNewsModal
+                    institutionId={institutionId as string}
                     onClose={handleCloseModal}
                     newsData={selectedNews} 
                     onCreateSuccess={() => {

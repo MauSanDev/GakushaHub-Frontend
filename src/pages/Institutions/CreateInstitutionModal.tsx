@@ -6,6 +6,7 @@ import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import InputField from "../../components/ui/inputs/InputField";
 import TextArea from "../../components/ui/inputs/TextArea";
+import {useNavigate} from "react-router-dom";
 
 interface CreateInstitutionModalProps {
     onClose: () => void;
@@ -16,6 +17,7 @@ const CreateInstitutionModal: React.FC<CreateInstitutionModalProps> = ({ onClose
     const [institutionName, setInstitutionName] = useState<string>('');
     const [description, setDescription] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     const { mutate: createInstitution, isLoading } = useCreateInstitution();
 
@@ -28,8 +30,9 @@ const CreateInstitutionModal: React.FC<CreateInstitutionModalProps> = ({ onClose
         createInstitution(
             { name: institutionName, description },
             {
-                onSuccess: () => {
+                onSuccess: (x) => {
                     setError(null);
+                    navigate(`/institution/${x._id}/editProfile`)
                     if (onCreateSuccess) {
                         onCreateSuccess();
                     }
@@ -45,7 +48,7 @@ const CreateInstitutionModal: React.FC<CreateInstitutionModalProps> = ({ onClose
     return (
         <ModalWrapper onClose={onClose}>
             <Container className={"w-full"}>
-                <SectionTitle title={"Create a New Institution"} className="text-center pb-4" />
+                <SectionTitle title={"institution.myInstitution"} className="text-center pb-4" />
 
                 <InputField
                     id="institutionName"

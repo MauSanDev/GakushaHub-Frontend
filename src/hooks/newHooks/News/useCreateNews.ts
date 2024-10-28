@@ -8,15 +8,17 @@ interface CreateNewsPayload {
     title: string;
     text: string;
     creatorId: string;
+    institutionId: string;
     tags: string[];
 }
 
-const createNewNews = async ({ title, text, creatorId, tags }: CreateNewsPayload, queryClient: QueryClient): Promise<NewsData> => {
+const createNewNews = async ({ title, text, creatorId, tags, institutionId }: CreateNewsPayload, queryClient: QueryClient): Promise<NewsData> => {
     const data: Record<string, unknown> = {
         title,
         text,
         creatorId,
-        tags
+        tags,
+        institutionId
     };
 
     return await createElement(CollectionTypes.News, data, queryClient) as NewsData;
@@ -27,7 +29,7 @@ export const useCreateNews = () => {
     const queryClient = useQueryClient();
 
     return useMutation(
-        async ({ title, text, tags }: { title: string; text: string; tags: string[] }) => {
+        async ({ title, text, tags, institutionId}: { title: string; text: string; tags: string[], institutionId: string }) => {
             if (!title || title.trim() === '') {
                 throw new Error("News title is required");
             }
@@ -37,6 +39,7 @@ export const useCreateNews = () => {
             }
 
             return await createNewNews({
+                institutionId,
                 title,
                 text,
                 creatorId: userData._id,

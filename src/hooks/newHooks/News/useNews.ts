@@ -34,10 +34,10 @@ export const useNews = (
                 'news',
                 queryClient,
                 searches,
-                {},
+                {institutionId},
                 {},
                 '',
-                fields
+                fields,
             );
             setData(result);
         } catch (error) {

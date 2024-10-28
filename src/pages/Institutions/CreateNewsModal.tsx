@@ -13,12 +13,13 @@ import {useUpdateData} from "../../hooks/updateHooks/useUpdateData.ts";
 import {NewsData} from "../../data/NewsData.ts";
 
 interface CreateNewsModalProps {
+    institutionId: string;
     onClose: () => void;
     onCreateSuccess?: () => void;
     newsData?: NewsData | null;
 }
 
-const CreateNewsModal: React.FC<CreateNewsModalProps> = ({onClose, onCreateSuccess, newsData}) => {
+const CreateNewsModal: React.FC<CreateNewsModalProps> = ({onClose, onCreateSuccess, newsData, institutionId}) => {
     const [newsTitle, setNewsTitle] = useState<string>(newsData?.title || '');
     const [content, setContent] = useState<string>(newsData?.text || '');
     const [tags, setTags] = useState<string[]>(newsData?.tags || []);
@@ -71,8 +72,10 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({onClose, onCreateSucce
             );
         } else {
 
+            console.log(institutionId)
             createNews(
                 {
+                    institutionId,
                     title: newsTitle,
                     text: content,
                     tags: tags,

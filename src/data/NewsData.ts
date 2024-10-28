@@ -4,5 +4,6 @@ export interface NewsData {
     text: string;
     tags: string[];
     creatorId: string;
+    institutionId: string;
     createdAt: string;
 }

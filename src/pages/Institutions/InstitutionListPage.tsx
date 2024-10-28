@@ -9,6 +9,7 @@ import { useAuth } from '../../context/AuthContext';
 import { InstitutionData } from "../../data/Institutions/InstitutionData.ts";
 import DottedBox from '../../components/DottedBox';
 import {MembershipRole} from "../../data/MembershipData.ts";
+import {useNavigate} from "react-router-dom";
 
 const InstitutionListPage: React.FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
@@ -62,8 +63,7 @@ const InstitutionListPage: React.FC = () => {
     }, []);
 
     const handleCreateInstitutionSuccess = () => {
-        setIsCreateModalOpen(false);
-        fetchInstitutions();
+        navigate('institutions/')
     };
 
     return (
