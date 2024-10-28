@@ -373,5 +373,11 @@
     "alreadyHavePremium": "¡Ya tienes una licencia Premium!",
     "alreadyHaveSensei": "¡Ya tienes una licencia de Sensei!",
     "selectButton": "Seleccionar"
+  },
+  "profileKeys": {
+    "name": "Nombre",
+    "nickname": "Apodo",
+    "editProfile": "Editar perfil",
+    "nicknameFooter": "¡Escríbelo en japonés para que otros usuarios sepan cómo llamarte!"
   }
 }

@@ -6,6 +6,7 @@ import { FaCamera, FaSpinner } from 'react-icons/fa';
 import { useCachedImage } from '../../hooks/newHooks/Resources/useCachedImage.ts';
 import { useAuth } from "../../context/AuthContext.tsx";
 import Editable from "../../components/ui/text/Editable.tsx";
+import LocSpan from "../../components/LocSpan.tsx";
 
 interface UserProfileEditorModalProps {
     onClose: () => void;
@@ -29,7 +30,7 @@ const UserProfileEditorModal: React.FC<UserProfileEditorModalProps> = ({ onClose
     return (
         <ModalWrapper onClose={onClose}>
             <Container className={"w-full"}>
-                <SectionTitle title={"Edit Profile"} className="text-center pb-4"/>
+                <SectionTitle title={"profileKeys.editProfile"} className="text-center pb-4"/>
 
                 <div className="relative w-48 h-48 mx-auto mb-4">
                     <img
@@ -58,27 +59,27 @@ const UserProfileEditorModal: React.FC<UserProfileEditorModalProps> = ({ onClose
                     </button>
                 </div>
 
-                <span className={`text-gray-500 dark:text-gray-500 text-xs`}>Name</span>
+                <LocSpan textKey={"profileKeys.name"} className={`text-gray-500 dark:text-gray-500 text-xs`} />
                 <Editable
                     initialValue={userData?.name || ''}
                     collection="auth/userInfo"
                     documentId={userId}
                     field="name"
-                    placeholder="User name"
+                    placeholder="profileKeys.name"
                     className="text-lg font-medium text-gray-800 dark:text-white mb-4"
                 />
 
-                <span className={`text-gray-500 dark:text-gray-500 text-xs`}>Nickname</span>
+                <LocSpan textKey={"profileKeys.nickname"} className={`text-gray-500 dark:text-gray-500 text-xs`} />
                 <Editable
                     initialValue={userData?.nickname || ''}
                     collection="auth/userInfo"
                     documentId={userId}
                     field="nickname"
-                    placeholder="Nickname"
+                    placeholder="profileKeys.nickname"
                     className="font-medium text-gray-800 dark:text-white"
                     canBeNull={true}
                 />
-                <span className={`text-gray-500 dark:text-gray-500 text-xs`}>Write it in Japanese so other users know how to call you!</span>
+                <LocSpan textKey={"profileKeys.nicknameFooter"} className={`text-gray-500 dark:text-gray-500 text-xs`} />
 
             </Container>
         </ModalWrapper>

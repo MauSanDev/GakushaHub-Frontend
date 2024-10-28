@@ -385,5 +385,12 @@
     "alreadyHavePremium": "You already have a Premium License!",
     "alreadyHaveSensei": "You already have a Sensei License!",
     "selectButton": "Select"
+  },
+  "profileKeys":
+  {
+    "name": "Name",
+    "nickname": "Nickname",
+    "editProfile": "Edit Profile",
+    "nicknameFooter": "Write it in Japanese so other users know how to call you!"
   }
 }

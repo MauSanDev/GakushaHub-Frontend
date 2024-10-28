@@ -374,5 +374,11 @@
     "alreadyHavePremium": "이미 프리미엄 라이선스를 가지고 있습니다!",
     "alreadyHaveSensei": "이미 선생님 라이선스를 가지고 있습니다!",
     "selectButton": "선택"
+  },
+  "profileKeys": {
+    "name": "姓名",
+    "nickname": "昵称",
+    "editProfile": "编辑资料",
+    "nicknameFooter": "用日语写昵称，这样其他用户知道如何称呼你！"
   }
 }

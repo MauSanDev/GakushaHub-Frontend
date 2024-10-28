@@ -3,6 +3,7 @@ import { FaCheck, FaTimes, FaEdit, FaSpinner } from 'react-icons/fa';
 import { useUpdateData } from '../../../hooks/updateHooks/useUpdateData.ts';
 import TertiaryButton from "../buttons/TertiaryButton.tsx";
 import LocSpan from "../../LocSpan.tsx";
+import {useTranslation} from "react-i18next";
 
 interface EditableProps {
     initialValue: string;
@@ -36,6 +37,7 @@ const Editable: React.FC<EditableProps> = ({
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const { mutate: updateDocument } = useUpdateData<Partial<{ [key: string]: string }>>();
+    const { t } = useTranslation();
 
     const handleEdit = () => {
         if (canEdit) {
@@ -126,7 +128,7 @@ const Editable: React.FC<EditableProps> = ({
                         rows={1}
                         className={`transparent-input-field
                             ${isMaxCharReached ? 'border-red-500' : 'border-gray-600 focus:border-blue-500'}`}
-                        placeholder={placeholder}
+                        placeholder={t(placeholder)}
                     />
                     {isSaving ? (
                         <TertiaryButton onClick={() => {}} disabled={isSaving} iconComponent={<FaSpinner />} />
@@ -141,7 +143,7 @@ const Editable: React.FC<EditableProps> = ({
                         <LocSpan textKey={value} key={value} />
                     ) : (
                         canEdit ? (
-                            <span className="text-gray-400 italic">{placeholder}</span>
+                            <span className="text-gray-400 italic">{t(placeholder)}</span>
                         ) : (
                             <span></span>
                         )

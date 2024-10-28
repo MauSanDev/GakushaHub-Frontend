@@ -374,5 +374,11 @@
     "alreadyHavePremium": "すでにプレミアムライセンスをお持ちです！",
     "alreadyHaveSensei": "すでに先生ライセンスをお持ちです！",
     "selectButton": "選択"
+  },
+  "profileKeys": {
+    "name": "名前",
+    "nickname": "ニックネーム",
+    "editProfile": "プロフィールを編集",
+    "nicknameFooter": "他のユーザーが呼びやすいように日本語で書いてください！"
   }
 }
