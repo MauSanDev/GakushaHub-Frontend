@@ -5,12 +5,16 @@ import { useSchedule } from "../../../hooks/newHooks/Courses/useSchedule.ts";
 import { useAuth } from "../../../context/AuthContext.tsx";
 import CreatorLabel from "../../../components/ui/text/CreatorLabel.tsx";
 import {useTranslation} from "react-i18next";
+import {useUpdateData} from "../../../hooks/updateHooks/useUpdateData.ts";
+import {useDeleteElement} from "../../../hooks/useDeleteElement.ts";
+import {CollectionTypes} from "../../../data/CollectionTypes.tsx";
 
 interface ScheduleEventDataElementProps {
+    index: number;
     eventData: ScheduleEventData;
-    onSave: (updatedEvent: ScheduleEventData) => void;
-    onCancel: (eventId: string) => void;
-    onDelete: (eventId: string) => void;
+    onSave: (index: number,  updatedEvent: ScheduleEventData) => void;
+    onCancel: (index: number) => void;
+    onDelete: (index: number) => void;
     isNew?: boolean;
     institutionId: string;
     studyGroupId?: string;
@@ -18,6 +22,7 @@ interface ScheduleEventDataElementProps {
 }
 
 const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
+                                                                               index,
                                                                                eventData,
                                                                                onSave,
                                                                                onCancel,
@@ -35,6 +40,8 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
         desc: isNew ? '' : eventData.desc
     });
 
+    const updateMutation = useUpdateData<ScheduleEventData>();
+    const deleteMutation = useDeleteElement();
     const { createScheduleEvent, isCreating } = useSchedule(eventData.institutionId, eventData.timestamp, 1, 10, eventData.studyGroupId);
     const { t } = useTranslation();
 
@@ -67,9 +74,10 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
             return;
         }
 
+        console.log(studyGroupId)
         if (isNew) {
             try {
-                await createScheduleEvent({
+                const res = await createScheduleEvent({
                     name: editedEvent.name,
                     desc: editedEvent.desc,
                     timestamp: editedEvent.timestamp,
@@ -77,27 +85,48 @@ const ScheduleEventDataElement: React.FC<ScheduleEventDataElementProps> = ({
                     institutionId: institutionId,
                     creatorId: userData?._id || '',
                 });
-                onSave(editedEvent); 
-                setIsEditing(false);
+                
+                editedEvent._id = res._id;
+                editedEvent._id = res._id;
             } catch (error) {
                 console.error("Error creating schedule event:", error);
             }
         } else {
-            onSave(editedEvent); 
-            setIsEditing(false);
+            // const eventDate = new Date(editedEvent.timestamp).toISOString().split('T')[0];
+
+            // if (eventDate !== editedEvent.) {
+            //
+            //     const confirmMessage = `This event will be moved to ${new Date(updatedEvent.timestamp).toLocaleDateString()}. Do you want to continue?`;
+            //     if (window.confirm(confirmMessage)) {
+            //         setEvents((prevEvents) =>
+            //             prevEvents.filter((event) => event._id !== updatedEvent._id)
+            //         );
+            //     }
+            // }
+            updateMutation.mutate({
+                collection: 'schedule',
+                documentId: editedEvent._id,
+                newData: editedEvent,
+            });
         }
+
+        onSave(index, editedEvent);
+        setIsEditing(false);
     };
 
     const handleCancel = () => {
         if (isNew) {
-            onCancel(eventData._id);
+            onCancel(index);
         } else {
             setIsEditing(false);
         }
     };
 
     const handleDelete = () => {
-        onDelete(eventData._id);
+        if (window.confirm('Are you sure you want to delete this event?')) {
+            deleteMutation.mutate({ elementIds: [editedEvent._id], elementType: CollectionTypes.Schedule });
+            onDelete(index);
+        }
     };
 
     return (

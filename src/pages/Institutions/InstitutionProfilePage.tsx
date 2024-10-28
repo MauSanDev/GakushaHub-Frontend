@@ -80,7 +80,7 @@ const InstitutionProfilePage: React.FC = () => {
         } else if (currentTab === 'schedule') {
             return (
                 <div className="mt-10">
-                    <ScheduleCalendar institutionId={institutionId || ''} canEdit={false} />
+                    <ScheduleCalendar institutionId={institutionId || ''} canEdit={false} institutionView={false}/>
                 </div>
             );
         } else if (currentTab === 'news') {

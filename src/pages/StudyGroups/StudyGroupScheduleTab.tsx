@@ -17,6 +17,7 @@ const StudyGroupSchedule: React.FC<StudyGroupScheduleProps> = ({ studyGroup, can
                 canEdit={canEdit}
                 startDate={studyGroup.fromDate ? new Date(studyGroup.fromDate) : undefined}
                 endDate={studyGroup.toDate ? new Date(studyGroup.toDate) : undefined}
+                institutionView={false}
             />
         </div>
     );

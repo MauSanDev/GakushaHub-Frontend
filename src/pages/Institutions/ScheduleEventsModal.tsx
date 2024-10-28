@@ -7,9 +7,7 @@ import ScheduleEventDataElement from "./Components/ScheduleEventDataElement";
 import { FaPlus } from "react-icons/fa";
 import { ScheduleEventData } from "../../data/ScheduleEventData.ts";
 import NoDataMessage from "../../components/NoDataMessage.tsx";
-import { useDeleteElement } from '../../hooks/useDeleteElement';
-import {useUpdateData} from "../../hooks/updateHooks/useUpdateData.ts";
-import {CollectionTypes} from "../../data/CollectionTypes.tsx";
+import {useAuth} from "../../context/AuthContext.tsx";
 
 interface ScheduleEventsModalProps {
     onClose: () => void;
@@ -18,6 +16,7 @@ interface ScheduleEventsModalProps {
     studyGroupId?: string;
     date: string;
     canEdit: boolean;
+    instituionView: boolean;
 }
 
 const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
@@ -26,14 +25,14 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
                                                                      studyGroupId,
                                                                      institutionId,
                                                                      date,
-                                                                     canEdit
+                                                                     canEdit,
+                                                                     instituionView,
                                                                  }) => {
     const [events, setEvents] = useState<ScheduleEventData[]>(selectedEvents);
-
-    const updateMutation = useUpdateData<ScheduleEventData>(); 
-    const deleteMutation = useDeleteElement(); 
+    const { userData } = useAuth();
 
     useEffect(() => {
+        console.log(studyGroupId)
         setEvents(selectedEvents);
     }, [selectedEvents]);
 
@@ -43,51 +42,25 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
             name: '',
             desc: '',
             timestamp: new Date(date).toISOString(),
-            creatorId: 'user1',
+            creatorId: userData?._id || '',
             institutionId,
             studyGroupId: studyGroupId,
         };
         setEvents([...events, newEvent]);
     };
 
-    const handleSaveEvent = (updatedEvent: ScheduleEventData) => {
-        const eventDate = new Date(updatedEvent.timestamp).toISOString().split('T')[0]; 
-
-        if (eventDate !== date) {
-            
-            const confirmMessage = `This event will be moved to ${new Date(updatedEvent.timestamp).toLocaleDateString()}. Do you want to continue?`;
-            if (window.confirm(confirmMessage)) {
-                updateMutation.mutate({
-                    collection: 'schedule',
-                    documentId: updatedEvent._id,
-                    newData: updatedEvent,
-                });
-                setEvents((prevEvents) =>
-                    prevEvents.filter((event) => event._id !== updatedEvent._id)
-                );
-            }
-        } else {
-            
-            updateMutation.mutate({
-                collection: 'schedule',
-                documentId: updatedEvent._id,
-                newData: updatedEvent,
-            });
-            setEvents((prevEvents) =>
-                prevEvents.map((event) => (event._id === updatedEvent._id ? updatedEvent : event))
-            );
-        }
+    const handleSaveEvent = (index: number, updatedEvent: ScheduleEventData) => {
+        setEvents((prevEvents) =>
+            prevEvents.map((event, elemIndex) => (index === elemIndex ? updatedEvent : event))
+        );
     };
 
-    const handleCancelEvent = (eventId: string) => {
-        setEvents((prevEvents) => prevEvents.filter((event) => event._id !== eventId));
+    const handleCancelEvent = (index: number) => {
+        setEvents((prevEvents) => prevEvents.filter((_, eventIndex) => index !== eventIndex));
     };
 
-    const handleDeleteEvent = (eventId: string) => {
-        if (window.confirm('Are you sure you want to delete this event?')) {
-            deleteMutation.mutate({ elementIds: [eventId], elementType: CollectionTypes.Schedule });
-            setEvents((prevEvents) => prevEvents.filter((event) => event._id !== eventId));
-        }
+    const handleDeleteEvent = (index: number) => {
+        setEvents((prevEvents) => prevEvents.filter((_, elemIndex) => elemIndex !== index));
     };
 
     return (
@@ -108,9 +81,10 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
 
                 {events.length > 0 ? (
                     <ul>
-                        {events.map((event) => (
+                        {events.map((event, index) => (
                             <li key={event._id}>
                                 <ScheduleEventDataElement
+                                    index={index}
                                     eventData={event}
                                     onSave={handleSaveEvent}
                                     onCancel={handleCancelEvent}
@@ -118,7 +92,7 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
                                     isNew={event.name === ''}
                                     institutionId={event.institutionId}
                                     studyGroupId={event.studyGroupId}
-                                    canEdit={!!canEdit && !!event.studyGroupId}
+                                    canEdit={!!canEdit && (!!event.studyGroupId || instituionView)}
                                 />
                             </li>
                         ))}

@@ -19,6 +19,7 @@ interface ScheduleCalendarProps {
     canEdit: boolean;
     startDate?: Date;
     endDate?: Date;
+    institutionView: boolean;
 }
 
 const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
@@ -26,7 +27,8 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
                                                                studyGroupId,
                                                                canEdit,
                                                                startDate,
-                                                               endDate 
+                                                               endDate,
+                                                               institutionView,
                                                            }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedDate, setSelectedDate] = useState<string>();
@@ -40,6 +42,7 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
     useEffect(() => {
         fetchInstitutionSchedule();
         if (studyGroupId) {
+            console.log(studyGroupId)
             fetchCourseSchedule();
         }
     }, [timestamp]);
@@ -318,6 +321,7 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
                     studyGroupId={studyGroupId}
                     date={selectedDate || new Date().toISOString()}
                     canEdit={canEdit}
+                    instituionView={institutionView}
                 />
             )}
         </div>

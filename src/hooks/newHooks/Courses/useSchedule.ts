@@ -91,9 +91,9 @@ export const useSchedule = (
                 creatorId: userData._id
             };
             
-            if (studyGroupId)
+            if (payload.studyGroupId)
             {
-                data[studyGroupId] = payload.studyGroupId;
+                data['studyGroupId'] = payload.studyGroupId;
             }
 
             return await createElement(CollectionTypes.Schedule, data, queryClient) as ScheduleEventData;

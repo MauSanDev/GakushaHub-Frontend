@@ -8,19 +8,18 @@ export const useUserInfo = (
 ): {
     data: Record<string, UserData> | undefined,
     isLoading: boolean,
-    fetchUserInfo: () => void // Permite el fetch manual 
+    fetchUserInfo: () => void 
 } => {
     const queryClient = useQueryClient();
     const [data, setData] = useState<Record<string, UserData> | undefined>(undefined);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const fetchUserInfo = useCallback(async () => {
-        setIsLoading(true);
-
         if (!ids || ids.length === 0) {
             setData({});
             return {};
         }
+        setIsLoading(true);
         
         try {
             const result = await fetchElements<UserData>(ids, 'auth/userInfo', queryClient, ['name', 'nickname']);

@@ -15,6 +15,7 @@ const InstitutionSchedulePage: React.FC = () => {
                     <ScheduleCalendar
                         institutionId={institutionId || ''}
                         canEdit={true}
+                        institutionView={true}
                     />
                 </div>
             </div>
