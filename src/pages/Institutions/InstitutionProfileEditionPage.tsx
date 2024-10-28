@@ -16,6 +16,8 @@ const EditProfilePage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
     const { data, isLoading, fetchInstitution } = useInstitutionById(institutionId || "");
 
+    const [name, setName] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
     const [links, setLinks] = useState<string[]>([]);
     const profileInputRef = useRef<HTMLInputElement>(null);
     const bannerInputRef = useRef<HTMLInputElement>(null);
@@ -37,10 +39,12 @@ const EditProfilePage: React.FC = () => {
     }, [fetchInstitution]);
 
     useEffect(() => {
-        if (data?.links) {
-            setLinks([...data.links]);
+        if (data) {
+            setName(data.name || '');
+            setDescription(data.description || '');
+            setLinks([...data.links || []]);
         }
-    }, [data?.links]);
+    }, [data]);
 
     const handleProfileImageUpload = () => {
         if (profileInputRef.current?.files && profileInputRef.current.files[0]) {
@@ -152,31 +156,38 @@ const EditProfilePage: React.FC = () => {
                 </div>
             </div>
 
-            <Editable
-                initialValue={data?.name || 'institution.profileEdition.institutionName'}
-                collection="institution"
-                documentId={institutionId || ''}
-                field="name"
-                className="text-left text-white text-3xl font-bold"
-                placeholder="Enter School Name"
-                canEdit={true}
-                maxChar={400}
-            />
+            {/* Institution Name */}
+            {name && (
+                <Editable
+                    initialValue={name}
+                    collection="institution"
+                    documentId={institutionId || ''}
+                    field="name"
+                    className="text-left text-white text-3xl font-bold"
+                    placeholder='institution.profileEdition.institutionName'
+                    canEdit={true}
+                    maxChar={400}
+                />
+            )}
 
+            {/* Institution Description */}
             <div className="flex flex-col lg:flex-row justify-between w-full max-w-4xl mx-auto mt-6">
                 <div className="flex-1 text-gray-800 dark:text-white px-10 pb-24">
-                    <Editable
-                        initialValue={data?.description || 'addDescriptionPlaceholder'}
-                        collection="institution"
-                        documentId={institutionId || ''}
-                        field="description"
-                        className="text-left mt-2 text-gray-400 w-full"
-                        placeholder="Enter a description"
-                        canEdit={true}
-                        maxChar={400}
-                    />
+                    {description && (
+                        <Editable
+                            initialValue={description}
+                            collection="institution"
+                            documentId={institutionId || ''}
+                            field="description"
+                            className="text-left mt-2 text-gray-400 w-full"
+                            placeholder='addDescriptionPlaceholder'
+                            canEdit={true}
+                            maxChar={400}
+                        />
+                    )}
                 </div>
 
+                {/* Social Links */}
                 <div className="flex-1 ml-8">
                     <h3 className="text-lg font-bold mb-4 text-white"><LocSpan textKey={'institution.profileEdition.socialLinks'} /></h3>
                     {links.map((link, index) => (
