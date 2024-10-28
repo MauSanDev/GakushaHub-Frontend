@@ -90,41 +90,47 @@ const LicenseSelectionPage: React.FC = () => {
 
     return (
         <AuthLayout>
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-4xl mx-auto overflow-hidden">
                 <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
                     {t("licensesPage.title")}
                 </h2>
-                <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3 pb-20">
+                <div className="mt-8 grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-3 pb-20 overflow-y-auto max-h-[60vh] lg:max-h-full">
                     {licensePlans.map((plan, index) => {
                         const blockedReason = getBlockedReason(plan.title);
                         return (
-                            <div key={index} className="relative border rounded-lg p-6 shadow-lg flex flex-col dark:border-gray-600 dark:hover:bg-gray-800 hover:bg-blue-100 transition-all">
+                            <div
+                                key={index}
+                                className="relative border rounded-lg p-4 sm:p-6 shadow-lg flex flex-col 
+                                            dark:border-gray-600 dark:hover:bg-gray-800 hover:bg-blue-100 
+                                            transition-all text-sm sm:text-base">
                                 {plan.tag && (
                                     <div
                                         className="absolute top-0 right-0 bg-red-500 text-white text-xs px-2 py-1 rounded-bl-lg rounded-tr-lg">
                                         {plan.tag}
                                     </div>
                                 )}
-                                <h3 className="text-xl font-bold mb-2 text-gray-800 dark:text-white">{plan.title}</h3>
-                                <p className="text-gray-400 mb-10 h-40">{plan.description}</p>
-                                <div className="border-t border-b border-gray-200 dark:border-gray-800 h-40 mb-8">
-                                    <p className="dark:text-gray-300 text-gray-800 font-bold pt-5">
+                                <h3 className="text-lg sm:text-xl font-bold mb-2 text-gray-800 dark:text-white">{plan.title}</h3>
+                                <p className="text-gray-400 mb-4 sm:mb-10 h-24 sm:h-40">{plan.description}</p>
+                                <div className="border-t border-b border-gray-200 dark:border-gray-800 h-24 sm:h-40 mb-4 sm:mb-8">
+                                    <p className="dark:text-gray-300 text-gray-800 font-bold pt-3 sm:pt-5">
                                         {t("licensesPage.recommendedForLabel")}
                                     </p>
-                                    <p className="text-gray-500 mb-4">{plan.recommendedFor}</p>
+                                    <p className="text-gray-500">{plan.recommendedFor}</p>
                                 </div>
-                                <p className="text-lg font-bold pb-4 text-gray-800 dark:text-white">0円</p>
+                                <p className="text-base sm:text-lg font-bold pb-2 sm:pb-4 text-gray-800 dark:text-white">
+                                    {plan.price}
+                                </p>
 
                                 {blockedReason ? (
-                                    <p className="text-red-500 text-sm mt-2">{blockedReason}</p>
+                                    <p className="text-red-500 text-xs sm:text-sm mt-2">{blockedReason}</p>
                                 ) : (
                                     <button
                                         onClick={() => handleLicenseSetup(plan.title)}
-                                        className={`mt-auto bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${loading ? 'cursor-not-allowed' : ''}`}
+                                        className={`mt-auto bg-blue-600 text-white font-bold py-1 sm:py-2 px-3 sm:px-4 rounded hover:bg-blue-700 focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${loading ? 'cursor-not-allowed' : ''}`}
                                         disabled={!!loading || isButtonDisabled(plan.title)}
                                     >
                                         {loading === plan.title ? (
-                                            <FaReact className="animate-spin mx-auto" size={24}/>
+                                            <FaReact className="animate-spin mx-auto" size={20}/>
                                         ) : (
                                             t("licensesPage.selectButton")
                                         )}
