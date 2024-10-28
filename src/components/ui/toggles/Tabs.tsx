@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import {FaChevronDown, FaChevronUp, FaTh} from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp, FaTh } from 'react-icons/fa';
 import TabToggle from './TabToggle.tsx';
+import LocSpan from "../../LocSpan.tsx";
 
 interface Tab {
     label: string;
@@ -19,6 +20,9 @@ const Tabs: React.FC<TabsProps> = ({ tabs, onTabChange, currentTab }) => {
 
     const toggleMenu = () => setIsExpanded(!isExpanded);
 
+    // Find the label of the currently selected tab
+    const selectedTab = tabs.find(tab => tab.view === currentTab);
+
     return (
         <div className="relative flex flex-col sm:flex-row gap-2 items-start sm:items-center">
             {/* Discreet Menu Button for Mobile */}
@@ -27,6 +31,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs, onTabChange, currentTab }) => {
                 onClick={toggleMenu}
             >
                 <FaTh />
+                <LocSpan textKey={selectedTab?.label || ''} className="ml-2" />
                 <span className="ml-2">
                     {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
                 </span>
@@ -34,7 +39,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs, onTabChange, currentTab }) => {
 
             {/* Dropdown Menu - positioned absolutely and inline */}
             {isExpanded && (
-                <div className="absolute top-10 bg-gray-800 shadow-lg rounded-md z-10 p-2  w-full flex flex-wrap gap-2">
+                <div className="absolute top-10 bg-gray-800 shadow-lg rounded-md z-10 p-2 w-full flex flex-wrap gap-2">
                     {tabs.map((tab, index) => (
                         <TabToggle
                             key={index}
