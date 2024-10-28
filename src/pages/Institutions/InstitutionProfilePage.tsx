@@ -116,7 +116,7 @@ const InstitutionProfilePage: React.FC = () => {
                     {data?.name || 'Institution Name'}
                 </h2>
 
-                <div className="flex gap-2 mb-4">
+                <div className="w-full lg:w-auto lg:flex lg:flex-row gap-2">
                     <Tabs tabs={tabs} onTabChange={handleTabChange} currentTab={currentTab}/>
                 </div>
 

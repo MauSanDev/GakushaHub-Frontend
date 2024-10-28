@@ -48,7 +48,7 @@ const InstitutionResourcesPage: React.FC = () => {
     return (
         <SectionContainer title={"リソース"}>
             <div className="w-full max-w-4xl mx-auto mt-6">
-                <div className="mb-4">
+                <div className="mb-4 w-full lg:w-auto lg:flex lg:flex-row gap-2">
                     <Tabs tabs={tabs} onTabChange={handleTabChange} currentTab={currentTab} />
                 </div>
 

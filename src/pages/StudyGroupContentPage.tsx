@@ -128,10 +128,10 @@ const StudyGroupContentPage: React.FC = () => {
     };
 
     return (
-        <div ref={scrollContainerRef} className="flex-1 flex flex-col items-center justify-start h-full w-full fixed">
+        <div ref={scrollContainerRef} className={`mt-5  max-w-4xl flex-1 flex flex-col items-center justify-start h-screen w-full relative overflow-hidden`}>
             <LoadingScreen isLoading={isLoading || membersLoading || usersLoading} />
             {studyGroup && (
-                <div className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl mt-8 lg:mb-2 px-4">
+                <div className="lg:pl-0 pl-16 flex flex-col sm:flex-row items-start sm:items-center justify-between w-full max-w-4xl lg:mb-2 px-4">
                     <div className="flex flex-col items-start mb-4 sm:mb-0 w-full">
 
                         <div className={"flex justify-end w-full"}>
@@ -175,7 +175,7 @@ const StudyGroupContentPage: React.FC = () => {
                 </div>
             )}
 
-            <div className="flex gap-2 mb-4">
+            <div className="w-full lg:w-auto lg:flex lg:flex-row gap-2 pb-4">
                 <Tabs tabs={tabs} onTabChange={handleTabChange} currentTab={currentTab} />
             </div>
 
