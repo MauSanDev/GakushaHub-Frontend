@@ -23,12 +23,12 @@ const InstitutionMembersPage: React.FC = () => {
     const { mutate: deleteMembership } = useDeleteElement();
 
     const [role, setRole] = useState<MembershipRole>();
-    const { getRole } = useAuth();
+    const { getRole, userData } = useAuth();
 
 
     useEffect(() => {
         const fetchUserRole = async () => {
-            const fetchedRole = await getRole(institutionId || "", "");
+            const fetchedRole = await getRole(institutionId || "", userData?._id || '');
             setRole(fetchedRole);
         };
 

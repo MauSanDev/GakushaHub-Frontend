@@ -8,7 +8,7 @@ import LocSpan from "../../../components/LocSpan.tsx";
 
 const months = [
     "january", "february", "march", "april", "may", "june",
-    "july", "august", "september", "october", "November", "december"
+    "july", "august", "september", "october", "november", "december"
 ];
 
 const weekDays = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
