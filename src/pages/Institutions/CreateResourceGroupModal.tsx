@@ -32,7 +32,7 @@ const CreateResourceGroupModal: React.FC<CreateResourceGroupModalProps> = ({ onC
             await createResourceGroup(
                 { name: title, description, elements: [], isPublic , institutionId}
             );
-            resetQueries(); // Refresca la caché después de crear el grupo
+            resetQueries();
             setError(null);
             if (onCreateSuccess) {
                 onCreateSuccess();

@@ -65,7 +65,7 @@ const NewsPage: React.FC = () => {
                     {/* Botón al lado derecho */}
                     <div className="w-1/4 flex justify-end">
                         <PrimaryButton
-                            label="news.createNews"
+                            label="newsKeys.createNews"
                             iconComponent={<FaPlus />}
                             className="ml-2"
                             onClick={() => handleOpenModal()} 

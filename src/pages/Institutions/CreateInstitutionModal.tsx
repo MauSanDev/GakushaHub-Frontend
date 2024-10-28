@@ -7,6 +7,7 @@ import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import InputField from "../../components/ui/inputs/InputField";
 import TextArea from "../../components/ui/inputs/TextArea";
 import {useNavigate} from "react-router-dom";
+import LocSpan from "../../components/LocSpan.tsx";
 
 interface CreateInstitutionModalProps {
     onClose: () => void;
@@ -57,7 +58,7 @@ const CreateInstitutionModal: React.FC<CreateInstitutionModalProps> = ({ onClose
                         setInstitutionName(e.target.value);
                         setError(null);
                     }}
-                    placeholder="Institution name"
+                    placeholder="institution.profileEdition.institutionName"
                     disabled={isLoading}
                     error={error}
                 />
@@ -66,13 +67,13 @@ const CreateInstitutionModal: React.FC<CreateInstitutionModalProps> = ({ onClose
                     id="institutionDescription"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Description"
+                    placeholder="addDescriptionPlaceholder"
                     disabled={isLoading}
                     error={error}
                     rows={4}
                 />
 
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">(You will be able to change these values later)</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4"><LocSpan textKey={'institution.studyGroupKeys.changeLater'} /></p>
 
                 <PrimaryButton
                     label="create"
