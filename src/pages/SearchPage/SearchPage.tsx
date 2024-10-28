@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import SearchBar from '../../components/SearchBar';
 import KanjiDataElement from '../../components/KanjiDataElement.tsx';
 import WordDataElement from '../../components/WordDataElement.tsx';
 import GrammarDataElement from '../../components/GrammarDataElement.tsx';
-import { useSearchContent } from '../../hooks/useSearchContent';
-import { SaveStatus } from '../../utils/SaveStatus';
-import { useAuth } from '../../context/AuthContext.tsx';
+import {useSearchContent} from '../../hooks/useSearchContent';
+import {SaveStatus} from '../../utils/SaveStatus';
+import {useAuth} from '../../context/AuthContext.tsx';
 import SearchPageContainer from './SearchPageContainer.tsx';
-import { FaEraser } from 'react-icons/fa';
+import {FaEraser} from 'react-icons/fa';
 import LocSpan from "../../components/LocSpan.tsx";
 import SectionContainer from "../../components/ui/containers/SectionContainer.tsx";
 import SelectionToggle from "../../components/ui/toggles/SelectionToggle.tsx";
@@ -33,6 +33,8 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
     const [selectedWordIds, setSelectedWordIds] = useState<string[]>([]);
     const [selectedGrammarIds, setSelectedGrammarIds] = useState<string[]>([]);
     const [filteredTags, setFilteredTags] = useState<string[]>([]);
+    const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.Idle);
+
 
     const { mutate: searchContent, data, isLoading } = useSearchContent(filteredTags, { showKanji, showWord, showGrammar});
     const { isAuthenticated } = useAuth();
@@ -62,6 +64,8 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
     }, [filteredTags]);
 
     const onSaveStatusChanged = (status: SaveStatus) => {
+        setSaveStatus(saveStatus);
+        
         if (status === SaveStatus.Success && onSaveSuccess) {
             onSaveSuccess();
         }
@@ -69,7 +73,8 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
 
     const onSavePressed = (updatedTagsMap: { [tag: string]: boolean }) => {
         const filtered = Object.keys(updatedTagsMap).filter(tag => updatedTagsMap[tag]);
-
+        setSaveStatus(SaveStatus.Idle);
+        
         setFilteredTags(filtered);
         setSearchExecuted(true);
     };
@@ -222,6 +227,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                         lessonName={lessonName}
                         deckName={deckName}
                         onSaveStatusChange={onSaveStatusChanged}
+                        saveStatus={saveStatus}
                     />
                 </div>
             )}
