@@ -78,8 +78,6 @@ const StudyGroupSettings: React.FC<StudyGroupSettingsProps> = ({ studyGroup, can
                 </div>
             </div>
 
-
-            {/* Date Inputs */}
             <div className="flex flex-col items-start w-full max-w-3xl mt-4">
                 <h3 className="text-lg font-semibold mb-2"><LocSpan textKey={"institution.studyGroupKeys.courseDates"} /></h3>
                 <div className="grid grid-cols-2 gap-4">

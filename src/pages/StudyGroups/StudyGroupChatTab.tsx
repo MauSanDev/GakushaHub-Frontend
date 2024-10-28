@@ -15,7 +15,7 @@ interface StudyGroupChatProps {
     role: MembershipRole;
 }
 
-const StudyGroupChat: React.FC<StudyGroupChatProps> = ({ studyGroup, canEdit, role }) => {
+const StudyGroupChat: React.FC<StudyGroupChatProps> = ({ studyGroup, role }) => {
     const [newMessage, setNewMessage] = useState<string>('');
     const [page, setPage] = useState<number>(1);  
     const [maxPage, setMaxPage] = useState<number>(1);  
@@ -153,14 +153,14 @@ const StudyGroupChat: React.FC<StudyGroupChatProps> = ({ studyGroup, canEdit, ro
                     onKeyPress={handleKeyPress}
                     className="input-field"
                     placeholder={t("institution.chatKeys.writeMessage")}
-                    disabled={!canEdit || isSending}
+                    disabled={isSending}
                 />
                 <PrimaryButton
                     onClick={handleSendMessage}
                     label="institution.chatKeys.send"
                     iconComponent={<FaPaperPlane />}
                     className="ml-2"
-                    disabled={!canEdit || isSending || newMessage.trim() === ''}
+                    disabled={isSending || newMessage.trim() === ''}
                 />
             </div>
         </div>

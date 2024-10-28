@@ -2,17 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaChalkboardTeacher, FaCalendarAlt, FaFolderOpen, FaEdit, FaUsers } from 'react-icons/fa';
 import { SectionTemplate } from "./SectionTemplate";
-import missionImage from '../../assets/pc-mobile.webp';
 import LocSpan from "../../components/LocSpan";
 import {FaMessage} from "react-icons/fa6";
 
+import feature1 from '../../assets/landing/tool1.png';
+import feature2 from '../../assets/landing/tool2.jpg';
+import feature3 from '../../assets/landing/tool3.jpg';
+import feature4 from '../../assets/landing/tool4.jpg';
+import feature5 from '../../assets/landing/tool5.jpg';
+import feature6 from '../../assets/landing/tool6.jpg';
+
 const teacherFeatures = [
-    { icon: <FaChalkboardTeacher />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle1', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription1' },
-    { icon: <FaCalendarAlt />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle2', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription2' },
-    { icon: <FaFolderOpen />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle3', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription3' },
-    { icon: <FaEdit />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle4', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription4' },
-    { icon: <FaMessage />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle5', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription5' },
-    { icon: <FaUsers />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle6', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription6' },
+    { icon: <FaChalkboardTeacher />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle1', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription1', image: feature1 },
+    { icon: <FaCalendarAlt />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle2', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription2', image: feature2 },
+    { icon: <FaFolderOpen />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle3', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription3', image: feature3 },
+    { icon: <FaEdit />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle4', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription4', image: feature4 },
+    { icon: <FaMessage />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle5', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription5', image: feature5 },
+    { icon: <FaUsers />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle6', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription6', image: feature6 },
 ];
 
 const TeacherFeaturesSection: React.FC<{id: string}> = ({id}) => {
@@ -84,13 +90,13 @@ const TeacherFeaturesSection: React.FC<{id: string}> = ({id}) => {
                 ))}
             </div>
 
-            <div className="md:w-1/2 flex items-center justify-center mt-10 md:mt-0">
+            <div className="md:w-2/3 flex items-center justify-center mt-10 md:mt-0">
                 {selectedFeature ? (
                     <SectionTemplate className={'h-full'}>
                         <h3 className="text-2xl font-bold text-white">
                             <LocSpan textKey={selectedFeature} />
                         </h3>
-                        <img src={missionImage} alt={selectedFeature} />
+                        <img src={teacherFeatures[currentIndex].image} alt={selectedFeature} />
                     </SectionTemplate>
                 ) : (
                     <motion.div
