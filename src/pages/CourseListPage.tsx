@@ -8,8 +8,8 @@ import { FaBook, FaBookmark, FaSearch } from "react-icons/fa";
 import PaginatedContainer from "../components/ui/containers/PaginatedContainer.tsx";
 import { useMyCourses } from "../hooks/newHooks/Courses/useMyCourses.ts";
 import { usePublicCourses } from "../hooks/newHooks/Courses/usePublicCourses.ts";
-import {useFollowedCourses} from "../hooks/newHooks/Courses/useFollowedCourses.ts";
-import {useAuth} from "../context/AuthContext.tsx";
+import { useFollowedCourses } from "../hooks/newHooks/Courses/useFollowedCourses.ts";
+import { useAuth } from "../context/AuthContext.tsx";
 
 const CourseListPage: React.FC = () => {
     const [page, setPage] = useState(1);
@@ -29,8 +29,12 @@ const CourseListPage: React.FC = () => {
     }, [page, currentView]);
 
     const handleViewChange = (view: string) => {
-        setPage(1); 
+        setPage(1);
         setCurrentView(view);
+    };
+
+    const handleDelete = () => {
+        fetchCourses(); // Refetch courses after deletion
     };
 
     const tabs = [
@@ -54,7 +58,7 @@ const CourseListPage: React.FC = () => {
                     onPageChange={setPage}
                     RenderComponent={({ document }) => (
                         <Link to={`${document._id}`} className="page-fade-enter page-fade-enter-active">
-                            <CourseDataElement course={document} />
+                            <CourseDataElement course={document} onDelete={handleDelete} />
                         </Link>
                     )}
                 />

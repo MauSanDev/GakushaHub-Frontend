@@ -20,9 +20,9 @@ const AddCourseButton: React.FC<AddCourseButtonProps> = ({ institutionId }) => {
         setIsModalOpen(false);
     };
 
-    const onSaveModal = () => {
+    const onSaveModal = (courseId: string) => {
         closeModal();
-        navigate(0);
+        navigate(`/courses/${courseId}`);
     };
 
     return (

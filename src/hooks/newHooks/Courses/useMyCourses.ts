@@ -4,6 +4,7 @@ import { fetchFullPagination } from '../../../services/dataService.ts';
 import { CourseData } from '../../../data/CourseData';
 import { PaginatedData } from '../../../data/PaginatedData';
 import { useAuth } from "../../../context/AuthContext";
+import {CollectionTypes} from "../../../data/CollectionTypes.tsx";
 
 export const useMyCourses = (
     page: number,
@@ -32,7 +33,7 @@ export const useMyCourses = (
             const result = await fetchFullPagination<CourseData>(
                 page,
                 limit,
-                'course',
+                CollectionTypes.Course,
                 queryClient,
                 searches,
                 {},

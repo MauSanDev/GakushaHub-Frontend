@@ -11,11 +11,11 @@ import { useLessons } from '../hooks/newHooks/Courses/useLessons';
 
 interface CourseDataElementProps {
     course: CourseData;
+    onDelete?: () => void;  // Nueva prop para manejar la eliminación
 }
 
-const CourseDataElement: React.FC<CourseDataElementProps> = ({ course }) => {
+const CourseDataElement: React.FC<CourseDataElementProps> = ({ course, onDelete }) => {
     const { userData } = useAuth();
-
     const { fetchLessons, data: lessonsData, isLoading: lessonsLoading } = useLessons(course.lessons);
 
     useEffect(() => {
@@ -30,6 +30,7 @@ const CourseDataElement: React.FC<CourseDataElementProps> = ({ course }) => {
                     elementId={course._id}
                     elementType={CollectionTypes.Course}
                     deleteRelations={true}
+                    onDelete={onDelete}  // Pasamos el callback de eliminación al botón
                 />
             </div>
 
@@ -52,27 +53,27 @@ const CourseDataElement: React.FC<CourseDataElementProps> = ({ course }) => {
                             <div className="flex gap-3 text-gray-600 dark:text-gray-300 text-xs items-center">
                                 {lesson.kanjiDecks.length > 0 && (
                                     <span className="flex items-center gap-1">
-                            <FaBookOpen className="text-blue-400" />
-                            <span>Kanji: {lesson.kanjiDecks.length}</span>
-                        </span>
+                                        <FaBookOpen className="text-blue-400" />
+                                        <span>Kanji: {lesson.kanjiDecks.length}</span>
+                                    </span>
                                 )}
                                 {lesson.wordDecks.length > 0 && (
                                     <span className="flex items-center gap-1">
-                            <FaFileAlt className="text-red-400" />
-                            <span>Words: {lesson.wordDecks.length}</span>
-                        </span>
+                                        <FaFileAlt className="text-red-400" />
+                                        <span>Words: {lesson.wordDecks.length}</span>
+                                    </span>
                                 )}
                                 {lesson.grammarDecks.length > 0 && (
                                     <span className="flex items-center gap-1">
-                            <FaBook className="text-green-400" />
-                            <span>Grammar: {lesson.grammarDecks.length}</span>
-                        </span>
+                                        <FaBook className="text-green-400" />
+                                        <span>Grammar: {lesson.grammarDecks.length}</span>
+                                    </span>
                                 )}
                                 {lesson.readingDecks?.length > 0 && (
                                     <span className="flex items-center gap-1">
-                            <FaEye className="text-yellow-400" />
-                            <span>Readings: {lesson.readingDecks.length}</span>
-                        </span>
+                                        <FaEye className="text-yellow-400" />
+                                        <span>Readings: {lesson.readingDecks.length}</span>
+                                    </span>
                                 )}
                             </div>
                         </div>

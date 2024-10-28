@@ -1,7 +1,6 @@
 import React from 'react';
 import { FaTrash } from 'react-icons/fa';
 import { useDeleteElement } from '../hooks/useDeleteElement';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext.tsx";
 import TertiaryButton from "./ui/buttons/TertiaryButton.tsx";
 import { CollectionTypes } from "../data/CollectionTypes.tsx";
@@ -11,13 +10,12 @@ interface DeleteButtonProps {
     elementId: string;
     elementType: CollectionTypes;
     deleteRelations?: boolean;
-    redirectTo?: string;
-    extraParams?: Record<string, unknown>;  
+    onDelete?: () => void;  // Callback ejecutado tras la eliminación
+    extraParams?: Record<string, unknown>;
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({ creatorId, elementId, elementType, deleteRelations = false, redirectTo, extraParams }) => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({ creatorId, elementId, elementType, deleteRelations = false, onDelete, extraParams }) => {
     const mutation = useDeleteElement();
-    const navigate = useNavigate();
     const { user, userData } = useAuth();
 
     if (!user || (creatorId && userData?._id != creatorId)) return null;
@@ -29,14 +27,12 @@ const DeleteButton: React.FC<DeleteButtonProps> = ({ creatorId, elementId, eleme
                     elementIds: [elementId],
                     elementType,
                     deleteRelations,
-                    extraParams 
+                    extraParams
                 },
                 {
                     onSuccess: () => {
-                        if (redirectTo) {
-                            navigate(redirectTo);
-                        } else {
-                            navigate(0);
+                        if (onDelete) {
+                            onDelete();  // Llama al callback personalizado tras la eliminación
                         }
                     },
                 }
