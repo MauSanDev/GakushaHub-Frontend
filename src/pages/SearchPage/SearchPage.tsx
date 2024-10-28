@@ -29,13 +29,14 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
     const [showGrammar, setShowGrammar] = useState(false);
     const [searchExecuted, setSearchExecuted] = useState(false);
 
-    const { mutate: searchContent, data, isLoading } = useSearchContent();
-    const { isAuthenticated } = useAuth();
-
     const [selectedKanjiIds, setSelectedKanjiIds] = useState<string[]>([]);
     const [selectedWordIds, setSelectedWordIds] = useState<string[]>([]);
     const [selectedGrammarIds, setSelectedGrammarIds] = useState<string[]>([]);
-    
+    const [filteredTags, setFilteredTags] = useState<string[]>([]);
+
+    const { mutate: searchContent, data, isLoading } = useSearchContent(filteredTags, { showKanji, showWord, showGrammar});
+    const { isAuthenticated } = useAuth();
+
     useEffect(() => {
         if (data) {
             if (data.kanjiResults.length > 0) {
@@ -51,8 +52,15 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
                 setSelectedGrammarIds(data.grammarResults.map(grammar => grammar._id));
             }
         }
-    }, [data]); 
-    
+    }, [data]);
+
+    useEffect(() => {
+        if (filteredTags.length === 0)
+            return;
+        
+        searchContent();
+    }, [filteredTags]);
+
     const onSaveStatusChanged = (status: SaveStatus) => {
         if (status === SaveStatus.Success && onSaveSuccess) {
             onSaveSuccess();
@@ -60,12 +68,13 @@ const SearchPage: React.FC<SearchPageProps> = ({ courseId, courseName, lessonNam
     };
 
     const onSavePressed = (updatedTagsMap: { [tag: string]: boolean }) => {
+        const filtered = Object.keys(updatedTagsMap).filter(tag => updatedTagsMap[tag]);
+
+        setFilteredTags(filtered);
         setSearchExecuted(true);
-        searchContent({
-            tagsMap: updatedTagsMap,
-            options: { showKanji, showWord, showGrammar }
-        });
     };
+    
+    
 
     const onClearSearch = () => {
         setSearchExecuted(false);

@@ -23,7 +23,7 @@ const GrammarListPage: React.FC = () => {
     const [showSelected, setShowSelected] = useState(false);
     const [hasFetchedSelected, setHasFetchedSelected] = useState(false);
 
-    const { data, isLoading, fetchGrammarData } = usePaginatedGrammar(page, 20, searchTerm, selectedJLPTLevel);
+    const { data, isLoading, fetchGrammarData } = usePaginatedGrammar();
     const { data: selectedData, mutate, isLoading: isLoadingSelected } = useFakePagination<GrammarData>(selectedGrammarIds, page, 10, "grammar");
 
     const isSaving = saveStatus === SaveStatus.Saving;
@@ -44,7 +44,7 @@ const GrammarListPage: React.FC = () => {
     useEffect(() => {
         // Solo cargamos `fetchGrammarData` al inicio y cuando se desactiva `showSelected`
         if (!showSelected) {
-            fetchGrammarData();
+            fetchGrammarData(page, 20, [searchTerm], selectedJLPTLevel);
             setHasFetchedSelected(false); // Reset fetch para el próximo cambio
         }
     }, [showSelected, page, searchTerm, selectedJLPTLevel]);
