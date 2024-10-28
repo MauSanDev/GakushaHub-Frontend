@@ -1,17 +1,29 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaBook, FaClipboardList, FaPen, FaBrain, FaSpellCheck, FaLanguage, FaTasks, FaGlobe } from 'react-icons/fa';
+import {
+    FaBook,
+    FaClipboardList,
+    FaPen,
+    FaSpellCheck,
+    FaLanguage,
+    FaTasks,
+    FaBookReader, FaBrain, FaKeyboard, FaQuestion,
+} from 'react-icons/fa';
 import LocSpan from '../../components/LocSpan';
+import {FaNoteSticky} from "react-icons/fa6";
 
 const features = [
-    { icon: <FaBook />, labelKey: 'landingPage.flashcards' },
-    { icon: <FaClipboardList />, labelKey: 'landingPage.grammar' },
-    { icon: <FaPen />, labelKey: 'landingPage.kanji' },
-    { icon: <FaBrain />, labelKey: 'landingPage.words' },
-    { icon: <FaSpellCheck />, labelKey: 'landingPage.ia' },
-    { icon: <FaLanguage />, labelKey: 'landingPage.tests' },
-    { icon: <FaTasks />, labelKey: 'landingPage.practices' },
-    { icon: <FaGlobe />, labelKey: 'landingPage.readings' },
+    { icon: <FaLanguage />, labelKey: 'landingPage.tool1' },
+    { icon: <FaClipboardList />, labelKey: 'landingPage.tool2' },
+    { icon: <FaPen />, labelKey: 'landingPage.tool3' },
+    { icon: <FaBook />, labelKey: 'landingPage.tool4' },
+    { icon: <FaKeyboard />, labelKey: 'landingPage.tool5' },
+    { icon: <FaTasks />, labelKey: 'landingPage.tool6' },
+    { icon: <FaBookReader />, labelKey: 'landingPage.tool7' },
+    { icon: <FaBrain />, labelKey: 'landingPage.tool8' },
+    { icon: <FaSpellCheck />, labelKey: 'landingPage.tool9' },
+    { icon: <FaNoteSticky />, labelKey: 'landingPage.tool10' },
+    { icon: <FaQuestion />, labelKey: 'landingPage.tool11' },
 ];
 
 const StudentFeaturesSection: React.FC<{ id: string }> = ({ id }) => {
@@ -22,7 +34,7 @@ const StudentFeaturesSection: React.FC<{ id: string }> = ({ id }) => {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+            transition={{ duration: 2, ease: 'easeOut' }}
         >
             {/* Texto a la izquierda */}
             <div className="md:w-1/2 text-center md:text-left mb-10 md:mb-0 md:pr-10">

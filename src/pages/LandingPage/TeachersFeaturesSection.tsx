@@ -4,13 +4,15 @@ import { FaChalkboardTeacher, FaCalendarAlt, FaFolderOpen, FaEdit, FaUsers } fro
 import { SectionTemplate } from "./SectionTemplate";
 import missionImage from '../../assets/pc-mobile.webp';
 import LocSpan from "../../components/LocSpan";
+import {FaMessage} from "react-icons/fa6";
 
 const teacherFeatures = [
     { icon: <FaChalkboardTeacher />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle1', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription1' },
     { icon: <FaCalendarAlt />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle2', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription2' },
     { icon: <FaFolderOpen />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle3', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription3' },
     { icon: <FaEdit />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle4', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription4' },
-    { icon: <FaUsers />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle5', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription5' },
+    { icon: <FaMessage />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle5', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription5' },
+    { icon: <FaUsers />, titleKey: 'landingPage.teacherFeaturesSection.featureTitle6', descriptionKey: 'landingPage.teacherFeaturesSection.featureDescription6' },
 ];
 
 const TeacherFeaturesSection: React.FC<{id: string}> = ({id}) => {
@@ -41,7 +43,7 @@ const TeacherFeaturesSection: React.FC<{id: string}> = ({id}) => {
 
     return (
         <section className="flex flex-col md:flex-row py-20 px-6 text-white max-w-5xl mx-auto" id={id}>
-            <div className="md:w-1/2 flex flex-col space-y-6">
+            <div className="md:w-1/2 flex flex-col space-y-2">
                 <motion.h2
                     className="text-4xl font-bold mb-8 text-center md:text-left"
                     initial={{ opacity: 0, y: 50 }}

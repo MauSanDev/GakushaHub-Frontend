@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaCheck } from 'react-icons/fa';
+import {FaCheck, FaCrown} from 'react-icons/fa';
 import { SectionTemplate } from "./SectionTemplate";
 import LocSpan from "../../components/LocSpan";
 
@@ -8,10 +8,11 @@ const roadmapData = [
     { dateKey: "landingPage.roadmapSection.target1", descKey: "landingPage.roadmapSection.target1desc", completed: false },
     { dateKey: "landingPage.roadmapSection.target2", descKey: "landingPage.roadmapSection.target2desc", completed: false },
     { dateKey: "landingPage.roadmapSection.target3", descKey: "landingPage.roadmapSection.target3desc", completed: false },
-    { dateKey: "landingPage.roadmapSection.target4", descKey: "landingPage.roadmapSection.target4desc", completed: true },
+    { dateKey: "landingPage.roadmapSection.target4", descKey: "landingPage.roadmapSection.target4desc", completed: false },
     { dateKey: "landingPage.roadmapSection.target5", descKey: "landingPage.roadmapSection.target5desc", completed: true },
     { dateKey: "landingPage.roadmapSection.target6", descKey: "landingPage.roadmapSection.target6desc", completed: true },
     { dateKey: "landingPage.roadmapSection.target7", descKey: "landingPage.roadmapSection.target7desc", completed: true },
+    { dateKey: "landingPage.roadmapSection.target8", descKey: "landingPage.roadmapSection.target8desc", completed: true },
 ];
 
 const RoadmapSection: React.FC<{id: string}> = ({id}) => {
@@ -39,12 +40,12 @@ const RoadmapSection: React.FC<{id: string}> = ({id}) => {
                         >
                             <motion.div
                                 className={`absolute -left-4 w-8 h-8 rounded-full flex items-center justify-center border-2 ${
-                                    item.completed ? 'bg-green-500 border-green-500' : 'bg-blue-500 border-gray-700'
+                                    index === 0 ? 'bg-yellow-500 border-yellow-300' :item.completed ? 'bg-green-500 border-green-500' : 'bg-blue-500 border-gray-700'
                                 }`}
                                 initial={{ scale: 0.8 }}
                                 animate={{ scale: [1, 1.3, 1], transition: { duration: 1.5, repeat: Infinity, delay: index * 0.2 }}}
                             >
-                                {item.completed && <FaCheck className="text-white text-xs" />}
+                                {index === 0 ? <FaCrown /> : item.completed && <FaCheck className="text-white text-xs" />}
                             </motion.div>
 
                             <h3 className={`text-xl font-semibold ${item.completed ? 'text-gray-400' : 'text-white'}`}>
