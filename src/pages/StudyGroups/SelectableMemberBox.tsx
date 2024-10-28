@@ -1,8 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
-import { FaCheck, FaTimes } from 'react-icons/fa';
 import { MembershipData, MembershipStatus } from '../../data/MembershipData';
 import SelectableContainer from "../../components/ui/containers/SelectableContainer";
-import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
 import { useUserInfo } from "../../hooks/newHooks/Courses/useUserInfo";
 import { useCachedImage } from "../../hooks/newHooks/Resources/useCachedImage";
 import manabuMoriProfile from '../../assets/bg-dark-mode.jpg'
@@ -74,27 +72,15 @@ const SelectableMemberBox: React.FC<SelectableMemberBoxProps> = ({ member, isSel
                 </span>
             </div>
 
-            {isPending && (
-                <div className="flex gap-2 mt-2 sm:mt-0 justify-end">
-                    <span className="italic text-yellow-500 mr-4">Pending approval</span>
-                    <PrimaryButton
-                        onClick={() => onSelectMember(member)}
-                        label="Accept"
-                        className="text-xs w-32 bg-green-500 hover:bg-green-600 dark:bg-green-500 hover:dark:bg-green-600"
-                        iconComponent={<FaCheck />}
-                    />
-                    <PrimaryButton
-                        onClick={() => onDeselectMember(member)}
-                        label="Reject"
-                        className="text-xs w-32 bg-red-500 hover:bg-red-600 dark:bg-red-600 hover:dark:bg-red-600"
-                        iconComponent={<FaTimes />}
-                    />
-                </div>
-            )}
+            <div className="flex gap-2 mt-2 sm:mt-0 justify-end">
+                {isPending && (
+                        <span className="italic text-yellow-500 mr-4">Pending approval</span>
+                )}
+                {isRejected && (
+                    <span className="italic text-red-400 mt-4 text-right">Rejected</span>
+                )}
+            </div>
 
-            {isRejected && (
-                <span className="italic text-red-400 mt-4 text-right">Rejected</span>
-            )}
         </SelectableContainer>
     );
 };
