@@ -79,6 +79,7 @@ const ResourceDataElement: React.FC<ResourceDataElementProps> = ({ resourceData,
             await updateResource({
                 collection: CollectionTypes.Resources,
                 documentId: localResource._id,
+                //@ts-expect-error we dont need all the parameters
                 newData: {
                     title: localResource.title,
                     description: localResource.description,

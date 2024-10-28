@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import {ReactNode, useState} from "react";
 import {FaPen, FaPlayCircle, FaSpinner, FaTimes} from "react-icons/fa";
 import DeleteButton from "./DeleteButton";

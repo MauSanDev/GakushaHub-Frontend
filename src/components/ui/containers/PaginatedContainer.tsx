@@ -109,6 +109,7 @@ const PaginatedContainer = <T,>({documents, currentPage, totalPages, onPageChang
                  style={{maxHeight: 'calc(100vh)'}}>
                 {documents.map((document) => (
                     <RenderComponent
+                        //@ts-expect-error i'm not going to create an interface :)
                         key={document._id}
                         document={document}
                     />

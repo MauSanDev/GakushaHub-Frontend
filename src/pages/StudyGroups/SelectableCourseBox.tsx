@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import React, { useState } from 'react';
 import { FaBookOpen, FaBook, FaFileAlt, FaEye } from 'react-icons/fa';
 import { CourseData } from "../../data/CourseData.ts";

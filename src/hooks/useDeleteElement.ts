@@ -10,18 +10,17 @@ export const useDeleteElement = () => {
              elementIds,
              elementType,
              deleteRelations = false,
-             extraParams = {} 
+             extraParams = {}
          }: {
             elementIds: string[],
             elementType: CollectionTypes,
             deleteRelations?: boolean,
-            extraParams?: Record<string, unknown> 
-        }) =>
-            
-        deleteData(elementIds, elementType, queryClient, deleteRelations, extraParams),
+            extraParams?: Record<string, unknown>
+        }) => deleteData(elementIds, elementType, queryClient, deleteRelations, extraParams),
         {
-            onSuccess: (x) => {
-                return x;
+            onSuccess: () => {
+                // realiza cualquier acción secundaria sin devolver nada
+                console.log("Elemento eliminado exitosamente.");
             },
             onError: (error: Error) => {
                 console.error('Error deleting element:', error.message);

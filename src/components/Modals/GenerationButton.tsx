@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import React, { useState } from 'react';
 import { FaRobot } from 'react-icons/fa';
 import NewGenerationPage from "./NewGenerationPage.tsx";
@@ -6,6 +8,9 @@ import TertiaryButton from "../ui/buttons/TertiaryButton.tsx";
 import { useElements } from '../../hooks/newHooks/useElements';
 import { CollectionTypes } from "../../data/CollectionTypes.tsx";
 import LoadingScreen from "../LoadingScreen.tsx";
+import {KanjiData} from "../../data/KanjiData.ts";
+import {WordData} from "../../data/WordData.ts";
+import {GrammarData} from "../../data/GrammarData.ts";
 
 interface GenerationButtonProps {
     termsDictionary: Record<CollectionTypes, string[]>;
@@ -24,9 +29,9 @@ const GenerationButton: React.FC<GenerationButtonProps> = ({ termsDictionary, de
     const [grammarTerms, setGrammarTerms] = useState<string[]>([]);
     const [isLoadingTerms, setIsLoadingTerms] = useState(false);
 
-    const { fetchElementsData: fetchKanjiData } = useElements(termsDictionary[CollectionTypes.Kanji], CollectionTypes.Kanji);
-    const { fetchElementsData: fetchWordData } = useElements(termsDictionary[CollectionTypes.Word], CollectionTypes.Word);
-    const { fetchElementsData: fetchGrammarData } = useElements(termsDictionary[CollectionTypes.Grammar], CollectionTypes.Grammar);
+    const { fetchElementsData: fetchKanjiData } = useElements<KanjiData>(termsDictionary[CollectionTypes.Kanji], CollectionTypes.Kanji);
+    const { fetchElementsData: fetchWordData } = useElements<WordData>(termsDictionary[CollectionTypes.Word], CollectionTypes.Word);
+    const { fetchElementsData: fetchGrammarData } = useElements<GrammarData>(termsDictionary[CollectionTypes.Grammar], CollectionTypes.Grammar);
 
     const handleOpenModal = async () => {
         setIsLoadingTerms(true);

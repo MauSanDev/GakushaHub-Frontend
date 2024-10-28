@@ -9,7 +9,6 @@ import { useAuth } from '../../context/AuthContext';
 import { InstitutionData } from "../../data/Institutions/InstitutionData.ts";
 import DottedBox from '../../components/DottedBox';
 import {MembershipRole} from "../../data/MembershipData.ts";
-import {useNavigate} from "react-router-dom";
 
 const InstitutionListPage: React.FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
@@ -62,10 +61,6 @@ const InstitutionListPage: React.FC = () => {
         };
     }, []);
 
-    const handleCreateInstitutionSuccess = () => {
-        navigate('institutions/')
-    };
-
     return (
         <SectionContainer title={"私の学校"} isLoading={institutionsLoading || isMembershipsLoading}>
             <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
@@ -108,7 +103,7 @@ const InstitutionListPage: React.FC = () => {
             {isCreateModalOpen && (
                 <CreateInstitutionModal
                     onClose={() => setIsCreateModalOpen(false)}
-                    onCreateSuccess={handleCreateInstitutionSuccess}
+                    onCreateSuccess={() => {}}
                 />
             )}
         </SectionContainer>

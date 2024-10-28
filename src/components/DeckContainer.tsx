@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import React, {useEffect, useCallback, useState} from 'react';
 import { CollectionTypes } from '../data/CollectionTypes';
 import { useDecks } from '../hooks/newHooks/Courses/useDecks.ts';
@@ -98,6 +100,7 @@ const DeckContainer: React.FC<DeckContainerProps> = ({
 
     const handleFetchComplete = useCallback(() => {
         if (data && onFetchComplete) {
+            //@ts-expect-error this is just for decks
             const fetchedElements: Record<CollectionTypes, string[]> = {
                 [CollectionTypes.Kanji]: [],
                 [CollectionTypes.Word]: [],

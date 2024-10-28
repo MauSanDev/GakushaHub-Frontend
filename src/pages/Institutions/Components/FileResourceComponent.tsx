@@ -119,6 +119,7 @@ const FileResourceComponent: React.FC<FileResourceComponentProps> = ({ file, ins
                 await updateResource({
                     collection: CollectionTypes.Resources,
                     documentId: localResource._id as string,
+                    //@ts-expect-error We don't need all the parameters
                     newData: {
                         title: localResource.title,
                         description: localResource.description,

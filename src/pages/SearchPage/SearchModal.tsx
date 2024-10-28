@@ -12,8 +12,16 @@ interface SearchModalProps {
 }
 
 const SearchModal: React.FC<SearchModalProps> = ({ onClose, courseId, courseName, lessonName, deckName, onSaveSuccess }) => {
+    
+    const handleClose = () => {
+        if (onClose)
+        {
+            onClose();
+        }
+    }
+    
     return (
-        <ModalWrapper onClose={onClose}>
+        <ModalWrapper onClose={handleClose}>
             <SearchPage 
                 courseId={courseId}
                 courseName={courseName}

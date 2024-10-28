@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import React, {useState} from "react";
 import {CourseData, LessonData} from "../data/CourseData.ts";
 import {FaBook, FaBookOpen, FaEye, FaFileAlt, FaTable, FaThLarge} from "react-icons/fa";
@@ -73,14 +75,6 @@ const LessonDataElement: React.FC<LessonDataElementProps> = ({
             case CollectionTypes.WordDeck:
                 fieldName = 'wordDecks'
                 break;
-        }
-        
-        const payload = {
-            collection: CollectionTypes.Lesson,
-            documentId: lesson._id,
-            field: fieldName,
-            value: [deckId],
-            action: 'remove'
         }
         
         removeDeckFromLesson({

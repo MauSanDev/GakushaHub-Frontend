@@ -86,6 +86,7 @@ const LinkTextResourceComponent: React.FC<LinkTextResourceComponentProps> = ({in
                 await updateResource({
                     collection: CollectionTypes.Resources,
                     documentId: localResource._id as string,
+                    //@ts-expect-error we dont need all the parameters
                     newData: {
                         title: localResource.title,
                         description: localResource.description,

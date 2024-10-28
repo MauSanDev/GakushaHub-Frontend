@@ -6,7 +6,7 @@ import LocSpan from "../LocSpan.tsx";
 
 const Sidebar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { isAuthenticated, isPremium, isSensei } = useAuth();
+    const { isAuthenticated } = useAuth();
 
     const menuItems = [
         { label: 'search', path: '/search' },
@@ -16,14 +16,6 @@ const Sidebar: React.FC = () => {
         { label: 'studyGroups', path: '/groups', requiresAuth: true},
         { label: 'institutions', path: '/institutions' },
     ];
-
-    const hasRequiredRole = (requiredRoles?: string[]) => {
-        if (!requiredRoles) return true;
-        return (
-            (requiredRoles.includes('premium') && isPremium) ||
-            (requiredRoles.includes('sensei') && isSensei)
-        );
-    };
 
     return (
         <>
@@ -43,8 +35,7 @@ const Sidebar: React.FC = () => {
 
                     {menuItems.map((item, index) =>
 
-                            (!item.requiresAuth || isAuthenticated) &&
-                            hasRequiredRole(item.requiresRole) && (
+                            (!item.requiresAuth || isAuthenticated) &&(
                                 <Link
                                     key={index}
                                     to={item.path}

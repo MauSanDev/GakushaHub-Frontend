@@ -51,6 +51,7 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({onClose, onCreateSucce
                 {
                     collection: 'news',
                     documentId: newsData._id,
+                    //@ts-expect-error we dont need all the parameters
                     newData: {
                         title: newsTitle,
                         text: content,

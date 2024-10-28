@@ -134,7 +134,7 @@ const TextReaderElement: React.FC<TextReaderProps> = ({ data }) => {
             )}
 
             <div className="mt-60 border-t border-gray-200  dark:border-gray-800 pt-4">
-                <CreatorLabel name={data.creatorId?.name} isAnonymous={data.isAnonymous} createdAt={data.createdAt} />
+                <CreatorLabel creatorId={data.creatorId} isAnonymous={data.isAnonymous} createdAt={data.createdAt} />
                 <h2 className="text-sm text-gray-600 dark:text-gray-300 italic mb-4"><LocSpan textKey={"topic"}/>: "{data.topic}"</h2>
 
                 <div className="flex items-center gap-2 flex-wrap">

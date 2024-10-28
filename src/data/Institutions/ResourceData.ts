@@ -1,5 +1,4 @@
 import {DeckData} from "../DeckData.ts";
-import {KanjiData} from "../KanjiData.ts";
 
 export interface ResourceData {
     _id: string;

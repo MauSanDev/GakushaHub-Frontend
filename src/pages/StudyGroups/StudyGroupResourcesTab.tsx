@@ -87,6 +87,7 @@ const StudyGroupResourcesTab: React.FC<StudyGroupResourcesTabProps> = ({ studyGr
 
             {isAddResourcesModalOpen && (
                 <AddResourcesGroupToStudyGroupModal
+                    institutionId={studyGroup.institutionId}
                     onClose={() => setIsAddResourcesModalOpen(false)}
                     studyGroupId={studyGroup._id || ''}
                     onAddGroupsSuccess={() => {

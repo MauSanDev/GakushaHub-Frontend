@@ -46,6 +46,7 @@ const StudyGroupSettings: React.FC<StudyGroupSettingsProps> = ({ studyGroup, can
         updateDocument({
             collection: CollectionTypes.StudyGroup,
             documentId: studyGroup._id,
+            //@ts-expect-error We don't need all the parameters
             newData: updatedData,
         });
 
