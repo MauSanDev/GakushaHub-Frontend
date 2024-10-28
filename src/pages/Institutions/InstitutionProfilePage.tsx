@@ -7,9 +7,8 @@ import { useCachedImage } from "../../hooks/newHooks/Resources/useCachedImage.ts
 import Tabs from "../../components/ui/toggles/Tabs";
 import ScheduleCalendar from "./Components/ScheduleCalendar.tsx";
 import InstitutionProfileNewsTab from "./InstitutionProfileNewsTab.tsx";
+import manabuMoriBanner from '../../assets/banner_placeholder.jpg'
 
-const DEFAULT_PROFILE_IMAGE = 'https://via.placeholder.com/150';
-const DEFAULT_BANNER_IMAGE = 'https://via.placeholder.com/600x200';
 
 const InstitutionProfilePage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
@@ -19,12 +18,11 @@ const InstitutionProfilePage: React.FC = () => {
 
     const { imageUrl: profileImage } = useCachedImage({
         path: `institutions/${institutionId}/profileImage`,
-        defaultImage: DEFAULT_PROFILE_IMAGE,
     });
 
     const { imageUrl: bannerImage } = useCachedImage({
         path: `institutions/${institutionId}/bannerImage`,
-        defaultImage: DEFAULT_BANNER_IMAGE,
+        defaultImage: manabuMoriBanner,
     });
 
     useEffect(() => {

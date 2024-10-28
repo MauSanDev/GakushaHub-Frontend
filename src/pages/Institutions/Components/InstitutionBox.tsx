@@ -5,8 +5,6 @@ import RoundedTag from "../../../components/ui/text/RoundedTag.tsx";
 import {useCachedImage} from '../../../hooks/newHooks/Resources/useCachedImage.ts';
 import {MembershipRole} from "../../../data/MembershipData.ts";
 
-const DEFAULT_INSTITUTION_IMAGE = 'https://via.placeholder.com/150';
-
 interface MyInstitutionProps {
     institutionId: string;
     institutionName?: string;
@@ -24,9 +22,7 @@ const InstitutionBox: React.FC<MyInstitutionProps> = ({
     const navigate = useNavigate();
 
     const { imageUrl: institutionImage } = useCachedImage({
-        path: `institutions/${institutionId}/profileImage`,
-        defaultImage: DEFAULT_INSTITUTION_IMAGE,
-    });
+        path: `institutions/${institutionId}/profileImage`,});
 
     return (
         <div className="w-full max-w-4xl my-4">

@@ -7,8 +7,6 @@ import { useCachedImage } from '../../hooks/newHooks/Resources/useCachedImage.ts
 import { useAuth } from "../../context/AuthContext.tsx";
 import Editable from "../../components/ui/text/Editable.tsx";
 
-const DEFAULT_PROFILE_IMAGE = 'https://via.placeholder.com/150';
-
 interface UserProfileEditorModalProps {
     onClose: () => void;
     userId: string;
@@ -19,9 +17,7 @@ const UserProfileEditorModal: React.FC<UserProfileEditorModalProps> = ({ onClose
     const profileInputRef = useRef<HTMLInputElement>(null);
 
     const { imageUrl: profileImage, isUploading, uploadImage: uploadProfileImage } = useCachedImage({
-        path: `users/${userId}/profileImage`,
-        defaultImage: DEFAULT_PROFILE_IMAGE,
-    });
+        path: `users/${userId}/profileImage`,});
 
     const handleProfileImageUpload = () => {
         if (profileInputRef.current?.files && profileInputRef.current.files[0]) {

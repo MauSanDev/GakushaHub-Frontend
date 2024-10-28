@@ -5,8 +5,7 @@ import SelectableContainer from "../../components/ui/containers/SelectableContai
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
 import { useUserInfo } from "../../hooks/newHooks/Courses/useUserInfo";
 import { useCachedImage } from "../../hooks/newHooks/Resources/useCachedImage";
-
-const DEFAULT_USER_IMAGE = 'https://via.placeholder.com/40';
+import manabuMoriProfile from '../../assets/bg-dark-mode.jpg'
 
 interface SelectableMemberBoxProps {
     member: MembershipData;
@@ -25,16 +24,18 @@ const roleColors: { [key: string]: string } = {
 const SelectableMemberBox: React.FC<SelectableMemberBoxProps> = ({ member, isSelected, onSelectMember, onDeselectMember }) => {
     const { fetchUserInfo, data: userInfo } = useUserInfo([member.userId]);
     const { imageUrl: userImage } = useCachedImage({
-        path: `users/${member.userId}/profileImage`,
-        defaultImage: DEFAULT_USER_IMAGE,
-    });
+        path: `users/${member.userId}/profileImage`,});
 
     useEffect(() => {
         if (member.userId) fetchUserInfo();
     }, [member.userId]);
 
     const toggleSelection = () => {
-        isSelected ? onDeselectMember(member) : onSelectMember(member);
+        if (isSelected) {
+            onDeselectMember(member)
+        } else {
+            onSelectMember(member);
+        }
     };
 
     // Memoize computed values to avoid re-computation on each render
@@ -53,7 +54,7 @@ const SelectableMemberBox: React.FC<SelectableMemberBoxProps> = ({ member, isSel
         <SelectableContainer isSelected={isSelected} onClick={toggleSelection} className="w-full max-w-4xl my-2">
             <div className="flex items-center gap-4">
                 <img
-                    src={userImage || DEFAULT_USER_IMAGE}
+                    src={userImage || manabuMoriProfile}
                     alt={displayName}
                     className="w-10 h-10 rounded-full object-cover"
                 />

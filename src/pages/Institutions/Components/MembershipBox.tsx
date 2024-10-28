@@ -8,8 +8,6 @@ import { useNavigate } from "react-router-dom";
 import { useInstitution } from '../../../hooks/newHooks/Institutions/useInstitutions.ts';
 import { useCachedImage } from '../../../hooks/newHooks/Resources/useCachedImage.ts';
 
-const DEFAULT_INSTITUTION_IMAGE = 'https://via.placeholder.com/150';
-
 interface MembershipBoxProps {
     membership: MembershipData;
 }
@@ -30,9 +28,7 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
     const institutionDescription = institutionData?.[membership.institutionId]?.description || 'No description available';
 
     const { imageUrl: institutionImage } = useCachedImage({
-        path: `institutions/${membership.institutionId}/profileImage`,
-        defaultImage: DEFAULT_INSTITUTION_IMAGE,
-    });
+        path: `institutions/${membership.institutionId}/profileImage`});
 
     useEffect(() => {
         fetchInstitution();

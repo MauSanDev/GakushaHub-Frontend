@@ -8,8 +8,6 @@ import { useUserInfo } from "../hooks/newHooks/Courses/useUserInfo.ts";
 import { useCachedImage } from "../hooks/newHooks/Resources/useCachedImage.ts";
 import LocSpan from "./LocSpan.tsx";
 
-const DEFAULT_USER_IMAGE = 'https://via.placeholder.com/40';
-
 interface StudyGroupMemberElementProps {
     member: MembershipData;
     studyGroupId: string;
@@ -17,20 +15,12 @@ interface StudyGroupMemberElementProps {
 }
 
 const StudyGroupMemberElement: React.FC<StudyGroupMemberElementProps> = ({ member, studyGroupId, viewerRole }) => {
-    const roleColors: { [key: string]: string } = {
-        owner: 'dark:text-purple-500 text-purple-400',
-        staff: 'dark:text-yellow-500 text-yellow-500',
-        sensei: 'dark:text-blue-400 text-blue-400',
-        student: 'dark:text-green-500 text-green-400',
-    };
 
     const { mutate: modifyList } = useUpdateList();
     const { fetchUserInfo, data: userInfo } = useUserInfo([member?.userId]);
 
     const { imageUrl: userImage } = useCachedImage({
-        path: `users/${member.userId}/profileImage`,
-        defaultImage: DEFAULT_USER_IMAGE,
-    });
+        path: `users/${member.userId}/profileImage`});
 
     useEffect(() => {
         fetchUserInfo();

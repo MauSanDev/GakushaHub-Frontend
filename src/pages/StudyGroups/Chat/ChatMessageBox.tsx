@@ -10,8 +10,6 @@ import { useCachedImage } from '../../../hooks/newHooks/Resources/useCachedImage
 import {useTranslation} from "react-i18next";
 import LocSpan from "../../../components/LocSpan.tsx";
 
-const DEFAULT_PROFILE_IMAGE = 'https://via.placeholder.com/150';
-
 interface ChatMessageBoxProps {
     messageData: ChatMessageData;
     viewerRole: MembershipRole;
@@ -32,9 +30,7 @@ const ChatMessageBox: React.FC<ChatMessageBoxProps> = ({ messageData, viewerRole
 
     // Hook de imagen de perfil para el usuario del mensaje
     const { imageUrl: userImage } = useCachedImage({
-        path: `users/${messageData.userId}/profileImage`,
-        defaultImage: DEFAULT_PROFILE_IMAGE,
-    });
+        path: `users/${messageData.userId}/profileImage`,});
 
     useEffect(() => {
         if (messageData.userId === userData?._id) {

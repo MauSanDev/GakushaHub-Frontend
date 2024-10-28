@@ -12,8 +12,6 @@ import LocSpan from "./LocSpan.tsx";
 import UserProfileEditorModal from "../pages/Institutions/UserProfileEditorModal.tsx";
 import { useCachedImage } from '../hooks/newHooks/Resources/useCachedImage.ts';
 
-const DEFAULT_PROFILE_IMAGE = 'https://via.placeholder.com/50'; // Placeholder pequeño
-
 const UserMenu: React.FC = () => {
     const { userData, user, logout, isEmailVerified, resendEmailVerification, isPremium, isSensei } = useAuth();
     const navigate = useNavigate();
@@ -22,9 +20,7 @@ const UserMenu: React.FC = () => {
     const menuRef = useRef<HTMLDivElement>(null);
 
     const { imageUrl: profileImage, reloadImage: reloadProfileImage } = useCachedImage({
-        path: `users/${userData?._id}/profileImage`,
-        defaultImage: DEFAULT_PROFILE_IMAGE,
-    });
+        path: `users/${userData?._id}/profileImage`,});
 
     const handleLogout = async () => {
         await logout();

@@ -8,9 +8,7 @@ import { useInstitutionById } from "../../hooks/institutionHooks/useInstitutionB
 import { useCachedImage } from "../../hooks/newHooks/Resources/useCachedImage.ts";
 import { useUpdateData } from "../../hooks/updateHooks/useUpdateData.ts";
 import LocSpan from "../../components/LocSpan.tsx";
-
-const DEFAULT_PROFILE_IMAGE = 'https://via.placeholder.com/150';
-const DEFAULT_BANNER_IMAGE = 'https://via.placeholder.com/600x200';
+import manabuMoriBanner from '../../assets/banner_placeholder.jpg'
 
 const EditProfilePage: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string }>();
@@ -23,13 +21,11 @@ const EditProfilePage: React.FC = () => {
     const bannerInputRef = useRef<HTMLInputElement>(null);
 
     const { imageUrl: profileImage, isUploading: isProfileUploading, uploadImage: uploadProfileImage } = useCachedImage({
-        path: `institutions/${institutionId}/profileImage`,
-        defaultImage: DEFAULT_PROFILE_IMAGE,
-    });
+        path: `institutions/${institutionId}/profileImage`});
 
     const { imageUrl: bannerImage, isUploading: isBannerUploading, uploadImage: uploadBannerImage } = useCachedImage({
         path: `institutions/${institutionId}/bannerImage`,
-        defaultImage: DEFAULT_BANNER_IMAGE,
+        defaultImage: manabuMoriBanner,
     });
 
     const { mutate: updateLinks } = useUpdateData<{ links: string[] }>();

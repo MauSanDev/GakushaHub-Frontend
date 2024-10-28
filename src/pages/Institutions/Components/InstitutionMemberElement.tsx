@@ -7,8 +7,6 @@ import { useUserInfo } from "../../../hooks/newHooks/Courses/useUserInfo.ts";
 import { useCachedImage } from '../../../hooks/newHooks/Resources/useCachedImage.ts';
 import {useTranslation} from "react-i18next";
 
-const DEFAULT_USER_IMAGE = 'https://via.placeholder.com/40';
-
 interface InstitutionMemberElementProps {
     member: MembershipData;
     onRemove: (toRemove: string) => void;
@@ -36,9 +34,7 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
 
 
     const { imageUrl: userImage } = useCachedImage({
-        path: `users/${member.userId}/profileImage`,
-        defaultImage: DEFAULT_USER_IMAGE,
-    });
+        path: `users/${member.userId}/profileImage`,});
 
     useEffect(() => {
         if (member.userId) {

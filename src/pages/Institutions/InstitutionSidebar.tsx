@@ -7,8 +7,6 @@ import { useInstitutionById } from "../../hooks/institutionHooks/useInstitutionB
 import { MembershipRole } from "../../data/MembershipData.ts";
 import {useCachedImage} from "../../hooks/newHooks/Resources/useCachedImage.ts";
 
-const DEFAULT_PROFILE_IMAGE = 'https://via.placeholder.com/150';
-
 const InstitutionSidebar: React.FC = () => {
     const { institutionId } = useParams<{ institutionId: string; }>();
     const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +16,6 @@ const InstitutionSidebar: React.FC = () => {
 
     const { imageUrl: profileImage } = useCachedImage({
         path: `institutions/${institutionId}/profileImage`,
-        defaultImage: DEFAULT_PROFILE_IMAGE,
     });
 
     useEffect(() => {
