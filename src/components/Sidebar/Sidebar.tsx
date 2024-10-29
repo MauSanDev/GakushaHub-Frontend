@@ -11,8 +11,8 @@ const Sidebar: React.FC = () => {
     const menuItems = [
         { label: 'search', path: '/search' },
         { label: 'grammar', path: '/grammar' },
-        { label: 'courses', path: '/courses', requiresAuth: true },
         { label: 'texts', path: '/generations'},
+        { label: 'courses', path: '/courses', requiresAuth: true },
         { label: 'studyGroups', path: '/groups', requiresAuth: true},
         { label: 'institutions', path: '/institutions' },
     ];

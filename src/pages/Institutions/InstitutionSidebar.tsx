@@ -34,12 +34,12 @@ const InstitutionSidebar: React.FC = () => {
 
     const menuItems = [
         { label: 'editProfile', path: `/institution/${institutionId}/editProfile`, roles: [MembershipRole.Owner, MembershipRole.Staff] },
-        { label: 'news', path: `/institution/${institutionId}/news`, roles: [MembershipRole.Owner, MembershipRole.Staff] },
+        { label: 'schedule', path: `/institution/${institutionId}/schedule`, roles: null },
         { label: 'studyGroups', path: `/institution/${institutionId}/studyGroups`, roles: null },
+        { label: 'courses', path: `/institution/${institutionId}/courses`, roles: null },
         { label: 'resources', path: `/institution/${institutionId}/resources`, roles: null },
         { label: 'members', path: `/institution/${institutionId}/members`, roles: null },
-        { label: 'courses', path: `/institution/${institutionId}/courses`, roles: null },
-        { label: 'schedule', path: `/institution/${institutionId}/schedule`, roles: null },
+        { label: 'news', path: `/institution/${institutionId}/news`, roles: [MembershipRole.Owner, MembershipRole.Staff] },
     ];
 
     return (
