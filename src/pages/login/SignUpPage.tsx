@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash, FaCheck, FaTimes, FaSpinner } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
@@ -20,6 +20,12 @@ const SignUpPage: React.FC = () => {
     const [showRequirements, setShowRequirements] = useState(false);
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const { isAuthenticated } = useAuth();
+
+    useEffect(() => {
+        if (isAuthenticated)
+            navigate("/search", { replace: true})
+    }, [isAuthenticated]);
 
 
     const handleSubmit = async (e: React.FormEvent) => {

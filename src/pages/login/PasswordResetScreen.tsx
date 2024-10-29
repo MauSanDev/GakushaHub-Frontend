@@ -1,8 +1,17 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import AuthLayout from './AuthLayout';
+import {useAuth} from "../../context/AuthContext.tsx";
 
 const PasswordResetScreen: React.FC = () => {
+    const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
+
+    useEffect(() => {
+        if (isAuthenticated)
+            navigate("/search", { replace: true})
+    }, [isAuthenticated]);
+    
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         alert('Password reseted!');

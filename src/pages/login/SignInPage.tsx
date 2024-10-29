@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
 import { useAuth } from '../../context/AuthContext';
@@ -7,14 +7,20 @@ import LocSpan from "../../components/LocSpan.tsx";
 import {useTranslation} from "react-i18next";
 
 const SignInPage: React.FC = () => {
-    const { signIn } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
     const { t } = useTranslation();
+    const { signIn, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
 
+
+    useEffect(() => {
+        if (isAuthenticated)
+            navigate("/search", { replace: true})
+    }, [isAuthenticated]);
+    
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);

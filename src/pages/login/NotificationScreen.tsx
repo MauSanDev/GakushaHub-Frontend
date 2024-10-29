@@ -1,8 +1,17 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 import AuthLayout from './AuthLayout';
+import {useAuth} from "../../context/AuthContext.tsx";
 
 const NotificationScreen: React.FC<{ message: string }> = ({ message }) => {
+    const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
+
+    useEffect(() => {
+        if (isAuthenticated)
+            navigate("/search", { replace: true})
+    }, [isAuthenticated]);
+    
     return (
         <AuthLayout>
             <div className="max-w-md">

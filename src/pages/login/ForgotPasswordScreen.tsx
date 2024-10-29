@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { FaSpinner } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import AuthLayout from './AuthLayout';
 import {useTranslation} from "react-i18next";
@@ -11,7 +11,15 @@ const ForgotPasswordScreen: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const { t } = useTranslation();
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
 
+
+    useEffect(() => {
+        if (isAuthenticated)
+            navigate("/search", { replace: true})
+    }, [isAuthenticated]);
+    
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
