@@ -1,21 +1,21 @@
 import { ReactNode } from "react";
 
 interface ColumnConfig<T> {
-    header: string; 
-    key: keyof T;   
-    formatter?: (value: T[keyof T], element: T) => ReactNode; 
+    header: string;
+    key: keyof T;
+    formatter?: (value: T[keyof T], element: T) => ReactNode;
 }
 
 interface GenericTableProps<T> {
-    data: T[];           
-    columns: ColumnConfig<T>[]; 
+    data: T[];
+    columns: ColumnConfig<T>[];
 }
 
 const GenericTable = <T,>({ data, columns }: GenericTableProps<T>) => {
     return (
-        <div className="overflow-x-auto mb-5 max-w-full">
-            <div className="inline-block align-middle overflow-scroll w-full">
-                <table className="w-full bg-white dark:bg-black text-xs dark:border dark:border-gray-800">
+        <div className="relative max-h-[calc(100vh-100px)] overflow-hidden pb-20"> {/* Contenedor principal ajustable */}
+            <div className="overflow-x-auto overflow-y-auto max-h-full w-full"> {/* Ajusta solo si supera la pantalla */}
+                <table className="min-w-[800px] w-full bg-white dark:bg-black text-xs dark:border dark:border-gray-800">
                     <thead>
                     <tr className="bg-blue-50 dark:bg-gray-950 text-center text-sm dark:text-gray-300">
                         {columns.map((column, index) => (
