@@ -25,7 +25,7 @@ export const useMyStudyGroups = (
             searches['search1fields'] = ['name', 'description'];
         }
 
-        searches['search2'] = memberships.map(m => m._id);
+        searches['search2'] = memberships.filter(memberships => memberships.status === 'approved').map(m => m._id);
         searches['search2fields'] = ['memberIds'];
     }
 

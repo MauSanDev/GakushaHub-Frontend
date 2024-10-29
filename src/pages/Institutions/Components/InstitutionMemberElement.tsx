@@ -116,7 +116,7 @@ const InstitutionMemberElement: React.FC<InstitutionMemberElementProps> = ({
                     </div>
                 )}
 
-                {member.status === MembershipStatus.Approved && (member.role !== 'owner' || userRole === 'owner') && canEditRole ? (
+                {(member.role !== 'owner' || userRole === 'owner') && canEditRole ? (
                     <select
                         value={selectedRole}
                         onChange={handleRoleChange}
