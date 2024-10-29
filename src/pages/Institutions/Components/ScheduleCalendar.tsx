@@ -193,11 +193,11 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
                     <span>To: {endDate.toDateString()}</span>
                 </div>
             )}
-            
+
             <div className="flex justify-center mb-4 gap-2 w-full max-w-3xl text-black dark:text-white text-lg">
                 <button
                     onClick={prevMonth}
-                    className="px-4 py-2"
+                    className="px-2 py-1"
                     disabled={startDate ? currentDate <= startDate : false}
                 >
                     <FaArrowLeft/>
@@ -207,7 +207,7 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
 
                 <button
                     onClick={nextMonth}
-                    className="px-4 py-2"
+                    className="px-2 py-1"
                     disabled={endDate ? currentDate >= endDate : false}
                 >
                     <FaArrowRight/>
@@ -218,7 +218,7 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
                 <thead>
                 <tr>
                     {weekDays.map((day, index) => (
-                        <th key={index} className="w-16 h-24 text-center text-gray-700 dark:text-gray-300"><LocSpan textKey={`scheduleKeys.weekdays.${day}`} /></th>
+                        <th key={index} className="w-12 h-16 text-center text-gray-700 dark:text-gray-300 text-xs sm:text-sm"><LocSpan textKey={`scheduleKeys.weekdays.${day}`} /></th>
                     ))}
                 </tr>
                 </thead>
@@ -228,7 +228,7 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
                         {week.map((day, dayIndex) => (
                             <td
                                 key={dayIndex}
-                                className={`w-16 text-center transition-all align-top h-24 ${getDayClass(day)}`}
+                                className={`w-12 sm:w-16 text-center transition-all align-top h-16 sm:h-24 ${getDayClass(day)}`}
                                 onClick={() => !isOutOfRangeDay(day) && handleDayClick(day)}
                             >
                                 <div className={`rounded-full w-full flex items-center justify-center ${isToday(day) ? 'relative' : ''}`}>
@@ -242,13 +242,29 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
                                     ) : ''}
                                 </div>
 
-                                {getEventsForDay(day).map(event => (
-                                    <div key={event._id}
-                                         className="text-xs dark:text-gray-300 px-2 truncate mt-1 border rounded dark:border-gray-400 flex items-center space-x-2">
-                                        {!event.studyGroupId ? <FaSchool className="text-orange-400" /> : <FaCalendarAlt className="text-blue-500" />}
-                                        <span className={'w-full'}>{event.name}</span>
-                                    </div>
-                                ))}
+                                {/* Conteo de eventos para cada día solo en pantallas pequeñas */}
+                                <div className="flex sm:hidden justify-center space-x-1 mt-1">
+                                    {getEventsForDay(day).filter(e => !e.studyGroupId).length > 0 && (
+                                        <span className="flex items-center text-orange-400 text-xs">
+                                            <FaSchool className="mr-1" />{getEventsForDay(day).filter(e => !e.studyGroupId).length}
+                                        </span>
+                                    )}
+                                    {getEventsForDay(day).filter(e => e.studyGroupId).length > 0 && (
+                                        <span className="flex items-center text-blue-500 text-xs">
+                                            <FaCalendarAlt className="mr-1" />{getEventsForDay(day).filter(e => e.studyGroupId).length}
+                                        </span>
+                                    )}
+                                </div>
+
+                                {/* Lista completa de eventos en pantallas grandes */}
+                                <div className="hidden sm:flex flex-col space-y-1 mt-1">
+                                    {getEventsForDay(day).map(event => (
+                                        <div key={event._id} className="text-xs dark:text-gray-300 px-2 truncate border rounded dark:border-gray-400 flex items-center space-x-2">
+                                            {!event.studyGroupId ? <FaSchool className="text-orange-400" /> : <FaCalendarAlt className="text-blue-500" />}
+                                            <span>{event.name}</span>
+                                        </div>
+                                    ))}
+                                </div>
                             </td>
                         ))}
                     </tr>
