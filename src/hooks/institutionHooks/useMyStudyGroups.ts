@@ -42,7 +42,7 @@ export const useMyStudyGroups = (
                 excludes,
                 '',
                 [],
-                false,
+                true,
                 { createdAt: -1}
             );
             setData(result || null);
