@@ -8,13 +8,14 @@ import SectionContainer from "../../components/ui/containers/SectionContainer.ts
 import { useAuth } from '../../context/AuthContext';
 import { InstitutionData } from "../../data/Institutions/InstitutionData.ts";
 import DottedBox from '../../components/DottedBox';
-import {MembershipRole} from "../../data/MembershipData.ts";
+import { MembershipRole } from "../../data/MembershipData.ts";
 
 const InstitutionListPage: React.FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
     const { memberships, refetchMemberships, licenseType } = useAuth();
     const [isMembershipsLoading, setIsMembershipsLoading] = useState<boolean>(true);
     const [institutions, setInstitutions] = useState<InstitutionData[]>([]);
+
     const { data: institutionsData, isLoading: institutionsLoading, fetchInstitutions } = usePaginatedInstitutions(1, 1);
 
     useEffect(() => {
@@ -37,33 +38,24 @@ const InstitutionListPage: React.FC = () => {
         fetchInstitutionsData();
     }, []);
 
-
     useEffect(() => {
-        let isMounted = true;
-
         const fetchMembershipsData = async () => {
+            setIsMembershipsLoading(true);
             try {
-                setIsMembershipsLoading(true);
                 await refetchMemberships();
             } catch (error) {
                 console.error('Error fetching memberships:', error);
             } finally {
-                if (isMounted) {
-                    setIsMembershipsLoading(false);
-                }
+                setIsMembershipsLoading(false);
             }
         };
 
         fetchMembershipsData();
-
-        return () => {
-            isMounted = false;
-        };
     }, []);
 
     return (
         <SectionContainer title={"私の学校"} isLoading={institutionsLoading || isMembershipsLoading}>
-            <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24">
+            <div className="w-full max-w-4xl flex flex-col gap-6 text-left pb-24 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 150px)' }}>
 
                 {licenseType === 'sensei' && (
                     <div className="mb-6">
@@ -84,7 +76,8 @@ const InstitutionListPage: React.FC = () => {
                                 onClick={() => setIsCreateModalOpen(true)}
                             />
                         )}
-                    </div>)}
+                    </div>
+                )}
 
                 <div className="mb-6">
                     <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
@@ -92,7 +85,10 @@ const InstitutionListPage: React.FC = () => {
                     </h2>
                     {memberships?.length ? (
                         memberships.map((membership) => (
-                            <MembershipBox key={membership?._id || ""} membership={membership}/>
+                            <MembershipBox
+                                key={membership._id}
+                                membership={membership}
+                            />
                         ))
                     ) : (
                         <p className="text-center text-gray-500">No memberships found</p>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -11,14 +10,7 @@ interface LocSpanProps {
     replacements?: (string | number)[];
 }
 
-const LocSpan: React.FC<LocSpanProps> = ({
-                                             textKey,
-                                             className = '',
-                                             style = {},
-                                             fixTo,
-                                             namespace,
-                                             replacements = [],
-                                         }) => {
+const LocSpan: React.FC<LocSpanProps> = ({textKey, className = '', style = {}, fixTo, namespace, replacements = [],}) => {
     const { t, i18n } = useTranslation();
 
     let translation = fixTo
@@ -30,9 +22,16 @@ const LocSpan: React.FC<LocSpanProps> = ({
         translation = translation.replace(placeholder, String(replacement));
     });
 
+    const lines = translation.split('\n').map((line, index) => (
+        <React.Fragment key={index}>
+            {line}
+            {index < translation.split('\n').length - 1 && <br />}
+        </React.Fragment>
+    ));
+
     return (
         <span className={className} style={style}>
-            {translation}
+            {lines}
         </span>
     );
 };

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MembershipData, MembershipStatus, MembershipRole } from '../../../data/MembershipData.ts';
 import { useChangeMembershipStatus } from '../../../hooks/institutionHooks/useChangeMembershipStatus';
-import { FaCheck, FaTimes } from 'react-icons/fa';
+import { FaCheck, FaTimes, FaSpinner } from 'react-icons/fa';
 import Container from "../../../components/ui/containers/Container.tsx";
 import PrimaryButton from "../../../components/ui/buttons/PrimaryButton.tsx";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ const roleColors: { [key: string]: string } = {
 };
 
 const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
-    const { mutate: changeStatus } = useChangeMembershipStatus();
+    const { mutate: changeStatus, isLoading: isChangingStatus } = useChangeMembershipStatus();
     const navigate = useNavigate();
 
     const { data: institutionData, fetchInstitution, isLoading } = useInstitution([membership.institutionId]);
@@ -30,22 +30,24 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
     const { imageUrl: institutionImage } = useCachedImage({
         path: `institutions/${membership.institutionId}/profileImage`});
 
+    const [currentStatus, setCurrentStatus] = useState(membership.status);
+
     useEffect(() => {
         fetchInstitution();
     }, [membership]);
 
     const handleAccept = () => {
-        changeStatus({
-            membershipId: membership._id,
-            newStatus: 'approved',
-        });
+        changeStatus(
+            { membershipId: membership._id, newStatus: 'approved' },
+            { onSuccess: () => setCurrentStatus(MembershipStatus.Approved) }
+        );
     };
 
     const handleReject = () => {
-        changeStatus({
-            membershipId: membership._id,
-            newStatus: 'rejected',
-        });
+        changeStatus(
+            { membershipId: membership._id, newStatus: 'rejected' },
+            { onSuccess: () => setCurrentStatus(MembershipStatus.Rejected) }
+        );
     };
 
     if (isLoading) {
@@ -74,27 +76,42 @@ const MembershipBox: React.FC<MembershipBoxProps> = ({ membership }) => {
                 </div>
             </div>
 
-            {membership.status === MembershipStatus.Pending && (
+            {currentStatus === MembershipStatus.Pending && (
                 <div className="flex gap-2 mt-2 sm:mt-0 justify-end">
                     <p className="text-sm text-yellow-500 mt-2">
                         You received this membership.
                     </p>
 
-                    <PrimaryButton
-                        onClick={handleAccept}
-                        label="accept"
-                        className="text-xs w-40 bg-green-500 hover:bg-green-600 dark:bg-green-500 hover:dark:bg-green-600"
-                        iconComponent={<FaCheck/>}
-                    />
-                    <PrimaryButton
-                        onClick={handleReject}
-                        label="reject"
-                        className="text-xs w-40 bg-red-500 hover:bg-red-600 dark:bg-red-600 hover:dark:bg-red-600"
-                        iconComponent={<FaTimes/>}
-                    />
+                    {isChangingStatus ? (
+                        <div className="text-yellow-500 flex items-center">
+                            <FaSpinner className="animate-spin mr-2" />
+                            Processing...
+                        </div>
+                    ) : (
+                        <>
+                            <PrimaryButton
+                                onClick={handleAccept}
+                                label="accept"
+                                className="text-xs w-40 bg-green-500 hover:bg-green-600 dark:bg-green-500 hover:dark:bg-green-600"
+                                iconComponent={<FaCheck />}
+                            />
+                            <PrimaryButton
+                                onClick={handleReject}
+                                label="reject"
+                                className="text-xs w-40 bg-red-500 hover:bg-red-600 dark:bg-red-600 hover:dark:bg-red-600"
+                                iconComponent={<FaTimes />}
+                            />
+                        </>
+                    )}
                 </div>
             )}
-            
+
+            {currentStatus === MembershipStatus.Rejected && (
+                <div className="mt-4 text-red-500 text-sm font-semibold">
+                    Rejected
+                </div>
+            )}
+
             <div className="mt-4 flex justify-end gap-4">
                 <PrimaryButton
                     className="w-40"

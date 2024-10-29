@@ -30,7 +30,13 @@ export const useFakePagination = <T>(
             const end = start + limit;
             const paginatedDocuments = ids.slice(start, end);
 
-            setPaginatedIds(paginatedDocuments);
+            // Solo actualiza `paginatedIds` si el resultado ha cambiado
+            setPaginatedIds((prevPaginatedIds) => {
+                if (JSON.stringify(prevPaginatedIds) !== JSON.stringify(paginatedDocuments)) {
+                    return paginatedDocuments;
+                }
+                return prevPaginatedIds;
+            });
             setIsPaginating(false);
         };
 

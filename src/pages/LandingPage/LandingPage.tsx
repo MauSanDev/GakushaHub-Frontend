@@ -52,14 +52,12 @@ const LandingPage: React.FC = () => {
                 className="absolute inset-0 w-full h-full bg-cover bg-center"
             ></div>
 
-            {/* Header de navegación flotante */}
             <header
                 className="fixed top-4 left-1/2 transform -translate-x-1/2 py-3 px-10 rounded-lg bg-gray-500 bg-opacity-10 backdrop-blur-md z-20 shadow-md flex space-x-2 items-center w-full max-w-6xl justify-between">
                 <h1 className="text-xl font-bold text-white">
                     <LocSpan textKey="landingPage.title" />
                 </h1>
 
-                {/* Menú hamburguesa para pantallas pequeñas */}
                 <div className={'w-32'}>
                     <LanguageDropdown/>
                 </div>
@@ -67,7 +65,6 @@ const LandingPage: React.FC = () => {
                     {menuOpen ? <FaTimes/> : <FaBars/>}
                 </button>
 
-                {/* Navegación para pantallas grandes */}
                 <nav className="hidden md:flex space-x-4 text-gray-400 text-sm">
                     <button onClick={() => handleScrollToSection('objective')}
                             className="hover:text-blue-500 transition">
@@ -98,10 +95,8 @@ const LandingPage: React.FC = () => {
                 </nav>
             </header>
 
-            {/* Overlay y menú responsive */}
             {menuOpen && (
                 <div className="fixed inset-0 z-30 bg-black bg-opacity-80 flex flex-col items-center justify-center text-center space-y-8 text-lg font-semibold text-white transition-transform transform">
-                    {/* Botón de cierre en la esquina superior derecha */}
                     <button
                         className="absolute top-4 right-4 text-white text-3xl"
                         onClick={() => setMenuOpen(false)}
@@ -138,7 +133,6 @@ const LandingPage: React.FC = () => {
             )}
 
             <div className="overflow-y-auto h-full relative z-10" ref={scrollContainerRef}>
-                {/* Sección Hero */}
                 <motion.section
                     id="home"
                     className="relative flex flex-col items-center justify-center text-center py-36 px-6 space-y-6"
