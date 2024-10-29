@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import ModalWrapper from '../ModalWrapper';
 import { useCreateInstitution } from '../../hooks/institutionHooks/useCreateInstitution';
 import Container from "../../components/ui/containers/Container.tsx";
-import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import InputField from "../../components/ui/inputs/InputField";
 import TextArea from "../../components/ui/inputs/TextArea";
 import {useNavigate} from "react-router-dom";
 import LocSpan from "../../components/LocSpan.tsx";
+import ModalTitle from "../../components/ui/text/ModalTitle.tsx";
 
 interface CreateInstitutionModalProps {
     onClose: () => void;
@@ -49,7 +49,7 @@ const CreateInstitutionModal: React.FC<CreateInstitutionModalProps> = ({ onClose
     return (
         <ModalWrapper onClose={onClose}>
             <Container className={"w-full"}>
-                <SectionTitle title={"institution.myInstitution"} className="text-center pb-4" />
+                <ModalTitle title={"institution.myInstitution"} className="text-center pb-4" />
 
                 <InputField
                     id="institutionName"

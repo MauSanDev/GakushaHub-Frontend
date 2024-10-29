@@ -337,7 +337,7 @@ const ScheduleCalendar: React.FC<ScheduleCalendarProps> = ({
                     studyGroupId={studyGroupId}
                     date={selectedDate || new Date().toISOString()}
                     canEdit={canEdit}
-                    instituionView={institutionView}
+                    institutionView={institutionView}
                 />
             )}
         </div>

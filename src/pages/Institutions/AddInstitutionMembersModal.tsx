@@ -3,9 +3,9 @@ import ModalWrapper from '../ModalWrapper';
 import { useAddInstitutionMembers } from '../../hooks/institutionHooks/useAddInstitutionMembers';
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import Container from "../../components/ui/containers/Container.tsx";
-import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
 import LocSpan from "../../components/LocSpan.tsx";
-import {useTranslation} from "react-i18next"; 
+import {useTranslation} from "react-i18next";
+import ModalTitle from "../../components/ui/text/ModalTitle.tsx"; 
 
 interface AddInstitutionMembersModalProps {
     institutionId: string;
@@ -115,7 +115,7 @@ const AddInstitutionMembersModal: React.FC<AddInstitutionMembersModalProps> = ({
     return (
         <ModalWrapper onClose={onClose}>
             <Container className={"w-full"}>
-                <SectionTitle title={"membersKeys.addMembersToInstitution"} className="text-center pb-4" />
+                <ModalTitle title={"membersKeys.addMembersToInstitution"} className="text-center pb-4" />
                 
                 <button
                     onClick={clearAllEmails}

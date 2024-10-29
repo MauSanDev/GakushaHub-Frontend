@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import DropdownInput from "./DropdownInput/DropdownInput.tsx";
 import {useTranslation} from "react-i18next";
 import ModalWrapper from "../pages/ModalWrapper.tsx";
-import SectionTitle from "./ui/text/SectionTitle.tsx";
 import Container from "./ui/containers/Container.tsx";
 import {useMyCourses} from "../hooks/newHooks/Courses/useMyCourses";
 import {useLessons} from "../hooks/newHooks/Courses/useLessons";
@@ -12,6 +11,7 @@ import PrimaryButton from "./ui/buttons/PrimaryButton.tsx";
 import {FaCheck, FaClock, FaSave} from "react-icons/fa";
 import { SaveStatus } from "../utils/SaveStatus.ts";
 import {parseDecks, useBuildCourse} from "../hooks/useBuildCourse.ts";
+import ModalTitle from "./ui/text/ModalTitle.tsx";
 
 interface SaveDeckDropdownModalProps {
     kanjiIds?: string[],
@@ -202,7 +202,7 @@ const SaveDeckDropdownModal: React.FC<SaveDeckDropdownModalProps> = ({ onClose, 
     return (
         <ModalWrapper onClose={onClose}>
             <Container className={"w-full"}>
-                <SectionTitle title={"saveDeckInput.saveInto"} className="text-center pb-4" />
+                <ModalTitle title={"saveDeckInput.saveInto"} className="text-center pb-4" />
 
                 <div className="flex flex-col gap-4">
                     <DropdownInput

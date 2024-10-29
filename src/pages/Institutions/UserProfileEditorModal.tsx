@@ -1,12 +1,12 @@
 import React, { useRef } from 'react';
 import ModalWrapper from '../ModalWrapper';
 import Container from "../../components/ui/containers/Container.tsx";
-import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
 import { FaCamera, FaSpinner } from 'react-icons/fa';
 import { useCachedImage } from '../../hooks/newHooks/Resources/useCachedImage.ts';
 import { useAuth } from "../../context/AuthContext.tsx";
 import Editable from "../../components/ui/text/Editable.tsx";
 import LocSpan from "../../components/LocSpan.tsx";
+import ModalTitle from "../../components/ui/text/ModalTitle.tsx";
 
 interface UserProfileEditorModalProps {
     onClose: () => void;
@@ -30,7 +30,7 @@ const UserProfileEditorModal: React.FC<UserProfileEditorModalProps> = ({ onClose
     return (
         <ModalWrapper onClose={onClose}>
             <Container className={"w-full"}>
-                <SectionTitle title={"profileKeys.editProfile"} className="text-center pb-4"/>
+                <ModalTitle title={"profileKeys.editProfile"} className="text-center pb-4"/>
 
                 <div className="relative w-48 h-48 mx-auto mb-4">
                     <img

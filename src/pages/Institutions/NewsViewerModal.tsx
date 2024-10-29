@@ -1,11 +1,11 @@
 import React from 'react';
 import ModalWrapper from '../ModalWrapper';
 import Container from "../../components/ui/containers/Container.tsx";
-import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
 import { FaClock, FaTags } from 'react-icons/fa';
 import RoundedTag from "../../components/ui/text/RoundedTag.tsx";
 import CreatorLabel from "../../components/ui/text/CreatorLabel.tsx";
 import {NewsData} from "../../data/NewsData.ts";
+import ModalTitle from "../../components/ui/text/ModalTitle.tsx";
 
 interface NewsViewerModalProps {
     newsData: NewsData;
@@ -16,9 +16,8 @@ const NewsViewerModal: React.FC<NewsViewerModalProps> = ({ newsData, onClose }) 
     return (
         <ModalWrapper onClose={onClose}>
             <Container className="w-full p-6 max-w-4xl">
-                <SectionTitle title={newsData.title} className="text-center pb-4" />
+                <ModalTitle title={newsData.title} className="text-center pb-4" />
 
-                {/* Info sobre el creador y la fecha */}
                 <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
                     <span className="flex items-center">
                         <CreatorLabel creatorId={newsData.creatorId} />

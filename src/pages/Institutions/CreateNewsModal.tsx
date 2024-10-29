@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ModalWrapper from '../ModalWrapper';
 import Container from "../../components/ui/containers/Container.tsx";
-import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import InputField from "../../components/ui/inputs/InputField";
 import ReactQuill from 'react-quill';
@@ -11,6 +10,7 @@ import {FaPaperPlane} from "react-icons/fa";
 import {useCreateNews} from "../../hooks/newHooks/News/useCreateNews";
 import {useUpdateData} from "../../hooks/updateHooks/useUpdateData.ts";
 import {NewsData} from "../../data/NewsData.ts";
+import ModalTitle from "../../components/ui/text/ModalTitle.tsx";
 
 interface CreateNewsModalProps {
     institutionId: string;
@@ -100,7 +100,7 @@ const CreateNewsModal: React.FC<CreateNewsModalProps> = ({onClose, onCreateSucce
     return (
         <ModalWrapper onClose={onClose}>
             <Container className="w-full">
-                <SectionTitle
+                <ModalTitle
                     title={newsData ? "newsKeys.editNews" : "newsKeys.createNews"}
                     className="text-center pb-4"
                 />

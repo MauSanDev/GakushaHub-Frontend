@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import ModalWrapper from '../ModalWrapper';
 import Container from "../../components/ui/containers/Container.tsx";
-import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import InputField from "../../components/ui/inputs/InputField";
 import TextArea from "../../components/ui/inputs/TextArea";
 import {useResourceGroups} from "../../hooks/newHooks/Resources/useResourceGroups.ts";
 import LocSpan from "../../components/LocSpan.tsx";
+import ModalTitle from "../../components/ui/text/ModalTitle.tsx";
 
 interface CreateResourceGroupModalProps {
     onClose: () => void;
@@ -46,7 +46,7 @@ const CreateResourceGroupModal: React.FC<CreateResourceGroupModalProps> = ({ onC
     return (
         <ModalWrapper onClose={onClose}>
             <Container className="w-full">
-                <SectionTitle title="resourcesKeys.createNewGroup" className="text-center pb-4" />
+                <ModalTitle title="resourcesKeys.createNewGroup" className="text-center pb-4" />
 
                 <InputField
                     id="resourceGroupTitle"

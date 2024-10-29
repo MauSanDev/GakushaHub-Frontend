@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ModalWrapper from '../ModalWrapper';
 import Container from "../../components/ui/containers/Container";
-import SectionTitle from "../../components/ui/text/SectionTitle";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
 import ScheduleEventDataElement from "./Components/ScheduleEventDataElement";
 import { FaPlus } from "react-icons/fa";
 import { ScheduleEventData } from "../../data/ScheduleEventData.ts";
 import NoDataMessage from "../../components/NoDataMessage.tsx";
 import {useAuth} from "../../context/AuthContext.tsx";
+import ModalTitle from "../../components/ui/text/ModalTitle.tsx";
 
 interface ScheduleEventsModalProps {
     onClose: () => void;
@@ -16,7 +16,7 @@ interface ScheduleEventsModalProps {
     studyGroupId?: string;
     date: string;
     canEdit: boolean;
-    instituionView: boolean;
+    institutionView: boolean;
 }
 
 const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
@@ -26,13 +26,12 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
                                                                      institutionId,
                                                                      date,
                                                                      canEdit,
-                                                                     instituionView,
+                                                                     institutionView,
                                                                  }) => {
     const [events, setEvents] = useState<ScheduleEventData[]>(selectedEvents);
     const { userData } = useAuth();
 
     useEffect(() => {
-        console.log(studyGroupId)
         setEvents(selectedEvents);
     }, [selectedEvents]);
 
@@ -67,7 +66,7 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
         <ModalWrapper onClose={onClose}>
             <Container className={"w-full"}>
                 <div className="flex justify-between items-center">
-                    <SectionTitle title={"scheduleKeys.scheduledEvents"} className="text-left pt-6" />
+                    <ModalTitle title={"scheduleKeys.scheduledEvents"} className="text-left pt-6" />
 
                     {canEdit && (
                         <PrimaryButton
@@ -92,7 +91,7 @@ const ScheduleEventsModal: React.FC<ScheduleEventsModalProps> = ({
                                     isNew={event.name === ''}
                                     institutionId={event.institutionId}
                                     studyGroupId={event.studyGroupId}
-                                    canEdit={!!canEdit && (!!event.studyGroupId || instituionView)}
+                                    canEdit={!!canEdit && (!!event.studyGroupId || institutionView)}
                                 />
                             </li>
                         ))}

@@ -1,11 +1,11 @@
 import React, { useState, useRef } from 'react';
 import ModalWrapper from '../ModalWrapper';
-import SectionTitle from "../../components/ui/text/SectionTitle";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton";
 import { FaPlus, FaFileImport, FaLink } from 'react-icons/fa';
 import FileResourceComponent from './Components/FileResourceComponent';
 import LinkTextResourceComponent from './Components/LinkTextResourceComponent';
 import LocSpan from "../../components/LocSpan.tsx";
+import ModalTitle from "../../components/ui/text/ModalTitle.tsx";
 
 export interface NewResourceData {
     _id: string;
@@ -84,7 +84,7 @@ const CreateResourceModal: React.FC<CreateResourceModalProps> = ({ onClose, inst
                  onDragLeave={() => setIsDragging(false)}
                  onDrop={(e) => { e.preventDefault(); setIsDragging(false); handleFileImport(e as any); }}>
 
-                <SectionTitle title="resourcesKeys.addNewResources" className="text-center pb-4" />
+                <ModalTitle title="resourcesKeys.addNewResources" className="text-center pb-4" />
 
                 <div className="flex justify-between items-center mb-4 w-full">
                     <div className="relative">

@@ -10,9 +10,9 @@ import { useTranslation } from 'react-i18next';
 import LocSpan from "../LocSpan.tsx";
 import ModalWrapper from "../../pages/ModalWrapper.tsx";
 import Container from "../ui/containers/Container.tsx";
-import SectionTitle from "../ui/text/SectionTitle.tsx";
 import PrimaryButton from "../ui/buttons/PrimaryButton.tsx";
 import {CollectionTypes} from "../../data/CollectionTypes.tsx";
+import ModalTitle from "../ui/text/ModalTitle.tsx";
 
 interface NewGenerationPageProps {
     courseId?: string,
@@ -142,7 +142,7 @@ const NewGenerationPage: React.FC<NewGenerationPageProps> = ({ termsDictionary, 
                 <LoadingScreen isLoading={isLoading} />
                 <div className="flex flex-col items-center justify-center mb-4">
                     <div className="flex items-center justify-center mb-4">
-                        <SectionTitle title={"何読みたいの？"} className={"text-center"} />
+                        <ModalTitle title={"何読みたいの？"} className={"text-center"} />
                         <div className={"absolute right-10"}>
                             <TooltipButton
                                 icon={<FaQuestion />}

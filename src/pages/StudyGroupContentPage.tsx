@@ -155,6 +155,7 @@ const StudyGroupContentPage: React.FC = () => {
                             className="text-gray-600 dark:text-gray-400 mt-2"
                             canEdit={canEdit}
                             maxChar={400}
+                            placeholder={'addDescriptionPlaceholder'}
                         />
 
                         {senseiUserIds.length > 0 && (

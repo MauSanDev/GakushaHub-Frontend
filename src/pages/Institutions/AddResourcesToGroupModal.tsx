@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import ModalWrapper from '../ModalWrapper';
 import Container from "../../components/ui/containers/Container.tsx";
-import SectionTitle from "../../components/ui/text/SectionTitle.tsx";
 import PrimaryButton from "../../components/ui/buttons/PrimaryButton.tsx";
 import SearchBar from '../../components/ui/inputs/SearchBar';
 import PaginatedContainer from "../../components/ui/containers/PaginatedContainer";
@@ -10,7 +9,8 @@ import { useResources } from '../../hooks/newHooks/useResources';
 import { ResourceData } from '../../data/Institutions/ResourceData.ts';
 import ResourceListElement from "./Components/ResourceListElement.tsx";
 import {useUpdateList} from "../../hooks/updateHooks/useUpdateList.ts";
-import {CollectionTypes} from "../../data/CollectionTypes.tsx"; // Asume que esta constante define tus colecciones
+import {CollectionTypes} from "../../data/CollectionTypes.tsx";
+import ModalTitle from "../../components/ui/text/ModalTitle.tsx"; // Asume que esta constante define tus colecciones
 
 interface AddResourcesToGroupModalProps {
     onClose: () => void;
@@ -72,7 +72,7 @@ const AddResourcesToGroupModal: React.FC<AddResourcesToGroupModalProps> = ({ onC
     return (
         <ModalWrapper onClose={onClose}>
             <Container className="w-full">
-                <SectionTitle title="Add Resources to Group" className="text-center pb-4" />
+                <ModalTitle title="Add Resources to Group" className="text-center pb-4" />
 
                 <div className="flex justify-between items-center mb-4">
                     <SearchBar
