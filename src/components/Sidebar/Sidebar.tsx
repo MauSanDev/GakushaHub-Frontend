@@ -33,9 +33,13 @@ const Sidebar: React.FC = () => {
             >
                 <div className="flex flex-col p-4 space-y-4">
 
+                    <div className="lg:hidden pl-2 ">
+                        <UserMenu/>
+                    </div>
+                    
                     {menuItems.map((item, index) =>
 
-                            (!item.requiresAuth || isAuthenticated) &&(
+                            (!item.requiresAuth || isAuthenticated) && (
                                 <Link
                                     key={index}
                                     to={item.path}
@@ -47,9 +51,6 @@ const Sidebar: React.FC = () => {
                             )
                     )}
 
-                    <div className="lg:hidden">
-                        <UserMenu />
-                    </div>
 
                 </div>
             </div>
