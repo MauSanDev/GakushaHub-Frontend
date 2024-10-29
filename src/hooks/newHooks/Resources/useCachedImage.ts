@@ -7,7 +7,9 @@ interface UseCachedImageProps {
     defaultImage?: string;
 }
 
-const CACHE_EXPIRATION_MS = 60 * 60 * 1000; // 1 hora en milisegundos
+const CACHE_EXPIRATION_MS = 60 * 60 * 1000;
+const MAX_WIDTH = 1500;
+const MAX_HEIGHT = 1500;
 
 export const useCachedImage = ({ path, defaultImage = manabuMoriProfile }: UseCachedImageProps) => {
     const [imageUrl, setImageUrl] = useState<string>(defaultImage);
@@ -20,25 +22,22 @@ export const useCachedImage = ({ path, defaultImage = manabuMoriProfile }: UseCa
     const isFirebaseBlocked = false;
 
     const loadImage = async () => {
-
         if (isFirebaseBlocked) {
             console.warn("Firebase access is temporarily blocked. Loading default image.");
             setImageUrl(defaultImage);
             return;
         }
-        
+
         const cachedUrl = localStorage.getItem(localStorageKey);
         const notFoundCache = localStorage.getItem(notFoundKey);
         const currentTime = Date.now();
 
-        // Si la imagen no existe y el TTL no ha expirado, usa la default y no hace request
         if (notFoundCache) {
             const { timestamp } = JSON.parse(notFoundCache);
             if (currentTime - timestamp < CACHE_EXPIRATION_MS) {
                 setImageUrl(defaultImage);
                 return;
             } else {
-                // El TTL expiró, limpia la cache de "no encontrada"
                 localStorage.removeItem(notFoundKey);
             }
         }
@@ -61,36 +60,89 @@ export const useCachedImage = ({ path, defaultImage = manabuMoriProfile }: UseCa
             console.error("Error fetching image from Firebase:", error);
             setImageUrl(defaultImage);
 
-            // Guarda el estado "no encontrada" en el cache con el timestamp actual
             const notFoundData = JSON.stringify({ timestamp: Date.now() });
             localStorage.setItem(notFoundKey, notFoundData);
         }
     };
 
-    const uploadImage = (file: File) => {
-        setIsUploading(true);
-        const storage = getStorage();
-        const imageRef = ref(storage, path);
-        const uploadTask = uploadBytesResumable(imageRef, file);
+    const resizeImage = (file: File): Promise<Blob> => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            const reader = new FileReader();
 
-        uploadTask.on(
-            'state_changed',
-            (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                setUploadProgress(progress);
-            },
-            (error) => {
-                console.error("Error uploading file:", error);
-                setIsUploading(false);
-            },
-            async () => {
-                setIsUploading(false);
-                const url = await getDownloadURL(uploadTask.snapshot.ref);
-                setImageUrl(url);
-                localStorage.setItem(localStorageKey, url);
-                localStorage.removeItem(notFoundKey); // Elimina el estado de "no encontrado" si la imagen se carga
-            }
-        );
+            reader.onload = (e) => {
+                img.src = e.target?.result as string;
+            };
+
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                let width = img.width;
+                let height = img.height;
+
+                if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+                    if (width > height) {
+                        height = (MAX_WIDTH / width) * height;
+                        width = MAX_WIDTH;
+                    } else {
+                        width = (MAX_HEIGHT / height) * width;
+                        height = MAX_HEIGHT;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext("2d");
+                if (ctx) {
+                    ctx.drawImage(img, 0, 0, width, height);
+                    canvas.toBlob(
+                        (blob) => {
+                            if (blob) {
+                                resolve(blob);
+                            } else {
+                                reject(new Error("Image resizing failed"));
+                            }
+                        },
+                        "image/jpeg",
+                        0.8 // Calidad de compresión JPG (0 a 1)
+                    );
+                }
+            };
+
+            reader.onerror = (error) => reject(error);
+            reader.readAsDataURL(file);
+        });
+    };
+
+    const uploadImage = async (file: File) => {
+        setIsUploading(true);
+        try {
+            const resizedImage = await resizeImage(file);
+            const storage = getStorage();
+            const imageRef = ref(storage, path);
+            const uploadTask = uploadBytesResumable(imageRef, resizedImage);
+
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setUploadProgress(progress);
+                },
+                (error) => {
+                    console.error("Error uploading file:", error);
+                    setIsUploading(false);
+                },
+                async () => {
+                    setIsUploading(false);
+                    const url = await getDownloadURL(uploadTask.snapshot.ref);
+                    setImageUrl(url);
+                    localStorage.setItem(localStorageKey, url);
+                    localStorage.removeItem(notFoundKey);
+                }
+            );
+        } catch (error) {
+            console.error("Error resizing or uploading image:", error);
+            setIsUploading(false);
+        }
     };
 
     useEffect(() => {
