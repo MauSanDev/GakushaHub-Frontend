@@ -27,7 +27,7 @@ const WordDataElement: React.FC<WordDataElementProps> = ({ result, isSelected, o
             <h3 className="text-2xl mb-2 text-gray-600 dark:text-gray-200 text-center">
                 {result.readings.slice(0, 3).join('; ')}
             </h3>
-            <h2 className="text-xl text-gray-600 dark:text-gray-300 capitalize mb-4">
+            <h2 className="text-xl text-gray-600 dark:text-gray-300 capitalize mb-4 text-center">
                 {meaningToShow.slice(0, 3).join("; ")}
             </h2>
             <div className="flex justify-center gap-2 flex-wrap">

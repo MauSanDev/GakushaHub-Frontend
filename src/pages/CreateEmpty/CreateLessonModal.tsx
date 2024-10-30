@@ -7,7 +7,7 @@ import LocSpan from "../../components/LocSpan.tsx";
 
 interface CreateLessonModalProps {
     onClose: () => void;
-    onCreateSuccess?: () => void;
+    onCreateSuccess?: (createdId: string) => void;
     courseId: string;
     courseName: string;
 }
@@ -26,10 +26,10 @@ const CreateLessonModal: React.FC<CreateLessonModalProps> = ({ onClose, onCreate
         createLesson(
             { courseId, lessonName },
             {
-                onSuccess: () => {
+                onSuccess: (x) => {
                     setError(null); 
                     if (onCreateSuccess) {
-                        onCreateSuccess();
+                        onCreateSuccess(x._id);
                     }
                     onClose(); 
                 },

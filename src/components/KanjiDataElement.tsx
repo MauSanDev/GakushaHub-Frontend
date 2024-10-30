@@ -47,7 +47,7 @@ const KanjiDataElement: React.FC<KanjiDataElementProps> = ({ result, isSelected,
                     </div>
                 )}
             </div>
-            <h2 className="text-l text-gray-600 dark:text-gray-300 capitalize">
+            <h2 className="text-l text-gray-600 dark:text-gray-300 capitalize text-center">
                 {truncatedText(meanings.join('; '), 30)}
             </h2>
         </SelectableContainer>
